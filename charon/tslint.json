@@ -3,6 +3,11 @@
   "rules": {
     "array-type": false,
     "arrow-parens": false,
+    "ban": [
+      true,
+      {"name": "fit", "message": "Test focusing not allowed."},
+      {"name": "fdescribe", "message": "Spec focusing not allowed."}
+    ],
     "deprecation": {
       "severity": "warning"
     },
@@ -47,7 +52,6 @@
     "no-console": [
       true,
       "debug",
-      "info",
       "time",
       "timeEnd",
       "trace"
@@ -66,6 +70,7 @@
       "as-needed"
     ],
     "object-literal-sort-keys": false,
+    "one-variable-per-declaration": false,
     "ordered-imports": false,
     "quotemark": [
       true,
@@ -83,7 +88,13 @@
     "template-banana-in-box": true,
     "template-no-negated-async": true,
     "use-lifecycle-interface": true,
-    "use-pipe-transform-interface": true
+    "use-pipe-transform-interface": true,
+    "variable-name": {
+      "options": [
+        "check-format",
+        "allow-leading-underscore"
+      ]
+    }
   },
   "rulesDirectory": [
     "codelyzer"

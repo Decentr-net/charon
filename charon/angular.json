@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "charon": {
@@ -50,8 +50,16 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/assets/sass/styles.scss",
+              "src/assets/sass/theme.scss",
+              "src/assets/sass/fonts.scss",
+              "src/assets/sass/media.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/sass"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -93,6 +101,11 @@
           "configurations": {
             "production": {
               "browserTarget": "charon:build:production"
+            },
+            "develop": {
+              "proxyConfig": "proxy.conf.js",
+              "disableHostCheck": true,
+              "host": "0.0.0.0"
             }
           }
         },
@@ -114,8 +127,16 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/assets/sass/styles.scss",
+              "src/assets/sass/theme.scss",
+              "src/assets/sass/fonts.scss",
+              "src/assets/sass/media.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/sass"
+              ]
+            },
             "scripts": []
           }
         },
