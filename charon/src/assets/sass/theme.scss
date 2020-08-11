@@ -1,0 +1,59 @@
+@import './variables';
+
+// Custom Theming for Angular Material. For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+$app-primary: (
+  100: #23e3cf,
+  500: $color-primary,
+  700: #209e8a,
+  A100: #cfd8dc,
+  A200: #b0bec5,
+  A400: #78909c,
+  A700: #455a64,
+  contrast: (
+    100: $dark-primary-text,
+    500: $light-primary-text,
+    700: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  )
+);
+
+$app-accent: (
+  100: #23e3cf,
+  500: $color-accent,
+  700: #209e8a,
+  A100: #cfd8dc,
+  A200: #b0bec5,
+  A400: #78909c,
+  A700: #455a64,
+  contrast: (
+    100: $dark-primary-text,
+    500: $light-primary-text,
+    700: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  )
+);
+
+$app-primary-palette: mat-palette($app-primary);
+$app-accent-palette: mat-palette($app-accent);
+$app-warn-palette: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$custom-app-theme: mat-light-theme($app-primary-palette, $app-accent-palette, $app-warn-palette);
+
+// Include theme styles for core and each component used in your app.
+@include angular-material-theme($custom-app-theme);
+
+// Custom fonts
+$custom-typography: mat-typography-config($font-family: 'ArialMT, Arial, sans-serif;');
+@include mat-core($custom-typography);
