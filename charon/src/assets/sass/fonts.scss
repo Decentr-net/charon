@@ -1,16 +1,7 @@
-@font-face {
-  font-family: 'ArialMT';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../fonts/ArialMT-Regular.ttf');
-}
+@import 'mixins';
 
-@font-face {
-  font-family: 'Material Icons';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../fonts/MaterialIcons-Regular.ttf');
-}
+@include font-face("ArialMT", "../fonts/ArialMT-Regular", 400, 'normal');
+@include font-face("Material Icons", "../fonts/MaterialIcons-Regular", 400, 'normal');
 
 .material-icons {
   font-family: 'Material Icons';

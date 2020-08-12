@@ -1,0 +1,57 @@
+@import 'variables';
+
+// px to rem
+@function rem($pixels, $context: $main-font-size) {
+  @if (unitless($pixels)) {
+    $pixels: $pixels * 1px;
+  }
+  @if (unitless($context)) {
+    $context: $context * 1px;
+  }
+  @return $pixels / $context * 1rem;
+}
+
+// Placeholder helper
+@mixin placeholder {
+  ::-webkit-input-placeholder {
+    @content;
+  }
+  :-moz-placeholder {
+    @content;
+  }
+  ::-moz-placeholder {
+    @content;
+  }
+  :-ms-input-placeholder {
+    @content;
+  }
+}
+
+// Fonts helper
+@mixin font-face(
+  $font-family,
+  $file-path,
+  $weight: normal,
+  $style: normal,
+  $asset-pipeline: false
+) {
+  @font-face {
+    font-family: $font-family;
+    font-weight: $weight;
+    font-style: $style;
+    src: url("#{$file-path}.woff") format("woff"),
+    url("#{$file-path}.woff2") format("woff2"),
+    url("#{$file-path}.ttf") format("ttf");
+  }
+}
+
+// Buttons
+@mixin btn() {
+  //padding: .25rem 4rem;
+  font-size: 13px;
+
+  &__middle {
+    line-height: 3rem;
+    min-width: 12rem;
+  }
+}

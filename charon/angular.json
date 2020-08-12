@@ -50,9 +50,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/assets/sass/styles.scss",
               "src/assets/sass/theme.scss",
               "src/assets/sass/fonts.scss",
+              "src/assets/sass/styles.scss",
               "src/assets/sass/media.scss"
             ],
             "stylePreprocessorOptions": {
@@ -127,9 +127,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/assets/sass/styles.scss",
+              "src/assets/sass/reset.scss",
               "src/assets/sass/theme.scss",
               "src/assets/sass/fonts.scss",
+              "src/assets/sass/styles.scss",
               "src/assets/sass/media.scss"
             ],
             "stylePreprocessorOptions": {
