@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PublicLayoutComponent } from './components/public-layout/public-layout.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { NewUserComponent } from './components/new-user/new-user.component';
 
 const routes: Routes = [
   {
@@ -14,10 +15,14 @@ const routes: Routes = [
         redirectTo: '/initialize/welcome'
       },
       {
-        path: 'welcome',
-        component: WelcomeComponent
+        path: 'new-user',
+        component: NewUserComponent
       }
-    ]
+    ],
+  },
+  {
+    path: 'welcome',
+    component: WelcomeComponent
   }
 ];
 

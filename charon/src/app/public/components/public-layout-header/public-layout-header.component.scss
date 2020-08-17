@@ -1,0 +1,13 @@
+.mat-toolbar {
+  background: #fff;
+}
+
+.header {
+  &__logo {
+    display: flex;
+
+    img {
+      width: 150px;
+    }
+  }
+}
