@@ -5,6 +5,7 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { PublicRoutingModule } from './public-routing.module';
 import { NewUserComponent } from './components/new-user/new-user.component';
 import { PublicLayoutHeaderComponent } from './components/public-layout-header/public-layout-header.component';
+import { ImportAccountSeedPhraseComponent } from './components/import-account-seed-phrase/import-account-seed-phrase.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { PublicLayoutHeaderComponent } from './components/public-layout-header/p
     PublicLayoutComponent,
     WelcomeComponent,
     NewUserComponent,
-    PublicLayoutHeaderComponent
+    PublicLayoutHeaderComponent,
+    ImportAccountSeedPhraseComponent
   ],
   exports: [
     PublicRoutingModule

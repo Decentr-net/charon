@@ -1,0 +1,126 @@
+<div class="container page-import-account-seed">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="btn btn__back"
+           (click)="navigateBack()">
+        < Back
+      </div>
+      <div class="page-title page-title__large">
+        Import an account with a seed phrase
+      </div>
+      <div class="page-content">
+        Enter your secret twelve word phrase in the field below to restore your account.
+      </div>
+    </div>
+  </div>
+
+  <form [formGroup]="form" (keydown.enter)="$event.preventDefault();onSubmit()" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="input-container col-xs-12">
+        <div class="input-label">Seed phrase</div>
+
+        <mat-form-field *ngIf="isSeedPhraseVisible"
+                        class="input-seed-phrase"
+                        appearance="outline">
+          <textarea matInput
+                    rows="5"
+                    name="seedPhrase"
+                    formControlName="seedPhrase"
+                    placeholder="Separate each word with a single space">
+          </textarea>
+
+          <mat-error *ngIf="seedPhraseControl.invalid">
+            {{ getActivateErrorKey(seedPhraseControl, [
+            {errorCode: 'required', validationKeyPart: 'Seed phrase is required'},
+            {errorCode: 'seedPhraseWrongLength', validationKeyPart: 'Seed phrases should contain 12 words'}
+          ]) }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="!isSeedPhraseVisible"
+                        class="input-seed-phrase"
+                        appearance="outline">
+          <input matInput
+                 type="password"
+                 name="seedPhrase"
+                 formControlName="seedPhrase"
+                 placeholder="Separate each word with a single space">
+
+          <mat-error *ngIf="seedPhraseControl.invalid">
+            {{ getActivateErrorKey(seedPhraseControl, [
+            {errorCode: 'required', validationKeyPart: 'Seed phrase is required'},
+            {errorCode: 'seedPhraseWrongLength', validationKeyPart: 'Seed phrases should contain 12 words'}
+          ]) }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="checkbox-container col-xs-12">
+        <mat-checkbox class="show-seed-phrase"
+                      (change)="toggleSeedPhraseVisibility()"
+                      [checked]="isSeedPhraseVisible">
+          Show seed phrase
+        </mat-checkbox>
+      </div>
+
+      <div class="input-container col-xs-12">
+        <div class="input-label">New password (min 8 chars)</div>
+        <mat-form-field class="input-password"
+                        appearance="outline">
+          <input matInput
+                 type="password"
+                 name="password"
+                 formControlName="password"
+                 placeholder="">
+
+          <mat-error *ngIf="passwordControl.invalid">
+            {{ getActivateErrorKey(passwordControl, [
+            {errorCode: 'required', validationKeyPart: 'Password is required'},
+            {
+              errorCode: 'minlength', validationKeyPart: 'Minimum length of password: ' +
+              passwordControl.getError('minlength')?.requiredLength
+            }
+          ]) }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="input-container col-xs-12">
+        <div class="input-label">Confirm password</div>
+        <mat-form-field class="input-password"
+                        appearance="outline">
+          <input matInput
+                 type="password"
+                 name="confirmPassword"
+                 formControlName="confirmPassword"
+                 placeholder="">
+
+          <mat-error *ngIf="confirmPasswordControl.invalid">
+            {{ getActivateErrorKey(confirmPasswordControl, [
+            {errorCode: 'passwordsDoNotMatch', validationKeyPart: 'Password should be equal'}
+          ]) }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="checkbox-container col-xs-12">
+        <mat-checkbox formControlName="agreeTerms">
+          I have read and agree to the
+          <a href="#" target="_blank">Terms of Use</a>
+        </mat-checkbox>
+      </div>
+    </div>
+  </form>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <button class="btn btn__small"
+              mat-flat-button
+              color="accent"
+              [disabled]="form.invalid"
+              (click)="onSubmit()">
+        IMPORT
+      </button>
+    </div>
+  </div>
+</div>

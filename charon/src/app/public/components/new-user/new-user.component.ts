@@ -11,7 +11,7 @@ export class NewUserComponent {
   }
 
   toImportAccount() {
-    this.router.navigate(['']);
+    this.router.navigate(['initialize', 'import-account-seed-phrase']);
   }
 
   toCreateAccount() {

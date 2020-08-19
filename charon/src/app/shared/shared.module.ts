@@ -3,20 +3,24 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from './material/material.module';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { NavigationService } from './services/navigation.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     InlineSVGModule.forRoot(),
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule
   ],
   providers: [
     // Services
     NavigationService
   ],
   exports: [
+    CommonModule,
     InlineSVGModule,
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule {

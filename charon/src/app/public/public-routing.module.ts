@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PublicLayoutComponent } from './components/public-layout/public-layout.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { NewUserComponent } from './components/new-user/new-user.component';
+import { ImportAccountSeedPhraseComponent } from './components/import-account-seed-phrase/import-account-seed-phrase.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
       {
         path: 'new-user',
         component: NewUserComponent
+      },
+      {
+        path: 'import-account-seed-phrase',
+        component: ImportAccountSeedPhraseComponent
       }
     ],
   },

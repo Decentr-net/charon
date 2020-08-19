@@ -1,5 +1,16 @@
+@import 'variables';
+
 ::ng-deep {
   .container {
     max-width: 850px;
+  }
+
+  a {
+    color: $color-accent;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }

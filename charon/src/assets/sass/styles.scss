@@ -36,6 +36,10 @@ body {
 // Text
 .page-title {
   font-size: 2rem;
+
+  &__large {
+    font-size: 2.5rem;
+  }
 }
 
 .text-center {
