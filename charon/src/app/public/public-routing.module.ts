@@ -5,6 +5,7 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { NewUserComponent } from './components/new-user/new-user.component';
 import { ImportAccountSeedPhraseComponent } from './components/import-account-seed-phrase/import-account-seed-phrase.component';
 import { CreateAccountComponent } from './components/create-account/create-account.component';
+import { SecretPhraseComponent } from './components/secret-phrase/secret-phrase.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
       {
         path: 'create-account',
         component: CreateAccountComponent
+      },
+      {
+        path: 'secret-phrase',
+        component: SecretPhraseComponent
       }
     ],
   },

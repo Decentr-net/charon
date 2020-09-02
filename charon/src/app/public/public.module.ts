@@ -7,6 +7,7 @@ import { NewUserComponent } from './components/new-user/new-user.component';
 import { PublicLayoutHeaderComponent } from './components/public-layout-header/public-layout-header.component';
 import { ImportAccountSeedPhraseComponent } from './components/import-account-seed-phrase/import-account-seed-phrase.component';
 import { CreateAccountComponent } from './components/create-account/create-account.component';
+import { SecretPhraseComponent } from './components/secret-phrase/secret-phrase.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { CreateAccountComponent } from './components/create-account/create-accou
     NewUserComponent,
     PublicLayoutHeaderComponent,
     ImportAccountSeedPhraseComponent,
-    CreateAccountComponent
+    CreateAccountComponent,
+    SecretPhraseComponent
   ],
   exports: [
     PublicRoutingModule
