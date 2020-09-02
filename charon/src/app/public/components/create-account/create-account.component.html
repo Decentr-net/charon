@@ -1,0 +1,188 @@
+<div class="container page-create-account">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="btn btn__back"
+           (click)="navigateBack()">
+        < Back
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-7">
+      <div class="page-title">
+        Create Profile
+      </div>
+      <form [formGroup]="form" (keydown.enter)="$event.preventDefault();onSubmit()" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="radio-container col-xs-12">
+            <div class="input-label">Gender</div>
+            <mat-radio-group aria-label="Select an option"
+                             formControlName="gender">
+              <mat-radio-button value="male">Male</mat-radio-button>
+              <mat-radio-button value="female">Female</mat-radio-button>
+            </mat-radio-group>
+
+            <mat-error *ngIf="invalid(genderControl)">
+              {{ getActivateErrorKey(genderControl, [
+              {errorCode: 'required', validationKeyPart: 'Gender is required'}
+            ]) }}
+            </mat-error>
+          </div>
+
+          <div class="input-container col-xs-12">
+            <div class="input-label">Birth date</div>
+            <mat-form-field class="input-control"
+                            appearance="outline">
+              <input matInput
+                     type="text"
+                     name="birthday"
+                     formControlName="birthday"
+                     [matDatepicker]="picker"
+                     [max]="maxDate"
+                     (click)="picker.open()"
+                     placeholder="MM/DD/YYYY">
+              <mat-datepicker #picker></mat-datepicker>
+
+              <mat-error *ngIf="birthdayControl.invalid">
+                {{ getActivateErrorKey(birthdayControl, [
+                {errorCode: 'required', validationKeyPart: 'Birthday is required'}
+              ]) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div *ngFor="let email of form.get('email')['controls']; let i = index"
+               formArrayName="email">
+            <div class="input-container col-xs-12">
+              <div class="input-label">E-mail {{i + 1}}</div>
+              <mat-form-field class="input-control icon-protected"
+                              appearance="outline">
+                <input matInput
+                       type="email"
+                       name="email"
+                       [formControlName]="i"
+                       placeholder="">
+
+                <mat-error *ngIf="invalid(email)">
+                  {{ getActivateErrorKey(email, [
+                  {errorCode: 'required', validationKeyPart: 'Email is required'},
+                  {errorCode: 'email', validationKeyPart: 'Enter valid email'}
+                ]) }}
+                </mat-error>
+              </mat-form-field>
+
+              <div *ngIf="i === 0 && form.get('email')['controls'].length < 10"
+                   class="button__add"
+                   (click)="addFormControl('email')">
+              </div>
+              <div *ngIf="i > 0"
+                   class="button__remove"
+                   (click)="removeFormControl('email', i)">
+              </div>
+            </div>
+          </div>
+
+          <div *ngFor="let name of form.get('name')['controls']; let i = index"
+               formArrayName="name">
+            <div class="input-container col-xs-12">
+              <div class="input-label">Nickname (account name) {{i + 1}}</div>
+              <mat-form-field class="input-control icon-protected"
+                              appearance="outline">
+                <input matInput
+                       type="text"
+                       name="name"
+                       [formControlName]="i"
+                       placeholder="">
+
+                <mat-error *ngIf="name.invalid">
+                  {{ getActivateErrorKey(name, [
+                  {errorCode: 'required', validationKeyPart: 'Name is required'},
+                  {
+                    errorCode: 'minlength',
+                    validationKeyPart: 'Length of name should be not less than ' + name.getError('minlength')?.requiredLength
+                  }
+                ]) }}
+                </mat-error>
+              </mat-form-field>
+
+              <div *ngIf="i === 0 && form.get('name')['controls'].length < 10"
+                   class="button__add"
+                   (click)="addFormControl('name')">
+              </div>
+              <div *ngIf="i > 0"
+                   class="button__remove"
+                   (click)="removeFormControl('name', i)">
+              </div>
+            </div>
+          </div>
+
+          <div class="input-container col-xs-12">
+            <div class="input-label">New password (min 8 chars)</div>
+            <mat-form-field class="input-control"
+                            appearance="outline">
+              <input matInput
+                     type="password"
+                     name="password"
+                     formControlName="password"
+                     placeholder="">
+
+              <mat-error *ngIf="passwordControl.invalid">
+                {{ getActivateErrorKey(passwordControl, [
+                {errorCode: 'required', validationKeyPart: 'Password is required'},
+                {
+                  errorCode: 'minlength', validationKeyPart: 'Minimum length of password: ' +
+                  passwordControl.getError('minlength')?.requiredLength
+                },
+                {errorCode: 'notEnoughStrength', validationKeyPart: 'Password should contain at least 1 element of: capital letter, number, special character'}
+              ]) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="input-container col-xs-12">
+            <div class="input-label">Confirm password</div>
+            <mat-form-field class="input-control"
+                            appearance="outline">
+              <input matInput
+                     type="password"
+                     name="confirmPassword"
+                     formControlName="confirmPassword"
+                     placeholder="">
+
+              <mat-error *ngIf="confirmPasswordControl.invalid">
+                {{ getActivateErrorKey(confirmPasswordControl, [
+                {errorCode: 'passwordsDoNotMatch', validationKeyPart: 'Password should be equal'}
+              ]) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="checkbox-container col-xs-12">
+            <mat-checkbox formControlName="agreeTerms">
+              I have read and agree to the
+              <a href="#" target="_blank">Terms of Use</a>
+            </mat-checkbox>
+          </div>
+        </div>
+      </form>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <button class="btn btn__small"
+                  mat-flat-button
+                  color="accent"
+                  [disabled]="form.invalid"
+                  (click)="onSubmit()">
+            NEXT
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-5 hint-message">
+      <div class="hint-title">
+        Hint:
+      </div>
+      <p>Put the nicknames and e-mail addresses you use, it positively influences on PDV level.</p>
+    </div>
+  </div>
+</div>

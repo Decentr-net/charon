@@ -15,6 +15,6 @@ export class NewUserComponent {
   }
 
   toCreateAccount() {
-    this.router.navigate(['']);
+    this.router.navigate(['initialize', 'create-account']);
   }
 }

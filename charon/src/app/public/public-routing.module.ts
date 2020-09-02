@@ -4,6 +4,7 @@ import { PublicLayoutComponent } from './components/public-layout/public-layout.
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { NewUserComponent } from './components/new-user/new-user.component';
 import { ImportAccountSeedPhraseComponent } from './components/import-account-seed-phrase/import-account-seed-phrase.component';
+import { CreateAccountComponent } from './components/create-account/create-account.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
       {
         path: 'import-account-seed-phrase',
         component: ImportAccountSeedPhraseComponent
+      },
+      {
+        path: 'create-account',
+        component: CreateAccountComponent
       }
     ],
   },

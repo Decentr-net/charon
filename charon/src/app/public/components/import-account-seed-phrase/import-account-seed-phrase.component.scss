@@ -1,63 +1,14 @@
 @import 'variables';
 
 .page-import-account-seed {
-  .page-title {
-    margin-bottom: 1rem;
-  }
-
-  .page-content {
-    margin-bottom: 2rem;
-  }
-
   mat-form-field {
     &.input-seed-phrase {
       width: 500px;
       min-height: 5rem;
     }
-
-    &.input-password {
-      width: 350px;
-    }
-
-    ::ng-deep {
-      .mat-form-field-infix {
-        border-top: 0.3em solid transparent;
-      }
-    }
   }
 
   .show-seed-phrase {
     color: #6c6f71;
-  }
-
-  .input-label {
-    margin-bottom: .4rem;
-  }
-
-  .input-container {
-    margin-bottom: .5rem;
-  }
-
-  .checkbox-container {
-    margin-bottom: 2rem;
-  }
-
-  mat-checkbox {
-    ::ng-deep {
-      .mat-checkbox-inner-container {
-        width: 47px;
-        height: 47px;
-        margin-right: 1rem;
-      }
-
-      .mat-checkbox-frame {
-        border-width: 1px;
-        border-color: $grey-border-color;
-      }
-
-      .mat-checkbox-label {
-        line-height: 47px;
-      }
-    }
   }
 }

@@ -5,7 +5,7 @@ export abstract class BaseSingleFormGroupComponent {
   form: FormGroup;
 
   submissionInfo = {
-    submitted: false
+    submitAttempt: false,
   };
 
   getActivateErrorKey(control: AbstractControl, validations: ControlValidation[]): string {

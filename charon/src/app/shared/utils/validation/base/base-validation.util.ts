@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ValidationResult } from '../../../models/validation/validation-result.model';
 
 export class BaseValidationUtil {
@@ -18,5 +18,24 @@ export class BaseValidationUtil {
       );
 
     return isInvalid ? { seedPhraseWrongLength: true } as ValidationResult : null;
+  }
+}
+
+export function formError(control: AbstractControl) {
+
+  if (!control.invalid) {
+    return null;
+  }
+
+  if (control instanceof FormControl) {
+    return control.errors;
+  } else if (control instanceof FormGroup) {
+    return Object.entries(control.controls)
+      .reduce((prev, [key, value]) => {
+        prev[key] = formError(value);
+        return prev;
+      }, {});
+  } else if (control instanceof FormArray) {
+    return control.controls.map(formError);
   }
 }
