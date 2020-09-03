@@ -19,6 +19,10 @@ body {
   color: $color-font-base;
 }
 
+.flex {
+  display: flex;
+}
+
 // Buttons
 .mat-button,
 .mat-icon-button,
@@ -57,6 +61,199 @@ body {
     .mat-form-field-outline-gap,
     .mat-form-field-outline-end {
       border-width: 1px !important;
+    }
+  }
+}
+
+// Header selectNetworkMenu
+div.selectNetworkMenu {
+  user-select: none;
+  background: #2A2A2A;
+  color: #ffffff;
+  min-width: 330px;
+
+  .menu-title {
+    font-size: 18px;
+    text-align: center;
+    padding: 10px 0 15px;
+    border-bottom: 1px solid #5D5D5D;
+  }
+
+  .menu-description {
+    font-size: 13px;
+    color: #AEAEAE;
+    padding: 15px 40px 15px 60px;
+  }
+
+  .menu-items {
+    .menu-item {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 15px 40px 15px 60px;
+      cursor: pointer;
+
+      &__name {
+        max-width: 220px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      @for $i from 1 through length($network-indicator-colors) {
+        &:nth-child(#{$i}) {
+          .network-indicator {
+            background: nth($network-indicator-colors, $i);
+          }
+        }
+      }
+
+      &:hover {
+        background: #373737;
+      }
+
+      &__active {
+        &:before {
+          content: "";
+          width: 50px;
+          position: absolute;
+          left: 0;
+          height: 2px;
+          background: white;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+
+      .network-indicator {
+        pointer-events: none;
+        width: 12px;
+        height: 10px;
+        background: #6bbfa6;
+        border-bottom-left-radius: 9px;
+        border-top-left-radius: 9px;
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+div.selectProfileMenu {
+  user-select: none;
+  background: #2A2A2A;
+  color: #ffffff;
+  min-width: 330px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px 15px;
+    border-bottom: 1px solid #5D5D5D;
+
+    .button-lock {
+      border: 1px solid #ffffff;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #ffffff;
+      background: transparent;
+      padding: 4px 23px;
+      cursor: pointer;
+    }
+  }
+
+  &__items {
+    .menu-item {
+      position: relative;
+      padding: 15px 10px 15px 45px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        background: #373737;
+      }
+
+      &__active {
+        &:before {
+          content: "";
+          width: 30px;
+          position: absolute;
+          left: 0;
+          height: 2px;
+          background: white;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+
+      .name {
+        max-width: 240px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .rate {
+        font-size: 14px;
+        color: #929292;
+      }
+    }
+
+    .profile-image {
+      zoom: .6;
+      margin-right: 15px;
+    }
+  }
+
+  &__footer {
+    border-top: 1px solid #5D5D5D;
+    padding-top: 10px;
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 7px 15px;
+      cursor: pointer;
+
+      &:hover {
+        background: #373737;
+      }
+
+      span {
+        font-size: 10px;
+        margin-top: -10px;
+        margin-left: 5px;
+        font-style: italic;
+      }
+
+      .icon {
+        margin-right: 10px;
+      }
+
+      svg {
+        width: 22px;
+        height: 22px;
+
+        * {
+          stroke: #ffffff;
+        }
+      }
+
+      &__disabled {
+        cursor: default;
+        color: #8C8888;
+
+        &:hover {
+          background: transparent;
+        }
+
+        svg {
+          * {
+            stroke: #8C8888;
+          }
+        }
+      }
     }
   }
 }
