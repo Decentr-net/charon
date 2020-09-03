@@ -9,7 +9,7 @@
   </div>
   <div class="row">
     <div class="col-xs-7">
-      <div class="page-title">
+      <div class="page-title page-title__large">
         Create Profile
       </div>
       <form [formGroup]="form" (keydown.enter)="$event.preventDefault();onSubmit()" (ngSubmit)="onSubmit()">
@@ -54,7 +54,7 @@
           <div *ngFor="let email of form.get('email')['controls']; let i = index"
                formArrayName="email">
             <div class="input-container col-xs-12">
-              <div class="input-label">E-mail {{i + 1}}</div>
+              <div class="input-label">E-mail {{(i !== 0) ? i + 1 : ''}}</div>
               <mat-form-field class="input-control icon-protected"
                               appearance="outline">
                 <input matInput
@@ -85,7 +85,7 @@
           <div *ngFor="let name of form.get('name')['controls']; let i = index"
                formArrayName="name">
             <div class="input-container col-xs-12">
-              <div class="input-label">Nickname (account name) {{i + 1}}</div>
+              <div class="input-label">Nickname (account name) {{(i !== 0) ? i + 1 : ''}}</div>
               <mat-form-field class="input-control icon-protected"
                               appearance="outline">
                 <input matInput
@@ -133,7 +133,10 @@
                   errorCode: 'minlength', validationKeyPart: 'Minimum length of password: ' +
                   passwordControl.getError('minlength')?.requiredLength
                 },
-                {errorCode: 'notEnoughStrength', validationKeyPart: 'Password should contain at least 1 element of: capital letter, number, special character'}
+                {
+                  errorCode: 'notEnoughStrength',
+                  validationKeyPart: 'Password should contain at least 1 element of: lowercase letter, uppercase letter, number and special character'
+                }
               ]) }}
               </mat-error>
             </mat-form-field>

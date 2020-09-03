@@ -21,12 +21,14 @@ export class SecretPhraseComponent implements OnInit {
 
   isSeedPhraseVisible = false;
   isSelectedSeedPhraseValid = false;
-  seedPhrase = 'enemy money update snake wood soda depend shine visit lion frequent two';
+  seedPhrase = '';
 
   seedPhraseShuffledArr = [];
   selectedSeedPhraseArr = [];
 
   ngOnInit() {
+    // TODO: add service
+    this.seedPhrase = 'enemy money update snake wood soda depend shine visit lion frequent two';
     this.seedPhraseShuffledArr = this.shuffleArray(this.seedPhrase.split(' ').slice());
   }
 
