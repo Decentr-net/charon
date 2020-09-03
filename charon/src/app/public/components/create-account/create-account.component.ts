@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationService } from '../../../shared/services/navigation.service';
 import { BaseSingleFormGroupComponent } from '../../../shared/components/base-single-form-group/base-single-form-group.component';
 import { AbstractControl, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { PasswordValidationUtil } from '../../../shared/utils/validation/password/password-validation.util';
 import { formError } from '../../../shared/utils/validation/base/base-validation.util';
+import { NavigationService } from '../../../shared/services/navigation/navigation.service';
 
 @Component({
   selector: 'app-create-account',
