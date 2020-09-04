@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MainLayoutHeaderComponent } from './shared/components/main-layout-header/main-layout-header.component';
 import { LoginPageComponent } from './public/components/login-page/login-page.component';
 import { MainLayoutComponent } from './shared/components/main-layout/main-layout.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [

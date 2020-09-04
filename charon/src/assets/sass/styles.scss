@@ -6,6 +6,12 @@
   //outline: 1px solid yellow;
 }
 
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
 html {
   height: 100%;
   font-size: $main-font-size;
