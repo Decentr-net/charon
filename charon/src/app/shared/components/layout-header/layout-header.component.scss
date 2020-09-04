@@ -1,7 +1,15 @@
 @import 'variables';
 
 .mat-toolbar {
-  background: #f2f3f4;
+  padding: 0;
+
+  &__grey-bg {
+    background: #f2f3f4;
+  }
+
+  &__white-bg {
+    background: #ffffff;
+  }
 
   &__small {
     height: 64px;
