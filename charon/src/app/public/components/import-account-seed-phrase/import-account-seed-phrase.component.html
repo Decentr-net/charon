@@ -79,6 +79,10 @@
             {
               errorCode: 'minlength', validationKeyPart: 'Minimum length of password: ' +
               passwordControl.getError('minlength')?.requiredLength
+            },
+            {
+              errorCode: 'notEnoughStrength',
+              validationKeyPart: 'Password should contain at least 1 element of: lowercase letter, uppercase letter, number and special character'
             }
           ]) }}
           </mat-error>
@@ -101,13 +105,6 @@
           ]) }}
           </mat-error>
         </mat-form-field>
-      </div>
-
-      <div class="checkbox-container col-xs-12">
-        <mat-checkbox formControlName="agreeTerms">
-          I have read and agree to the
-          <a href="#" target="_blank">Terms of Use</a>
-        </mat-checkbox>
       </div>
     </div>
   </form>

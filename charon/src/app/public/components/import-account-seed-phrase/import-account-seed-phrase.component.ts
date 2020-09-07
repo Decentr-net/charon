@@ -20,9 +20,12 @@ export class ImportAccountSeedPhraseComponent extends BaseSingleFormGroupCompone
 
     this.form = formBuilder.group({
       seedPhrase: [null, [Validators.required, BaseValidationUtil.isSeedPhraseCorrect]],
-      password: [null, [Validators.required, Validators.minLength(8)]],
-      confirmPassword: null,
-      agreeTerms: [null, [Validators.requiredTrue]]
+      password: [null, [
+        Validators.required,
+        Validators.minLength(8),
+        PasswordValidationUtil.validatePasswordStrength
+      ]],
+      confirmPassword: null
     }, {
       validators: PasswordValidationUtil.validatePasswordsMatches
     });
