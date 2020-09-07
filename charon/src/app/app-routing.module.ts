@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './public/components/login-page/login-page.component';
 import { MainLayoutComponent } from './shared/components/main-layout/main-layout.component';
+import { ImportAccountSeedPhraseComponent } from './public/components/import-account-seed-phrase/import-account-seed-phrase.component';
 
 
 const routes: Routes = [
@@ -22,12 +23,17 @@ const routes: Routes = [
     loadChildren: () => import('src/app/public/public.module').then(x => x.PublicModule),
   },
   {
-    path: 'login',
+    path: '',
     component: MainLayoutComponent,
     children: [
       {
-        path: '',
+        path: 'login',
         component: LoginPageComponent
+      },
+      {
+        path: 'restore-account',
+        component: ImportAccountSeedPhraseComponent,
+        data: { pageType: 'restore-account' }
       }
     ]
   }

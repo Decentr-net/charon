@@ -60,13 +60,137 @@ body {
   text-align: left;
 }
 
+.hint-title {
+  position: relative;
+  padding-left: 27px;
+
+  &:before {
+    content: '';
+    background: url('/assets/images/icons/info.svg');
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+// Form containers
+.input-label {
+  margin-bottom: .4rem;
+}
+
+.input-container {
+  margin-bottom: .5rem;
+}
+
+.checkbox-container {
+  margin-bottom: 2rem;
+}
+
+.radio-container {
+  position: relative;
+  margin-bottom: 2rem;
+
+  .input-label {
+    margin-bottom: 0.6rem;
+  }
+
+  .mat-error {
+    font-size: 75%;
+    margin-top: 0.6666666667em;
+    padding: 0 1em;
+    position: absolute;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+  }
+}
+
+.icon-protected {
+  .mat-form-field-flex {
+    &:before {
+      content: "";
+      pointer-events: none;
+      background: url('/assets/images/icons/secured.svg') no-repeat;
+      background-size: contain;
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      left: -30px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}
+
 // Form inputs
+mat-form-field {
+  &.input-control {
+    width: 350px;
+  }
+
+  .mat-form-field-infix {
+    border-top: 0.3em solid transparent;
+  }
+}
+
 .mat-form-field-appearance-outline {
   .mat-form-field-outline-thick {
     .mat-form-field-outline-start,
     .mat-form-field-outline-gap,
     .mat-form-field-outline-end {
       border-width: 1px !important;
+    }
+  }
+}
+
+// Form Checkbox input
+mat-checkbox {
+  .mat-checkbox-layout {
+    align-items: center;
+  }
+
+  .mat-checkbox-inner-container {
+    width: 47px;
+    height: 47px;
+    margin-right: 1rem;
+  }
+
+  .mat-checkbox-frame {
+    border-width: 1px;
+    border-color: $grey-border-color;
+  }
+
+  .mat-checkbox-label {
+    line-height: 47px;
+  }
+}
+
+// Form Radio input
+mat-radio-button {
+  & ~ .mat-radio-button {
+    margin-left: 3.5rem;
+  }
+
+  .mat-radio-label-content {
+    padding-left: 1rem;
+  }
+
+  .mat-radio-container {
+    width: 45px;
+    height: 45px;
+
+    .mat-radio-outer-circle {
+      width: 45px;
+      height: 45px;
+      border: 1px solid $grey-border-color;
+    }
+
+    .mat-radio-inner-circle {
+      width: 45px;
+      height: 45px;
     }
   }
 }

@@ -23,7 +23,8 @@ const routes: Routes = [
       },
       {
         path: 'import-account-seed-phrase',
-        component: ImportAccountSeedPhraseComponent
+        component: ImportAccountSeedPhraseComponent,
+        data: { pageType: 'import-account' }
       },
       {
         path: 'create-account',
