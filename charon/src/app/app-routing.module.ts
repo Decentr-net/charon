@@ -20,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: 'initialize',
-    loadChildren: () => import('src/app/public/public.module').then(x => x.PublicModule),
+    loadChildren: () => import('src/app/public/public.module').then(x => x.PublicModule)
   },
   {
     path: '',
@@ -36,6 +36,10 @@ const routes: Routes = [
         data: { pageType: 'restore-account' }
       }
     ]
+  },
+  {
+    path: 'user',
+    loadChildren: () => import('src/app/user/user.module').then(x => x.UserModule)
   }
 ];
 

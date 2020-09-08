@@ -34,7 +34,7 @@ const routes: Routes = [
         path: 'secret-phrase',
         component: SecretPhraseComponent
       }
-    ],
+    ]
   },
   {
     path: 'welcome',

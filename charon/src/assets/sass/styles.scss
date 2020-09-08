@@ -3,7 +3,7 @@
 @import 'libs/flexboxgrid.min.css';
 
 * {
-  //outline: 1px solid yellow;
+  //outline: 1px solid red;
 }
 
 *,
@@ -384,6 +384,35 @@ div.selectProfileMenu {
           }
         }
       }
+    }
+  }
+}
+
+div.selectUserMenu {
+  .menu-wrapper {
+    min-width: 220px;
+  }
+
+  .menu-item {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    .icon {
+      margin-right: 10px;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    &__name {
+      font-size: 13px;
     }
   }
 }

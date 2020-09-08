@@ -10,6 +10,7 @@ export class LayoutHeaderComponent {
 
   @Input() background: string;
   @Input() selectNetwork: boolean;
+  @Input() userProfile: boolean;
 
   constructor(public matchMediaService: MatchMediaService) {
   }
