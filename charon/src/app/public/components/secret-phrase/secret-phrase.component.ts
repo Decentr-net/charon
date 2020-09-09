@@ -33,8 +33,10 @@ export class SecretPhraseComponent implements OnInit {
   }
 
   onSwitchPage(page: string) {
-    for (let key in this.isPageVisible) {
-      this.isPageVisible[key] = key === page;
+    for (const key in this.isPageVisible) {
+      if (this.isPageVisible.hasOwnProperty(key)) {
+        this.isPageVisible[key] = key === page;
+      }
     }
   }
 

@@ -94,6 +94,6 @@ export class CreateAccountComponent extends BaseSingleFormGroupComponent impleme
   removeFormControl(type: string, index: number) {
     const formArray = this.form.controls[type] as FormArray;
 
-    formArray.removeAt(index)
+    formArray.removeAt(index);
   }
 }

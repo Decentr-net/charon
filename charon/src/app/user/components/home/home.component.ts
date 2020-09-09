@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
       { id: 'id1', name: 'Cookies name 1', date: '24.07.2020, 11:50', site: 'google.com' },
       { id: 'id1', name: 'Cookies name 2', date: '24.07.2020, 11:50', site: 'decentr.net' },
       { id: 'id1', name: 'Cookies name 3', date: '24.07.2020, 11:50', site: 'yahoo.com' }
-    ]
+    ];
   }
 
   openActivityItemDetails(id: string) {
@@ -50,14 +50,9 @@ export class HomeComponent implements OnInit {
 
     if (this.matchMediaService.isSmall()) {
       config['height'] = '100%';
-      config['maxHeight'] = '100vh'
+      config['maxHeight'] = '100vh';
     }
 
-
-    const dialogRef = this.dialog.open(ActivityDetailsComponent, config);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+    this.dialog.open(ActivityDetailsComponent, config);
   }
 }

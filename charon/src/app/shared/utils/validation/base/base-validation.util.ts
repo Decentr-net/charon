@@ -14,7 +14,7 @@ export class BaseValidationUtil {
       && (controlValueArr.length !== 12
         || controlValueArr[controlValueArr.length - 1] === ''
         || controlValueArr[0] === ''
-        || control.value.indexOf("  ") !== -1
+        || control.value.indexOf('  ') !== -1
       );
 
     return isInvalid ? { seedPhraseWrongLength: true } as ValidationResult : null;

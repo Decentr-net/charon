@@ -14,7 +14,7 @@ export class LoginPageComponent extends BaseSingleFormGroupComponent {
 
     this.form = formBuilder.group({
       password: [null, Validators.required]
-    })
+    });
   }
 
   onSubmit() {
