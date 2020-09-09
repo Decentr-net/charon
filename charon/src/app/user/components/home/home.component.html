@@ -59,7 +59,9 @@
             </div>
             <div *ngIf="true"
                  class="activity-items">
-              <div *ngFor="let activityItem of activityItems; let i = index" class="activity-item">
+              <div *ngFor="let activityItem of activityItems; let i = index"
+                   (click)="openActivityItemDetails(activityItem.id)"
+                   class="activity-item">
                 <div class="activity-item__name">
                   {{activityItem.name}}
                 </div>

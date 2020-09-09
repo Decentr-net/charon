@@ -30,6 +30,7 @@ body {
 }
 
 // Buttons
+// Mat-buttons
 .mat-button,
 .mat-icon-button,
 .mat-stroked-button,
@@ -414,5 +415,50 @@ div.selectUserMenu {
     &__name {
       font-size: 13px;
     }
+  }
+}
+
+// Popup dialog
+.popup-container {
+  position: relative;
+}
+
+.popup-no-padding {
+  position: relative;
+
+  mat-dialog-container {
+    padding: 0;
+  }
+}
+
+.btn-close-popup {
+  position: absolute;
+  right: 13px;
+  top: 13px;
+  width: 20px;
+  height: 25px;
+  cursor: pointer;
+  z-index: 10;
+
+  &:hover {
+    opacity: .8;
+  }
+
+  &:before,
+  &:after {
+    position: absolute;
+    left: 8px;
+    content: ' ';
+    height: 23px;
+    width: 2px;
+    background-color: #333;
+  }
+
+  &:before {
+    transform: rotate(45deg);
+  }
+
+  &:after {
+    transform: rotate(-45deg);
   }
 }

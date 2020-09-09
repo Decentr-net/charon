@@ -220,11 +220,18 @@
     }
 
     .activity-item {
-      margin: 15px 0;
+      padding: 10px 10px;
       color: rgba(68, 119, 228, 0.8);
       display: flex;
       align-items: start;
       justify-content: space-between;
+      cursor: pointer;
+      transition: background .15s ease;
+
+      &:hover {
+        background: #f2f3f4;
+        border-radius: 4px;
+      }
 
       :nth-child(1) {
         flex: 1 0 40%;
