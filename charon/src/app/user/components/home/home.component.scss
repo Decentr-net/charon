@@ -169,6 +169,8 @@
           color: #C87794;
 
           .rate-icon {
+            transform: rotate(180deg);
+
             ::ng-deep {
               svg {
                 fill: #C87794;
