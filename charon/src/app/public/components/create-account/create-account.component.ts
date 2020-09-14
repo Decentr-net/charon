@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BaseSingleFormGroupComponent } from '../../../shared/components/base-single-form-group/base-single-form-group.component';
 import { AbstractControl, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { PasswordValidationUtil } from '../../../shared/utils/validation/password/password-validation.util';
-import { formError } from '../../../shared/utils/validation/base/base-validation.util';
+import { BaseValidationUtil, formError } from '../../../shared/utils/validation/base/base-validation.util';
 import { NavigationService } from '../../../shared/services/navigation/navigation.service';
 
 @Component({
@@ -12,17 +12,13 @@ import { NavigationService } from '../../../shared/services/navigation/navigatio
 })
 export class CreateAccountComponent extends BaseSingleFormGroupComponent implements OnInit {
 
-  maxDate: Date;
-
   constructor(private formBuilder: FormBuilder,
               private navigationService: NavigationService) {
     super();
 
-    this.maxDate = new Date();
-
     this.form = formBuilder.group({
       gender: [null, [Validators.required]],
-      birthday: [null, [Validators.required]],
+      birthday: ['', [Validators.required, BaseValidationUtil.isUsDateFormatCorrect]],
       email: formBuilder.array([]),
       name: formBuilder.array([]),
       password: [null, [
@@ -54,6 +50,22 @@ export class CreateAccountComponent extends BaseSingleFormGroupComponent impleme
     }
 
     // TODO: add service
+  }
+
+  onKeyDateInput(event) {
+    if (event.inputType !== 'deleteContentBackward') {
+      const control = this.form.controls['birthday'];
+      let outputValue = control.value.replace(/\D/g, '');
+
+      if (outputValue.length > 1 && outputValue.length < 4) {
+        outputValue = `${outputValue.substring(0, 2)}/${outputValue.substring(2, 3)}`;
+      } else if (outputValue.length >= 4) {
+        outputValue = `${outputValue.substring(0, 2)}/${outputValue.substring(2, 4)}/${outputValue.substring(4, outputValue.length)}`;
+        outputValue = outputValue.substring(0, 10);
+      }
+
+      control.setValue(outputValue);
+    }
   }
 
   invalid(control: AbstractControl) {

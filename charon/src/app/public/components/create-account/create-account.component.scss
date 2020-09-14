@@ -1,10 +1,6 @@
 @import 'variables';
 
 .page-create-account {
-  .hint-message {
-    color: $color-font-grey;
-  }
-
   .button {
     &__add,
     &__remove {

@@ -12,4 +12,12 @@
   .page-content {
     margin-bottom: 2rem;
   }
+
+  button {
+    &:disabled {
+      background: $color-accent !important;
+      color: #ffffff !important;
+      opacity: .5;
+    }
+  }
 }

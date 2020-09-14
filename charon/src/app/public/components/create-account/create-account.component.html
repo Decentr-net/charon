@@ -37,15 +37,13 @@
                      type="text"
                      name="birthday"
                      formControlName="birthday"
-                     [matDatepicker]="picker"
-                     [max]="maxDate"
-                     (click)="picker.open()"
+                     (input) = "onKeyDateInput($event)"
                      placeholder="MM/DD/YYYY">
-              <mat-datepicker #picker></mat-datepicker>
 
               <mat-error *ngIf="birthdayControl.invalid">
                 {{ getActivateErrorKey(birthdayControl, [
-                {errorCode: 'required', validationKeyPart: 'Birthday is required'}
+                {errorCode: 'required', validationKeyPart: 'Birth date is required'},
+                {errorCode: 'invalidDate', validationKeyPart: 'Not valid format'}
               ]) }}
               </mat-error>
             </mat-form-field>
