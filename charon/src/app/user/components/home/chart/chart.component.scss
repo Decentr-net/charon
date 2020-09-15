@@ -1,7 +1,7 @@
 @import 'variables';
 
 
-::ng-deep {
+:host::ng-deep {
   .chart-legend {
     min-height: 36px;
     display: flex;

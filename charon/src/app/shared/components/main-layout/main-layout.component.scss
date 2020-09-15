@@ -1,6 +1,6 @@
 @import 'variables';
 
-::ng-deep {
+:host::ng-deep {
   .container {
     max-width: 850px;
   }
