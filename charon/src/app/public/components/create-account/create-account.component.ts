@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BaseSingleFormGroupComponent } from '../../../shared/components/base-single-form-group/base-single-form-group.component';
 import { AbstractControl, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { PasswordValidationUtil } from '../../../shared/utils/validation/password/password-validation.util';
@@ -8,7 +8,8 @@ import { NavigationService } from '../../../shared/services/navigation/navigatio
 @Component({
   selector: 'app-create-account',
   templateUrl: './create-account.component.html',
-  styleUrls: ['./create-account.component.scss']
+  styleUrls: ['./create-account.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateAccountComponent extends BaseSingleFormGroupComponent implements OnInit {
 

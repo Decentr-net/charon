@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { BaseSingleFormGroupComponent } from '../../../shared/components/base-single-form-group/base-single-form-group.component';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { PasswordValidationUtil } from '../../../shared/utils/validation/password/password-validation.util';
@@ -15,7 +15,8 @@ export enum PageType {
 @Component({
   selector: 'app-import-account-seed-phrase',
   templateUrl: './import-account-seed-phrase.component.html',
-  styleUrls: ['./import-account-seed-phrase.component.scss']
+  styleUrls: ['./import-account-seed-phrase.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportAccountSeedPhraseComponent extends BaseSingleFormGroupComponent implements OnInit, OnDestroy {
 
