@@ -9,12 +9,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CommonModule } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
     CommonModule,
     InlineSVGModule,
     LayoutHeaderModule,
+    MatDialogModule,
     MatMenuModule,
     MatTabsModule,
     UserRoutingModule,
