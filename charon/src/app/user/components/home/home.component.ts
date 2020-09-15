@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivityDetailsComponent } from './activity-details/activity-details.component';
 import { MatchMediaService } from '../../../shared/services/match-media/match-media.service';
@@ -58,4 +58,6 @@ export class HomeComponent implements OnInit {
 
     this.dialog.open(ActivityDetailsComponent, config);
   }
+
+  public trackById: TrackByFunction<ActivityItem> = ({}, { id }) => id;
 }

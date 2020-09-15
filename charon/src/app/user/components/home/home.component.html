@@ -59,7 +59,7 @@
             </div>
             <div *ngIf="true"
                  class="activity-items">
-              <div *ngFor="let activityItem of activityItems; let i = index"
+              <div *ngFor="let activityItem of activityItems; let i = index; trackBy: trackById"
                    (click)="openActivityItemDetails(activityItem.id)"
                    class="activity-item">
                 <div class="activity-item__name">

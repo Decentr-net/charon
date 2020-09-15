@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@angular/core';
 
 export enum SeedPhrasePages {
   GET_PHRASE = 'getPhrase',
@@ -62,4 +62,6 @@ export class SecretPhraseComponent implements OnInit {
   get SeedPhrasePages() {
     return SeedPhrasePages;
   }
+
+  public trackByWord: TrackByFunction<string> = ({}, word) => word;
 }
