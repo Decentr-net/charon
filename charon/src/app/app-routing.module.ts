@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './public/components/login-page/login-page.component';
-import { MainLayoutComponent } from './shared/components/main-layout/main-layout.component';
+import { MainLayoutComponent, MainLayoutModule } from './shared/components/main-layout';
 import { ImportAccountSeedPhraseComponent } from './public/components/import-account-seed-phrase/import-account-seed-phrase.component';
 
 
@@ -44,7 +44,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    MainLayoutModule,
+    RouterModule.forRoot(routes)
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

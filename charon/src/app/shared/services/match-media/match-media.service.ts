@@ -1,9 +1,11 @@
-import { AfterViewChecked, ChangeDetectorRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 /**
  * Based on and adapted from: https://stackoverflow.com/questions/38442091/how-to-do-responsive-components-in-angular2
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class MatchMediaService {
 
   rules = {
