@@ -82,24 +82,26 @@
 
 <mat-menu #selectUserMenu="matMenu"
           class="selectUserMenu">
-  <div class="menu-wrapper">
-    <div class="menu-items">
-      <div class="menu-item menu-item__active">
-        <div class="icon"
-             [inlineSVG]="'/assets/images/icons/expand.svg'">
+  <ng-template matMenuContent>
+    <div class="menu-wrapper">
+      <div class="menu-items">
+        <div class="menu-item menu-item__active">
+          <div class="icon"
+               [inlineSVG]="'/assets/images/icons/expand.svg'">
+          </div>
+          <div class="menu-item__name">
+            Expand view
+          </div>
         </div>
-        <div class="menu-item__name">
-          Expand view
-        </div>
-      </div>
-      <div class="menu-item">
-        <div class="icon"
-             [inlineSVG]="'/assets/images/icons/user.svg'">
-        </div>
-        <div class="menu-item__name">
-          Account details
+        <div class="menu-item">
+          <div class="icon"
+               [inlineSVG]="'/assets/images/icons/user.svg'">
+          </div>
+          <div class="menu-item__name">
+            Account details
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </ng-template>
 </mat-menu>

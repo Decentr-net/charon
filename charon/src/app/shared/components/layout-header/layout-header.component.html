@@ -31,60 +31,64 @@
 
 <mat-menu #selectNetworkMenu="matMenu"
           class="selectNetworkMenu">
-  <div class="menu-wrapper">
-    <div class="menu-title">Networks</div>
-    <div class="menu-description">The default network for Decs transactions is Decentr Test Network.</div>
-    <div class="menu-items">
-      <div class="menu-item menu-item__active">
-        <div class="network-indicator"></div>
-        <div class="menu-item__name">
-          Decentr Test Network
+  <ng-template matMenuContent>
+    <div class="menu-wrapper">
+      <div class="menu-title">Networks</div>
+      <div class="menu-description">The default network for Decs transactions is Decentr Test Network.</div>
+      <div class="menu-items">
+        <div class="menu-item menu-item__active">
+          <div class="network-indicator"></div>
+          <div class="menu-item__name">
+            Decentr Test Network
+          </div>
         </div>
-      </div>
-      <div class="menu-item">
-        <div class="network-indicator"></div>
-        <div class="menu-item__name">
-          Localhost 1357
+        <div class="menu-item">
+          <div class="network-indicator"></div>
+          <div class="menu-item__name">
+            Localhost 1357
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </ng-template>
 </mat-menu>
 
 <mat-menu #selectProfileMenu="matMenu"
           class="selectProfileMenu">
-  <div class="menu-wrapper">
-    <div class="selectProfileMenu__header">
-      <div class="menu-title">My Accounts</div>
-      <button class="button-lock">Lock</button>
-    </div>
+  <ng-template matMenuContent>
+    <div class="menu-wrapper">
+      <div class="selectProfileMenu__header">
+        <div class="menu-title">My Accounts</div>
+        <button class="button-lock">Lock</button>
+      </div>
 
-    <div class="selectProfileMenu__items">
-      <div class="menu-item menu-item__active">
-        <div class="profile-image"></div>
-        <div>
-          <div class="name">Vaskovsky Vasily Nikolaevich</div>
-          <div class="rate">1.001 PDV</div>
+      <div class="selectProfileMenu__items">
+        <div class="menu-item menu-item__active">
+          <div class="profile-image"></div>
+          <div>
+            <div class="name">Vaskovsky Vasily Nikolaevich</div>
+            <div class="rate">1.001 PDV</div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="selectProfileMenu__footer">
-      <div class="menu-item"
-           [class.menu-item__disabled]="true">
-        <div class="icon"
-             aria-label="Import Account"
-             [inlineSVG]="'assets/images/icons/import.svg'">
+      <div class="selectProfileMenu__footer">
+        <div class="menu-item"
+             [class.menu-item__disabled]="true">
+          <div class="icon"
+               aria-label="Import Account"
+               [inlineSVG]="'assets/images/icons/import.svg'">
+          </div>
+          Import Account <span>(coming soon)</span>
         </div>
-        Import Account <span>(coming soon)</span>
-      </div>
-      <div class="menu-item">
-        <div class="icon"
-             aria-label="Import Account"
-             [inlineSVG]="'assets/images/icons/information.svg'">
+        <div class="menu-item">
+          <div class="icon"
+               aria-label="Import Account"
+               [inlineSVG]="'assets/images/icons/information.svg'">
+          </div>
+          Info & Help
         </div>
-        Info & Help
       </div>
     </div>
-  </div>
+  </ng-template>
 </mat-menu>
