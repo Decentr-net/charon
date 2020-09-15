@@ -1,6 +1,6 @@
 @import 'variables';
 
-::ng-deep {
+:host::ng-deep {
   a {
     color: $color-accent;
     text-decoration: none;
