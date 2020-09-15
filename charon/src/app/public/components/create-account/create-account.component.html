@@ -49,33 +49,34 @@
             </mat-form-field>
           </div>
 
-          <div *ngFor="let email of form.get('email')['controls']; let i = index"
-               formArrayName="email">
-            <div class="input-container col-xs-12">
-              <div class="input-label">E-mail {{(i !== 0) ? i + 1 : ''}}</div>
-              <mat-form-field class="input-control icon-protected"
-                              appearance="outline">
-                <input matInput
-                       type="email"
-                       name="email"
-                       [formControlName]="i"
-                       placeholder="">
+          <div formArrayName="email">
+            <div *ngFor="let email of form.get('email')['controls']; let i = index">
+              <div class="input-container col-xs-12">
+                <div class="input-label">E-mail {{(i !== 0) ? i + 1 : ''}}</div>
+                <mat-form-field class="input-control icon-protected"
+                                appearance="outline">
+                  <input matInput
+                         type="email"
+                         name="email"
+                         [formControlName]="i"
+                         placeholder="">
 
-                <mat-error *ngIf="invalid(email)">
-                  {{ getActivateErrorKey(email, [
-                  {errorCode: 'required', validationKeyPart: 'Email is required'},
-                  {errorCode: 'email', validationKeyPart: 'Enter valid email'}
-                ]) }}
-                </mat-error>
-              </mat-form-field>
+                  <mat-error *ngIf="invalid(email)">
+                    {{ getActivateErrorKey(email, [
+                    {errorCode: 'required', validationKeyPart: 'Email is required'},
+                    {errorCode: 'email', validationKeyPart: 'Enter valid email'}
+                  ]) }}
+                  </mat-error>
+                </mat-form-field>
 
-              <div *ngIf="i === 0 && form.get('email')['controls'].length < 10"
-                   class="button__add"
-                   (click)="addFormControl('email')">
-              </div>
-              <div *ngIf="i > 0"
-                   class="button__remove"
-                   (click)="removeFormControl('email', i)">
+                <div *ngIf="i === 0 && form.get('email')['controls'].length < 10"
+                     class="button__add"
+                     (click)="addFormControl('email')">
+                </div>
+                <div *ngIf="i > 0"
+                     class="button__remove"
+                     (click)="removeFormControl('email', i)">
+                </div>
               </div>
             </div>
           </div>
