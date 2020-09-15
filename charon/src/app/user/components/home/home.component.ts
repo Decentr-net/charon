@@ -42,8 +42,10 @@ export class HomeComponent implements OnInit {
 
   openActivityItemDetails(id: string) {
     const config = {
-      width: '536px',
+      width: '940px',
       maxWidth: '100%',
+      height: '500px',
+      maxHeight: '100%',
       panelClass: 'popup-no-padding',
       data: { id }
     };
