@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 export enum SeedPhrasePages {
   GET_PHRASE = 'getPhrase',
@@ -9,7 +9,8 @@ export enum SeedPhrasePages {
 @Component({
   selector: 'app-secret-phrase',
   templateUrl: './secret-phrase.component.html',
-  styleUrls: ['./secret-phrase.component.scss']
+  styleUrls: ['./secret-phrase.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SecretPhraseComponent implements OnInit {
 
