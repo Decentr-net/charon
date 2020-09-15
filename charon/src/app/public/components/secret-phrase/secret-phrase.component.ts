@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 export enum SeedPhrasePages {
   GET_PHRASE = 'getPhrase',
   CONFIRM_PHRASE = 'confirmPhrase',
-  CONGRATULATIONS = 'congratulations'
+  CONFIRM_EMAIL = 'confirmEmail'
 }
 
 @Component({
@@ -16,7 +16,7 @@ export class SecretPhraseComponent implements OnInit {
   isPageVisible = {
     [SeedPhrasePages.GET_PHRASE]: true,
     [SeedPhrasePages.CONFIRM_PHRASE]: false,
-    [SeedPhrasePages.CONGRATULATIONS]: false
+    [SeedPhrasePages.CONFIRM_EMAIL]: false
   };
 
   isSeedPhraseVisible = false;
