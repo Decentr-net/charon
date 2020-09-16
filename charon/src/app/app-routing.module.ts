@@ -1,25 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from './app.component';
 import { LoginPageComponent } from './public/components/login-page/login-page.component';
 import { MainLayoutComponent, MainLayoutModule } from './shared/components/main-layout';
 import { ImportAccountSeedPhraseComponent } from './public/components/import-account-seed-phrase/import-account-seed-phrase.component';
+import { AppRoute } from './app-route';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: AppComponent,
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: '/initialize/welcome'
-      }
-    ]
+    pathMatch: 'full',
+    redirectTo: AppRoute.Initialize,
   },
   {
-    path: 'initialize',
+    path: AppRoute.Initialize,
     loadChildren: () => import('src/app/public/public.module').then(x => x.PublicModule)
   },
   {
@@ -27,18 +21,18 @@ const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       {
-        path: 'login',
+        path: AppRoute.Login,
         component: LoginPageComponent
       },
       {
-        path: 'restore-account',
+        path: AppRoute.RestoreAccount,
         component: ImportAccountSeedPhraseComponent,
         data: { pageType: 'restore-account' }
       }
     ]
   },
   {
-    path: 'user',
+    path: AppRoute.User,
     loadChildren: () => import('src/app/user/user.module').then(x => x.UserModule)
   }
 ];

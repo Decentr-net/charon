@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserLayoutComponent } from './components/user-layout/user-layout.component';
 import { HomeComponent } from './components/home/home.component';
+import { UserRoute } from './user-route';
 
 const routes: Routes = [
   {
@@ -11,10 +12,10 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'home'
+        redirectTo: UserRoute.Home
       },
       {
-        path: 'home',
+        path: UserRoute.Home,
         component: HomeComponent
       }
     ]

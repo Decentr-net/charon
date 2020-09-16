@@ -14,47 +14,52 @@ import { EmailConfirmationPageComponent } from './components/email-confirmation-
 const routes: Routes = [
   {
     path: '',
-    component: PublicLayoutComponent,
     children: [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: `/initialize/${PublicRoute.Welcome}`
+        redirectTo: PublicRoute.Welcome,
       },
       {
-        path: PublicRoute.NewUser,
-        component: NewUserComponent
+        path: PublicRoute.Welcome,
+        component: WelcomeComponent
       },
       {
-        path: PublicRoute.ImportAccount,
-        component: ImportAccountSeedPhraseComponent,
-        data: { pageType: 'import-account' }
-      },
-      {
-        path: PublicRoute.CreateAccount,
-        component: CreateAccountComponent
-      },
-      {
-        path: PublicRoute.SecretPhrase,
-        component: SecretPhraseComponent
-      },
-      {
-        path: PublicRoute.SecretPhraseConfirmation,
-        component: SecretPhraseConfirmationPageComponent,
-      },
-      {
-        path: PublicRoute.EmailConfirmation,
-        component: EmailConfirmationPageComponent,
-      },
-      {
-        path: PublicRoute.SuccessfulRegistration,
-        component: SuccessfulRegistrationComponent
+        path: '',
+        component: PublicLayoutComponent,
+        children: [
+          {
+            path: PublicRoute.NewUser,
+            component: NewUserComponent
+          },
+          {
+            path: PublicRoute.ImportAccount,
+            component: ImportAccountSeedPhraseComponent,
+            data: { pageType: 'import-account' }
+          },
+          {
+            path: PublicRoute.CreateAccount,
+            component: CreateAccountComponent
+          },
+          {
+            path: PublicRoute.SecretPhrase,
+            component: SecretPhraseComponent
+          },
+          {
+            path: PublicRoute.SecretPhraseConfirmation,
+            component: SecretPhraseConfirmationPageComponent,
+          },
+          {
+            path: PublicRoute.EmailConfirmation,
+            component: EmailConfirmationPageComponent,
+          },
+          {
+            path: PublicRoute.SuccessfulRegistration,
+            component: SuccessfulRegistrationComponent
+          },
+        ]
       },
     ]
-  },
-  {
-    path: PublicRoute.Welcome,
-    component: WelcomeComponent
   }
 ];
 
