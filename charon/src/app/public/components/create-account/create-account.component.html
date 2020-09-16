@@ -154,7 +154,7 @@
 
               <mat-error *ngIf="confirmPasswordControl.invalid">
                 {{ getActivateErrorKey(confirmPasswordControl, [
-                {errorCode: 'passwordsDoNotMatch', validationKeyPart: 'Password should be equal'}
+                {errorCode: 'valueDoNotMatch', validationKeyPart: 'Password should be equal'}
               ]) }}
               </mat-error>
             </mat-form-field>

@@ -1,4 +1,4 @@
-import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { ValidationResult } from '../../../models/validation/validation-result.model';
 
 export class BaseValidationUtil {
@@ -26,6 +26,21 @@ export class BaseValidationUtil {
       '(?:0[469]|11)\\/(?:[0-2]\\d|30)\\/(?:19|20)\\d{2}|02\\/(?:[0-1]\\d|2[0-8])\\/(?:19|20)\\d{2}$'].join(''));
 
     return !control.value.match(datePattern) ? { invalidDate: true } as ValidationResult : null;
+  }
+
+  static equalsToAdjacentControl(controlName: string): ValidatorFn {
+    return (control: AbstractControl) => {
+      const formGroup = control.parent;
+      if (!formGroup) {
+        return;
+      }
+
+      const equalToControl = formGroup.get(controlName);
+
+      return !equalToControl.value || control.value === equalToControl.value
+        ? null
+        : { valueDoNotMatch: controlName };
+    }
   }
 }
 
