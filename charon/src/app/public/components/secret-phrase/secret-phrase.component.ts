@@ -1,10 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PublicRoute } from '../../public-route';
 
-export enum SeedPhrasePages {
-  GET_PHRASE = 'getPhrase',
-  CONFIRM_PHRASE = 'confirmPhrase',
-  CONFIRM_EMAIL = 'confirmEmail'
-}
+export const SECRET_PHRASE_KEY = 'SECRET_PHRASE';
 
 @Component({
   selector: 'app-secret-phrase',
@@ -13,55 +11,32 @@ export enum SeedPhrasePages {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SecretPhraseComponent implements OnInit {
-
-  isPageVisible = {
-    [SeedPhrasePages.GET_PHRASE]: true,
-    [SeedPhrasePages.CONFIRM_PHRASE]: false,
-    [SeedPhrasePages.CONFIRM_EMAIL]: false
-  };
+  @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
   isSeedPhraseVisible = false;
-  isSelectedSeedPhraseValid = false;
   seedPhrase = '';
 
-  seedPhraseShuffledArr = [];
-  selectedSeedPhraseArr = [];
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+  ) {
+  }
 
   ngOnInit() {
     // TODO: add service
     this.seedPhrase = 'enemy money update snake wood soda depend shine visit lion frequent two';
-    this.seedPhraseShuffledArr = this.shuffleArray(this.seedPhrase.split(' ').slice());
-  }
-
-  onSwitchPage(page: string) {
-    for (const key in this.isPageVisible) {
-      if (this.isPageVisible.hasOwnProperty(key)) {
-        this.isPageVisible[key] = key === page;
-      }
-    }
   }
 
   showSeedPhrase() {
     this.isSeedPhraseVisible = true;
   }
 
-  onSelectWord(i: number, from, to) {
-    to.push(from.splice(i, 1));
-
-    this.checkSelectedPhrase();
+  public switchToConfirmationPage(): void {
+    this.router.navigate(['../', PublicRoute.SecretPhraseConfirmation], {
+      relativeTo: this.activatedRoute,
+      state: {
+        [SECRET_PHRASE_KEY]: this.seedPhrase,
+      },
+    });
   }
-
-  checkSelectedPhrase() {
-    this.isSelectedSeedPhraseValid = this.selectedSeedPhraseArr.join(' ') === this.seedPhrase;
-  }
-
-  shuffleArray(array) {
-    return array.sort(() => Math.random() - 0.5);
-  }
-
-  get SeedPhrasePages() {
-    return SeedPhrasePages;
-  }
-
-  public trackByWord: TrackByFunction<string> = ({}, word) => word;
 }

@@ -17,6 +17,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { MatCardModule } from '@angular/material/card';
+import { SecretPhraseConfirmationPageComponent } from './components/secret-phrase-confirmation-page';
+import { EmailConfirmationPageComponent } from './components/email-confirmation-page';
 
 @NgModule({
   imports: [
@@ -39,7 +41,9 @@ import { MatCardModule } from '@angular/material/card';
     ImportAccountSeedPhraseComponent,
     CreateAccountComponent,
     SecretPhraseComponent,
-    SuccessfulRegistrationComponent
+    SuccessfulRegistrationComponent,
+    SecretPhraseConfirmationPageComponent,
+    EmailConfirmationPageComponent,
   ],
   exports: [
     PublicRoutingModule

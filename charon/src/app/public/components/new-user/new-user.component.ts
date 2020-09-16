@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { PublicRoute } from '../../public-route';
 
 @Component({
   selector: 'app-new-user',
@@ -8,14 +8,5 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewUserComponent {
-  constructor(private router: Router) {
-  }
-
-  toImportAccount() {
-    this.router.navigate(['initialize', 'import-account-seed-phrase']);
-  }
-
-  toCreateAccount() {
-    this.router.navigate(['initialize', 'create-account']);
-  }
+  public readonly publicRoute: typeof PublicRoute = PublicRoute;
 }

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { PublicRoute } from '../../public-route';
 
 @Component({
   selector: 'app-welcome',
@@ -8,10 +8,5 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WelcomeComponent {
-  constructor(private router: Router) {
-  }
-
-  toNewUser() {
-    this.router.navigate(['initialize', 'new-user']);
-  }
+  public readonly publicRoute: typeof PublicRoute = PublicRoute;
 }
