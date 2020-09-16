@@ -46,7 +46,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     MainLayoutModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, { useHash: true })
   ],
   exports: [RouterModule]
 })
