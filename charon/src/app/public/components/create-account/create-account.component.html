@@ -81,36 +81,37 @@
             </div>
           </div>
 
-          <div *ngFor="let name of form.get('name')['controls']; let i = index"
-               formArrayName="name">
-            <div class="input-container col-xs-12">
-              <div class="input-label">Nickname (account name) {{(i !== 0) ? i + 1 : ''}}</div>
-              <mat-form-field class="input-control icon-protected"
-                              appearance="outline">
-                <input matInput
-                       type="text"
-                       name="name"
-                       [formControlName]="i"
-                       placeholder="">
+          <div formArrayName="name">
+            <div *ngFor="let name of form.get('name')['controls']; let i = index">
+              <div class="input-container col-xs-12">
+                <div class="input-label">Nickname (account name) {{(i !== 0) ? i + 1 : ''}}</div>
+                <mat-form-field class="input-control icon-protected"
+                                appearance="outline">
+                  <input matInput
+                         type="text"
+                         name="name"
+                         [formControlName]="i"
+                         placeholder="">
 
-                <mat-error *ngIf="name.invalid">
-                  {{ getActivateErrorKey(name, [
-                  {errorCode: 'required', validationKeyPart: 'Name is required'},
-                  {
-                    errorCode: 'minlength',
-                    validationKeyPart: 'Length of name should be not less than ' + name.getError('minlength')?.requiredLength
-                  }
-                ]) }}
-                </mat-error>
-              </mat-form-field>
+                  <mat-error *ngIf="name.invalid">
+                    {{ getActivateErrorKey(name, [
+                    {errorCode: 'required', validationKeyPart: 'Name is required'},
+                    {
+                      errorCode: 'minlength',
+                      validationKeyPart: 'Length of name should be not less than ' + name.getError('minlength')?.requiredLength
+                    }
+                  ]) }}
+                  </mat-error>
+                </mat-form-field>
 
-              <div *ngIf="i === 0 && form.get('name')['controls'].length < 10"
-                   class="button__add"
-                   (click)="addFormControl('name')">
-              </div>
-              <div *ngIf="i > 0"
-                   class="button__remove"
-                   (click)="removeFormControl('name', i)">
+                <div *ngIf="i === 0 && form.get('name')['controls'].length < 10"
+                     class="button__add"
+                     (click)="addFormControl('name')">
+                </div>
+                <div *ngIf="i > 0"
+                     class="button__remove"
+                     (click)="removeFormControl('name', i)">
+                </div>
               </div>
             </div>
           </div>
