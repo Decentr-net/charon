@@ -10,9 +10,9 @@
       <mat-card class="text-center">
         <div class="icon"
              aria-label="Import Account"
+             [resolveSVGUrl]="false"
              [inlineSVG]="'assets/images/icons/import.svg'">
         </div>
-
         <mat-card-title>
           No, I already have a seed phrase
         </mat-card-title>
@@ -34,7 +34,8 @@
       <mat-card class="text-center">
         <div class="icon"
              aria-label="Import Account"
-             [inlineSVG]="'assets/images/icons/plus.svg'">
+             [resolveSVGUrl]="false"
+             [inlineSVG]="'/assets/images/icons/plus.svg'">
         </div>
 
         <mat-card-title>

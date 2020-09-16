@@ -77,14 +77,16 @@
              [class.menu-item__disabled]="true">
           <div class="icon"
                aria-label="Import Account"
-               [inlineSVG]="'assets/images/icons/import.svg'">
+               [resolveSVGUrl]="false"
+               [inlineSVG]="'/assets/images/icons/import.svg'">
           </div>
           Import Account <span>(coming soon)</span>
         </div>
         <div class="menu-item">
           <div class="icon"
                aria-label="Import Account"
-               [inlineSVG]="'assets/images/icons/information.svg'">
+               [resolveSVGUrl]="false"
+               [inlineSVG]="'/assets/images/icons/information.svg'">
           </div>
           Info & Help
         </div>
