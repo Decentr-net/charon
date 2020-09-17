@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Mnemonic } from 'decentr-js';
 import { PublicRoute } from '../../public-route';
 
 export const SECRET_PHRASE_KEY = 'SECRET_PHRASE';
@@ -14,17 +15,22 @@ export class SecretPhraseComponent implements OnInit {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
   isSeedPhraseVisible = false;
-  seedPhrase = '';
+  public seedPhrase: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
   ) {
+    const currentNavigationState = this.router.getCurrentNavigation().extras.state;
+    if (currentNavigationState) {
+      this.seedPhrase = currentNavigationState[SECRET_PHRASE_KEY];
+    }
   }
 
   ngOnInit() {
-    // TODO: add service
-    this.seedPhrase = 'enemy money update snake wood soda depend shine visit lion frequent two';
+    if (!this.seedPhrase) {
+      this.seedPhrase = new Mnemonic().generate();
+    }
   }
 
   showSeedPhrase() {

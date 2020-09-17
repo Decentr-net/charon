@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, TrackByFunction } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { shuffleArray } from '../../../shared/utils/array';
 import { PublicRoute } from '../../public-route';
@@ -22,7 +22,10 @@ export class SecretPhraseConfirmationPageComponent {
 
   private readonly seedPhrase: string;
 
-  constructor(private router: Router) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+  ) {
     const currentNavigationState = this.router.getCurrentNavigation().extras.state;
     if (currentNavigationState) {
       this.seedPhrase = currentNavigationState[SECRET_PHRASE_KEY];
@@ -31,6 +34,15 @@ export class SecretPhraseConfirmationPageComponent {
   }
 
   public trackByWord: TrackByFunction<string> = ({}, word) => word;
+
+  public back(): void {
+    this.router.navigate(['../', PublicRoute.SecretPhrase], {
+      relativeTo: this.activatedRoute,
+      state: {
+        [SECRET_PHRASE_KEY]: this.seedPhrase,
+      },
+    });
+  }
 
   public onSelectWord(i: number, from, to) {
     to.push(from.splice(i, 1));
