@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BaseSingleFormGroupComponent } from '../../../shared/components/base-single-form-group/base-single-form-group.component';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { AppRoute } from '../../../app-route';
 
 @Component({
   selector: 'app-login-page',
@@ -9,6 +10,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPageComponent extends BaseSingleFormGroupComponent {
+  public readonly appRoute: typeof AppRoute = AppRoute;
 
   constructor(formBuilder: FormBuilder) {
     super();

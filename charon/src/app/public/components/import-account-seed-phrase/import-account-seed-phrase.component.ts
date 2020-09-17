@@ -37,9 +37,7 @@ export class ImportAccountSeedPhraseComponent extends BaseSingleFormGroupCompone
         Validators.minLength(8),
         PasswordValidationUtil.validatePasswordStrength
       ]],
-      confirmPassword: null
-    }, {
-      validators: PasswordValidationUtil.validatePasswordsMatches
+      confirmPassword: [null, PasswordValidationUtil.equalsToAdjacentControl('password')],
     });
   }
 

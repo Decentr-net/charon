@@ -9,7 +9,7 @@ import { MatchMediaService } from '../../services/match-media/match-media.servic
 })
 export class LayoutHeaderComponent {
 
-  @Input() background: string;
+  @Input() background: 'grey' | 'white';
   @Input() selectNetwork: boolean;
   @Input() userProfile: boolean;
 
