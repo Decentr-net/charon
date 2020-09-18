@@ -1,7 +1,9 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { LocalStoreService } from './local-store.service';
 
+import { environment } from '../../../../environments/environment';
 import { ChromeStoreService } from './chrome';
+import { LocalStorageService } from './local-storage';
 
 @NgModule()
 export class LocalStoreModule {
@@ -11,7 +13,7 @@ export class LocalStoreModule {
       providers: [
         {
           provide: LocalStoreService,
-          useClass: ChromeStoreService,
+          useClass: environment.production ? ChromeStoreService : LocalStorageService,
         }
       ],
     }
