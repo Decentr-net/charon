@@ -9,11 +9,20 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { LocalStoreModule } from './shared/services/local-store';
+import { LocalStoreModule, LocalStoreService } from './shared/services/local-store';
+import { AuthModule, AuthStore } from './auth';
 
 @NgModule({
   imports: [
     BrowserModule,
+    AuthModule.forRoot({
+      unauthorizedRedirectUrl: '/',
+      storeProvider: {
+        provide: AuthStore,
+        useFactory: localStore => localStore,
+        deps: [LocalStoreService],
+      },
+    }),
     LocalStoreModule.forRoot(),
     AppRoutingModule,
     BrowserAnimationsModule,

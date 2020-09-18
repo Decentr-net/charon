@@ -4,6 +4,7 @@ import { LoginPageComponent } from './public/components/login-page/login-page.co
 import { MainLayoutComponent, MainLayoutModule } from './shared/components/main-layout';
 import { ImportAccountSeedPhraseComponent } from './public/components/import-account-seed-phrase/import-account-seed-phrase.component';
 import { AppRoute } from './app-route';
+import { AuthGuard } from './auth';
 
 
 const routes: Routes = [
@@ -33,7 +34,8 @@ const routes: Routes = [
   },
   {
     path: AppRoute.User,
-    loadChildren: () => import('src/app/user/user.module').then(x => x.UserModule)
+    loadChildren: () => import('src/app/user/user.module').then(x => x.UserModule),
+    canActivate: [AuthGuard],
   }
 ];
 
