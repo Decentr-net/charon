@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Mnemonic } from 'decentr-js';
 import { PublicRoute } from '../../public-route';
+import { CryptoService } from '../../../shared/services/crypto';
 
 export const SECRET_PHRASE_KEY = 'SECRET_PHRASE';
 
@@ -29,7 +29,7 @@ export class SecretPhraseComponent implements OnInit {
 
   ngOnInit() {
     if (!this.seedPhrase) {
-      this.seedPhrase = new Mnemonic().generate();
+      this.seedPhrase = CryptoService.generateMnemonic();
     }
   }
 
