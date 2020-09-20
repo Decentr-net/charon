@@ -6,13 +6,13 @@ import { LocalStoreService } from '../local-store.service';
 export class ChromeStoreService implements LocalStoreService {
   private chromeStorage = chrome.storage.local;
 
-  public get(key: string): Promise<any> {
-    return new Promise<string>(resolve => {
+  public get<T>(key: string): Promise<T> {
+    return new Promise<T>(resolve => {
       this.chromeStorage.get(key, obj => resolve(obj[key]));
     });
   }
 
-  public set(key: string, value: any): Promise<void> {
+  public set<T>(key: string, value: T): Promise<void> {
     return new Promise<void>(resolve => {
       this.chromeStorage.set({ [key]: value }, () => resolve());
     });

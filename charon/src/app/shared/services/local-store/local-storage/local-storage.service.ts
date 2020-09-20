@@ -4,12 +4,12 @@ import { LocalStoreService } from '../local-store.service';
 
 @Injectable()
 export class LocalStorageService implements LocalStoreService {
-  public get(key: string): Promise<any> {
+  public get<T>(key: string): Promise<T> {
     const item = localStorage.getItem(key);
     return Promise.resolve(item && JSON.parse(item));
   }
 
-  public set(key: string, value: any): Promise<void> {
+  public set<T>(key: string, value: T): Promise<void> {
     localStorage.setItem(key, JSON.stringify(value));
     return Promise.resolve();
   }
