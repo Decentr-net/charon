@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PublicRoute } from '../../../public/public-route';
 import { AppRoute } from '../../../app-route';
+import { LoginRoute } from '../../../login/login-route';
 
 @Component({
   selector: 'app-new-user-page',
@@ -10,5 +10,5 @@ import { AppRoute } from '../../../app-route';
 })
 export class NewUserPageComponent {
   public readonly appRoute: typeof AppRoute = AppRoute;
-  public readonly publicRoute: typeof PublicRoute = PublicRoute;
+  public readonly loginRoute: typeof LoginRoute = LoginRoute;
 }

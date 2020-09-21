@@ -6,7 +6,7 @@
         < Back
       </div>
       <div class="page-title page-title__large">
-        {{pageType === PageType.IMPORT_ACCOUNT ? 'Import' : 'Restore'}} an account with a seed phrase
+        {{currentPageType === pageType.IMPORT_ACCOUNT ? 'Import' : 'Restore'}} an account with a seed phrase
       </div>
       <div class="page-content">
         Enter your secret twelve word phrase in the field below to restore your account.
@@ -116,7 +116,7 @@
               color="accent"
               [disabled]="form.invalid"
               (click)="onSubmit()">
-        {{pageType === PageType.IMPORT_ACCOUNT ? 'IMPORT' : 'RESTORE'}}
+        {{currentPageType === pageType.IMPORT_ACCOUNT ? 'IMPORT' : 'RESTORE'}}
       </button>
     </div>
   </div>

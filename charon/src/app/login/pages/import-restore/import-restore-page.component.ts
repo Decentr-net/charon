@@ -7,21 +7,21 @@ import { NavigationService } from '../../../shared/services/navigation/navigatio
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-export enum PageType {
+export enum ImportRestorePageType {
   IMPORT_ACCOUNT = 'import-account',
   RESTORE_ACCOUNT = 'restore-account'
 }
 
 @Component({
   selector: 'app-import-account-seed-phrase',
-  templateUrl: './import-account-seed-phrase.component.html',
-  styleUrls: ['./import-account-seed-phrase.component.scss'],
+  templateUrl: './import-restore-page.component.html',
+  styleUrls: ['./import-restore-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportAccountSeedPhraseComponent extends BaseSingleFormGroupComponent implements OnInit, OnDestroy {
-
+export class ImportRestorePageComponent extends BaseSingleFormGroupComponent implements OnInit, OnDestroy {
+  public pageType: typeof ImportRestorePageType = ImportRestorePageType;
   isSeedPhraseVisible = false;
-  pageType: string;
+  currentPageType: string;
 
   _routeData$: Subscription;
 
@@ -43,7 +43,7 @@ export class ImportAccountSeedPhraseComponent extends BaseSingleFormGroupCompone
 
   ngOnInit() {
     this._routeData$ = this.route.data.subscribe(res => {
-      this.pageType = res.pageType;
+      this.currentPageType = res.pageType;
     });
   }
 
@@ -57,11 +57,11 @@ export class ImportAccountSeedPhraseComponent extends BaseSingleFormGroupCompone
 
   onSubmit() {
     // TODO: add service
-    if (this.pageType === PageType.IMPORT_ACCOUNT) {
+    if (this.currentPageType === ImportRestorePageType.IMPORT_ACCOUNT) {
       console.log('submit import account');
     }
 
-    if (this.pageType === PageType.RESTORE_ACCOUNT) {
+    if (this.currentPageType === ImportRestorePageType.RESTORE_ACCOUNT) {
       console.log('submit restore account');
     }
   }
@@ -80,9 +80,5 @@ export class ImportAccountSeedPhraseComponent extends BaseSingleFormGroupCompone
 
   get confirmPasswordControl(): FormControl {
     return this.form.get('confirmPassword') as FormControl;
-  }
-
-  get PageType() {
-    return PageType;
   }
 }
