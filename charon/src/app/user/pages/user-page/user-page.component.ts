@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivityDetailsComponent } from './activity-details/activity-details.component';
+import { ActivityDetailsComponent } from '../../components/activity-details/activity-details.component';
 import { MatchMediaService } from '../../../shared/services/match-media/match-media.service';
 
 export interface ActivityItem {
@@ -11,12 +11,12 @@ export interface ActivityItem {
 }
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  selector: 'app-user-page',
+  templateUrl: './user-page.component.html',
+  styleUrls: ['./user-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent implements OnInit {
+export class UserPageComponent implements OnInit {
 
   activityItems: ActivityItem[];
 

@@ -37,8 +37,8 @@ const routes: Routes = [
   },
   {
     path: AppRoute.User,
-    loadChildren: () => import('src/app/user/user.module').then(x => x.UserModule)
-  }
+    loadChildren: () => import('./user/user.module').then(x => x.UserModule)
+  },
 ];
 
 @NgModule({

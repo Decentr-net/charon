@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { HomeComponent } from '../home.component';
+import { UserPageComponent } from '../../pages/user-page/user-page.component';
 
 @Component({
   selector: 'app-activity-details',
@@ -10,7 +10,7 @@ import { HomeComponent } from '../home.component';
 })
 export class ActivityDetailsComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<HomeComponent>,
+  constructor(public dialogRef: MatDialogRef<UserPageComponent>,
               @Inject(MAT_DIALOG_DATA) public data) {
   }
 

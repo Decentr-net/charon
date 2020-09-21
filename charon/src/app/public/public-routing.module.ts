@@ -25,10 +25,6 @@ const routes: Routes = [
         component: PublicLayoutComponent,
         children: [
           {
-            path: PublicRoute.NewUser,
-            component: NewUserComponent
-          },
-          {
             path: PublicRoute.ImportAccount,
             component: ImportAccountSeedPhraseComponent,
             data: { pageType: 'import-account' }
