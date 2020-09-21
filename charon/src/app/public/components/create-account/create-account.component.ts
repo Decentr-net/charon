@@ -27,10 +27,8 @@ export class CreateAccountComponent extends BaseSingleFormGroupComponent impleme
         Validators.minLength(8),
         PasswordValidationUtil.validatePasswordStrength
       ]],
-      confirmPassword: null,
+      confirmPassword: [null, PasswordValidationUtil.equalsToAdjacentControl('password')],
       agreeTerms: [null, [Validators.requiredTrue]]
-    }, {
-      validators: PasswordValidationUtil.validatePasswordsMatches
     });
   }
 

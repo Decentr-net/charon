@@ -7,43 +7,59 @@ import { ImportAccountSeedPhraseComponent } from './components/import-account-se
 import { CreateAccountComponent } from './components/create-account/create-account.component';
 import { SecretPhraseComponent } from './components/secret-phrase/secret-phrase.component';
 import { SuccessfulRegistrationComponent } from './components/successful-registration/successful-registration.component';
+import { SecretPhraseConfirmationPageComponent } from './components/secret-phrase-confirmation-page';
+import { PublicRoute } from './public-route';
+import { EmailConfirmationPageComponent } from './components/email-confirmation-page';
 
 const routes: Routes = [
   {
     path: '',
-    component: PublicLayoutComponent,
     children: [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: '/initialize/welcome'
+        redirectTo: PublicRoute.Welcome,
       },
       {
-        path: 'new-user',
-        component: NewUserComponent
+        path: PublicRoute.Welcome,
+        component: WelcomeComponent
       },
       {
-        path: 'import-account-seed-phrase',
-        component: ImportAccountSeedPhraseComponent,
-        data: { pageType: 'import-account' }
+        path: '',
+        component: PublicLayoutComponent,
+        children: [
+          {
+            path: PublicRoute.NewUser,
+            component: NewUserComponent
+          },
+          {
+            path: PublicRoute.ImportAccount,
+            component: ImportAccountSeedPhraseComponent,
+            data: { pageType: 'import-account' }
+          },
+          {
+            path: PublicRoute.CreateAccount,
+            component: CreateAccountComponent
+          },
+          {
+            path: PublicRoute.SecretPhrase,
+            component: SecretPhraseComponent
+          },
+          {
+            path: PublicRoute.SecretPhraseConfirmation,
+            component: SecretPhraseConfirmationPageComponent,
+          },
+          {
+            path: PublicRoute.EmailConfirmation,
+            component: EmailConfirmationPageComponent,
+          },
+          {
+            path: PublicRoute.SuccessfulRegistration,
+            component: SuccessfulRegistrationComponent
+          },
+        ]
       },
-      {
-        path: 'create-account',
-        component: CreateAccountComponent
-      },
-      {
-        path: 'secret-phrase',
-        component: SecretPhraseComponent
-      },
-      {
-        path: 'successful-registration',
-        component: SuccessfulRegistrationComponent
-      }
     ]
-  },
-  {
-    path: 'welcome',
-    component: WelcomeComponent
   }
 ];
 
