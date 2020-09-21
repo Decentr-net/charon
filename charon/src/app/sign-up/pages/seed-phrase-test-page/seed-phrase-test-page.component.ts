@@ -36,7 +36,7 @@ export class SeedPhraseTestPageComponent {
   public trackByWord: TrackByFunction<string> = ({}, word) => word;
 
   public back(): void {
-    this.router.navigate(['../', PublicRoute.SecretPhrase], {
+    this.router.navigate(['../', SignUpRoute.SeedPhrase], {
       relativeTo: this.activatedRoute,
       state: {
         [SECRET_PHRASE_KEY]: this.seedPhrase,
