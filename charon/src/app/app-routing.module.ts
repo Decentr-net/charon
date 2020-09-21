@@ -39,6 +39,10 @@ const routes: Routes = [
     path: AppRoute.User,
     loadChildren: () => import('./user/user.module').then(x => x.UserModule)
   },
+  {
+    path: AppRoute.Welcome,
+    loadChildren: () => import('./welcome/welcome.module').then(m => m.WelcomeModule),
+  },
 ];
 
 @NgModule({

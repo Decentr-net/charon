@@ -4,4 +4,5 @@ export enum AppRoute {
   RestoreAccount = 'restore-account',
   SignUp = 'sign-up',
   User = 'user',
+  Welcome = 'welcome',
 }

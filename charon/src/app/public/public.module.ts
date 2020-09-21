@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { WelcomeComponent } from './components/welcome/welcome.component';
 import { PublicRoutingModule } from './public-routing.module';
 import { ImportAccountSeedPhraseComponent } from './components/import-account-seed-phrase/import-account-seed-phrase.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -24,7 +23,6 @@ import { MatCardModule } from '@angular/material/card';
     ReactiveFormsModule,
   ],
   declarations: [
-    WelcomeComponent,
     ImportAccountSeedPhraseComponent,
   ],
   exports: [
