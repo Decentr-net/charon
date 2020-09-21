@@ -1,0 +1,15 @@
+@import 'charon/src/assets/sass/variables';
+
+.page-import-account-seed {
+  mat-form-field {
+    &.input-seed-phrase {
+      width: 100%;
+      max-width: 500px;
+      min-height: 5rem;
+    }
+  }
+
+  .show-seed-phrase {
+    color: #6c6f71;
+  }
+}

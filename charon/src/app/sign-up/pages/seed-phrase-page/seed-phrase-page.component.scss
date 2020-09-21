@@ -1,0 +1,71 @@
+@import 'charon/src/assets/sass/variables';
+
+:host {
+  display: block;
+  margin-top: 2.5rem;
+
+  .view-seed-phrase {
+    p {
+      margin: 1.5rem 0;
+    }
+
+    .seed-phrase-words {
+      position: relative;
+      border: 1px solid $grey-border-color;
+      border-radius: 4px;
+      padding: 1.5rem;
+      max-width: 350px;
+      font-size: 20px;
+      text-align: center;
+      margin: 2.5rem 0;
+      color: #565656;
+
+      &.is-visible {
+        .phrase {
+          filter: unset;
+        }
+
+        .overlay {
+          display: none;
+        }
+      }
+
+      .phrase {
+        filter: blur(5px);
+      }
+
+      .overlay {
+        position: absolute;
+        border-radius: 4px;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.65);
+        color: #ffffff;
+        font-size: .8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        cursor: pointer;
+
+        .icon {
+          max-width: 25px;
+          max-height: 25px;
+          fill: #ffffff;
+          margin-bottom: .5rem;
+
+          ::ng-deep {
+            svg {
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,110 @@
+<div class="page-home">
+  <div class="container">
+    <div class="user-nav-wrapper">
+      <div></div>
+
+      <div class="user-data">
+        <div class="user-data__inner">
+          <div class="wallet-username">
+            Vaskovsky Vasily Nikolaevich
+          </div>
+          <div class="wallet-id">
+            0x083fa3A57D9C44eBA71zC8z6ZfB81ad1e434Zb20
+          </div>
+        </div>
+      </div>
+
+      <div class="menu">
+        <div class="menu-button"
+             [matMenuTriggerFor]="selectUserMenu">
+          <span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pdv-rate-wrapper">
+      <div class="network-icon">
+        <img src="/charon/src/assets/images/logo-icon.svg" alt="Decentr">
+      </div>
+      <div class="pdv-rate"
+           [class.pdv-rate__rise]="true"
+           [class.pdv-rate__fall]="false"
+           [class.pdv-rate__none]="false">
+        1.001 PDV
+        <span>
+          <div class="rate-icon"
+               [resolveSVGUrl]="false"
+               [inlineSVG]="'/assets/images/icons/arrow-circle.svg'"></div>
+          + 0.001%
+        </span>
+      </div>
+      <div class="pdv-exchange-rate">
+        1 DEC = $0.999 USD
+      </div>
+    </div>
+
+    <div class="tabs-wrapper">
+      <mat-tab-group mat-stretch-tabs
+                     mat-align-tabs="center"
+                     animationDuration="0ms">
+        <mat-tab label="PDV Rate">
+          <div class="tab-container">
+            <app-chart></app-chart>
+          </div>
+        </mat-tab>
+        <mat-tab label="Activity">
+          <div class="tab-container">
+            <div *ngIf="false"
+                 class="no-activity">
+              You have no activity data
+            </div>
+            <div *ngIf="true"
+                 class="activity-items">
+              <div *ngFor="let activityItem of activityItems; let i = index; trackBy: trackById"
+                   (click)="openActivityItemDetails(activityItem.id)"
+                   class="activity-item">
+                <div class="activity-item__name">
+                  {{activityItem.name}}
+                </div>
+                <div class="activity-item__date">
+                  {{activityItem.date}}
+                </div>
+                <div class="activity-item__site">
+                  {{activityItem.site}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>
+
+<mat-menu #selectUserMenu="matMenu"
+          class="selectUserMenu">
+  <ng-template matMenuContent>
+    <div class="menu-wrapper">
+      <div class="menu-items">
+        <div class="menu-item menu-item__active">
+          <div class="icon"
+               [resolveSVGUrl]="false"
+               [inlineSVG]="'/assets/images/icons/expand.svg'">
+          </div>
+          <div class="menu-item__name">
+            Expand view
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="icon"
+               [resolveSVGUrl]="false"
+               [inlineSVG]="'/assets/images/icons/user.svg'">
+          </div>
+          <div class="menu-item__name">
+            Account details
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</mat-menu>
