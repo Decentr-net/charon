@@ -2,23 +2,23 @@ import { ChangeDetectionStrategy, Component, HostBinding, TrackByFunction } from
 import { Router } from '@angular/router';
 
 import { shuffleArray } from '../../../shared/utils/array';
-import { PublicRoute } from '../../public-route';
-import { SECRET_PHRASE_KEY } from '../secret-phrase/secret-phrase.component';
+import { SignUpRoute } from '../../sign-up-route';
+import { SECRET_PHRASE_KEY } from '../seed-phrase-page';
 
 @Component({
-  selector: 'app-secret-phrase-confirmation-page',
-  templateUrl: './secret-phrase-confirmation-page.component.html',
-  styleUrls: ['./secret-phrase-confirmation-page.component.scss'],
+  selector: 'app-seed-phrase-test-page',
+  templateUrl: './seed-phrase-test-page.component.html',
+  styleUrls: ['./seed-phrase-test-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SecretPhraseConfirmationPageComponent {
+export class SeedPhraseTestPageComponent {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
   public seedPhraseShuffledArr = [];
   public selectedSeedPhraseArr = [];
   public isUserPhraseValid: boolean = false;
 
-  public readonly publicRoute: typeof PublicRoute = PublicRoute;
+  public readonly signUpRoute: typeof SignUpRoute = SignUpRoute;
 
   private readonly seedPhrase: string;
 

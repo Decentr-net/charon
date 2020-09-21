@@ -32,6 +32,10 @@ const routes: Routes = [
     ]
   },
   {
+    path: AppRoute.SignUp,
+    loadChildren: () => import('./sign-up/sign-up.module').then(m => m.SignUpModule),
+  },
+  {
     path: AppRoute.User,
     loadChildren: () => import('src/app/user/user.module').then(x => x.UserModule)
   }

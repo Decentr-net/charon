@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PublicRoute } from '../../public-route';
+import { SignUpRoute } from '../../sign-up-route';
 
 export const SECRET_PHRASE_KEY = 'SECRET_PHRASE';
 
 @Component({
-  selector: 'app-secret-phrase',
-  templateUrl: './secret-phrase.component.html',
-  styleUrls: ['./secret-phrase.component.scss'],
+  selector: 'app-seed-phrase-page',
+  templateUrl: './seed-phrase-page.component.html',
+  styleUrls: ['./seed-phrase-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SecretPhraseComponent implements OnInit {
+export class SeedPhrasePageComponent implements OnInit {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
   isSeedPhraseVisible = false;
@@ -32,7 +32,7 @@ export class SecretPhraseComponent implements OnInit {
   }
 
   public switchToConfirmationPage(): void {
-    this.router.navigate(['../', PublicRoute.SecretPhraseConfirmation], {
+    this.router.navigate(['../', SignUpRoute.SeedPhraseTest], {
       relativeTo: this.activatedRoute,
       state: {
         [SECRET_PHRASE_KEY]: this.seedPhrase,

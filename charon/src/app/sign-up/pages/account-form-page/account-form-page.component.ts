@@ -6,12 +6,12 @@ import { BaseValidationUtil, formError } from '../../../shared/utils/validation/
 import { NavigationService } from '../../../shared/services/navigation/navigation.service';
 
 @Component({
-  selector: 'app-create-account',
-  templateUrl: './create-account.component.html',
-  styleUrls: ['./create-account.component.scss'],
+  selector: 'app-account-form-page',
+  templateUrl: './account-form-page.component.html',
+  styleUrls: ['./account-form-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateAccountComponent extends BaseSingleFormGroupComponent implements OnInit {
+export class AccountFormPageComponent extends BaseSingleFormGroupComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private navigationService: NavigationService) {
