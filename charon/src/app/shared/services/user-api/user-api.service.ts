@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { Gender, UserCreateRequest } from './user-api';
+import { Gender, UserCreateRequest, UserData } from './user-api';
 
 @Injectable({
   providedIn: 'root',
@@ -9,5 +9,15 @@ import { Gender, UserCreateRequest } from './user-api';
 export class UserApiService {
   public createUser({}: UserCreateRequest): Observable<void> {
     return of(void 0);
+  }
+
+  // TODO
+  public getUserData(): Observable<UserData> {
+    return of({
+      birthDate: 0,
+      gender: Gender.Male,
+      emails: [],
+      usernames: [],
+    });
   }
 }

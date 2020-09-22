@@ -1,6 +1,6 @@
-import { UserCreateRequest } from '../../shared/services/user-api';
+import { UserData } from '../../shared/services/user-api';
 
-export type User = Omit<UserCreateRequest, 'publicKey'> & {
+export type User = UserData & {
   id: string;
   emailConfirmed: boolean;
   passwordHash: string;

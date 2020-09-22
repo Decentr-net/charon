@@ -38,6 +38,10 @@ export class AuthService {
     return this.activeUser$.asObservable();
   }
 
+  public getActiveUserInstant(): User | undefined {
+    return this.activeUser$.value;
+  }
+
   public async createUser(user: Omit<User, 'id'>): Promise<User['id']> {
     const id = uuid();
     const newUsers = [
@@ -48,21 +52,41 @@ export class AuthService {
       },
     ];
 
-    await this.store.set<StoreData>(AUTH_STORE_SECTION_KEY, {
+    await this.patchStore({
       users: newUsers,
-      activeUserId: this.activeUser$.value && this.activeUser$.value.id,
     });
-    this.users$.next(newUsers);
 
     return id;
   }
 
-  public async changeUser(userId: User['id']): Promise<void> {
-    await this.store.set<StoreData>(AUTH_STORE_SECTION_KEY, {
-      users: this.users$.value,
+  public changeUser(userId: User['id']): Promise<void> {
+    return this.patchStore({
       activeUserId: userId,
     });
-    const newActiveUser = this.users$.value.find(user => user.id === userId);
-    this.activeUser$.next(newActiveUser)
+  }
+
+  public async removeUser(userId: User['id']): Promise<void> {
+    const users = this.users$.value.filter(({id}) => id !== userId);
+
+    await this.patchStore({
+      users,
+    });
+  }
+
+  private async patchStore(value: Partial<StoreData>): Promise<void> {
+    await this.store.set(AUTH_STORE_SECTION_KEY, {
+      users: this.users$.value,
+      activeUserId: this.activeUser$.value,
+      ...value,
+    });
+
+    if (value.activeUserId) {
+      const activeUser = this.users$.value.find(user => user.id === value.activeUserId);
+      this.activeUser$.next(activeUser);
+    }
+
+    if (value.users) {
+      this.users$.next(value.users);
+    }
   }
 }
