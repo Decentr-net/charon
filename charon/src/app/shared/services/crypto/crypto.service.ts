@@ -1,4 +1,4 @@
-import { Mnemonic } from 'decentr-js';
+import { generateMnemonic } from 'decentr-js';
 
 export class CryptoService {
   public static encryptPassword(password: string): string {
@@ -6,10 +6,6 @@ export class CryptoService {
   }
 
   public static generateMnemonic(): string {
-    return new Mnemonic().generate()
-  }
-
-  public static generatePrivateKey(mnemonic: string): string {
-    return mnemonic;
+    return generateMnemonic();
   }
 }

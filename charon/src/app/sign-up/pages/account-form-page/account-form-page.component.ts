@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BaseSingleFormGroupComponent } from '../../../shared/components/base-single-form-group/base-single-form-group.component';
 import { AbstractControl, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { PasswordValidationUtil } from '../../../shared/utils/validation/password/password-validation.util';
-import { BaseValidationUtil, formError } from '../../../shared/utils/validation/base/base-validation.util';
 import { NavigationService } from '../../../shared/services/navigation/navigation.service';
+import { BaseValidationUtil, formError, PasswordValidationUtil } from '../../../shared/utils/validation';
+import { SignUpService } from '../../services';
+import { SignUpRoute } from '../../sign-up-route';
+import { Gender } from '../../../shared/services/user-api';
 
 @Component({
   selector: 'app-account-form-page',
@@ -12,9 +15,15 @@ import { NavigationService } from '../../../shared/services/navigation/navigatio
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountFormPageComponent extends BaseSingleFormGroupComponent implements OnInit {
+  public gender: typeof Gender = Gender;
 
-  constructor(private formBuilder: FormBuilder,
-              private navigationService: NavigationService) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private navigationService: NavigationService,
+    private signUpService: SignUpService,
+    private router: Router,
+  ) {
     super();
 
     this.form = formBuilder.group({
@@ -48,7 +57,17 @@ export class AccountFormPageComponent extends BaseSingleFormGroupComponent imple
       throw formError(this.form);
     }
 
-    // TODO: add service
+    const { gender, birthDate, email: emails, name: usernames, password } = this.form.getRawValue();
+    this.signUpService.setUserData({
+      gender,
+      birthDate,
+      emails,
+      usernames,
+      password,
+    });
+    this.router.navigate(['../', SignUpRoute.SeedPhrase], {
+      relativeTo: this.activatedRoute,
+    });
   }
 
   onKeyDateInput(event) {

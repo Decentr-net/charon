@@ -50,7 +50,7 @@
           mat-flat-button
           color="accent"
           [disabled]="!isUserPhraseValid"
-          [routerLink]="['../', signUpRoute.EmailConfirmation]"
+          (click)="signUp()"
         >
           CONFIRM
         </button>
