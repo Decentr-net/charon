@@ -1,5 +1,7 @@
 import { UserData } from '../../shared/services/user-api';
 
+export const AUTH_STORE_SECTION_KEY = 'auth';
+
 export type User = UserData & {
   id: string;
   emailConfirmed: boolean;

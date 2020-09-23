@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { LocalStoreService } from '../local-store.service';
 
 @Injectable()
-export class ChromeStoreService implements LocalStoreService {
+export class ChromeStoreService extends LocalStoreService {
   private chromeStorage = chrome.storage.local;
 
   public get<T>(key: string): Promise<T> {

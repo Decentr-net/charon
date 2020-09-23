@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { LocalStoreService } from '../../shared/services/local-store';
+import { LocalStoreSection, LocalStoreService } from '../../shared/services/local-store';
 import { uuid } from '../../shared/utils/uuid';
-import { StoreData, User } from '../models';
-
-const AUTH_STORE_SECTION_KEY = 'auth';
+import { AUTH_STORE_SECTION_KEY, StoreData, User } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -13,10 +11,13 @@ const AUTH_STORE_SECTION_KEY = 'auth';
 export class AuthService {
   private activeUser$: BehaviorSubject<User | undefined> = new BehaviorSubject(undefined);
   private users$: BehaviorSubject<User[]> = new BehaviorSubject([]);
+  private authStore: LocalStoreSection<StoreData>;
 
   constructor(
-    private store: LocalStoreService,
+    store: LocalStoreService,
   ) {
+    this.authStore = store.useSection(AUTH_STORE_SECTION_KEY);
+    this.authStore.set('users', []).then(() => this.authStore.set('activeUserId', '').then(() =>this.authStore.remove('activeUserId')));
   }
 
   public get isLoggedIn(): boolean {
@@ -24,12 +25,10 @@ export class AuthService {
   }
 
   public async init(): Promise<void> {
-    const storeSection = await this.store.get<StoreData>(AUTH_STORE_SECTION_KEY);
-
-    const users = storeSection && storeSection.users || [];
+    const users = await this.authStore.get('users');
     this.users$.next(users);
 
-    const activeUserId = storeSection && storeSection.activeUserId;
+    const activeUserId = await this.authStore.get('activeUserId');
     const activeUser = users.find(user => user.id === activeUserId);
     this.activeUser$.next(activeUser);
   }
@@ -52,41 +51,20 @@ export class AuthService {
       },
     ];
 
-    await this.patchStore({
-      users: newUsers,
-    });
+    await this.authStore.set('users', newUsers)
+    this.users$.next(newUsers);
 
     return id;
   }
 
-  public changeUser(userId: User['id']): Promise<void> {
-    return this.patchStore({
-      activeUserId: userId,
-    });
+  public async changeUser(userId: User['id']): Promise<void> {
+    await this.authStore.set('activeUserId', userId);
+    const activeUser = this.users$.value.find(user => user.id === userId);
+    this.activeUser$.next(activeUser);
   }
 
   public async removeUser(userId: User['id']): Promise<void> {
-    const users = this.users$.value.filter(({id}) => id !== userId);
-
-    await this.patchStore({
-      users,
-    });
-  }
-
-  private async patchStore(value: Partial<StoreData>): Promise<void> {
-    await this.store.set(AUTH_STORE_SECTION_KEY, {
-      users: this.users$.value,
-      activeUserId: this.activeUser$.value,
-      ...value,
-    });
-
-    if (value.activeUserId) {
-      const activeUser = this.users$.value.find(user => user.id === value.activeUserId);
-      this.activeUser$.next(activeUser);
-    }
-
-    if (value.users) {
-      this.users$.next(value.users);
-    }
+    const newUsers = this.users$.value.filter(({id}) => id !== userId);
+    this.users$.next(newUsers);
   }
 }
