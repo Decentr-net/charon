@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
-import { UserRoutingModule } from './user-routing.module';
-import { HomeComponent } from './components/home/home.component';
-import { UserLayoutComponent } from './components/user-layout/user-layout.component';
-import { ActivityDetailsComponent } from './components/home/activity-details/activity-details.component';
-import { ChartComponent } from './components/home/chart/chart.component';
-import { LayoutHeaderModule } from '../shared/components/layout-header';
-import { MatMenuModule } from '@angular/material/menu';
-import { InlineSVGModule } from 'ng-inline-svg';
-import { MatTabsModule } from '@angular/material/tabs';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
+import { InlineSVGModule } from 'ng-inline-svg';
+
+import { LayoutHeaderModule } from '../shared/components/layout-header';
+import { USER_PAGES } from './pages';
+import { USER_COMPONENTS } from './components';
+import { UserRoutingModule } from './user-routing.module';
 
 @NgModule({
   imports: [
@@ -22,17 +21,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     UserRoutingModule,
   ],
   declarations: [
-    UserLayoutComponent,
-    HomeComponent,
-    ActivityDetailsComponent,
-    ChartComponent
+    USER_PAGES,
+    USER_COMPONENTS,
   ],
-  exports: [
-    UserRoutingModule
-  ],
-  entryComponents: [
-    // ActivityDetailsComponent
-  ]
 })
 export class UserModule {
 }
