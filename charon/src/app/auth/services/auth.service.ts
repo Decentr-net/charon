@@ -17,7 +17,6 @@ export class AuthService {
     store: LocalStoreService,
   ) {
     this.authStore = store.useSection(AUTH_STORE_SECTION_KEY);
-    this.authStore.set('users', []).then(() => this.authStore.set('activeUserId', '').then(() =>this.authStore.remove('activeUserId')));
   }
 
   public get isLoggedIn(): boolean {
