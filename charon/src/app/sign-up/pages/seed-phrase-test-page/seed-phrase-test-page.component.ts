@@ -35,8 +35,6 @@ export class SeedPhraseTestPageComponent implements OnInit {
   public ngOnInit() {
     this.seedPhrase = this.signUpService.getSeedPhrase();
     this.seedPhraseShuffledArr = shuffleArray(this.seedPhrase.split(' ').slice());
-
-    this.signUp();
   }
 
   public trackByWord: TrackByFunction<string> = ({}, word) => word;
