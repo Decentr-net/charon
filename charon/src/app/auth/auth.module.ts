@@ -8,7 +8,7 @@ interface AuthModuleConfig {
   unauthorizedRedirectUrl: string;
   lock: {
     delay: number;
-    lockedRedirectUrl: string;
+    redirectUrl: string;
   },
 }
 

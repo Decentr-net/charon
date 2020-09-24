@@ -16,7 +16,7 @@ import { AppRoute } from './app-route';
       unauthorizedRedirectUrl: '/',
       lock: {
         delay: 1000 * 60 * 5,
-        lockedRedirectUrl: AppRoute.Login,
+        redirectUrl: AppRoute.Login,
       },
     }),
     BrowserModule,
