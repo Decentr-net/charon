@@ -18,8 +18,8 @@
             <div class="input-label">Gender</div>
             <mat-radio-group aria-label="Select an option"
                              formControlName="gender">
-              <mat-radio-button value="male">Male</mat-radio-button>
-              <mat-radio-button value="female">Female</mat-radio-button>
+              <mat-radio-button [value]="gender.Male">Male</mat-radio-button>
+              <mat-radio-button [value]="gender.Female">Female</mat-radio-button>
             </mat-radio-group>
 
             <mat-error *ngIf="invalid(genderControl)">

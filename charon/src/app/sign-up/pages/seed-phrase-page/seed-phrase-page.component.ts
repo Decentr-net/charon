@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SignUpRoute } from '../../sign-up-route';
 
-export const SECRET_PHRASE_KEY = 'SECRET_PHRASE';
+import { CryptoService } from '../../../shared/services/crypto';
+import { SignUpRoute } from '../../sign-up-route';
+import { SignUpService } from '../../services';
 
 @Component({
   selector: 'app-seed-phrase-page',
@@ -13,30 +13,21 @@ export const SECRET_PHRASE_KEY = 'SECRET_PHRASE';
 export class SeedPhrasePageComponent implements OnInit {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
+  public signUpRoute: typeof SignUpRoute = SignUpRoute;
   isSeedPhraseVisible = false;
-  seedPhrase = '';
+  public seedPhrase: string;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
+    private signUpService: SignUpService,
   ) {
   }
 
   ngOnInit() {
-    // TODO: add service
-    this.seedPhrase = 'enemy money update snake wood soda depend shine visit lion frequent two';
+    this.seedPhrase = CryptoService.generateMnemonic();
+    this.signUpService.setSeedPhrase(this.seedPhrase);
   }
 
   showSeedPhrase() {
     this.isSeedPhraseVisible = true;
-  }
-
-  public switchToConfirmationPage(): void {
-    this.router.navigate(['../', SignUpRoute.SeedPhraseTest], {
-      relativeTo: this.activatedRoute,
-      state: {
-        [SECRET_PHRASE_KEY]: this.seedPhrase,
-      },
-    });
   }
 }

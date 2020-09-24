@@ -37,8 +37,8 @@
         <button class="btn btn__small"
                 mat-flat-button
                 color="accent"
-                (click)="switchToConfirmationPage()"
-                [disabled]="!isSeedPhraseVisible">
+                [disabled]="!isSeedPhraseVisible"
+                [routerLink]="['../', signUpRoute.SeedPhraseTest]">
           NEXT
         </button>
       </div>

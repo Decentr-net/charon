@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { pluck } from 'rxjs/operators';
+
+export const EMAIL_QUERY_PARAM = 'email';
 
 @Component({
   selector: 'app-email-confirmation-page',
@@ -6,8 +11,19 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
   styleUrls: ['./email-confirmation-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EmailConfirmationPageComponent {
+export class EmailConfirmationPageComponent implements OnInit {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
-  public email: string = 'vasily.vaskovsky@gmail.com';
+  public email$: Observable<string>;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+  ) {
+  }
+
+  public ngOnInit() {
+    this.email$ = this.activatedRoute.queryParams.pipe(
+      pluck(EMAIL_QUERY_PARAM)
+    );
+  }
 }

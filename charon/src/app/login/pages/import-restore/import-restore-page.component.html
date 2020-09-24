@@ -1,4 +1,4 @@
-<div class="container page-import-account-seed">
+<div class="container page-import-account-seed" *ngIf="currentPageType$ | async as currentPageType">
   <div class="row">
     <div class="col-xs-12">
       <div class="btn btn__back"
@@ -14,7 +14,11 @@
     </div>
   </div>
 
-  <form [formGroup]="form" (keydown.enter)="$event.preventDefault();onSubmit()" (ngSubmit)="onSubmit()">
+  <form
+    [formGroup]="form"
+    (keydown.enter)="$event.preventDefault(); onSubmit(currentPageType)"
+    (ngSubmit)="onSubmit(currentPageType)"
+  >
     <div class="row">
       <div class="input-container col-xs-12">
         <div class="input-label">Seed phrase</div>
@@ -111,11 +115,13 @@
 
   <div class="row">
     <div class="col-xs-12">
-      <button class="btn btn__small"
-              mat-flat-button
-              color="accent"
-              [disabled]="form.invalid"
-              (click)="onSubmit()">
+      <button
+        class="btn btn__small"
+        mat-flat-button
+        color="accent"
+        [disabled]="form.invalid"
+        (click)="onSubmit(currentPageType)"
+      >
         {{currentPageType === pageType.IMPORT_ACCOUNT ? 'IMPORT' : 'RESTORE'}}
       </button>
     </div>

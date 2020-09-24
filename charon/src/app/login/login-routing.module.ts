@@ -2,46 +2,44 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { MainLayoutComponent, MainLayoutModule } from '../shared/components/main-layout';
+import { PublicLayoutComponent, PublicLayoutModule } from '../shared/components/public-layout';
+import { AuthGuard } from '../auth/guards';
 import { LoginPageComponent } from './pages/login-page';
 import { LoginRoute } from './login-route';
-import { PublicLayoutComponent, PublicLayoutModule } from '../shared/components/public-layout';
 import { ImportRestorePageComponent, ImportRestorePageType } from './pages/import-restore';
 
 const ROUTES: Routes = [
   {
     path: '',
+    component: MainLayoutComponent,
     children: [
       {
         path: '',
-        component: MainLayoutComponent,
-        children: [
-          {
-            path: '',
-            component: LoginPageComponent,
-          },
-        ],
+        component: LoginPageComponent,
       },
+    ],
+    canActivate: [AuthGuard],
+  },
+  {
+    path: LoginRoute.Import,
+    component: PublicLayoutComponent,
+    children: [
       {
-        path: LoginRoute.Import,
-        component: PublicLayoutComponent,
-        children: [
-          {
-            path: '',
-            component: ImportRestorePageComponent,
-            data: { pageType: ImportRestorePageType.IMPORT_ACCOUNT },
-          },
-        ],
+        path: '',
+        component: ImportRestorePageComponent,
+        data: { pageType: ImportRestorePageType.IMPORT_ACCOUNT },
       },
+    ],
+  },
+  {
+    path: LoginRoute.Restore,
+    component: MainLayoutComponent,
+    children: [
       {
-        path: LoginRoute.Restore,
-        component: MainLayoutComponent,
-        children: [
-          {
-            path: '',
-            component: ImportRestorePageComponent,
-            data: { pageType: ImportRestorePageType.RESTORE_ACCOUNT },
-          },
-        ],
+        path: '',
+        component: ImportRestorePageComponent,
+        data: { pageType: ImportRestorePageType.RESTORE_ACCOUNT },
+        canActivate: [AuthGuard],
       },
     ],
   },

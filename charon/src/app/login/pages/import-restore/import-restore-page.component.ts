@@ -1,33 +1,42 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { BaseSingleFormGroupComponent } from '../../../shared/components/base-single-form-group/base-single-form-group.component';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { PasswordValidationUtil } from '../../../shared/utils/validation/password/password-validation.util';
-import { BaseValidationUtil } from '../../../shared/utils/validation/base/base-validation.util';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { pluck, share } from 'rxjs/operators';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+import { BaseSingleFormGroupComponent } from '../../../shared/components/base-single-form-group/base-single-form-group.component';
+import { BaseValidationUtil, PasswordValidationUtil } from '../../../shared/utils/validation';
 import { NavigationService } from '../../../shared/services/navigation/navigation.service';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ImportRestorePageService } from './import-restore-page.service';
 
 export enum ImportRestorePageType {
   IMPORT_ACCOUNT = 'import-account',
   RESTORE_ACCOUNT = 'restore-account'
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-import-account-seed-phrase',
   templateUrl: './import-restore-page.component.html',
   styleUrls: ['./import-restore-page.component.scss'],
+  providers: [
+    ImportRestorePageService,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportRestorePageComponent extends BaseSingleFormGroupComponent implements OnInit, OnDestroy {
+export class ImportRestorePageComponent extends BaseSingleFormGroupComponent implements OnInit {
   public pageType: typeof ImportRestorePageType = ImportRestorePageType;
   isSeedPhraseVisible = false;
-  currentPageType: string;
+  public currentPageType$: Observable<ImportRestorePageType>;
 
-  _routeData$: Subscription;
-
-  constructor(formBuilder: FormBuilder,
-              private navigationService: NavigationService,
-              private route: ActivatedRoute) {
+  constructor(
+    formBuilder: FormBuilder,
+    private navigationService: NavigationService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private pageService: ImportRestorePageService,
+  ) {
     super();
 
     this.form = formBuilder.group({
@@ -42,27 +51,29 @@ export class ImportRestorePageComponent extends BaseSingleFormGroupComponent imp
   }
 
   ngOnInit() {
-    this._routeData$ = this.route.data.subscribe(res => {
-      this.currentPageType = res.pageType;
-    });
-  }
-
-  ngOnDestroy() {
-    this._routeData$.unsubscribe();
+    this.currentPageType$ = this.activatedRoute.data.pipe(
+      pluck('pageType'),
+      share(),
+      untilDestroyed(this),
+    );
   }
 
   navigateBack() {
     this.navigationService.getPreviousUrl();
   }
 
-  onSubmit() {
-    // TODO: add service
-    if (this.currentPageType === ImportRestorePageType.IMPORT_ACCOUNT) {
-      console.log('submit import account');
+  onSubmit(pageType: ImportRestorePageType) {
+    const { seedPhrase, password } = this.form.getRawValue();
+    if (pageType === ImportRestorePageType.IMPORT_ACCOUNT) {
+      this.pageService.importUser(seedPhrase, password).pipe(
+        untilDestroyed(this),
+      ).subscribe()
     }
 
-    if (this.currentPageType === ImportRestorePageType.RESTORE_ACCOUNT) {
-      console.log('submit restore account');
+    if (pageType === ImportRestorePageType.RESTORE_ACCOUNT) {
+      this.pageService.restoreUser(seedPhrase, password).pipe(
+        untilDestroyed(this),
+      ).subscribe()
     }
   }
 
