@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   public async init(): Promise<void> {
-    const users = await this.authStore.get('users');
+    const users = await this.authStore.get('users') || [];
     this.users$.next(users);
 
     const activeUserId = await this.authStore.get('activeUserId');
