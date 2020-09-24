@@ -31,7 +31,8 @@
 
               <mat-error *ngIf="passwordControl.invalid">
                 {{ getActivateErrorKey(passwordControl, [
-                {errorCode: 'required', validationKeyPart: 'Password is required'}
+                {errorCode: 'required', validationKeyPart: 'Password is required'},
+                {errorCode: 'invalidPassword', validationKeyPart: 'Invalid password'}
               ]) }}
               </mat-error>
             </mat-form-field>

@@ -7,12 +7,17 @@ import { LocalStoreModule } from './shared/services/local-store';
 import { AuthModule } from './auth';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AppRoute } from './app-route';
 
 @NgModule({
   imports: [
     AppRoutingModule,
     AuthModule.forRoot({
       unauthorizedRedirectUrl: '/',
+      lock: {
+        delay: 2000,
+        lockedRedirectUrl: AppRoute.Login,
+      },
     }),
     BrowserModule,
     LocalStoreModule.forRoot(),

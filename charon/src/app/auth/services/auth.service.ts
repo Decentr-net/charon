@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { LocalStoreSection, LocalStoreService } from '../../shared/services/local-store';
 import { uuid } from '../../shared/utils/uuid';
 import { AUTH_STORE_SECTION_KEY, StoreData, User } from '../models';
+import { CryptoService } from '../../shared/services/crypto';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class AuthService {
   }
 
   public async init(): Promise<void> {
-    const users = await this.authStore.get('users');
+    const users = await this.authStore.get('users') || [];
     this.users$.next(users);
 
     const activeUserId = await this.authStore.get('activeUserId');
@@ -65,5 +66,9 @@ export class AuthService {
   public async removeUser(userId: User['id']): Promise<void> {
     const newUsers = this.users$.value.filter(({id}) => id !== userId);
     this.users$.next(newUsers);
+  }
+
+  public validateCurrentUserPassword(password: string): boolean {
+    return CryptoService.encryptPassword(password) === this.getActiveUserInstant().passwordHash;
   }
 }
