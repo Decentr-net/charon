@@ -6,6 +6,8 @@ import { LocalStoreService } from '../local-store.service';
 export class FirefoxStoreService extends LocalStoreService {
   private firefoxStorage = window['browser'].storage.local;
 
+  public static canUse = !!window['browser'] && window['browser'].storage;
+
   public get<T>(key: string): Promise<T> {
     return this.firefoxStorage.get(key).then(obj => obj[key]);
   }

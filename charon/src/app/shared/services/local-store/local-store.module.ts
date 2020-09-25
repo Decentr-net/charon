@@ -13,9 +13,9 @@ export class LocalStoreModule {
       providers: [
         {
           provide: LocalStoreService,
-          useClass: window['browser']
+          useClass: FirefoxStoreService.canUse
             ? FirefoxStoreService
-            : window['chrome']
+            : ChromeStoreService.canUse
               ? ChromeStoreService
               : LocalStorageService,
         },
