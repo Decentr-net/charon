@@ -9,7 +9,7 @@ const ROUTES: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: AppRoute.Welcome,
+    redirectTo: AppRoute.User,
   },
   {
     path: AppRoute.Login,
