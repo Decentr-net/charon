@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { BrowserTabGuard } from './shared/guards';
 import { AuthGuard } from './auth';
 import { AppRoute } from './app-route';
 
@@ -17,6 +18,9 @@ const ROUTES: Routes = [
   {
     path: AppRoute.SignUp,
     loadChildren: () => import('./sign-up/sign-up.module').then(m => m.SignUpModule),
+    canActivate: [
+      BrowserTabGuard,
+    ],
   },
   {
     path: AppRoute.User,
@@ -26,6 +30,9 @@ const ROUTES: Routes = [
   {
     path: AppRoute.Welcome,
     loadChildren: () => import('./welcome/welcome.module').then(m => m.WelcomeModule),
+    canActivate: [
+      BrowserTabGuard,
+    ],
   },
 ];
 
