@@ -7,7 +7,8 @@ import { BrowserApi } from '../utils/browser-api';
   providedIn: 'root',
 })
 export class BrowserTabGuard implements CanActivate, CanActivateChild {
-  private isOpenedInTab = BrowserApi.extension.getViews({ type: 'tab' })
+  private isOpenedInTab = !BrowserApi.extension || BrowserApi.extension
+    .getViews({ type: 'tab' })
     .some(extensionWindow => extensionWindow === window);
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
