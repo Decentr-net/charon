@@ -1,50 +1,53 @@
-<div class="container page-create-account">
+<div
+  class="container page-create-account"
+  *transloco="let translate; read: 'sign_up.account_form_page'"
+>
   <div class="row">
     <div class="col-xs-12">
       <div class="btn btn__back"
            (click)="navigateBack()">
-        < Back
+        < {{ translate('back') }}
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-7">
       <div class="page-title page-title__large">
-        Create Profile
+        {{ translate('title') }}
       </div>
-      <form [formGroup]="form" (keydown.enter)="$event.preventDefault();onSubmit()" (ngSubmit)="onSubmit()">
+      <form
+        [formGroup]="form"
+        (keydown.enter)="$event.preventDefault();onSubmit()"
+        (ngSubmit)="onSubmit()"
+        *transloco="let translate; read: 'sign_up.account_form_page.form'"
+      >
         <div class="row">
           <div class="radio-container col-xs-12">
-            <div class="input-label">Gender</div>
-            <mat-radio-group aria-label="Select an option"
-                             formControlName="gender">
-              <mat-radio-button [value]="gender.Male">Male</mat-radio-button>
-              <mat-radio-button [value]="gender.Female">Female</mat-radio-button>
-            </mat-radio-group>
+            <div class="input-label">{{ translate('gender.label') }}</div>
+              <mat-radio-group aria-label="Select an option"
+                               formControlName="gender">
+                <mat-radio-button [value]="gender.Male">{{ translate('gender.male') }}</mat-radio-button>
+                <mat-radio-button [value]="gender.Female">{{ translate('gender.female') }}</mat-radio-button>
+              </mat-radio-group>
 
-            <mat-error *ngIf="invalid(genderControl)">
-              {{ getActivateErrorKey(genderControl, [
-              {errorCode: 'required', validationKeyPart: 'Gender is required'}
-            ]) }}
-            </mat-error>
+              <mat-error *ngIf="invalid(genderControl)">
+<!--                <app-form-error controlName="gender"></app-form-error>-->
+              </mat-error>
           </div>
 
           <div class="input-container col-xs-12">
-            <div class="input-label">Birth date</div>
+            <div class="input-label">{{ translate('birthdate.label') }}</div>
             <mat-form-field class="input-control"
                             appearance="outline">
               <input matInput
                      type="text"
-                     name="birthday"
-                     formControlName="birthday"
+                     name="birthdate"
+                     formControlName="birthdate"
                      (input) = "onKeyDateInput($event)"
                      placeholder="MM/DD/YYYY">
 
-              <mat-error *ngIf="birthdayControl.invalid">
-                {{ getActivateErrorKey(birthdayControl, [
-                {errorCode: 'required', validationKeyPart: 'Birth date is required'},
-                {errorCode: 'invalidDate', validationKeyPart: 'Not valid format'}
-              ]) }}
+              <mat-error>
+                <app-form-error controlName="birthdate"></app-form-error>
               </mat-error>
             </mat-form-field>
           </div>
@@ -52,7 +55,7 @@
           <div formArrayName="email">
             <div *ngFor="let email of form.get('email')['controls']; let i = index">
               <div class="input-container col-xs-12">
-                <div class="input-label">E-mail {{(i !== 0) ? i + 1 : ''}}</div>
+                <div class="input-label">{{ translate('email.label') }} {{(i !== 0) ? i + 1 : ''}}</div>
                 <mat-form-field class="input-control icon-protected"
                                 appearance="outline">
                   <input matInput
@@ -61,11 +64,8 @@
                          [formControlName]="i"
                          placeholder="">
 
-                  <mat-error *ngIf="invalid(email)">
-                    {{ getActivateErrorKey(email, [
-                    {errorCode: 'required', validationKeyPart: 'Email is required'},
-                    {errorCode: 'email', validationKeyPart: 'Enter valid email'}
-                  ]) }}
+                  <mat-error>
+                    <app-form-error [controlName]="i" i18nControlKey="email"></app-form-error>
                   </mat-error>
                 </mat-form-field>
 
@@ -84,7 +84,7 @@
           <div formArrayName="name">
             <div *ngFor="let name of form.get('name')['controls']; let i = index">
               <div class="input-container col-xs-12">
-                <div class="input-label">Nickname (account name) {{(i !== 0) ? i + 1 : ''}}</div>
+                <div class="input-label">{{ translate('name.label') }} {{(i !== 0) ? i + 1 : ''}}</div>
                 <mat-form-field class="input-control icon-protected"
                                 appearance="outline">
                   <input matInput
@@ -93,14 +93,8 @@
                          [formControlName]="i"
                          placeholder="">
 
-                  <mat-error *ngIf="name.invalid">
-                    {{ getActivateErrorKey(name, [
-                    {errorCode: 'required', validationKeyPart: 'Name is required'},
-                    {
-                      errorCode: 'minlength',
-                      validationKeyPart: 'Length of name should be not less than ' + name.getError('minlength')?.requiredLength
-                    }
-                  ]) }}
+                  <mat-error>
+                    <app-form-error [controlName]="i" i18nControlKey="name"></app-form-error>
                   </mat-error>
                 </mat-form-field>
 
@@ -117,7 +111,7 @@
           </div>
 
           <div class="input-container col-xs-12">
-            <div class="input-label">New password (min 8 chars)</div>
+            <div class="input-label">{{ translate('password.label') }}</div>
             <mat-form-field class="input-control"
                             appearance="outline">
               <input matInput
@@ -126,24 +120,14 @@
                      formControlName="password"
                      placeholder="">
 
-              <mat-error *ngIf="passwordControl.invalid">
-                {{ getActivateErrorKey(passwordControl, [
-                {errorCode: 'required', validationKeyPart: 'Password is required'},
-                {
-                  errorCode: 'minlength', validationKeyPart: 'Minimum length of password: ' +
-                  passwordControl.getError('minlength')?.requiredLength
-                },
-                {
-                  errorCode: 'notEnoughStrength',
-                  validationKeyPart: 'Password should contain at least 1 element of: lowercase letter, uppercase letter, number and special character'
-                }
-              ]) }}
+              <mat-error>
+                <app-form-error controlName="password"></app-form-error>
               </mat-error>
             </mat-form-field>
           </div>
 
           <div class="input-container col-xs-12">
-            <div class="input-label">Confirm password</div>
+            <div class="input-label">{{ translate('confirm_password.label') }}</div>
             <mat-form-field class="input-control"
                             appearance="outline">
               <input matInput
@@ -152,18 +136,16 @@
                      formControlName="confirmPassword"
                      placeholder="">
 
-              <mat-error *ngIf="confirmPasswordControl.invalid">
-                {{ getActivateErrorKey(confirmPasswordControl, [
-                {errorCode: 'valueDoNotMatch', validationKeyPart: 'Password should be equal'}
-              ]) }}
+              <mat-error >
+                <app-form-error controlName="confirmPassword" i18nControlKey="confirm_password"></app-form-error>
               </mat-error>
             </mat-form-field>
           </div>
 
           <div class="checkbox-container col-xs-12">
             <mat-checkbox formControlName="agreeTerms">
-              I have read and agree to the
-              <a href="#" target="_blank">Terms of Use</a>
+              {{ translate('terms_of_use.have_read') }}
+              <a href="#" target="_blank">{{ translate('terms_of_use.link') }}</a>
             </mat-checkbox>
           </div>
         </div>
@@ -176,16 +158,16 @@
                   color="accent"
                   [disabled]="form.invalid"
                   (click)="onSubmit()">
-            NEXT
+            {{ translate('next') }}
           </button>
         </div>
       </div>
     </div>
     <div class="col-xs-5 hint-message">
       <div class="hint-title">
-        Hint:
+        {{ translate('hint.label') }}:
       </div>
-      <p>Put the nicknames and e-mail addresses you use, it positively influences on PDV level.</p>
+      <p>{{ translate('hint.text') }}</p>
     </div>
   </div>
 </div>

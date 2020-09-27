@@ -1,0 +1,105 @@
+{
+  "account_form_page": {
+    "back": "Back",
+    "form": {
+      "birthdate": {
+        "errors": {
+          "invalidFormat": "Not valid format",
+          "required": "Birth date is required"
+        },
+        "label": "Birth Date"
+      },
+      "confirm_password": {
+        "label": "Confirm password",
+        "errors": {
+          "valueDoNotMatch": "Password should be equal"
+        }
+      },
+      "email": {
+        "errors": {
+          "email": "Enter valid email",
+          "required": "Email is required"
+        },
+        "label": "E-mail"
+      },
+      "gender": {
+        "errors": {
+          "required": "Gender is required"
+        },
+        "female": "Female",
+        "label": "Gender",
+        "male": "Male"
+      },
+      "name": {
+        "errors": {
+          "minlength": "Length of name should be not less than {{ requiredLength }}",
+          "required": "Name is required",
+          "strength": "Password should contain at least 1 element of: lowercase letter, uppercase letter, number and special character"
+        },
+        "label": "Nickname (account name)"
+      },
+      "password": {
+        "errors": {
+          "minlength": "Minimum length of password: {{ requiredLength }}",
+          "required": "Password is required"
+        },
+        "label": "New password (min 8 chars)"
+      },
+      "terms_of_use": {
+        "link": "Terms of Use",
+        "have_read": "I have read and agree to the"
+      }
+    },
+    "hint": {
+      "label": "Hint",
+      "text": "Put the nicknames and e-mail addresses you use, it positively influences on PDV level."
+    },
+    "next": "Next",
+    "title": "Create Profile"
+  },
+  "email_confirmation_page": {
+    "open": "Please open the link to complete your registration, it is a mandatory step.",
+    "sent_to": "Confirmation link has been sent to",
+    "title": "E-mail Confirmation"
+  },
+  "seed_phrase_page": {
+    "hint": {
+      "label": "Hint",
+      "text1": "Store your seed phrase in a password manager like 1Password.",
+      "text2": "Write this phrase on a piece of paper and store in a secure location. If you want even more security. write it down on multiple pieces of paper and store each in 2 - 3 different locations.",
+      "text3": "Memorize seed phrase.",
+      "text4": "Download this Secret Backup Phrase and keep it stored safely on an external encrypted hard drive or storage medium."
+    },
+    "next": "NEXT",
+    "reveal": "Click here to reveal secret words",
+    "subtitle": "Your secret backup phrase (seed phrase) makes it easy to back up and restore your account.",
+    "title": "Secret Backup Phrase",
+    "warning": {
+      "label": "WARNING",
+      "text": "Never disclose your backup phrase. Anyone with this phrase can take your Decs forever."
+    }
+  },
+  "seed_phrase_test_page": {
+    "back": "Back",
+    "confirm": "CONFIRM",
+    "subtitle": "Please select each phrase in order to make sure it is correct.",
+    "title": "Confirm Your Secret Backup Phrase"
+  },
+  "success_page": {
+    "done": "ALL DONE",
+    "hint": {
+      "label": "*Decentr cannot recover your seed phrase.",
+      "link": "Learn more"
+    },
+    "subtitle": "You passed the test - keep your seed phrase safe, it's your responsibility!",
+    "tips": {
+      "label": "Tips on storing it safely",
+      "tip1": "Save a backup in multiple places.",
+      "tip2": "Never share the phrase with anyone.",
+      "tip3": "Be careful of phishing! MetaMask will never spontaneously ask for your seed phrase.",
+      "tip4": "If you need to back up your seed phrase again, you can find it in <strong>Settings -> Security</strong>.",
+      "tip5": "If you ever have questions or see something fishy, email support@decentr.net"
+    },
+    "title": "Congratulations"
+  }
+}

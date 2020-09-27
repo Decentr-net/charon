@@ -45,16 +45,16 @@ export class PasswordValidationUtil extends BaseValidationUtil {
 
     if (matchedGroup < 4) {
       if (lowerCharsUsed) {
-        return { notEnoughStrength: 'onlyLowerCase' } as ValidationResult;
+        return { strength: 'onlyLowerCase' } as ValidationResult;
       }
       if (upperCharsUsed) {
-        return { notEnoughStrength: 'onlyUpperCase' } as ValidationResult;
+        return { strength: 'onlyUpperCase' } as ValidationResult;
       }
       if (numericUsed) {
-        return { notEnoughStrength: 'onlyDigits' } as ValidationResult;
+        return { strength: 'onlyDigits' } as ValidationResult;
       }
       if (specialCharsUsed) {
-        return { notEnoughStrength: 'onlySpecialChars' } as ValidationResult;
+        return { strength: 'onlySpecialChars' } as ValidationResult;
       }
     }
 

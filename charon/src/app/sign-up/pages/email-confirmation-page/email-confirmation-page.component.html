@@ -1,12 +1,12 @@
-<div class="row">
+<div class="row" *transloco="let translate; read: 'sign_up.email_confirmation_page'">
   <div class="col-xs-12">
     <div class="page-title page-title__large">
-      E-mail Confirmation
+      {{ translate('title') }}
     </div>
     <div class="row">
       <div class="col-xs-12">
-        <p>Confirmation link has been sent to <strong>{{ email$ | async }}</strong></p>
-        <p>Please open the link to complete your registration, it is a mandatory step.</p>
+        <p>{{ translate('sent_to') }} <strong>{{ email$ | async }}</strong></p>
+        <p>{{ translate('open') }}</p>
       </div>
     </div>
   </div>

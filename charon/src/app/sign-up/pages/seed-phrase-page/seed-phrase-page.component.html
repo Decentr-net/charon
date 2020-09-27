@@ -1,16 +1,15 @@
-<div class="row">
+<div class="row" *transloco="let translate; read: 'sign_up.seed_phrase_page'">
   <div class="col-xs-7">
     <div class="page-title page-title__large">
-      Secret Backup Phrase
+      {{ translate('title') }}
     </div>
     <div class="row">
       <div class="view-seed-phrase col-xs-10">
         <p>
-          Your secret backup phrase (seed phrase) makes it easy to back up and restore your account.
+          {{ translate('subtitle') }}
         </p>
         <p>
-          <strong>WARNING:</strong> Never disclose your backup phrase. Anyone with this phrase can take your Decs
-          forever.
+          <strong>{{ translate('warning.label') }}:</strong> {{ translate('warning.text') }}
         </p>
 
         <div class="seed-phrase-words" [class.is-visible]="isSeedPhraseVisible">
@@ -26,7 +25,7 @@
                   d="m336 192h-16v-64c0-70.59375-57.40625-128-128-128s-128 57.40625-128 128v64h-16c-26.453125 0-48 21.523438-48 48v224c0 26.476562 21.546875 48 48 48h288c26.453125 0 48-21.523438 48-48v-224c0-26.476562-21.546875-48-48-48zm-229.332031-64c0-47.0625 38.269531-85.332031 85.332031-85.332031s85.332031 38.269531 85.332031 85.332031v64h-170.664062zm0 0"/>
               </svg>
             </div>
-            Click here to reveal secret words
+            {{ translate('reveal') }}
           </div>
         </div>
       </div>
@@ -39,19 +38,18 @@
                 color="accent"
                 [disabled]="!isSeedPhraseVisible"
                 [routerLink]="['../', signUpRoute.SeedPhraseTest]">
-          NEXT
+          {{ translate('next') }}
         </button>
       </div>
     </div>
   </div>
   <div class="col-xs-5 hint-message">
     <div class="hint-title">
-      Hint:
+      {{ translate('hint.label') }}:
     </div>
-    <p>Store your seed phrase in a password manager like 1Password.</p>
-    <p>Write this phrase on a piece of paper and store in a secure location. If you want even more security. write it
-      down on multiple pieces of paper and store each in 2 - 3 different locations.</p>
-    <p>Memorize seed phrase.</p>
-    <span>Download this Secret Backup Phrase and keep it stored safely on an external encrypted hard drive or storage medium.</span>
+    <p>{{ translate('hint.text1') }}</p>
+    <p>{{ translate('hint.text2') }}</p>
+    <p>{{ translate('hint.text3') }}</p>
+    <span>{{ translate('hint.text4') }}</span>
   </div>
 </div>
