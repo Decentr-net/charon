@@ -42,7 +42,7 @@ export class LoginPageComponent extends BaseSingleFormGroupComponent implements 
       return;
     }
 
-    this.lockService.unlock();
+    this.lockService.stop();
     this.router.navigate(['/', AppRoute.User]);
   }
 

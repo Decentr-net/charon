@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { NEVER, Observable } from 'rxjs';
 
 import { LocalStoreService } from '../local-store.service';
 
@@ -17,5 +18,9 @@ export class LocalStorageService extends LocalStoreService {
   public remove(key: string): Promise<void> {
     localStorage.removeItem(key);
     return Promise.resolve();
+  }
+
+  public onChange(): Observable<never> {
+    return NEVER;
   }
 }

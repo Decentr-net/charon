@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { LocalStoreService } from '../local-store.service';
 
@@ -23,6 +24,19 @@ export class ChromeStoreService extends LocalStoreService {
   public remove(key: string): Promise<void> {
     return new Promise<void>(resolve => {
       this.chromeStorage.remove(key, () => resolve());
+    });
+  }
+
+  public onChange<T>(key: string): Observable<T> {
+    return new Observable((subscriber) => {
+      const callback = (changes: Record<string, chrome.storage.StorageChange>) => {
+        if (changes[key]) {
+          subscriber.next(changes[key].newValue)
+        }
+      };
+      chrome.storage.onChanged.addListener(callback);
+
+      return () => chrome.storage.onChanged.removeListener(callback);
     });
   }
 }

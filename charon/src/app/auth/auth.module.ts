@@ -36,7 +36,7 @@ export class AuthModule {
         },
         {
           provide: LOCKED_REDIRECT_URL,
-          useValue: config.lock.lockedRedirectUrl,
+          useValue: config.lock.redirectUrl,
         },
         {
           provide: UNAUTHORIZED_REDIRECT_URL,
