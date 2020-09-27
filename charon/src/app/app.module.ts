@@ -13,7 +13,7 @@ import { AppRoute } from './app-route';
   imports: [
     AppRoutingModule,
     AuthModule.forRoot({
-      unauthorizedRedirectUrl: '/',
+      unauthorizedRedirectUrl: `/${AppRoute.Welcome}`,
       lock: {
         delay: 1000 * 60 * 5,
         redirectUrl: AppRoute.Login,

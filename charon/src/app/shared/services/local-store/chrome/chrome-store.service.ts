@@ -6,6 +6,8 @@ import { LocalStoreService } from '../local-store.service';
 export class ChromeStoreService extends LocalStoreService {
   private chromeStorage = chrome.storage.local;
 
+  public static canUse = !!window.chrome && window.chrome.storage;
+
   public get<T>(key: string): Promise<T> {
     return new Promise<T>(resolve => {
       this.chromeStorage.get(key, obj => resolve(obj[key]));
