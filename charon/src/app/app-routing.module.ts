@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { BrowserTabGuard } from './shared/guards';
-import { AuthGuard } from './auth';
+import { AuthGuard, LockGuard } from './auth';
 import { AppRoute } from './app-route';
 
 const ROUTES: Routes = [
@@ -25,7 +25,13 @@ const ROUTES: Routes = [
   {
     path: AppRoute.User,
     loadChildren: () => import('./user/user.module').then(x => x.UserModule),
-    canActivate: [AuthGuard],
+    canActivate: [
+      AuthGuard,
+      LockGuard,
+    ],
+    canDeactivate: [
+      LockGuard,
+    ],
   },
   {
     path: AppRoute.Welcome,

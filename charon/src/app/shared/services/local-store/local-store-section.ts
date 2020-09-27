@@ -1,4 +1,6 @@
 import { LocalStoreService } from './local-store.service';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 export class LocalStoreSection<T extends {} = {}> {
   constructor(
@@ -27,6 +29,13 @@ export class LocalStoreSection<T extends {} = {}> {
       delete sectionValue[key];
     }
     return this.setSectionValue(sectionValue);
+  }
+
+  public onChange<U extends keyof T>(key: U): Observable<T[U]> {
+    return this.localStoreService.onChange<T>(this.section).pipe(
+      filter((changes) => changes.hasOwnProperty(key)),
+      map((changes) => changes[key] as T[U]),
+    )
   }
 
   private getSectionValue(): Promise<T> {
