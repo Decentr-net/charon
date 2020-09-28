@@ -1,0 +1,11 @@
+{
+  "network_selector": {
+    "title": "Networks"
+  },
+  "profile_selector": {
+    "import_account": "Import Account",
+    "info_and_help": "Info & Help",
+    "lock": "Lock",
+    "my_accounts": "My Accounts"
+  }
+}

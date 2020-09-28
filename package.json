@@ -32,6 +32,7 @@
     "@angular/platform-browser": "~9.0.7",
     "@angular/platform-browser-dynamic": "~9.0.7",
     "@angular/router": "~9.0.7",
+    "@ngneat/transloco": "^2.19.1",
     "@ngneat/until-destroy": "^8.0.2",
     "d3": "~6.0.0",
     "decentr-js": "^1.1.8",

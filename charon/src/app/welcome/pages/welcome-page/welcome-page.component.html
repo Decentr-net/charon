@@ -1,4 +1,7 @@
-<div class="container page-welcome">
+<div
+  class="container page-welcome"
+  *transloco="let translate; read: 'welcome.welcome_page'"
+>
   <div class="row text-center">
     <div class="col-xs-12">
       <div class="logo-icon">
@@ -6,19 +9,20 @@
       </div>
 
       <div class="page-title">
-        Welcome to Decentr
+        {{ translate('title') }}
       </div>
 
       <div class="page-content">
-        Connecting you to Decentr and Decentralized Web.<br/>
-        We are happy you join us.
+        {{ translate('subtitle.line1') }}
+        <br/>
+        {{ translate('subtitle.line2') }}
       </div>
 
       <button class="btn btn__middle"
               mat-flat-button
               color="accent"
               [routerLink]="[welcomeRoute.NewUser]">
-        Get Started
+        {{ translate('get_started') }}
       </button>
     </div>
   </div>

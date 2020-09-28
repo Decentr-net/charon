@@ -17,7 +17,7 @@ export class BaseValidationUtil {
         || control.value.indexOf('  ') !== -1
       );
 
-    return isInvalid ? { seedPhraseWrongLength: true } as ValidationResult : null;
+    return isInvalid ? { length: true } as ValidationResult : null;
   }
 
   static isUsDateFormatCorrect(control: FormControl): { [key: string]: any } {
@@ -25,7 +25,7 @@ export class BaseValidationUtil {
       '(?:0[13578]|10|12)\\/(?:[0-2]\\d|3[01])\\/(?:19|20)\\d{2}|',
       '(?:0[469]|11)\\/(?:[0-2]\\d|30)\\/(?:19|20)\\d{2}|02\\/(?:[0-1]\\d|2[0-8])\\/(?:19|20)\\d{2}$'].join(''));
 
-    return !control.value.match(datePattern) ? { invalidDate: true } as ValidationResult : null;
+    return !control.value.match(datePattern) ? { invalidFormat: true } as ValidationResult : null;
   }
 
   static equalsToAdjacentControl(controlName: string): ValidatorFn {

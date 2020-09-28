@@ -6,6 +6,7 @@ import { pluck, share } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { BaseSingleFormGroupComponent } from '../../../shared/components/base-single-form-group/base-single-form-group.component';
+import { FORM_ERROR_TRANSLOCO_READ } from '../../../shared/components/form-error';
 import { BaseValidationUtil, PasswordValidationUtil } from '../../../shared/utils/validation';
 import { NavigationService } from '../../../shared/services/navigation/navigation.service';
 import { ImportRestorePageService } from './import-restore-page.service';
@@ -22,6 +23,10 @@ export enum ImportRestorePageType {
   styleUrls: ['./import-restore-page.component.scss'],
   providers: [
     ImportRestorePageService,
+    {
+      provide: FORM_ERROR_TRANSLOCO_READ,
+      useValue: 'login.import_restore_page.form',
+    },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

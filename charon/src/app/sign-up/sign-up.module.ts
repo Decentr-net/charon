@@ -6,7 +6,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
+import { FormErrorModule } from '../shared/components/form-error';
 import { SIGN_UP_PAGES } from './pages';
 import { SIGN_UP_SERVICES } from './services';
 import { SignUpRoutingModule } from './sign-up-routing.module';
@@ -17,6 +19,7 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
   ],
   imports: [
     CommonModule,
+    FormErrorModule,
     MatButtonModule,
     MatCheckboxModule,
     MatFormFieldModule,
@@ -24,9 +27,14 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     MatRadioModule,
     ReactiveFormsModule,
     SignUpRoutingModule,
+    TranslocoModule,
   ],
   providers: [
     SIGN_UP_SERVICES,
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: { scope: 'sign-up', alias: 'sign_up' },
+    },
   ],
 })
 export class SignUpModule {

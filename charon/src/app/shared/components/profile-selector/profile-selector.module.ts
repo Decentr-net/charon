@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { InlineSVGModule } from 'ng-inline-svg';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { ProfileSelectorComponent } from './profile-selector.component';
 
@@ -11,6 +12,7 @@ import { ProfileSelectorComponent } from './profile-selector.component';
     CommonModule,
     InlineSVGModule,
     MatMenuModule,
+    TranslocoModule,
   ],
   exports: [ProfileSelectorComponent],
 })
