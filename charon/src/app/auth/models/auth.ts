@@ -12,4 +12,5 @@ export type User = UserData & {
 export interface StoreData {
   activeUserId: string;
   users: User[];
+  lastInteraction: number;
 }

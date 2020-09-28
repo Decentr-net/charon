@@ -4,9 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainLayoutComponent, MainLayoutModule } from '../shared/components/main-layout';
 import { PublicLayoutComponent, PublicLayoutModule } from '../shared/components/public-layout';
 import { AuthGuard } from '../auth/guards';
-import { LoginPageComponent } from './pages/login-page';
+import { ImportRestorePageComponent, ImportRestorePageType, LoginPageComponent } from './pages';
 import { LoginRoute } from './login-route';
-import { ImportRestorePageComponent, ImportRestorePageType } from './pages/import-restore';
 
 const ROUTES: Routes = [
   {

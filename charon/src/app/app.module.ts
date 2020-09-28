@@ -15,6 +15,10 @@ import { AppRoute } from './app-route';
     AppRoutingModule,
     AuthModule.forRoot({
       unauthorizedRedirectUrl: `/${AppRoute.Welcome}`,
+      lock: {
+        delay: 1000 * 60 * 5,
+        redirectUrl: AppRoute.Login,
+      },
     }),
     BrowserModule,
     LocalStoreModule.forRoot(),
