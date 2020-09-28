@@ -41,6 +41,7 @@
       "password": {
         "label": "Password",
         "errors": {
+          "invalid": "Invalid password",
           "required": "Password is required"
         }
       },

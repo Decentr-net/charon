@@ -44,7 +44,7 @@ export class LoginPageComponent extends BaseSingleFormGroupComponent implements 
     const isPasswordValid = this.authService.validateCurrentUserPassword(this.passwordControl.value);
     if (!isPasswordValid) {
       this.passwordControl.setErrors({
-        invalidPassword: true,
+        invalid: true,
       });
       return;
     }
