@@ -2,8 +2,11 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
+import { Environment } from './environment.definitions';
+
+export const environment: Environment = {
   production: false,
+  vulcanApi: 'https://vulcan.testnet.decentr.xyz/v1',
   walletPrefix: 'decentr',
 };
 

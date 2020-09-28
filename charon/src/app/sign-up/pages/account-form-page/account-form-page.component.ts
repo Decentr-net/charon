@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BaseSingleFormGroupComponent } from '../../../shared/components/base-single-form-group/base-single-form-group.component';
 import { AbstractControl, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+
+import { BaseSingleFormGroupComponent } from '../../../shared/components/base-single-form-group/base-single-form-group.component';
 import { NavigationService } from '../../../shared/services/navigation/navigation.service';
+import { Gender } from '../../../shared/services/user';
 import { BaseValidationUtil, formError, PasswordValidationUtil } from '../../../shared/utils/validation';
 import { SignUpService } from '../../services';
 import { SignUpRoute } from '../../sign-up-route';
-import { Gender } from '../../../shared/services/user-api';
 
 @Component({
   selector: 'app-account-form-page',

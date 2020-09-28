@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first, mergeMap, mergeMapTo } from 'rxjs/operators';
 
-import { CryptoService } from '../../shared/services/crypto';
-import { UserApiService, UserCreateRequest } from '../../shared/services/user-api';
 import { WalletService } from '../../shared/services/wallet';
+import { UserService } from '../../shared/services/user';
 import { AuthService, User } from '../../auth';
 
-export type UserSignUpForm = Omit<UserCreateRequest, 'publicKey'> & { password: string };
+export interface UserSignUpForm extends Omit<User, 'id' | 'passwordHash' | 'privateKey' | 'publicKey' | 'emailConfirmed'> {
+  password: string;
+}
 
 @Injectable()
 export class SignUpService {
@@ -16,7 +17,7 @@ export class SignUpService {
 
   constructor(
     private authService: AuthService,
-    private userApiService: UserApiService,
+    private userService: UserService,
   ) {
   }
 
@@ -34,23 +35,19 @@ export class SignUpService {
 
   public signUp(): Observable<User> {
     const { birthDate, gender, emails, password, usernames } = this.user;
-    const { privateKey, publicKey } = WalletService.getNewWallet(this.seedPhrase);
+    const { privateKey, publicKey, walletAddress } = WalletService.getNewWallet(this.seedPhrase);
 
-    return this.userApiService.createUser({
-      birthDate,
-      gender,
-      emails,
-      publicKey,
-      usernames,
-    }).pipe(
+    return this.userService.createUser(emails[0], walletAddress).pipe(
       mergeMap(() => this.authService.createUser({
         birthDate,
         gender,
         emails,
-        emailConfirmed: false,
-        passwordHash: CryptoService.encryptPassword(password),
+        password,
         privateKey,
+        publicKey,
         usernames,
+        walletAddress,
+        emailConfirmed: false,
       })),
       mergeMap((id) => this.authService.changeUser(id)),
       mergeMapTo(this.authService.getActiveUser()),

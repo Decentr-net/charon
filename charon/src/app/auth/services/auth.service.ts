@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { LocalStoreSection, LocalStoreService } from '../../shared/services/local-store';
 import { uuid } from '../../shared/utils/uuid';
 import { AUTH_STORE_SECTION_KEY, StoreData, User } from '../models';
+import { CryptoService } from '../../shared/services/crypto';
 
 @Injectable({
   providedIn: 'root',
@@ -40,13 +41,14 @@ export class AuthService {
     return this.activeUser$.value;
   }
 
-  public async createUser(user: Omit<User, 'id'>): Promise<User['id']> {
+  public async createUser(user: Omit<User, 'id' | 'passwordHash'> & { password: string }): Promise<User['id']> {
     const id = uuid();
     const newUsers = [
       ...this.users$.value,
       {
         ...user,
         id,
+        passwordHash: CryptoService.encryptPassword(user.password)
       },
     ];
 

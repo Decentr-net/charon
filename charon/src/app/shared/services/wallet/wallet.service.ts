@@ -1,13 +1,23 @@
 import { getNewWalletFromSeed } from 'decentr-js';
+
 import { environment } from '../../../../environments/environment';
 
-export interface WalletKeyPair {
+export interface Wallet {
+  walletAddress: string;
   privateKey: string;
   publicKey: string;
 }
 
 export class WalletService {
-  public static getNewWallet(seedPhrase: string): WalletKeyPair {
-    return getNewWalletFromSeed(seedPhrase, environment.walletPrefix);
+  public static getNewWallet(seedPhrase: string): Wallet {
+    const {
+      cosmosAddress: walletAddress,
+      ...rest
+    } = getNewWalletFromSeed(seedPhrase, environment.walletPrefix);
+
+    return {
+      ...rest,
+      walletAddress,
+    };
   }
 }

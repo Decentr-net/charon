@@ -3,10 +3,9 @@ import { Router } from '@angular/router';
 import { EMPTY, Observable } from 'rxjs';
 import { mapTo, mergeMap, take } from 'rxjs/operators';
 
-import { UserApiService } from '../../../shared/services/user-api';
+import { UserService } from '../../../shared/services/user';
 import { WalletService } from '../../../shared/services/wallet';
 import { AuthService } from '../../../auth/services';
-import { CryptoService } from '../../../shared/services/crypto';
 import { AppRoute } from '../../../app-route';
 
 @Injectable()
@@ -14,19 +13,21 @@ export class ImportRestorePageService {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private userApiService: UserApiService
+    private userService: UserService
   ) {
   }
 
   public importUser(seedPhrase: string, password: string): Observable<void> {
-    const { privateKey } = WalletService.getNewWallet(seedPhrase);
+    const { privateKey, publicKey, walletAddress } = WalletService.getNewWallet(seedPhrase);
 
-    return this.userApiService.getUserData().pipe(
-      mergeMap((userData) => this.authService.createUser({
-        ...userData,
+    return this.userService.getUserPrivate(walletAddress).pipe(
+      mergeMap((userPrivate) => this.authService.createUser({
+        ...userPrivate,
+        password,
         privateKey,
+        publicKey,
+        walletAddress,
         emailConfirmed: false,
-        passwordHash: CryptoService.encryptPassword(password),
       })),
       mergeMap((id) => this.authService.changeUser(id)),
       mergeMap(() => this.router.navigate([AppRoute.User])),
