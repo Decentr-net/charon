@@ -28,11 +28,11 @@ export class UserService {
     );
   }
 
-  public setUserPublic(userPublic: string): Observable<void> {
+  public setUserPublic({}: string): Observable<void> {
     return EMPTY;
   }
 
-  public setUserPrivate(userPrivate: string): Observable<void> {
+  public setUserPrivate({}: string): Observable<void> {
     return EMPTY;
   }
 }

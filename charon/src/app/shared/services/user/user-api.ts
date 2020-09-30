@@ -4,7 +4,7 @@ export enum Gender {
 }
 
 export interface UserPublic {
-  readonly birthdate: number;
+  readonly birthdate: string;
   readonly gender: Gender;
 }
 

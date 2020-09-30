@@ -25,25 +25,25 @@ export class UserApiService {
     );
   }
 
-  public getUserPrivate(walletAddress: string): Observable<string> {
+  public getUserPrivate({}: string): Observable<string> {
     return of(JSON.stringify({
       emails: [],
       usernames: [],
     }));
   }
 
-  public getUserPublic(walletAddress: string): Observable<string> {
+  public getUserPublic({}: string): Observable<string> {
     return of(JSON.stringify({
       gender: Gender.Male,
-      birthday: +new Date(),
+      birthday: '',
     }));
   }
 
-  public setUserPublic(userPublic: string): Observable<void> {
+  public setUserPublic({}: string): Observable<void> {
     return EMPTY;
   }
 
-  public setUserPrivate(userPrivate: string): Observable<void> {
+  public setUserPrivate({}: string): Observable<void> {
     return EMPTY;
   }
 }
