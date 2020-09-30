@@ -1,4 +1,4 @@
-<div class="container page-login">
+<div class="container page-login" *transloco="let translate; read: 'login.login_page'">
   <div class="row text-center">
     <div class="col-xs-12">
       <div class="logo-icon">
@@ -6,20 +6,24 @@
       </div>
 
       <div class="page-title">
-        Let's Decentr!
+        {{ translate('title') }}
       </div>
 
       <div class="page-subtitle">
-        The decentralized data market
+        {{ translate('subtitle') }}
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <form [formGroup]="form" (keydown.enter)="$event.preventDefault();onSubmit()" (ngSubmit)="onSubmit()">
+      <form
+        [formGroup]="form"
+        (keydown.enter)="$event.preventDefault();onSubmit()"
+        (ngSubmit)="onSubmit()"
+      >
         <div class="row">
           <div class="input-container col-xs-12">
-            <div class="input-label">Password</div>
+            <div class="input-label">{{ translate('form.password.label') }}</div>
 
             <mat-form-field class="input-control"
                             color="accent">
@@ -30,9 +34,7 @@
                      placeholder="">
 
               <mat-error *ngIf="passwordControl.invalid">
-                {{ getActivateErrorKey(passwordControl, [
-                {errorCode: 'required', validationKeyPart: 'Password is required'}
-              ]) }}
+                <app-form-error controlName="password"></app-form-error>
               </mat-error>
             </mat-form-field>
           </div>
@@ -44,14 +46,14 @@
                     color="accent"
                     [disabled]="form.invalid"
                     (click)="onSubmit()">
-              UNLOCK
+              {{ translate('form.submit') }}
             </button>
           </div>
         </div>
         <div class="row">
           <div class="col-xs-12">
             <div class="restore-account">
-              <a [routerLink]="[loginRoute.Restore]">Restore Your Account</a> with Seed Phrase
+              <a [routerLink]="[loginRoute.Restore]">{{ translate('restore') }}</a> {{ translate('with_seed') }}
             </div>
           </div>
         </div>

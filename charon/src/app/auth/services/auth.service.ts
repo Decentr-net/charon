@@ -68,4 +68,8 @@ export class AuthService {
     const newUsers = this.users$.value.filter(({id}) => id !== userId);
     this.users$.next(newUsers);
   }
+
+  public validateCurrentUserPassword(password: string): boolean {
+    return CryptoService.encryptPassword(password) === this.getActiveUserInstant().passwordHash;
+  }
 }

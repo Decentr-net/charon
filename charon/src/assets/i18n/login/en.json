@@ -1,0 +1,55 @@
+{
+  "import_restore_page": {
+    "back": "Back",
+    "form": {
+      "confirm_password": {
+        "label": "Confirm password",
+        "errors": {
+          "valueDoNotMatch": "Password should be equal"
+        }
+      },
+      "password": {
+        "label": "New password (min 8 chars)",
+        "errors": {
+          "minlength": "Minimum length of password: {{ requiredLength }}",
+          "required": "Password is required",
+          "strength": "Password should contain at least 1 element of: lowercase letter, uppercase letter, number and special character"
+        }
+      },
+      "seed": {
+        "label": "Seed phrase",
+        "errors": {
+          "length": "Seed phrases should contain 12 words",
+          "required": "Seed phrase is required"
+        },
+        "show": "Show seed phrase"
+      }
+    },
+    "import": {
+      "submit": "IMPORT",
+      "subtitle": "Enter your secret twelve word phrase in the field below to import your account.",
+      "title": "Import an account with a seed phrase"
+    },
+    "restore": {
+      "submit": "RESTORE",
+      "subtitle": "Enter your secret twelve word phrase in the field below to restore your account.",
+      "title": "Restore an account with a seed phrase"
+    }
+  },
+  "login_page": {
+    "form": {
+      "password": {
+        "label": "Password",
+        "errors": {
+          "invalid": "Invalid password",
+          "required": "Password is required"
+        }
+      },
+      "submit": "UNLOCK"
+    },
+    "restore": "Restore Your Account",
+    "subtitle": "The decentralized data market",
+    "title": "Let's Decentr!",
+    "with_seed": "with Seed Phrase"
+  }
+}

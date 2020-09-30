@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractControl, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { BaseSingleFormGroupComponent } from '../../../shared/components/base-single-form-group/base-single-form-group.component';
+import { FORM_ERROR_TRANSLOCO_READ } from '../../../shared/components/form-error';
 import { NavigationService } from '../../../shared/services/navigation/navigation.service';
 import { Gender } from '../../../shared/services/user';
 import { BaseValidationUtil, formError, PasswordValidationUtil } from '../../../shared/utils/validation';
@@ -13,6 +14,12 @@ import { SignUpRoute } from '../../sign-up-route';
   selector: 'app-account-form-page',
   templateUrl: './account-form-page.component.html',
   styleUrls: ['./account-form-page.component.scss'],
+  providers: [
+    {
+      provide: FORM_ERROR_TRANSLOCO_READ,
+      useValue: 'sign_up.account_form_page.form',
+    },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountFormPageComponent extends BaseSingleFormGroupComponent implements OnInit {
@@ -29,7 +36,7 @@ export class AccountFormPageComponent extends BaseSingleFormGroupComponent imple
 
     this.form = formBuilder.group({
       gender: [null, [Validators.required]],
-      birthday: ['', [Validators.required, BaseValidationUtil.isUsDateFormatCorrect]],
+      birthdate: ['', [Validators.required, BaseValidationUtil.isUsDateFormatCorrect]],
       email: formBuilder.array([]),
       name: formBuilder.array([]),
       password: [null, [
@@ -58,10 +65,10 @@ export class AccountFormPageComponent extends BaseSingleFormGroupComponent imple
       throw formError(this.form);
     }
 
-    const { gender, birthDate, email: emails, name: usernames, password } = this.form.getRawValue();
+    const { gender, birthdate, email: emails, name: usernames, password } = this.form.getRawValue();
     this.signUpService.setUserData({
       gender,
-      birthDate,
+      birthdate,
       emails,
       usernames,
       password,
@@ -95,8 +102,8 @@ export class AccountFormPageComponent extends BaseSingleFormGroupComponent imple
     return this.form.get('gender') as FormControl;
   }
 
-  get birthdayControl(): FormControl {
-    return this.form.get('birthday') as FormControl;
+  get birthdateControl(): FormControl {
+    return this.form.get('birthdate') as FormControl;
   }
 
   get passwordControl(): FormControl {

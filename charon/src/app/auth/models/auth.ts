@@ -14,4 +14,5 @@ export interface User extends UserPrivate, Partial<UserPublic> {
 export interface StoreData {
   readonly activeUserId: string;
   readonly users: User[];
+  lastInteraction: number;
 }

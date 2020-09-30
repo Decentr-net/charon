@@ -4,6 +4,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { InlineSVGModule } from 'ng-inline-svg';
+import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
 import { LayoutHeaderModule } from '../shared/components/layout-header';
 import { USER_PAGES } from './pages';
@@ -18,11 +19,18 @@ import { UserRoutingModule } from './user-routing.module';
     MatDialogModule,
     MatMenuModule,
     MatTabsModule,
+    TranslocoModule,
     UserRoutingModule,
   ],
   declarations: [
     USER_PAGES,
     USER_COMPONENTS,
+  ],
+  providers: [
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: 'user',
+    },
   ],
 })
 export class UserModule {

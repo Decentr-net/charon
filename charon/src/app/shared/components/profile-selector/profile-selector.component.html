@@ -1,46 +1,48 @@
-<div
-  class="profile-image"
-  [matMenuTriggerFor]="menuTemplate">
-</div>
-
-<mat-menu
-  #menuTemplate
-  class="profile-selector__menu"
->
-  <div class="menu-wrapper">
-    <div class="menu__header">
-      <div class="menu-title">My Accounts</div>
-      <button class="button-lock">Lock</button>
-    </div>
-
-    <div class="menu__items">
-      <div class="menu-item menu-item__active">
-        <div class="profile-image"></div>
-        <div>
-          <div class="name">Vaskovsky Vasily Nikolaevich</div>
-          <div class="rate">1.001 PDV</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="menu__footer">
-      <div class="menu-item"
-           [class.menu-item__disabled]="true">
-        <div class="icon"
-             aria-label="Import Account"
-             [resolveSVGUrl]="false"
-             [inlineSVG]="'/assets/images/icons/import.svg'">
-        </div>
-        Import Account <span>(coming soon)</span>
-      </div>
-      <div class="menu-item">
-        <div class="icon"
-             aria-label="Import Account"
-             [resolveSVGUrl]="false"
-             [inlineSVG]="'/assets/images/icons/information.svg'">
-        </div>
-        Info & Help
-      </div>
-    </div>
+<ng-container *transloco="let translate; scope: 'shared'; read: 'shared.profile_selector'">
+  <div
+    class="profile-image"
+    [matMenuTriggerFor]="menuTemplate">
   </div>
-</mat-menu>
+
+  <mat-menu
+    #menuTemplate
+    class="profile-selector__menu"
+  >
+    <div class="menu-wrapper">
+      <div class="menu__header">
+        <div class="menu-title">{{ translate('my_accounts') }}</div>
+        <button class="button-lock">{{ translate('lock') }}</button>
+      </div>
+
+      <div class="menu__items">
+        <div class="menu-item menu-item__active">
+          <div class="profile-image"></div>
+          <div>
+            <div class="name">Vaskovsky Vasily Nikolaevich</div>
+            <div class="rate">1.001 PDV</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu__footer">
+        <div class="menu-item"
+             [class.menu-item__disabled]="true">
+          <div class="icon"
+               aria-label="Import Account"
+               [resolveSVGUrl]="false"
+               [inlineSVG]="'/assets/images/icons/import.svg'">
+          </div>
+          {{ translate('import_account') }} <span>(coming soon)</span>
+        </div>
+        <div class="menu-item">
+          <div class="icon"
+               aria-label="Import Account"
+               [resolveSVGUrl]="false"
+               [inlineSVG]="'/assets/images/icons/information.svg'">
+          </div>
+          {{ translate('info_and_help') }}
+        </div>
+      </div>
+    </div>
+  </mat-menu>
+</ng-container>

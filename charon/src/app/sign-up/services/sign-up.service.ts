@@ -34,12 +34,12 @@ export class SignUpService {
   }
 
   public signUp(): Observable<User> {
-    const { birthDate, gender, emails, password, usernames } = this.user;
+    const { birthdate, gender, emails, password, usernames } = this.user;
     const { privateKey, publicKey, walletAddress } = WalletService.getNewWallet(this.seedPhrase);
 
     return this.userService.createUser(emails[0], walletAddress).pipe(
       mergeMap(() => this.authService.createUser({
-        birthDate,
+        birthdate,
         gender,
         emails,
         password,

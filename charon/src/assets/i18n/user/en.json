@@ -1,0 +1,12 @@
+{
+  "user_page": {
+    "account_details": "Account details",
+    "exchange_rate": "1 DEC = ${{ rate }} USD",
+    "expand_view": "Expand view",
+    "no_activity": "You have no activity data",
+    "tabs": {
+      "activity": "Activity",
+      "pdv_rate": "PDV Rate"
+    }
+  }
+}

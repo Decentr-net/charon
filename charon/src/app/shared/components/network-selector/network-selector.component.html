@@ -1,36 +1,38 @@
-<div
-   class="header__select-network"
-   [matMenuTriggerFor]="menuTemplate"
->
-  <div class="network-item">
-    <div class="network-indicator"></div>
-    <div class="network-name">
-      Decentr Test Network
+<ng-container *transloco="let translate; scope: 'shared', read: 'shared.network_selector'">
+  <div
+    class="header__select-network"
+    [matMenuTriggerFor]="menuTemplate"
+  >
+    <div class="network-item">
+      <div class="network-indicator"></div>
+      <div class="network-name">
+        Decentr Test Network
+      </div>
     </div>
+    <div class="select-arrow"></div>
   </div>
-  <div class="select-arrow"></div>
-</div>
 
-<mat-menu
-  #menuTemplate
-  class="network-selector__menu"
->
-  <div class="menu-wrapper">
-    <div class="menu-title">Networks</div>
-    <div class="menu-description">The default network for Decs transactions is Decentr Test Network.</div>
-    <div class="menu-items">
-      <div class="menu-item menu-item__active">
-        <div class="network-indicator"></div>
-        <div class="menu-item__name">
-          Decentr Test Network
+  <mat-menu
+    #menuTemplate
+    class="network-selector__menu"
+  >
+    <div class="menu-wrapper">
+      <div class="menu-title">{{ translate('title') }}</div>
+      <div class="menu-description">The default network for Decs transactions is Decentr Test Network.</div>
+      <div class="menu-items">
+        <div class="menu-item menu-item__active">
+          <div class="network-indicator"></div>
+          <div class="menu-item__name">
+            Decentr Test Network
+          </div>
         </div>
-      </div>
-      <div class="menu-item">
-        <div class="network-indicator"></div>
-        <div class="menu-item__name">
-          Localhost 1357
+        <div class="menu-item">
+          <div class="network-indicator"></div>
+          <div class="menu-item__name">
+            Localhost 1357
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</mat-menu>
+  </mat-menu>
+</ng-container>
