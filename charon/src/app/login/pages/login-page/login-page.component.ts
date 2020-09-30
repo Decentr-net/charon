@@ -1,12 +1,16 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 
-import { BaseSingleFormGroupComponent } from '../../../shared/components/base-single-form-group/base-single-form-group.component';
 import { FORM_ERROR_TRANSLOCO_READ } from '../../../shared/components/form-error';
 import { LoginRoute } from '../../login-route';
 import { AuthService, LockService } from '../../../auth/services';
 import { AppRoute } from '../../../app-route';
+
+interface LoginForm {
+  password: string;
+}
 
 @Component({
   selector: 'app-login-page',
@@ -20,8 +24,9 @@ import { AppRoute } from '../../../app-route';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginPageComponent extends BaseSingleFormGroupComponent implements OnInit {
+export class LoginPageComponent implements OnInit {
   public readonly loginRoute: typeof LoginRoute = LoginRoute;
+  public form: FormGroup<LoginForm>;
 
   constructor(
     private authService: AuthService,
@@ -29,11 +34,10 @@ export class LoginPageComponent extends BaseSingleFormGroupComponent implements 
     private lockService: LockService,
     private router: Router,
   ) {
-    super();
   }
 
-  public get passwordControl(): FormControl {
-    return this.form.get('password') as FormControl;
+  public get passwordControl(): FormControl<LoginForm['password']> {
+    return this.form.getControl('password') as FormControl<LoginForm['password']>;
   }
 
   public ngOnInit() {
@@ -53,9 +57,11 @@ export class LoginPageComponent extends BaseSingleFormGroupComponent implements 
     this.router.navigate(['/', AppRoute.User]);
   }
 
-  private createForm(): FormGroup {
+  private createForm(): FormGroup<LoginForm> {
     return this.formBuilder.group({
-      password: [null, Validators.required]
+      password: ['', [
+        Validators.required,
+      ]],
     });
   }
 }

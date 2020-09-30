@@ -20,7 +20,6 @@
 
     <form
       [formGroup]="form"
-      (keydown.enter)="$event.preventDefault(); onSubmit(currentPageType)"
       (ngSubmit)="onSubmit(currentPageType)"
       *transloco="let translate; read: 'login.import_restore_page.form'"
     >
@@ -76,7 +75,7 @@
                    formControlName="password"
                    placeholder="">
 
-            <mat-error *ngIf="passwordControl.invalid">
+            <mat-error>
               <app-form-error controlName="password"></app-form-error>
             </mat-error>
           </mat-form-field>
@@ -92,29 +91,29 @@
                    formControlName="confirmPassword"
                    placeholder="">
 
-            <mat-error *ngIf="confirmPasswordControl.invalid">
+            <mat-error>
               <app-form-error controlName="confirmPassword" i18nControlKey="confirm_password"></app-form-error>
             </mat-error>
           </mat-form-field>
         </div>
       </div>
-    </form>
 
-    <div class="row">
-      <div class="col-xs-12">
-        <button
-          class="btn btn__small"
-          mat-flat-button
-          color="accent"
-          [disabled]="form.invalid"
-          (click)="onSubmit(currentPageType)"
-        >
-          {{ currentPageType === pageType.IMPORT_ACCOUNT
-            ? translate('import.submit')
-            : translate('restore.submit')
-          }}
-        </button>
+      <div class="row">
+        <div class="col-xs-12">
+          <button
+            *transloco="let translate; read: 'login.import_restore_page'"
+            class="btn btn__small"
+            mat-flat-button
+            color="accent"
+            [disabled]="form.invalid"
+          >
+            {{ currentPageType === pageType.IMPORT_ACCOUNT
+              ? translate('import.submit')
+              : translate('restore.submit')
+            }}
+          </button>
+        </div>
       </div>
-    </div>
+    </form>
   </div>
 </ng-container>
