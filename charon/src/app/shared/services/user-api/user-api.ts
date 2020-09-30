@@ -4,7 +4,7 @@ export enum Gender {
 }
 
 export interface UserData {
-  birthdate: number;
+  birthdate: string;
   gender: Gender;
   emails: string[];
   usernames: string[];

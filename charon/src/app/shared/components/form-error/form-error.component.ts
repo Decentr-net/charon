@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { merge, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 import { FORM_ERROR_TRANSLOCO_READ } from './form-error.tokens';
@@ -27,7 +27,10 @@ export class FormErrorComponent implements OnInit {
   public ngOnInit() {
     this.translocoRead = `${this.translocoFormScope}.${this.i18nControlKey || this.controlName}.errors`;
     const control = this.controlContainer.control.get(this.controlName.toString());
-    this.error$ = control.valueChanges.pipe(
+    this.error$ = merge(
+      control.statusChanges,
+      control.valueChanges,
+    ).pipe(
       startWith(void 0),
       map(() => {
         if (!control.errors) {
