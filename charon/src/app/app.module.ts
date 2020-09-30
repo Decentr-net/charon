@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
+import { Environment } from '../environments/environment.definitions';
+import { environment } from '../environments/environment';
 import { LocalStoreModule } from './shared/services/local-store';
 import { TranslocoRootModule } from './shared/transloco';
 import { AuthModule } from './auth';
@@ -30,7 +32,12 @@ import { AppRoute } from './app-route';
   declarations: [
     AppComponent,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: Environment,
+      useValue: environment,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
