@@ -6,7 +6,13 @@ import { WalletService } from '../../shared/services/wallet';
 import { UserService } from '../../shared/services/user';
 import { AuthService, User } from '../../auth';
 
-export interface UserSignUpForm extends Omit<User, 'id' | 'passwordHash' | 'privateKey' | 'publicKey' | 'emailConfirmed'> {
+export interface UserSignUpForm extends Omit<User, 'id'
+  | 'passwordHash'
+  | 'privateKey'
+  | 'publicKey'
+  | 'emailConfirmed'
+  | 'walletAddress'
+> {
   password: string;
 }
 
