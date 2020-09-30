@@ -16,8 +16,8 @@
         {{ translate('title') }}
       </div>
       <form
+        #ngForm="ngForm"
         [formGroup]="form"
-        (keydown.enter)="$event.preventDefault();onSubmit()"
         (ngSubmit)="onSubmit()"
         *transloco="let translate; read: 'sign_up.account_form_page.form'"
       >
@@ -30,8 +30,8 @@
                 <mat-radio-button [value]="gender.Female">{{ translate('gender.female') }}</mat-radio-button>
               </mat-radio-group>
 
-              <mat-error *ngIf="invalid(genderControl)">
-<!--                <app-form-error controlName="gender"></app-form-error>-->
+              <mat-error *ngIf="ngForm.submitted">
+                <app-form-error controlName="gender"></app-form-error>
               </mat-error>
           </div>
 
@@ -53,9 +53,9 @@
           </div>
 
           <div formArrayName="email">
-            <div *ngFor="let email of form.get('email')['controls']; let i = index">
+            <div *ngFor="let email of emailFormArray.controls; let i = index; let first = first">
               <div class="input-container col-xs-12">
-                <div class="input-label">{{ translate('email.label') }} {{(i !== 0) ? i + 1 : ''}}</div>
+                <div class="input-label">{{ translate('email.label') }} {{ first ? '' : i + 1 }}</div>
                 <mat-form-field class="input-control icon-protected"
                                 appearance="outline">
                   <input matInput
@@ -69,22 +69,22 @@
                   </mat-error>
                 </mat-form-field>
 
-                <div *ngIf="i === 0 && form.get('email')['controls'].length < 10"
+                <div *ngIf="first && emailFormArray.length < 10"
                      class="button__add"
-                     (click)="addFormControl('email')">
+                     (click)="addEmail()">
                 </div>
-                <div *ngIf="i > 0"
+                <div *ngIf="!first"
                      class="button__remove"
-                     (click)="removeFormControl('email', i)">
+                     (click)="removeEmail(i)">
                 </div>
               </div>
             </div>
           </div>
 
           <div formArrayName="name">
-            <div *ngFor="let name of form.get('name')['controls']; let i = index">
+            <div *ngFor="let name of this.usernameFormArray.controls; let i = index; let first = first">
               <div class="input-container col-xs-12">
-                <div class="input-label">{{ translate('name.label') }} {{(i !== 0) ? i + 1 : ''}}</div>
+                <div class="input-label">{{ translate('name.label') }} {{ first ? '' : i + 1 }}</div>
                 <mat-form-field class="input-control icon-protected"
                                 appearance="outline">
                   <input matInput
@@ -98,13 +98,13 @@
                   </mat-error>
                 </mat-form-field>
 
-                <div *ngIf="i === 0 && form.get('name')['controls'].length < 10"
+                <div *ngIf="first && usernameFormArray.length < 10"
                      class="button__add"
-                     (click)="addFormControl('name')">
+                     (click)="addUsername()">
                 </div>
-                <div *ngIf="i > 0"
+                <div *ngIf="!first"
                      class="button__remove"
-                     (click)="removeFormControl('name', i)">
+                     (click)="removeUsername(i)">
                 </div>
               </div>
             </div>
@@ -148,20 +148,18 @@
               <a href="#" target="_blank">{{ translate('terms_of_use.link') }}</a>
             </mat-checkbox>
           </div>
+
+          <div class="col-xs-12">
+            <button class="btn btn__small"
+                    mat-flat-button
+                    color="accent"
+                    [disabled]="form.invalid">
+              {{ translate('submit') }}
+            </button>
+          </div>
         </div>
       </form>
 
-      <div class="row">
-        <div class="col-xs-12">
-          <button class="btn btn__small"
-                  mat-flat-button
-                  color="accent"
-                  [disabled]="form.invalid"
-                  (click)="onSubmit()">
-            {{ translate('next') }}
-          </button>
-        </div>
-      </div>
     </div>
     <div class="col-xs-5 hint-message">
       <div class="hint-title">

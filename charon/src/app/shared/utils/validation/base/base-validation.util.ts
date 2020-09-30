@@ -44,6 +44,7 @@ export class BaseValidationUtil {
   }
 }
 
+// TODO: remove?
 export function formError(control: AbstractControl) {
 
   if (!control.invalid) {

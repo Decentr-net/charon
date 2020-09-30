@@ -18,7 +18,6 @@
     <div class="col-xs-12">
       <form
         [formGroup]="form"
-        (keydown.enter)="$event.preventDefault();onSubmit()"
         (ngSubmit)="onSubmit()"
       >
         <div class="row">
@@ -33,7 +32,7 @@
                      formControlName="password"
                      placeholder="">
 
-              <mat-error *ngIf="passwordControl.invalid">
+              <mat-error>
                 <app-form-error controlName="password"></app-form-error>
               </mat-error>
             </mat-form-field>
@@ -44,8 +43,7 @@
             <button class="btn btn__full-width"
                     mat-flat-button
                     color="accent"
-                    [disabled]="form.invalid"
-                    (click)="onSubmit()">
+                    [disabled]="form.invalid">
               {{ translate('form.submit') }}
             </button>
           </div>

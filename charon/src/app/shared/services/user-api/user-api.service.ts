@@ -14,7 +14,7 @@ export class UserApiService {
   // TODO
   public getUserData(): Observable<UserData> {
     return of({
-      birthdate: 0,
+      birthdate: '',
       gender: Gender.Male,
       emails: [],
       usernames: [],

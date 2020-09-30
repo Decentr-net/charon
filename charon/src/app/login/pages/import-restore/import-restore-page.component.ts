@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { pluck, share } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
-import { BaseSingleFormGroupComponent } from '../../../shared/components/base-single-form-group/base-single-form-group.component';
 import { FORM_ERROR_TRANSLOCO_READ } from '../../../shared/components/form-error';
 import { BaseValidationUtil, PasswordValidationUtil } from '../../../shared/utils/validation';
 import { NavigationService } from '../../../shared/services/navigation/navigation.service';
@@ -13,7 +13,13 @@ import { ImportRestorePageService } from './import-restore-page.service';
 
 export enum ImportRestorePageType {
   IMPORT_ACCOUNT = 'import-account',
-  RESTORE_ACCOUNT = 'restore-account'
+  RESTORE_ACCOUNT = 'restore-account',
+}
+
+interface ImportRestoreForm {
+  confirmPassword: string;
+  password: string;
+  seedPhrase: string;
 }
 
 @UntilDestroy()
@@ -30,32 +36,24 @@ export enum ImportRestorePageType {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportRestorePageComponent extends BaseSingleFormGroupComponent implements OnInit {
+export class ImportRestorePageComponent implements OnInit {
   public pageType: typeof ImportRestorePageType = ImportRestorePageType;
   isSeedPhraseVisible = false;
   public currentPageType$: Observable<ImportRestorePageType>;
+  public form: FormGroup<ImportRestoreForm>;
 
   constructor(
-    formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
     private navigationService: NavigationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private pageService: ImportRestorePageService,
   ) {
-    super();
-
-    this.form = formBuilder.group({
-      seedPhrase: [null, [Validators.required, BaseValidationUtil.isSeedPhraseCorrect]],
-      password: [null, [
-        Validators.required,
-        Validators.minLength(8),
-        PasswordValidationUtil.validatePasswordStrength
-      ]],
-      confirmPassword: [null, PasswordValidationUtil.equalsToAdjacentControl('password')],
-    });
   }
 
   ngOnInit() {
+    this.form = this.createForm();
+
     this.currentPageType$ = this.activatedRoute.data.pipe(
       pluck('pageType'),
       share(),
@@ -86,15 +84,20 @@ export class ImportRestorePageComponent extends BaseSingleFormGroupComponent imp
     this.isSeedPhraseVisible = !this.isSeedPhraseVisible;
   }
 
-  get seedPhraseControl(): FormControl {
-    return this.form.get('seedPhrase') as FormControl;
-  }
-
-  get passwordControl(): FormControl {
-    return this.form.get('password') as FormControl;
-  }
-
-  get confirmPasswordControl(): FormControl {
-    return this.form.get('confirmPassword') as FormControl;
+  private createForm(): FormGroup<ImportRestoreForm> {
+    return this.formBuilder.group({
+      confirmPassword: ['', [
+        PasswordValidationUtil.equalsToAdjacentControl('password'),
+      ]],
+      password: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        PasswordValidationUtil.validatePasswordStrength,
+      ]],
+      seedPhrase: ['', [
+        Validators.required,
+        BaseValidationUtil.isSeedPhraseCorrect,
+      ]],
+    });
   }
 }

@@ -45,6 +45,7 @@
         },
         "label": "New password (min 8 chars)"
       },
+      "submit": "Next",
       "terms_of_use": {
         "link": "Terms of Use",
         "have_read": "I have read and agree to the"
@@ -54,7 +55,6 @@
       "label": "Hint",
       "text": "Put the nicknames and e-mail addresses you use, it positively influences on PDV level."
     },
-    "next": "Next",
     "title": "Create Profile"
   },
   "email_confirmation_page": {

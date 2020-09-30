@@ -1,14 +1,24 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractControl, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
-import { BaseSingleFormGroupComponent } from '../../../shared/components/base-single-form-group/base-single-form-group.component';
 import { FORM_ERROR_TRANSLOCO_READ } from '../../../shared/components/form-error';
 import { NavigationService } from '../../../shared/services/navigation/navigation.service';
-import { BaseValidationUtil, formError, PasswordValidationUtil } from '../../../shared/utils/validation';
+import { BaseValidationUtil, PasswordValidationUtil } from '../../../shared/utils/validation';
 import { SignUpService } from '../../services';
 import { SignUpRoute } from '../../sign-up-route';
 import { Gender } from '../../../shared/services/user-api';
+
+interface AccountForm {
+  agreeTerms: boolean;
+  birthdate: string;
+  confirmPassword: string;
+  gender: Gender;
+  email: string[];
+  name: string[];
+  password: string;
+}
 
 @Component({
   selector: 'app-account-form-page',
@@ -22,8 +32,9 @@ import { Gender } from '../../../shared/services/user-api';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AccountFormPageComponent extends BaseSingleFormGroupComponent implements OnInit {
+export class AccountFormPageComponent implements OnInit {
   public gender: typeof Gender = Gender;
+  public form: FormGroup<AccountForm>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -32,26 +43,12 @@ export class AccountFormPageComponent extends BaseSingleFormGroupComponent imple
     private signUpService: SignUpService,
     private router: Router,
   ) {
-    super();
-
-    this.form = formBuilder.group({
-      gender: [null, [Validators.required]],
-      birthdate: ['', [Validators.required, BaseValidationUtil.isUsDateFormatCorrect]],
-      email: formBuilder.array([]),
-      name: formBuilder.array([]),
-      password: [null, [
-        Validators.required,
-        Validators.minLength(8),
-        PasswordValidationUtil.validatePasswordStrength
-      ]],
-      confirmPassword: [null, PasswordValidationUtil.equalsToAdjacentControl('password')],
-      agreeTerms: [null, [Validators.requiredTrue]]
-    });
   }
 
   ngOnInit() {
-    this.addFormControl('email');
-    this.addFormControl('name');
+    this.form = this.createForm();
+    this.addEmail();
+    this.addUsername();
   }
 
   navigateBack() {
@@ -59,10 +56,8 @@ export class AccountFormPageComponent extends BaseSingleFormGroupComponent imple
   }
 
   onSubmit() {
-    this.submissionInfo.submitAttempt = true;
-
     if (!this.form.valid) {
-      throw formError(this.form);
+      return;
     }
 
     const { gender, birthdate, email: emails, name: usernames, password } = this.form.getRawValue();
@@ -80,7 +75,7 @@ export class AccountFormPageComponent extends BaseSingleFormGroupComponent imple
 
   onKeyDateInput(event) {
     if (event.inputType !== 'deleteContentBackward') {
-      const control = this.form.controls['birthday'];
+      const control = this.form.getControl('birthdate');
       let outputValue = control.value.replace(/\D/g, '');
 
       if (outputValue.length > 1 && outputValue.length < 4) {
@@ -94,44 +89,60 @@ export class AccountFormPageComponent extends BaseSingleFormGroupComponent imple
     }
   }
 
-  invalid(control: AbstractControl) {
-    return control && !control.valid && (control.dirty || this.submissionInfo.submitAttempt);
+  public get emailFormArray(): FormArray<string> {
+    return this.form.controls.email as FormArray;
   }
 
-  get genderControl(): FormControl {
-    return this.form.get('gender') as FormControl;
+  public get usernameFormArray(): FormArray<string> {
+    return this.form.controls.name as FormArray;
   }
 
-  get birthdateControl(): FormControl {
-    return this.form.get('birthdate') as FormControl;
+  public addEmail(): void {
+    this.emailFormArray.push(this.formBuilder.control('', [
+      Validators.required,
+      Validators.email,
+    ]));
   }
 
-  get passwordControl(): FormControl {
-    return this.form.get('password') as FormControl;
+  public addUsername(): void {
+    this.usernameFormArray.push(this.formBuilder.control('', [
+      Validators.required,
+      Validators.minLength(3),
+    ]));
   }
 
-  get confirmPasswordControl(): FormControl {
-    return this.form.get('confirmPassword') as FormControl;
+  public removeEmail(index: number): void {
+    const emailFormArray = this.form.controls.email as FormArray;
+    emailFormArray.removeAt(index);
   }
 
-  addFormControl(type: string) {
-    const formArray = this.form.controls[type] as FormArray;
-    const formControl = new FormControl(null);
-
-    if (type === 'email') {
-      formControl.setValidators([Validators.required, Validators.email]);
-    }
-
-    if (type === 'name') {
-      formControl.setValidators([Validators.required, Validators.minLength(3)]);
-    }
-
-    formArray.push(formControl);
+  public removeUsername(index: number): void {
+    const usernameFormArray = this.form.controls.email as FormArray;
+    usernameFormArray.removeAt(index);
   }
 
-  removeFormControl(type: string, index: number) {
-    const formArray = this.form.controls[type] as FormArray;
-
-    formArray.removeAt(index);
+  private createForm(): FormGroup<AccountForm> {
+    return this.formBuilder.group({
+      agreeTerms: [false, [
+        Validators.requiredTrue,
+      ]],
+      birthdate: ['', [
+        Validators.required,
+        BaseValidationUtil.isUsDateFormatCorrect,
+      ]],
+      confirmPassword: ['', [
+        PasswordValidationUtil.equalsToAdjacentControl('password'),
+      ]],
+      gender: [null, [
+        Validators.required,
+      ]],
+      email: this.formBuilder.array([]),
+      name: this.formBuilder.array([]),
+      password: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        PasswordValidationUtil.validatePasswordStrength,
+      ]],
+    });
   }
 }
