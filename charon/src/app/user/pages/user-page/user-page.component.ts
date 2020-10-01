@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { ActivityDetailsComponent } from '../../components/activity-details';
 import { MatchMediaService } from '@shared/services/match-media/match-media.service';
+import { BrowserApi } from '@shared/utils/browser-api';
+import { Router } from '@angular/router';
 
 export interface ActivityItem {
   id: string;
@@ -21,8 +23,11 @@ export class UserPageComponent implements OnInit {
 
   activityItems: ActivityItem[];
 
-  constructor(public dialog: MatDialog,
-              private matchMediaService: MatchMediaService) {
+  constructor(
+    public dialog: MatDialog,
+    private matchMediaService: MatchMediaService,
+    private router: Router,
+  ) {
   }
 
   ngOnInit(): void {
@@ -58,6 +63,10 @@ export class UserPageComponent implements OnInit {
     }
 
     this.dialog.open(ActivityDetailsComponent, config);
+  }
+
+  public expandView(): void {
+    BrowserApi.openExtensionInNewTab(this.router.url);
   }
 
   public trackById: TrackByFunction<ActivityItem> = ({}, { id }) => id;

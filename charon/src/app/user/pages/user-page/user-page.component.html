@@ -87,7 +87,7 @@
     <ng-template matMenuContent>
       <div class="menu-wrapper">
         <div class="menu-items">
-          <div class="menu-item menu-item__active">
+          <div class="menu-item menu-item__active" (click)="expandView()">
             <div class="icon"
                  [resolveSVGUrl]="false"
                  [inlineSVG]="'/assets/images/icons/expand.svg'">
