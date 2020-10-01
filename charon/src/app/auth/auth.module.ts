@@ -2,10 +2,16 @@ import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 
 import { AuthService, LockService } from './services';
 import { AUTH_GUARDS } from './guards';
-import { LOCK_DELAY, LOCKED_REDIRECT_URL, UNAUTHORIZED_REDIRECT_URL } from './auth.tokens';
+import {
+  LOCK_DELAY,
+  LOCKED_REDIRECT_URL,
+  UNAUTHORIZED_REDIRECT_URL,
+  UNCONFIRMED_EMAIL_REDIRECT_URL,
+} from './auth.tokens';
 
 interface AuthModuleConfig {
   unauthorizedRedirectUrl: string;
+  unconfirmedEmailUrl: string;
   lock: {
     delay: number;
     redirectUrl: string;
@@ -41,6 +47,10 @@ export class AuthModule {
         {
           provide: UNAUTHORIZED_REDIRECT_URL,
           useValue: config.unauthorizedRedirectUrl,
+        },
+        {
+          provide: UNCONFIRMED_EMAIL_REDIRECT_URL,
+          useValue: config.unconfirmedEmailUrl,
         },
         {
           provide: APP_INITIALIZER,

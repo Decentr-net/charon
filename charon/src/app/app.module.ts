@@ -7,6 +7,7 @@ import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
 import { LocalStoreModule } from '@shared/services/local-store';
 import { TranslocoRootModule } from '@shared/transloco';
+import { SignUpRoute } from './sign-up';
 import { AuthModule } from './auth';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -17,6 +18,7 @@ import { AppRoute } from './app-route';
     AppRoutingModule,
     AuthModule.forRoot({
       unauthorizedRedirectUrl: `/${AppRoute.Welcome}`,
+      unconfirmedEmailUrl: `/${AppRoute.SignUp}/${SignUpRoute.EmailConfirmation}`,
       lock: {
         delay: 1000 * 60 * 5,
         redirectUrl: AppRoute.Login,

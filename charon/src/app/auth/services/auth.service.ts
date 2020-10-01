@@ -33,6 +33,19 @@ export class AuthService {
     this.activeUser$.next(activeUser);
   }
 
+  public confirmCurrentUserEmail(): Promise<void> {
+    const currentUser = this.getActiveUserInstant();
+    const newUsers: User[] = [
+      ...this.users$.value.filter(user => user.id !== currentUser.id),
+      {
+        ...currentUser,
+        emailConfirmed: true,
+      },
+    ];
+
+    return this.updateUsers(newUsers);
+  }
+
   public getActiveUser(): Observable<User | undefined> {
     return this.activeUser$.asObservable();
   }
@@ -52,8 +65,7 @@ export class AuthService {
       },
     ];
 
-    await this.authStore.set('users', newUsers)
-    this.users$.next(newUsers);
+    await this.updateUsers(newUsers);
 
     return id;
   }
@@ -71,5 +83,10 @@ export class AuthService {
 
   public validateCurrentUserPassword(password: string): boolean {
     return CryptoService.encryptPassword(password) === this.getActiveUserInstant().passwordHash;
+  }
+
+  private async updateUsers(users: User[]): Promise<void> {
+    await this.authStore.set('users', users)
+    this.users$.next(users);
   }
 }

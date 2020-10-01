@@ -58,8 +58,16 @@
     "title": "Create Profile"
   },
   "email_confirmation_page": {
-    "open": "Please open the link to complete your registration, it is a mandatory step.",
-    "sent_to": "Confirmation link has been sent to",
+    "form": {
+      "code": {
+        "errors": {
+          "required": "Code is required"
+        }
+      },
+      "submit": "Confirm"
+    },
+    "open": "Please enter the code to complete your registration, it is a mandatory step.",
+    "sent_to": "Confirmation code has been sent to",
     "title": "E-mail Confirmation"
   },
   "seed_phrase_page": {

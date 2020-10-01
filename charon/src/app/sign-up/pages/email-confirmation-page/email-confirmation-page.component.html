@@ -9,5 +9,31 @@
         <p>{{ translate('open') }}</p>
       </div>
     </div>
+    <form
+      *transloco="let translate; read: 'sign_up.email_confirmation_page.form'"
+      [formGroup]="codeForm"
+      (ngSubmit)="confirm()"
+    >
+      <div class="row">
+        <div class="col-xs-12 input-container">
+          <mat-form-field class="input-control" appearance="outline">
+            <input
+              type="text"
+              matInput
+              formControlName="code"
+              appAutofocus
+            >
+            <mat-error>
+              <app-form-error controlName="code"></app-form-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xs-12">
+          <button class="btn btn__small" type="submit">
+            {{ translate('submit') }}
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
 </div>

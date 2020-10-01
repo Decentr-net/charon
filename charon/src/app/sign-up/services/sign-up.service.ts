@@ -61,4 +61,11 @@ export class SignUpService {
       first(),
     );
   }
+
+  public confirmEmail(code: string): Observable<void> {
+    const user = this.authService.getActiveUserInstant();
+    return this.userService.confirmUser(code, user.walletAddress).pipe(
+      // switchMap(() => this.authService.confirmCurrentUserEmail()),
+    );
+  }
 }

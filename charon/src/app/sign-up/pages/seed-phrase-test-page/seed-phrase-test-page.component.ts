@@ -6,7 +6,6 @@ import { NavigationService } from '@shared/services/navigation/navigation.servic
 import { shuffleArray } from '@shared/utils/array';
 import { SignUpRoute } from '../../sign-up-route';
 import { SignUpService } from '../../services';
-import { EMAIL_QUERY_PARAM } from '../email-confirmation-page';
 
 @UntilDestroy()
 @Component({
@@ -51,13 +50,10 @@ export class SeedPhraseTestPageComponent implements OnInit {
   public signUp(): void {
     this.signUpService.signUp().pipe(
       untilDestroyed(this),
-    ).subscribe((user) => {
+    ).subscribe(() => {
       this.router.navigate(['../', SignUpRoute.EmailConfirmation], {
         relativeTo: this.activatedRoute,
-        queryParams: {
-          [EMAIL_QUERY_PARAM]: user.emails[0],
-        },
-      })
+      });
     })
   }
 

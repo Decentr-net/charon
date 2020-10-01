@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EMPTY, Observable, of } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
 
 import { Environment } from '@environments/environment.definitions';
-import { Gender } from './user-api';
+import { Gender } from './user-api.definitions';
 
 @Injectable({
   providedIn: 'root',
@@ -17,12 +16,17 @@ export class UserApiService {
   }
 
   public createUser(email: string, walletAddress: string): Observable<void> {
-    return this.http.post(`${this.environment.vulcanApi}/register`, {
+    return this.http.post<void>(`${this.environment.vulcanApi}/register`, {
       address: walletAddress,
       email,
-    }).pipe(
-      mapTo(void 0),
-    );
+    });
+  }
+
+  public confirmUser(code: string, walletAddress: string): Observable<void> {
+    return this.http.post<void>(`${this.environment.vulcanApi}/confirm`, {
+      code,
+      owner: walletAddress,
+    });
   }
 
   public getUserPrivate({}: string): Observable<string> {
