@@ -27,7 +27,7 @@ export class LockService {
     store: LocalStoreService,
   ) {
     this.store = store.useSection(AUTH_STORE_SECTION_KEY);
-    this.initLastInteractionUpdateSubscription()
+    this.initLastInteractionUpdateSubscription();
     this.initLockSubscription();
   }
 
@@ -43,10 +43,12 @@ export class LockService {
 
   public start(): void {
     this.isWorking$.next(true);
+    this.store.set('lastInteraction', Date.now());
   }
 
   public stop(): void {
     this.isWorking$.next(false);
+    this.store.remove('lastInteraction');
   }
 
   private initLockSubscription(): void {
