@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { MainLayoutComponent, MainLayoutModule } from '../shared/components/main-layout';
-import { PublicLayoutComponent, PublicLayoutModule } from '../shared/components/public-layout';
-import { AuthGuard } from '../auth/guards';
+import { MainLayoutComponent, MainLayoutModule } from '@shared/components/main-layout';
+import { PublicLayoutComponent, PublicLayoutModule } from '@shared/components/public-layout';
+import { AuthGuard } from '@auth/guards';
 import { ImportRestorePageComponent, ImportRestorePageType, LoginPageComponent } from './pages';
 import { LoginRoute } from './login-route';
 

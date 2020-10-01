@@ -1,4 +1,4 @@
-import { UserPrivate, UserPublic } from '../../shared/services/user';
+import { UserPrivate, UserPublic } from '@shared/services/user';
 
 export const AUTH_STORE_SECTION_KEY = 'auth';
 

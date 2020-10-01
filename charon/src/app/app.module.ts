@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
-import { Environment } from '../environments/environment.definitions';
-import { environment } from '../environments/environment';
-import { LocalStoreModule } from './shared/services/local-store';
-import { TranslocoRootModule } from './shared/transloco';
+import { Environment } from '@environments/environment.definitions';
+import { environment } from '@environments/environment';
+import { LocalStoreModule } from '@shared/services/local-store';
+import { TranslocoRootModule } from '@shared/transloco';
 import { AuthModule } from './auth';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';

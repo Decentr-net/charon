@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first, mergeMap, mergeMapTo } from 'rxjs/operators';
 
-import { WalletService } from '../../shared/services/wallet';
-import { UserService } from '../../shared/services/user';
+import { WalletService } from '@shared/services/wallet';
+import { UserService } from '@shared/services/user';
 import { AuthService, User } from '../../auth';
 
 export interface UserSignUpForm extends Omit<User, 'id'
@@ -24,6 +24,7 @@ export class SignUpService {
   constructor(
     private authService: AuthService,
     private userService: UserService,
+    private walletService: WalletService,
   ) {
   }
 
@@ -41,7 +42,7 @@ export class SignUpService {
 
   public signUp(): Observable<User> {
     const { birthdate, gender, emails, password, usernames } = this.user;
-    const { privateKey, publicKey, walletAddress } = WalletService.getNewWallet(this.seedPhrase);
+    const { privateKey, publicKey, walletAddress } = this.walletService.getNewWallet(this.seedPhrase);
 
     return this.userService.createUser(emails[0], walletAddress).pipe(
       mergeMap(() => this.authService.createUser({

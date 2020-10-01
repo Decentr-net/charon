@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { LocalStoreSection, LocalStoreService } from '../../shared/services/local-store';
-import { uuid } from '../../shared/utils/uuid';
+import { LocalStoreSection, LocalStoreService } from '@shared/services/local-store';
+import { uuid } from '@shared/utils/uuid';
+import { CryptoService } from '@shared/services/crypto';
 import { AUTH_STORE_SECTION_KEY, StoreData, User } from '../models';
-import { CryptoService } from '../../shared/services/crypto';
 
 @Injectable({
   providedIn: 'root',

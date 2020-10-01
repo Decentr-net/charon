@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { EMPTY, Observable, of } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 
-import { Environment } from '../../../../environments/environment.definitions';
+import { Environment } from '@environments/environment.definitions';
 import { Gender } from './user-api';
 
 @Injectable({
@@ -12,7 +12,7 @@ import { Gender } from './user-api';
 export class UserApiService {
   constructor(
     private http: HttpClient,
-    private environment: Environment
+    private environment: Environment,
   ) {
   }
 

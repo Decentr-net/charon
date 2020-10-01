@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { PublicLayoutComponent, PublicLayoutModule } from '../shared/components/public-layout';
+import { PublicLayoutComponent, PublicLayoutModule } from '@shared/components/public-layout';
 import {
   AccountFormPageComponent,
   EmailConfirmationPageComponent,

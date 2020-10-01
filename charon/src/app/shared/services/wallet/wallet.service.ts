@@ -1,6 +1,7 @@
+import { Injectable } from '@angular/core';
 import { getNewWalletFromSeed } from 'decentr-js';
 
-import { environment } from '../../../../environments/environment';
+import { Environment } from '@environments/environment.definitions';
 
 export interface Wallet {
   walletAddress: string;
@@ -8,12 +9,18 @@ export interface Wallet {
   publicKey: string;
 }
 
+@Injectable({
+  providedIn: 'root',
+})
 export class WalletService {
-  public static getNewWallet(seedPhrase: string): Wallet {
+  constructor(private environment: Environment) {
+  }
+
+  public getNewWallet(seedPhrase: string): Wallet {
     const {
       cosmosAddress: walletAddress,
       ...rest
-    } = getNewWalletFromSeed(seedPhrase, environment.walletPrefix);
+    } = getNewWalletFromSeed(seedPhrase, this.environment.walletPrefix);
 
     return {
       ...rest,

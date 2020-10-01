@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { UserPageComponent } from '../../pages/user-page/user-page.component';
+
+import { UserPageComponent } from '../../pages/user-page';
 
 @Component({
   selector: 'app-activity-details',

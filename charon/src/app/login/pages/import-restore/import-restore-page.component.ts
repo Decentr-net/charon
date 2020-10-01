@@ -6,9 +6,9 @@ import { pluck, share } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
-import { FORM_ERROR_TRANSLOCO_READ } from '../../../shared/components/form-error';
-import { BaseValidationUtil, PasswordValidationUtil } from '../../../shared/utils/validation';
-import { NavigationService } from '../../../shared/services/navigation/navigation.service';
+import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
+import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
+import { NavigationService } from '@shared/services/navigation/navigation.service';
 import { ImportRestorePageService } from './import-restore-page.service';
 
 export enum ImportRestorePageType {

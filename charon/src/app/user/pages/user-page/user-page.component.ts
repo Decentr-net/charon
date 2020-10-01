@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivityDetailsComponent } from '../../components/activity-details/activity-details.component';
-import { MatchMediaService } from '../../../shared/services/match-media/match-media.service';
+
+import { ActivityDetailsComponent } from '../../components/activity-details';
+import { MatchMediaService } from '@shared/services/match-media/match-media.service';
 
 export interface ActivityItem {
   id: string;

@@ -3,9 +3,9 @@ import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 
-import { FORM_ERROR_TRANSLOCO_READ } from '../../../shared/components/form-error';
+import { AuthService, LockService } from '@auth/services';
+import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { LoginRoute } from '../../login-route';
-import { AuthService, LockService } from '../../../auth/services';
 import { AppRoute } from '../../../app-route';
 
 interface LoginForm {

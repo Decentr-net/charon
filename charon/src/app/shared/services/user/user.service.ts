@@ -5,7 +5,9 @@ import { map } from 'rxjs/operators';
 import { UserApiService } from './user-api.service';
 import { UserPrivate } from './user-api';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UserService {
   constructor(
     private userApiService: UserApiService,

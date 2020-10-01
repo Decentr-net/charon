@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 
-import { CryptoService } from '../../../shared/services/crypto';
+import { CryptoService } from '@shared/services/crypto';
 import { SignUpRoute } from '../../sign-up-route';
 import { SignUpService } from '../../services';
 

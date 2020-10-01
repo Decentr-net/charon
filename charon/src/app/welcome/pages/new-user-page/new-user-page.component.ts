@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AppRoute } from '../../../app-route';
-import { LoginRoute } from '../../../login/login-route';
+import { LoginRoute } from '../../../login';
 
 @Component({
   selector: 'app-new-user-page',

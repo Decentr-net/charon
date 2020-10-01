@@ -3,10 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Validators } from '@angular/forms';
 import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
-import { FORM_ERROR_TRANSLOCO_READ } from '../../../shared/components/form-error';
-import { NavigationService } from '../../../shared/services/navigation/navigation.service';
-import { Gender } from '../../../shared/services/user';
-import { BaseValidationUtil, PasswordValidationUtil } from '../../../shared/utils/validation';
+import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
+import { NavigationService } from '@shared/services/navigation/navigation.service';
+import { Gender } from '@shared/services/user';
+import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
 import { SignUpService } from '../../services';
 import { SignUpRoute } from '../../sign-up-route';
 

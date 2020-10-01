@@ -6,10 +6,11 @@ import {
   TranslocoLoader,
   TRANSLOCO_CONFIG,
   translocoConfig,
-  TranslocoModule
+  TranslocoConfig,
+  TranslocoModule,
 } from '@ngneat/transloco';
 
-import { environment } from '../../../environments/environment';
+import { Environment } from '@environments/environment.definitions';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,16 @@ export class TranslocoHttpLoader implements TranslocoLoader {
   }
 }
 
+export function getTranslocoConfig(environment: Environment): TranslocoConfig {
+  return translocoConfig({
+    availableLangs: ['en'],
+    defaultLang: 'en',
+    fallbackLang: 'en',
+    reRenderOnLangChange: true,
+    prodMode: environment.production,
+  });
+}
+
 @NgModule({
   exports: [
     TranslocoModule,
@@ -30,13 +41,8 @@ export class TranslocoHttpLoader implements TranslocoLoader {
   providers: [
     {
       provide: TRANSLOCO_CONFIG,
-      useValue: translocoConfig({
-        availableLangs: ['en'],
-        defaultLang: 'en',
-        fallbackLang: 'en',
-        reRenderOnLangChange: true,
-        prodMode: environment.production,
-      }),
+      useFactory: getTranslocoConfig,
+      deps: [Environment],
     },
     {
       provide: TRANSLOCO_LOADER,

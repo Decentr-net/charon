@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit, TrackByFunction } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+import { NavigationService } from '@shared/services/navigation/navigation.service';
+import { shuffleArray } from '@shared/utils/array';
 import { SignUpRoute } from '../../sign-up-route';
-import { NavigationService } from '../../../shared/services/navigation/navigation.service';
-import { shuffleArray } from '../../../shared/utils/array';
 import { SignUpService } from '../../services';
-import { ActivatedRoute, Router } from '@angular/router';
 import { EMAIL_QUERY_PARAM } from '../email-confirmation-page';
 
 @UntilDestroy()

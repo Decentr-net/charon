@@ -5,7 +5,7 @@ import { BehaviorSubject, EMPTY, fromEvent, Observable, ReplaySubject } from 'rx
 import { debounceTime, distinctUntilChanged, filter, map, mapTo, startWith, switchMap, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { LocalStoreSection, LocalStoreService } from '../../shared/services/local-store';
+import { LocalStoreSection, LocalStoreService } from '@shared/services/local-store';
 import { AUTH_STORE_SECTION_KEY, StoreData } from '../models';
 import { LOCK_DELAY, LOCKED_REDIRECT_URL } from '../auth.tokens';
 
