@@ -19,7 +19,7 @@
       "seed": {
         "label": "Seed phrase",
         "errors": {
-          "length": "Seed phrases should contain 12 words",
+          "length": "Seed phrases should contain 24 words",
           "required": "Seed phrase is required"
         },
         "show": "Show seed phrase"
