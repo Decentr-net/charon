@@ -1,6 +1,7 @@
 @import 'mixins';
 
-@include font-face("ArialMT", "../fonts/ArialMT-Regular", 400, 'normal');
+@include font-face("Montserrat", "../fonts/montserratlight", 400, 'normal');
+@include font-face("Montserrat", "../fonts/montserrat", 500, 'normal');
 @include font-face("Material Icons", "../fonts/MaterialIcons-Regular", 400, 'normal');
 
 .material-icons {

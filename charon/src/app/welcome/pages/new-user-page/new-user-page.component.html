@@ -11,50 +11,58 @@
   <div class="row">
     <div class="col-xs-6 item">
       <mat-card class="text-center">
-        <div class="icon"
-             aria-label="Import Account"
-             [resolveSVGUrl]="false"
-             [inlineSVG]="'assets/images/icons/import.svg'">
+        <div>
+          <div class="icon"
+               aria-label="Import Account"
+               [resolveSVGUrl]="false"
+               [inlineSVG]="'assets/images/icons/import.svg'">
+          </div>
+          <mat-card-title>
+            {{ translate('import.title') }}
+          </mat-card-title>
+
+          <mat-card-subtitle>
+            {{ translate('import.subtitle') }}
+          </mat-card-subtitle>
         </div>
-        <mat-card-title>
-          {{ translate('import.title') }}
-        </mat-card-title>
 
-        <mat-card-subtitle>
-          {{ translate('import.subtitle') }}
-        </mat-card-subtitle>
-
-        <button class="btn btn__middle"
-                mat-flat-button
-                color="accent"
-                [routerLink]="['/', appRoute.Login, loginRoute.Import]">
-          {{ translate('import.button') }}
-        </button>
+        <div>
+          <button class="btn btn__middle"
+                  mat-flat-button
+                  color="accent"
+                  [routerLink]="['/', appRoute.Login, loginRoute.Import]">
+            {{ translate('import.button') }}
+          </button>
+        </div>
       </mat-card>
     </div>
 
     <div class="col-xs-6 item">
       <mat-card class="text-center">
-        <div class="icon"
-             aria-label="Import Account"
-             [resolveSVGUrl]="false"
-             [inlineSVG]="'/assets/images/icons/plus.svg'">
+        <div>
+          <div class="icon"
+               aria-label="Import Account"
+               [resolveSVGUrl]="false"
+               [inlineSVG]="'/assets/images/icons/plus.svg'">
+          </div>
+
+          <mat-card-title>
+            {{ translate('create.title') }}
+          </mat-card-title>
+
+          <mat-card-subtitle>
+            {{ translate('create.subtitle') }}
+          </mat-card-subtitle>
         </div>
 
-        <mat-card-title>
-          {{ translate('create.title') }}
-        </mat-card-title>
-
-        <mat-card-subtitle>
-          {{ translate('create.subtitle') }}
-        </mat-card-subtitle>
-
-        <button class="btn btn__middle"
+        <div>
+          <button class="btn btn__middle"
                 mat-flat-button
                 color="accent"
                 [routerLink]="['/', appRoute.SignUp]">
           {{ translate('create.button') }}
-        </button>
+         </button>
+        </div>
       </mat-card>
     </div>
   </div>
