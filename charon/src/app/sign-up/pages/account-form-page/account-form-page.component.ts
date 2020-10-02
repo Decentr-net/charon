@@ -73,22 +73,6 @@ export class AccountFormPageComponent implements OnInit {
     });
   }
 
-  onKeyDateInput(event) {
-    if (event.inputType !== 'deleteContentBackward') {
-      const control = this.form.getControl('birthdate');
-      let outputValue = control.value.replace(/\D/g, '');
-
-      if (outputValue.length > 1 && outputValue.length < 4) {
-        outputValue = `${outputValue.substring(0, 2)}/${outputValue.substring(2, 3)}`;
-      } else if (outputValue.length >= 4) {
-        outputValue = `${outputValue.substring(0, 2)}/${outputValue.substring(2, 4)}/${outputValue.substring(4, outputValue.length)}`;
-        outputValue = outputValue.substring(0, 10);
-      }
-
-      control.setValue(outputValue);
-    }
-  }
-
   public get emailFormArray(): FormArray<string> {
     return this.form.controls.email as FormArray;
   }

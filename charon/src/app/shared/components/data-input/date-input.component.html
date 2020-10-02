@@ -1,0 +1,15 @@
+<mat-form-field [class]="className"
+                [appearance]="appearance">
+  <input matInput
+         type="text"
+         [errorStateMatcher]="matcher"
+         [(ngModel)]="value"
+         (input)="onChange()"
+         (paste)="onChange()"
+         maxlength="10"
+         placeholder="MM/DD/YYYY"/>
+
+  <mat-error>
+    <app-form-error [controlName]="formControlName"></app-form-error>
+  </mat-error>
+</mat-form-field>

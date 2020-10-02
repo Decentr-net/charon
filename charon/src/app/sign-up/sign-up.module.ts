@@ -21,6 +21,7 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
   imports: [
     AutofocusModule,
     CommonModule,
+    FormsModule,
     FormErrorModule,
     FormsModule,
     MatButtonModule,
