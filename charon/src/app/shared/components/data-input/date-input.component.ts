@@ -30,7 +30,6 @@ import { AddSeparatorToDate } from '@shared/utils/form-value';
 })
 export class DateInputComponent implements AfterViewInit, ControlValueAccessor {
 
-  static control: AbstractControl;
   matcher: ErrorStateMatcher;
   value: string;
 
@@ -46,10 +45,10 @@ export class DateInputComponent implements AfterViewInit, ControlValueAccessor {
 
   ngAfterViewInit() {
     if (this.controlContainer && this.formControlName) {
-      DateInputComponent.control = this.controlContainer.control.get(this.formControlName);
-    }
+      const control = this.controlContainer.control.get(this.formControlName);
 
-    this.matcher = new LocalControlErrorStateMatcher(DateInputComponent.control);
+      this.matcher = new LocalControlErrorStateMatcher(control);
+    }
   }
 
   public onChange() {
@@ -71,7 +70,7 @@ export class DateInputComponent implements AfterViewInit, ControlValueAccessor {
     this.propagateTouch = fn;
   }
 
-  onKeyDateInput() {
+  private onKeyDateInput() {
     return AddSeparatorToDate(this.value, '-');
   }
 }
