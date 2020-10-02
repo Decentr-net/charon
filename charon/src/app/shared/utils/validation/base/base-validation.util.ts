@@ -20,14 +20,13 @@ export class BaseValidationUtil {
     return isInvalid ? { length: true } as ValidationResult : null;
   }
 
-  static isUsDateFormatCorrect(control: FormControl): { [key: string]: any } {
+  static isFrDateFormatCorrect(control: FormControl): { [key: string]: any } {
     if (!control.value) {
       return null;
     }
 
-    const datePattern = new RegExp(['^02\\/(?:[01]\\d|2\\d)\\/(?:19|20)(?:0[048]|[13579][26]|[2468][048])|',
-      '(?:0[13578]|10|12)\\/(?:[0-2]\\d|3[01])\\/(?:19|20)\\d{2}|',
-      '(?:0[469]|11)\\/(?:[0-2]\\d|30)\\/(?:19|20)\\d{2}|02\\/(?:[0-1]\\d|2[0-8])\\/(?:19|20)\\d{2}$'].join(''));
+    // Date format fr-CA (yyyy{-/}mm{-/}dd): \b(\d{4})([\/\-])(0[1-9]|1[012])\2(0[1-9]|[12]\d|3[01])
+    const datePattern = new RegExp(`\\b(\\d{4})([\\/\\-])(0[1-9]|1[012])\\2(0[1-9]|[12]\\d|3[01])`);
 
     return !control.value.match(datePattern) ? { invalidFormat: true } as ValidationResult : null;
   }

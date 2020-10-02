@@ -13,7 +13,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { noop } from 'rxjs';
 import { MatFormFieldAppearance } from '@angular/material/form-field/form-field';
 import { LocalControlErrorStateMatcher } from '@shared/providers/local-control-error-state-matcher';
-import { AddSlashToDate } from '@shared/utils/form-value';
+import { AddSeparatorToDate } from '@shared/utils/form-value';
 
 @Component({
   selector: 'app-date-input',
@@ -72,6 +72,6 @@ export class DateInputComponent implements AfterViewInit, ControlValueAccessor {
   }
 
   onKeyDateInput() {
-    return AddSlashToDate(this.value);
+    return AddSeparatorToDate(this.value, '-');
   }
 }

@@ -112,7 +112,7 @@ export class AccountFormPageComponent implements OnInit {
       ]],
       birthdate: ['', [
         Validators.required,
-        BaseValidationUtil.isUsDateFormatCorrect,
+        BaseValidationUtil.isFrDateFormatCorrect,
       ]],
       confirmPassword: ['', [
         PasswordValidationUtil.equalsToAdjacentControl('password'),
