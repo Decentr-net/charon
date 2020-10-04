@@ -9,28 +9,49 @@
         <p>{{ translate('open') }}</p>
       </div>
     </div>
+
     <form
+      class="email-confirmation-page__form"
       *transloco="let translate; read: 'sign_up.email_confirmation_page.form'"
       [formGroup]="codeForm"
       (ngSubmit)="confirm()"
     >
       <div class="row">
-        <div class="col-xs-12 input-container">
-          <mat-form-field class="input-control" appearance="outline">
-            <input
-              type="text"
-              matInput
-              formControlName="code"
-              appAutofocus
-            >
-            <mat-error>
-              <app-form-error controlName="code"></app-form-error>
-            </mat-error>
-          </mat-form-field>
+        <div class="email-confirmation-page__form-header col-xs-12">
+          <div class="email-confirmation-page__form-label">{{ translate('label') }}</div>
+          <button
+            type="button"
+            *ngIf="(resendTimer$ | async) === 0"
+            mat-button
+            color="accent"
+            (click)="sendEmail()"
+          >
+            {{ translate('resend_code') }}
+          </button>
         </div>
+
         <div class="col-xs-12">
-          <button class="btn btn__small" type="submit">
+          <app-code-input [length]="6" formControlName="code"></app-code-input>
+        </div>
+        <div class="email-confirmation-page__form-footer col-xs-12">
+          <button
+            class="btn btn__small"
+            type="submit"
+            mat-flat-button
+            color="accent"
+            [disabled]="codeForm.invalid"
+          >
             {{ translate('submit') }}
+          </button>
+
+          <button
+            class="btn btn__small"
+            type="button"
+            mat-button
+            color="accent"
+            (click)="registerNewAccount()"
+          >
+            {{ translate('register_new_account') }}
           </button>
         </div>
       </div>

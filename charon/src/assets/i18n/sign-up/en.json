@@ -64,6 +64,9 @@
           "required": "Code is required"
         }
       },
+      "label": "Activation code",
+      "register_new_account": "Register New Account",
+      "resend_code": "Resend a code",
       "submit": "Confirm"
     },
     "open": "Please enter the code to complete your registration, it is a mandatory step.",

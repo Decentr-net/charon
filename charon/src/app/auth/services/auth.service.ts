@@ -54,13 +54,16 @@ export class AuthService {
     return this.activeUser$.value;
   }
 
-  public async createUser(user: Omit<User, 'id' | 'passwordHash'> & { password: string }): Promise<User['id']> {
+  public async createUser(
+    user: Omit<User, 'id' | 'mainEmail' | 'passwordHash'> & { password: string }
+  ): Promise<User['id']> {
     const id = uuid();
     const newUsers = [
       ...this.users$.value,
       {
         ...user,
         id,
+        mainEmail: user.emails[0],
         passwordHash: CryptoService.encryptPassword(user.password)
       },
     ];
@@ -78,7 +81,15 @@ export class AuthService {
 
   public async removeUser(userId: User['id']): Promise<void> {
     const newUsers = this.users$.value.filter(({id}) => id !== userId);
-    this.users$.next(newUsers);
+    if (this.isLoggedIn && userId === this.getActiveUserInstant().id) {
+      await this.logout();
+    }
+    await this.updateUsers(newUsers);
+  }
+
+  public async logout(): Promise<void> {
+    await this.authStore.remove('activeUserId');
+    this.activeUser$.next(undefined);
   }
 
   public validateCurrentUserPassword(password: string): boolean {

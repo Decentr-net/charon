@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
+import { CodeInputModule } from '@shared/components/code-input';
 import { FormErrorModule } from '@shared/components/form-error';
 import { AutofocusModule } from '@shared/directives/autofocus';
 import { SIGN_UP_PAGES } from './pages';
@@ -20,6 +21,7 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
   ],
   imports: [
     AutofocusModule,
+    CodeInputModule,
     CommonModule,
     FormErrorModule,
     FormsModule,
