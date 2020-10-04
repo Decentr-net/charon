@@ -1,0 +1,20 @@
+<form [formGroup]="form">
+  <div
+    class="code-input__fields-container"
+    formArrayName="chars"
+  >
+    <mat-form-field
+      class="code-input__field"
+      appearance="outline"
+      *ngFor="let control of charsArrayControl.controls; index as i; trackBy: trackByElem"
+    >
+      <input
+        class="code-input__input"
+        maxlength="1"
+        [formControlName]="i"
+        matInput
+        (blur)="onTouched()"
+      >
+    </mat-form-field>
+  </div>
+</form>

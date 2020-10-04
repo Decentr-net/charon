@@ -1,0 +1,24 @@
+:host {
+  font-size: 0.1rem;
+  display: block;
+}
+
+.code-input__fields-container {
+  display: flex;
+}
+
+.code-input__field {
+  height: 3rem;
+  width: 3rem;
+
+  & + & {
+    margin-left: 1rem;
+  }
+}
+
+.code-input__input {
+  font-size: 1.6rem;
+  height: 3rem;
+  text-align: center;
+  width: 3rem;
+}
