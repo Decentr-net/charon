@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, timer } from 'rxjs';
@@ -7,10 +7,10 @@ import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AuthService } from '@auth/services';
-import { SignUpService } from '../../services';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { LocalStoreSection, LocalStoreService } from '@shared/services/local-store';
 import { AppRoute } from '../../../app-route';
+import { SignUpService } from '../../services';
 import { SignUpRoute } from '../../sign-up-route';
 
 interface CodeForm {
@@ -36,7 +36,7 @@ const RESEND_DELAY_SEC = 5;
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EmailConfirmationPageComponent implements OnInit {
+export class EmailConfirmationPageComponent implements OnInit, OnDestroy {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
   public email$: Observable<string>;
@@ -71,8 +71,11 @@ export class EmailConfirmationPageComponent implements OnInit {
         RESEND_DELAY_SEC,
         Math.max(Math.ceil(RESEND_DELAY_SEC - sentSecondsLast), 0),
       );
-      this.resendTimer$.subscribe(console.log);
     });
+  }
+
+  public ngOnDestroy() {
+    this.emailConfirmationStore.remove('lastSentTime');
   }
 
   public confirm(): void {
