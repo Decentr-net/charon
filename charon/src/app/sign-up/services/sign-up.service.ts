@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Wallet, WalletService } from '@shared/services/wallet';
 import { UserService } from '@shared/services/user';
 import { AuthService, User } from '../../auth';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 
 export interface UserSignUpForm extends Omit<User, 'id'
   | 'mainEmail'
@@ -50,8 +50,9 @@ export class SignUpService {
 
   public confirmEmail(code: string): Observable<void> {
     const user = this.authService.getActiveUserInstant();
-    return this.userService.confirmUser(code, user.walletAddress).pipe(
+    return this.userService.confirmUser(code, user.mainEmail).pipe(
       switchMap(() => this.authService.confirmCurrentUserEmail()),
+      take(1),
     );
   }
 

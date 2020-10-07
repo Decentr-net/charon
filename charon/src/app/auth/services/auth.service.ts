@@ -61,10 +61,17 @@ export class AuthService {
     const newUsers = [
       ...this.users$.value,
       {
-        ...user,
         id,
+        birthdate: user.birthdate,
+        emailConfirmed: user.emailConfirmed,
+        emails: user.emails,
+        gender: user.gender,
         mainEmail: user.emails[0],
-        passwordHash: CryptoService.encryptPassword(user.password)
+        passwordHash: CryptoService.encryptPassword(user.password),
+        privateKey: user.privateKey,
+        publicKey: user.publicKey,
+        usernames: user.usernames,
+        walletAddress: user.walletAddress,
       },
     ];
 
