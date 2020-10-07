@@ -22,10 +22,10 @@ export class UserApiService {
     });
   }
 
-  public confirmUser(code: string, walletAddress: string): Observable<void> {
+  public confirmUser(code: string, email: string): Observable<void> {
     return this.http.post<void>(`${this.environment.vulcanApi}/confirm`, {
       code,
-      owner: walletAddress,
+      email,
     });
   }
 

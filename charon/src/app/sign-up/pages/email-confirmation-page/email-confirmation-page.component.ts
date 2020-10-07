@@ -1,19 +1,22 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Subject, timer } from 'rxjs';
+import { filter, map, mapTo, startWith, switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AuthService } from '@auth/services';
+import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
+import { AppRoute } from '../../../app-route';
 import { SignUpService } from '../../services';
 import { SignUpRoute } from '../../sign-up-route';
-import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 
 interface CodeForm {
   code: string;
 }
+
+const RESEND_DELAY_SEC = 60;
 
 @UntilDestroy()
 @Component({
@@ -31,8 +34,11 @@ interface CodeForm {
 export class EmailConfirmationPageComponent implements OnInit {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
-  public email$: Observable<string>;
+  public email: string;
   public codeForm: FormGroup<CodeForm>;
+  public resendTimer$: Observable<number>;
+
+  private timerReset$: Subject<void> = new Subject<void>();
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -46,9 +52,16 @@ export class EmailConfirmationPageComponent implements OnInit {
   public ngOnInit() {
     this.codeForm = this.createForm();
 
-    this.email$ = this.authService.getActiveUser().pipe(
-      map(user => user.emails[0]),
-    );
+    this.email = this.authService.getActiveUserInstant().mainEmail;
+
+    this.signUpService.getLastEmailSendingTime().then((lastSendingTime) => {
+      const sentSecondsLast = (Date.now() - (lastSendingTime || RESEND_DELAY_SEC)) / 1000;
+      this.resendTimer$ = this.createTimer(
+        this.timerReset$,
+        RESEND_DELAY_SEC,
+        Math.max(Math.ceil(RESEND_DELAY_SEC - sentSecondsLast), 0),
+      );
+    });
   }
 
   public confirm(): void {
@@ -56,7 +69,20 @@ export class EmailConfirmationPageComponent implements OnInit {
     this.signUpService.confirmEmail(code).pipe(
       untilDestroyed(this),
     ).subscribe(() => {
-      this.router.navigate(['../', SignUpRoute.Success], {
+      this.signUpService.endSignUp();
+      this.router.navigate(['/', AppRoute.User]);
+    });
+  }
+
+  public sendEmail(): void {
+    this.signUpService.sendEmail().subscribe(() => {
+      this.resetTimer();
+    });
+  }
+
+  public registerNewAccount(): void {
+    this.signUpService.resetSignUp().then(() => {
+      this.router.navigate(['../', SignUpRoute.AccountForm], {
         relativeTo: this.activatedRoute,
       });
     });
@@ -66,5 +92,25 @@ export class EmailConfirmationPageComponent implements OnInit {
     return this.formBuilder.group({
       code: ['', Validators.required],
     });
+  }
+
+  private createTimer(
+    resetSource: Observable<void>,
+    seconds: number,
+    initialSeconds: number = seconds,
+  ): Observable<number> {
+    const period = 1000;
+    return resetSource.pipe(
+      mapTo(seconds),
+      startWith(initialSeconds),
+      switchMap((seconds) => timer(0, period).pipe(
+        map((tick) => seconds - tick),
+      )),
+      filter((value) => value >= 0),
+    );
+  }
+
+  private resetTimer(): void {
+    this.timerReset$.next();
   }
 }

@@ -6,3 +6,26 @@
 p {
   margin-bottom: 1rem;
 }
+
+.email-confirmation-page__form {
+  margin-top: 2rem;
+  width: min-content;
+}
+
+.email-confirmation-page__form-header,
+.email-confirmation-page__form-footer {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.email-confirmation-page__form-header {
+  color: #aeaeae;
+  font-size: 0.8rem;
+  height: 2.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.email-confirmation-page__form-footer {
+  margin-top: 1.5rem;
+}

@@ -31,6 +31,10 @@ export class LocalStoreSection<T extends {} = {}> {
     return this.setSectionValue(sectionValue);
   }
 
+  public clear(): Promise<void> {
+    return this.localStoreService.remove(this.section);
+  }
+
   public onChange<U extends keyof T>(key: U): Observable<T[U]> {
     return this.localStoreService.onChange<T>(this.section).pipe(
       filter((changes) => changes.hasOwnProperty(key)),

@@ -18,8 +18,8 @@ export class UserService {
     return this.userApiService.createUser(email, walletAddress);
   }
 
-  public confirmUser(code: string, walletAddress: string): Observable<void> {
-    return this.userApiService.confirmUser(code, walletAddress);
+  public confirmUser(code: string, email: string): Observable<void> {
+    return this.userApiService.confirmUser(code, email);
   }
 
   public getUserPrivate(walletAddress: string): Observable<UserPrivate> {

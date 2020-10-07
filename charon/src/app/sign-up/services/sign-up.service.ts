@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { first, mergeMap, mergeMapTo } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
-import { WalletService } from '@shared/services/wallet';
+import { LocalStoreSection, LocalStoreService } from '@shared/services/local-store';
+import { Wallet, WalletService } from '@shared/services/wallet';
 import { UserService } from '@shared/services/user';
 import { AuthService, User } from '../../auth';
 
 export interface UserSignUpForm extends Omit<User, 'id'
+  | 'mainEmail'
   | 'passwordHash'
   | 'privateKey'
   | 'publicKey'
@@ -16,16 +18,24 @@ export interface UserSignUpForm extends Omit<User, 'id'
   password: string;
 }
 
+interface SignUpStore {
+  lastEmailSendingTime: number;
+}
+
 @Injectable()
 export class SignUpService {
-  private user: UserSignUpForm;
+  private userForm: UserSignUpForm;
   private seedPhrase: string;
+  private wallet: Wallet;
+  private readonly signUpStore: LocalStoreSection<SignUpStore>;
 
   constructor(
     private authService: AuthService,
     private userService: UserService,
     private walletService: WalletService,
+    localStore: LocalStoreService,
   ) {
+    this.signUpStore = localStore.useSection('signUp');
   }
 
   public getSeedPhrase(): string {
@@ -34,38 +44,56 @@ export class SignUpService {
 
   public setSeedPhrase(seedPhrase: string): void {
     this.seedPhrase = seedPhrase;
+    this.wallet = this.walletService.getNewWallet(this.seedPhrase);
   }
 
   public setUserData(user: UserSignUpForm): void {
-    this.user = user;
+    this.userForm = user;
   }
 
-  public signUp(): Observable<User> {
-    const { birthdate, gender, emails, password, usernames } = this.user;
-    const { privateKey, publicKey, walletAddress } = this.walletService.getNewWallet(this.seedPhrase);
-
-    return this.userService.createUser(emails[0], walletAddress).pipe(
-      mergeMap(() => this.authService.createUser({
-        birthdate,
-        gender,
-        emails,
-        password,
-        privateKey,
-        publicKey,
-        usernames,
-        walletAddress,
-        emailConfirmed: false,
-      })),
-      mergeMap((id) => this.authService.changeUser(id)),
-      mergeMapTo(this.authService.getActiveUser()),
-      first(),
+  public sendEmail(): Observable<void> {
+    const user = this.authService.getActiveUserInstant();
+    return this.userService.createUser(user.mainEmail, user.walletAddress).pipe(
+      switchMap(() => this.signUpStore.set('lastEmailSendingTime', Date.now())),
     );
   }
 
   public confirmEmail(code: string): Observable<void> {
     const user = this.authService.getActiveUserInstant();
-    return this.userService.confirmUser(code, user.walletAddress).pipe(
-      // switchMap(() => this.authService.confirmCurrentUserEmail()),
+    return this.userService.confirmUser(code, user.mainEmail).pipe(
+      switchMap(() => this.authService.confirmCurrentUserEmail()),
     );
+  }
+
+  public signInWithNewUser(): Promise<User['id']> {
+    const { birthdate, gender, emails, password, usernames } = this.userForm;
+    const { privateKey, publicKey, walletAddress } = this.wallet;
+
+    return this.authService.createUser({
+      birthdate,
+      gender,
+      emails,
+      password,
+      privateKey,
+      publicKey,
+      usernames,
+      walletAddress,
+      emailConfirmed: false,
+    }).then((id) => this.authService.changeUser(id).then(() => id));
+  }
+
+  public getLastEmailSendingTime(): Promise<number> {
+    return this.signUpStore.get('lastEmailSendingTime');
+  }
+
+  public endSignUp(): Promise<void> {
+    return this.signUpStore.clear();
+  }
+
+  public async resetSignUp(): Promise<void> {
+    await this.endSignUp();
+
+    const user = this.authService.getActiveUserInstant();
+    return this.authService.removeUser(user.id);
   }
 }

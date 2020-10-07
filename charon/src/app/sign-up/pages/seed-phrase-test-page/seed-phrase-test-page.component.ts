@@ -1,8 +1,11 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit, TrackByFunction } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { from } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { NavigationService } from '@shared/services/navigation/navigation.service';
+import { UserService } from '@shared/services/user';
 import { shuffleArray } from '@shared/utils/array';
 import { SignUpRoute } from '../../sign-up-route';
 import { SignUpService } from '../../services';
@@ -27,6 +30,7 @@ export class SeedPhraseTestPageComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private navigationService: NavigationService,
     private router: Router,
+    private userService: UserService,
     private signUpService: SignUpService,
   ) {
   }
@@ -48,7 +52,8 @@ export class SeedPhraseTestPageComponent implements OnInit {
   }
 
   public signUp(): void {
-    this.signUpService.signUp().pipe(
+    from(this.signUpService.signInWithNewUser()).pipe(
+      mergeMap(() => this.signUpService.sendEmail()),
       untilDestroyed(this),
     ).subscribe(() => {
       this.router.navigate(['../', SignUpRoute.EmailConfirmation], {
