@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, timer } from 'rxjs';
@@ -8,7 +8,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AuthService } from '@auth/services';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
-import { LocalStoreSection, LocalStoreService } from '@shared/services/local-store';
 import { AppRoute } from '../../../app-route';
 import { SignUpService } from '../../services';
 import { SignUpRoute } from '../../sign-up-route';
@@ -17,11 +16,7 @@ interface CodeForm {
   code: string;
 }
 
-interface EmailConfirmationStore {
-  lastSentTime: number;
-}
-
-const RESEND_DELAY_SEC = 5;
+const RESEND_DELAY_SEC = 60;
 
 @UntilDestroy()
 @Component({
@@ -36,14 +31,13 @@ const RESEND_DELAY_SEC = 5;
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EmailConfirmationPageComponent implements OnInit, OnDestroy {
+export class EmailConfirmationPageComponent implements OnInit {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
-  public email$: Observable<string>;
+  public email: string;
   public codeForm: FormGroup<CodeForm>;
   public resendTimer$: Observable<number>;
 
-  private emailConfirmationStore: LocalStoreSection<EmailConfirmationStore>;
   private timerReset$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -52,20 +46,16 @@ export class EmailConfirmationPageComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private router: Router,
     private signUpService: SignUpService,
-    localStore: LocalStoreService,
   ) {
-    this.emailConfirmationStore = localStore.useSection('signUp');
   }
 
   public ngOnInit() {
     this.codeForm = this.createForm();
 
-    this.email$ = this.authService.getActiveUser().pipe(
-      map(user => user.emails[0]),
-    );
+    this.email = this.authService.getActiveUserInstant().mainEmail;
 
-    this.emailConfirmationStore.get('lastSentTime').then((lastSentTime) => {
-      const sentSecondsLast = (Date.now() - (lastSentTime || RESEND_DELAY_SEC)) / 1000;
+    this.signUpService.getLastEmailSendingTime().then((lastSendingTime) => {
+      const sentSecondsLast = (Date.now() - (lastSendingTime || RESEND_DELAY_SEC)) / 1000;
       this.resendTimer$ = this.createTimer(
         this.timerReset$,
         RESEND_DELAY_SEC,
@@ -74,32 +64,27 @@ export class EmailConfirmationPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  public ngOnDestroy() {
-    this.emailConfirmationStore.remove('lastSentTime');
-  }
-
   public confirm(): void {
     const code = this.codeForm.getRawValue().code;
     this.signUpService.confirmEmail(code).pipe(
       untilDestroyed(this),
     ).subscribe(() => {
-      this.router.navigate(['/', AppRoute.User], {
-        relativeTo: this.activatedRoute,
-      });
+      this.signUpService.endSignUp();
+      this.router.navigate(['/', AppRoute.User]);
     });
   }
 
   public sendEmail(): void {
     this.signUpService.sendEmail().subscribe(() => {
-      this.emailConfirmationStore.set('lastSentTime', Date.now());
       this.resetTimer();
     });
   }
 
   public registerNewAccount(): void {
-    this.signUpService.reset();
-    this.router.navigate(['../', SignUpRoute.AccountForm], {
-      relativeTo: this.activatedRoute,
+    this.signUpService.resetSignUp().then(() => {
+      this.router.navigate(['../', SignUpRoute.AccountForm], {
+        relativeTo: this.activatedRoute,
+      });
     });
   }
 

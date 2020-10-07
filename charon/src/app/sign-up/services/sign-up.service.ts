@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
+import { LocalStoreSection, LocalStoreService } from '@shared/services/local-store';
 import { Wallet, WalletService } from '@shared/services/wallet';
 import { UserService } from '@shared/services/user';
 import { AuthService, User } from '../../auth';
-import { switchMap, take } from 'rxjs/operators';
 
 export interface UserSignUpForm extends Omit<User, 'id'
   | 'mainEmail'
@@ -17,17 +18,24 @@ export interface UserSignUpForm extends Omit<User, 'id'
   password: string;
 }
 
+interface SignUpStore {
+  lastEmailSendingTime: number;
+}
+
 @Injectable()
 export class SignUpService {
   private userForm: UserSignUpForm;
   private seedPhrase: string;
   private wallet: Wallet;
+  private readonly signUpStore: LocalStoreSection<SignUpStore>;
 
   constructor(
     private authService: AuthService,
     private userService: UserService,
     private walletService: WalletService,
+    localStore: LocalStoreService,
   ) {
+    this.signUpStore = localStore.useSection('signUp');
   }
 
   public getSeedPhrase(): string {
@@ -45,14 +53,15 @@ export class SignUpService {
 
   public sendEmail(): Observable<void> {
     const user = this.authService.getActiveUserInstant();
-    return this.userService.createUser(user.mainEmail, user.walletAddress);
+    return this.userService.createUser(user.mainEmail, user.walletAddress).pipe(
+      switchMap(() => this.signUpStore.set('lastEmailSendingTime', Date.now())),
+    );
   }
 
   public confirmEmail(code: string): Observable<void> {
     const user = this.authService.getActiveUserInstant();
     return this.userService.confirmUser(code, user.mainEmail).pipe(
       switchMap(() => this.authService.confirmCurrentUserEmail()),
-      take(1),
     );
   }
 
@@ -73,8 +82,18 @@ export class SignUpService {
     }).then((id) => this.authService.changeUser(id).then(() => id));
   }
 
-  public reset(): void {
+  public getLastEmailSendingTime(): Promise<number> {
+    return this.signUpStore.get('lastEmailSendingTime');
+  }
+
+  public endSignUp(): Promise<void> {
+    return this.signUpStore.clear();
+  }
+
+  public async resetSignUp(): Promise<void> {
+    await this.endSignUp();
+
     const user = this.authService.getActiveUserInstant();
-    this.authService.removeUser(user.id);
+    return this.authService.removeUser(user.id);
   }
 }

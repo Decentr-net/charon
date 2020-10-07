@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { LocalStoreSection, LocalStoreService } from '@shared/services/local-store';
 import { uuid } from '@shared/utils/uuid';
@@ -10,6 +11,7 @@ import { AUTH_STORE_SECTION_KEY, StoreData, User } from '../models';
   providedIn: 'root',
 })
 export class AuthService {
+  private activeUserId$: BehaviorSubject<User['id'] | undefined> = new BehaviorSubject(undefined);
   private activeUser$: BehaviorSubject<User | undefined> = new BehaviorSubject(undefined);
   private users$: BehaviorSubject<User[]> = new BehaviorSubject([]);
   private authStore: LocalStoreSection<StoreData>;
@@ -18,10 +20,17 @@ export class AuthService {
     store: LocalStoreService,
   ) {
     this.authStore = store.useSection(AUTH_STORE_SECTION_KEY);
+
+    combineLatest([
+      this.users$,
+      this.activeUserId$,
+    ]).pipe(
+      map(([users, activeUserId]) => users.find(user => user.id === activeUserId)),
+    ).subscribe(this.activeUser$);
   }
 
   public get isLoggedIn(): boolean {
-    return !!this.activeUser$.value;
+    return !!this.getActiveUserInstant();
   }
 
   public async init(): Promise<void> {
@@ -29,8 +38,7 @@ export class AuthService {
     this.users$.next(users);
 
     const activeUserId = await this.authStore.get('activeUserId');
-    const activeUser = users.find(user => user.id === activeUserId);
-    this.activeUser$.next(activeUser);
+    this.activeUserId$.next(activeUserId);
   }
 
   public confirmCurrentUserEmail(): Promise<void> {
@@ -82,8 +90,7 @@ export class AuthService {
 
   public async changeUser(userId: User['id']): Promise<void> {
     await this.authStore.set('activeUserId', userId);
-    const activeUser = this.users$.value.find(user => user.id === userId);
-    this.activeUser$.next(activeUser);
+    this.activeUserId$.next(userId);
   }
 
   public async removeUser(userId: User['id']): Promise<void> {
@@ -96,7 +103,7 @@ export class AuthService {
 
   public async logout(): Promise<void> {
     await this.authStore.remove('activeUserId');
-    this.activeUser$.next(undefined);
+    this.activeUserId$.next(undefined);
   }
 
   public validateCurrentUserPassword(password: string): boolean {
