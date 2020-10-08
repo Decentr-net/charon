@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { EMPTY, Observable } from 'rxjs';
-import { mapTo, mergeMap, take } from 'rxjs/operators';
+import { mapTo, mergeMap, take, tap } from 'rxjs/operators';
 
-import { AuthService } from '@auth/services';
+import { AuthService, LockService } from '@auth/services';
 import { UserService } from '@shared/services/user';
 import { WalletService } from '@shared/services/wallet';
 import { AppRoute } from '../../../app-route';
@@ -12,6 +12,7 @@ import { AppRoute } from '../../../app-route';
 export class ImportRestorePageService {
   constructor(
     private authService: AuthService,
+    private lockService: LockService,
     private router: Router,
     private userService: UserService,
     private walletService: WalletService,
@@ -31,6 +32,7 @@ export class ImportRestorePageService {
         emailConfirmed: true,
       })),
       mergeMap((id) => this.authService.changeUser(id)),
+      tap(() => this.lockService.unlock()),
       mergeMap(() => this.router.navigate([AppRoute.User])),
       mapTo(void 0),
     );
