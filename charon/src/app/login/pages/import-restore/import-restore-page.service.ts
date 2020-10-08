@@ -28,7 +28,7 @@ export class ImportRestorePageService {
         privateKey,
         publicKey,
         walletAddress,
-        emailConfirmed: false,
+        emailConfirmed: true,
       })),
       mergeMap((id) => this.authService.changeUser(id)),
       mergeMap(() => this.router.navigate([AppRoute.User])),
