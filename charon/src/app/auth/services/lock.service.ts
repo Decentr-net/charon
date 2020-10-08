@@ -56,6 +56,10 @@ export class LockService {
     this.router.navigate([this.lockedRedirectUrl]);
   }
 
+  public unlock(): void {
+    this.isLocked$.next(false);
+  }
+
   private initLockSubscription(): void {
     this.isWorking$.pipe(
       distinctUntilChanged(),

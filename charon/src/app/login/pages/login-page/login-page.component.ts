@@ -53,7 +53,7 @@ export class LoginPageComponent implements OnInit {
       return;
     }
 
-    this.lockService.stop();
+    this.lockService.unlock();
     this.router.navigate(['/', AppRoute.User]);
   }
 
