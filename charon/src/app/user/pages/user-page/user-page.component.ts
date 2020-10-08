@@ -5,6 +5,9 @@ import { ActivityDetailsComponent } from '../../components/activity-details';
 import { MatchMediaService } from '@shared/services/match-media/match-media.service';
 import { BrowserApi } from '@shared/utils/browser-api';
 import { Router } from '@angular/router';
+import { AuthService } from '@auth/services';
+import { Observable } from 'rxjs';
+import { User } from '@auth/models';
 
 export interface ActivityItem {
   id: string;
@@ -22,15 +25,19 @@ export interface ActivityItem {
 export class UserPageComponent implements OnInit {
 
   activityItems: ActivityItem[];
+  public user$: Observable<User>;
 
   constructor(
     public dialog: MatDialog,
+    private authService: AuthService,
     private matchMediaService: MatchMediaService,
     private router: Router,
   ) {
   }
 
   ngOnInit(): void {
+    this.user$ = this.authService.getActiveUser();
+
     this.activityItems = [
       { id: 'id1', name: 'Cookies name 1', date: '24.07.2020, 11:50', site: 'google.com' },
       { id: 'id1', name: 'Cookies name 2', date: '24.07.2020, 11:50', site: 'decentr.net' },

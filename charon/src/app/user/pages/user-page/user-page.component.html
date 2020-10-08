@@ -1,5 +1,5 @@
 <ng-container *transloco="let translate; read: 'user.user_page'">
-  <div class="page-home">
+  <div class="page-home" *ngIf="user$ | async as user">
     <div class="container">
       <div class="user-nav-wrapper">
         <div></div>
@@ -7,10 +7,10 @@
         <div class="user-data">
           <div class="user-data__inner">
             <div class="wallet-username">
-              Vaskovsky Vasily Nikolaevich
+              {{ user.mainEmail }}
             </div>
             <div class="wallet-id">
-              0x083fa3A57D9C44eBA71zC8z6ZfB81ad1e434Zb20
+              {{ user.walletAddress }}
             </div>
           </div>
         </div>
