@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { LockService } from '@auth/services';
 
 @Component({
   selector: 'app-profile-selector',
   templateUrl: './profile-selector.component.html',
   styleUrls: ['./profile-selector.component.scss']
 })
-export class ProfileSelectorComponent implements OnInit {
+export class ProfileSelectorComponent {
 
-  constructor() { }
+  constructor(
+    private lockService: LockService,
+  ) { }
 
-  ngOnInit(): void {
+  public lock(): void {
+    this.lockService.lock();
   }
 
 }

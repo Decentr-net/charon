@@ -51,6 +51,11 @@ export class LockService {
     this.store.remove('lastInteraction');
   }
 
+  public lock(): void {
+    this.isLocked$.next(true);
+    this.router.navigate([this.lockedRedirectUrl]);
+  }
+
   private initLockSubscription(): void {
     this.isWorking$.pipe(
       distinctUntilChanged(),
