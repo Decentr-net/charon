@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { mergeMap, switchMap } from 'rxjs/operators';
+import { createWalletFromMnemonic } from 'decentr-js';
 
+import { Wallet } from '@shared/models/wallet';
 import { LocalStoreSection, LocalStoreService } from '@shared/services/local-store';
-import { Wallet, WalletService } from '@shared/services/wallet';
 import { UserService } from '@shared/services/user';
 import { AuthService, User } from '../../auth';
 
@@ -32,7 +33,6 @@ export class SignUpService {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private walletService: WalletService,
     localStore: LocalStoreService,
   ) {
     this.signUpStore = localStore.useSection('signUp');
@@ -44,7 +44,7 @@ export class SignUpService {
 
   public setSeedPhrase(seedPhrase: string): void {
     this.seedPhrase = seedPhrase;
-    this.wallet = this.walletService.getNewWallet(this.seedPhrase);
+    this.wallet = createWalletFromMnemonic(this.seedPhrase);
   }
 
   public setUserData(user: UserSignUpForm): void {
@@ -67,7 +67,7 @@ export class SignUpService {
 
   public signInWithNewUser(): Promise<User['id']> {
     const { birthdate, gender, emails, password, usernames } = this.userForm;
-    const { privateKey, publicKey, walletAddress } = this.wallet;
+    const { privateKey, publicKey, address: walletAddress } = this.wallet;
 
     return this.authService.createUser({
       birthdate,
@@ -95,5 +95,30 @@ export class SignUpService {
 
     const user = this.authService.getActiveUserInstant();
     return this.authService.removeUser(user.id);
+  }
+
+  public updateRemoteUser(): Observable<unknown> {
+    const user = this.authService.getActiveUserInstant();
+
+    return this.userService.waitAccount(user.walletAddress).pipe(
+      mergeMap(() => forkJoin([
+        this.userService.setUserPrivate(
+          {
+            emails: user.emails,
+            usernames: user.usernames,
+          },
+          user.walletAddress,
+          user.privateKey,
+        ),
+        this.userService.setUserPublic(
+          {
+            gender: user.gender,
+            birthdate: user.birthdate,
+          },
+          user.walletAddress,
+          user.privateKey,
+        ),
+      ])),
+    );
   }
 }

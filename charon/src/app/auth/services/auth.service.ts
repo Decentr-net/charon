@@ -35,6 +35,7 @@ export class AuthService {
 
   public async init(): Promise<void> {
     const users = await this.authStore.get('users') || [];
+    debugger
     this.users$.next(users);
 
     const activeUserId = await this.authStore.get('activeUserId');
@@ -83,6 +84,8 @@ export class AuthService {
       },
     ];
 
+    console.log(newUsers);
+
     await this.updateUsers(newUsers);
 
     return id;
@@ -111,6 +114,7 @@ export class AuthService {
   }
 
   private async updateUsers(users: User[]): Promise<void> {
+    debugger;
     await this.authStore.set('users', users)
     this.users$.next(users);
   }

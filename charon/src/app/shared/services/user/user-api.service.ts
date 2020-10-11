@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { EMPTY, Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { Cosmos, signMessage } from 'decentr-js';
 
 import { Environment } from '@environments/environment.definitions';
-import { Gender } from './user-api.definitions';
+import { Gender, UserPublic } from './user-api.definitions';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +31,11 @@ export class UserApiService {
     });
   }
 
+  public getAccount(chainId: string, walletAddress: string): Observable<Account> {
+    const cosmos = this.createCosmosConnector(chainId);
+    return from(cosmos.get.account(walletAddress)) as Observable<Account>;
+  }
+
   public getUserPrivate({}: string): Observable<string> {
     return of(JSON.stringify({
       emails: [],
@@ -43,11 +50,36 @@ export class UserApiService {
     }));
   }
 
-  public setUserPublic({}: string): Observable<void> {
-    return EMPTY;
+  public setUserPublic(
+    data: UserPublic,
+    chainId: string,
+    walletAddress: string,
+    privateKey: string,
+  ): Observable<unknown> {
+    const cosmos = this.createCosmosConnector(chainId);
+    return from(cosmos.setPublicProfile(walletAddress, data)).pipe(
+      tap((message) => this.broadcast(cosmos, message, privateKey)),
+    );
   }
 
-  public setUserPrivate({}: string): Observable<void> {
-    return EMPTY;
+  public setUserPrivate(
+    data: UserPublic,
+    chainId: string,
+    walletAddress: string,
+    privateKey: string,
+  ): Observable<unknown> {
+    const cosmos = this.createCosmosConnector(chainId);
+    return from(cosmos.setPrivateProfile(walletAddress, data)).pipe(
+      tap((message) => this.broadcast(cosmos, message, privateKey)),
+    )
+  }
+
+  private broadcast(cosmos: any, message: unknown, privateKey: string): void {
+    const signedMsg = signMessage(message, privateKey);
+    cosmos.broadcastTx(signedMsg);
+  }
+
+  private createCosmosConnector(chainId: string): any {
+    return new Cosmos(this.environment.restApi, chainId);
   }
 }
