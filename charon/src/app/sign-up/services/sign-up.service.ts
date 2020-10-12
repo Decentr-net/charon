@@ -74,8 +74,8 @@ export class SignUpService {
       gender,
       emails,
       password,
-      privateKey: (privateKey as unknown as Uint8Array).reduce((str, byte) => str + byte.toString(16).padStart(2, '0'), ''),
-      publicKey: (publicKey as unknown as Uint8Array).reduce((str, byte) => str + byte.toString(16).padStart(2, '0'), ''),
+      privateKey,
+      publicKey,
       usernames,
       walletAddress,
       emailConfirmed: false,
@@ -108,7 +108,7 @@ export class SignUpService {
             usernames: user.usernames,
           },
           user.walletAddress,
-          new Uint8Array(user.privateKey.match(/.{1,2}/g).map(byte => parseInt(byte, 16))) as any as string,
+          user.privateKey,
         ),
         this.userService.setUserPublic(
           {
@@ -116,7 +116,7 @@ export class SignUpService {
             birthdate: user.birthdate,
           },
           user.walletAddress,
-          new Uint8Array(user.privateKey.match(/.{1,2}/g).map(byte => parseInt(byte, 16))) as any as string,
+          user.privateKey,
         ),
       ])),
     );
