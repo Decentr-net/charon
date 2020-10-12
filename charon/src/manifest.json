@@ -23,7 +23,8 @@
     "clipboardWrite",
     "storage",
     "tabs",
-    "unlimitedStorage"
+    "unlimitedStorage",
+    "http://*.testnet.decentr.xyz"
   ],
   "content_scripts": [
     {

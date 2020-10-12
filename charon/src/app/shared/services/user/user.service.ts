@@ -50,7 +50,7 @@ export class UserService {
   }
 
   public setUserPublic(data: UserPublic, walletAddress: string, privateKey: string): Observable<unknown> {
-    return this.userApiService.setUserPrivate(
+    return this.userApiService.setUserPublic(
       data,
       this.chainService.getChainId(),
       walletAddress,
