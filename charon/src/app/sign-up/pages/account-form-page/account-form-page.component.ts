@@ -117,7 +117,7 @@ export class AccountFormPageComponent implements OnInit {
   }
 
   public removeUsername(index: number): void {
-    const usernameFormArray = this.form.controls.email as FormArray;
+    const usernameFormArray = this.form.controls.name as FormArray;
     usernameFormArray.removeAt(index);
   }
 
