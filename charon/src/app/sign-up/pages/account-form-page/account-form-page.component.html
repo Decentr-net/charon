@@ -36,18 +36,18 @@
           </div>
 
           <div class="input-container col-xs-12">
-            <div class="input-label">{{ translate('birthdate.label') }}</div>
+            <div class="input-label">{{ translate('birthday.label') }}</div>
             <mat-form-field class="input-control"
                             appearance="outline">
               <input matInput
                      type="text"
-                     name="birthdate"
-                     formControlName="birthdate"
+                     name="birthday"
+                     formControlName="birthday"
                      (input) = "onKeyDateInput($event)"
                      placeholder="MM/DD/YYYY">
 
               <mat-error>
-                <app-form-error controlName="birthdate"></app-form-error>
+                <app-form-error controlName="birthday"></app-form-error>
               </mat-error>
             </mat-form-field>
           </div>

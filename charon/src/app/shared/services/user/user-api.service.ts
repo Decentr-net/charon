@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { from, Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 import { Decentr, signMessage } from 'decentr-js';
 
 import { Environment } from '@environments/environment.definitions';
-import { Gender, UserPublic } from './user-api.definitions';
+import { GetUserPrivateResponse, GetUserPublicResponse, UserPublic } from './user-api.definitions';
 
 @Injectable({
   providedIn: 'root',
@@ -36,18 +36,20 @@ export class UserApiService {
     return from(decentr.get.account(walletAddress)) as Observable<Account>;
   }
 
-  public getUserPrivate({}: string): Observable<string> {
-    return of(JSON.stringify({
-      emails: [],
-      usernames: [],
-    }));
+  public getUserPrivate(walletAddress: string): Observable<string> {
+    const url = `${this.environment.restApi}/profile/private/${walletAddress}`;
+
+    return this.http.get<GetUserPrivateResponse>(url).pipe(
+      map((response) => response.result),
+    );
   }
 
-  public getUserPublic({}: string): Observable<string> {
-    return of(JSON.stringify({
-      gender: Gender.Male,
-      birthday: '',
-    }));
+  public getUserPublic(walletAddress: string): Observable<UserPublic> {
+    const url = `${this.environment.restApi}/profile/public/${walletAddress}`;
+
+    return this.http.get<GetUserPublicResponse>(url).pipe(
+      map((response) => response.result),
+    );
   }
 
   public setUserPublic(
@@ -58,7 +60,7 @@ export class UserApiService {
   ): Observable<unknown> {
     const decentr = this.createDecentrConnector(chainId);
     return from(decentr.setPublicProfile(walletAddress, data)).pipe(
-      tap((message) => this.broadcast(decentr, message, privateKey)),
+      mergeMap((message) => this.broadcast(decentr, message, privateKey)),
     );
   }
 
@@ -70,13 +72,13 @@ export class UserApiService {
   ): Observable<unknown> {
     const decentr = this.createDecentrConnector(chainId);
     return from(decentr.setPrivateProfile(walletAddress, data)).pipe(
-      tap((message) => this.broadcast(decentr, message, privateKey)),
+      mergeMap((message) => this.broadcast(decentr, message, privateKey)),
     )
   }
 
-  private broadcast(decentr: any, message: unknown, privateKey: string): void {
+  private broadcast(decentr: any, message: unknown, privateKey: string): Promise<void> {
     const signedMsg = signMessage(message, privateKey);
-    decentr.broadcastTx(signedMsg);
+    return decentr.broadcastTx(signedMsg);
   }
 
   private createDecentrConnector(chainId: string): any {

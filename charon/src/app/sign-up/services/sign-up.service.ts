@@ -66,11 +66,12 @@ export class SignUpService {
   }
 
   public signInWithNewUser(): Promise<User['id']> {
-    const { birthdate, gender, emails, password, usernames } = this.userForm;
+    const { birthday, gender, emails, password, usernames } = this.userForm;
     const { privateKey, publicKey, address: walletAddress } = this.wallet;
 
+    debugger
     return this.authService.createUser({
-      birthdate,
+      birthday,
       gender,
       emails,
       password,
@@ -113,7 +114,7 @@ export class SignUpService {
         this.userService.setUserPublic(
           {
             gender: user.gender,
-            birthdate: user.birthdate,
+            birthday: user.birthday,
           },
           user.walletAddress,
           user.privateKey,
