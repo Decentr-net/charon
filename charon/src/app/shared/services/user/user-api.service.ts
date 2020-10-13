@@ -32,8 +32,8 @@ export class UserApiService {
   }
 
   public getAccount(chainId: string, walletAddress: string): Observable<Account> {
-    const cosmos = this.createDecentrConnector(chainId);
-    return from(cosmos.get.account(walletAddress)) as Observable<Account>;
+    const decentr = this.createDecentrConnector(chainId);
+    return from(decentr.get.account(walletAddress)) as Observable<Account>;
   }
 
   public getUserPrivate({}: string): Observable<string> {
@@ -56,9 +56,9 @@ export class UserApiService {
     walletAddress: string,
     privateKey: string,
   ): Observable<unknown> {
-    const cosmos = this.createDecentrConnector(chainId);
-    return from(cosmos.setPublicProfile(walletAddress, data)).pipe(
-      tap((message) => this.broadcast(cosmos, message, privateKey)),
+    const decentr = this.createDecentrConnector(chainId);
+    return from(decentr.setPublicProfile(walletAddress, data)).pipe(
+      tap((message) => this.broadcast(decentr, message, privateKey)),
     );
   }
 
@@ -68,15 +68,15 @@ export class UserApiService {
     walletAddress: string,
     privateKey: string,
   ): Observable<unknown> {
-    const cosmos = this.createDecentrConnector(chainId);
-    return from(cosmos.setPrivateProfile(walletAddress, data)).pipe(
-      tap((message) => this.broadcast(cosmos, message, privateKey)),
+    const decentr = this.createDecentrConnector(chainId);
+    return from(decentr.setPrivateProfile(walletAddress, data)).pipe(
+      tap((message) => this.broadcast(decentr, message, privateKey)),
     )
   }
 
-  private broadcast(cosmos: any, message: unknown, privateKey: string): void {
+  private broadcast(decentr: any, message: unknown, privateKey: string): void {
     const signedMsg = signMessage(message, privateKey);
-    cosmos.broadcastTx(signedMsg);
+    decentr.broadcastTx(signedMsg);
   }
 
   private createDecentrConnector(chainId: string): any {
