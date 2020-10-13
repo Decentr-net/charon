@@ -24,7 +24,7 @@
     "storage",
     "tabs",
     "unlimitedStorage",
-    "http://*.testnet.decentr.xyz"
+    "https://*.testnet.decentr.xyz"
   ],
   "content_scripts": [
     {

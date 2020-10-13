@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { from, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Cosmos, signMessage } from 'decentr-js';
+import { Cosmos as Decentr, signMessage } from 'decentr-js';
 
 import { Environment } from '@environments/environment.definitions';
 import { Gender, UserPublic } from './user-api.definitions';
@@ -32,7 +32,7 @@ export class UserApiService {
   }
 
   public getAccount(chainId: string, walletAddress: string): Observable<Account> {
-    const cosmos = this.createCosmosConnector(chainId);
+    const cosmos = this.createDecentrConnector(chainId);
     return from(cosmos.get.account(walletAddress)) as Observable<Account>;
   }
 
@@ -56,7 +56,7 @@ export class UserApiService {
     walletAddress: string,
     privateKey: string,
   ): Observable<unknown> {
-    const cosmos = this.createCosmosConnector(chainId);
+    const cosmos = this.createDecentrConnector(chainId);
     return from(cosmos.setPublicProfile(walletAddress, data)).pipe(
       tap((message) => this.broadcast(cosmos, message, privateKey)),
     );
@@ -68,7 +68,7 @@ export class UserApiService {
     walletAddress: string,
     privateKey: string,
   ): Observable<unknown> {
-    const cosmos = this.createCosmosConnector(chainId);
+    const cosmos = this.createDecentrConnector(chainId);
     return from(cosmos.setPrivateProfile(walletAddress, data)).pipe(
       tap((message) => this.broadcast(cosmos, message, privateKey)),
     )
@@ -79,7 +79,7 @@ export class UserApiService {
     cosmos.broadcastTx(signedMsg);
   }
 
-  private createCosmosConnector(chainId: string): any {
-    return new Cosmos(this.environment.restApi, chainId);
+  private createDecentrConnector(chainId: string): any {
+    return new Decentr(this.environment.restApi, chainId);
   }
 }
