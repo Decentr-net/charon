@@ -5,7 +5,9 @@
         <div></div>
 
         <div class="user-data">
-          <div class="user-data__inner">
+          <div class="user-data__inner"
+               (click)="copyWalletAddress()"
+               [matTooltip]="translate('copy_wallet_address')">
             <div class="wallet-username">
               {{ user.mainEmail }}
             </div>

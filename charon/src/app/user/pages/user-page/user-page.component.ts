@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '@auth/services';
 import { Observable } from 'rxjs';
 import { User } from '@auth/models';
+import { copyContent } from '@shared/utils/copy-content';
 
 export interface ActivityItem {
   id: string;
@@ -74,6 +75,10 @@ export class UserPageComponent implements OnInit {
 
   public expandView(): void {
     BrowserApi.openExtensionInNewTab(this.router.url);
+  }
+
+  public copyWalletAddress(): void {
+    copyContent(this.authService.getActiveUserInstant().walletAddress);
   }
 
   public trackById: TrackByFunction<ActivityItem> = ({}, { id }) => id;
