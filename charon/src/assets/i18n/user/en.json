@@ -1,6 +1,7 @@
 {
   "user_page": {
     "account_details": "Account details",
+    "copy_wallet_address": "Copy wallet address",
     "exchange_rate": "1 DEC = ${{ rate }} USD",
     "expand_view": "Expand view",
     "no_activity": "You have no activity data",
