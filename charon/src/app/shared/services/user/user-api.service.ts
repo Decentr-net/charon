@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { from, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Cosmos as Decentr, signMessage } from 'decentr-js';
+import { Decentr, signMessage } from 'decentr-js';
 
 import { Environment } from '@environments/environment.definitions';
 import { Gender, UserPublic } from './user-api.definitions';
