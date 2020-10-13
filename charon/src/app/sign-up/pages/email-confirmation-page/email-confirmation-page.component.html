@@ -25,6 +25,8 @@
                     type="button"
                     *ngIf="resendTimer <= 1 else timer"
                     mat-button
+                    disableRipple
+                    class="email-confirmation-page__form-resend-btn"
                     color="accent"
                     (click)="sendEmail()"
             >
