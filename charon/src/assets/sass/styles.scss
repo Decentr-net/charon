@@ -30,6 +30,10 @@ body {
   display: flex;
 }
 
+.no-padding {
+  padding: 0;
+}
+
 // Buttons
 // Mat-buttons
 .mat-button,
@@ -84,7 +88,7 @@ body {
 
   span {
     color: $color-accent;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: 1px;
   }
 
@@ -252,6 +256,11 @@ div.selectUserMenu {
   mat-dialog-container {
     padding: 0;
   }
+}
+
+// Fix extension dialog popup width
+.cdk-global-scrollblock {
+  position: relative !important;
 }
 
 .btn-close-popup {

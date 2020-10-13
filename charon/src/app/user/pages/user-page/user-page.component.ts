@@ -29,8 +29,8 @@ export class UserPageComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
+    public matchMediaService: MatchMediaService,
     private authService: AuthService,
-    private matchMediaService: MatchMediaService,
     private router: Router,
   ) {
   }
