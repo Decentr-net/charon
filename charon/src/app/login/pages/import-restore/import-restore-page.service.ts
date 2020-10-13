@@ -4,7 +4,8 @@ import { EMPTY, Observable } from 'rxjs';
 import { mapTo, mergeMap, take, tap } from 'rxjs/operators';
 import { createWalletFromMnemonic } from 'decentr-js';
 
-import { AuthService, LockService } from '@auth/services';
+import { AuthService } from '@auth/services';
+import { LockService } from '@shared/features/lock';
 import { UserService } from '@shared/services/user';
 import { AppRoute } from '../../../app-route';
 

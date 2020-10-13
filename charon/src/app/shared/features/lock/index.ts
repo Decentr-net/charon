@@ -1,2 +1,3 @@
+export * from './guards';
+export * from './services';
 export * from './lock.module';
-export * from './lock.service';
