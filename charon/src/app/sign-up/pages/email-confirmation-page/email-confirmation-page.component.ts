@@ -59,7 +59,7 @@ export class EmailConfirmationPageComponent implements OnInit {
       this.resendTimer$ = this.createTimer(
         this.timerReset$,
         RESEND_DELAY_SEC,
-        Math.max(Math.ceil(RESEND_DELAY_SEC - sentSecondsLast), 0),
+        Math.max(Math.ceil(RESEND_DELAY_SEC - sentSecondsLast), 1),
       );
     });
   }
@@ -104,10 +104,10 @@ export class EmailConfirmationPageComponent implements OnInit {
     return resetSource.pipe(
       mapTo(seconds),
       startWith(initialSeconds),
-      switchMap((seconds) => timer(0, period).pipe(
+      switchMap((seconds) => timer(1, period).pipe(
         map((tick) => seconds - tick),
       )),
-      filter((value) => value >= 0),
+      filter((value) => value >= 1),
     );
   }
 
