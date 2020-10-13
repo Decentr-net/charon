@@ -110,8 +110,8 @@ export class AuthService {
     return CryptoService.encryptPassword(password) === this.getActiveUserInstant().passwordHash;
   }
 
-  private async updateUsers(users: User[]): Promise<void> {
-    await this.authStore.set('users', users)
+  private updateUsers(users: User[]): Promise<void> {
     this.users$.next(users);
+    return this.authStore.set('users', users)
   }
 }

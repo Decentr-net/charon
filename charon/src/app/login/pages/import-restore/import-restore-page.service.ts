@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { EMPTY, Observable } from 'rxjs';
 import { mapTo, mergeMap, take, tap } from 'rxjs/operators';
+import { createWalletFromMnemonic } from 'decentr-js';
 
 import { AuthService, LockService } from '@auth/services';
 import { UserService } from '@shared/services/user';
-import { WalletService } from '@shared/services/wallet';
 import { AppRoute } from '../../../app-route';
 
 @Injectable()
@@ -15,12 +15,11 @@ export class ImportRestorePageService {
     private lockService: LockService,
     private router: Router,
     private userService: UserService,
-    private walletService: WalletService,
   ) {
   }
 
   public importUser(seedPhrase: string, password: string): Observable<void> {
-    const { privateKey, publicKey, walletAddress } = this.walletService.getNewWallet(seedPhrase);
+    const { privateKey, publicKey, address: walletAddress } = createWalletFromMnemonic(seedPhrase);
 
     return this.userService.getUserPrivate(walletAddress).pipe(
       mergeMap((userPrivate) => this.authService.createUser({

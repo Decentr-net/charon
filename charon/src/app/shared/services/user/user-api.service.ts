@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { EMPTY, Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { Decentr, signMessage } from 'decentr-js';
 
 import { Environment } from '@environments/environment.definitions';
-import { Gender } from './user-api.definitions';
+import { Gender, UserPublic } from './user-api.definitions';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +31,11 @@ export class UserApiService {
     });
   }
 
+  public getAccount(chainId: string, walletAddress: string): Observable<Account> {
+    const decentr = this.createDecentrConnector(chainId);
+    return from(decentr.get.account(walletAddress)) as Observable<Account>;
+  }
+
   public getUserPrivate({}: string): Observable<string> {
     return of(JSON.stringify({
       emails: [],
@@ -43,11 +50,36 @@ export class UserApiService {
     }));
   }
 
-  public setUserPublic({}: string): Observable<void> {
-    return EMPTY;
+  public setUserPublic(
+    data: UserPublic,
+    chainId: string,
+    walletAddress: string,
+    privateKey: string,
+  ): Observable<unknown> {
+    const decentr = this.createDecentrConnector(chainId);
+    return from(decentr.setPublicProfile(walletAddress, data)).pipe(
+      tap((message) => this.broadcast(decentr, message, privateKey)),
+    );
   }
 
-  public setUserPrivate({}: string): Observable<void> {
-    return EMPTY;
+  public setUserPrivate(
+    data: UserPublic,
+    chainId: string,
+    walletAddress: string,
+    privateKey: string,
+  ): Observable<unknown> {
+    const decentr = this.createDecentrConnector(chainId);
+    return from(decentr.setPrivateProfile(walletAddress, data)).pipe(
+      tap((message) => this.broadcast(decentr, message, privateKey)),
+    )
+  }
+
+  private broadcast(decentr: any, message: unknown, privateKey: string): void {
+    const signedMsg = signMessage(message, privateKey);
+    decentr.broadcastTx(signedMsg);
+  }
+
+  private createDecentrConnector(chainId: string): any {
+    return new Decentr(this.environment.restApi, chainId);
   }
 }

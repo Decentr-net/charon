@@ -67,6 +67,7 @@ export class EmailConfirmationPageComponent implements OnInit {
   public confirm(): void {
     const code = this.codeForm.getRawValue().code;
     this.signUpService.confirmEmail(code).pipe(
+      switchMap(() => this.signUpService.updateRemoteUser()),
       untilDestroyed(this),
     ).subscribe(() => {
       this.signUpService.endSignUp();
