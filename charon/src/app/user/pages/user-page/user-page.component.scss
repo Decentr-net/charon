@@ -55,32 +55,16 @@
       justify-content: flex-end;
 
       .menu-button {
-        position: relative;
-        width: 16px;
-        height: 16px;
-        margin: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         cursor: pointer;
 
-        &:before,
-        &:after {
-          content: '';
-          display: block;
-          width: 4px;
-          height: 4px;
-          background: black;
-          border-radius: 50%;
-          position: absolute;
-        }
-
-        &:before {
-          top: 0;
-        }
-
-        &:after {
-          bottom: 0;
+        &__inner {
+          position: relative;
+          width: 16px;
+          height: 16px;
+          margin: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         span {
@@ -88,6 +72,25 @@
           height: 4px;
           background: black;
           border-radius: 50%;
+
+          &:before,
+          &:after {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 4px;
+            background: black;
+            border-radius: 50%;
+            position: absolute;
+          }
+
+          &:before {
+            top: 0;
+          }
+
+          &:after {
+            bottom: 0;
+          }
         }
       }
     }

@@ -216,6 +216,10 @@ mat-radio-button {
   }
 }
 
+.mat-menu-panel {
+  min-height: auto !important;
+}
+
 div.selectUserMenu {
   .menu-wrapper {
     min-width: 220px;

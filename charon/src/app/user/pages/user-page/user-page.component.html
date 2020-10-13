@@ -18,7 +18,9 @@
         <div class="menu">
           <div class="menu-button"
                [matMenuTriggerFor]="selectUserMenu">
-            <span></span>
+            <div class="menu-button__inner">
+              <span></span>
+            </div>
           </div>
         </div>
       </div>
@@ -87,7 +89,9 @@
     <ng-template matMenuContent>
       <div class="menu-wrapper">
         <div class="menu-items">
-          <div class="menu-item menu-item__active" (click)="expandView()">
+          <div class="menu-item menu-item__active"
+               *ngIf="matchMediaService.isSmall()"
+               (click)="expandView()">
             <div class="icon"
                  [resolveSVGUrl]="false"
                  [inlineSVG]="'/assets/images/icons/expand.svg'">
