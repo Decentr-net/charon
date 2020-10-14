@@ -15,5 +15,4 @@ export interface User extends UserPrivate, UserPublic {
 export interface StoreData {
   readonly activeUserId: string;
   readonly users: User[];
-  lastInteraction: number;
 }

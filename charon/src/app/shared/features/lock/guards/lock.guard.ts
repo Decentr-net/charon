@@ -2,14 +2,14 @@ import { CanActivate, CanActivateChild, CanDeactivate, Router, UrlTree } from '@
 import { Inject, Injectable } from '@angular/core';
 
 import { LockService } from '../services';
-import { LOCKED_REDIRECT_URL } from '../auth.tokens';
+import { LOCK_REDIRECT_URL } from '../lock.tokens';
 
 @Injectable()
 export class LockGuard implements CanActivate, CanActivateChild, CanDeactivate<void> {
   constructor(
     private lockService: LockService,
     private router: Router,
-    @Inject(LOCKED_REDIRECT_URL) private lockedRedirectUrl: string,
+    @Inject(LOCK_REDIRECT_URL) private lockRedirectUrl: string,
   ) {
   }
 
@@ -19,12 +19,11 @@ export class LockGuard implements CanActivate, CanActivateChild, CanDeactivate<v
       return true;
     }
 
-    this.lockService.stop();
-    return this.router.createUrlTree([this.lockedRedirectUrl]);
+    return this.router.createUrlTree([this.lockRedirectUrl]);
   }
 
   public canActivateChild(): boolean | UrlTree {
-    return this.canActivate()
+    return this.canActivate();
   }
 
   public canDeactivate(): boolean {
