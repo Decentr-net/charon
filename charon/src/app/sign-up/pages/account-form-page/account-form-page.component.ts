@@ -115,6 +115,7 @@ export class AccountFormPageComponent implements OnInit {
         BaseValidationUtil.isFrDateFormatCorrect,
       ]],
       confirmPassword: ['', [
+        Validators.required,
         PasswordValidationUtil.equalsToAdjacentControl('password'),
       ]],
       gender: [null, [
