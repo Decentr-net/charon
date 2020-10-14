@@ -9,6 +9,7 @@ import { AuthService } from '@auth/services';
 import { Observable } from 'rxjs';
 import { User } from '@auth/models';
 import { copyContent } from '@shared/utils/copy-content';
+import { CurrencyService } from '@shared/services/currency';
 
 export interface ActivityItem {
   id: string;
@@ -27,10 +28,12 @@ export class UserPageComponent implements OnInit {
 
   activityItems: ActivityItem[];
   public user$: Observable<User>;
+  public rate$: Observable<number>;
 
   constructor(
     public dialog: MatDialog,
     public matchMediaService: MatchMediaService,
+    private currencyService: CurrencyService,
     private authService: AuthService,
     private router: Router,
   ) {
@@ -38,6 +41,7 @@ export class UserPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.user$ = this.authService.getActiveUser();
+    this.rate$ = this.currencyService.getCoinRate('decentr', 'usd');
 
     this.activityItems = [
       { id: 'id1', name: 'Cookies name 1', date: '24.07.2020, 11:50', site: 'google.com' },

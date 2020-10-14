@@ -43,8 +43,8 @@
           + 0.001%
         </span>
         </div>
-        <div class="pdv-exchange-rate">
-          {{ translate('exchange_rate', { rate: 0.999 }) }}
+        <div class="pdv-exchange-rate" *ngIf="rate$| async as rate">
+          {{ translate('exchange_rate', { rate: rate | number:'1.0-4' }) }}
         </div>
       </div>
 

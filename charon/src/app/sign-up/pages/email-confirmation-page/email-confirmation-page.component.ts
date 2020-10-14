@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angula
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, timer } from 'rxjs';
-import { filter, map, mapTo, startWith, switchMap } from 'rxjs/operators';
+import { filter, map, mapTo, share, startWith, switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -60,6 +60,8 @@ export class EmailConfirmationPageComponent implements OnInit {
         this.timerReset$,
         RESEND_DELAY_SEC,
         Math.max(Math.ceil(RESEND_DELAY_SEC - sentSecondsLast), 0),
+      ).pipe(
+        share()
       );
     });
   }

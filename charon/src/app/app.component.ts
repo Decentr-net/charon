@@ -1,4 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+
+import { LockService } from '@shared/features/lock';
+import { AuthService } from '@auth/services';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,16 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  constructor(
+    private authService: AuthService,
+    private lockService: LockService
+  ) {
+  }
+
+  public async ngOnInit(): Promise<void> {
+    if (this.authService.isLoggedIn) {
+      await this.lockService.init();
+    }
+  }
 }

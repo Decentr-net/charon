@@ -37,19 +37,10 @@
 
           <div class="input-container col-xs-12">
             <div class="input-label">{{ translate('birthday.label') }}</div>
-            <mat-form-field class="input-control"
-                            appearance="outline">
-              <input matInput
-                     type="text"
-                     name="birthday"
-                     formControlName="birthday"
-                     (input) = "onKeyDateInput($event)"
-                     placeholder="MM/DD/YYYY">
-
-              <mat-error>
-                <app-form-error controlName="birthday"></app-form-error>
-              </mat-error>
-            </mat-form-field>
+              <app-date-input formControlName="birthday"
+                              appearance="outline"
+                              className="input-control">
+              </app-date-input>
           </div>
 
           <div formArrayName="email">
