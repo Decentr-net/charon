@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { LockService } from '@auth/services';
+
+import { LockService } from '@shared/features/lock';
 
 @Component({
   selector: 'app-profile-selector',
