@@ -1,6 +1,6 @@
 import { Inject, Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { debounceTime, filter, mapTo, startWith, switchMapTo, takeUntil } from 'rxjs/operators';
 
 import { LocalStoreSection, LocalStoreService } from '@shared/services/local-store';
@@ -17,7 +17,7 @@ interface LockStore {
 @Injectable()
 export class LockService {
   private isLocked$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  private isWorking$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private isWorking$: ReplaySubject<boolean> = new ReplaySubject(1);
   private readonly store: LocalStoreSection<LockStore>;
 
   constructor(
@@ -29,27 +29,32 @@ export class LockService {
     @Inject(LOCK_REDIRECT_URL) private lockRedirectUrl: string,
   ) {
     this.store = localStoreService.useSection(LOCK_STORE_SECTION_KEY);
+
+    this.initInteractionSubscription();
+    this.initLockSubscription();
   }
 
   public async init(): Promise<void> {
-    await this.updateInitialState();
-    this.initInteractionSubscription();
-    this.initLockSubscription();
+    const lastInteraction = await this.store.get('lastInteractionTime');
+    const isLocked = !lastInteraction || (+new Date() - lastInteraction > this.lockDelay);
+    this.isLocked$.next(isLocked);
   }
 
   public get isLocked(): boolean {
     return this.isLocked$.value;
   }
 
-  public get stopped$(): Observable<boolean> {
+  public get stopped$(): Observable<void> {
     return this.isWorking$.pipe(
       filter(isWorking => !isWorking),
+      mapTo(void 0),
     );
   }
 
-  public get started$(): Observable<boolean> {
+  public get started$(): Observable<void> {
     return this.isWorking$.pipe(
       filter(isWorking => isWorking),
+      mapTo(void 0),
     );
   }
 
@@ -67,12 +72,6 @@ export class LockService {
 
   public unlock(): void {
     this.isLocked$.next(false);
-  }
-
-  private async updateInitialState(): Promise<void> {
-    const lastInteraction = await this.store.get('lastInteractionTime');
-    const isLocked = !lastInteraction || (+new Date() - lastInteraction > this.lockDelay);
-    this.isLocked$.next(isLocked);
   }
 
   private initLockSubscription(): void {
