@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { EMPTY, forkJoin, Observable } from 'rxjs';
+import { EMPTY, forkJoin, Observable, of } from 'rxjs';
 import { mapTo, mergeMap, take, tap } from 'rxjs/operators';
 import { createWalletFromMnemonic } from 'decentr-js';
 
@@ -23,7 +23,12 @@ export class ImportRestorePageService {
     const { privateKey, publicKey, address: walletAddress } = createWalletFromMnemonic(seedPhrase);
 
     return forkJoin([
-      this.userService.getUserPrivate(walletAddress, privateKey),
+      // TODO
+      // this.userService.getUserPrivate(walletAddress, privateKey),
+      of({
+        emails: [],
+        usernames: [],
+      }),
       this.userService.getUserPublic(walletAddress),
     ]).pipe(
       mergeMap(([userPrivate, userPublic]) => this.authService.createUser({
