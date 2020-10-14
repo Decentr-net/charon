@@ -42,7 +42,6 @@ export class AuthService {
   }
 
   public confirmUserEmail(userId: User['id']): Promise<void> {
-    debugger;
     const user = this.users$.value.find(user => user.id === userId);
 
     const newUsers: User[] = [
