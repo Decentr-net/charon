@@ -69,7 +69,6 @@ export class SignUpService {
     const { birthday, gender, emails, password, usernames } = this.userForm;
     const { privateKey, publicKey, address: walletAddress } = this.wallet;
 
-    debugger
     return this.authService.createUser({
       birthday,
       gender,
