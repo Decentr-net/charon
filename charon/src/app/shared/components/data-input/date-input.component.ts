@@ -1,14 +1,5 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  forwardRef,
-  Host,
-  Input,
-  Optional,
-  SkipSelf
-} from '@angular/core';
-import { AbstractControl, ControlContainer, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Host, Input, Optional, SkipSelf } from '@angular/core';
+import { ControlContainer, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { noop } from 'rxjs';
 import { MatFormFieldAppearance } from '@angular/material/form-field/form-field';
@@ -22,7 +13,7 @@ import { AddSeparatorToDate } from '@shared/utils/form-value';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DateInputComponent),
+      useExisting: DateInputComponent,
       multi: true,
     },
   ],
