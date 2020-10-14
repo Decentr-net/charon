@@ -12,7 +12,7 @@ import { SignUpRoute } from '../../sign-up-route';
 
 interface AccountForm {
   agreeTerms: boolean;
-  birthdate: string;
+  birthday: string;
   confirmPassword: string;
   gender: Gender;
   email: string[];
@@ -60,10 +60,10 @@ export class AccountFormPageComponent implements OnInit {
       return;
     }
 
-    const { gender, birthdate, email: emails, name: usernames, password } = this.form.getRawValue();
+    const { gender, birthday, email: emails, name: usernames, password } = this.form.getRawValue();
     this.signUpService.setUserData({
       gender,
-      birthdate,
+      birthday,
       emails,
       usernames,
       password,
@@ -110,7 +110,7 @@ export class AccountFormPageComponent implements OnInit {
       agreeTerms: [false, [
         Validators.requiredTrue,
       ]],
-      birthdate: ['', [
+      birthday: ['', [
         Validators.required,
         BaseValidationUtil.isFrDateFormatCorrect,
       ]],

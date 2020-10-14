@@ -70,7 +70,7 @@ export class AuthService {
       ...this.users$.value,
       {
         id,
-        birthdate: user.birthdate,
+        birthday: user.birthday,
         emailConfirmed: user.emailConfirmed,
         emails: user.emails,
         gender: user.gender,

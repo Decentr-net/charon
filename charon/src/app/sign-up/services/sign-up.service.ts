@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { mergeMap, switchMap } from 'rxjs/operators';
 import { createWalletFromMnemonic } from 'decentr-js';
 
@@ -66,11 +66,12 @@ export class SignUpService {
   }
 
   public signInWithNewUser(): Promise<User['id']> {
-    const { birthdate, gender, emails, password, usernames } = this.userForm;
+    const { birthday, gender, emails, password, usernames } = this.userForm;
     const { privateKey, publicKey, address: walletAddress } = this.wallet;
 
+    debugger
     return this.authService.createUser({
-      birthdate,
+      birthday,
       gender,
       emails,
       password,
@@ -100,25 +101,22 @@ export class SignUpService {
   public updateRemoteUser(): Observable<unknown> {
     const user = this.authService.getActiveUserInstant();
 
-    return this.userService.waitAccount(user.walletAddress).pipe(
-      mergeMap(() => forkJoin([
-        this.userService.setUserPrivate(
-          {
-            emails: user.emails,
-            usernames: user.usernames,
-          },
-          user.walletAddress,
-          user.privateKey,
-        ),
-        this.userService.setUserPublic(
-          {
-            gender: user.gender,
-            birthdate: user.birthdate,
-          },
-          user.walletAddress,
-          user.privateKey,
-        ),
-      ])),
-    );
+    return this.userService.setUserPublic(
+      {
+        gender: user.gender,
+        birthday: user.birthday,
+      },
+      user.walletAddress,
+      user.privateKey,
+    ).pipe(
+      mergeMap(() => this.userService.setUserPrivate(
+        {
+          emails: user.emails,
+          usernames: user.usernames,
+        },
+        user.walletAddress,
+        user.privateKey,
+      )
+    ));
   }
 }

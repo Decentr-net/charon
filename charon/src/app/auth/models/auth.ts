@@ -2,7 +2,7 @@ import { UserPrivate, UserPublic } from '@shared/services/user';
 
 export const AUTH_STORE_SECTION_KEY = 'auth';
 
-export interface User extends UserPrivate, Partial<UserPublic> {
+export interface User extends UserPrivate, UserPublic {
   readonly id: string;
   readonly emailConfirmed: boolean;
   readonly mainEmail: string;

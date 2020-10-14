@@ -4,7 +4,7 @@ export enum Gender {
 }
 
 export interface UserPublic {
-  readonly birthdate: string;
+  readonly birthday: string;
   readonly gender: Gender;
 }
 
@@ -19,4 +19,12 @@ export interface Account {
   readonly public_key: string;
   readonly account_number: number;
   readonly sequence: number
+}
+
+export interface GetUserPrivateResponse {
+  readonly result: string;
+}
+
+export interface GetUserPublicResponse {
+  readonly result: UserPublic;
 }
