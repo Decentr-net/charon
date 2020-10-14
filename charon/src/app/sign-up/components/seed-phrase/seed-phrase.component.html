@@ -37,7 +37,7 @@
                 mat-flat-button
                 color="accent"
                 [disabled]="!isSeedPhraseVisible"
-                [routerLink]="['../', signUpRoute.SeedPhraseTest]">
+                (click)="onNext()">
           {{ translate('next') }}
         </button>
       </div>

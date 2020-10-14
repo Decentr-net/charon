@@ -41,12 +41,14 @@ export class AuthService {
     this.activeUserId$.next(activeUserId);
   }
 
-  public confirmCurrentUserEmail(): Promise<void> {
-    const currentUser = this.getActiveUserInstant();
+  public confirmUserEmail(userId: User['id']): Promise<void> {
+    debugger;
+    const user = this.users$.value.find(user => user.id === userId);
+
     const newUsers: User[] = [
-      ...this.users$.value.filter(user => user.id !== currentUser.id),
+      ...this.users$.value.filter(user => user.id !== userId),
       {
-        ...currentUser,
+        ...user,
         emailConfirmed: true,
       },
     ];

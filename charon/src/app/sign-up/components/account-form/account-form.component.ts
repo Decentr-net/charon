@@ -1,29 +1,28 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
-import { NavigationService } from '@shared/services/navigation/navigation.service';
 import { Gender } from '@shared/services/user';
 import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
-import { SignUpService } from '../../services';
-import { SignUpRoute } from '../../sign-up-route';
 
-interface AccountForm {
-  agreeTerms: boolean;
+export interface AccountData {
   birthday: string;
-  confirmPassword: string;
   gender: Gender;
-  email: string[];
-  name: string[];
+  emails: string[];
+  usernames: string[];
   password: string;
 }
 
+interface AccountForm extends AccountData {
+  agreeTerms: boolean;
+  confirmPassword: string;
+}
+
 @Component({
-  selector: 'app-account-form-page',
-  templateUrl: './account-form-page.component.html',
-  styleUrls: ['./account-form-page.component.scss'],
+  selector: 'app-account-form',
+  templateUrl: './account-form.component.html',
+  styleUrls: ['./account-form.component.scss'],
   providers: [
     {
       provide: FORM_ERROR_TRANSLOCO_READ,
@@ -32,16 +31,14 @@ interface AccountForm {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AccountFormPageComponent implements OnInit {
+export class AccountFormComponent implements OnInit {
+  @Output() public submitted: EventEmitter<AccountData> = new EventEmitter();
+
   public gender: typeof Gender = Gender;
   public form: FormGroup<AccountForm>;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private navigationService: NavigationService,
-    private signUpService: SignUpService,
-    private router: Router,
   ) {
   }
 
@@ -51,34 +48,20 @@ export class AccountFormPageComponent implements OnInit {
     this.addUsername();
   }
 
-  navigateBack() {
-    this.navigationService.getPreviousUrl();
-  }
-
   onSubmit() {
     if (!this.form.valid) {
       return;
     }
 
-    const { gender, birthday, email: emails, name: usernames, password } = this.form.getRawValue();
-    this.signUpService.setUserData({
-      gender,
-      birthday,
-      emails,
-      usernames,
-      password,
-    });
-    this.router.navigate(['../', SignUpRoute.SeedPhrase], {
-      relativeTo: this.activatedRoute,
-    });
+    this.submitted.emit(this.form.getRawValue());
   }
 
   public get emailFormArray(): FormArray<string> {
-    return this.form.controls.email as FormArray;
+    return this.form.controls.emails as FormArray;
   }
 
   public get usernameFormArray(): FormArray<string> {
-    return this.form.controls.name as FormArray;
+    return this.form.controls.usernames as FormArray;
   }
 
   public addEmail(): void {
@@ -96,12 +79,12 @@ export class AccountFormPageComponent implements OnInit {
   }
 
   public removeEmail(index: number): void {
-    const emailFormArray = this.form.controls.email as FormArray;
+    const emailFormArray = this.form.controls.emails as FormArray;
     emailFormArray.removeAt(index);
   }
 
   public removeUsername(index: number): void {
-    const usernameFormArray = this.form.controls.name as FormArray;
+    const usernameFormArray = this.form.controls.usernames as FormArray;
     usernameFormArray.removeAt(index);
   }
 
@@ -121,8 +104,8 @@ export class AccountFormPageComponent implements OnInit {
       gender: [null, [
         Validators.required,
       ]],
-      email: this.formBuilder.array([]),
-      name: this.formBuilder.array([]),
+      emails: this.formBuilder.array([]),
+      usernames: this.formBuilder.array([]),
       password: ['', [
         Validators.required,
         Validators.minLength(8),

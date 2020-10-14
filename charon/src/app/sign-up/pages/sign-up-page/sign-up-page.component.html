@@ -1,0 +1,34 @@
+<ng-container
+  *transloco="let translate; read: 'sign_up'"
+  [ngSwitch]="activeTab"
+>
+  <ng-container *ngSwitchCase="tab.AccountForm">
+    <ng-container [ngTemplateOutlet]="backBtn"></ng-container>
+    <app-account-form (submitted)="onSubmitAccountForm($event)"></app-account-form>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="tab.SeedPhrase">
+    <app-seed-phrase
+      [seedPhrase]="seedPhrase"
+      (next)="switchTab(tab.SeedPhraseTest)"
+    ></app-seed-phrase>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="tab.SeedPhraseTest">
+    <ng-container [ngTemplateOutlet]="backBtn"></ng-container>
+    <app-seed-phrase-test
+      [seedPhrase]="seedPhrase"
+      (confirmed)="signUp()"
+    ></app-seed-phrase-test>
+  </ng-container>
+</ng-container>
+
+<ng-template #backBtn>
+  <div class="row" *transloco="let translate; read: 'sign_up'">
+    <div class="col-xs-12">
+      <div class="btn btn__back" (click)="navigateBack()">
+        {{ translate('back') }}
+      </div>
+    </div>
+  </div>
+</ng-template>
