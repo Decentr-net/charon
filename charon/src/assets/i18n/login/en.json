@@ -13,7 +13,7 @@
         "errors": {
           "minlength": "Minimum length of password: {{ requiredLength }}",
           "required": "Password is required",
-          "strength": "Password should contain at least 1 element of: lowercase letter, uppercase letter, number and special character"
+          "strength": "Password should contain at least 1 element of: lowercase, uppercase letter, number, special char"
         }
       },
       "seed": {
