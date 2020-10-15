@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { LocalStoreSection, LocalStoreService } from '@shared/services/local-store';
 
@@ -20,6 +21,10 @@ export class SignUpStoreService {
 
   public getLastEmailSendingTime(): Promise<number | undefined> {
     return this.store.get('lastEmailSendingTime');
+  }
+
+  public onLastEmailSendingTimeChange(): Observable<number> {
+    return this.store.onChange('lastEmailSendingTime');
   }
 
   public clear(): Promise<void> {

@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { forkJoin, Observable, Subject, timer } from 'rxjs';
-import { filter, map, mapTo, mergeMap, share, startWith, switchMap } from 'rxjs/operators';
+import { forkJoin, from, Observable, Subject, timer } from 'rxjs';
+import { filter, map, mapTo, mergeMap, startWith, switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -37,12 +37,13 @@ export class EmailConfirmationPageComponent implements OnInit {
 
   public email: string;
   public codeForm: FormGroup<CodeForm>;
-  public resendTimer$: Observable<number>;
+  public secondsLeftToResend: number;
 
   private timerReset$: Subject<void> = new Subject<void>();
 
   constructor(
     private authService: AuthService,
+    private changeDetectorRef: ChangeDetectorRef,
     private formBuilder: FormBuilder,
     private router: Router,
     private signUpStoreService: SignUpStoreService,
@@ -55,15 +56,21 @@ export class EmailConfirmationPageComponent implements OnInit {
 
     this.email = this.authService.getActiveUserInstant().mainEmail;
 
-    this.signUpStoreService.getLastEmailSendingTime().then((lastSendingTime) => {
-      const sentSecondsLast = (Date.now() - (lastSendingTime || RESEND_DELAY_SEC)) / 1000;
-      this.resendTimer$ = this.createTimer(
+    from(this.signUpStoreService.getLastEmailSendingTime()).pipe(
+      mergeMap((lastSendingTime) => this.signUpStoreService.onLastEmailSendingTimeChange().pipe(
+        startWith(lastSendingTime),
+      )),
+      map((lastSendingTime) => (Date.now() - (lastSendingTime || RESEND_DELAY_SEC * 1000)) / 1000),
+      map(Math.floor),
+      mergeMap((sentSecondsLast) => this.createTimer(
         this.timerReset$,
         RESEND_DELAY_SEC,
         Math.max(Math.ceil(RESEND_DELAY_SEC - sentSecondsLast), 0),
-      ).pipe(
-        share()
-      );
+      )),
+      untilDestroyed(this),
+    ).subscribe((timerValue) => {
+      this.secondsLeftToResend = timerValue;
+      this.changeDetectorRef.markForCheck();
     });
   }
 

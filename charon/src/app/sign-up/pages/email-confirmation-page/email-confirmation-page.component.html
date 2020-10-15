@@ -20,19 +20,20 @@
         <div class="email-confirmation-page__form-header col-xs-12">
           <div class="email-confirmation-page__form-label">{{ translate('label') }}</div>
 
-          <button type="button"
-                  *ngIf="(resendTimer$ | async) === 0; else timer"
-                  mat-button
-                  disableRipple
-                  class="email-confirmation-page__form-resend-btn"
-                  color="accent"
-                  (click)="sendEmail()"
+          <button
+            type="button"
+            *ngIf="!secondsLeftToResend; else timer"
+            mat-button
+            disableRipple
+            class="email-confirmation-page__form-resend-btn"
+            color="accent"
+            (click)="sendEmail()"
           >
             {{ translate('resend_code') }}
           </button>
 
           <ng-template #timer>
-            {{ (resendTimer$ | async) * 1000 | date:'mm:ss' }}
+            {{ secondsLeftToResend }}
           </ng-template>
         </div>
 
