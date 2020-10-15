@@ -1,6 +1,6 @@
 {
+  "back": "< Back",
   "account_form_page": {
-    "back": "Back",
     "form": {
       "birthday": {
         "errors": {
@@ -31,7 +31,7 @@
         "label": "Gender",
         "male": "Male"
       },
-      "name": {
+      "username": {
         "errors": {
           "minlength": "Length of name should be not less than {{ requiredLength }}",
           "required": "Name is required"

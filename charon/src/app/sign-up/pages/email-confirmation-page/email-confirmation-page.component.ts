@@ -1,15 +1,16 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subject, timer } from 'rxjs';
-import { filter, map, mapTo, share, startWith, switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { forkJoin, from, Observable, Subject, timer } from 'rxjs';
+import { filter, map, mapTo, mergeMap, startWith, switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AuthService } from '@auth/services';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { AppRoute } from '../../../app-route';
-import { SignUpService } from '../../services';
+import { SignUpStoreService } from '../../services';
+import { UserService } from '@shared/services/user';
 import { SignUpRoute } from '../../sign-up-route';
 
 interface CodeForm {
@@ -36,16 +37,17 @@ export class EmailConfirmationPageComponent implements OnInit {
 
   public email: string;
   public codeForm: FormGroup<CodeForm>;
-  public resendTimer$: Observable<number>;
+  public secondsLeftToResend: number;
 
   private timerReset$: Subject<void> = new Subject<void>();
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private authService: AuthService,
+    private changeDetectorRef: ChangeDetectorRef,
     private formBuilder: FormBuilder,
     private router: Router,
-    private signUpService: SignUpService,
+    private signUpStoreService: SignUpStoreService,
+    private userService: UserService,
   ) {
   }
 
@@ -54,43 +56,71 @@ export class EmailConfirmationPageComponent implements OnInit {
 
     this.email = this.authService.getActiveUserInstant().mainEmail;
 
-    this.signUpService.getLastEmailSendingTime().then((lastSendingTime) => {
-      const sentSecondsLast = (Date.now() - (lastSendingTime || RESEND_DELAY_SEC)) / 1000;
-      this.resendTimer$ = this.createTimer(
+    from(this.signUpStoreService.getLastEmailSendingTime()).pipe(
+      mergeMap((lastSendingTime) => this.signUpStoreService.onLastEmailSendingTimeChange().pipe(
+        startWith(lastSendingTime),
+      )),
+      map((lastSendingTime) => (Date.now() - (lastSendingTime || RESEND_DELAY_SEC * 1000)) / 1000),
+      map(Math.floor),
+      mergeMap((sentSecondsLast) => this.createTimer(
         this.timerReset$,
         RESEND_DELAY_SEC,
         Math.max(Math.ceil(RESEND_DELAY_SEC - sentSecondsLast), 0),
-      ).pipe(
-        share()
-      );
+      )),
+      untilDestroyed(this),
+    ).subscribe((timerValue) => {
+      this.secondsLeftToResend = timerValue;
+      this.changeDetectorRef.markForCheck();
     });
   }
 
   public confirm(): void {
     const code = this.codeForm.getRawValue().code;
-    this.signUpService.confirmEmail(code).pipe(
-      switchMap(() => this.signUpService.updateRemoteUser()),
+    const user = this.authService.getActiveUserInstant();
+
+    this.userService.confirmUser(code, user.mainEmail).pipe(
+      mergeMap(() => this.authService.confirmUserEmail(user.id)),
+      mergeMap(() => this.userService.setUserPublic(
+        {
+          gender: user.gender,
+          birthday: user.birthday,
+        },
+        user.walletAddress,
+        user.privateKey,
+      )),
+      mergeMap(() => this.userService.setUserPrivate(
+        {
+          emails: user.emails,
+          usernames: user.usernames,
+        },
+        user.walletAddress,
+        user.privateKey,
+      )),
       untilDestroyed(this),
     ).subscribe(() => {
-      this.signUpService.endSignUp();
-      this.router.navigate(['../', SignUpRoute.Success], {
-        relativeTo: this.activatedRoute,
-      });
-    });
+      this.signUpStoreService.clear();
+      this.router.navigate([AppRoute.SignUp, SignUpRoute.Success]);
+    })
   }
 
   public sendEmail(): void {
-    this.signUpService.sendEmail().subscribe(() => {
-      this.resetTimer();
-    });
+    const { mainEmail, walletAddress } = this.authService.getActiveUserInstant();
+    this.userService.createUser(mainEmail, walletAddress).pipe(
+      mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
+    ).subscribe(() => this.resetTimer());
   }
 
   public registerNewAccount(): void {
-    this.signUpService.resetSignUp().then(() => {
-      this.router.navigate(['../', SignUpRoute.AccountForm], {
-        relativeTo: this.activatedRoute,
-      });
-    });
+    const { id } = this.authService.getActiveUserInstant();
+
+    forkJoin([
+      this.authService.removeUser(id),
+      this.signUpStoreService.clear(),
+    ]).pipe(
+      untilDestroyed(this),
+    ).subscribe(() => {
+      this.router.navigate([AppRoute.SignUp]);
+    })
   }
 
   private createForm(): FormGroup<CodeForm> {
