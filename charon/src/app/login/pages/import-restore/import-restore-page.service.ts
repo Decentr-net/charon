@@ -23,12 +23,7 @@ export class ImportRestorePageService {
     const { privateKey, publicKey, address: walletAddress } = createWalletFromMnemonic(seedPhrase);
 
     return forkJoin([
-      // TODO
-      // this.userService.getUserPrivate(walletAddress, privateKey),
-      of({
-        emails: [],
-        usernames: [],
-      }),
+      this.userService.getUserPrivate(walletAddress, privateKey),
       this.userService.getUserPublic(walletAddress),
     ]).pipe(
       mergeMap(([userPrivate, userPublic]) => this.authService.createUser({

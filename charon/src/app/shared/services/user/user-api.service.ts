@@ -5,7 +5,7 @@ import { map, mergeMap } from 'rxjs/operators';
 import { Decentr, signMessage } from 'decentr-js';
 
 import { Environment } from '@environments/environment.definitions';
-import { GetUserPrivateResponse, GetUserPublicResponse, UserPublic } from './user-api.definitions';
+import { GetUserPrivateResponse, GetUserPublicResponse, UserPrivate, UserPublic } from './user-api.definitions';
 
 @Injectable({
   providedIn: 'root',
@@ -36,20 +36,14 @@ export class UserApiService {
     return from(decentr.get.account(walletAddress)) as Observable<Account>;
   }
 
-  public getUserPrivate(walletAddress: string): Observable<string> {
-    const url = `${this.environment.restApi}/profile/private/${walletAddress}`;
-
-    return this.http.get<GetUserPrivateResponse>(url).pipe(
-      map((response) => response.result),
-    );
+  public getUserPrivate(chainId: string, walletAddress: string, privateKey: string): Observable<UserPrivate> {
+    const decentr = this.createDecentrConnector(chainId);
+    return from(decentr.get.privateProfile({ privateKey, address: walletAddress })) as Observable<UserPrivate>;
   }
 
-  public getUserPublic(walletAddress: string): Observable<UserPublic> {
-    const url = `${this.environment.restApi}/profile/public/${walletAddress}`;
-
-    return this.http.get<GetUserPublicResponse>(url).pipe(
-      map((response) => response.result),
-    );
+  public getUserPublic(chainId: string, walletAddress: string): Observable<UserPublic> {
+    const decentr = this.createDecentrConnector(chainId);
+    return from(decentr.get.publicProfile(walletAddress)) as Observable<UserPublic>;
   }
 
   public setUserPublic(
@@ -65,13 +59,13 @@ export class UserApiService {
   }
 
   public setUserPrivate(
-    data: UserPublic,
+    data: UserPrivate,
     chainId: string,
     walletAddress: string,
     privateKey: string,
   ): Observable<unknown> {
     const decentr = this.createDecentrConnector(chainId);
-    return from(decentr.setPrivateProfile(walletAddress, data)).pipe(
+    return from(decentr.setPrivateProfile(data, { privateKey, address: walletAddress })).pipe(
       mergeMap((message) => this.broadcast(decentr, message, privateKey)),
     )
   }
