@@ -98,8 +98,9 @@ export class EmailConfirmationPageComponent implements OnInit {
 
   public sendEmail(): void {
     const { mainEmail, walletAddress } = this.authService.getActiveUserInstant();
-    this.userService.createUser(mainEmail, walletAddress)
-      .subscribe(() => this.resetTimer());
+    this.userService.createUser(mainEmail, walletAddress).pipe(
+      mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
+    ).subscribe(() => this.resetTimer());
   }
 
   public registerNewAccount(): void {
