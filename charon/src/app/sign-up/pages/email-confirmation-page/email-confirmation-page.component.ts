@@ -73,7 +73,9 @@ export class EmailConfirmationPageComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe(() => {
       this.signUpService.endSignUp();
-      this.router.navigate(['/', AppRoute.User]);
+      this.router.navigate(['../', SignUpRoute.Success], {
+        relativeTo: this.activatedRoute,
+      });
     });
   }
 
