@@ -46,7 +46,20 @@ export class SignUpPageComponent {
   }
 
   public navigateBack(): void {
-    this.navigationService.getPreviousUrl();
+    switch (this.activeTab) {
+      case SignUpTab.SeedPhraseTest: {
+        this.switchTab(SignUpTab.SeedPhrase);
+        break;
+      }
+      case SignUpTab.SeedPhrase: {
+        this.switchTab(SignUpTab.AccountForm);
+        break;
+      }
+      default: {
+        this.navigationService.getPreviousUrl();
+        break;
+      }
+    }
   }
 
   public onSubmitAccountForm(accountData: AccountData): void {
