@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, from, Observable } from 'rxjs';
+import { map, mergeMap, startWith } from 'rxjs/operators';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { LocalStoreSection, LocalStoreService } from '@shared/services/local-store';
 import { uuid } from '@shared/utils/uuid';
 import { CryptoService } from '@shared/services/crypto';
-import { AUTH_STORE_SECTION_KEY, StoreData, User } from '../models';
+import { StoreData, User } from '../models';
 
-@Injectable({
-  providedIn: 'root',
-})
+@UntilDestroy()
+@Injectable()
 export class AuthService {
-  private activeUserId$: BehaviorSubject<User['id'] | undefined> = new BehaviorSubject(undefined);
+  private activeUserId$: Observable<User['id'] | undefined>;
   private activeUser$: BehaviorSubject<User | undefined> = new BehaviorSubject(undefined);
   private users$: BehaviorSubject<User[]> = new BehaviorSubject([]);
   private authStore: LocalStoreSection<StoreData>;
@@ -19,14 +19,7 @@ export class AuthService {
   constructor(
     store: LocalStoreService,
   ) {
-    this.authStore = store.useSection(AUTH_STORE_SECTION_KEY);
-
-    combineLatest([
-      this.users$,
-      this.activeUserId$,
-    ]).pipe(
-      map(([users, activeUserId]) => users.find(user => user.id === activeUserId)),
-    ).subscribe(this.activeUser$);
+    this.authStore = store.useSection('auth');
   }
 
   public get isLoggedIn(): boolean {
@@ -34,11 +27,26 @@ export class AuthService {
   }
 
   public async init(): Promise<void> {
-    const users = await this.authStore.get('users') || [];
-    this.users$.next(users);
+    from(this.authStore.get('users')).pipe(
+      mergeMap((users) => this.authStore.onChange('users').pipe(
+        startWith(users || []),
+      )),
+      untilDestroyed(this),
+    ).subscribe(this.users$);
 
-    const activeUserId = await this.authStore.get('activeUserId');
-    this.activeUserId$.next(activeUserId);
+    this.activeUserId$ = from(this.authStore.get('activeUserId')).pipe(
+      mergeMap((activeUserId) => this.authStore.onChange('activeUserId').pipe(
+        startWith(activeUserId),
+      )),
+    );
+
+    combineLatest([
+      this.users$,
+      this.activeUserId$,
+    ]).pipe(
+      map(([users, activeUserId]) => users.find(user => user.id === activeUserId)),
+      untilDestroyed(this),
+    ).subscribe(this.activeUser$);
   }
 
   public confirmUserEmail(userId: User['id']): Promise<void> {
@@ -64,7 +72,7 @@ export class AuthService {
   }
 
   public async createUser(
-    user: Omit<User, 'id' | 'mainEmail' | 'passwordHash'> & { password: string }
+    user: Omit<User, 'id' | 'mainEmail' | 'passwordHash'> & { password: string },
   ): Promise<User['id']> {
     const id = uuid();
     const newUsers = [
@@ -89,9 +97,8 @@ export class AuthService {
     return id;
   }
 
-  public async changeUser(userId: User['id']): Promise<void> {
-    await this.authStore.set('activeUserId', userId);
-    this.activeUserId$.next(userId);
+  public changeUser(userId: User['id']): Promise<void> {
+    return this.authStore.set('activeUserId', userId);
   }
 
   public async removeUser(userId: User['id']): Promise<void> {
@@ -102,9 +109,8 @@ export class AuthService {
     await this.updateUsers(newUsers);
   }
 
-  public async logout(): Promise<void> {
-    await this.authStore.remove('activeUserId');
-    this.activeUserId$.next(undefined);
+  public logout(): Promise<void> {
+    return this.authStore.remove('activeUserId');
   }
 
   public validateCurrentUserPassword(password: string): boolean {
@@ -112,7 +118,6 @@ export class AuthService {
   }
 
   private updateUsers(users: User[]): Promise<void> {
-    this.users$.next(users);
     return this.authStore.set('users', users)
   }
 }

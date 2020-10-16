@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { BrowserTabGuard } from '@shared/guards';
 import { LockGuard } from '@shared/features/lock';
-import { AuthGuard } from './auth';
+import { AuthGuard, EmailConfirmedGuard, UnauthGuard } from './auth';
 import { AppRoute } from './app-route';
 
 const ROUTES: Routes = [
@@ -28,6 +28,7 @@ const ROUTES: Routes = [
     loadChildren: () => import('./user/user.module').then(x => x.UserModule),
     canActivate: [
       AuthGuard,
+      EmailConfirmedGuard,
       LockGuard,
     ],
     canDeactivate: [
@@ -39,6 +40,7 @@ const ROUTES: Routes = [
     loadChildren: () => import('./welcome/welcome.module').then(m => m.WelcomeModule),
     canActivate: [
       BrowserTabGuard,
+      UnauthGuard,
     ],
   },
 ];
