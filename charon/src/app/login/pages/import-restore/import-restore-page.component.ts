@@ -87,6 +87,7 @@ export class ImportRestorePageComponent implements OnInit {
   private createForm(): FormGroup<ImportRestoreForm> {
     return this.formBuilder.group({
       confirmPassword: ['', [
+        Validators.required,
         PasswordValidationUtil.equalsToAdjacentControl('password'),
       ]],
       password: ['', [
