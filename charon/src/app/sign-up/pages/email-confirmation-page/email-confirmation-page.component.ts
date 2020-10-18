@@ -80,6 +80,7 @@ export class EmailConfirmationPageComponent implements OnInit {
 
     this.userService.confirmUser(code, user.mainEmail).pipe(
       mergeMap(() => this.authService.confirmUserEmail(user.id)),
+      mergeMap(() => this.userService.waitAccount(user.walletAddress)),
       mergeMap(() => this.userService.setUserPublic(
         {
           gender: user.gender,

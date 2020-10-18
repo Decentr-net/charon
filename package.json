@@ -36,7 +36,7 @@
     "@ngneat/transloco": "^2.19.1",
     "@ngneat/until-destroy": "^8.0.2",
     "d3": "~6.0.0",
-    "decentr-js": "^1.1.15",
+    "decentr-js": "^1.1.18",
     "js-sha256": "^0.9.0",
     "ng-inline-svg": "^11.0.0",
     "p-queue": "^6.6.2",

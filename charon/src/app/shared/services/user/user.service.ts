@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { delay, map, retryWhen } from 'rxjs/operators';
-import { decryptWithPrivatekey, encryptWithPrivatekey } from 'decentr-js';
+import { delay, retryWhen, take } from 'rxjs/operators';
 
 import { ChainService } from '@shared/services/chain';
 import { UserApiService } from './user-api.service';
@@ -33,18 +32,17 @@ export class UserService {
     return this.getAccount(walletAddress).pipe(
       retryWhen(errors => errors.pipe(
         delay(200),
+        take(5),
       )),
     );
   }
 
   public getUserPrivate(walletAddress: string, privateKey: string): Observable<UserPrivate> {
-    return this.userApiService.getUserPrivate(walletAddress).pipe(
-      map((encryptedData) => decryptWithPrivatekey(encryptedData, privateKey))
-    );
+    return this.userApiService.getUserPrivate(this.chainService.getChainId(), walletAddress, privateKey);
   }
 
   public getUserPublic(walletAddress: string): Observable<UserPublic> {
-    return this.userApiService.getUserPublic(walletAddress);
+    return this.userApiService.getUserPublic(this.chainService.getChainId(), walletAddress);
   }
 
   public setUserPublic(data: UserPublic, walletAddress: string, privateKey: string): Observable<unknown> {
@@ -57,9 +55,8 @@ export class UserService {
   }
 
   public setUserPrivate(data: UserPrivate, walletAddress: string, privateKey: string): Observable<unknown> {
-    const encryptedData = encryptWithPrivatekey(data, privateKey)
     return this.userApiService.setUserPrivate(
-      encryptedData,
+      data,
       this.chainService.getChainId(),
       walletAddress,
       privateKey,
