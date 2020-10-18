@@ -29,8 +29,9 @@ export class AuthService {
   public async init(): Promise<void> {
     from(this.authStore.get('users')).pipe(
       mergeMap((users) => this.authStore.onChange('users').pipe(
-        startWith(users || []),
+        startWith(users),
       )),
+      map(users => users || []),
       untilDestroyed(this),
     ).subscribe(this.users$);
 
