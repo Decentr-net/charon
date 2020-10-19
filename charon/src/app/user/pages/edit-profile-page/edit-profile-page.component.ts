@@ -59,7 +59,6 @@ export class EditProfilePageComponent implements OnInit {
     if (!this.form.valid) {
       return;
     }
-    debugger
 
     const formValue = this.form.getRawValue();
     const user = this.authService.getActiveUserInstant();
