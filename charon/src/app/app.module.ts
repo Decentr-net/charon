@@ -19,13 +19,15 @@ import { AppRoute } from './app-route';
   imports: [
     AppRoutingModule,
     AuthModule.forRoot({
+      authorizedRedirectUrl: `/${AppRoute.User}`,
+      confirmedEmailUrl: `/${AppRoute.User}`,
       unauthorizedRedirectUrl: `/${AppRoute.Welcome}`,
       unconfirmedEmailUrl: `/${AppRoute.SignUp}/${SignUpRoute.EmailConfirmation}`,
     }),
     LockModule.forRoot({
       delay: 1000 * 60 * 5,
       interactionSource: fromEvent(document, 'click'),
-      redirectUrl: AppRoute.Login
+      redirectUrl: AppRoute.Login,
     }),
     BrowserModule,
     LocalStoreModule.forRoot(),

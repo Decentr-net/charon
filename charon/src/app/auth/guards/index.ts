@@ -1,7 +1,13 @@
-import { AuthGuard } from './auth.guard';
+import { AuthConfirmedGuard } from './auth-confirmed.guard';
+import { AuthUnconfirmedGuard } from './auth-unconfirmed.guard';
+import { UnauthGuard } from './unauth.guard';
 
-export * from './auth.guard';
+export * from './auth-confirmed.guard';
+export * from './auth-unconfirmed.guard';
+export * from './unauth.guard';
 
 export const AUTH_GUARDS = [
-  AuthGuard,
+  AuthConfirmedGuard,
+  AuthUnconfirmedGuard,
+  UnauthGuard,
 ]

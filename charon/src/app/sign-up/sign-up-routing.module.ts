@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PublicLayoutComponent, PublicLayoutModule } from '@shared/components/public-layout';
+import { AuthConfirmedGuard, AuthUnconfirmedGuard, UnauthGuard } from '@auth/guards';
 import { EmailConfirmationPageComponent, SignUpPageComponent, SuccessPageComponent } from './pages';
 import { SignUpRoute } from './sign-up-route';
 
@@ -14,14 +15,23 @@ const ROUTES: Routes = [
         path: '',
         component: SignUpPageComponent,
         pathMatch: 'full',
+        canActivate: [
+          UnauthGuard,
+        ],
       },
       {
         path: SignUpRoute.EmailConfirmation,
         component: EmailConfirmationPageComponent,
+        canActivate: [
+          AuthUnconfirmedGuard,
+        ],
       },
       {
         path: SignUpRoute.Success,
         component: SuccessPageComponent,
+        canActivate: [
+          AuthConfirmedGuard,
+        ],
       },
     ],
   },

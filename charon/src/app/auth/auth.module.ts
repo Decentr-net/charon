@@ -2,9 +2,16 @@ import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 
 import { AuthService } from './services';
 import { AUTH_GUARDS } from './guards';
-import { UNAUTHORIZED_REDIRECT_URL, UNCONFIRMED_EMAIL_REDIRECT_URL } from './auth.tokens';
+import {
+  AUTHORIZED_REDIRECT_URL,
+  CONFIRMED_EMAIL_REDIRECT_URL,
+  UNAUTHORIZED_REDIRECT_URL,
+  UNCONFIRMED_EMAIL_REDIRECT_URL
+} from './auth.tokens';
 
 interface AuthModuleConfig {
+  authorizedRedirectUrl: string;
+  confirmedEmailUrl: string;
   unauthorizedRedirectUrl: string;
   unconfirmedEmailUrl: string;
 }
@@ -23,6 +30,15 @@ export class AuthModule {
     return {
       ngModule: AuthModule,
       providers: [
+        AuthService,
+        {
+          provide: AUTHORIZED_REDIRECT_URL,
+          useValue: config.authorizedRedirectUrl,
+        },
+        {
+          provide: CONFIRMED_EMAIL_REDIRECT_URL,
+          useValue: config.confirmedEmailUrl,
+        },
         {
           provide: UNAUTHORIZED_REDIRECT_URL,
           useValue: config.unauthorizedRedirectUrl,
