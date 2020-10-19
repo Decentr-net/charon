@@ -111,6 +111,31 @@ export class AuthService {
     return CryptoService.encryptPassword(password) === this.getActiveUserInstant().passwordHash;
   }
 
+  public updateUser(
+    userId: User['id'],
+    update: Partial<Pick<User, 'birthday' | 'gender' | 'emails' | 'usernames'> & { password: string }>
+  ): Promise<void> {
+    const user = this.users$.value.find(user => user.id === userId);
+
+    const newUsers: User[] = [
+      ...this.users$.value.filter(user => user.id !== userId),
+      {
+        ...user,
+        ...{
+          birthday: update.birthday || user.birthday,
+          gender: update.gender || user.gender,
+          emails: update.emails || user.emails,
+          usernames: update.usernames || user.usernames,
+          passwordHash: update.password
+            ? CryptoService.encryptPassword(update.password)
+            : user.passwordHash,
+        },
+      },
+    ];
+
+    return this.updateUsers(newUsers);
+  }
+
   private updateUsers(users: User[]): Promise<void> {
     this.users$.next(users);
     return this.authStore.set('users', users)

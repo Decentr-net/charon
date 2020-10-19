@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { User } from '@auth/models';
 import { copyContent } from '@shared/utils/copy-content';
 import { CurrencyService } from '@shared/services/currency';
+import { UserRoute } from '../../user.route';
 
 export interface ActivityItem {
   id: string;
@@ -27,6 +28,7 @@ export interface ActivityItem {
 export class UserPageComponent implements OnInit {
 
   activityItems: ActivityItem[];
+  public userRoute: typeof UserRoute = UserRoute;
   public user$: Observable<User>;
   public rate$: Observable<number>;
 
