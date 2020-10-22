@@ -12,6 +12,7 @@ import { AppRoute } from '../../../app-route';
 import { SignUpStoreService } from '../../services';
 import { UserService } from '@shared/services/user';
 import { SignUpRoute } from '../../sign-up-route';
+import { ToastrService } from 'ngx-toastr';
 
 interface CodeForm {
   code: string;
@@ -47,6 +48,7 @@ export class EmailConfirmationPageComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private signUpStoreService: SignUpStoreService,
+    private toastrService: ToastrService,
     private userService: UserService,
   ) {
   }
