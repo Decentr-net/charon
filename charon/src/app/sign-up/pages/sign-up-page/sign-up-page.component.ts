@@ -1,7 +1,7 @@
 import { Component, HostBinding } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { from } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { from, throwError } from 'rxjs';
+import { catchError, mergeMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { createWalletFromMnemonic } from 'decentr-js';
 
@@ -12,6 +12,9 @@ import { AuthService } from '@auth/services';
 import { AccountData } from '../../components/account-form';
 import { SignUpRoute } from '../../sign-up-route';
 import { SignUpStoreService } from '../../services';
+import { StatusCodes } from 'http-status-codes';
+import { ToastrService } from 'ngx-toastr';
+import { TranslocoService } from '@ngneat/transloco';
 
 enum SignUpTab {
   AccountForm,
@@ -41,6 +44,8 @@ export class SignUpPageComponent {
     private navigationService: NavigationService,
     private router: Router,
     private signUpStoreService: SignUpStoreService,
+    private toastrService: ToastrService,
+    private translocoService: TranslocoService,
     private userService: UserService,
   ) {
   }
@@ -78,6 +83,14 @@ export class SignUpPageComponent {
     })).pipe(
       mergeMap(id => this.authService.changeUser(id)),
       mergeMap(() => this.userService.createUser(this.accountData.emails[0], walletAddress)),
+      catchError(err => {
+        const message = (err.status === StatusCodes.CONFLICT)
+          ? this.translocoService.translate('account_form_page.toastr.errors.conflict', null, 'sign-up')
+          : this.translocoService.translate('account_form_page.toastr.errors.unknown_error', null, 'sign-up');
+
+        this.toastrService.error(message);
+        return throwError(err);
+      }),
       mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
       untilDestroyed(this),
     ).subscribe(() => this.router.navigate([SignUpRoute.EmailConfirmation], {

@@ -56,7 +56,14 @@
       "label": "Hint",
       "text": "Put the nicknames and e-mail addresses you use, it positively influences on PDV level."
     },
-    "title": "Create Profile"
+    "title": "Create Profile",
+    "toastr": {
+
+      "errors": {
+        "conflict": "A wallet has already been created for this email",
+        "unknown_error": "Something went wrong"
+      }
+    }
   },
   "email_confirmation_page": {
     "form": {
@@ -72,7 +79,14 @@
     },
     "open": "Please enter the code to complete your registration, it is a mandatory step.",
     "sent_to": "Confirmation code has been sent to",
-    "title": "E-mail Confirmation"
+    "title": "E-mail Confirmation",
+    "toastr": {
+      "errors": {
+        "conflict": "Account already confirmed",
+        "not_found": "Account not found",
+        "unknown_error": "Something went wrong"
+      }
+    }
   },
   "seed_phrase_page": {
     "hint": {
