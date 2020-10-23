@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { debounceTime, filter, mapTo, startWith, switchMapTo, takeUntil } from 'rxjs/operators';
 
-import { LocalStoreSection, LocalStoreService } from '@shared/services/local-store';
+import { BrowserLocalStorage, BrowserStorage } from '../../../../../../../shared/browser-storage';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LOCK_DELAY, LOCK_INTERACTION_SOURCE, LOCK_REDIRECT_URL } from '../lock.tokens';
 
@@ -18,17 +18,16 @@ interface LockStore {
 export class LockService {
   private isLocked$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private isWorking$: ReplaySubject<boolean> = new ReplaySubject(1);
-  private readonly store: LocalStoreSection<LockStore>;
+  private readonly store: BrowserStorage<LockStore>;
 
   constructor(
-    localStoreService: LocalStoreService,
     private ngZone: NgZone,
     private router: Router,
     @Inject(LOCK_DELAY) private lockDelay: number,
     @Inject(LOCK_INTERACTION_SOURCE) private lockInteractionSource: Observable<void>,
     @Inject(LOCK_REDIRECT_URL) private lockRedirectUrl: string,
   ) {
-    this.store = localStoreService.useSection(LOCK_STORE_SECTION_KEY);
+    this.store = BrowserLocalStorage.getInstance().useSection(LOCK_STORE_SECTION_KEY);
 
     this.initInteractionSubscription();
     this.initLockSubscription();

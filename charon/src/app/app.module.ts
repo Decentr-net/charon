@@ -7,7 +7,6 @@ import { fromEvent } from 'rxjs';
 import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
 import { LockModule } from '@shared/features/lock';
-import { LocalStoreModule } from '@shared/services/local-store';
 import { TranslocoRootModule } from '@shared/transloco';
 import { SignUpRoute } from './sign-up';
 import { AuthModule } from './auth';
@@ -30,7 +29,6 @@ import { AppRoute } from './app-route';
       redirectUrl: AppRoute.Login,
     }),
     BrowserModule,
-    LocalStoreModule.forRoot(),
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,

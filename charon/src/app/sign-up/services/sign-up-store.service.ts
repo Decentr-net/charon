@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { LocalStoreSection, LocalStoreService } from '@shared/services/local-store';
+import { BrowserLocalStorage, BrowserStorage } from '../../../../../shared/browser-storage';
 
 interface SignUpStore {
   lastEmailSendingTime: number;
@@ -9,10 +9,10 @@ interface SignUpStore {
 
 @Injectable()
 export class SignUpStoreService {
-  private store: LocalStoreSection<SignUpStore>;
+  private store: BrowserStorage<SignUpStore>;
 
-  constructor(localStoreService: LocalStoreService) {
-    this.store = localStoreService.useSection('signUp');
+  constructor() {
+    this.store = BrowserLocalStorage.getInstance().useSection('signUp');
   }
 
   public setLastEmailSendingTime(time: number = Date.now()): Promise<void> {
