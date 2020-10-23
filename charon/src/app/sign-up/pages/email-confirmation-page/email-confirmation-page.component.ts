@@ -85,15 +85,15 @@ export class EmailConfirmationPageComponent implements OnInit {
 
     this.userService.confirmUser(code, user.mainEmail).pipe(
       mergeMap(() => this.authService.confirmUserEmail(user.id)),
-      catchError(err => {
-        const message = (err.status === StatusCodes.CONFLICT)
+      catchError(error => {
+        const message = (error.status === StatusCodes.CONFLICT)
           ? this.translocoService.translate('email_confirmation_page.toastr.errors.conflict', null, 'sign-up')
-          : (err.status === StatusCodes.NOT_FOUND)
+          : (error.status === StatusCodes.NOT_FOUND)
             ? this.translocoService.translate('email_confirmation_page.toastr.errors.not_found', null, 'sign-up')
-            : this.translocoService.translate('email_confirmation_page.toastr.errors.unknown_error', null, 'sign-up');
+            : this.translocoService.translate('toastr.errors.unknown_error');
 
         this.toastrService.error(message);
-        return throwError(err);
+        return throwError(error);
       }),
       mergeMap(() => this.userService.waitAccount(user.walletAddress)),
       mergeMap(() => this.userService.setUserPublic(
@@ -125,8 +125,8 @@ export class EmailConfirmationPageComponent implements OnInit {
       mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
       catchError(err => {
         const message = (err.status === StatusCodes.CONFLICT)
-          ? this.translocoService.translate('email_confirmation_page.toastr.conflict', null, 'sign-up')
-          : this.translocoService.translate('email_confirmation_page.toastr.unknown_error', null, 'sign-up');
+          ? this.translocoService.translate('email_confirmation_page.toastr.errors.conflict', null, 'sign-up')
+          : this.translocoService.translate('toastr.errors.unknown_error');
 
         this.toastrService.error(message);
         return throwError(err);

@@ -44,7 +44,7 @@ export class ImportRestorePageService {
       mergeMap(() => this.router.navigate([AppRoute.User])),
       mapTo(void 0),
       catchError(error => {
-        this.toastrService.error(this.translocoService.translate('import_restore_page.toastr.unknown_error', null, 'login'));
+        this.translocoService.translate('toastr.errors.unknown_error');
         throw new Error(error);
       }),
     );

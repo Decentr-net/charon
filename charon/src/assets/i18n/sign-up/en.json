@@ -58,10 +58,8 @@
     },
     "title": "Create Profile",
     "toastr": {
-
       "errors": {
-        "conflict": "A wallet has already been created for this email",
-        "unknown_error": "Something went wrong"
+        "conflict": "A wallet has already been created for this email or wallet address"
       }
     }
   },
@@ -83,8 +81,7 @@
     "toastr": {
       "errors": {
         "conflict": "Account already confirmed",
-        "not_found": "Account not found",
-        "unknown_error": "Something went wrong"
+        "not_found": "Account not found"
       }
     }
   },

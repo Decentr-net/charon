@@ -86,7 +86,7 @@ export class SignUpPageComponent {
       catchError(err => {
         const message = (err.status === StatusCodes.CONFLICT)
           ? this.translocoService.translate('account_form_page.toastr.errors.conflict', null, 'sign-up')
-          : this.translocoService.translate('account_form_page.toastr.errors.unknown_error', null, 'sign-up');
+          : this.translocoService.translate('toastr.errors.unknown_error');
 
         this.toastrService.error(message);
         return throwError(err);

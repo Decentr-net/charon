@@ -35,9 +35,6 @@
       "submit": "RESTORE",
       "subtitle": "Enter your secret twelve word phrase in the field below to restore your account.",
       "title": "Restore an account with a seed phrase"
-    },
-    "toastr": {
-      "unknown_error": "Something went wrong"
     }
   },
   "login_page": {
