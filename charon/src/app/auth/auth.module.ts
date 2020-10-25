@@ -2,6 +2,7 @@ import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 
 import { AuthService } from './services';
 import { AUTH_GUARDS } from './guards';
+import { AuthStorage } from './models';
 import {
   AUTHORIZED_REDIRECT_URL,
   CONFIRMED_EMAIL_REDIRECT_URL,
@@ -10,6 +11,7 @@ import {
 } from './auth.tokens';
 
 interface AuthModuleConfig {
+  storage: AuthStorage;
   authorizedRedirectUrl: string;
   confirmedEmailUrl: string;
   unauthorizedRedirectUrl: string;
@@ -31,6 +33,10 @@ export class AuthModule {
       ngModule: AuthModule,
       providers: [
         AuthService,
+        {
+          provide: AuthStorage,
+          useValue: config.storage,
+        },
         {
           provide: AUTHORIZED_REDIRECT_URL,
           useValue: config.authorizedRedirectUrl,

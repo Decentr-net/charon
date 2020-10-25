@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { fromEvent } from 'rxjs';
 
+import { AuthBrowserStorageService } from '../../../shared/services/auth';
 import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
 import { LockModule } from '@shared/features/lock';
@@ -18,6 +19,7 @@ import { AppRoute } from './app-route';
   imports: [
     AppRoutingModule,
     AuthModule.forRoot({
+      storage: new AuthBrowserStorageService(),
       authorizedRedirectUrl: `/${AppRoute.User}`,
       confirmedEmailUrl: `/${AppRoute.User}`,
       unauthorizedRedirectUrl: `/${AppRoute.Welcome}`,
