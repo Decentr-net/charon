@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { distinctUntilChanged, map, skip, startWith, switchMap } from 'rxjs/operators';
 import { BrowserStorage } from './browser-storage.definitons';
 
 export class BrowserStorageSection<T extends {}> implements BrowserStorage<T> {
@@ -36,9 +36,14 @@ export class BrowserStorageSection<T extends {}> implements BrowserStorage<T> {
   }
 
   public onChange<K extends keyof T>(key: K): Observable<T[K]> {
-    return this.parentStorage.onChange(this.section).pipe(
-      map((changes) => changes && changes[key] as T[K]),
-    )
+    return from(this.getSectionValue()).pipe(
+      switchMap((sectionValue) => this.parentStorage.onChange(this.section).pipe(
+        map((newSectionValue: T) => newSectionValue && newSectionValue[key]),
+        startWith(sectionValue[key]),
+      )),
+      distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)),
+      skip(1),
+    );
   }
 
   public useSection<Child>(section: string): BrowserStorage<Child> {
