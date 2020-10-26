@@ -14,7 +14,7 @@ export const getCookies = (
       url: `https://${url.hostname}`,
       session: false,
     })
-  ]).then(([http, https]) => [...http, ...https]);
+  ]).then(([http, https]) => [...http, ...https].filter(cookie => !cookie.httpOnly));
 };
 
 export const sendCookies = (
