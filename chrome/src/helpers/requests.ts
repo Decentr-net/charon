@@ -70,6 +70,7 @@ export const listenRequestsBeforeRedirectWithBody = (
     ).subscribe(details => requestsStore.set(details.requestId, details));
 
     listenRequestsOnBeforeRedirect(requestFilter, httpMethod).pipe(
+      filter((details) => requestsStore.has(details.requestId)),
       map((details) => requestsStore.get(details.requestId)),
       takeUntil(unsubscribe$),
     ).subscribe((details) => subscriber.next(details));
@@ -112,6 +113,7 @@ export const listenRequestsOnCompletedWithBody = (
     ).subscribe(details => requestsStore.set(details.requestId, details));
 
     listenRequestsOnCompleted(requestFilter, httpMethod).pipe(
+      filter((details) => requestsStore.has(details.requestId)),
       map((details) => requestsStore.get(details.requestId)),
       takeUntil(unsubscribe$),
     ).subscribe((details) => subscriber.next(details));
