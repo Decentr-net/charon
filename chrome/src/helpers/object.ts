@@ -1,4 +1,4 @@
-export const objectContains = <T extends {}>(obj: T, searchValues: string[]) => {
+export const objectContains = (obj: {}, searchValues: string[]) => {
   return Object.values(obj).some(val => {
     if (Array.isArray(val)) {
       return val.some((val) => searchValues.includes(val));
