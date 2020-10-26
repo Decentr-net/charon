@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { browser, WebRequest } from 'webextension-polyfill-ts';
 
 import OnBeforeRequestDetailsType = WebRequest.OnBeforeRequestDetailsType;
@@ -63,18 +63,18 @@ export const listenRequestsBeforeRedirectWithBody = (
 ): Observable<OnBeforeRequestDetailsType> => {
   return new Observable<OnBeforeRequestDetailsType>((subscriber) => {
     const requestsStore: Map<string, OnBeforeRequestDetailsType> = new Map();
+    const unsubscribe$: Subject<void> = new Subject();
 
-    const onBeforeSendSubscription = listenRequestsOnBeforeSend(requestFilter, httpMethod)
-      .subscribe(details => requestsStore.set(details.requestId, details));
+    listenRequestsOnBeforeSend(requestFilter, httpMethod).pipe(
+      takeUntil(unsubscribe$),
+    ).subscribe(details => requestsStore.set(details.requestId, details));
 
-    const onBeforeRedirectSubscription = listenRequestsOnBeforeRedirect(requestFilter, httpMethod).pipe(
+    listenRequestsOnBeforeRedirect(requestFilter, httpMethod).pipe(
       map((details) => requestsStore.get(details.requestId)),
+      takeUntil(unsubscribe$),
     ).subscribe((details) => subscriber.next(details));
 
-    return () => {
-      onBeforeSendSubscription.unsubscribe();
-      onBeforeRedirectSubscription.unsubscribe();
-    };
+    return () => unsubscribe$.next();
   });
 };
 
@@ -105,18 +105,18 @@ export const listenRequestsOnCompletedWithBody = (
 ): Observable<OnBeforeRequestDetailsType> => {
   return new Observable<OnBeforeRequestDetailsType>((subscriber) => {
     const requestsStore: Map<string, OnBeforeRequestDetailsType> = new Map();
+    const unsubscribe$: Subject<void> = new Subject();
 
-    const onBeforeSendSubscription = listenRequestsOnBeforeSend(requestFilter, httpMethod)
-      .subscribe(details => requestsStore.set(details.requestId, details));
+    listenRequestsOnBeforeSend(requestFilter, httpMethod).pipe(
+      takeUntil(unsubscribe$),
+    ).subscribe(details => requestsStore.set(details.requestId, details));
 
-    const onCompletedSubscription = listenRequestsOnCompleted(requestFilter, httpMethod).pipe(
+    listenRequestsOnCompleted(requestFilter, httpMethod).pipe(
       map((details) => requestsStore.get(details.requestId)),
+      takeUntil(unsubscribe$),
     ).subscribe((details) => subscriber.next(details));
 
-    return () => {
-      onBeforeSendSubscription.unsubscribe();
-      onCompletedSubscription.unsubscribe();
-    };
+    return () => unsubscribe$.next();
   });
 };
 
