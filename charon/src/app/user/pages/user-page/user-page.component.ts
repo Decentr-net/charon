@@ -11,6 +11,8 @@ import { AuthUser } from '@auth/models';
 import { copyContent } from '@shared/utils/copy-content';
 import { CurrencyService } from '@shared/services/currency';
 import { UserRoute } from '../../user.route';
+import { ToastrService } from 'ngx-toastr';
+import { TranslocoService } from '@ngneat/transloco';
 
 export interface ActivityItem {
   id: string;
@@ -38,6 +40,8 @@ export class UserPageComponent implements OnInit {
     private currencyService: CurrencyService,
     private authService: AuthService,
     private router: Router,
+    private toastrService: ToastrService,
+    private translocoService: TranslocoService,
   ) {
   }
 
@@ -85,6 +89,8 @@ export class UserPageComponent implements OnInit {
 
   public copyWalletAddress(): void {
     copyContent(this.authService.getActiveUserInstant().walletAddress);
+
+    this.toastrService.success(this.translocoService.translate('user_page.copy_wallet_address_success', null, 'user'));
   }
 
   public trackById: TrackByFunction<ActivityItem> = ({}, { id }) => id;

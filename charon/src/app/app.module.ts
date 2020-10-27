@@ -14,6 +14,7 @@ import { AuthModule } from './auth';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppRoute } from './app-route';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
@@ -29,6 +30,11 @@ import { AppRoute } from './app-route';
       delay: 1000 * 60 * 5,
       interactionSource: fromEvent(document, 'click'),
       redirectUrl: AppRoute.Login,
+    }),
+    ToastrModule.forRoot({
+      closeButton: true,
+      positionClass: 'toast-top-center',
+      timeOut: 4000,
     }),
     BrowserModule,
     AppRoutingModule,

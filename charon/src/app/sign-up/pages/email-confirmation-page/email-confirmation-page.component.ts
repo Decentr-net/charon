@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { forkJoin, from, Observable, Subject, timer } from 'rxjs';
-import { filter, map, mapTo, mergeMap, startWith, switchMap } from 'rxjs/operators';
+import { forkJoin, from, Observable, Subject, throwError, timer } from 'rxjs';
+import { catchError, filter, map, mapTo, mergeMap, startWith, switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -12,6 +12,9 @@ import { AppRoute } from '../../../app-route';
 import { SignUpStoreService } from '../../services';
 import { UserService } from '@shared/services/user';
 import { SignUpRoute } from '../../sign-up-route';
+import { StatusCodes } from 'http-status-codes';
+import { ToastrService } from 'ngx-toastr';
+import { TranslocoService } from '@ngneat/transloco';
 
 interface CodeForm {
   code: string;
@@ -47,6 +50,8 @@ export class EmailConfirmationPageComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private signUpStoreService: SignUpStoreService,
+    private toastrService: ToastrService,
+    private translocoService: TranslocoService,
     private userService: UserService,
   ) {
   }
@@ -80,6 +85,16 @@ export class EmailConfirmationPageComponent implements OnInit {
 
     this.userService.confirmUser(code, user.mainEmail).pipe(
       mergeMap(() => this.authService.confirmUserEmail(user.id)),
+      catchError(error => {
+        const message = (error.status === StatusCodes.CONFLICT)
+          ? this.translocoService.translate('email_confirmation_page.toastr.errors.conflict', null, 'sign-up')
+          : (error.status === StatusCodes.NOT_FOUND)
+            ? this.translocoService.translate('email_confirmation_page.toastr.errors.not_found', null, 'sign-up')
+            : this.translocoService.translate('toastr.errors.unknown_error');
+
+        this.toastrService.error(message);
+        return throwError(error);
+      }),
       mergeMap(() => this.userService.waitAccount(user.walletAddress)),
       mergeMap(() => this.userService.setUserPublic(
         {
@@ -108,6 +123,14 @@ export class EmailConfirmationPageComponent implements OnInit {
     const { mainEmail, walletAddress } = this.authService.getActiveUserInstant();
     this.userService.createUser(mainEmail, walletAddress).pipe(
       mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
+      catchError(err => {
+        const message = (err.status === StatusCodes.CONFLICT)
+          ? this.translocoService.translate('email_confirmation_page.toastr.errors.conflict', null, 'sign-up')
+          : this.translocoService.translate('toastr.errors.unknown_error');
+
+        this.toastrService.error(message);
+        return throwError(err);
+      }),
     ).subscribe(() => this.resetTimer());
   }
 

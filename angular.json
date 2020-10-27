@@ -55,7 +55,8 @@
               "charon/src/assets/sass/theme.scss",
               "charon/src/assets/sass/fonts.scss",
               "charon/src/assets/sass/styles.scss",
-              "charon/src/assets/sass/media.scss"
+              "charon/src/assets/sass/media.scss",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -133,7 +134,8 @@
               "charon/src/assets/sass/theme.scss",
               "charon/src/assets/sass/fonts.scss",
               "charon/src/assets/sass/styles.scss",
-              "charon/src/assets/sass/media.scss"
+              "charon/src/assets/sass/media.scss",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
