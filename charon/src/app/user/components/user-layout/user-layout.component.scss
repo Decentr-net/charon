@@ -1,11 +1,13 @@
 @import 'variables';
 
-::ng-deep {
-  body {
-    background: #f2f3f4;
-  }
+:host {
+  background: #f2f3f4;
+  display: block;
+  height: 100%;
 
-  .container {
-    max-width: 970px;
+  ::ng-deep {
+    .container {
+      max-width: 970px;
+    }
   }
 }

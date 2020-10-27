@@ -15,6 +15,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppRoute } from './app-route';
 import { ToastrModule } from 'ngx-toastr';
+import { SpinnerModule } from '@shared/components/spinner';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { ToastrModule } from 'ngx-toastr';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    TranslocoRootModule,
+    SpinnerModule,
+    TranslocoRootModule
   ],
   declarations: [
     AppComponent,

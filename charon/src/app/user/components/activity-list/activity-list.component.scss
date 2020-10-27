@@ -1,0 +1,49 @@
+@import 'variables';
+
+.no-activity {
+  text-align: center;
+  color: #CDCDCD;
+  letter-spacing: 0.2px;
+}
+
+.activity-item {
+  padding: 10px 10px;
+  color: rgba(68, 119, 228, 0.8);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background .15s ease;
+
+  &:hover {
+    background: #f2f3f4;
+    border-radius: 4px;
+  }
+
+  :nth-child(1) {
+    flex: 1 0 40%;
+  }
+
+  :nth-child(2) {
+    flex: 1 0 30%;
+  }
+
+  :nth-child(3) {
+    flex: 1 0 30%;
+    word-wrap: break-word;
+    overflow: hidden;
+  }
+
+  &__name {
+    font-size: 13px;
+  }
+
+  &__date {
+    font-size: 8px;
+    margin-top: 3px;
+  }
+
+  &__site {
+    font-size: 13px;
+  }
+}
