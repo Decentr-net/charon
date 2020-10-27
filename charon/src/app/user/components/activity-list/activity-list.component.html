@@ -1,9 +1,5 @@
 <ng-container *transloco="let translate; read: 'user.user_page'">
-  <div *ngIf="false"
-       class="no-activity">
-    {{ translate('no_activity') }}
-  </div>
-  <div *ngIf="true"
+  <div *ngIf="activityItems.length > 0; else noActivity"
        class="activity-items">
     <div *ngFor="let activityItem of activityItems; let i = index; trackBy: trackById"
          (click)="openActivityItemDetails(activityItem.id)"
@@ -19,4 +15,10 @@
       </div>
     </div>
   </div>
+
+  <ng-template #noActivity>
+    <div class="no-activity">
+      {{ translate('no_activity') }}
+    </div>
+  </ng-template>
 </ng-container>

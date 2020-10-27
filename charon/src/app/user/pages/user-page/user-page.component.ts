@@ -42,6 +42,11 @@ export class UserPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.user$ = this.authService.getActiveUser();
+
+    this.user$.subscribe(res => {
+      console.log(res);
+    });
+
     this.rate$ = this.currencyService.getCoinRate('decentr', 'usd');
   }
 
