@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { finalize, pluck, share } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, finalize, pluck, share } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
@@ -11,6 +11,8 @@ import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/valida
 import { NavigationService } from '@shared/services/navigation/navigation.service';
 import { ImportRestorePageService } from './import-restore-page.service';
 import { SpinnerService } from '@shared/services/spinner/spinner.service';
+import { TranslocoService } from '@ngneat/transloco';
+import { ToastrService } from 'ngx-toastr';
 
 export enum ImportRestorePageType {
   IMPORT_ACCOUNT = 'import-account',
@@ -50,6 +52,8 @@ export class ImportRestorePageComponent implements OnInit {
     private router: Router,
     private pageService: ImportRestorePageService,
     private spinnerService: SpinnerService,
+    private toastrService: ToastrService,
+    private translocoService: TranslocoService,
   ) {
   }
 
@@ -74,12 +78,20 @@ export class ImportRestorePageComponent implements OnInit {
     if (pageType === ImportRestorePageType.IMPORT_ACCOUNT) {
       this.pageService.importUser(seedPhrase, password).pipe(
         finalize(() => this.spinnerService.hideSpinner()),
+        catchError(error => {
+          this.toastrService.error(this.translocoService.translate('toastr.errors.unknown_error'));
+          return throwError(error);
+        }),
         untilDestroyed(this),
       ).subscribe()
     }
 
     if (pageType === ImportRestorePageType.RESTORE_ACCOUNT) {
       this.pageService.restoreUser(seedPhrase, password).pipe(
+        catchError(error => {
+          this.toastrService.error(this.translocoService.translate('toastr.errors.unknown_error'));
+          return throwError(error);
+        }),
         finalize(() => this.spinnerService.hideSpinner()),
         untilDestroyed(this),
       ).subscribe()

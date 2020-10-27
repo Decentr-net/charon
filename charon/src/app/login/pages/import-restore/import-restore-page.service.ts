@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { EMPTY, forkJoin, Observable, of } from 'rxjs';
-import { catchError, mapTo, mergeMap, take, tap } from 'rxjs/operators';
+import { EMPTY, forkJoin, Observable } from 'rxjs';
+import { mapTo, mergeMap, take, tap } from 'rxjs/operators';
 import { createWalletFromMnemonic } from 'decentr-js';
 
 import { AuthService } from '@auth/services';
 import { LockService } from '@shared/features/lock';
 import { UserService } from '@shared/services/user';
 import { AppRoute } from '../../../app-route';
-import { ToastrService } from 'ngx-toastr';
-import { TranslocoService } from '@ngneat/transloco';
 
 @Injectable()
 export class ImportRestorePageService {
@@ -17,8 +15,6 @@ export class ImportRestorePageService {
     private authService: AuthService,
     private lockService: LockService,
     private router: Router,
-    private toastrService: ToastrService,
-    private translocoService: TranslocoService,
     private userService: UserService,
   ) {
   }
@@ -42,11 +38,7 @@ export class ImportRestorePageService {
       mergeMap((id) => this.authService.changeUser(id)),
       tap(() => this.lockService.unlock()),
       mergeMap(() => this.router.navigate([AppRoute.User])),
-      mapTo(void 0),
-      catchError(error => {
-        this.translocoService.translate('toastr.errors.unknown_error');
-        throw new Error(error);
-      }),
+      mapTo(void 0)
     );
   }
 
