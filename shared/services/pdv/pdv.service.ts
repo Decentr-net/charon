@@ -13,15 +13,9 @@ export class PDVService {
   }
 
   public sendCookies(chainId: string, wallet: Wallet, cookies: Cookie[]): Promise<void[]> {
-    return Promise.all(cookies.map((cookie) => this.sendCookie(chainId, wallet, cookie)));
-  }
-
-  public sendCookie(chainId: string, wallet: Wallet, cookie: Cookie): Promise<void> {
     const decentr = this.createDecentrConnector(chainId);
-    const pdv = PDVService.convertToPDV(cookie);
-
     return PDVService.queue.add(() => {
-      return decentr.sendPDV(pdv, wallet)
+      return decentr.sendPDV(PDVService.convertToPDV(cookies), wallet)
         .then((message) => this.broadcast(decentr, message, wallet.privateKey));
     });
   }
@@ -36,13 +30,13 @@ export class PDVService {
     return decentr.get.pdvList(walletAddress);
   }
 
-  private static convertToPDV(cookie: Cookie): PDV {
+  private static convertToPDV(cookies: Cookie[]): PDV {
     return {
       version: 'v1',
       pdv: {
-        domain: cookie.domain,
-        path: cookie.path,
-        data: {
+        domain: 'decentr.net',
+        path: '/',
+        data: cookies.map((cookie) => ({
           version: 'v1',
           type: 'cookie',
           name: cookie.name,
@@ -52,8 +46,8 @@ export class PDVService {
           path: cookie.path,
           secure: cookie.secure,
           same_site: cookie.sameSite,
-          expiration_date: cookie.expirationDate,
-        },
+          expiration_date: Math.round(cookie.expirationDate),
+        })),
       },
     };
   }
