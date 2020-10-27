@@ -84,10 +84,10 @@ export class AuthService {
     return this.authStorage.updateUser(
       userId,
       {
-        birthday: update.birthday || update.birthday,
-        gender: update.gender || update.gender,
-        emails: update.emails || update.emails,
-        usernames: update.usernames || update.usernames,
+        birthday: update.birthday,
+        gender: update.gender,
+        emails: update.emails,
+        usernames: update.usernames,
         ...update.password
           ? {
             passwordHash: CryptoService.encryptPassword(update.password),
