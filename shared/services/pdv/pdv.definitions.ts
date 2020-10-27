@@ -21,3 +21,10 @@ export interface PDV {
     readonly data: PDVData;
   };
 }
+
+export interface PDVListItem {
+  readonly timestamp: number;
+  readonly address: string;
+  readonly owner: string;
+  readonly type: string;
+}

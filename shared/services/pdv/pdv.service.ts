@@ -21,9 +21,19 @@ export class PDVService {
     const pdv = PDVService.convertToPDV(cookie);
 
     return PDVService.queue.add(() => {
-      return decentr.sendPdv(pdv, wallet)
+      return decentr.sendPDV(pdv, wallet)
         .then((message) => this.broadcast(decentr, message, wallet.privateKey));
     });
+  }
+
+  public getBalance(chainId: string, walletAddress: string): Promise<number> {
+    const decentr = this.createDecentrConnector(chainId);
+    return decentr.get.tokenBalance(walletAddress)
+  }
+  
+  public getPDVList(chainId: string, walletAddress: string): Promise<any> {
+    const decentr = this.createDecentrConnector(chainId);
+    return decentr.get.pdvList(walletAddress);
   }
 
   private static convertToPDV(cookie: Cookie): PDV {
