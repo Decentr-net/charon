@@ -24,7 +24,7 @@ export class AuthService {
     ).subscribe(this.activeUser$);
   }
 
-  public confirmUserEmail(userId: string): Promise<void> {
+  public confirmUserEmail(userId: AuthUser['id']): Promise<void> {
     return this.authStorage.updateUser(userId, { emailConfirmed: true });
   }
 
@@ -38,7 +38,7 @@ export class AuthService {
 
   public async createUser(
     user: Omit<AuthUser, 'id' | 'mainEmail' | 'passwordHash'> & { password: string },
-  ): Promise<string> {
+  ): Promise<AuthUser['id']> {
     const id = uuid();
 
     await this.authStorage.createUser({
@@ -58,11 +58,11 @@ export class AuthService {
     return id;
   }
 
-  public changeUser(userId: string): Promise<void> {
+  public changeUser(userId: AuthUser['id']): Promise<void> {
     return this.authStorage.setActiveUserId(userId);
   }
 
-  public async removeUser(userId: string): Promise<void> {
+  public async removeUser(userId: AuthUser['id']): Promise<void> {
     if (this.isLoggedIn && userId === this.getActiveUserInstant().id) {
       await this.logout();
     }
@@ -78,7 +78,7 @@ export class AuthService {
   }
 
   public updateUser(
-    userId: string,
+    userId: AuthUser['id'],
     update: Partial<Pick<AuthUser, 'birthday' | 'gender' | 'emails' | 'usernames'> & { password: string }>
   ): Promise<void> {
     return this.authStorage.updateUser(
