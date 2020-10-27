@@ -139,9 +139,9 @@ body {
       width: 20px;
       height: 20px;
       position: absolute;
-      left: -30px;
+      right: 15px;
       top: 50%;
-      transform: translateY(-50%);
+      transform: translateY(calc(-50% + 1px));
     }
   }
 }
