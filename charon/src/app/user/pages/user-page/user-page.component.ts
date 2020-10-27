@@ -1,7 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-
-import { ActivityDetailsComponent } from '../../components/activity-details';
 import { MatchMediaService } from '@shared/services/match-media/match-media.service';
 import { BrowserApi } from '@shared/utils/browser-api';
 import { Router } from '@angular/router';
@@ -29,13 +26,11 @@ export interface ActivityItem {
 })
 export class UserPageComponent implements OnInit {
 
-  activityItems: ActivityItem[];
   public userRoute: typeof UserRoute = UserRoute;
   public user$: Observable<AuthUser>;
   public rate$: Observable<number>;
 
   constructor(
-    public dialog: MatDialog,
     public matchMediaService: MatchMediaService,
     private currencyService: CurrencyService,
     private authService: AuthService,
@@ -48,39 +43,6 @@ export class UserPageComponent implements OnInit {
   ngOnInit(): void {
     this.user$ = this.authService.getActiveUser();
     this.rate$ = this.currencyService.getCoinRate('decentr', 'usd');
-
-    this.activityItems = [
-      { id: 'id1', name: 'Cookies name 1', date: '24.07.2020, 11:50', site: 'google.com' },
-      { id: 'id1', name: 'Cookies name 2', date: '24.07.2020, 11:50', site: 'decentr.net' },
-      { id: 'id1', name: 'Cookies name 3', date: '24.07.2020, 11:50', site: 'yahoo.com' },
-      { id: 'id1', name: 'Cookies name 1', date: '24.07.2020, 11:50', site: 'google.com' },
-      { id: 'id1', name: 'Cookies name 2', date: '24.07.2020, 11:50', site: 'decentr.net' },
-      { id: 'id1', name: 'Cookies name 3', date: '24.07.2020, 11:50', site: 'yahoo.com' },
-      { id: 'id1', name: 'Cookies name 1', date: '24.07.2020, 11:50', site: 'google.com' },
-      { id: 'id1', name: 'Cookies name 2', date: '24.07.2020, 11:50', site: 'decentr.net' },
-      { id: 'id1', name: 'Cookies name 3', date: '24.07.2020, 11:50', site: 'yahoo.com' },
-      { id: 'id1', name: 'Cookies name 1', date: '24.07.2020, 11:50', site: 'google.com' },
-      { id: 'id1', name: 'Cookies name 2', date: '24.07.2020, 11:50', site: 'decentr.net' },
-      { id: 'id1', name: 'Cookies name 3', date: '24.07.2020, 11:50', site: 'yahoo.com' }
-    ];
-  }
-
-  openActivityItemDetails(id: string) {
-    const config = {
-      width: '940px',
-      maxWidth: '100%',
-      height: '500px',
-      maxHeight: '100%',
-      panelClass: 'popup-no-padding',
-      data: { id }
-    };
-
-    if (this.matchMediaService.isSmall()) {
-      config['height'] = '100%';
-      config['maxHeight'] = '100vh';
-    }
-
-    this.dialog.open(ActivityDetailsComponent, config);
   }
 
   public expandView(): void {
@@ -92,6 +54,4 @@ export class UserPageComponent implements OnInit {
 
     this.toastrService.success(this.translocoService.translate('user_page.copy_wallet_address_success', null, 'user'));
   }
-
-  public trackById: TrackByFunction<ActivityItem> = ({}, { id }) => id;
 }

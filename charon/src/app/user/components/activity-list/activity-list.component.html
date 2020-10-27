@@ -1,0 +1,22 @@
+<ng-container *transloco="let translate; read: 'user.user_page'">
+  <div *ngIf="false"
+       class="no-activity">
+    {{ translate('no_activity') }}
+  </div>
+  <div *ngIf="true"
+       class="activity-items">
+    <div *ngFor="let activityItem of activityItems; let i = index; trackBy: trackById"
+         (click)="openActivityItemDetails(activityItem.id)"
+         class="activity-item">
+      <div class="activity-item__name">
+        {{activityItem.name}}
+      </div>
+      <div class="activity-item__date">
+        {{activityItem.date}}
+      </div>
+      <div class="activity-item__site">
+        {{activityItem.site}}
+      </div>
+    </div>
+  </div>
+</ng-container>
