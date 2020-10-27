@@ -3,7 +3,7 @@ import { BehaviorSubject, combineLatest, from, Observable } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { LocalStoreSection, LocalStoreService } from '@shared/services/local-store';
+import { BrowserLocalStorage, BrowserStorage } from '../../../../../shared/browser-storage';
 import { uuid } from '@shared/utils/uuid';
 import { CryptoService } from '@shared/services/crypto';
 import { StoreData, User } from '../models';
@@ -14,12 +14,10 @@ export class AuthService {
   private activeUserId$: Observable<User['id'] | undefined>;
   private activeUser$: BehaviorSubject<User | undefined> = new BehaviorSubject(undefined);
   private users$: BehaviorSubject<User[]> = new BehaviorSubject([]);
-  private authStore: LocalStoreSection<StoreData>;
+  private authStore: BrowserStorage<StoreData>;
 
-  constructor(
-    store: LocalStoreService,
-  ) {
-    this.authStore = store.useSection('auth');
+  constructor() {
+    this.authStore = BrowserLocalStorage.getInstance().useSection('auth');
   }
 
   public get isLoggedIn(): boolean {
