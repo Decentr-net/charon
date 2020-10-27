@@ -194,6 +194,32 @@
   .tabs-wrapper {
     background: #ffffff;
 
+    &__two-columns {
+      display: flex;
+
+      ::ng-deep {
+        mat-tab-group {
+          width: 50%;
+
+          &:nth-child(1) {
+            .tab-container {
+              position: relative;
+
+              &:after {
+                content: "";
+                border-right: 1px solid #d6d9dc;
+                height: 70%;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+
     ::ng-deep {
       .mat-tab-label {
         opacity: 1;
