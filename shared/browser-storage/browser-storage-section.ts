@@ -35,11 +35,11 @@ export class BrowserStorageSection<T extends {}> implements BrowserStorage<T> {
     return this.parentStorage.remove(this.section);
   }
 
-  public onChange<K extends keyof T>(key: K): Observable<T[K]> {
+  public onChange<K extends keyof T>(key: K): Observable<T[K] | undefined> {
     return from(this.getSectionValue()).pipe(
       switchMap((sectionValue) => this.parentStorage.onChange(this.section).pipe(
         map((newSectionValue: T) => newSectionValue && newSectionValue[key]),
-        startWith(sectionValue[key]),
+        startWith(sectionValue && sectionValue[key]),
       )),
       distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)),
       skip(1),
