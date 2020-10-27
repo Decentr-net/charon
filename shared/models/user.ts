@@ -1,3 +1,5 @@
+import { Wallet } from './wallet';
+
 export enum Gender {
   Male = 'male',
   Female = 'female',
@@ -13,9 +15,7 @@ export interface UserPrivate {
   readonly usernames: string[];
 }
 
-export interface User extends UserPrivate, UserPublic {
+export interface User extends UserPrivate, UserPublic, Omit<Wallet, 'address'> {
   readonly id: string;
-  readonly privateKey: string;
-  readonly publicKey: string;
   readonly walletAddress: string;
 }

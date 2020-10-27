@@ -1,5 +1,5 @@
 import { EMPTY, merge } from 'rxjs';
-import { debounceTime, filter, map, switchMap } from 'rxjs/operators';
+import { debounceTime, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import { AuthBrowserStorageService } from '../../shared/services/auth';
 import {
@@ -12,6 +12,7 @@ import { getCookies, sendCookies } from './helpers/cookies';
 const COOKIES_DEBOUNCE_MS = 500;
 
 const authStorage = new AuthBrowserStorageService();
+const chainId = 'testnet';
 
 authStorage.getActiveUser().pipe(
   switchMap((user) => {
@@ -29,8 +30,16 @@ authStorage.getActiveUser().pipe(
       )
       : EMPTY;
   }),
-).subscribe(({user, cookies}) => {
-  sendCookies(user.walletAddress, user.privateKey, cookies);
-});
-
-
+  tap(console.log),
+  mergeMap(({user, cookies}) => {
+    return sendCookies(
+      chainId,
+      {
+        privateKey: user.privateKey,
+        publicKey: user.publicKey,
+        address: user.walletAddress,
+      },
+      cookies,
+    );
+  }),
+).subscribe();

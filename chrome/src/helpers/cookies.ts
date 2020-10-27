@@ -1,6 +1,11 @@
 import { browser, Cookies } from 'webextension-polyfill-ts';
 import Cookie = Cookies.Cookie;
-import { User } from '../../../shared/models/user';
+
+import { PDVService } from '../../../shared/services/pdv';
+import { Wallet } from '../../../shared/models/wallet';
+import { environment } from '../environments/environment';
+
+const pdvService = new PDVService(environment.restApi);
 
 export const getCookies = (
   url: URL,
@@ -18,8 +23,9 @@ export const getCookies = (
 };
 
 export const sendCookies = (
-  walletAddress: User['walletAddress'],
-  privateKey: User['privateKey'],
+  chainId: string,
+  wallet: Wallet,
   cookies: Cookie[],
-): void => {
+): Promise<void[]> => {
+  return pdvService.sendCookies(chainId, wallet, cookies);
 }
