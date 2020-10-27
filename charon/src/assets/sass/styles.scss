@@ -298,3 +298,71 @@ div.selectUserMenu {
     transform: rotate(-45deg);
   }
 }
+
+// Toastr
+.toast-container {
+  &.toast-top-center {
+    .ngx-toastr {
+      width: 450px !important;
+      box-shadow: none;
+      border-radius: 4px;
+      padding: 20px 55px 20px 15px;
+      margin-top: .5rem;
+      background-image: none;
+
+      &:hover {
+        box-shadow: none;
+      }
+    }
+
+    .toast-message {
+      font-size: 15px;
+    }
+
+    .toast-error {
+      background-color: #DC2929;
+    }
+
+    .toast-success {
+      background-color: #6BBFA6;
+    }
+
+    .toast-close-button {
+      position: absolute;
+      right: .5em;
+      top: .5em;
+      opacity: .8;
+
+      span {
+        width: 17px;
+        height: 17px;
+        color: transparent;
+        position: relative;
+        display: block;
+        font-size: 0;
+        animation: all .3s ease;
+
+        &:hover {
+          opacity: 1;
+        }
+
+        &:before,
+        &:after {
+          content: '';
+          position: absolute;
+          height: 17px;
+          width: 2px;
+          background-color: #ffffff;
+        }
+
+        &:before {
+          transform: rotate(45deg);
+        }
+
+        &:after {
+          transform: rotate(-45deg);
+        }
+      }
+    }
+  }
+}
