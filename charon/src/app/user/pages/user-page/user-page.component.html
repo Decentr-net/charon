@@ -48,41 +48,51 @@
         </div>
       </div>
 
-      <div class="tabs-wrapper">
-        <mat-tab-group mat-stretch-tabs
-                       mat-align-tabs="center"
-                       animationDuration="0ms">
-          <mat-tab [label]="translate('tabs.pdv_rate')">
-            <div class="tab-container">
-              <app-chart></app-chart>
-            </div>
-          </mat-tab>
-          <mat-tab [label]="translate('tabs.activity')">
-            <div class="tab-container">
-              <div *ngIf="false"
-                   class="no-activity">
-                {{ translate('no_activity') }}
+      <ng-container *ngIf="matchMediaService.isSmall() else tabsTwoColumns">
+        <div class="tabs-wrapper">
+          <mat-tab-group mat-stretch-tabs
+                         mat-align-tabs="center"
+                         animationDuration="0ms">
+            <mat-tab [label]="translate('tabs.pdv_rate')">
+              <div class="tab-container">
+                <app-chart></app-chart>
               </div>
-              <div *ngIf="true"
-                   class="activity-items">
-                <div *ngFor="let activityItem of activityItems; let i = index; trackBy: trackById"
-                     (click)="openActivityItemDetails(activityItem.id)"
-                     class="activity-item">
-                  <div class="activity-item__name">
-                    {{activityItem.name}}
-                  </div>
-                  <div class="activity-item__date">
-                    {{activityItem.date}}
-                  </div>
-                  <div class="activity-item__site">
-                    {{activityItem.site}}
-                  </div>
-                </div>
+            </mat-tab>
+            <mat-tab [label]="translate('tabs.activity')">
+              <div class="tab-container">
+                <app-activity-list></app-activity-list>
               </div>
-            </div>
-          </mat-tab>
-        </mat-tab-group>
-      </div>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </ng-container>
+
+      <ng-template #tabsTwoColumns>
+        <div class="tabs-wrapper tabs-wrapper__two-columns">
+          <mat-tab-group mat-stretch-tabs
+                         mat-align-tabs="center"
+                         disableRipple
+                         animationDuration="0ms">
+            <mat-tab [label]="translate('tabs.pdv_rate')">
+              <div class="tab-container">
+                <app-chart></app-chart>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+
+          <mat-tab-group mat-stretch-tabs
+                         mat-align-tabs="center"
+                         disableRipple
+                         animationDuration="0ms">
+            <mat-tab [label]="translate('tabs.activity')">
+              <div class="tab-container">
+                <app-activity-list></app-activity-list>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </ng-template>
+
     </div>
   </div>
 
