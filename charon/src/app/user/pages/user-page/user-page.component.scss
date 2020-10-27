@@ -198,6 +198,10 @@
       display: flex;
 
       ::ng-deep {
+        .mat-tab-label {
+          cursor: default;
+        }
+
         mat-tab-group {
           width: 50%;
 
