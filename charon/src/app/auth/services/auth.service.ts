@@ -1,23 +1,17 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, from, Observable } from 'rxjs';
-import { map, mergeMap, startWith } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { BrowserLocalStorage, BrowserStorage } from '../../../../../shared/browser-storage';
 import { uuid } from '@shared/utils/uuid';
 import { CryptoService } from '@shared/services/crypto';
-import { StoreData, User } from '../models';
+import { AuthStorage, AuthUser } from '../models';
 
 @UntilDestroy()
 @Injectable()
 export class AuthService {
-  private activeUserId$: Observable<User['id'] | undefined>;
-  private activeUser$: BehaviorSubject<User | undefined> = new BehaviorSubject(undefined);
-  private users$: BehaviorSubject<User[]> = new BehaviorSubject([]);
-  private authStore: BrowserStorage<StoreData>;
+  private activeUser$: BehaviorSubject<AuthUser | undefined> = new BehaviorSubject(undefined);
 
-  constructor() {
-    this.authStore = BrowserLocalStorage.getInstance().useSection('auth');
+  constructor(private authStorage: AuthStorage<AuthUser>) {
   }
 
   public get isLoggedIn(): boolean {
@@ -25,91 +19,58 @@ export class AuthService {
   }
 
   public async init(): Promise<void> {
-    from(this.authStore.get('users')).pipe(
-      mergeMap((users) => this.authStore.onChange('users').pipe(
-        startWith(users),
-      )),
-      map(users => users || []),
-      untilDestroyed(this),
-    ).subscribe(this.users$);
-
-    this.activeUserId$ = from(this.authStore.get('activeUserId')).pipe(
-      mergeMap((activeUserId) => this.authStore.onChange('activeUserId').pipe(
-        startWith(activeUserId),
-      )),
-    );
-
-    combineLatest([
-      this.users$,
-      this.activeUserId$,
-    ]).pipe(
-      map(([users, activeUserId]) => users.find(user => user.id === activeUserId)),
+    this.authStorage.getActiveUser().pipe(
       untilDestroyed(this),
     ).subscribe(this.activeUser$);
   }
 
-  public confirmUserEmail(userId: User['id']): Promise<void> {
-    const user = this.users$.value.find(user => user.id === userId);
-
-    const newUsers: User[] = [
-      ...this.users$.value.filter(user => user.id !== userId),
-      {
-        ...user,
-        emailConfirmed: true,
-      },
-    ];
-
-    return this.updateUsers(newUsers);
+  public confirmUserEmail(userId: AuthUser['id']): Promise<void> {
+    return this.authStorage.updateUser(userId, { emailConfirmed: true });
   }
 
-  public getActiveUser(): Observable<User | undefined> {
+  public getActiveUser(): Observable<AuthUser | undefined> {
     return this.activeUser$.asObservable();
   }
 
-  public getActiveUserInstant(): User | undefined {
+  public getActiveUserInstant(): AuthUser | undefined {
     return this.activeUser$.value;
   }
 
   public async createUser(
-    user: Omit<User, 'id' | 'mainEmail' | 'passwordHash'> & { password: string },
-  ): Promise<User['id']> {
+    user: Omit<AuthUser, 'id' | 'mainEmail' | 'passwordHash'> & { password: string },
+  ): Promise<AuthUser['id']> {
     const id = uuid();
-    const newUsers = [
-      ...this.users$.value,
-      {
-        id,
-        birthday: user.birthday,
-        emailConfirmed: user.emailConfirmed,
-        emails: user.emails,
-        gender: user.gender,
-        mainEmail: user.emails[0],
-        passwordHash: CryptoService.encryptPassword(user.password),
-        privateKey: user.privateKey,
-        publicKey: user.publicKey,
-        usernames: user.usernames,
-        walletAddress: user.walletAddress,
-      },
-    ];
 
-    await this.updateUsers(newUsers);
+    await this.authStorage.createUser({
+      id,
+      birthday: user.birthday,
+      emailConfirmed: user.emailConfirmed,
+      emails: user.emails,
+      gender: user.gender,
+      mainEmail: user.emails[0],
+      passwordHash: CryptoService.encryptPassword(user.password),
+      privateKey: user.privateKey,
+      publicKey: user.publicKey,
+      usernames: user.usernames,
+      walletAddress: user.walletAddress,
+    });
 
     return id;
   }
 
-  public changeUser(userId: User['id']): Promise<void> {
-    return this.authStore.set('activeUserId', userId);
+  public changeUser(userId: AuthUser['id']): Promise<void> {
+    return this.authStorage.setActiveUserId(userId);
   }
 
-  public async removeUser(userId: User['id']): Promise<void> {
-    const newUsers = this.users$.value.filter(({id}) => id !== userId);
+  public async removeUser(userId: AuthUser['id']): Promise<void> {
     if (this.isLoggedIn && userId === this.getActiveUserInstant().id) {
       await this.logout();
     }
-    await this.updateUsers(newUsers);
+    await this.authStorage.removeUser(userId);
   }
 
   public logout(): Promise<void> {
-    return this.authStore.remove('activeUserId');
+    return this.authStorage.removeActiveUserId();
   }
 
   public validateCurrentUserPassword(password: string): boolean {
@@ -117,31 +78,22 @@ export class AuthService {
   }
 
   public updateUser(
-    userId: User['id'],
-    update: Partial<Pick<User, 'birthday' | 'gender' | 'emails' | 'usernames'> & { password: string }>
+    userId: string,
+    update: Partial<Pick<AuthUser, 'birthday' | 'gender' | 'emails' | 'usernames'> & { password: string }>
   ): Promise<void> {
-    const user = this.users$.value.find(user => user.id === userId);
-
-    const newUsers: User[] = [
-      ...this.users$.value.filter(user => user.id !== userId),
+    return this.authStorage.updateUser(
+      userId,
       {
-        ...user,
-        ...{
-          birthday: update.birthday || user.birthday,
-          gender: update.gender || user.gender,
-          emails: update.emails || user.emails,
-          usernames: update.usernames || user.usernames,
-          passwordHash: update.password
-            ? CryptoService.encryptPassword(update.password)
-            : user.passwordHash,
-        },
-      },
-    ];
-
-    return this.updateUsers(newUsers);
-  }
-
-  private updateUsers(users: User[]): Promise<void> {
-    return this.authStore.set('users', users)
+        birthday: update.birthday || update.birthday,
+        gender: update.gender || update.gender,
+        emails: update.emails || update.emails,
+        usernames: update.usernames || update.usernames,
+        ...update.password
+          ? {
+            passwordHash: CryptoService.encryptPassword(update.password),
+          }
+          : {},
+      }
+    )
   }
 }

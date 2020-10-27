@@ -7,7 +7,7 @@ import { BrowserApi } from '@shared/utils/browser-api';
 import { Router } from '@angular/router';
 import { AuthService } from '@auth/services';
 import { Observable } from 'rxjs';
-import { User } from '@auth/models';
+import { AuthUser } from '@auth/models';
 import { copyContent } from '@shared/utils/copy-content';
 import { CurrencyService } from '@shared/services/currency';
 import { UserRoute } from '../../user.route';
@@ -31,7 +31,7 @@ export class UserPageComponent implements OnInit {
 
   activityItems: ActivityItem[];
   public userRoute: typeof UserRoute = UserRoute;
-  public user$: Observable<User>;
+  public user$: Observable<AuthUser>;
   public rate$: Observable<number>;
 
   constructor(

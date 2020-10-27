@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { debounceTime, filter, mapTo, startWith, switchMapTo, takeUntil } from 'rxjs/operators';
 
-import { BrowserLocalStorage, BrowserStorage } from '../../../../../../../shared/browser-storage';
+import { BrowserLocalStorage, BrowserStorage } from '../../../../../../../shared/services/browser-storage';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LOCK_DELAY, LOCK_INTERACTION_SOURCE, LOCK_REDIRECT_URL } from '../lock.tokens';
 
