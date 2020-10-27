@@ -1,7 +1,7 @@
 import { Component, HostBinding } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from, throwError } from 'rxjs';
-import { catchError, mergeMap } from 'rxjs/operators';
+import { catchError, finalize, mergeMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { createWalletFromMnemonic } from 'decentr-js';
 
@@ -15,6 +15,7 @@ import { SignUpStoreService } from '../../services';
 import { StatusCodes } from 'http-status-codes';
 import { ToastrService } from 'ngx-toastr';
 import { TranslocoService } from '@ngneat/transloco';
+import { SpinnerService } from '@shared/services/spinner/spinner.service';
 
 enum SignUpTab {
   AccountForm,
@@ -44,6 +45,7 @@ export class SignUpPageComponent {
     private navigationService: NavigationService,
     private router: Router,
     private signUpStoreService: SignUpStoreService,
+    private spinnerService: SpinnerService,
     private toastrService: ToastrService,
     private translocoService: TranslocoService,
     private userService: UserService,
@@ -73,6 +75,8 @@ export class SignUpPageComponent {
   }
 
   public signUp(): void {
+    this.spinnerService.showSpinner();
+
     const { address: walletAddress, ...keys } = createWalletFromMnemonic(this.seedPhrase);
 
     from(this.authService.createUser({
@@ -92,6 +96,7 @@ export class SignUpPageComponent {
         return throwError(err);
       }),
       mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
+      finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
     ).subscribe(() => this.router.navigate([SignUpRoute.EmailConfirmation], {
       relativeTo: this.activatedRoute,

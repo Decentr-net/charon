@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnI
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { forkJoin, from, Observable, Subject, throwError, timer } from 'rxjs';
-import { catchError, filter, map, mapTo, mergeMap, startWith, switchMap } from 'rxjs/operators';
+import { catchError, filter, finalize, map, mapTo, mergeMap, startWith, switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -15,6 +15,7 @@ import { SignUpRoute } from '../../sign-up-route';
 import { StatusCodes } from 'http-status-codes';
 import { ToastrService } from 'ngx-toastr';
 import { TranslocoService } from '@ngneat/transloco';
+import { SpinnerService } from '@shared/services/spinner/spinner.service';
 
 interface CodeForm {
   code: string;
@@ -50,6 +51,7 @@ export class EmailConfirmationPageComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private signUpStoreService: SignUpStoreService,
+    private spinnerService: SpinnerService,
     private toastrService: ToastrService,
     private translocoService: TranslocoService,
     private userService: UserService,
@@ -80,6 +82,8 @@ export class EmailConfirmationPageComponent implements OnInit {
   }
 
   public confirm(): void {
+    this.spinnerService.showSpinner();
+
     const code = this.codeForm.getRawValue().code;
     const user = this.authService.getActiveUserInstant();
 
@@ -112,6 +116,7 @@ export class EmailConfirmationPageComponent implements OnInit {
         user.walletAddress,
         user.privateKey,
       )),
+      finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
     ).subscribe(() => {
       this.signUpStoreService.clear();
@@ -120,6 +125,8 @@ export class EmailConfirmationPageComponent implements OnInit {
   }
 
   public sendEmail(): void {
+    this.spinnerService.showSpinner();
+
     const { mainEmail, walletAddress } = this.authService.getActiveUserInstant();
     this.userService.createUser(mainEmail, walletAddress).pipe(
       mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
@@ -131,6 +138,7 @@ export class EmailConfirmationPageComponent implements OnInit {
         this.toastrService.error(message);
         return throwError(err);
       }),
+      finalize(() => this.spinnerService.hideSpinner()),
     ).subscribe(() => this.resetTimer());
   }
 
