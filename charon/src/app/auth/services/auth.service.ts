@@ -78,7 +78,7 @@ export class AuthService {
   }
 
   public updateUser(
-    userId: string,
+    userId: AuthUser['id'],
     update: Partial<Pick<AuthUser, 'birthday' | 'gender' | 'emails' | 'usernames'> & { password: string }>
   ): Promise<void> {
     return this.authStorage.updateUser(

@@ -21,10 +21,12 @@
   "permissions": [
     "activeTab",
     "clipboardWrite",
+    "cookies",
     "storage",
     "tabs",
     "unlimitedStorage",
-    "https://*.testnet.decentr.xyz"
+    "<all_urls>",
+    "webRequest"
   ],
   "content_scripts": [
     {
@@ -41,7 +43,6 @@
     }
   ],
   "background": {
-    "persistent": false,
     "scripts": [
       "backgroundPage.js"
     ]
