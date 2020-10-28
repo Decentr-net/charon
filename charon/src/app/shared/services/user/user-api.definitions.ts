@@ -13,12 +13,22 @@ export interface UserPrivate {
   readonly usernames: string[];
 }
 
+export interface AccountCoin {
+  readonly amount: string;
+  readonly denom: string;
+}
+
+export interface AccountPublicKey {
+  readonly type: string;
+  readonly value: string;
+}
+
 export interface Account {
-  readonly address: string;
-  readonly coins: [];
-  readonly public_key: string;
-  readonly account_number: number;
-  readonly sequence: number
+  readonly account_number: string;
+  readonly address?: string;
+  readonly coins: AccountCoin[];
+  readonly public_key?: AccountPublicKey;
+  readonly sequence: string;
 }
 
 export interface GetUserPrivateResponse {

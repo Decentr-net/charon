@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { from, Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 import { Decentr, signMessage } from 'decentr-js';
 
 import { Environment } from '@environments/environment.definitions';
-import { GetUserPrivateResponse, GetUserPublicResponse, UserPrivate, UserPublic } from './user-api.definitions';
+import { Account, UserPrivate, UserPublic } from './user-api.definitions';
 
 @Injectable({
   providedIn: 'root',

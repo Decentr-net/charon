@@ -1,6 +1,9 @@
 {
   "import_restore_page": {
     "back": "Back",
+    "errors": {
+      "account_not_found": "Account not found"
+    },
     "form": {
       "confirm_password": {
         "label": "Confirm password",

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { delay, retryWhen, take } from 'rxjs/operators';
+import { delay, map, retryWhen, take } from 'rxjs/operators';
 
 import { ChainService } from '@shared/services/chain';
 import { UserApiService } from './user-api.service';
-import { UserPrivate, UserPublic } from './user-api.definitions';
+import { Account, UserPrivate, UserPublic } from './user-api.definitions';
 
 @Injectable({
   providedIn: 'root',
@@ -24,8 +24,10 @@ export class UserService {
     return this.userApiService.confirmUser(code, email);
   }
 
-  public getAccount(walletAddress: string): Observable<Account> {
-    return this.userApiService.getAccount(this.chainService.getChainId(), walletAddress);
+  public getAccount(walletAddress: string): Observable<Account | undefined> {
+    return this.userApiService.getAccount(this.chainService.getChainId(), walletAddress).pipe(
+      map(account => account.address ? account : void 0),
+    );
   }
 
   public waitAccount(walletAddress: string): Observable<Account> {
