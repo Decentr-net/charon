@@ -14,10 +14,14 @@ export class PDVService {
 
   public sendCookies(chainId: string, wallet: Wallet, cookies: Cookie[]): Promise<void[]> {
     const decentr = this.createDecentrConnector(chainId);
-    return PDVService.queue.add(() => {
-      return decentr.sendPDV(PDVService.convertToPDV(cookies), wallet)
-        .then((message) => this.broadcast(decentr, message, wallet.privateKey));
-    });
+    const groupedCookies = this.groupCookiesByDomainAndPath(cookies);
+
+    return Promise.all(
+      groupedCookies.map((group) => PDVService.queue.add(() => {
+        return decentr.sendPDV(PDVService.convertToPDV(group.cookies, group.domain, group.path), wallet)
+          .then((message) => this.broadcast(decentr, message, wallet.privateKey));
+      })),
+    );
   }
 
   public getBalance(chainId: string, walletAddress: string): Promise<number> {
@@ -30,20 +34,23 @@ export class PDVService {
     return decentr.get.pdvList(walletAddress);
   }
 
-  private static convertToPDV(cookies: Cookie[]): PDV {
+  private static convertToPDV(cookies: Cookie[], domain: string, path: string): PDV {
+    const pdvDomainMatch = domain.match(/\w+.\w+.\w+/);
+    const pdvDomain = pdvDomainMatch && pdvDomainMatch[0] || domain;
+
     return {
       version: 'v1',
       pdv: {
-        domain: 'decentr.net',
-        path: '/',
+        path,
+        domain: pdvDomain,
         data: cookies.map((cookie) => ({
+          domain: '*',
+          path: '*',
           version: 'v1',
           type: 'cookie',
           name: cookie.name,
           value: cookie.value,
-          domain: cookie.domain,
           host_only: cookie.hostOnly,
-          path: cookie.path,
           secure: cookie.secure,
           same_site: cookie.sameSite,
           expiration_date: Math.round(cookie.expirationDate),
@@ -59,5 +66,20 @@ export class PDVService {
 
   private createDecentrConnector(chainId: string): any {
     return new Decentr(this.api, chainId);
+  }
+
+  private groupCookiesByDomainAndPath(cookies: Cookie[]): {
+    domain: string;
+    path: string;
+    cookies: Cookie[];
+  }[] {
+    return cookies.reduce((acc, cookie) => {
+      const group = acc.find((g) => g.domain === cookie.domain && g.path === cookie.path);
+      if (group) {
+        group.cookies.push(cookie);
+        return acc;
+      }
+      return [...acc, { domain: cookie.domain, path: cookie.path, cookies: [cookie] }];
+    }, [])
   }
 }
