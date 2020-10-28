@@ -11,14 +11,14 @@ import { UserRoute } from '../../user.route';
 import { ToastrService } from 'ngx-toastr';
 import { TranslocoService } from '@ngneat/transloco';
 import { UserPDVService } from '../../services';
+import { ActivityItem } from '../../components/activity-list/activity-list.component';
+import { map } from 'rxjs/operators';
+import { PDVDetails, PDVListItem } from '../../../../../../shared/services/pdv';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { ActivityDetailsComponent } from '../../components/activity-details';
 
-export interface ActivityItem {
-  id: string;
-  name: string;
-  date: string;
-  site: string;
-}
-
+@UntilDestroy()
 @Component({
   selector: 'app-user-page',
   templateUrl: './user-page.component.html',
@@ -31,11 +31,13 @@ export class UserPageComponent implements OnInit {
   public user$: Observable<AuthUser>;
   public rate$: Observable<number>;
   public balance$: Observable<number>;
+  public pdvList$: Observable<ActivityItem[]>;
 
   constructor(
     public matchMediaService: MatchMediaService,
     private currencyService: CurrencyService,
     private authService: AuthService,
+    private matDialog: MatDialog,
     private router: Router,
     private toastrService: ToastrService,
     private translocoService: TranslocoService,
@@ -47,7 +49,32 @@ export class UserPageComponent implements OnInit {
     this.user$ = this.authService.getActiveUser();
 
     this.rate$ = this.currencyService.getCoinRate('decentr', 'usd');
+
     this.balance$ = this.userPDVService.getBalance();
+
+    this.pdvList$ = this.userPDVService.getPDVList().pipe(
+      map((list) => list.map(({ address, timestamp }) => (
+        {
+          address,
+          date: new Date(timestamp),
+        }))
+      )
+    );
+  }
+
+  public openPDVDetails(pdvAddress: PDVListItem['address']): void {
+    this.userPDVService.getPDVDetails(pdvAddress).subscribe(details => {
+      const config: MatDialogConfig<PDVDetails> = {
+        width: '940px',
+        maxWidth: '100%',
+        height: this.matchMediaService.isSmall() ? '100%' : '500px',
+        maxHeight: this.matchMediaService.isSmall() ? '100vh' : '100%',
+        panelClass: 'popup-no-padding',
+        data: details,
+      };
+
+      this.matDialog.open(ActivityDetailsComponent, config);
+    });
   }
 
   public expandView(): void {

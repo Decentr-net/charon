@@ -28,3 +28,5 @@ export interface PDVListItem {
   readonly owner: string;
   readonly type: string;
 }
+
+export type PDVDetails = PDVListItem;

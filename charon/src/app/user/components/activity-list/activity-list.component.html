@@ -1,17 +1,14 @@
 <ng-container *transloco="let translate; read: 'user.user_page'">
-  <div *ngIf="activityItems.length > 0; else noActivity"
+  <div *ngIf="items.length > 0; else noActivity"
        class="activity-items">
-    <div *ngFor="let activityItem of activityItems; let i = index; trackBy: trackById"
-         (click)="openActivityItemDetails(activityItem.id)"
+    <div *ngFor="let activityItem of items; let i = index; trackBy: trackByAddress"
+         (click)="details.emit(activityItem.address)"
          class="activity-item">
       <div class="activity-item__name">
-        {{activityItem.name}}
+        {{activityItem.address}}
       </div>
       <div class="activity-item__date">
-        {{activityItem.date}}
-      </div>
-      <div class="activity-item__site">
-        {{activityItem.site}}
+        {{activityItem.date | date : 'dd.MM.yyyy HH:mm'}}
       </div>
     </div>
   </div>

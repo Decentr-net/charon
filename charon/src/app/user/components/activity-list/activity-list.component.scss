@@ -10,7 +10,7 @@
   padding: 10px 10px;
   color: rgba(68, 119, 228, 0.8);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   cursor: pointer;
   transition: background .15s ease;
@@ -20,30 +20,18 @@
     border-radius: 4px;
   }
 
-  :nth-child(1) {
-    flex: 1 0 40%;
-  }
-
-  :nth-child(2) {
-    flex: 1 0 30%;
-  }
-
-  :nth-child(3) {
-    flex: 1 0 30%;
-    word-wrap: break-word;
-    overflow: hidden;
-  }
-
-  &__name {
+  .activity-item__name {
+    flex: 0 0 80%;
     font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .activity-item__date {
   }
 
   &__date {
     font-size: 8px;
-    margin-top: 3px;
-  }
-
-  &__site {
-    font-size: 13px;
   }
 }

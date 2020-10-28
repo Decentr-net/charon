@@ -60,7 +60,11 @@
             </mat-tab>
             <mat-tab [label]="translate('tabs.activity')">
               <div class="tab-container">
-                <app-activity-list></app-activity-list>
+                <app-activity-list
+                  *ngIf="pdvList$ | async as list"
+                  [items]="list"
+                  (details)="openPDVDetails($event)"
+                ></app-activity-list>
               </div>
             </mat-tab>
           </mat-tab-group>
@@ -86,7 +90,11 @@
                          animationDuration="0ms">
             <mat-tab [label]="translate('tabs.activity')">
               <div class="tab-container">
-                <app-activity-list></app-activity-list>
+                <app-activity-list
+                  *ngIf="pdvList$ | async as list"
+                  [items]="list"
+                  (details)="openPDVDetails($event)"
+                ></app-activity-list>
               </div>
             </mat-tab>
           </mat-tab-group>

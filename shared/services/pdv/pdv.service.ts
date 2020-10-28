@@ -4,7 +4,7 @@ import PQueue from 'p-queue';
 import Cookie = Cookies.Cookie;
 
 import { Wallet } from '../../models/wallet';
-import { PDV } from './pdv.definitions';
+import { PDV, PDVListItem } from './pdv.definitions';
 
 export class PDVService {
   private static queue = new PQueue({ concurrency: 1 });
@@ -29,9 +29,14 @@ export class PDVService {
     return decentr.get.tokenBalance(walletAddress).then(({ balance }) => balance);
   }
   
-  public getPDVList(chainId: string, walletAddress: string): Promise<any> {
+  public getPDVList(chainId: string, walletAddress: string): Promise<PDVListItem[]> {
     const decentr = this.createDecentrConnector(chainId);
     return decentr.get.pdvList(walletAddress);
+  }
+
+  public getPDVDetails(chainId: string, address: PDVListItem['address']): Promise<any> {
+    const decentr = this.createDecentrConnector(chainId);
+    return decentr.get.pdvFull(address);
   }
 
   private static convertToPDV(cookies: Cookie[], domain: string, path: string): PDV {
