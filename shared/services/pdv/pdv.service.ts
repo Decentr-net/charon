@@ -4,7 +4,7 @@ import PQueue from 'p-queue';
 import Cookie = Cookies.Cookie;
 
 import { Wallet } from '../../models/wallet';
-import { PDV, PDVListItem } from './pdv.definitions';
+import { PDV, PDVDetails, PDVListItem, PDVStatItem } from './pdv.definitions';
 
 export class PDVService {
   private static queue = new PQueue({ concurrency: 1 });
@@ -24,19 +24,24 @@ export class PDVService {
     );
   }
 
-  public getBalance(chainId: string, walletAddress: string): Promise<number> {
+  public getBalance(chainId: string, walletAddress: Wallet['address']): Promise<number> {
     const decentr = this.createDecentrConnector(chainId);
     return decentr.get.tokenBalance(walletAddress).then(({ balance }) => balance);
   }
   
-  public getPDVList(chainId: string, walletAddress: string): Promise<PDVListItem[]> {
+  public getPDVList(chainId: string, walletAddress: Wallet['address']): Promise<PDVListItem[]> {
     const decentr = this.createDecentrConnector(chainId);
     return decentr.get.pdvList(walletAddress);
   }
 
-  public getPDVDetails(chainId: string, address: PDVListItem['address']): Promise<any> {
+  public getPDVDetails(chainId: string, address: PDVListItem['address'], wallet: Wallet): Promise<PDVDetails> {
     const decentr = this.createDecentrConnector(chainId);
-    return decentr.get.pdvFull(address);
+    return decentr.getPdvByAddress(address, wallet);
+  }
+
+  public getPDVStats(chainId: string, walletAddress: Wallet['address']): Promise<PDVStatItem[]> {
+    const decentr = this.createDecentrConnector(chainId);
+    return decentr.get.pdvStats(walletAddress);
   }
 
   private static convertToPDV(cookies: Cookie[], domain: string, path: string): PDV {

@@ -2,12 +2,17 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
+  ElementRef, Input,
   OnChanges,
   SimpleChanges,
   ViewChild
 } from '@angular/core';
 import * as d3 from 'd3';
+
+export interface ChartPoint {
+  date: number;
+  value: number;
+}
 
 @Component({
   selector: 'app-chart',
@@ -16,7 +21,7 @@ import * as d3 from 'd3';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChartComponent implements OnChanges, AfterViewInit {
-
+  @Input() public data: ChartPoint[];
   @ViewChild('chartLine') private chartContainer: ElementRef;
   @ViewChild('chartLineResult') private chartResultContainer: ElementRef;
   // @Input() private data: number;
@@ -46,9 +51,6 @@ export class ChartComponent implements OnChanges, AfterViewInit {
   private chartHover: any;
   private chartLegend: any;
 
-  // TODO: implement interface
-  public data: any;
-
   constructor() {
   }
 
@@ -57,15 +59,6 @@ export class ChartComponent implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.data = [
-      { date: 1588213600000, value: 1.001 },
-      { date: 1588313600000, value: 1.006 },
-      { date: 1588413600000, value: 1.021 },
-      { date: 1588510800000, value: 1.015 },
-      { date: 1588620800000, value: 1.017 },
-      { date: 1588740800000, value: 1.009 }
-    ];
-
     this.initChart();
     this.createChart();
     this.repaintChart();

@@ -15,8 +15,9 @@ import { ActivityItem } from '../../components/activity-list/activity-list.compo
 import { map } from 'rxjs/operators';
 import { PDVDetails, PDVListItem } from '../../../../../../shared/services/pdv';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { UntilDestroy } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActivityDetailsComponent } from '../../components/activity-details';
+import { ChartPoint } from '../../components/chart';
 
 @UntilDestroy()
 @Component({
@@ -32,6 +33,7 @@ export class UserPageComponent implements OnInit {
   public rate$: Observable<number>;
   public balance$: Observable<number>;
   public pdvList$: Observable<ActivityItem[]>;
+  public chartPoints$: Observable<ChartPoint[]>;
 
   constructor(
     public matchMediaService: MatchMediaService,
@@ -60,10 +62,19 @@ export class UserPageComponent implements OnInit {
         }))
       )
     );
+
+    this.chartPoints$ = this.userPDVService.getPdvStats().pipe(
+      map((stats) => stats.map(({ date, value }) => ({
+        date: new Date(date).valueOf(),
+        value,
+      }))),
+    );
   }
 
   public openPDVDetails(pdvAddress: PDVListItem['address']): void {
-    this.userPDVService.getPDVDetails(pdvAddress).subscribe(details => {
+    this.userPDVService.getPDVDetails(pdvAddress).pipe(
+      untilDestroyed(this),
+    ).subscribe(details => {
       const config: MatDialogConfig<PDVDetails> = {
         width: '940px',
         maxWidth: '100%',

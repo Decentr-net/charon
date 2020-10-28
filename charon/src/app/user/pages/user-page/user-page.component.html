@@ -55,7 +55,10 @@
                          animationDuration="0ms">
             <mat-tab [label]="translate('tabs.pdv_rate')">
               <div class="tab-container">
-                <app-chart></app-chart>
+                <app-chart
+                  *ngIf="chartPoints$ | async as points"
+                  [data]="points"
+                ></app-chart>
               </div>
             </mat-tab>
             <mat-tab [label]="translate('tabs.activity')">
@@ -79,7 +82,10 @@
                          animationDuration="0ms">
             <mat-tab [label]="translate('tabs.pdv_rate')">
               <div class="tab-container">
-                <app-chart></app-chart>
+                <app-chart
+                  *ngIf="chartPoints$ | async as points"
+                  [data]="points"
+                ></app-chart>
               </div>
             </mat-tab>
           </mat-tab-group>

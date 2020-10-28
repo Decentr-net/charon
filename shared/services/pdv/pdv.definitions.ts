@@ -29,4 +29,15 @@ export interface PDVListItem {
   readonly type: string;
 }
 
-export type PDVDetails = PDVListItem;
+export interface PDVDetails {
+  readonly calculated_data: {
+    readonly ip: string;
+    readonly user_agent: string;
+  };
+  readonly user_data: PDV;
+}
+
+export interface PDVStatItem {
+  date: string;
+  value: number;
+}

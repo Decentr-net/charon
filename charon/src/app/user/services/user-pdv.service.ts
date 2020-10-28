@@ -4,7 +4,7 @@ import { from, Observable } from 'rxjs';
 import { Environment } from '@environments/environment.definitions';
 import { AuthService } from '@auth/services';
 import { ChainService } from '@shared/services/chain';
-import { PDVListItem, PDVService } from '../../../../../shared/services/pdv';
+import { PDVDetails, PDVListItem, PDVService, PDVStatItem } from '../../../../../shared/services/pdv';
 
 @Injectable()
 export class UserPDVService {
@@ -32,10 +32,23 @@ export class UserPDVService {
     ));
   }
 
-  public getPDVDetails(address: PDVListItem['address']): Observable<any> {
+  public getPDVDetails(address: PDVListItem['address']): Observable<PDVDetails> {
+    const { walletAddress, privateKey, publicKey } = this.authService.getActiveUserInstant();
     return from(this.pdvService.getPDVDetails(
       this.chainService.getChainId(),
       address,
+      {
+        privateKey,
+        publicKey,
+        address: walletAddress,
+      },
+    ));
+  }
+
+  public getPdvStats(): Observable<PDVStatItem[]> {
+    return from(this.pdvService.getPDVStats(
+      this.chainService.getChainId(),
+      this.authService.getActiveUserInstant().walletAddress,
     ));
   }
 }
