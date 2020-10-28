@@ -35,7 +35,7 @@
              [class.pdv-rate__rise]="true"
              [class.pdv-rate__fall]="false"
              [class.pdv-rate__none]="false">
-          1.001 PDV
+          {{ balance$ | async }} PDV
           <span>
           <div class="rate-icon"
                [resolveSVGUrl]="false"

@@ -26,7 +26,7 @@ export class PDVService {
 
   public getBalance(chainId: string, walletAddress: string): Promise<number> {
     const decentr = this.createDecentrConnector(chainId);
-    return decentr.get.tokenBalance(walletAddress)
+    return decentr.get.tokenBalance(walletAddress).then(({ balance }) => balance);
   }
   
   public getPDVList(chainId: string, walletAddress: string): Promise<any> {

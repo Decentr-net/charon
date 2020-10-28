@@ -17,6 +17,7 @@ import { FormErrorModule } from '@shared/components/form-error';
 import { LayoutHeaderModule } from '@shared/components/layout-header';
 import { USER_PAGES } from './pages';
 import { USER_COMPONENTS } from './components';
+import { USER_SERVICES } from './services';
 import { UserRoutingModule } from './user-routing.module';
 
 @NgModule({
@@ -43,6 +44,7 @@ import { UserRoutingModule } from './user-routing.module';
     USER_COMPONENTS,
   ],
   providers: [
+    USER_SERVICES,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: 'user',

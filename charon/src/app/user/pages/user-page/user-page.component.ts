@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatchMediaService } from '@shared/services/match-media/match-media.service';
 import { BrowserApi } from '@shared/utils/browser-api';
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { CurrencyService } from '@shared/services/currency';
 import { UserRoute } from '../../user.route';
 import { ToastrService } from 'ngx-toastr';
 import { TranslocoService } from '@ngneat/transloco';
+import { UserPDVService } from '../../services';
 
 export interface ActivityItem {
   id: string;
@@ -29,6 +30,7 @@ export class UserPageComponent implements OnInit {
   public userRoute: typeof UserRoute = UserRoute;
   public user$: Observable<AuthUser>;
   public rate$: Observable<number>;
+  public balance$: Observable<number>;
 
   constructor(
     public matchMediaService: MatchMediaService,
@@ -37,17 +39,15 @@ export class UserPageComponent implements OnInit {
     private router: Router,
     private toastrService: ToastrService,
     private translocoService: TranslocoService,
+    private userPDVService: UserPDVService,
   ) {
   }
 
   ngOnInit(): void {
     this.user$ = this.authService.getActiveUser();
 
-    this.user$.subscribe(res => {
-      console.log(res);
-    });
-
     this.rate$ = this.currencyService.getCoinRate('decentr', 'usd');
+    this.balance$ = this.userPDVService.getBalance();
   }
 
   public expandView(): void {
