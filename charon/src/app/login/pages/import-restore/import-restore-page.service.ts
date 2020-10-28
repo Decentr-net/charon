@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { EMPTY, forkJoin, Observable, of, throwError } from 'rxjs';
-import { mapTo, mergeMap, mergeMapTo, take, tap } from 'rxjs/operators';
+import { mapTo, mergeMap, mergeMapTo, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { createWalletFromMnemonic } from 'decentr-js';
 
 import { AuthService } from '@auth/services';
 import { LockService } from '@shared/features/lock';
+import { CustomError } from '@shared/models/error';
 import { UserService } from '@shared/services/user';
 import { AppRoute } from '../../../app-route';
-import { CustomError } from '@shared/models/error/custom-error';
 
 @Injectable()
 export class ImportRestorePageService {

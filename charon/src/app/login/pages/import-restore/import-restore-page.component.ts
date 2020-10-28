@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EMPTY, noop, Observable, throwError } from 'rxjs';
-import { catchError, finalize, pluck, share } from 'rxjs/operators';
+import { EMPTY, noop, Observable } from 'rxjs';
+import { finalize, pluck, share } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
@@ -10,10 +10,10 @@ import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
 import { NavigationService } from '@shared/services/navigation/navigation.service';
 import { ImportRestorePageService } from './import-restore-page.service';
+import { CustomError } from '@shared/models/error';
 import { SpinnerService } from '@shared/services/spinner/spinner.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { ToastrService } from 'ngx-toastr';
-import { CustomError } from '@shared/models/error/custom-error';
 
 export enum ImportRestorePageType {
   IMPORT_ACCOUNT = 'import-account',
