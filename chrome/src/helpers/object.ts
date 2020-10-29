@@ -1,7 +1,7 @@
 const toLowerCaseIfNeeded = (value: string, need: boolean) => need ? value.toLocaleLowerCase() : value;
 
 const compareStrings = (left: string, right: string, caseSensitive: boolean = false) => {
-  return toLowerCaseIfNeeded(left, caseSensitive) === toLowerCaseIfNeeded(right, caseSensitive);
+  return toLowerCaseIfNeeded(left, !caseSensitive) === toLowerCaseIfNeeded(right, !caseSensitive);
 }
 
 export const objectContains = (

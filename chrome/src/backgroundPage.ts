@@ -17,8 +17,6 @@ import {
   requestBodyContains,
 } from './helpers/requests';
 import { getCookies, sendCookies } from './helpers/cookies';
-// TODO: configure webpack to replace path
-import { environment } from './environments/environment';
 
 const COOKIES_DEBOUNCE_MS = 500;
 
