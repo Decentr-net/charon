@@ -53,7 +53,6 @@ authStorage.getActiveUser().pipe(
     )).pipe(
       retryWhen(errors => errors.pipe(
         delay(300),
-        take(3),
       )),
       catchError(() => EMPTY),
     );
