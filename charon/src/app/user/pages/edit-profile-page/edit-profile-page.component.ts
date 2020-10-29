@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angula
 import { Validators } from '@angular/forms';
 import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { from, of } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { finalize, mergeMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
@@ -10,6 +10,10 @@ import { NavigationService } from '@shared/services/navigation/navigation.servic
 import { Gender, UserService } from '@shared/services/user';
 import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
 import { AuthService } from '@auth/services';
+import { ToastrService } from 'ngx-toastr';
+import { TranslocoService } from '@ngneat/transloco';
+import { CustomError } from '@shared/models/error';
+import { SpinnerService } from '@shared/services/spinner/spinner.service';
 
 interface EditProfileForm {
   birthday: string;
@@ -43,6 +47,9 @@ export class EditProfilePageComponent implements OnInit {
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private navigationService: NavigationService,
+    private spinnerService: SpinnerService,
+    private toastrService: ToastrService,
+    private translocoService: TranslocoService,
     private userService: UserService,
   ) {
   }
@@ -59,6 +66,8 @@ export class EditProfilePageComponent implements OnInit {
     if (!this.form.valid) {
       return;
     }
+
+    this.spinnerService.showSpinner();
 
     const formValue = this.form.getRawValue();
     const user = this.authService.getActiveUserInstant();
@@ -93,8 +102,17 @@ export class EditProfilePageComponent implements OnInit {
           user.privateKey,
         )
       }),
+      finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
-    ).subscribe();
+    ).subscribe(() => {
+      this.toastrService.success(
+        this.translocoService.translate('edit_profile_page.toastr.successful_update', null, 'user'),
+      );
+    }, () => {
+      this.toastrService.error(
+        this.translocoService.translate('toastr.errors.unknown_error'),
+      );
+    });
   }
 
   public navigateBack(): void {

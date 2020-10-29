@@ -57,7 +57,10 @@
       "label": "Hint",
       "text": "Put the nicknames and e-mail addresses you use, it positively influences on PDV level."
     },
-    "title": "Account details"
+    "title": "Account details",
+    "toastr": {
+      "successful_update": "User was successfully updated"
+    }
   },
   "user_page": {
     "account_details": "Account details",
