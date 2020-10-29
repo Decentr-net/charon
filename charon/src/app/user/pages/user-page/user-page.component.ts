@@ -31,7 +31,7 @@ export class UserPageComponent implements OnInit {
   public userRoute: typeof UserRoute = UserRoute;
   public user$: Observable<AuthUser>;
   public rate$: Observable<number>;
-  public balance$: Observable<number>;
+  public balance$: Observable<string>;
   public pdvList$: Observable<ActivityItem[]>;
   public chartPoints$: Observable<ChartPoint[]>;
 

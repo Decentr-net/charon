@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Environment } from '@environments/environment.definitions';
+import { PDVDetails, PDVListItem, PDVService, PDVStatItem } from '../../../../../shared/services/pdv';
 import { AuthService } from '@auth/services';
 import { ChainService } from '@shared/services/chain';
-import { PDVDetails, PDVListItem, PDVService, PDVStatItem } from '../../../../../shared/services/pdv';
+import { exponentialToFixed } from '@shared/utils/number';
 
 @Injectable()
 export class UserPDVService {
@@ -18,11 +20,13 @@ export class UserPDVService {
     this.pdvService = new PDVService(environment.restApi);
   }
 
-  public getBalance(): Observable<number> {
+  public getBalance(): Observable<string> {
     return from(this.pdvService.getBalance(
       this.chainService.getChainId(),
       this.authService.getActiveUserInstant().walletAddress,
-    ));
+    )).pipe(
+      map(exponentialToFixed),
+    );
   }
 
   public getPDVList(): Observable<PDVListItem[]> {
