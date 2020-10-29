@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { fromEvent } from 'rxjs';
@@ -16,6 +16,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppRoute } from './app-route';
 import { ToastrModule } from 'ngx-toastr';
 import { SpinnerModule } from '@shared/components/spinner';
+import { NetworkSelectorModule } from '@shared/components/network-selector';
+import { NetworkService } from '@shared/services/network';
+
+export function initNetworkFactory<T>(networkService: NetworkService): Function {
+  return () => networkService.init();
+}
 
 @NgModule({
   imports: [
@@ -37,6 +43,9 @@ import { SpinnerModule } from '@shared/components/spinner';
       positionClass: 'toast-top-center',
       timeOut: 4000,
     }),
+    NetworkSelectorModule.forRoot({
+      store: NetworkService,
+    }),
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -48,9 +57,16 @@ import { SpinnerModule } from '@shared/components/spinner';
     AppComponent,
   ],
   providers: [
+    NetworkService,
     {
       provide: Environment,
       useValue: environment,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initNetworkFactory,
+      deps: [NetworkService],
+      multi: true,
     },
   ],
   bootstrap: [AppComponent]
