@@ -16,12 +16,10 @@
 
 .popup-header__details-description {
   display: flex;
+  flex-direction: column;
 }
 
 .popup-header__details-description__field {
-  &:not(:first-child) {
-    margin-left: 1rem;
-  }
 }
 
 .popup-header__details-description__field-value {

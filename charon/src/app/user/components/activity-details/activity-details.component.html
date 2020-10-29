@@ -1,18 +1,18 @@
-<div class="popup-container">
+<div class="popup-container" *transloco="let translate; read: 'user.activity_details'">
   <div class="popup-header">
     <div class="popup-header__details-description">
       <span class="popup-header__details-description__field">
-        <strong>Date:</strong>
+        <strong>{{ translate('date') }}:</strong>
         <span class="popup-header__details-description__field-value">
           {{ details.date | date: 'dd.MM.yyyy HH:mm' }}
         </span>
       </span>
       <span class="popup-header__details-description__field">
-        <strong>IP:</strong>
+        <strong>{{ translate('ip') }}:</strong>
         <span class="popup-header__details-description__field-value">{{ details.ip }}</span>
       </span>
       <span class="popup-header__details-description__field">
-        <strong>Domain:</strong>
+        <strong>{{ translate('domain') }}:</strong>
         <span class="popup-header__details-description__field-value">{{ details.domain }}</span>
       </span>
     </div>
