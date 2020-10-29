@@ -37,7 +37,7 @@ export class AuthService {
   }
 
   public async createUser(
-    user: Omit<AuthUser, 'id' | 'mainEmail' | 'passwordHash'> & { password: string },
+    user: Omit<AuthUser, 'id' | 'mainEmail' | 'primaryUsername' | 'passwordHash'> & { password: string },
   ): Promise<AuthUser['id']> {
     const id = uuid();
 
@@ -49,6 +49,7 @@ export class AuthService {
       gender: user.gender,
       mainEmail: user.emails[0],
       passwordHash: CryptoService.encryptPassword(user.password),
+      primaryUsername: user.usernames[0],
       privateKey: user.privateKey,
       publicKey: user.publicKey,
       usernames: user.usernames,
