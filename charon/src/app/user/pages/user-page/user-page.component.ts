@@ -3,7 +3,7 @@ import { MatchMediaService } from '@shared/services/match-media/match-media.serv
 import { BrowserApi } from '@shared/utils/browser-api';
 import { Router } from '@angular/router';
 import { AuthService } from '@auth/services';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { AuthUser } from '@auth/models';
 import { copyContent } from '@shared/utils/copy-content';
 import { CurrencyService } from '@shared/services/currency';
@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslocoService } from '@ngneat/transloco';
 import { UserPDVService } from '../../services';
 import { ActivityItem } from '../../components/activity-list/activity-list.component';
-import { map } from 'rxjs/operators';
+import { catchError, finalize, map } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActivityDetails, ActivityDetailsComponent } from '../../components/activity-details';
@@ -75,9 +75,13 @@ export class UserPageComponent implements OnInit {
   public openPDVDetails(activityItem: ActivityItem): void {
     this.spinnerService.showSpinner();
     this.userPDVService.getPDVDetails(activityItem.address).pipe(
+      catchError(() => {
+        this.translocoService.translate('toastr.errors.unknown_error');
+        return EMPTY;
+      }),
+      finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
     ).subscribe(details => {
-      this.spinnerService.hideSpinner();
       const config: MatDialogConfig<ActivityDetails> = {
         width: '940px',
         maxWidth: '100%',
