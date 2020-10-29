@@ -127,5 +127,5 @@ export const requestBodyContains = (
   searchValues: string[],
 ) => {
   const formData = requestBody.formData || {};
-  return objectContains(formData, searchValues);
+  return objectContains(formData, searchValues, false);
 };
