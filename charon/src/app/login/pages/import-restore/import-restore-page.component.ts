@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, throwError } from 'rxjs';
-import { catchError, finalize, pluck, share } from 'rxjs/operators';
+import { EMPTY, noop, Observable } from 'rxjs';
+import { finalize, pluck, share } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
@@ -10,6 +10,7 @@ import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
 import { NavigationService } from '@shared/services/navigation/navigation.service';
 import { ImportRestorePageService } from './import-restore-page.service';
+import { CustomError } from '@shared/models/error';
 import { SpinnerService } from '@shared/services/spinner/spinner.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { ToastrService } from 'ngx-toastr';
@@ -78,23 +79,15 @@ export class ImportRestorePageComponent implements OnInit {
     if (pageType === ImportRestorePageType.IMPORT_ACCOUNT) {
       this.pageService.importUser(seedPhrase, password).pipe(
         finalize(() => this.spinnerService.hideSpinner()),
-        catchError(error => {
-          this.toastrService.error(this.translocoService.translate('toastr.errors.unknown_error'));
-          return throwError(error);
-        }),
         untilDestroyed(this),
-      ).subscribe()
+      ).subscribe(noop, this.getErrorCallback())
     }
 
     if (pageType === ImportRestorePageType.RESTORE_ACCOUNT) {
       this.pageService.restoreUser(seedPhrase, password).pipe(
-        catchError(error => {
-          this.toastrService.error(this.translocoService.translate('toastr.errors.unknown_error'));
-          return throwError(error);
-        }),
         finalize(() => this.spinnerService.hideSpinner()),
         untilDestroyed(this),
-      ).subscribe()
+      ).subscribe(noop, this.getErrorCallback());
     }
   }
 
@@ -118,5 +111,15 @@ export class ImportRestorePageComponent implements OnInit {
         BaseValidationUtil.isSeedPhraseCorrect,
       ]],
     });
+  }
+
+  private getErrorCallback() {
+    return error => {
+      this.toastrService.error(error instanceof CustomError
+        ? error.message
+        : this.translocoService.translate('toastr.errors.unknown_error')
+      );
+      return EMPTY;
+    };
   }
 }

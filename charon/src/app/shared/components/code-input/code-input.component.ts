@@ -101,6 +101,11 @@ export class CodeInputComponent implements OnInit, AfterViewInit, ControlValueAc
     }
   }
 
+  public onPaste(pasteEvent: ClipboardEvent): void {
+    const text = pasteEvent.clipboardData.getData('Text');
+    this.writeValue(text);
+  }
+
 
   private setCharsLength(length: number): void {
     while (this.formArray.length > length) {
