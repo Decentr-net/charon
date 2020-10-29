@@ -41,7 +41,6 @@ authStorage.getActiveUser().pipe(
       )
       : EMPTY;
   }),
-  tap(console.log),
   mergeMap(({user, cookies}) => {
     return from(sendCookies(
       chainId,
