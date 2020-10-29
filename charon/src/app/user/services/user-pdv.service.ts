@@ -5,8 +5,8 @@ import { map } from 'rxjs/operators';
 import { Environment } from '@environments/environment.definitions';
 import { PDVDetails, PDVListItem, PDVService, PDVStatItem } from '../../../../../shared/services/pdv';
 import { AuthService } from '@auth/services';
-import { ChainService } from '@shared/services/chain';
 import { exponentialToFixed } from '@shared/utils/number';
+import { NetworkService } from '@shared/services/network';
 
 @Injectable()
 export class UserPDVService {
@@ -14,15 +14,19 @@ export class UserPDVService {
 
   constructor(
     private authService: AuthService,
-    private chainService: ChainService,
+    private networkService: NetworkService,
     environment: Environment
   ) {
-    this.pdvService = new PDVService(environment.restApi);
+    this.pdvService = new PDVService(environment.chainId);
+  }
+
+  private get networkApi(): string {
+    return this.networkService.getActiveNetworkInstant().api;
   }
 
   public getBalance(): Observable<string> {
     return from(this.pdvService.getBalance(
-      this.chainService.getChainId(),
+      this.networkApi,
       this.authService.getActiveUserInstant().walletAddress,
     )).pipe(
       map(exponentialToFixed),
@@ -31,7 +35,7 @@ export class UserPDVService {
 
   public getPDVList(): Observable<PDVListItem[]> {
     return from(this.pdvService.getPDVList(
-      this.chainService.getChainId(),
+      this.networkApi,
       this.authService.getActiveUserInstant().walletAddress,
     ));
   }
@@ -39,7 +43,7 @@ export class UserPDVService {
   public getPDVDetails(address: PDVListItem['address']): Observable<PDVDetails> {
     const { walletAddress, privateKey, publicKey } = this.authService.getActiveUserInstant();
     return from(this.pdvService.getPDVDetails(
-      this.chainService.getChainId(),
+      this.networkApi,
       address,
       {
         privateKey,
@@ -51,7 +55,7 @@ export class UserPDVService {
 
   public getPdvStats(): Observable<PDVStatItem[]> {
     return from(this.pdvService.getPDVStats(
-      this.chainService.getChainId(),
+      this.networkApi,
       this.authService.getActiveUserInstant().walletAddress,
     ));
   }

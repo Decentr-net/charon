@@ -4,8 +4,10 @@ import Cookie = Cookies.Cookie;
 import { PDVService } from '../../../shared/services/pdv';
 import { Wallet } from '../../../shared/models/wallet';
 import { environment } from '../environments/environment';
+import { NetworkBrowserStorageService } from '../../../shared/services/network-storage';
 
-const pdvService = new PDVService(environment.restApi);
+const pdvService = new PDVService(environment.chainId);
+const networkStorage = new NetworkBrowserStorageService();
 
 export const getCookies = (
   url: URL,
@@ -23,9 +25,8 @@ export const getCookies = (
 };
 
 export const sendCookies = (
-  chainId: string,
   wallet: Wallet,
   cookies: Cookie[],
 ): Promise<void[]> => {
-  return pdvService.sendCookies(chainId, wallet, cookies);
+  return pdvService.sendCookies(networkStorage.getActiveNetworkInstant().api, wallet, cookies);
 }

@@ -1,4 +1,4 @@
-import { EMPTY, from, merge, of } from 'rxjs';
+import { EMPTY, from, merge } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -8,8 +8,6 @@ import {
   mergeMap,
   retryWhen,
   switchMap,
-  take,
-  tap
 } from 'rxjs/operators';
 
 import { AuthBrowserStorageService } from '../../shared/services/auth';
@@ -19,11 +17,12 @@ import {
   requestBodyContains,
 } from './helpers/requests';
 import { getCookies, sendCookies } from './helpers/cookies';
+// TODO: configure webpack to replace path
+import { environment } from './environments/environment';
 
 const COOKIES_DEBOUNCE_MS = 500;
 
 const authStorage = new AuthBrowserStorageService();
-const chainId = 'testnet';
 
 authStorage.getActiveUser().pipe(
   switchMap((user) => {
@@ -43,7 +42,6 @@ authStorage.getActiveUser().pipe(
   }),
   mergeMap(({user, cookies}) => {
     return from(sendCookies(
-      chainId,
       {
         privateKey: user.privateKey,
         publicKey: user.publicKey,

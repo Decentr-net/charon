@@ -9,11 +9,11 @@ import { PDV, PDVDetails, PDVListItem, PDVStatItem } from './pdv.definitions';
 export class PDVService {
   private static queue = new PQueue({ concurrency: 1 });
 
-  constructor(private api: string) {
+  constructor(private chainId: string) {
   }
 
-  public sendCookies(chainId: string, wallet: Wallet, cookies: Cookie[]): Promise<void[]> {
-    const decentr = this.createDecentrConnector(chainId);
+  public sendCookies(api: string, wallet: Wallet, cookies: Cookie[]): Promise<void[]> {
+    const decentr = this.createDecentrConnector(api);
     const groupedCookies = this.groupCookiesByDomainAndPath(cookies);
 
     return Promise.all(
@@ -24,23 +24,27 @@ export class PDVService {
     );
   }
 
-  public getBalance(chainId: string, walletAddress: Wallet['address']): Promise<number> {
-    const decentr = this.createDecentrConnector(chainId);
+  public getBalance(api: string, walletAddress: Wallet['address']): Promise<number> {
+    const decentr = this.createDecentrConnector(api);
     return decentr.get.tokenBalance(walletAddress).then(({ balance }) => balance);
   }
   
-  public getPDVList(chainId: string, walletAddress: Wallet['address']): Promise<PDVListItem[]> {
-    const decentr = this.createDecentrConnector(chainId);
+  public getPDVList(api: string, walletAddress: Wallet['address']): Promise<PDVListItem[]> {
+    const decentr = this.createDecentrConnector(api);
     return decentr.get.pdvList(walletAddress);
   }
 
-  public getPDVDetails(chainId: string, address: PDVListItem['address'], wallet: Wallet): Promise<PDVDetails> {
-    const decentr = this.createDecentrConnector(chainId);
+  public getPDVDetails(
+    api: string,
+    address: PDVListItem['address'],
+    wallet: Wallet,
+  ): Promise<PDVDetails> {
+    const decentr = this.createDecentrConnector(api);
     return decentr.getPdvByAddress(address, wallet);
   }
 
-  public getPDVStats(chainId: string, walletAddress: Wallet['address']): Promise<PDVStatItem[]> {
-    const decentr = this.createDecentrConnector(chainId);
+  public getPDVStats(api: string, walletAddress: Wallet['address']): Promise<PDVStatItem[]> {
+    const decentr = this.createDecentrConnector(api);
     return decentr.get.pdvStats(walletAddress);
   }
 
@@ -75,8 +79,8 @@ export class PDVService {
     return decentr.broadcastTx(signedMsg);
   }
 
-  private createDecentrConnector(chainId: string): any {
-    return new Decentr(this.api, chainId);
+  private createDecentrConnector(api: string): any {
+    return new Decentr(api, this.chainId);
   }
 
   private groupCookiesByDomainAndPath(cookies: Cookie[]): {
