@@ -19,6 +19,7 @@ import { USER_PAGES } from './pages';
 import { USER_COMPONENTS } from './components';
 import { USER_SERVICES } from './services';
 import { UserRoutingModule } from './user-routing.module';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { UserRoutingModule } from './user-routing.module';
     FormErrorModule,
     InlineSVGModule,
     LayoutHeaderModule,
+    MatExpansionModule,
     MatButtonModule,
     MatDialogModule,
     MatFormFieldModule,

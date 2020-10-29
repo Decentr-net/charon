@@ -1,17 +1,32 @@
 <div class="popup-container">
   <div class="popup-header">
+    <div class="popup-header__details-description">
+      <span class="popup-header__details-description__field">
+        <strong>Date:</strong>
+        <span class="popup-header__details-description__field-value">
+          {{ details.date | date: 'dd.MM.yyyy HH:mm' }}
+        </span>
+      </span>
+      <span class="popup-header__details-description__field">
+        <strong>IP:</strong>
+        <span class="popup-header__details-description__field-value">{{ details.ip }}</span>
+      </span>
+      <span class="popup-header__details-description__field">
+        <strong>Domain:</strong>
+        <span class="popup-header__details-description__field-value">{{ details.domain }}</span>
+      </span>
+    </div>
+
     <div class="btn-close-popup" mat-dialog-close></div>
   </div>
-  <div class="popup-body">
-    <p>
-      "name": "My extension",
-      ...
-      "permissions": [
-      "cookies",
-      "*://*.google.com"
-      ],
-      ...
-      }
-    </p>
-  </div>
+  <mat-dialog-content class="popup-body">
+    <mat-expansion-panel *ngFor="let dataItem of details.pdvData">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ dataItem.name }}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <p>{{ dataItem | json }}</p>
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-dialog-content>
 </div>

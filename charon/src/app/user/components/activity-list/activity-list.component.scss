@@ -1,5 +1,9 @@
 @import 'variables';
 
+:host {
+  display: block;
+}
+
 .no-activity {
   text-align: center;
   color: #CDCDCD;

@@ -13,7 +13,11 @@ export interface ActivityItem {
 })
 export class ActivityListComponent {
   @Input() public items: ActivityItem[] = [];
-  @Output() public details: EventEmitter<ActivityItem['address']> = new EventEmitter();
+  @Output() public details: EventEmitter<ActivityItem> = new EventEmitter();
+
+  public onItemClick(item: ActivityItem): void {
+    this.details.emit(item);
+  }
 
   public trackByAddress: TrackByFunction<ActivityItem> = ({}, { address }) => address;
 }

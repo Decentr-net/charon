@@ -13,11 +13,11 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UserPDVService } from '../../services';
 import { ActivityItem } from '../../components/activity-list/activity-list.component';
 import { map } from 'rxjs/operators';
-import { PDVDetails, PDVListItem } from '../../../../../../shared/services/pdv';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ActivityDetailsComponent } from '../../components/activity-details';
+import { ActivityDetails, ActivityDetailsComponent } from '../../components/activity-details';
 import { ChartPoint } from '../../components/chart';
+import { SpinnerService } from '@shared/services/spinner/spinner.service';
 
 @UntilDestroy()
 @Component({
@@ -41,6 +41,7 @@ export class UserPageComponent implements OnInit {
     private authService: AuthService,
     private matDialog: MatDialog,
     private router: Router,
+    private spinnerService: SpinnerService,
     private toastrService: ToastrService,
     private translocoService: TranslocoService,
     private userPDVService: UserPDVService,
@@ -71,17 +72,25 @@ export class UserPageComponent implements OnInit {
     );
   }
 
-  public openPDVDetails(pdvAddress: PDVListItem['address']): void {
-    this.userPDVService.getPDVDetails(pdvAddress).pipe(
+  public openPDVDetails(activityItem: ActivityItem): void {
+    this.spinnerService.showSpinner();
+    this.userPDVService.getPDVDetails(activityItem.address).pipe(
       untilDestroyed(this),
     ).subscribe(details => {
-      const config: MatDialogConfig<PDVDetails> = {
+      this.spinnerService.hideSpinner();
+      const config: MatDialogConfig<ActivityDetails> = {
         width: '940px',
         maxWidth: '100%',
         height: this.matchMediaService.isSmall() ? '100%' : '500px',
         maxHeight: this.matchMediaService.isSmall() ? '100vh' : '100%',
         panelClass: 'popup-no-padding',
-        data: details,
+        data: {
+          date: activityItem.date,
+          domain: details.user_data.pdv.domain,
+          ip: details.calculated_data.ip,
+          pdvData: details.user_data.pdv.data,
+          userAgent: details.user_data.pdv.user_agent,
+        },
       };
 
       this.matDialog.open(ActivityDetailsComponent, config);
