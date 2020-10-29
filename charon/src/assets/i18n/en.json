@@ -1,4 +1,8 @@
 {
+  "network": {
+    "remote": "Decentr Test Network",
+    "local": "Localhost 1317"
+  },
   "toastr": {
     "errors": {
       "unknown_error": "Something went wrong"

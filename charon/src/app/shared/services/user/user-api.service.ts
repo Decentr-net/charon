@@ -31,28 +31,28 @@ export class UserApiService {
     });
   }
 
-  public getAccount(chainId: string, walletAddress: string): Observable<Account> {
-    const decentr = this.createDecentrConnector(chainId);
+  public getAccount(api: string, walletAddress: string): Observable<Account> {
+    const decentr = this.createDecentrConnector(api);
     return from(decentr.get.account(walletAddress)) as Observable<Account>;
   }
 
-  public getUserPrivate(chainId: string, walletAddress: string, privateKey: string): Observable<UserPrivate> {
-    const decentr = this.createDecentrConnector(chainId);
+  public getUserPrivate(api: string, walletAddress: string, privateKey: string): Observable<UserPrivate> {
+    const decentr = this.createDecentrConnector(api);
     return from(decentr.get.privateProfile({ privateKey, address: walletAddress })) as Observable<UserPrivate>;
   }
 
-  public getUserPublic(chainId: string, walletAddress: string): Observable<UserPublic> {
-    const decentr = this.createDecentrConnector(chainId);
+  public getUserPublic(api: string, walletAddress: string): Observable<UserPublic> {
+    const decentr = this.createDecentrConnector(api);
     return from(decentr.get.publicProfile(walletAddress)) as Observable<UserPublic>;
   }
 
   public setUserPublic(
     data: UserPublic,
-    chainId: string,
+    api: string,
     walletAddress: string,
     privateKey: string,
   ): Observable<unknown> {
-    const decentr = this.createDecentrConnector(chainId);
+    const decentr = this.createDecentrConnector(api);
     return from(decentr.setPublicProfile(walletAddress, data)).pipe(
       mergeMap((message) => this.broadcast(decentr, message, privateKey)),
     );
@@ -60,11 +60,11 @@ export class UserApiService {
 
   public setUserPrivate(
     data: UserPrivate,
-    chainId: string,
+    api: string,
     walletAddress: string,
     privateKey: string,
   ): Observable<unknown> {
-    const decentr = this.createDecentrConnector(chainId);
+    const decentr = this.createDecentrConnector(api);
     return from(decentr.setPrivateProfile(data, { privateKey, address: walletAddress })).pipe(
       mergeMap((message) => this.broadcast(decentr, message, privateKey)),
     )
@@ -75,7 +75,7 @@ export class UserApiService {
     return decentr.broadcastTx(signedMsg);
   }
 
-  private createDecentrConnector(chainId: string): any {
-    return new Decentr(this.environment.restApi, chainId);
+  private createDecentrConnector(api: string): any {
+    return new Decentr(api, this.environment.chainId);
   }
 }
