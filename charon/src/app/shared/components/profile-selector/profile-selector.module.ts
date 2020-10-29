@@ -5,6 +5,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { ProfileSelectorComponent } from './profile-selector.component';
+import { ProfileSelectorService } from './profile-selector.service';
 
 @NgModule({
   declarations: [ProfileSelectorComponent],
@@ -15,6 +16,7 @@ import { ProfileSelectorComponent } from './profile-selector.component';
     TranslocoModule,
   ],
   exports: [ProfileSelectorComponent],
+  providers: [ProfileSelectorService],
 })
 export class ProfileSelectorModule {
 }

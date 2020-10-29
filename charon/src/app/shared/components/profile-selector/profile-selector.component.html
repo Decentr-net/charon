@@ -18,8 +18,8 @@
         <div class="menu-item menu-item__active">
           <div class="profile-image"></div>
           <div>
-            <div class="name">Vaskovsky Vasily Nikolaevich</div>
-            <div class="rate">1.001 PDV</div>
+            <div class="name">{{ username$ | async }}</div>
+            <div class="rate">{{ balance$ | async }} PDV</div>
           </div>
         </div>
       </div>
