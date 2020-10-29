@@ -9,7 +9,7 @@ export const environment: Environment = {
   currencyApi: 'https://api.coingecko.com/api/v3',
   production: false,
   rest: {
-    local: 'http://localhost:1357',
+    local: 'http://localhost:1317',
     remote: 'https://rest.testnet.decentr.xyz',
   },
   vulcanApi: 'https://vulcan.testnet.decentr.xyz/v1',
