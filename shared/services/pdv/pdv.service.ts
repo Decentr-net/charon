@@ -53,6 +53,7 @@ export class PDVService {
       pdv: {
         path,
         domain: pdvDomain,
+        user_agent: window.navigator.userAgent,
         data: cookies.map((cookie) => ({
           domain: '*',
           path: '*',

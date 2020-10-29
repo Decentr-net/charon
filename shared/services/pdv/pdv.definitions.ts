@@ -19,6 +19,7 @@ export interface PDV {
     readonly domain: string;
     readonly path: string;
     readonly data: PDVData[];
+    readonly user_agent: string;
   };
 }
 
