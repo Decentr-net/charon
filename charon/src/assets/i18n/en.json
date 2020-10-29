@@ -1,7 +1,7 @@
 {
   "network": {
     "remote": "Decentr Test Network",
-    "local": "Localhost 1357"
+    "local": "Localhost 1317"
   },
   "toastr": {
     "errors": {
