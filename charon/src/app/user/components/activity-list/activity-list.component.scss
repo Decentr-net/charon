@@ -18,6 +18,7 @@
   justify-content: space-between;
   cursor: pointer;
   transition: background .15s ease;
+  overflow: hidden;
 
   &:hover {
     background: #f2f3f4;
@@ -25,17 +26,15 @@
   }
 
   .activity-item__name {
-    flex: 0 0 80%;
     font-size: 13px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    max-width: 15rem;
   }
 
   .activity-item__date {
-  }
-
-  &__date {
     font-size: 8px;
+    white-space: nowrap;
   }
 }
