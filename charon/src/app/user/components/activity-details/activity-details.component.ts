@@ -2,6 +2,15 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { UserPageComponent } from '../../pages/user-page';
+import { PDVData } from '../../../../../../shared/services/pdv';
+
+export interface ActivityDetails {
+  date: Date;
+  domain: string;
+  ip: string;
+  userAgent: string;
+  pdvData: PDVData[];
+}
 
 @Component({
   selector: 'app-activity-details',
@@ -11,8 +20,10 @@ import { UserPageComponent } from '../../pages/user-page';
 })
 export class ActivityDetailsComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<UserPageComponent>,
-              @Inject(MAT_DIALOG_DATA) public data) {
+  constructor(
+    public dialogRef: MatDialogRef<UserPageComponent>,
+    @Inject(MAT_DIALOG_DATA) public details: ActivityDetails,
+  ) {
   }
 
   ngOnInit(): void {

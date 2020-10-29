@@ -1,11 +1,32 @@
 @import 'variables';
 
+:host {
+  display: block;
+  overflow: hidden;
+}
+
 .popup-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
   padding: 15px;
   min-height: 50px;
   border-bottom: 1px solid $grey-border-color;
 }
 
+.popup-header__details-description {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-header__details-description__field {
+}
+
+.popup-header__details-description__field-value {
+  margin-left: 0.2rem;
+}
+
 .popup-body {
+  overflow: auto;
   padding: 15px;
 }

@@ -1,5 +1,14 @@
-import { EMPTY, merge } from 'rxjs';
-import { debounceTime, filter, map, switchMap } from 'rxjs/operators';
+import { EMPTY, from, merge } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  delay,
+  filter,
+  map,
+  mergeMap,
+  retryWhen,
+  switchMap,
+} from 'rxjs/operators';
 
 import { AuthBrowserStorageService } from '../../shared/services/auth';
 import {
@@ -29,8 +38,19 @@ authStorage.getActiveUser().pipe(
       )
       : EMPTY;
   }),
-).subscribe(({user, cookies}) => {
-  sendCookies(user.walletAddress, user.privateKey, cookies);
-});
-
-
+  mergeMap(({user, cookies}) => {
+    return from(sendCookies(
+      {
+        privateKey: user.privateKey,
+        publicKey: user.publicKey,
+        address: user.walletAddress,
+      },
+      cookies,
+    )).pipe(
+      retryWhen(errors => errors.pipe(
+        delay(300),
+      )),
+      catchError(() => EMPTY),
+    );
+  }),
+).subscribe();

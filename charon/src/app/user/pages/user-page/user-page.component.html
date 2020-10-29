@@ -35,7 +35,7 @@
              [class.pdv-rate__rise]="true"
              [class.pdv-rate__fall]="false"
              [class.pdv-rate__none]="false">
-          1.001 PDV
+          {{ balance$ | async }} PDV
           <span>
           <div class="rate-icon"
                [resolveSVGUrl]="false"
@@ -55,12 +55,18 @@
                          animationDuration="0ms">
             <mat-tab [label]="translate('tabs.pdv_rate')">
               <div class="tab-container">
-                <app-chart></app-chart>
+                <app-chart
+                  *ngIf="chartPoints$ | async as points"
+                  [data]="points"
+                ></app-chart>
               </div>
             </mat-tab>
             <mat-tab [label]="translate('tabs.activity')">
               <div class="tab-container">
-                <app-activity-list></app-activity-list>
+                <app-activity-list
+                  [items]="pdvList$ | async"
+                  (details)="openPDVDetails($event)"
+                ></app-activity-list>
               </div>
             </mat-tab>
           </mat-tab-group>
@@ -75,7 +81,10 @@
                          animationDuration="0ms">
             <mat-tab [label]="translate('tabs.pdv_rate')">
               <div class="tab-container">
-                <app-chart></app-chart>
+                <app-chart
+                  *ngIf="chartPoints$ | async as points"
+                  [data]="points"
+                ></app-chart>
               </div>
             </mat-tab>
           </mat-tab-group>
@@ -86,7 +95,11 @@
                          animationDuration="0ms">
             <mat-tab [label]="translate('tabs.activity')">
               <div class="tab-container">
-                <app-activity-list></app-activity-list>
+                <app-activity-list
+                  *ngIf="pdvList$ | async as list"
+                  [items]="list"
+                  (details)="openPDVDetails($event)"
+                ></app-activity-list>
               </div>
             </mat-tab>
           </mat-tab-group>

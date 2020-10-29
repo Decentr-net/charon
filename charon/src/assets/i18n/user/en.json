@@ -1,4 +1,9 @@
 {
+  "activity_details": {
+    "date": "Date",
+    "domain": "Domain",
+    "ip": "IP"
+  },
   "edit_profile_page": {
     "back": "< Back",
     "form": {

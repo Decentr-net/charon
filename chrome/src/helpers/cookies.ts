@@ -1,6 +1,13 @@
 import { browser, Cookies } from 'webextension-polyfill-ts';
 import Cookie = Cookies.Cookie;
-import { User } from '../../../shared/models/user';
+
+import { PDVService } from '../../../shared/services/pdv';
+import { Wallet } from '../../../shared/models/wallet';
+import { environment } from '../environments/environment';
+import { NetworkBrowserStorageService } from '../../../shared/services/network-storage';
+
+const pdvService = new PDVService(environment.chainId);
+const networkStorage = new NetworkBrowserStorageService();
 
 export const getCookies = (
   url: URL,
@@ -18,8 +25,8 @@ export const getCookies = (
 };
 
 export const sendCookies = (
-  walletAddress: User['walletAddress'],
-  privateKey: User['privateKey'],
+  wallet: Wallet,
   cookies: Cookie[],
-): void => {
+): Promise<void[]> => {
+  return pdvService.sendCookies(networkStorage.getActiveNetworkInstant().api, wallet, cookies);
 }

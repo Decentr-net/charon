@@ -17,7 +17,9 @@ import { FormErrorModule } from '@shared/components/form-error';
 import { LayoutHeaderModule } from '@shared/components/layout-header';
 import { USER_PAGES } from './pages';
 import { USER_COMPONENTS } from './components';
+import { USER_SERVICES } from './services';
 import { UserRoutingModule } from './user-routing.module';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   imports: [
@@ -26,6 +28,7 @@ import { UserRoutingModule } from './user-routing.module';
     FormErrorModule,
     InlineSVGModule,
     LayoutHeaderModule,
+    MatExpansionModule,
     MatButtonModule,
     MatDialogModule,
     MatFormFieldModule,
@@ -43,6 +46,7 @@ import { UserRoutingModule } from './user-routing.module';
     USER_COMPONENTS,
   ],
   providers: [
+    USER_SERVICES,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: 'user',
