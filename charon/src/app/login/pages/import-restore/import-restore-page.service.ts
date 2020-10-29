@@ -56,9 +56,10 @@ export class ImportRestorePageService {
   }
 
   public restoreUser(seedPhrase: string, password: string): Observable<void> {
+    const activeUser = this.authService.getActiveUserInstant();
+
     return this.importUser(seedPhrase, password).pipe(
       mergeMap(() => {
-        const activeUser = this.authService.getActiveUserInstant();
         const userId = activeUser && activeUser.id;
         return userId
           ? this.authService.removeUser(userId)
