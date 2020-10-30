@@ -30,10 +30,7 @@ authStorage.getActiveUser().pipe(
         listenRequestsBeforeRedirectWithBody({}, 'POST'),
       ).pipe(
         filter(request => {
-          return request.requestBody && requestBodyContains(
-            request.requestBody,
-            [...user.usernames, ...user.emails,
-          ]);
+          return requestBodyContains(request.requestBody, [...user.usernames, ...user.emails]);
         }),
         debounceTime(COOKIES_DEBOUNCE_MS),
         switchMap(request => getCookies(new URL(request.url))),

@@ -1,5 +1,5 @@
 import { Observable, Subject } from 'rxjs';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil, tap } from 'rxjs/operators';
 import { browser, WebRequest } from 'webextension-polyfill-ts';
 
 import OnBeforeRequestDetailsType = WebRequest.OnBeforeRequestDetailsType;
@@ -72,6 +72,8 @@ export const listenRequestsBeforeRedirectWithBody = (
     listenRequestsOnBeforeRedirect(requestFilter, httpMethod).pipe(
       filter((details) => requestsStore.has(details.requestId)),
       map((details) => requestsStore.get(details.requestId)),
+      tap((details) => requestsStore.delete(details.requestId)),
+      filter((details) => !!details.requestBody),
       takeUntil(unsubscribe$),
     ).subscribe((details) => subscriber.next(details));
 
@@ -115,6 +117,8 @@ export const listenRequestsOnCompletedWithBody = (
     listenRequestsOnCompleted(requestFilter, httpMethod).pipe(
       filter((details) => requestsStore.has(details.requestId)),
       map((details) => requestsStore.get(details.requestId)),
+      tap((details) => requestsStore.delete(details.requestId)),
+      filter((details) => !!details.requestBody),
       takeUntil(unsubscribe$),
     ).subscribe((details) => subscriber.next(details));
 
