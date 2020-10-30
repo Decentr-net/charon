@@ -3,7 +3,8 @@
 :host {
   background: #f2f3f4;
   display: block;
-  height: 100%;
+  height: auto;
+  min-height: 100%;
 
   ::ng-deep {
     .container {

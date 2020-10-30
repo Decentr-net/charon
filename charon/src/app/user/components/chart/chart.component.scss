@@ -1,5 +1,10 @@
 @import 'variables';
 
+.no-data {
+  text-align: center;
+  color: #CDCDCD;
+  letter-spacing: 0.2px;
+}
 
 :host::ng-deep {
   .chart-legend {
