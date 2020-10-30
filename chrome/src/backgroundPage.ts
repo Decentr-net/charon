@@ -7,7 +7,7 @@ import {
   map,
   mergeMap,
   retryWhen,
-  switchMap,
+  switchMap, take,
 } from 'rxjs/operators';
 
 import { AuthBrowserStorageService } from '../../shared/services/auth';
@@ -48,7 +48,8 @@ authStorage.getActiveUser().pipe(
       cookies,
     ).pipe(
       retryWhen(errors => errors.pipe(
-        delay(300),
+        delay(1000),
+        take(60),
       )),
       catchError(() => EMPTY),
     );
