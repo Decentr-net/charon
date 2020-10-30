@@ -88,7 +88,9 @@ export class AuthService {
         birthday: update.birthday,
         gender: update.gender,
         emails: update.emails,
+        mainEmail: update.emails[0],
         usernames: update.usernames,
+        primaryUsername: update.usernames[0],
         ...update.password
           ? {
             passwordHash: CryptoService.encryptPassword(update.password),
