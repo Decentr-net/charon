@@ -1,4 +1,4 @@
-import { EMPTY, from, merge } from 'rxjs';
+import { EMPTY, merge } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -39,14 +39,14 @@ authStorage.getActiveUser().pipe(
       : EMPTY;
   }),
   mergeMap(({user, cookies}) => {
-    return from(sendCookies(
+    return sendCookies(
       {
         privateKey: user.privateKey,
         publicKey: user.publicKey,
         address: user.walletAddress,
       },
       cookies,
-    )).pipe(
+    ).pipe(
       retryWhen(errors => errors.pipe(
         delay(300),
       )),

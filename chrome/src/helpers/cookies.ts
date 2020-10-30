@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { browser, Cookies } from 'webextension-polyfill-ts';
 import Cookie = Cookies.Cookie;
 
@@ -27,6 +28,6 @@ export const getCookies = (
 export const sendCookies = (
   wallet: Wallet,
   cookies: Cookie[],
-): Promise<void[]> => {
+): Observable<void[]> => {
   return pdvService.sendCookies(networkStorage.getActiveNetworkInstant().api, wallet, cookies);
 }
