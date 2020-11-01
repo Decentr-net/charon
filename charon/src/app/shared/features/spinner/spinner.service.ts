@@ -1,27 +1,32 @@
 import { Injectable } from '@angular/core';
-import { Overlay } from '@angular/cdk/overlay';
-import { SpinnerComponent } from '@shared/components/spinner/spinner.component';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { OverlayRef } from '@angular/cdk/overlay/overlay-ref';
 
-@Injectable({
-  providedIn: 'root'
-})
+import { SpinnerComponent } from './spinner.component';
+
+@Injectable()
 export class SpinnerService {
-  private overlayRef: OverlayRef;
+  private readonly overlayRef: OverlayRef;
+  private isAttached: boolean = false;
 
   constructor(private overlay: Overlay) {
     this.overlayRef = this.overlay.create({
       positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
-      hasBackdrop: true
+      hasBackdrop: true,
     });
   }
 
-  showSpinner() {
+  public showSpinner(): void {
+    if (this.isAttached) {
+      return;
+    }
+
     this.overlayRef.attach(new ComponentPortal(SpinnerComponent));
+    this.isAttached = true;
   }
 
-  hideSpinner() {
+  public hideSpinner(): void {
     this.overlayRef.detach();
+    this.isAttached = false;
   }
 }

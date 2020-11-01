@@ -15,7 +15,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppRoute } from './app-route';
 import { ToastrModule } from 'ngx-toastr';
-import { SpinnerModule } from '@shared/components/spinner';
+import { SpinnerModule } from '@shared/features/spinner';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
 import { NetworkService } from '@shared/services/network';
 

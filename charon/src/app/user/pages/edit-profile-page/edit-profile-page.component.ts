@@ -6,14 +6,12 @@ import { finalize, mergeMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
-import { NavigationService } from '@shared/services/navigation/navigation.service';
 import { Gender, UserService } from '@shared/services/user';
 import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
 import { AuthService } from '@auth/services';
 import { ToastrService } from 'ngx-toastr';
 import { TranslocoService } from '@ngneat/transloco';
-import { CustomError } from '@shared/models/error';
-import { SpinnerService } from '@shared/services/spinner/spinner.service';
+import { SpinnerService } from '@shared/features/spinner/spinner.service';
 
 interface EditProfileForm {
   birthday: string;
@@ -46,7 +44,6 @@ export class EditProfilePageComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
-    private navigationService: NavigationService,
     private spinnerService: SpinnerService,
     private toastrService: ToastrService,
     private translocoService: TranslocoService,
@@ -113,10 +110,6 @@ export class EditProfilePageComponent implements OnInit {
         this.translocoService.translate('toastr.errors.unknown_error'),
       );
     });
-  }
-
-  public navigateBack(): void {
-    this.navigationService.getPreviousUrl();
   }
 
   public get emailFormArray(): FormArray<string> {

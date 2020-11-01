@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class NavigationService {
   constructor(private location: Location) {
   }
 
-  public getPreviousUrl() {
+  public back(): void {
     this.location.back();
   }
 }

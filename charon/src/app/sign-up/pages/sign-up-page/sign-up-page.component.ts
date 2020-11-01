@@ -5,7 +5,6 @@ import { catchError, finalize, mergeMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { createWalletFromMnemonic } from 'decentr-js';
 
-import { NavigationService } from '@shared/services/navigation/navigation.service';
 import { CryptoService } from '@shared/services/crypto';
 import { UserService } from '@shared/services/user';
 import { AuthService } from '@auth/services';
@@ -15,7 +14,8 @@ import { SignUpStoreService } from '../../services';
 import { StatusCodes } from 'http-status-codes';
 import { ToastrService } from 'ngx-toastr';
 import { TranslocoService } from '@ngneat/transloco';
-import { SpinnerService } from '@shared/services/spinner/spinner.service';
+import { SpinnerService } from '@shared/features/spinner/spinner.service';
+import { NavigationService } from '@shared/features/navigation';
 
 enum SignUpTab {
   AccountForm,
@@ -63,7 +63,7 @@ export class SignUpPageComponent {
         break;
       }
       default: {
-        this.navigationService.getPreviousUrl();
+        this.navigationService.back();
         break;
       }
     }

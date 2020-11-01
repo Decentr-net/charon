@@ -15,7 +15,7 @@ import { SignUpRoute } from '../../sign-up-route';
 import { StatusCodes } from 'http-status-codes';
 import { ToastrService } from 'ngx-toastr';
 import { TranslocoService } from '@ngneat/transloco';
-import { SpinnerService } from '@shared/services/spinner/spinner.service';
+import { SpinnerService } from '@shared/features/spinner/spinner.service';
 
 interface CodeForm {
   code: string;

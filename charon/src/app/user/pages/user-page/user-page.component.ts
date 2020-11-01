@@ -17,7 +17,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActivityDetails, ActivityDetailsComponent } from '../../components/activity-details';
 import { ChartPoint } from '../../components/chart';
-import { SpinnerService } from '@shared/services/spinner/spinner.service';
+import { SpinnerService } from '@shared/features/spinner/spinner.service';
 
 @UntilDestroy()
 @Component({

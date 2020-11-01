@@ -8,10 +8,9 @@ import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
-import { NavigationService } from '@shared/services/navigation/navigation.service';
 import { ImportRestorePageService } from './import-restore-page.service';
 import { CustomError } from '@shared/models/error';
-import { SpinnerService } from '@shared/services/spinner/spinner.service';
+import { SpinnerService } from '@shared/features/spinner/spinner.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { ToastrService } from 'ngx-toastr';
 
@@ -48,7 +47,6 @@ export class ImportRestorePageComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private navigationService: NavigationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private pageService: ImportRestorePageService,
@@ -66,10 +64,6 @@ export class ImportRestorePageComponent implements OnInit {
       share(),
       untilDestroyed(this),
     );
-  }
-
-  navigateBack() {
-    this.navigationService.getPreviousUrl();
   }
 
   onSubmit(pageType: ImportRestorePageType) {
