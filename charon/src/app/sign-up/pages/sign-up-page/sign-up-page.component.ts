@@ -32,7 +32,7 @@ enum SignUpTab {
 export class SignUpPageComponent {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
-  public activeTab: SignUpTab = SignUpTab.AccountForm;
+  public activeTab: SignUpTab = SignUpTab.SeedPhrase;
   public tab: typeof SignUpTab = SignUpTab;
 
   public seedPhrase: string = CryptoService.generateMnemonic();
@@ -58,8 +58,8 @@ export class SignUpPageComponent {
         this.switchTab(SignUpTab.SeedPhrase);
         break;
       }
-      case SignUpTab.SeedPhrase: {
-        this.switchTab(SignUpTab.AccountForm);
+      case SignUpTab.AccountForm: {
+        this.switchTab(SignUpTab.SeedPhraseTest);
         break;
       }
       default: {
@@ -71,7 +71,7 @@ export class SignUpPageComponent {
 
   public onSubmitAccountForm(accountData: AccountData): void {
     this.accountData = accountData;
-    this.switchTab(SignUpTab.SeedPhrase);
+    this.signUp();
   }
 
   public signUp(): void {
