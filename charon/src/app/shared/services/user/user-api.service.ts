@@ -59,7 +59,7 @@ export class UserApiService {
   }
 
   public setUserPrivate(
-    data: UserPrivate,
+    data: Partial<UserPrivate>,
     api: string,
     walletAddress: string,
     privateKey: string,

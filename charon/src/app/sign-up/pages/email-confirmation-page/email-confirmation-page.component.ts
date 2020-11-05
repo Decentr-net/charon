@@ -100,18 +100,9 @@ export class EmailConfirmationPageComponent implements OnInit {
         return throwError(error);
       }),
       mergeMap(() => this.userService.waitAccount(user.walletAddress)),
-      mergeMap(() => this.userService.setUserPublic(
-        {
-          gender: user.gender,
-          birthday: user.birthday,
-        },
-        user.walletAddress,
-        user.privateKey,
-      )),
       mergeMap(() => this.userService.setUserPrivate(
         {
-          emails: user.emails,
-          usernames: user.usernames,
+          emails: [user.mainEmail]
         },
         user.walletAddress,
         user.privateKey,
