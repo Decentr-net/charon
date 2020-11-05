@@ -37,7 +37,7 @@ export class AuthService {
   }
 
   public async createUser(
-    user: Omit<AuthUser, 'id' | 'mainEmail' | 'primaryUsername' | 'passwordHash'> & { password: string },
+    user: Omit<AuthUser, 'id' | 'mainEmail' | 'primaryUsername' | 'passwordHash'> & { password: string, email?: string },
   ): Promise<AuthUser['id']> {
     const id = uuid();
 
@@ -47,9 +47,9 @@ export class AuthService {
       emailConfirmed: user.emailConfirmed,
       emails: user.emails,
       gender: user.gender,
-      mainEmail: user.emails[0],
+      mainEmail: user.hasOwnProperty('emails') && user.emails[0] || user.email,
       passwordHash: CryptoService.encryptPassword(user.password),
-      primaryUsername: user.usernames[0],
+      primaryUsername: user.hasOwnProperty('usernames') && user.usernames[0] || undefined,
       privateKey: user.privateKey,
       publicKey: user.publicKey,
       usernames: user.usernames,

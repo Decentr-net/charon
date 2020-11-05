@@ -9,7 +9,7 @@ import { NavigationService } from '@shared/services/navigation/navigation.servic
 import { CryptoService } from '@shared/services/crypto';
 import { UserService } from '@shared/services/user';
 import { AuthService } from '@auth/services';
-import { AccountData } from '../../components/account-form';
+import { BaseAccountData } from '../../components/account-form';
 import { SignUpRoute } from '../../sign-up-route';
 import { SignUpStoreService } from '../../services';
 import { StatusCodes } from 'http-status-codes';
@@ -37,7 +37,7 @@ export class SignUpPageComponent {
 
   public seedPhrase: string = CryptoService.generateMnemonic();
 
-  private accountData: AccountData;
+  private accountData: BaseAccountData;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -69,7 +69,7 @@ export class SignUpPageComponent {
     }
   }
 
-  public onSubmitAccountForm(accountData: AccountData): void {
+  public onSubmitAccountForm(accountData: BaseAccountData): void {
     this.accountData = accountData;
     this.signUp();
   }
@@ -86,7 +86,7 @@ export class SignUpPageComponent {
       emailConfirmed: false,
     })).pipe(
       mergeMap(id => this.authService.changeUser(id)),
-      mergeMap(() => this.userService.createUser(this.accountData.emails[0], walletAddress)),
+      mergeMap(() => this.userService.createUser(this.accountData.email, walletAddress)),
       catchError(err => {
         const message = (err.status === StatusCodes.CONFLICT)
           ? this.translocoService.translate('account_form_page.toastr.errors.conflict', null, 'sign-up')

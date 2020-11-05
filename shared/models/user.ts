@@ -15,7 +15,7 @@ export interface UserPrivate {
   readonly usernames: string[];
 }
 
-export interface User extends UserPrivate, UserPublic, Omit<Wallet, 'address'> {
+export interface User extends Partial<UserPrivate>, Partial<UserPublic>, Omit<Wallet, 'address'> {
   readonly id: string;
   readonly walletAddress: string;
 }
