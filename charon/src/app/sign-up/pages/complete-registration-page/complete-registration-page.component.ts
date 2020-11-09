@@ -61,7 +61,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
     const user = this.authService.getActiveUserInstant();
     this.addEmail();
     this.addUsername();
-    this.form.controls.emails.patchValue([user.mainEmail]);
+    this.form.controls.emails.patchValue([user.primaryEmail]);
   }
 
   onSubmit() {

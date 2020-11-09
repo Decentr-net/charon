@@ -61,7 +61,7 @@ export class EmailConfirmationPageComponent implements OnInit {
   public ngOnInit() {
     this.codeForm = this.createForm();
 
-    this.email = this.authService.getActiveUserInstant().mainEmail;
+    this.email = this.authService.getActiveUserInstant().primaryEmail;
 
     from(this.signUpStoreService.getLastEmailSendingTime()).pipe(
       mergeMap((lastSendingTime) => this.signUpStoreService.onLastEmailSendingTimeChange().pipe(
@@ -87,7 +87,7 @@ export class EmailConfirmationPageComponent implements OnInit {
     const code = this.codeForm.getRawValue().code;
     const user = this.authService.getActiveUserInstant();
 
-    this.userService.confirmUser(code, user.mainEmail).pipe(
+    this.userService.confirmUser(code, user.primaryEmail).pipe(
       mergeMap(() => this.authService.confirmUserEmail(user.id)),
       catchError(error => {
         const message = (error.status === StatusCodes.CONFLICT)
@@ -102,7 +102,7 @@ export class EmailConfirmationPageComponent implements OnInit {
       mergeMap(() => this.userService.waitAccount(user.walletAddress)),
       mergeMap(() => this.userService.setUserPrivate(
         {
-          emails: [user.mainEmail]
+          emails: [user.primaryEmail]
         },
         user.walletAddress,
         user.privateKey,
@@ -118,8 +118,8 @@ export class EmailConfirmationPageComponent implements OnInit {
   public sendEmail(): void {
     this.spinnerService.showSpinner();
 
-    const { mainEmail, walletAddress } = this.authService.getActiveUserInstant();
-    this.userService.createUser(mainEmail, walletAddress).pipe(
+    const { primaryEmail, walletAddress } = this.authService.getActiveUserInstant();
+    this.userService.createUser(primaryEmail, walletAddress).pipe(
       mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
       catchError(err => {
         const message = (err.status === StatusCodes.CONFLICT)

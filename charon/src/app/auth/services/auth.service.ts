@@ -51,8 +51,8 @@ export class AuthService {
       emailConfirmed: user.emailConfirmed,
       emails: user.emails,
       gender: user.gender,
-      mainEmail: user.mainEmail || user.emails?.[0],
       passwordHash: CryptoService.encryptPassword(user.password),
+      primaryEmail: user.primaryEmail || user.emails?.[0],
       primaryUsername: user.usernames?.[0],
       privateKey: user.privateKey,
       publicKey: user.publicKey,
@@ -93,8 +93,8 @@ export class AuthService {
         birthday: update.birthday,
         gender: update.gender,
         emails: update.emails,
-        mainEmail: update.emails[0],
         usernames: update.usernames,
+        primaryEmail: update.emails[0],
         primaryUsername: update.usernames[0],
         ...update.password
           ? {
