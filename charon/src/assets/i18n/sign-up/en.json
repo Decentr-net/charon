@@ -2,19 +2,49 @@
   "back": "< Back",
   "account_form_page": {
     "form": {
-      "birthday": {
-        "errors": {
-          "invalidFormat": "Not valid format",
-          "required": "Birth date is required"
-        },
-        "label": "Birth Date"
-      },
       "confirm_password": {
         "label": "Confirm password",
         "errors": {
           "required": "Password is required",
           "valueDoNotMatch": "Password should be equal"
         }
+      },
+      "email": {
+        "errors": {
+          "email": "Enter valid email",
+          "required": "Email is required"
+        },
+        "label": "E-mail"
+      },
+      "password": {
+        "errors": {
+          "minlength": "Minimum length of password: {{ requiredLength }}",
+          "required": "Password is required",
+          "strength": "Password should contain at least 1 element of: lowercase, uppercase letter, number, special char"
+        },
+        "label": "New password (min 8 chars)"
+      },
+      "submit": "Next",
+      "terms_of_use": {
+        "link": "Terms of Use",
+        "have_read": "I have read and agree to the"
+      }
+    },
+    "title": "Create Profile",
+    "toastr": {
+      "errors": {
+        "conflict": "A wallet has already been created for this email or wallet address"
+      }
+    }
+  },
+  "complete_registration": {
+    "form": {
+      "birthday": {
+        "errors": {
+          "invalidFormat": "Not valid format",
+          "required": "Birth date is required"
+        },
+        "label": "Birth Date"
       },
       "email": {
         "errors": {
@@ -38,30 +68,13 @@
         },
         "label": "Nickname (account name)"
       },
-      "password": {
-        "errors": {
-          "minlength": "Minimum length of password: {{ requiredLength }}",
-          "required": "Password is required",
-          "strength": "Password should contain at least 1 element of: lowercase, uppercase letter, number, special char"
-        },
-        "label": "New password (min 8 chars)"
-      },
-      "submit": "Next",
-      "terms_of_use": {
-        "link": "Terms of Use",
-        "have_read": "I have read and agree to the"
-      }
+      "submit": "Complete registration"
     },
     "hint": {
       "label": "Hint",
       "text": "Put the nicknames and e-mail addresses you use, it positively influences on PDV level."
     },
-    "title": "Create Profile",
-    "toastr": {
-      "errors": {
-        "conflict": "A wallet has already been created for this email or wallet address"
-      }
-    }
+    "title": "Profile"
   },
   "email_confirmation_page": {
     "form": {

@@ -29,8 +29,10 @@ export function initNetworkFactory<T>(networkService: NetworkService): Function 
     AuthModule.forRoot({
       storage: new AuthBrowserStorageService(),
       authorizedRedirectUrl: `/${AppRoute.User}`,
+      completedRegistrationUrl: `/${AppRoute.User}`,
       confirmedEmailUrl: `/${AppRoute.User}`,
       unauthorizedRedirectUrl: `/${AppRoute.Welcome}`,
+      uncompletedRegistrationUrl: `/${AppRoute.SignUp}/${SignUpRoute.CompleteRegistration}`,
       unconfirmedEmailUrl: `/${AppRoute.SignUp}/${SignUpRoute.EmailConfirmation}`,
     }),
     CoreModule,

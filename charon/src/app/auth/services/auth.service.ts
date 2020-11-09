@@ -28,6 +28,10 @@ export class AuthService {
     return this.authStorage.updateUser(userId, { emailConfirmed: true });
   }
 
+  public completeRegistration(userId: AuthUser['id']): Promise<void> {
+    return this.authStorage.updateUser(userId, { registrationCompleted: true });
+  }
+
   public getActiveUser(): Observable<AuthUser | undefined> {
     return this.activeUser$.asObservable();
   }
@@ -37,7 +41,7 @@ export class AuthService {
   }
 
   public async createUser(
-    user: Omit<AuthUser, 'id' | 'mainEmail' | 'primaryUsername' | 'passwordHash'> & { password: string },
+    user: Omit<AuthUser, 'id' | 'primaryUsername' | 'passwordHash'> & { password: string },
   ): Promise<AuthUser['id']> {
     const id = uuid();
 
@@ -47,11 +51,12 @@ export class AuthService {
       emailConfirmed: user.emailConfirmed,
       emails: user.emails,
       gender: user.gender,
-      mainEmail: user.emails[0],
       passwordHash: CryptoService.encryptPassword(user.password),
-      primaryUsername: user.usernames[0],
+      primaryEmail: user.primaryEmail || user.emails?.[0],
+      primaryUsername: user.usernames?.[0],
       privateKey: user.privateKey,
       publicKey: user.publicKey,
+      registrationCompleted: user.registrationCompleted,
       usernames: user.usernames,
       walletAddress: user.walletAddress,
     });
@@ -88,8 +93,8 @@ export class AuthService {
         birthday: update.birthday,
         gender: update.gender,
         emails: update.emails,
-        mainEmail: update.emails[0],
         usernames: update.usernames,
+        primaryEmail: update.emails[0],
         primaryUsername: update.usernames[0],
         ...update.password
           ? {

@@ -42,7 +42,7 @@ export class UserService {
     );
   }
 
-  public getUserPrivate(walletAddress: string, privateKey: string): Observable<UserPrivate> {
+  public getUserPrivate(walletAddress: string, privateKey: string): Observable<Partial<UserPrivate>> {
     return this.userApiService.getUserPrivate(
       this.networkService.getActiveNetworkInstant().api,
       walletAddress,
@@ -66,7 +66,7 @@ export class UserService {
     );
   }
 
-  public setUserPrivate(data: UserPrivate, walletAddress: string, privateKey: string): Observable<unknown> {
+  public setUserPrivate(data: Partial<UserPrivate>, walletAddress: string, privateKey: string): Observable<unknown> {
     return this.userApiService.setUserPrivate(
       data,
       this.networkService.getActiveNetworkInstant().api,

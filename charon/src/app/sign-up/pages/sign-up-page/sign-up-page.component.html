@@ -2,12 +2,8 @@
   *transloco="let translate; read: 'sign_up'"
   [ngSwitch]="activeTab"
 >
-  <ng-container *ngSwitchCase="tab.AccountForm">
-    <ng-container [ngTemplateOutlet]="backBtn"></ng-container>
-    <app-account-form (submitted)="onSubmitAccountForm($event)"></app-account-form>
-  </ng-container>
-
   <ng-container *ngSwitchCase="tab.SeedPhrase">
+    <ng-container [ngTemplateOutlet]="backBtn"></ng-container>
     <app-seed-phrase
       [seedPhrase]="seedPhrase"
       (next)="switchTab(tab.SeedPhraseTest)"
@@ -18,8 +14,12 @@
     <ng-container [ngTemplateOutlet]="backBtn"></ng-container>
     <app-seed-phrase-test
       [seedPhrase]="seedPhrase"
-      (confirmed)="signUp()"
+      (confirmed)="switchTab(tab.AccountForm)"
     ></app-seed-phrase-test>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="tab.AccountForm">
+    <app-account-form (submitted)="onSubmitAccountForm($event)"></app-account-form>
   </ng-container>
 </ng-container>
 
