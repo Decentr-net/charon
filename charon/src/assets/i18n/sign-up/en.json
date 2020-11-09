@@ -37,6 +37,45 @@
       }
     }
   },
+  "complete_registration": {
+    "form": {
+      "birthday": {
+        "errors": {
+          "invalidFormat": "Not valid format",
+          "required": "Birth date is required"
+        },
+        "label": "Birth Date"
+      },
+      "email": {
+        "errors": {
+          "email": "Enter valid email",
+          "required": "Email is required"
+        },
+        "label": "E-mail"
+      },
+      "gender": {
+        "errors": {
+          "required": "Gender is required"
+        },
+        "female": "Female",
+        "label": "Gender",
+        "male": "Male"
+      },
+      "username": {
+        "errors": {
+          "minlength": "Length of name should be not less than {{ requiredLength }}",
+          "required": "Name is required"
+        },
+        "label": "Nickname (account name)"
+      },
+      "submit": "Complete registration"
+    },
+    "hint": {
+      "label": "Hint",
+      "text": "Put the nicknames and e-mail addresses you use, it positively influences on PDV level."
+    },
+    "title": "Profile"
+  },
   "email_confirmation_page": {
     "form": {
       "code": {

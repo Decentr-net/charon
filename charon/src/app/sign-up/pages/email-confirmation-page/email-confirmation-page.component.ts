@@ -111,7 +111,7 @@ export class EmailConfirmationPageComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe(() => {
       this.signUpStoreService.clear();
-      this.router.navigate([AppRoute.SignUp, SignUpRoute.Success]);
+      this.router.navigate([AppRoute.SignUp, SignUpRoute.CompleteRegistration]);
     })
   }
 
