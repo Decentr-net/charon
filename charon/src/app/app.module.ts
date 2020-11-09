@@ -15,9 +15,9 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppRoute } from './app-route';
 import { ToastrModule } from 'ngx-toastr';
-import { SpinnerModule } from '@shared/features/spinner';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
 import { NetworkService } from '@shared/services/network';
+import { CoreModule } from './core';
 
 export function initNetworkFactory<T>(networkService: NetworkService): Function {
   return () => networkService.init();
@@ -33,6 +33,7 @@ export function initNetworkFactory<T>(networkService: NetworkService): Function 
       unauthorizedRedirectUrl: `/${AppRoute.Welcome}`,
       unconfirmedEmailUrl: `/${AppRoute.SignUp}/${SignUpRoute.EmailConfirmation}`,
     }),
+    CoreModule,
     LockModule.forRoot({
       delay: 1000 * 60 * 5,
       interactionSource: fromEvent(document, 'click'),
@@ -50,7 +51,6 @@ export function initNetworkFactory<T>(networkService: NetworkService): Function 
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    SpinnerModule,
     TranslocoRootModule
   ],
   declarations: [

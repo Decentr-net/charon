@@ -11,7 +11,7 @@ import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/valida
 import { AuthService } from '@auth/services';
 import { ToastrService } from 'ngx-toastr';
 import { TranslocoService } from '@ngneat/transloco';
-import { SpinnerService } from '@shared/features/spinner/spinner.service';
+import { SpinnerService } from '@shared/../../../core/spinner/spinner.service';
 
 interface EditProfileForm {
   birthday: string;

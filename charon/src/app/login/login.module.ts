@@ -7,8 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
 import { FormErrorModule } from '@shared/components/form-error';
-import { NavigationModule } from '@shared/features/navigation';
-import { SpinnerModule } from '@shared/features/spinner';
+import { NavigationModule } from '@shared/../core/navigation';
+import { SpinnerModule } from '@shared/../core/spinner';
 import { LOGIN_PAGES } from './pages';
 import { LoginRoutingModule } from './login-routing.module';
 

@@ -10,7 +10,7 @@ import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
 import { ImportRestorePageService } from './import-restore-page.service';
 import { CustomError } from '@shared/models/error';
-import { SpinnerService } from '@shared/features/spinner/spinner.service';
+import { SpinnerService } from '@shared/../../../core/spinner/spinner.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { ToastrService } from 'ngx-toastr';
 

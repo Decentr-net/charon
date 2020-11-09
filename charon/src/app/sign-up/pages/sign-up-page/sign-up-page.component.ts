@@ -14,8 +14,8 @@ import { SignUpStoreService } from '../../services';
 import { StatusCodes } from 'http-status-codes';
 import { ToastrService } from 'ngx-toastr';
 import { TranslocoService } from '@ngneat/transloco';
-import { SpinnerService } from '@shared/features/spinner/spinner.service';
-import { NavigationService } from '@shared/features/navigation';
+import { SpinnerService } from '@shared/../../../core/spinner/spinner.service';
+import { NavigationService } from '@shared/../../../core/navigation';
 
 enum SignUpTab {
   AccountForm,
