@@ -62,6 +62,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
     this.addEmail();
     this.addUsername();
     this.form.controls.emails.patchValue([user.primaryEmail]);
+    this.form.get(['emails', 0]).disable();
   }
 
   onSubmit() {
