@@ -1,20 +1,16 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
-import { Gender } from '@shared/services/user';
-import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
+import { PasswordValidationUtil } from '@shared/utils/validation';
 
-export interface AccountData {
-  birthday: string;
-  gender: Gender;
-  emails: string[];
-  usernames: string[];
+export interface BaseAccountData {
+  email: string;
   password: string;
 }
 
-interface AccountForm extends AccountData {
+interface BaseAccountForm extends BaseAccountData {
   agreeTerms: boolean;
   confirmPassword: string;
 }
@@ -32,10 +28,9 @@ interface AccountForm extends AccountData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountFormComponent implements OnInit {
-  @Output() public submitted: EventEmitter<AccountData> = new EventEmitter();
+  @Output() public submitted: EventEmitter<BaseAccountData> = new EventEmitter();
 
-  public gender: typeof Gender = Gender;
-  public form: FormGroup<AccountForm>;
+  public form: FormGroup<BaseAccountForm>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,8 +39,6 @@ export class AccountFormComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.createForm();
-    this.addEmail();
-    this.addUsername();
   }
 
   onSubmit() {
@@ -56,56 +49,19 @@ export class AccountFormComponent implements OnInit {
     this.submitted.emit(this.form.getRawValue());
   }
 
-  public get emailFormArray(): FormArray<string> {
-    return this.form.controls.emails as FormArray;
-  }
-
-  public get usernameFormArray(): FormArray<string> {
-    return this.form.controls.usernames as FormArray;
-  }
-
-  public addEmail(): void {
-    this.emailFormArray.push(this.formBuilder.control('', [
-      Validators.required,
-      Validators.email,
-    ]));
-  }
-
-  public addUsername(): void {
-    this.usernameFormArray.push(this.formBuilder.control('', [
-      Validators.required,
-      Validators.minLength(3),
-    ]));
-  }
-
-  public removeEmail(index: number): void {
-    const emailFormArray = this.form.controls.emails as FormArray;
-    emailFormArray.removeAt(index);
-  }
-
-  public removeUsername(index: number): void {
-    const usernameFormArray = this.form.controls.usernames as FormArray;
-    usernameFormArray.removeAt(index);
-  }
-
-  private createForm(): FormGroup<AccountForm> {
+  private createForm(): FormGroup<BaseAccountForm> {
     return this.formBuilder.group({
       agreeTerms: [false, [
         Validators.requiredTrue,
-      ]],
-      birthday: ['', [
-        Validators.required,
-        BaseValidationUtil.isFrDateFormatCorrect,
       ]],
       confirmPassword: ['', [
         Validators.required,
         PasswordValidationUtil.equalsToAdjacentControl('password'),
       ]],
-      gender: [null, [
+      email: ['', [
         Validators.required,
+        Validators.email,
       ]],
-      emails: this.formBuilder.array([]),
-      usernames: this.formBuilder.array([]),
       password: ['', [
         Validators.required,
         Validators.minLength(8),

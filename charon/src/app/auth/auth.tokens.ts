@@ -11,3 +11,9 @@ export const UNCONFIRMED_EMAIL_REDIRECT_URL: InjectionToken<string>
 
 export const CONFIRMED_EMAIL_REDIRECT_URL: InjectionToken<string>
   = new InjectionToken('CONFIRMED_EMAIL_REDIRECT_URL');
+
+export const UNCOMPLETED_REGISTRATION_REDIRECT_URL: InjectionToken<string>
+  = new InjectionToken('UNCOMPLETED_REGISTRATION_REDIRECT_URL');
+
+export const COMPLETED_REGISTRATION_REDIRECT_URL: InjectionToken<string>
+  = new InjectionToken('COMPLETED_REGISTRATION_REDIRECT_URL');

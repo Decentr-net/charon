@@ -1,0 +1,111 @@
+<div class="row" *transloco="let translate; read: 'sign_up.complete_registration'">
+  <div class="col-xs-7">
+    <div class="page-title page-title__large">
+      {{ translate('title') }}
+    </div>
+    <form
+        #ngForm="ngForm"
+        autocomplete="off"
+        [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+        *transloco="let translate; read: 'sign_up.complete_registration.form'"
+    >
+      <div class="row">
+        <div class="radio-container col-xs-12">
+          <div class="input-label">{{ translate('gender.label') }}</div>
+          <mat-radio-group aria-label="Select an option"
+                           formControlName="gender">
+            <mat-radio-button [value]="gender.Male">{{ translate('gender.male') }}</mat-radio-button>
+            <mat-radio-button [value]="gender.Female">{{ translate('gender.female') }}</mat-radio-button>
+          </mat-radio-group>
+
+          <mat-error *ngIf="ngForm.submitted">
+            <app-form-error controlName="gender"></app-form-error>
+          </mat-error>
+        </div>
+
+        <div class="input-container col-xs-12">
+          <div class="input-label">{{ translate('birthday.label') }}</div>
+          <app-date-input formControlName="birthday"
+                          appearance="outline"
+                          className="input-control">
+          </app-date-input>
+        </div>
+
+        <div formArrayName="emails">
+          <div *ngFor="let email of emailFormArray.controls; let i = index; let first = first">
+            <div class="input-container col-xs-12">
+              <div class="input-label">{{ translate('email.label') }} {{ first ? '' : i + 1 }}</div>
+              <mat-form-field class="input-control icon-protected"
+                              appearance="outline">
+                <input matInput
+                       type="email"
+                       name="email"
+                       [formControlName]="i"
+                       placeholder="">
+
+                <mat-error>
+                  <app-form-error [controlName]="i" i18nControlKey="email"></app-form-error>
+                </mat-error>
+              </mat-form-field>
+
+              <div *ngIf="first && emailFormArray.length < 10"
+                   class="button__add"
+                   (click)="addEmail()">
+              </div>
+              <div *ngIf="!first"
+                   class="button__remove"
+                   (click)="removeEmail(i)">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div formArrayName="usernames">
+          <div *ngFor="let username of this.usernameFormArray.controls; let i = index; let first = first">
+            <div class="input-container col-xs-12">
+              <div class="input-label">{{ translate('username.label') }} {{ first ? '' : i + 1 }}</div>
+              <mat-form-field class="input-control icon-protected"
+                              appearance="outline">
+                <input matInput
+                       type="text"
+                       name="name"
+                       [formControlName]="i"
+                       placeholder="">
+
+                <mat-error>
+                  <app-form-error [controlName]="i" i18nControlKey="username"></app-form-error>
+                </mat-error>
+              </mat-form-field>
+
+              <div *ngIf="first && usernameFormArray.length < 10"
+                   class="button__add"
+                   (click)="addUsername()">
+              </div>
+              <div *ngIf="!first"
+                   class="button__remove"
+                   (click)="removeUsername(i)">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-12">
+          <button class="btn btn__small"
+                  mat-flat-button
+                  color="accent"
+                  [disabled]="form.invalid">
+            {{ translate('submit') }}
+          </button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+  <div class="col-xs-5 hint-message">
+    <div class="hint-title">
+      {{ translate('hint.label') }}:
+    </div>
+    <p>{{ translate('hint.text') }}</p>
+  </div>
+</div>

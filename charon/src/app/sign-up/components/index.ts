@@ -8,4 +8,4 @@ export const SIGN_UP_COMPONENTS = [
   SeedPhraseTestComponent,
 ];
 
-export { AccountData } from './account-form';
+export { BaseAccountData } from './account-form';

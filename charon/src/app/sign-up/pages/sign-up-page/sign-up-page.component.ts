@@ -9,7 +9,7 @@ import { NavigationService } from '@shared/services/navigation/navigation.servic
 import { CryptoService } from '@shared/services/crypto';
 import { UserService } from '@shared/services/user';
 import { AuthService } from '@auth/services';
-import { AccountData } from '../../components/account-form';
+import { BaseAccountData } from '../../components/account-form';
 import { SignUpRoute } from '../../sign-up-route';
 import { SignUpStoreService } from '../../services';
 import { StatusCodes } from 'http-status-codes';
@@ -32,12 +32,12 @@ enum SignUpTab {
 export class SignUpPageComponent {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
-  public activeTab: SignUpTab = SignUpTab.AccountForm;
+  public activeTab: SignUpTab = SignUpTab.SeedPhrase;
   public tab: typeof SignUpTab = SignUpTab;
 
   public seedPhrase: string = CryptoService.generateMnemonic();
 
-  private accountData: AccountData;
+  private accountData: BaseAccountData;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -58,8 +58,8 @@ export class SignUpPageComponent {
         this.switchTab(SignUpTab.SeedPhrase);
         break;
       }
-      case SignUpTab.SeedPhrase: {
-        this.switchTab(SignUpTab.AccountForm);
+      case SignUpTab.AccountForm: {
+        this.switchTab(SignUpTab.SeedPhraseTest);
         break;
       }
       default: {
@@ -69,9 +69,9 @@ export class SignUpPageComponent {
     }
   }
 
-  public onSubmitAccountForm(accountData: AccountData): void {
+  public onSubmitAccountForm(accountData: BaseAccountData): void {
     this.accountData = accountData;
-    this.switchTab(SignUpTab.SeedPhrase);
+    this.signUp();
   }
 
   public signUp(): void {
@@ -80,18 +80,21 @@ export class SignUpPageComponent {
     const { address: walletAddress, ...keys } = createWalletFromMnemonic(this.seedPhrase);
 
     from(this.authService.createUser({
-      ...this.accountData,
+      password: this.accountData.password,
+      primaryEmail: this.accountData.email,
       ...keys,
       walletAddress,
       emailConfirmed: false,
+      registrationCompleted: false,
     })).pipe(
       mergeMap(id => this.authService.changeUser(id)),
-      mergeMap(() => this.userService.createUser(this.accountData.emails[0], walletAddress)),
+      mergeMap(() => this.userService.createUser(this.accountData.email, walletAddress)),
       catchError(err => {
         const message = (err.status === StatusCodes.CONFLICT)
           ? this.translocoService.translate('account_form_page.toastr.errors.conflict', null, 'sign-up')
           : this.translocoService.translate('toastr.errors.unknown_error');
 
+        this.authService.logout();
         this.toastrService.error(message);
         return throwError(err);
       }),
