@@ -5,6 +5,7 @@ import { BrowserTabGuard } from '@shared/guards';
 import { LockGuard } from '@shared/features/lock';
 import { AuthConfirmedGuard, UnauthGuard } from './auth';
 import { AppRoute } from './app-route';
+import { AuthCompletedRegistrationGuard } from '@auth/guards/auth-completed-registration.guard';
 
 const ROUTES: Routes = [
   {
@@ -28,6 +29,7 @@ const ROUTES: Routes = [
     loadChildren: () => import('./user/user.module').then(x => x.UserModule),
     canActivate: [
       AuthConfirmedGuard,
+      AuthCompletedRegistrationGuard,
       LockGuard,
     ],
     canDeactivate: [

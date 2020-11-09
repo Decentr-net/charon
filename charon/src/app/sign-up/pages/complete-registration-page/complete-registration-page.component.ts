@@ -94,6 +94,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
           user.privateKey,
         )
       }),
+      mergeMap(() => this.authService.completeRegistration(user.id)),
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
     ).subscribe(() => {

@@ -5,4 +5,5 @@ export interface AuthUser extends User {
   readonly mainEmail: string;
   readonly primaryUsername?: string;
   readonly passwordHash: string;
+  readonly registrationCompleted: boolean
 }

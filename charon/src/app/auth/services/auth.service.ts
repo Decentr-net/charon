@@ -28,6 +28,10 @@ export class AuthService {
     return this.authStorage.updateUser(userId, { emailConfirmed: true });
   }
 
+  public completeRegistration(userId: AuthUser['id']): Promise<void> {
+    return this.authStorage.updateUser(userId, { registrationCompleted: true });
+  }
+
   public getActiveUser(): Observable<AuthUser | undefined> {
     return this.activeUser$.asObservable();
   }
@@ -52,6 +56,7 @@ export class AuthService {
       primaryUsername: user.hasOwnProperty('usernames') && user.usernames[0] || undefined,
       privateKey: user.privateKey,
       publicKey: user.publicKey,
+      registrationCompleted: user.registrationCompleted,
       usernames: user.usernames,
       walletAddress: user.walletAddress,
     });

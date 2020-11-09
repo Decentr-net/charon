@@ -47,6 +47,7 @@ export class ImportRestorePageService {
         publicKey,
         walletAddress,
         emailConfirmed: true,
+        registrationCompleted: true,
       })),
       mergeMap((id) => this.authService.changeUser(id)),
       tap(() => this.lockService.unlock()),

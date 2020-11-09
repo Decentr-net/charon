@@ -84,6 +84,7 @@ export class SignUpPageComponent {
       ...keys,
       walletAddress,
       emailConfirmed: false,
+      registrationCompleted: false,
     })).pipe(
       mergeMap(id => this.authService.changeUser(id)),
       mergeMap(() => this.userService.createUser(this.accountData.email, walletAddress)),
