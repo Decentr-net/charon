@@ -36,9 +36,9 @@ export class UserApiService {
     return from(decentr.get.account(walletAddress)) as Observable<Account>;
   }
 
-  public getUserPrivate(api: string, walletAddress: string, privateKey: string): Observable<UserPrivate> {
+  public getUserPrivate(api: string, walletAddress: string, privateKey: string): Observable<Partial<UserPrivate>> {
     const decentr = this.createDecentrConnector(api);
-    return from(decentr.get.privateProfile({ privateKey, address: walletAddress })) as Observable<UserPrivate>;
+    return from(decentr.get.privateProfile({ privateKey, address: walletAddress })) as Observable<Partial<UserPrivate>>;
   }
 
   public getUserPublic(api: string, walletAddress: string): Observable<UserPublic> {
