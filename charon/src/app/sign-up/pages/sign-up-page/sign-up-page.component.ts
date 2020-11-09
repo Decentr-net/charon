@@ -93,6 +93,7 @@ export class SignUpPageComponent {
           ? this.translocoService.translate('account_form_page.toastr.errors.conflict', null, 'sign-up')
           : this.translocoService.translate('toastr.errors.unknown_error');
 
+        this.authService.logout();
         this.toastrService.error(message);
         return throwError(err);
       }),
