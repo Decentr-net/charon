@@ -80,7 +80,8 @@ export class SignUpPageComponent {
     const { address: walletAddress, ...keys } = createWalletFromMnemonic(this.seedPhrase);
 
     from(this.authService.createUser({
-      ...this.accountData,
+      mainEmail: this.accountData.email,
+      password: this.accountData.password,
       ...keys,
       walletAddress,
       emailConfirmed: false,
