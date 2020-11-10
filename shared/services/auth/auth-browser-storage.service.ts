@@ -51,15 +51,18 @@ export class AuthBrowserStorageService<T extends User = User> {
     await this.browserStorage.set('users', newUsers);
   }
 
-  public async updateUser(id: T['id'], user: Partial<Omit<T, 'id'>>): Promise<void> {
+  public async updateUser(id: T['id'], update: Partial<Omit<T, 'id'>>): Promise<void> {
     const users = await this.browserStorage.get('users');
-    const userToUpdate = users.find(user => user.id === id);
+
+    const userToUpdate = users.find((user) => user.id === id);
+
     const otherUsers = users.filter(user => user.id !== id);
+
     await this.browserStorage.set('users', [
       ...otherUsers,
       {
         ...userToUpdate,
-        ...user,
+        ...update,
       },
     ]);
   }

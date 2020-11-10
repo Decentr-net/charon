@@ -55,7 +55,7 @@ export class ImportRestorePageComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = this.createForm();
 
     this.currentPageType$ = this.activatedRoute.data.pipe(
@@ -78,7 +78,7 @@ export class ImportRestorePageComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe(noop, (error) => {
       this.notificationService.error(error);
-    })
+    });
   }
 
   public toggleSeedPhraseVisibility(): void {

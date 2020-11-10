@@ -111,7 +111,7 @@ export class LockService {
   }
 
   private updateLastInteractionTime(): Promise<void> {
-    return this.store.set('lastInteractionTime', Date.now())
+    return this.store.set('lastInteractionTime', Date.now());
   }
 
   private clearStore(): Promise<void> {

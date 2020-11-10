@@ -54,7 +54,7 @@ export class EmailConfirmationPageComponent implements OnInit {
   ) {
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.codeForm = this.createForm();
 
     this.email = this.authService.getActiveUserInstant().primaryEmail;
@@ -96,7 +96,7 @@ export class EmailConfirmationPageComponent implements OnInit {
         untilDestroyed(this),
       )
       .subscribe(() => {
-        this.resetTimer()
+        this.resetTimer();
       }, (error) => {
         this.notificationService.error(error);
       });
@@ -109,7 +109,7 @@ export class EmailConfirmationPageComponent implements OnInit {
       )
       .subscribe(() => {
         this.router.navigate([AppRoute.SignUp]);
-      })
+      });
   }
 
   private createForm(): FormGroup<CodeForm> {

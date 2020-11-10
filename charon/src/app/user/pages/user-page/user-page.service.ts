@@ -106,6 +106,6 @@ export class UserPageService {
       ),
     ]).pipe(
       map(([walletAddress, networkApi]) => ({ walletAddress, networkApi })),
-    )
+    );
   }
 }

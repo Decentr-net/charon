@@ -17,7 +17,7 @@ export class SeedPhraseComponent {
     this.next.emit();
   }
 
-  public showSeedPhrase() {
+  public showSeedPhrase(): void {
     this.isSeedPhraseVisible = true;
   }
 }

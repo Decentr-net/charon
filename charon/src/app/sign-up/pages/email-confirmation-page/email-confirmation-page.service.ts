@@ -99,9 +99,9 @@ export class EmailConfirmationPageService {
         catchError((error) => {
           const errorToThrow = (error.status === StatusCodes.CONFLICT)
             ? this.translocoService.translate('email_confirmation_page.errors.account_conflict', null, 'sign-up')
-            : error
+            : error;
 
-          return throwError(error);
+          return throwError(errorToThrow);
         }),
         mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
       );

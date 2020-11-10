@@ -27,7 +27,7 @@ export class SignUpPageService {
           ? new TranslatedError(
             this.translocoService.translate('sign_up_page.errors.account_conflict', null, 'sign-up')
           )
-          : error
+          : error;
 
         return throwError(errorToThrow);
       }),
@@ -39,6 +39,6 @@ export class SignUpPageService {
         registrationCompleted: false,
       })),
       mergeMap(id => this.authService.changeUser(id)),
-    )
+    );
   }
 }

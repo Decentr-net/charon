@@ -47,7 +47,7 @@ export class EditProfilePageComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.form = this.createForm();
 
     const user = this.authService.getActiveUserInstant();
@@ -58,7 +58,7 @@ export class EditProfilePageComponent implements OnInit {
     this.form.patchValue(user);
   }
 
-  onSubmit() {
+  public onSubmit(): void {
     if (!this.form.valid) {
       return;
     }

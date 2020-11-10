@@ -18,6 +18,10 @@ export class AuthService {
     return !!this.getActiveUserInstant();
   }
 
+  private static encryptPassword(password: string): string {
+    return sha256(password);
+  }
+
   public async init(): Promise<void> {
     this.authStorage.getActiveUser().pipe(
       untilDestroyed(this),
@@ -57,7 +61,7 @@ export class AuthService {
       wallet: user.wallet,
     });
 
-    await this.updateUser(id, user)
+    await this.updateUser(id, user);
 
     return id;
   }
@@ -96,10 +100,6 @@ export class AuthService {
           }
           : {},
       }
-    )
-  }
-
-  private static encryptPassword(password: string): string {
-    return sha256(password);
+    );
   }
 }

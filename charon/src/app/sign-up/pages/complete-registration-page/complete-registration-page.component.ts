@@ -52,7 +52,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
   ) {
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.form = this.createForm();
 
     this.addEmail();
@@ -62,7 +62,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
     this.form.patchValue(user);
   }
 
-  onSubmit() {
+  public onSubmit(): void {
     if (!this.form.valid) {
       return;
     }

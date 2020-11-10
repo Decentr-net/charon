@@ -14,8 +14,8 @@ export const groupCookiesByDomainAndPath = (cookies: Cookie[]): {
       return acc;
     }
     return [...acc, { domain: cookie.domain, path: cookie.path, cookies: [cookie] }];
-  }, [])
-}
+  }, []);
+};
 
 export const convertCookiesToPdv = (cookies: Cookie[], domain: string, path: string): PDV => {
   const pdvDomainMatch = domain.match(/\w+.\w+.\w+/);
@@ -41,4 +41,4 @@ export const convertCookiesToPdv = (cookies: Cookie[], domain: string, path: str
       })),
     },
   };
-}
+};

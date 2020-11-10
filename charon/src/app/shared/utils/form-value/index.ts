@@ -1,4 +1,4 @@
-export const AddSeparatorToDate = (value: string, separator: '-' | '/') => {
+export const addSeparatorToDate = (value: string, separator: '-' | '/') => {
     let outputValue = value.replace(/\D/g, '');
 
     if (outputValue.length > 3 && outputValue.length < 6) {
@@ -8,4 +8,4 @@ export const AddSeparatorToDate = (value: string, separator: '-' | '/') => {
     }
 
     return outputValue;
-}
+};

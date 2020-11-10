@@ -35,7 +35,7 @@ export class PDVService {
 
     return decentr.getTokenBalance(walletAddress);
   }
-  
+
   public getPDVList(api: string, walletAddress: Wallet['address']): Promise<PDVListItem[]> {
     const decentr = this.createDecentrConnector(api);
 

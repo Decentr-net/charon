@@ -46,7 +46,7 @@ export class EditProfilePageService {
           },
           user.wallet.address,
           user.wallet.privateKey,
-        )
+        );
       }),
       mergeMap(() => this.authService.updateUser(user.id, update)),
     );

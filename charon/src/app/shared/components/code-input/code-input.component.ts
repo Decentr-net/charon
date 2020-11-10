@@ -49,7 +49,7 @@ export class CodeInputComponent implements OnInit, AfterViewInit, ControlValueAc
   public onChange: (value: string | null) => void = noop;
   public onTouched: () => void = noop;
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.formArray.value$.pipe(
       map(chars => chars.join('')),
       untilDestroyed(this),
@@ -59,7 +59,7 @@ export class CodeInputComponent implements OnInit, AfterViewInit, ControlValueAc
     });
   }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     if (this.autofocus) {
       this.inputElementsRefs.toArray()[0].nativeElement.focus();
     }
@@ -82,7 +82,7 @@ export class CodeInputComponent implements OnInit, AfterViewInit, ControlValueAc
 
   public onInput(event: Event): void {
     if ((event as InputEvent).inputType !== 'deleteContentBackward') {
-      this.moveTo(event.target as HTMLInputElement, 'right')
+      this.moveTo(event.target as HTMLInputElement, 'right');
     }
   }
 

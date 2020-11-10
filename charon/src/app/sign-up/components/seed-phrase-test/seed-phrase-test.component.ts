@@ -22,16 +22,16 @@ export class SeedPhraseTestComponent implements OnInit {
 
   public seedPhraseShuffledArr = [];
   public selectedSeedPhraseArr = [];
-  public isUserPhraseValid: boolean = false;
+  public isUserPhraseValid = false;
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.seedPhraseShuffledArr = shuffleArray(this.seedPhrase.split(' ').slice());
   }
 
   public trackByWord: TrackByFunction<string> = ({}, word) => word;
 
-  public onSelectWord(i: number, from, to) {
-    to.push(from.splice(i, 1));
+  public onSelectWord(i: number, from: string[], to: string[]): void {
+    to.push(...from.splice(i, 1));
     this.validatePhrase();
   }
 

@@ -16,4 +16,4 @@ export const AUTH_GUARDS = [
   AuthCompletedRegistrationGuard,
   AuthUncompletedRegistrationGuard,
   UnauthGuard,
-]
+];

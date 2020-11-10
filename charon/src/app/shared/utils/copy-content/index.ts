@@ -10,4 +10,4 @@ export const copyContent = (content: string) => {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
-}
+};

@@ -8,4 +8,4 @@ export const exponentialToFixed = (value: number | string): string => {
 
   const degree = +numStr.split('-')[1];
   return num.toFixed(degree);
-}
+};

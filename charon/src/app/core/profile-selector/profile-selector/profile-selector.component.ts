@@ -22,7 +22,7 @@ export class ProfileSelectorComponent implements OnInit {
   ) {
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.balance$ = this.profileSelectorService.getBalance().pipe(
       shareReplay(1),
     );

@@ -37,11 +37,11 @@ export class AccountFormComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = this.createForm();
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (!this.form.valid) {
       return;
     }

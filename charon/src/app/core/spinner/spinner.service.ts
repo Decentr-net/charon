@@ -8,7 +8,7 @@ import { SpinnerComponent } from './spinner';
 export class SpinnerService {
   private readonly overlayRef: OverlayRef;
 
-  private isAttached: boolean = false;
+  private isAttached = false;
 
   constructor(overlay: Overlay) {
     this.overlayRef = overlay.create({

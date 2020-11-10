@@ -12,7 +12,7 @@ import {
 
 export type Network = NetworkWithApi & {
   name: string;
-}
+};
 
 @UntilDestroy()
 @Injectable()
@@ -48,7 +48,7 @@ export class NetworkSelectorService {
   }
 
   public setActiveNetwork(network: Network): Promise<void> {
-    return this.networkStorage.setActiveNetwork(network)
+    return this.networkStorage.setActiveNetwork(network);
   }
 
   public getNetworks(): Observable<Network[]> {

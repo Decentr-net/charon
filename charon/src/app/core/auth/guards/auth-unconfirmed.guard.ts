@@ -21,7 +21,7 @@ export class AuthUnconfirmedGuard implements CanActivate, CanActivateChild {
         return true;
       }
 
-      return this.router.createUrlTree([this.confirmedEmailRedirectUrl])
+      return this.router.createUrlTree([this.confirmedEmailRedirectUrl]);
     }
 
     return this.router.createUrlTree([this.unauthorizedRedirectUrl]);

@@ -51,20 +51,17 @@ export class PdvActivityChartComponent implements OnChanges, AfterViewInit {
   private chartHover: any;
   private chartLegend: any;
 
-  constructor() {
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges): void {
     this.repaintChart();
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.initChart();
     this.createChart();
     this.repaintChart();
   }
 
-  initChart() {
+  private initChart(): void {
     this.chart = this.chartContainer.nativeElement;
     this.chartResult = this.chartResultContainer.nativeElement;
     this.chartLegend = d3.select(this.chartResult)
@@ -72,14 +69,14 @@ export class PdvActivityChartComponent implements OnChanges, AfterViewInit {
       .attr('class', 'chart-legend');
   }
 
-  onResize(event) {
+  public onResize(event): void {
     if (this.data) {
       this.createChart();
       this.repaintChart();
     }
   }
 
-  createChart() {
+  private createChart(): void {
     d3.selectAll('.chart-svg').remove();
 
     this.width = this.chartContainer.nativeElement.clientWidth - this.margin.left - this.margin.right;
@@ -95,7 +92,7 @@ export class PdvActivityChartComponent implements OnChanges, AfterViewInit {
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
   }
 
-  private setAxisScales() {
+  private setAxisScales(): void {
     this.gx = d3.scaleUtc();
     this.gy = d3.scaleLinear();
 
@@ -121,7 +118,7 @@ export class PdvActivityChartComponent implements OnChanges, AfterViewInit {
       ]);
   }
 
-  private drawAxis() {
+  private drawAxis(): void {
     this.xAxis = g => g
       .attr('transform', `translate(0,${this.height - this.margin.bottom})`)
       .call(d3.axisBottom(this.gx).ticks(this.width / 80).tickSizeOuter(0));
@@ -134,7 +131,7 @@ export class PdvActivityChartComponent implements OnChanges, AfterViewInit {
     this.svg.append('g').call(this.yAxis);
   }
 
-  private repaintChart() {
+  private repaintChart(): void {
     const self = this;
 
     d3.selectAll('.chart-svg g > *').remove();
@@ -142,7 +139,7 @@ export class PdvActivityChartComponent implements OnChanges, AfterViewInit {
     // this.drawAxis();
     this.setAxisScales();
 
-    function mousemove(event) {
+    function mousemove(event): void {
       const date = self.gx.invert(d3.pointer(event, this)[0]);
 
       const index = self.bisectDate(self.data, date, 1);
@@ -210,7 +207,7 @@ export class PdvActivityChartComponent implements OnChanges, AfterViewInit {
       .attr('d', this.line);
   }
 
-  formatDate(date) {
+  private formatDate(date): void {
     return date.toLocaleString('en-US', {
       month: 'short',
       day: 'numeric',

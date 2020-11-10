@@ -47,6 +47,6 @@ export class BaseValidationUtil {
       return !equalToControl.value || control.value === equalToControl.value
         ? null
         : { valueDoNotMatch: controlName };
-    }
+    };
   }
 }

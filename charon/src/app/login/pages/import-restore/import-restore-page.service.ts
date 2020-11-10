@@ -33,7 +33,7 @@ export class ImportRestorePageService {
             'import_restore_page.errors.account_not_found',
             null,
             'login'
-          )))
+          )));
       }),
       mergeMapTo(forkJoin([
         this.userService.getPrivateProfile(wallet.address, wallet.privateKey),

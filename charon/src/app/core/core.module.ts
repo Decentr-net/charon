@@ -15,11 +15,11 @@ import { SpinnerModule } from './spinner';
 import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES } from './services';
 
-export function initAuthFactory<T>(authService: AuthService): Function {
+export function initAuthFactory<T>(authService: AuthService): () => void {
   return () => authService.init();
 }
 
-export function initNetworkFactory<T>(networkService: NetworkSelectorService): Function {
+export function initNetworkFactory<T>(networkService: NetworkSelectorService): () => void {
   return () => networkService.init();
 }
 

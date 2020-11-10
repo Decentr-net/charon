@@ -4,7 +4,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { noop } from 'rxjs';
 import { MatFormFieldAppearance } from '@angular/material/form-field/form-field';
 import { LocalControlErrorStateMatcher } from '@shared/providers/local-control-error-state-matcher';
-import { AddSeparatorToDate } from '@shared/utils/form-value';
+import { addSeparatorToDate } from '@shared/utils/form-value';
 
 @Component({
   selector: 'app-date-input',
@@ -21,8 +21,8 @@ import { AddSeparatorToDate } from '@shared/utils/form-value';
 })
 export class DateInputComponent implements AfterViewInit, ControlValueAccessor {
 
-  matcher: ErrorStateMatcher;
-  value: string;
+  public matcher: ErrorStateMatcher;
+  public value: string;
 
   protected propagateChange: (_: any) => void = noop;
   protected propagateTouch: () => void = noop;
@@ -34,7 +34,7 @@ export class DateInputComponent implements AfterViewInit, ControlValueAccessor {
   constructor(@Optional() @Host() @SkipSelf() private controlContainer: ControlContainer) {
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     if (this.controlContainer && this.formControlName) {
       const control = this.controlContainer.control.get(this.formControlName);
 
@@ -42,26 +42,26 @@ export class DateInputComponent implements AfterViewInit, ControlValueAccessor {
     }
   }
 
-  public onChange() {
-    this.value = this.onKeyDateInput();
+  public onChange(): void {
+    this.value = this.formatDate(this.value);
 
     this.propagateChange(this.value);
     this.propagateTouch();
   }
 
-  writeValue(value: any): void {
+  public writeValue(value: any): void {
     this.value = value;
   }
 
-  registerOnChange(fn: any): void {
+  public registerOnChange(fn: any): void {
     this.propagateChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  public registerOnTouched(fn: any): void {
     this.propagateTouch = fn;
   }
 
-  private onKeyDateInput() {
-    return AddSeparatorToDate(this.value, '-');
+  private formatDate(value: string) {
+    return addSeparatorToDate(value, '-');
   }
 }

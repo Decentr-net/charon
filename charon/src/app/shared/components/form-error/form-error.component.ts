@@ -24,7 +24,7 @@ export class FormErrorComponent implements OnInit {
   ) {
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.translocoRead = `${this.translocoFormScope}.${this.i18nControlKey || this.controlName}.errors`;
 
     const control = this.control || this.controlContainer.control.get(this.controlName.toString());
@@ -45,6 +45,6 @@ export class FormErrorComponent implements OnInit {
           params: firstEntry[1],
         };
       }),
-    )
+    );
   }
 }

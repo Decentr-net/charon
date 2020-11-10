@@ -19,7 +19,7 @@ export class NetworkSelectorComponent implements OnInit {
   ) {
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.networks$ = this.networkService.getNetworks();
     this.activeNetworkName$ = this.networkService.getActiveNetwork().pipe(
       pluck('name'),

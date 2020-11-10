@@ -18,6 +18,6 @@ export class CurrencyService {
     return this.currencyApiService.getCoinRate([blockchainId], [currencyId])
       .pipe(
         map((rates) => rates[blockchainId][currencyId])
-      )
+      );
   }
 }
