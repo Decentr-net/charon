@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
-import { ControlContainer, FormGroupDirective } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnInit, Optional } from '@angular/core';
+import { AbstractControl, ControlContainer } from '@angular/forms';
 import { merge, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -11,6 +11,7 @@ import { FORM_ERROR_TRANSLOCO_READ } from './form-error.tokens';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormErrorComponent implements OnInit {
+  @Input() public control: AbstractControl;
   @Input() public controlName: string;
   @Input() public i18nControlKey: string;
 
@@ -18,15 +19,16 @@ export class FormErrorComponent implements OnInit {
   public error$: Observable<{ key: string; params: any }> | null;
 
   constructor(
-    private formGroupDirective: FormGroupDirective,
-    private controlContainer: ControlContainer,
+    @Optional() private controlContainer: ControlContainer,
     @Inject(FORM_ERROR_TRANSLOCO_READ) public translocoFormScope: string,
   ) {
   }
 
   public ngOnInit() {
     this.translocoRead = `${this.translocoFormScope}.${this.i18nControlKey || this.controlName}.errors`;
-    const control = this.controlContainer.control.get(this.controlName.toString());
+
+    const control = this.control || this.controlContainer.control.get(this.controlName.toString());
+
     this.error$ = merge(
       control.statusChanges,
       control.valueChanges,
@@ -41,7 +43,7 @@ export class FormErrorComponent implements OnInit {
         return {
           key: firstEntry[0],
           params: firstEntry[1],
-        }
+        };
       }),
     )
   }

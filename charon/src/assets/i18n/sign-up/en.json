@@ -30,12 +30,7 @@
         "have_read": "I have read and agree to the"
       }
     },
-    "title": "Create Profile",
-    "toastr": {
-      "errors": {
-        "conflict": "A wallet has already been created for this email or wallet address"
-      }
-    }
+    "title": "Create Profile"
   },
   "complete_registration": {
     "form": {
@@ -60,6 +55,9 @@
         "female": "Female",
         "label": "Gender",
         "male": "Male"
+      },
+      "primary_email": {
+        "label": "Email (primary)"
       },
       "username": {
         "errors": {
@@ -91,11 +89,9 @@
     "open": "Please enter the code to complete your registration, it is a mandatory step.",
     "sent_to": "Confirmation code has been sent to",
     "title": "E-mail Confirmation",
-    "toastr": {
-      "errors": {
-        "conflict": "Account already confirmed",
-        "not_found": "Account not found"
-      }
+    "errors": {
+      "account_conflict": "Account already confirmed",
+      "account_not_found": "Account not found"
     }
   },
   "seed_phrase_page": {
@@ -120,6 +116,11 @@
     "confirm": "CONFIRM",
     "subtitle": "Please select each phrase in order to make sure it is correct.",
     "title": "Confirm Your Secret Backup Phrase"
+  },
+  "sign_up_page": {
+    "errors": {
+      "account_conflict": "A wallet has already been created for this email or wallet address"
+    }
   },
   "success_page": {
     "done": "ALL DONE",

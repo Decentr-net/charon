@@ -36,22 +36,21 @@ export class ImportRestorePageService {
           )))
       }),
       mergeMapTo(forkJoin([
-        this.userService.getUserPrivate(wallet.address, wallet.privateKey),
-        this.userService.getUserPublic(wallet.address),
+        this.userService.getPrivateProfile(wallet.address, wallet.privateKey),
+        this.userService.getPublicProfile(wallet.address),
       ])),
-      mergeMap(([userPrivate, userPublic]) => this.authService.createUser({
-        ...userPrivate,
-        ...userPublic,
+      mergeMap(([privateProfile, publicProfile]) => this.authService.createUser({
+        ...privateProfile,
+        ...publicProfile,
         wallet,
         password,
         emailConfirmed: true,
-        registrationCompleted: true,
       })),
       mergeMap((id) => this.authService.changeUser(id)),
       // hack for restore - active user is locked during restore process
       tap(() => this.lockService.unlock()),
       mergeMap(() => this.router.navigate([AppRoute.User])),
-      mapTo(void 0)
+      mapTo(void 0),
     );
   }
 
@@ -64,7 +63,7 @@ export class ImportRestorePageService {
         return userId
           ? this.authService.removeUser(userId)
           : EMPTY;
-      })
+      }),
     );
   }
 }

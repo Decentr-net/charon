@@ -1,20 +1,15 @@
-import { Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { from, throwError } from 'rxjs';
-import { catchError, finalize, mergeMap } from 'rxjs/operators';
-import { TranslocoService } from '@ngneat/transloco';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ToastrService } from 'ngx-toastr';
-import { StatusCodes } from 'http-status-codes';
-import { createWalletFromMnemonic, generateMnemonic } from 'decentr-js';
+import { finalize } from 'rxjs/operators';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { generateMnemonic } from 'decentr-js';
 
-import { AuthService } from '@core/auth';
 import { NavigationService } from '@core/navigation';
 import { SpinnerService } from '@core/spinner';
-import { UserService } from '@core/services';
-import { BaseAccountData } from '../../components';
-import { SignUpStoreService } from '../../services';
+import { NotificationService } from '@core/services';
+import { AccountData } from '../../components';
 import { SignUpRoute } from '../../sign-up-route';
+import { SignUpPageService } from './sign-up-page.service';
 
 enum SignUpTab {
   AccountForm,
@@ -26,29 +21,34 @@ enum SignUpTab {
 @Component({
   selector: 'app-sign-up-page',
   templateUrl: './sign-up-page.component.html',
-  styleUrls: ['./sign-up-page.component.scss']
+  styleUrls: ['./sign-up-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    SignUpPageService,
+  ],
 })
-export class SignUpPageComponent {
+export class SignUpPageComponent implements OnInit {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
   public activeTab: SignUpTab = SignUpTab.SeedPhrase;
   public tab: typeof SignUpTab = SignUpTab;
 
-  public seedPhrase: string = generateMnemonic();
+  public seedPhrase: string;
 
-  private accountData: BaseAccountData;
+  private accountData: AccountData;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService,
     private navigationService: NavigationService,
+    private notificationService: NotificationService,
     private router: Router,
-    private signUpStoreService: SignUpStoreService,
+    private signUpPageService: SignUpPageService,
     private spinnerService: SpinnerService,
-    private toastrService: ToastrService,
-    private translocoService: TranslocoService,
-    private userService: UserService,
   ) {
+  }
+
+  public ngOnInit(): void {
+    this.seedPhrase = generateMnemonic();
   }
 
   public navigateBack(): void {
@@ -68,40 +68,29 @@ export class SignUpPageComponent {
     }
   }
 
-  public onSubmitAccountForm(accountData: BaseAccountData): void {
+  public onSubmitAccountForm(accountData: AccountData): void {
     this.accountData = accountData;
+
     this.signUp();
   }
 
   public signUp(): void {
     this.spinnerService.showSpinner();
 
-    const wallet = createWalletFromMnemonic(this.seedPhrase);
-
-    from(this.authService.createUser({
-      wallet,
-      password: this.accountData.password,
+    this.signUpPageService.signUp(this.seedPhrase, {
       primaryEmail: this.accountData.email,
-      emailConfirmed: false,
-      registrationCompleted: false,
-    })).pipe(
-      mergeMap(id => this.authService.changeUser(id)),
-      mergeMap(() => this.userService.createUser(this.accountData.email, wallet.address)),
-      catchError(err => {
-        const message = (err.status === StatusCodes.CONFLICT)
-          ? this.translocoService.translate('account_form_page.toastr.errors.conflict', null, 'sign-up')
-          : this.translocoService.translate('toastr.errors.unknown_error');
-
-        this.authService.logout();
-        this.toastrService.error(message);
-        return throwError(err);
-      }),
-      mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
-      finalize(() => this.spinnerService.hideSpinner()),
-      untilDestroyed(this),
-    ).subscribe(() => this.router.navigate([SignUpRoute.EmailConfirmation], {
-      relativeTo: this.activatedRoute,
-    }));
+      password: this.accountData.password,
+    })
+      .pipe(
+        finalize(() => this.spinnerService.hideSpinner()),
+      )
+      .subscribe(() => {
+        this.router.navigate([SignUpRoute.EmailConfirmation], {
+          relativeTo: this.activatedRoute,
+        });
+      }, (error) => {
+        this.notificationService.error(error);
+      });
   }
 
   public switchTab(tab: SignUpTab): void {

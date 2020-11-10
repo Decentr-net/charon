@@ -5,12 +5,12 @@ import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { PasswordValidationUtil } from '@shared/utils/validation';
 
-export interface BaseAccountData {
+export interface AccountData {
   email: string;
   password: string;
 }
 
-interface BaseAccountForm extends BaseAccountData {
+interface AccountForm extends AccountData {
   agreeTerms: boolean;
   confirmPassword: string;
 }
@@ -28,9 +28,9 @@ interface BaseAccountForm extends BaseAccountData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountFormComponent implements OnInit {
-  @Output() public submitted: EventEmitter<BaseAccountData> = new EventEmitter();
+  @Output() public submitted: EventEmitter<AccountData> = new EventEmitter();
 
-  public form: FormGroup<BaseAccountForm>;
+  public form: FormGroup<AccountForm>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,7 +49,7 @@ export class AccountFormComponent implements OnInit {
     this.submitted.emit(this.form.getRawValue());
   }
 
-  private createForm(): FormGroup<BaseAccountForm> {
+  private createForm(): FormGroup<AccountForm> {
     return this.formBuilder.group({
       agreeTerms: [false, [
         Validators.requiredTrue,

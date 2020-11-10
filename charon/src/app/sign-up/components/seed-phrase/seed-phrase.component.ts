@@ -8,6 +8,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 })
 export class SeedPhraseComponent {
   @Input() public seedPhrase: string;
+
   @Output() public readonly next: EventEmitter<void> = new EventEmitter();
 
   public isSeedPhraseVisible = false;

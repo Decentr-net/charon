@@ -7,7 +7,8 @@ import {
   map,
   mergeMap,
   retryWhen,
-  switchMap, take,
+  switchMap,
+  take,
 } from 'rxjs/operators';
 
 import { AuthBrowserStorageService } from '../../shared/services/auth';
@@ -24,17 +25,21 @@ const authStorage = new AuthBrowserStorageService();
 
 authStorage.getActiveUser().pipe(
   switchMap((user) => {
-    return user
+    return user && user.registrationCompleted
       ? merge(
         listenRequestsOnCompletedWithBody({}, 'POST'),
         listenRequestsBeforeRedirectWithBody({}, 'POST'),
       ).pipe(
         filter(request => {
-          return requestBodyContains(request.requestBody, [...user.usernames, ...user.emails]);
+          return requestBodyContains(request.requestBody, [
+            ...user.usernames,
+            ...user.emails,
+            user.primaryEmail,
+          ]);
         }),
         debounceTime(COOKIES_DEBOUNCE_MS),
         switchMap(request => getCookies(new URL(request.url))),
-        map((cookies) => ({user, cookies})),
+        map((cookies) => ({ user, cookies })),
       )
       : EMPTY;
   }),
@@ -44,7 +49,7 @@ authStorage.getActiveUser().pipe(
       cookies,
     ).pipe(
       retryWhen(errors => errors.pipe(
-        delay(1000),
+        delay(10000),
         take(60),
       )),
       catchError(() => EMPTY),

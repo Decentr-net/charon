@@ -5,7 +5,7 @@ import { sha256 } from 'js-sha256';
 
 import { AuthBrowserStorageService } from '@root-shared/services/auth';
 import { uuid } from '@shared/utils/uuid';
-import { AuthUser, AuthUserUpdate } from '../models';
+import { AuthUser, AuthUserCreate, AuthUserUpdate } from '../models';
 
 @UntilDestroy()
 @Injectable()
@@ -40,9 +40,7 @@ export class AuthService {
     return this.activeUser$.value;
   }
 
-  public async createUser(
-    user: Omit<AuthUser, 'id' | 'primaryUsername' | 'passwordHash'> & { password: string },
-  ): Promise<AuthUser['id']> {
+  public async createUser(user: AuthUserCreate): Promise<AuthUser['id']> {
     const id = uuid();
 
     await this.authStorage.createUser({
@@ -51,13 +49,15 @@ export class AuthService {
       emailConfirmed: user.emailConfirmed,
       emails: user.emails,
       gender: user.gender,
-      passwordHash: this.encryptPassword(user.password),
-      primaryEmail: user.primaryEmail || user.emails?.[0],
+      passwordHash: AuthService.encryptPassword(user.password),
+      primaryEmail: user.primaryEmail,
       primaryUsername: user.usernames?.[0],
       registrationCompleted: user.registrationCompleted,
       usernames: user.usernames,
       wallet: user.wallet,
     });
+
+    await this.updateUser(id, user)
 
     return id;
   }
@@ -78,7 +78,7 @@ export class AuthService {
   }
 
   public validateCurrentUserPassword(password: string): boolean {
-    return this.encryptPassword(password) === this.getActiveUserInstant().passwordHash;
+    return AuthService.encryptPassword(password) === this.getActiveUserInstant().passwordHash;
   }
 
   public updateUser(userId: AuthUser['id'], update: AuthUserUpdate): Promise<void> {
@@ -89,18 +89,17 @@ export class AuthService {
         gender: update.gender,
         emails: update.emails,
         usernames: update.usernames,
-        primaryEmail: update.emails[0],
-        primaryUsername: update.usernames[0],
+        primaryUsername: update.usernames?.[0],
         ...update.password
           ? {
-            passwordHash: this.encryptPassword(update.password),
+            passwordHash: AuthService.encryptPassword(update.password),
           }
           : {},
       }
     )
   }
 
-  private encryptPassword(password: string): string {
+  private static encryptPassword(password: string): string {
     return sha256(password);
   }
 }

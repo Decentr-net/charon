@@ -1,9 +1,5 @@
 {
-  "network": {
-    "remote": "Decentr Test Network",
-    "local": "Localhost 1317"
-  },
-  "toastr": {
+  "notification": {
     "errors": {
       "unknown_error": "Something went wrong"
     }

@@ -13,17 +13,13 @@ export class NotificationService {
   }
 
   public error(error: Error | TranslatedError): void {
-    this.toastrService.error(this.isTranslatedError(error)
+    this.toastrService.error(error instanceof TranslatedError
       ? error.message
-      : this.translocoService.translate('toastr.errors.unknown_error')
+      : this.translocoService.translate('notification.errors.unknown_error')
     );
   }
 
   public success(message: string): void {
     this.toastrService.success(message);
-  }
-
-  private isTranslatedError(error: Error): error is TranslatedError {
-    return error instanceof TranslatedError;
   }
 }

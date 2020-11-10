@@ -5,7 +5,7 @@ import {
   Input,
   OnInit,
   Output,
-  TrackByFunction
+  TrackByFunction,
 } from '@angular/core';
 
 import { shuffleArray } from '@shared/utils/array';

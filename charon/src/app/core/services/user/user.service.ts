@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { delay, map, retryWhen, take } from 'rxjs/operators';
+import { delay, mapTo, retryWhen, take } from 'rxjs/operators';
+import { Account, PublicProfile } from 'decentr-js';
 
+import { UserPrivate } from '@root-shared/services/auth';
 import { NetworkSelectorService } from '@core/network-selector';
 import { UserApiService } from '../api';
-import { Account, PublicProfile } from 'decentr-js';
-import { UserPrivate } from '@root-shared/services/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -29,8 +29,6 @@ export class UserService {
     return this.userApiService.getAccount(
       this.networkService.getActiveNetworkInstant().api,
       walletAddress,
-    ).pipe(
-      map(account => account.address ? account : void 0),
     );
   }
 
@@ -43,36 +41,40 @@ export class UserService {
     );
   }
 
-  public getUserPrivate(walletAddress: string, privateKey: string): Observable<Partial<UserPrivate>> {
-    return this.userApiService.getUserPrivate(
+  public getPrivateProfile(walletAddress: string, privateKey: string): Observable<UserPrivate> {
+    return this.userApiService.getPrivateProfile(
       this.networkService.getActiveNetworkInstant().api,
       walletAddress,
       privateKey,
     );
   }
 
-  public getUserPublic(walletAddress: string): Observable<PublicProfile> {
-    return this.userApiService.getUserPublic(
+  public getPublicProfile(walletAddress: string): Observable<PublicProfile> {
+    return this.userApiService.getPublicProfile(
       this.networkService.getActiveNetworkInstant().api,
       walletAddress,
     );
   }
 
-  public setUserPublic(publicProfile: PublicProfile, walletAddress: string, privateKey: string): Observable<unknown> {
-    return this.userApiService.setUserPublic(
+  public setPublicProfile(publicProfile: PublicProfile, walletAddress: string, privateKey: string): Observable<void> {
+    return this.userApiService.setPublicProfile(
       publicProfile,
       this.networkService.getActiveNetworkInstant().api,
       walletAddress,
       privateKey,
+    ).pipe(
+      mapTo(void 0),
     );
   }
 
-  public setUserPrivate(data: Partial<UserPrivate>, walletAddress: string, privateKey: string): Observable<unknown> {
-    return this.userApiService.setUserPrivate(
-      data,
+  public setPrivateProfile(privateProfile: UserPrivate, walletAddress: string, privateKey: string): Observable<void> {
+    return this.userApiService.setPrivateProfile(
+      privateProfile,
       this.networkService.getActiveNetworkInstant().api,
       walletAddress,
       privateKey,
+    ).pipe(
+      mapTo(void 0),
     );
   }
 }

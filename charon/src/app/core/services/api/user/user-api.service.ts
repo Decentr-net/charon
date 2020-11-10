@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { from, Observable } from 'rxjs';
-import { Account, BroadcastResponse, Decentr, PrivateProfile, PublicProfile, Wallet } from 'decentr-js';
+import { Account, BroadcastResponse, Decentr, PublicProfile, Wallet } from 'decentr-js';
 
-import { Environment } from '@environments/environment.definitions';
 import { UserPrivate } from '@root-shared/services/auth';
+import { Environment } from '@environments/environment.definitions';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class UserApiService {
   ) {
   }
 
-  public createUser(email: string, walletAddress: string): Observable<void> {
+  public createUser(email: string, walletAddress: Wallet['address']): Observable<void> {
     return this.http.post<void>(`${this.environment.vulcanApi}/register`, {
       address: walletAddress,
       email,
@@ -35,27 +35,27 @@ export class UserApiService {
     return from(decentr.getAccount(walletAddress));
   }
 
-  public getUserPrivate(
+  public getPrivateProfile(
     api: string,
     walletAddress: Wallet['address'],
-    privateKey: string,
-  ): Observable<Partial<PrivateProfile>> {
+    privateKey: Wallet['privateKey'],
+  ): Observable<UserPrivate> {
     const decentr = this.createDecentrConnector(api);
 
-    return from(decentr.getPrivateProfile(walletAddress, privateKey));
+    return from(decentr.getPrivateProfile<UserPrivate>(walletAddress, privateKey));
   }
 
-  public getUserPublic(api: string, walletAddress: Wallet['address']): Observable<PublicProfile> {
+  public getPublicProfile(api: string, walletAddress: Wallet['address']): Observable<PublicProfile> {
     const decentr = this.createDecentrConnector(api);
 
     return from(decentr.getPublicProfile(walletAddress));
   }
 
-  public setUserPublic(
+  public setPublicProfile(
     publicProfile: PublicProfile,
     api: string,
-    walletAddress: string,
-    privateKey: string,
+    walletAddress: Wallet['address'],
+    privateKey: Wallet['privateKey'],
   ): Observable<BroadcastResponse> {
     const decentr = this.createDecentrConnector(api);
 
@@ -65,15 +65,15 @@ export class UserApiService {
     }));
   }
 
-  public setUserPrivate(
-    privateProfile: Partial<UserPrivate>,
+  public setPrivateProfile(
+    privateProfile: UserPrivate,
     api: string,
     walletAddress: Wallet['address'],
     privateKey: Wallet['privateKey'],
   ): Observable<BroadcastResponse> {
     const decentr = this.createDecentrConnector(api);
 
-    return from(decentr.setPrivateProfile(walletAddress, privateProfile, privateKey, {
+    return from(decentr.setPrivateProfile<UserPrivate>(walletAddress, privateProfile, privateKey, {
       broadcast: true,
     }));
   }

@@ -21,7 +21,7 @@ export class EditProfilePageService {
         return of(void 0);
       }
 
-      return this.userService.setUserPublic(
+      return this.userService.setPublicProfile(
         {
           gender: update.gender,
           birthday: update.birthday,
@@ -37,8 +37,10 @@ export class EditProfilePageService {
           return of(void 0);
         }
 
-        return this.userService.setUserPrivate(
+        return this.userService.setPrivateProfile(
           {
+            registrationCompleted: user.registrationCompleted,
+            primaryEmail: user.primaryEmail,
             emails: update.emails,
             usernames: update.usernames,
           },
