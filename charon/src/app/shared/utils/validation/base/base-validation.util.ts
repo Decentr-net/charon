@@ -1,9 +1,13 @@
-import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
-import { ValidationResult } from '../../../models/validation/validation-result.model';
+import {
+  AbstractControl,
+  FormControl,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 
 export class BaseValidationUtil {
 
-  static isSeedPhraseCorrect(control: AbstractControl): ValidationResult {
+  static isSeedPhraseCorrect(control: AbstractControl): ValidationErrors | null {
     if (!control || !control.value) {
       return null;
     }
@@ -17,10 +21,10 @@ export class BaseValidationUtil {
         || control.value.indexOf('  ') !== -1
       );
 
-    return isInvalid ? { length: true } as ValidationResult : null;
+    return isInvalid ? { length: true } : null;
   }
 
-  static isFrDateFormatCorrect(control: FormControl): { [key: string]: any } {
+  static isFrDateFormatCorrect(control: FormControl): ValidationErrors | null {
     if (!control.value) {
       return null;
     }
@@ -28,7 +32,7 @@ export class BaseValidationUtil {
     // Date format fr-CA (yyyy{-/}mm{-/}dd): \b(\d{4})([\/\-])(0[1-9]|1[012])\2(0[1-9]|[12]\d|3[01])
     const datePattern = new RegExp(`\\b(\\d{4})([\\/\\-])(0[1-9]|1[012])\\2(0[1-9]|[12]\\d|3[01])`);
 
-    return !control.value.match(datePattern) ? { invalidFormat: true } as ValidationResult : null;
+    return !control.value.match(datePattern) ? { invalidFormat: true } : null;
   }
 
   static equalsToAdjacentControl(controlName: string): ValidatorFn {
@@ -44,25 +48,5 @@ export class BaseValidationUtil {
         ? null
         : { valueDoNotMatch: controlName };
     }
-  }
-}
-
-// TODO: remove?
-export function formError(control: AbstractControl) {
-
-  if (!control.invalid) {
-    return null;
-  }
-
-  if (control instanceof FormControl) {
-    return control.errors;
-  } else if (control instanceof FormGroup) {
-    return Object.entries(control.controls)
-      .reduce((prev, [key, value]) => {
-        prev[key] = formError(value);
-        return prev;
-      }, {});
-  } else if (control instanceof FormArray) {
-    return control.controls.map(formError);
   }
 }

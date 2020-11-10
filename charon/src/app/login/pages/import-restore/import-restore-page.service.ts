@@ -5,10 +5,10 @@ import { mapTo, mergeMap, mergeMapTo, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { createWalletFromMnemonic } from 'decentr-js';
 
-import { AuthService } from '@auth/services';
-import { LockService } from '@shared/features/lock';
-import { CustomError } from '@shared/models/error';
-import { UserService } from '@shared/services/user';
+import { UserService } from '@core/services';
+import { AuthService } from '@core/auth';
+import { LockService } from '@core/lock';
+import { TranslatedError } from '@core/services';
 import { AppRoute } from '../../../app-route';
 
 @Injectable()
@@ -23,33 +23,32 @@ export class ImportRestorePageService {
   }
 
   public importUser(seedPhrase: string, password: string): Observable<void> {
-    const { privateKey, publicKey, address: walletAddress } = createWalletFromMnemonic(seedPhrase);
+    const wallet = createWalletFromMnemonic(seedPhrase);
 
-    return this.userService.getAccount(walletAddress).pipe(
+    return this.userService.getAccount(wallet.address).pipe(
       mergeMap((account) => {
         return account
           ? of(account)
-          : throwError(new CustomError(this.translocoService.translate(
+          : throwError(new TranslatedError(this.translocoService.translate(
             'import_restore_page.errors.account_not_found',
             null,
             'login'
           )))
       }),
       mergeMapTo(forkJoin([
-        this.userService.getUserPrivate(walletAddress, privateKey),
-        this.userService.getUserPublic(walletAddress),
+        this.userService.getUserPrivate(wallet.address, wallet.privateKey),
+        this.userService.getUserPublic(wallet.address),
       ])),
       mergeMap(([userPrivate, userPublic]) => this.authService.createUser({
         ...userPrivate,
         ...userPublic,
+        wallet,
         password,
-        privateKey,
-        publicKey,
-        walletAddress,
         emailConfirmed: true,
         registrationCompleted: true,
       })),
       mergeMap((id) => this.authService.changeUser(id)),
+      // hack for restore - active user is locked during restore process
       tap(() => this.lockService.unlock()),
       mergeMap(() => this.router.navigate([AppRoute.User])),
       mapTo(void 0)

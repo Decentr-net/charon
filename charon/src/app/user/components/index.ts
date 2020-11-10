@@ -1,15 +1,16 @@
-import { ActivityDetailsComponent } from './activity-details';
-import { ChartComponent } from './chart';
+import { PdvActivityChartComponent } from './pdv-activity-chart';
+import { PdvActivityListComponent } from './pdv-activity-list';
+import { PdvDetailsDialogComponent } from './pdv-details-dialog';
 import { UserLayoutComponent } from './user-layout';
-import { ActivityListComponent } from './activity-list/activity-list.component';
 
-export * from './activity-details';
-export * from './chart';
+export * from './pdv-activity-chart';
+export * from './pdv-activity-list';
+export * from './pdv-details-dialog';
 export * from './user-layout';
 
 export const USER_COMPONENTS = [
-  ActivityDetailsComponent,
-  ActivityListComponent,
-  ChartComponent,
+  PdvActivityChartComponent,
+  PdvActivityListComponent,
+  PdvDetailsDialogComponent,
   UserLayoutComponent,
 ];

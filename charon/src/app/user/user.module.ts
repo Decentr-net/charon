@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
@@ -18,9 +19,7 @@ import { LayoutHeaderModule } from '@shared/components/layout-header';
 import { SpinnerModule } from '@shared/../core/spinner';
 import { USER_PAGES } from './pages';
 import { USER_COMPONENTS } from './components';
-import { USER_SERVICES } from './services';
 import { UserRoutingModule } from './user-routing.module';
-import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   imports: [
@@ -48,7 +47,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
     USER_COMPONENTS,
   ],
   providers: [
-    USER_SERVICES,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: 'user',

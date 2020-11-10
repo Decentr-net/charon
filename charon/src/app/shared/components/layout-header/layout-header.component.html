@@ -1,12 +1,16 @@
-<mat-toolbar [class.mat-toolbar__grey-bg]="background === 'grey'"
-             [class.mat-toolbar__white-bg]="background === 'white'"
-             [ngClass]="matchMediaService.isSmall() ? 'mat-toolbar__small' : 'mat-toolbar__large'">
+<mat-toolbar
+  [class.mat-toolbar__grey-bg]="background === 'grey'"
+  [class.mat-toolbar__white-bg]="background === 'white'"
+  [ngClass]="mediaService.isSmall() ? 'mat-toolbar__small' : 'mat-toolbar__large'"
+>
   <div class="container header">
-    <div class="header-wrapper"
-         [class.header-wrapper__extended]="matchMediaService.isLarge()">
+    <div
+      class="header-wrapper"
+      [class.header-wrapper__extended]="mediaService.isLarge()"
+    >
       <div class="header__logo">
-        <img *ngIf="matchMediaService.isSmall()" src="/assets/images/logo-icon.svg" alt="Decentr">
-        <img *ngIf="matchMediaService.isLarge()" src="/assets/images/logo.svg" alt="Decentr">
+        <img *ngIf="mediaService.isSmall()" src="/assets/images/logo-icon.svg" alt="Decentr">
+        <img *ngIf="mediaService.isLarge()" src="/assets/images/logo.svg" alt="Decentr">
       </div>
 
       <app-network-selector *ngIf="selectNetwork"></app-network-selector>

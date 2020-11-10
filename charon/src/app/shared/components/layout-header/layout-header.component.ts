@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { MatchMediaService } from '../../services/match-media/match-media.service';
+
+import { MediaService } from '@core/services/media';
 
 @Component({
   selector: 'app-layout-header',
@@ -13,6 +14,6 @@ export class LayoutHeaderComponent {
   @Input() selectNetwork: boolean;
   @Input() userProfile: boolean;
 
-  constructor(public matchMediaService: MatchMediaService) {
+  constructor(public mediaService: MediaService) {
   }
 }

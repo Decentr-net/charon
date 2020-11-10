@@ -1,13 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
+import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
-import { AuthService } from '@auth/services';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
-import { LockService } from '@shared/features/lock';
 import { LoginRoute } from '../../login-route';
-import { AppRoute } from '../../../app-route';
+import { LoginPageService } from './login-page.service';
 
 interface LoginForm {
   password: string;
@@ -18,6 +15,7 @@ interface LoginForm {
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
   providers: [
+    LoginPageService,
     {
       provide: FORM_ERROR_TRANSLOCO_READ,
       useValue: 'login.login_page.form',
@@ -30,15 +28,9 @@ export class LoginPageComponent implements OnInit {
   public form: FormGroup<LoginForm>;
 
   constructor(
-    private authService: AuthService,
+    private loginPageService: LoginPageService,
     private formBuilder: FormBuilder,
-    private lockService: LockService,
-    private router: Router,
   ) {
-  }
-
-  public get passwordControl(): FormControl<LoginForm['password']> {
-    return this.form.getControl('password') as FormControl<LoginForm['password']>;
   }
 
   public ngOnInit() {
@@ -46,16 +38,15 @@ export class LoginPageComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    const isPasswordValid = this.authService.validateCurrentUserPassword(this.passwordControl.value);
-    if (!isPasswordValid) {
-      this.passwordControl.setErrors({
+    const passwordControl = this.form.getControl('password');
+
+    const unlocked = this.loginPageService.tryUnlock(passwordControl.value);
+
+    if (!unlocked) {
+      passwordControl.setErrors({
         invalid: true,
       });
-      return;
     }
-
-    this.lockService.unlock();
-    this.router.navigate(['/', AppRoute.User]);
   }
 
   private createForm(): FormGroup<LoginForm> {

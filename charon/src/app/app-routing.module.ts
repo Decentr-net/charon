@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { BrowserTabGuard } from '@shared/guards';
-import { LockGuard } from '@shared/features/lock';
-import { AuthConfirmedGuard, UnauthGuard } from './auth';
+import { AuthCompletedRegistrationGuard, AuthConfirmedGuard, UnauthGuard } from '@core/auth';
+import { LockGuard } from '@core/lock';
 import { AppRoute } from './app-route';
-import { AuthCompletedRegistrationGuard } from '@auth/guards/auth-completed-registration.guard';
 
 const ROUTES: Routes = [
   {

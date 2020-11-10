@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 
-import { SpinnerComponent } from './spinner.component';
+import { SpinnerComponent } from './spinner';
 import { SpinnerService } from './spinner.service';
 
 @NgModule({

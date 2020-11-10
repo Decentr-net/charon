@@ -38,13 +38,9 @@ authStorage.getActiveUser().pipe(
       )
       : EMPTY;
   }),
-  mergeMap(({user, cookies}) => {
+  mergeMap(({ user, cookies }) => {
     return sendCookies(
-      {
-        privateKey: user.privateKey,
-        publicKey: user.publicKey,
-        address: user.walletAddress,
-      },
+      user.wallet,
       cookies,
     ).pipe(
       retryWhen(errors => errors.pipe(

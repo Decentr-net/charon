@@ -6,13 +6,13 @@
 
         <div class="user-data">
           <div class="user-data__inner"
-               (click)="copyWalletAddress()"
+               (click)="copyWalletAddress(user.wallet.address)"
                [matTooltip]="translate('copy_wallet_address')">
             <div class="wallet-username">
               {{ user.primaryUsername }}
             </div>
             <div class="wallet-id">
-              {{ user.walletAddress }}
+              {{ user.wallet.address }}
             </div>
           </div>
         </div>
@@ -43,8 +43,8 @@
           + 0.001%
         </span>
         </div>
-        <div class="pdv-exchange-rate" *ngIf="rate$| async as rate">
-          {{ translate('exchange_rate', { rate: rate | number:'1.0-4' }) }}
+        <div class="pdv-exchange-rate" *ngIf="coinRate$ | async as coinRate">
+          {{ translate('exchange_rate', { rate: coinRate | number:'1.0-4' }) }}
         </div>
       </div>
 

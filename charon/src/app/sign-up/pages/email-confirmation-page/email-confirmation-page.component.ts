@@ -4,18 +4,18 @@ import { Router } from '@angular/router';
 import { forkJoin, from, Observable, Subject, throwError, timer } from 'rxjs';
 import { catchError, filter, finalize, map, mapTo, mergeMap, startWith, switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ToastrService } from 'ngx-toastr';
+import { StatusCodes } from 'http-status-codes';
 
-import { AuthService } from '@auth/services';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
+import { UserService } from '@core/services/user';
+import { AuthService } from '@core/auth';
+import { SpinnerService } from '@core/spinner';
 import { AppRoute } from '../../../app-route';
 import { SignUpStoreService } from '../../services';
-import { UserService } from '@shared/services/user';
 import { SignUpRoute } from '../../sign-up-route';
-import { StatusCodes } from 'http-status-codes';
-import { ToastrService } from 'ngx-toastr';
-import { TranslocoService } from '@ngneat/transloco';
-import { SpinnerService } from '@shared/../../../core/spinner/spinner.service';
 
 interface CodeForm {
   code: string;
@@ -99,13 +99,13 @@ export class EmailConfirmationPageComponent implements OnInit {
         this.toastrService.error(message);
         return throwError(error);
       }),
-      mergeMap(() => this.userService.waitAccount(user.walletAddress)),
+      mergeMap(() => this.userService.waitAccount(user.wallet.address)),
       mergeMap(() => this.userService.setUserPrivate(
         {
           emails: [user.primaryEmail]
         },
-        user.walletAddress,
-        user.privateKey,
+        user.wallet.address,
+        user.wallet.privateKey,
       )),
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
@@ -118,7 +118,7 @@ export class EmailConfirmationPageComponent implements OnInit {
   public sendEmail(): void {
     this.spinnerService.showSpinner();
 
-    const { primaryEmail, walletAddress } = this.authService.getActiveUserInstant();
+    const { primaryEmail, wallet: { address: walletAddress } } = this.authService.getActiveUserInstant();
     this.userService.createUser(primaryEmail, walletAddress).pipe(
       mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
       catchError(err => {

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PublicLayoutComponent, PublicLayoutModule } from '@shared/components/public-layout';
-import { AuthConfirmedGuard, AuthUnconfirmedGuard, UnauthGuard } from '@auth/guards';
+import { AuthConfirmedGuard, AuthUnconfirmedGuard, UnauthGuard } from '../core/auth/guards';
 import {
   CompleteRegistrationPageComponent,
   EmailConfirmationPageComponent,
@@ -10,8 +10,8 @@ import {
   SuccessPageComponent
 } from './pages';
 import { SignUpRoute } from './sign-up-route';
-import { AuthUncompletedRegistrationGuard } from '@auth/guards/auth-uncompleted-registration.guard';
-import { AuthCompletedRegistrationGuard } from '@auth/guards/auth-completed-registration.guard';
+import { AuthUncompletedRegistrationGuard } from '../core/auth/guards/auth-uncompleted-registration.guard';
+import { AuthCompletedRegistrationGuard } from '../core/auth/guards/auth-completed-registration.guard';
 
 const ROUTES: Routes = [
   {

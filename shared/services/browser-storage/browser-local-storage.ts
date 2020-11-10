@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { browser } from 'webextension-polyfill-ts';
+import { browser, Storage } from 'webextension-polyfill-ts';
 import PQueue from 'p-queue';
 
 import { BrowserStorage } from './browser-storage.definitons';
@@ -38,7 +38,7 @@ export class BrowserLocalStorage<T extends {} = {}> implements BrowserStorage<T>
 
   public onChange<K extends keyof T>(key: K): Observable<T[K]> {
     return new Observable((subscriber) => {
-      const callback = (changes: Record<K, chrome.storage.StorageChange>) => {
+      const callback = (changes: Record<K, Storage.StorageChange>) => {
         if (changes[key]) {
           subscriber.next(changes[key].newValue);
         }

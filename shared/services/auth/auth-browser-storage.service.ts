@@ -1,10 +1,10 @@
 import { combineLatest, from, Observable } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 
-import { User } from '../../models/user';
 import { BrowserLocalStorage } from '../browser-storage';
+import { User } from './user';
 
-interface AuthBrowserStorageData<T extends { id: string }> {
+interface AuthBrowserStorageData<T extends User> {
   readonly activeUserId: T['id'];
   readonly users: T[];
 }

@@ -1,5 +1,4 @@
-import { AbstractControl } from '@angular/forms';
-import { ValidationResult } from '../../../models/validation/validation-result.model';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { BaseValidationUtil } from '../base/base-validation.util';
 
 const lowerCharRegExp = /[a-z]/;
@@ -9,12 +8,12 @@ const numbersRegExp = /[0-9]/;
 
 export class PasswordValidationUtil extends BaseValidationUtil {
 
-  static validatePasswordStrength(control: AbstractControl): ValidationResult {
+  static validatePasswordStrength(control: AbstractControl): ValidationErrors | null {
     if (!control.value) {
       return null;
     }
     if (control.value.length < 8) {
-      return { tooShort: true } as ValidationResult;
+      return { tooShort: true };
     }
 
     let matchedGroup = 0;
@@ -45,16 +44,16 @@ export class PasswordValidationUtil extends BaseValidationUtil {
 
     if (matchedGroup < 4) {
       if (lowerCharsUsed) {
-        return { strength: 'onlyLowerCase' } as ValidationResult;
+        return { strength: 'onlyLowerCase' };
       }
       if (upperCharsUsed) {
-        return { strength: 'onlyUpperCase' } as ValidationResult;
+        return { strength: 'onlyUpperCase' };
       }
       if (numericUsed) {
-        return { strength: 'onlyDigits' } as ValidationResult;
+        return { strength: 'onlyDigits' };
       }
       if (specialCharsUsed) {
-        return { strength: 'onlySpecialChars' } as ValidationResult;
+        return { strength: 'onlySpecialChars' };
       }
     }
 

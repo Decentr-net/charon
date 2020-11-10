@@ -1,23 +1,18 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { MatchMediaService } from '@shared/services/match-media/match-media.service';
-import { BrowserApi } from '@shared/utils/browser-api';
 import { Router } from '@angular/router';
-import { AuthService } from '@auth/services';
-import { EMPTY, Observable } from 'rxjs';
-import { AuthUser } from '@auth/models';
-import { copyContent } from '@shared/utils/copy-content';
-import { CurrencyService } from '@shared/services/currency';
-import { UserRoute } from '../../user.route';
-import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
-import { UserPDVService } from '../../services';
-import { ActivityItem } from '../../components/activity-list/activity-list.component';
-import { catchError, finalize, map } from 'rxjs/operators';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ActivityDetails, ActivityDetailsComponent } from '../../components/activity-details';
-import { ChartPoint } from '../../components/chart';
-import { SpinnerService } from '@shared/../../../core/spinner/spinner.service';
+
+import { openExtensionInNewTab } from '@shared/utils/browser';
+import { copyContent } from '@shared/utils/copy-content';
+import { AuthService, AuthUser } from '@core/auth';
+import { MediaService, NotificationService } from '@core/services';
+import { SpinnerService } from '@core/spinner';
+import { UserRoute } from '../../user.route';
+import { ChartPoint, PDVActivityListItem } from '../../components';
+import { UserPageService } from './user-page.service';
 
 @UntilDestroy()
 @Component({
@@ -25,89 +20,64 @@ import { SpinnerService } from '@shared/../../../core/spinner/spinner.service';
   templateUrl: './user-page.component.html',
   styleUrls: ['./user-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    UserPageService,
+  ],
 })
 export class UserPageComponent implements OnInit {
 
   public userRoute: typeof UserRoute = UserRoute;
   public user$: Observable<AuthUser>;
-  public rate$: Observable<number>;
+  public coinRate$: Observable<number>;
   public balance$: Observable<string>;
-  public pdvList$: Observable<ActivityItem[]>;
+  public pdvList$: Observable<PDVActivityListItem[]>;
   public chartPoints$: Observable<ChartPoint[]>;
 
   constructor(
-    public matchMediaService: MatchMediaService,
-    private currencyService: CurrencyService,
+    public matchMediaService: MediaService,
     private authService: AuthService,
-    private matDialog: MatDialog,
     private router: Router,
     private spinnerService: SpinnerService,
-    private toastrService: ToastrService,
     private translocoService: TranslocoService,
-    private userPDVService: UserPDVService,
+    private notificationService: NotificationService,
+    private userPageService: UserPageService,
   ) {
   }
 
   ngOnInit(): void {
     this.user$ = this.authService.getActiveUser();
 
-    this.rate$ = this.currencyService.getCoinRate('decentr', 'usd');
+    this.coinRate$ = this.userPageService.getCoinRate();
 
-    this.balance$ = this.userPDVService.getBalance();
+    this.balance$ = this.userPageService.getBalance();
 
-    this.pdvList$ = this.userPDVService.getPDVList().pipe(
-      map((list) => list.map(({ address, timestamp }) => (
-        {
-          address,
-          date: new Date(timestamp),
-        }))
-      )
-    );
+    this.pdvList$ = this.userPageService.getPDVActivityList();
 
-    this.chartPoints$ = this.userPDVService.getPdvStats().pipe(
-      map((stats) => stats.map(({ date, value }) => ({
-        date: new Date(date).valueOf(),
-        value,
-      }))),
-    );
+    this.chartPoints$ = this.userPageService.getPDVChartPoints();
   }
 
-  public openPDVDetails(activityItem: ActivityItem): void {
+  public openPDVDetails(pdvActivityListItem: PDVActivityListItem): void {
     this.spinnerService.showSpinner();
-    this.userPDVService.getPDVDetails(activityItem.address).pipe(
-      catchError(() => {
-        this.translocoService.translate('toastr.errors.unknown_error');
-        return EMPTY;
-      }),
+
+    this.userPageService.getPDVDetails(pdvActivityListItem.address).pipe(
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
     ).subscribe(details => {
-      const config: MatDialogConfig<ActivityDetails> = {
-        width: '940px',
-        maxWidth: '100%',
-        height: this.matchMediaService.isSmall() ? '100%' : '500px',
-        maxHeight: this.matchMediaService.isSmall() ? '100vh' : '100%',
-        panelClass: 'popup-no-padding',
-        data: {
-          date: activityItem.date,
-          domain: details.user_data.pdv.domain,
-          ip: details.calculated_data.ip,
-          pdvData: details.user_data.pdv.data,
-          userAgent: details.user_data.pdv.user_agent,
-        },
-      };
-
-      this.matDialog.open(ActivityDetailsComponent, config);
+      this.userPageService.openPDVDetailsDialog(details, pdvActivityListItem.date);
+    }, (error) => {
+      this.notificationService.error(error);
     });
   }
 
   public expandView(): void {
-    BrowserApi.openExtensionInNewTab(this.router.url);
+    openExtensionInNewTab(this.router.url);
   }
 
-  public copyWalletAddress(): void {
-    copyContent(this.authService.getActiveUserInstant().walletAddress);
+  public copyWalletAddress(walletAddress: AuthUser['wallet']['address']): void {
+    copyContent(walletAddress);
 
-    this.toastrService.success(this.translocoService.translate('user_page.copy_wallet_address_success', null, 'user'));
+    this.notificationService.success(
+      this.translocoService.translate('user_page.copy_wallet_address_success', null, 'user'),
+    );
   }
 }

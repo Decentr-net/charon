@@ -1,25 +1,20 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { from, of } from 'rxjs';
-import { finalize, mergeMap } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
+import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Gender } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
-import { Gender, UserService } from '@shared/services/user';
 import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
-import { AuthService } from '@auth/services';
-import { ToastrService } from 'ngx-toastr';
-import { TranslocoService } from '@ngneat/transloco';
-import { SpinnerService } from '@shared/../../../core/spinner/spinner.service';
+import { AuthService, AuthUserUpdate } from '@core/auth';
+import { SpinnerService } from '@core/spinner';
+import { NotificationService } from '@core/services';
+import { EditProfilePageService } from './edit-profile-page.service';
 
-interface EditProfileForm {
-  birthday: string;
+interface EditProfileForm extends Required<AuthUserUpdate> {
   confirmPassword: string;
-  gender: Gender;
-  emails: string[];
-  usernames: string[];
-  password: string;
 }
 
 @UntilDestroy()
@@ -27,13 +22,14 @@ interface EditProfileForm {
   selector: 'app-edit-profile-page',
   templateUrl: './edit-profile-page.component.html',
   styleUrls: ['./edit-profile-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    EditProfilePageService,
     {
       provide: FORM_ERROR_TRANSLOCO_READ,
       useValue: 'user.edit_profile_page.form',
     },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditProfilePageComponent implements OnInit {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
@@ -45,17 +41,20 @@ export class EditProfilePageComponent implements OnInit {
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private spinnerService: SpinnerService,
-    private toastrService: ToastrService,
+    private notificationService: NotificationService,
     private translocoService: TranslocoService,
-    private userService: UserService,
+    private editProfilePageService: EditProfilePageService,
   ) {
   }
 
   ngOnInit() {
     this.form = this.createForm();
+
     const user = this.authService.getActiveUserInstant();
+
     user.emails.forEach(() => this.addEmail());
     user.usernames.forEach(() => this.addUsername());
+
     this.form.patchValue(user);
   }
 
@@ -67,48 +66,16 @@ export class EditProfilePageComponent implements OnInit {
     this.spinnerService.showSpinner();
 
     const formValue = this.form.getRawValue();
-    const user = this.authService.getActiveUserInstant();
-    from(this.authService.updateUser(user.id, formValue)).pipe(
-      mergeMap(() => {
-        if (formValue.gender === user.gender && formValue.birthday === user.birthday) {
-          return of(void 0);
-        }
 
-        return this.userService.setUserPublic(
-          {
-            gender: formValue.gender,
-            birthday: formValue.birthday,
-          },
-          user.walletAddress,
-          user.privateKey,
-        );
-      }),
-      mergeMap(() => {
-        if (formValue.emails.join() === user.emails.join()
-          && formValue.usernames.join() === user.usernames.join()
-        ) {
-          return of(void 0);
-        }
-
-        return this.userService.setUserPrivate(
-          {
-            emails: formValue.emails,
-            usernames: formValue.usernames,
-          },
-          user.walletAddress,
-          user.privateKey,
-        )
-      }),
+    this.editProfilePageService.editProfile(formValue).pipe(
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
     ).subscribe(() => {
-      this.toastrService.success(
+      this.notificationService.success(
         this.translocoService.translate('edit_profile_page.toastr.successful_update', null, 'user'),
       );
-    }, () => {
-      this.toastrService.error(
-        this.translocoService.translate('toastr.errors.unknown_error'),
-      );
+    }, (error) => {
+      this.notificationService.error(error);
     });
   }
 

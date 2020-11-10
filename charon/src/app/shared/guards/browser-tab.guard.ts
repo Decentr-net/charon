@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapshot } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanActivateChild,
+  RouterStateSnapshot,
+} from '@angular/router';
 
-import { BrowserApi } from '../utils/browser-api';
+import { isOpenedInTab, openExtensionInNewTab } from '@shared/utils/browser';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BrowserTabGuard implements CanActivate, CanActivateChild {
-  private isOpenedInTab = !BrowserApi.extension || BrowserApi.extension
-    .getViews({ type: 'tab' })
-    .some(extensionWindow => extensionWindow === window);
-
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.isOpenedInTab) {
+    if (isOpenedInTab()) {
       return true;
     }
 
-    BrowserApi.openExtensionInNewTab(state.url);
+    openExtensionInNewTab(state.url);
     return false;
   }
 

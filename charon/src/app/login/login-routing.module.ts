@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainLayoutComponent, MainLayoutModule } from '@shared/components/main-layout';
 import { PublicLayoutComponent, PublicLayoutModule } from '@shared/components/public-layout';
 import { BrowserTabGuard } from '@shared/guards';
-import { AuthConfirmedGuard, UnauthGuard } from '@auth/guards';
+import { AuthConfirmedGuard, UnauthGuard } from '../core/auth';
 import { ImportRestorePageComponent, ImportRestorePageType, LoginPageComponent } from './pages';
 import { LoginRoute } from './login-route';
 

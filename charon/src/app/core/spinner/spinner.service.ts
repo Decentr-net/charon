@@ -2,16 +2,17 @@ import { Injectable } from '@angular/core';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 
-import { SpinnerComponent } from './spinner.component';
+import { SpinnerComponent } from './spinner';
 
 @Injectable()
 export class SpinnerService {
   private readonly overlayRef: OverlayRef;
+
   private isAttached: boolean = false;
 
-  constructor(private overlay: Overlay) {
-    this.overlayRef = this.overlay.create({
-      positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
+  constructor(overlay: Overlay) {
+    this.overlayRef = overlay.create({
+      positionStrategy: overlay.position().global().centerHorizontally().centerVertically(),
       hasBackdrop: true,
     });
   }

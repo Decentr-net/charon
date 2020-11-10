@@ -1,25 +1,26 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-
-import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
-import { Gender, UserService } from '@shared/services/user';
-import { AuthService } from '@auth/services';
-import { ToastrService } from 'ngx-toastr';
-import { TranslocoService } from '@ngneat/transloco';
-import { SpinnerService } from '@shared/services/spinner/spinner.service';
-import { SignUpStoreService } from '../../services';
+import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { from } from 'rxjs';
 import { finalize, mergeMap } from 'rxjs/operators';
-import { Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ToastrService } from 'ngx-toastr';
+import { Gender } from 'decentr-js';
+
+import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { BaseValidationUtil } from '@shared/utils/validation';
+import { AuthService, AuthUser } from '@core/auth';
+import { SpinnerService } from '@core/spinner';
+import { UserService } from '@core/services';
 import { AppRoute } from '../../../app-route';
+import { SignUpStoreService } from '../../services';
 import { SignUpRoute } from '../../sign-up-route';
 
 interface CompleteRegistrationForm {
   birthday: string;
-  gender: Gender;
+  gender: AuthUser['gender'];
   emails: string[];
   usernames: string[];
 }
@@ -81,8 +82,8 @@ export class CompleteRegistrationPageComponent implements OnInit {
             gender: formValue.gender,
             birthday: formValue.birthday,
           },
-          user.walletAddress,
-          user.privateKey,
+          user.wallet.address,
+          user.wallet.privateKey,
         );
       }),
       mergeMap(() => {
@@ -91,8 +92,8 @@ export class CompleteRegistrationPageComponent implements OnInit {
             emails: formValue.emails,
             usernames: formValue.usernames,
           },
-          user.walletAddress,
-          user.privateKey,
+          user.wallet.address,
+          user.wallet.privateKey,
         )
       }),
       mergeMap(() => this.authService.completeRegistration(user.id)),

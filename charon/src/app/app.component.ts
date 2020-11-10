@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
-import { LockService } from '@shared/features/lock';
-import { AuthService } from '@auth/services';
+import { AuthService } from '@core/auth';
+import { LockService } from '@core/lock';
 
 @Component({
   selector: 'app-root',

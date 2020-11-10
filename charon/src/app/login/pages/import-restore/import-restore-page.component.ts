@@ -1,18 +1,16 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { EMPTY, noop, Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { noop, Observable } from 'rxjs';
 import { finalize, pluck, share } from 'rxjs/operators';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
+import { SpinnerService } from '@core/spinner';
+import { NotificationService } from '@core/services';
 import { ImportRestorePageService } from './import-restore-page.service';
-import { CustomError } from '@shared/models/error';
-import { SpinnerService } from '@shared/../../../core/spinner/spinner.service';
-import { TranslocoService } from '@ngneat/transloco';
-import { ToastrService } from 'ngx-toastr';
 
 export enum ImportRestorePageType {
   IMPORT_ACCOUNT = 'import-account',
@@ -41,18 +39,19 @@ interface ImportRestoreForm {
 })
 export class ImportRestorePageComponent implements OnInit {
   public pageType: typeof ImportRestorePageType = ImportRestorePageType;
-  isSeedPhraseVisible = false;
+
+  public isSeedPhraseVisible = false;
+
   public currentPageType$: Observable<ImportRestorePageType>;
+
   public form: FormGroup<ImportRestoreForm>;
 
   constructor(
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private pageService: ImportRestorePageService,
+    private notificationService: NotificationService,
     private spinnerService: SpinnerService,
-    private toastrService: ToastrService,
-    private translocoService: TranslocoService,
+    private pageService: ImportRestorePageService,
   ) {
   }
 
@@ -62,30 +61,27 @@ export class ImportRestorePageComponent implements OnInit {
     this.currentPageType$ = this.activatedRoute.data.pipe(
       pluck('pageType'),
       share(),
-      untilDestroyed(this),
     );
   }
 
-  onSubmit(pageType: ImportRestorePageType) {
+  public onSubmit(pageType: ImportRestorePageType): void {
+    const { seedPhrase, password } = this.form.getRawValue();
+
+    const method = pageType === ImportRestorePageType.IMPORT_ACCOUNT
+      ? this.pageService.importUser(seedPhrase, password)
+      : this.pageService.restoreUser(seedPhrase, password);
+
     this.spinnerService.showSpinner();
 
-    const { seedPhrase, password } = this.form.getRawValue();
-    if (pageType === ImportRestorePageType.IMPORT_ACCOUNT) {
-      this.pageService.importUser(seedPhrase, password).pipe(
-        finalize(() => this.spinnerService.hideSpinner()),
-        untilDestroyed(this),
-      ).subscribe(noop, this.getErrorCallback())
-    }
-
-    if (pageType === ImportRestorePageType.RESTORE_ACCOUNT) {
-      this.pageService.restoreUser(seedPhrase, password).pipe(
-        finalize(() => this.spinnerService.hideSpinner()),
-        untilDestroyed(this),
-      ).subscribe(noop, this.getErrorCallback());
-    }
+    method.pipe(
+      finalize(() => this.spinnerService.hideSpinner()),
+      untilDestroyed(this),
+    ).subscribe(noop, (error) => {
+      this.notificationService.error(error);
+    })
   }
 
-  toggleSeedPhraseVisibility() {
+  public toggleSeedPhraseVisibility(): void {
     this.isSeedPhraseVisible = !this.isSeedPhraseVisible;
   }
 
@@ -105,15 +101,5 @@ export class ImportRestorePageComponent implements OnInit {
         BaseValidationUtil.isSeedPhraseCorrect,
       ]],
     });
-  }
-
-  private getErrorCallback() {
-    return error => {
-      this.toastrService.error(error instanceof CustomError
-        ? error.message
-        : this.translocoService.translate('toastr.errors.unknown_error')
-      );
-      return EMPTY;
-    };
   }
 }

@@ -3,9 +3,9 @@ import { browser, Cookies } from 'webextension-polyfill-ts';
 import Cookie = Cookies.Cookie;
 
 import { PDVService } from '../../../shared/services/pdv';
-import { Wallet } from '../../../shared/models/wallet';
 import { environment } from '../environments/environment';
 import { NetworkBrowserStorageService } from '../../../shared/services/network-storage';
+import { Wallet } from 'decentr-js';
 
 const pdvService = new PDVService(environment.chainId);
 const networkStorage = new NetworkBrowserStorageService();

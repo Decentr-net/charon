@@ -2,20 +2,19 @@ import { Component, HostBinding } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from, throwError } from 'rxjs';
 import { catchError, finalize, mergeMap } from 'rxjs/operators';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { createWalletFromMnemonic } from 'decentr-js';
-
-import { CryptoService } from '@shared/services/crypto';
-import { UserService } from '@shared/services/user';
-import { AuthService } from '@auth/services';
-import { BaseAccountData } from '../../components/account-form';
-import { SignUpRoute } from '../../sign-up-route';
-import { SignUpStoreService } from '../../services';
-import { StatusCodes } from 'http-status-codes';
-import { ToastrService } from 'ngx-toastr';
 import { TranslocoService } from '@ngneat/transloco';
-import { SpinnerService } from '@shared/../../../core/spinner/spinner.service';
-import { NavigationService } from '@shared/../../../core/navigation';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ToastrService } from 'ngx-toastr';
+import { StatusCodes } from 'http-status-codes';
+import { createWalletFromMnemonic, generateMnemonic } from 'decentr-js';
+
+import { AuthService } from '@core/auth';
+import { NavigationService } from '@core/navigation';
+import { SpinnerService } from '@core/spinner';
+import { UserService } from '@core/services';
+import { BaseAccountData } from '../../components';
+import { SignUpStoreService } from '../../services';
+import { SignUpRoute } from '../../sign-up-route';
 
 enum SignUpTab {
   AccountForm,
@@ -35,7 +34,7 @@ export class SignUpPageComponent {
   public activeTab: SignUpTab = SignUpTab.SeedPhrase;
   public tab: typeof SignUpTab = SignUpTab;
 
-  public seedPhrase: string = CryptoService.generateMnemonic();
+  public seedPhrase: string = generateMnemonic();
 
   private accountData: BaseAccountData;
 
@@ -77,18 +76,17 @@ export class SignUpPageComponent {
   public signUp(): void {
     this.spinnerService.showSpinner();
 
-    const { address: walletAddress, ...keys } = createWalletFromMnemonic(this.seedPhrase);
+    const wallet = createWalletFromMnemonic(this.seedPhrase);
 
     from(this.authService.createUser({
+      wallet,
       password: this.accountData.password,
       primaryEmail: this.accountData.email,
-      ...keys,
-      walletAddress,
       emailConfirmed: false,
       registrationCompleted: false,
     })).pipe(
       mergeMap(id => this.authService.changeUser(id)),
-      mergeMap(() => this.userService.createUser(this.accountData.email, walletAddress)),
+      mergeMap(() => this.userService.createUser(this.accountData.email, wallet.address)),
       catchError(err => {
         const message = (err.status === StatusCodes.CONFLICT)
           ? this.translocoService.translate('account_form_page.toastr.errors.conflict', null, 'sign-up')
