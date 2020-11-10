@@ -7,5 +7,4 @@ export abstract class Environment {
     remote: string;
   };
   vulcanApi: string;
-  walletPrefix: string;
 }

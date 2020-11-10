@@ -9,5 +9,4 @@ export const environment: Environment = {
     remote: 'https://rest.testnet.decentr.xyz',
   },
   vulcanApi: 'https://vulcan.testnet.decentr.xyz/v1',
-  walletPrefix: 'decentr',
 };
