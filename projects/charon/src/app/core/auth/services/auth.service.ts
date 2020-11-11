@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { first, skip } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { sha256 } from 'js-sha256';
 
@@ -26,6 +27,11 @@ export class AuthService {
     this.authStorage.getActiveUser().pipe(
       untilDestroyed(this),
     ).subscribe(this.activeUser$);
+
+    return this.activeUser$.pipe(
+      skip(1),
+      first(),
+    ).toPromise().then();
   }
 
   public confirmUserEmail(userId: AuthUser['id']): Promise<void> {

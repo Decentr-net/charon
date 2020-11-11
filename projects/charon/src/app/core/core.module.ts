@@ -7,7 +7,7 @@ import { environment } from '@environments/environment';
 import { AppRoute } from '../app-route';
 import { SignUpRoute } from '../sign-up';
 import { AuthModule, AuthService } from './auth';
-import { LockModule } from './lock';
+import { LockModule, LockService } from './lock';
 import { NavigationModule } from './navigation';
 import { NetworkSelectorModule, NetworkSelectorService } from './network-selector';
 import { ProfileSelectorModule } from './profile-selector';
@@ -15,11 +15,17 @@ import { SpinnerModule } from './spinner';
 import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES } from './services';
 
-export function initAuthFactory<T>(authService: AuthService): () => void {
-  return () => authService.init();
+export function initAuthAndLockFactory(authService: AuthService, lockService: LockService): () => void {
+  return async () => {
+    await authService.init();
+
+    if (authService.isLoggedIn) {
+      await lockService.init();
+    }
+  };
 }
 
-export function initNetworkFactory<T>(networkService: NetworkSelectorService): () => void {
+export function initNetworkFactory(networkService: NetworkSelectorService): () => void {
   return () => networkService.init();
 }
 
@@ -60,8 +66,8 @@ export function initNetworkFactory<T>(networkService: NetworkSelectorService): (
     },
     {
       provide: APP_INITIALIZER,
-      useFactory: initAuthFactory,
-      deps: [AuthService],
+      useFactory: initAuthAndLockFactory,
+      deps: [AuthService, LockService],
       multi: true,
     },
     {
