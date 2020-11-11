@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { delay, mapTo, retryWhen, take, tap } from 'rxjs/operators';
+import { delay, mapTo, retryWhen, take } from 'rxjs/operators';
 import { Account, PublicProfile } from 'decentr-js';
 
 import { UserPrivate } from '@root-shared/services/auth';
@@ -46,8 +46,6 @@ export class UserService {
       this.networkService.getActiveNetworkInstant().api,
       walletAddress,
       privateKey,
-    ).pipe(
-      tap(console.log),
     );
   }
 
