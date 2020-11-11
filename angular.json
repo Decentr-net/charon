@@ -37,7 +37,12 @@
                 "projects/charon/src/styles"
               ]
             },
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "js-sha256",
+              "p-queue",
+              "webextension-polyfill-ts"
+            ]
           },
           "configurations": {
             "production": {
