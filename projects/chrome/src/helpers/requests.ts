@@ -62,7 +62,7 @@ export const listenRequestsBeforeRedirectWithBody = (
   httpMethod?: string,
 ): Observable<OnBeforeRequestDetailsType> => {
   return new Observable<OnBeforeRequestDetailsType>((subscriber) => {
-    const requestsStore: Map<string, OnBeforeRequestDetailsType> = new Map();
+    const requestsStore = new Map<string, OnBeforeRequestDetailsType>();
     const unsubscribe$: Subject<void> = new Subject();
 
     listenRequestsOnBeforeSend(requestFilter, httpMethod).pipe(
@@ -107,7 +107,7 @@ export const listenRequestsOnCompletedWithBody = (
   httpMethod?: string,
 ): Observable<OnBeforeRequestDetailsType> => {
   return new Observable<OnBeforeRequestDetailsType>((subscriber) => {
-    const requestsStore: Map<string, OnBeforeRequestDetailsType> = new Map();
+    const requestsStore = new Map<string, OnBeforeRequestDetailsType>();
     const unsubscribe$: Subject<void> = new Subject();
 
     listenRequestsOnBeforeSend(requestFilter, httpMethod).pipe(
@@ -129,7 +129,7 @@ export const listenRequestsOnCompletedWithBody = (
 export const requestBodyContains = (
   requestBody: OnBeforeRequestDetailsTypeRequestBodyType,
   searchValues: string[],
-) => {
+): boolean => {
   const formData = requestBody.formData || {};
   return objectContains(formData, searchValues, false);
 };

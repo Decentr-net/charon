@@ -1,16 +1,20 @@
 const toLowerCaseIfNeeded = (value: string, need: boolean) => need ? value.toLocaleLowerCase() : value;
 
-const compareStrings = (left: string, right: string, caseSensitive: boolean = false) => {
+const compareStrings = (left: string, right: string, caseSensitive = false) => {
   return toLowerCaseIfNeeded(left, !caseSensitive) === toLowerCaseIfNeeded(right, !caseSensitive);
 };
 
 export const objectContains = (
-  obj: {} | string | number,
+  obj: unknown,
   searchValues: string[],
-  caseSensitive: boolean = false
-) => {
+  caseSensitive = false
+): boolean => {
+  if (!obj) {
+    return false;
+  }
+
   if (typeof obj === 'string' || typeof obj === 'number') {
-    return searchValues.find((searchValue) => compareStrings(searchValue, obj.toString(), caseSensitive));
+    return !!searchValues.find((searchValue) => compareStrings(searchValue, obj.toString(), caseSensitive));
   }
 
   return Object.values(obj).some(objKeyValue => {
