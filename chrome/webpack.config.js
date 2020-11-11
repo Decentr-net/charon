@@ -1,12 +1,11 @@
-const { CheckerPlugin } = require('awesome-typescript-loader');
 const { join } = require('path');
 
 module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
   entry: {
-    contentPage: join(__dirname, 'src/contentPage.ts'),
-    backgroundPage: join(__dirname, 'src/backgroundPage.ts')
+    'content-script': join(__dirname, 'src/content-script.ts'),
+    'background-script': join(__dirname, 'src/background-script.ts')
   },
   output: {
     path: join(__dirname, '../charon/dist'),
@@ -15,13 +14,12 @@ module.exports = {
   module: {
     rules: [
       {
-        exclude: /node_modules/,
         test: /\.ts?$/,
-        use: 'awesome-typescript-loader?{configFileName: "chrome/tsconfig.json"}'
-      }
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
     ]
   },
-  plugins: [new CheckerPlugin()],
   resolve: {
     extensions: ['.ts', '.js']
   }

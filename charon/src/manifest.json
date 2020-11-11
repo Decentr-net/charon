@@ -31,7 +31,7 @@
   "content_scripts": [
     {
       "js": [
-        "contentPage.js"
+        "content-script.js"
       ],
       "matches": [
         "file://*/*",
@@ -44,7 +44,7 @@
   ],
   "background": {
     "scripts": [
-      "backgroundPage.js"
+      "background-script.js"
     ]
   },
   "minimum_chrome_version": "58"
