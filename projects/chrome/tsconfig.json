@@ -1,12 +1,5 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "sourceMap": false,
-    "moduleResolution": "node",
-    "lib": ["es2017", "dom"]
-  },
+  "extends": "../../tsconfig.base.json",
   "include": [
     "src/**/*"
   ]

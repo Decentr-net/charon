@@ -8,7 +8,7 @@ module.exports = {
     'background-script': join(__dirname, 'src/background-script.ts')
   },
   output: {
-    path: join(__dirname, '../charon/dist'),
+    path: join(__dirname, '../../dist'),
     filename: '[name].js'
   },
   module: {
