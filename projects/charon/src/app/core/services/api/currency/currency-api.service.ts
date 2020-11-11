@@ -14,15 +14,9 @@ export class CurrencyApiService {
   }
 
   public getCoinRate(blockchainIds: string[], currencies: string[]): Observable<CoinRateResponse> {
-    const params = new HttpParams();
-
-    blockchainIds.forEach((id) => {
-      params.append(`ids[]`, id);
-    });
-
-    currencies.forEach((currency) => {
-      params.append(`vs_currencies[]`, currency);
-    });
+    const params = new HttpParams()
+      .append(`ids`, blockchainIds.join())
+      .append(`vs_currencies`, currencies.join());
 
     return this.http.get<CoinRateResponse>(
       `${this.environment.currencyApi}/simple/price`,
