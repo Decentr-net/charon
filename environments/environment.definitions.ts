@@ -1,10 +1,10 @@
 export abstract class Environment {
-  chainId: string;
-  currencyApi: string;
-  production: boolean;
-  rest: {
+  abstract chainId: string;
+  abstract currencyApi: string;
+  abstract production: boolean;
+  abstract rest: {
     local: string;
     remote: string;
   };
-  vulcanApi: string;
+  abstract vulcanApi: string;
 }

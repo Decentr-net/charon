@@ -2,11 +2,13 @@ import { Cookies } from 'webextension-polyfill-ts';
 import Cookie = Cookies.Cookie;
 import { PDV } from 'decentr-js';
 
-export const groupCookiesByDomainAndPath = (cookies: Cookie[]): {
+interface CookieGroup {
   domain: string;
   path: string;
   cookies: Cookie[];
-}[] => {
+}
+
+export const groupCookiesByDomainAndPath = (cookies: Cookie[]): CookieGroup[] => {
   return cookies.reduce((acc, cookie) => {
     const group = acc.find((g) => g.domain === cookie.domain && g.path === cookie.path);
     if (group) {
@@ -37,7 +39,7 @@ export const convertCookiesToPdv = (cookies: Cookie[], domain: string, path: str
         host_only: cookie.hostOnly,
         secure: cookie.secure,
         same_site: cookie.sameSite,
-        expiration_date: Math.round(cookie.expirationDate),
+        expiration_date: cookie.expirationDate && Math.round(cookie.expirationDate),
       })),
     },
   };

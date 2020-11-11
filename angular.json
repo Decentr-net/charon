@@ -7,60 +7,34 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss",
-          "skipTests": true
-        },
-        "@schematics/angular:class": {
-          "skipTests": true
-        },
-        "@schematics/angular:directive": {
-          "skipTests": true
-        },
-        "@schematics/angular:guard": {
-          "skipTests": true
-        },
-        "@schematics/angular:interceptor": {
-          "skipTests": true
-        },
-        "@schematics/angular:module": {
-          "skipTests": true
-        },
-        "@schematics/angular:pipe": {
-          "skipTests": true
-        },
-        "@schematics/angular:service": {
-          "skipTests": true
+          "style": "scss"
         }
       },
-      "root": "charon",
-      "sourceRoot": "charon/src",
+      "root": "projects/charon",
+      "sourceRoot": "projects/charon/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "charon/dist",
-            "index": "charon/src/index.html",
-            "main": "charon/src/main.ts",
-            "polyfills": "charon/src/polyfills.ts",
-            "tsConfig": "charon/tsconfig.app.json",
+            "outputPath": "dist",
+            "index": "projects/charon/src/index.html",
+            "main": "projects/charon/src/main.ts",
+            "polyfills": "projects/charon/src/polyfills.ts",
+            "tsConfig": "projects/charon/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "charon/src/manifest.json",
-              "charon/src/favicon.ico",
-              "charon/src/assets"
+              "projects/charon/src/manifest.json",
+              "projects/charon/src/favicon.ico",
+              "projects/charon/src/assets"
             ],
             "styles": [
-              "charon/src/assets/sass/reset.scss",
-              "charon/src/assets/sass/theme.scss",
-              "charon/src/assets/sass/fonts.scss",
-              "charon/src/assets/sass/styles.scss",
-              "charon/src/assets/sass/media.scss",
+              "projects/charon/src/styles.scss",
               "node_modules/ngx-toastr/toastr.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "charon/src/assets/sass"
+                "projects/charon/src/styles"
               ]
             },
             "scripts": []
@@ -69,8 +43,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "environments/environment.ts",
-                  "with": "environments/environment.prod.ts"
+                  "replace": "projects/charon/src/environments/environment.ts",
+                  "with": "projects/charon/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -104,11 +78,6 @@
           "configurations": {
             "production": {
               "browserTarget": "charon:build:production"
-            },
-            "develop": {
-              "proxyConfig": "proxy.conf.js",
-              "disableHostCheck": true,
-              "host": "0.0.0.0"
             }
           }
         },
@@ -121,27 +90,17 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "charon/src/test.ts",
-            "polyfills": "charon/src/polyfills.ts",
-            "tsConfig": "charon/tsconfig.spec.json",
-            "karmaConfig": "charon/karma.conf.js",
+            "main": "projects/charon/src/test.ts",
+            "polyfills": "projects/charon/src/polyfills.ts",
+            "tsConfig": "projects/charon/tsconfig.spec.json",
+            "karmaConfig": "projects/charon/karma.conf.js",
             "assets": [
-              "charon/src/favicon.ico",
-              "charon/src/assets"
+              "projects/charon/src/favicon.ico",
+              "projects/charon/src/assets"
             ],
             "styles": [
-              "charon/src/assets/sass/reset.scss",
-              "charon/src/assets/sass/theme.scss",
-              "charon/src/assets/sass/fonts.scss",
-              "charon/src/assets/sass/styles.scss",
-              "charon/src/assets/sass/media.scss",
-              "node_modules/ngx-toastr/toastr.css"
+              "projects/charon/src/styles.scss"
             ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "charon/src/assets/sass"
-              ]
-            },
             "scripts": []
           }
         },
@@ -149,31 +108,15 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "charon/tsconfig.app.json",
-              "charon/tsconfig.spec.json",
-              "charon/e2e/tsconfig.json"
+              "projects/charon/tsconfig.app.json",
+              "projects/charon/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
             ]
           }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "charon/e2e/protractor.conf.js",
-            "devServerTarget": "charon:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "charon:serve:production"
-            }
-          }
         }
       }
     }},
-  "defaultProject": "charon",
-  "cli": {
-    "analytics": false
-  }
+  "defaultProject": "charon"
 }

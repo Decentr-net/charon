@@ -1,0 +1,78 @@
+{
+  "activity_details": {
+    "date": "Date",
+    "domain": "Domain",
+    "ip": "IP"
+  },
+  "edit_profile_page": {
+    "back": "< Back",
+    "form": {
+      "birthday": {
+        "errors": {
+          "invalidFormat": "Not valid format",
+          "required": "Birth date is required"
+        },
+        "label": "Birth Date"
+      },
+      "confirm_password": {
+        "label": "Confirm password",
+        "errors": {
+          "required": "Password is required",
+          "valueDoNotMatch": "Password should be equal"
+        }
+      },
+      "email": {
+        "errors": {
+          "email": "Enter valid email",
+          "required": "Email is required"
+        },
+        "label": "E-mail"
+      },
+      "gender": {
+        "errors": {
+          "required": "Gender is required"
+        },
+        "female": "Female",
+        "label": "Gender",
+        "male": "Male"
+      },
+      "username": {
+        "errors": {
+          "minlength": "Length of name should be not less than {{ requiredLength }}",
+          "required": "Name is required"
+        },
+        "label": "Nickname (account name)"
+      },
+      "password": {
+        "errors": {
+          "minlength": "Minimum length of password: {{ requiredLength }}",
+          "required": "Password is required",
+          "strength": "Password should contain at least 1 element of: lowercase, uppercase letter, number, special char"
+        },
+        "label": "New password (min 8 chars)"
+      },
+      "submit": "Save"
+    },
+    "hint": {
+      "label": "Hint",
+      "text": "Put the nicknames and e-mail addresses you use, it positively influences on PDV level."
+    },
+    "title": "Account details",
+    "toastr": {
+      "successful_update": "User was successfully updated"
+    }
+  },
+  "user_page": {
+    "account_details": "Account details",
+    "copy_wallet_address": "Copy wallet address",
+    "copy_wallet_address_success": "The wallet address was copied successfully",
+    "exchange_rate": "1 DEC = ${{ rate }} USD",
+    "expand_view": "Expand view",
+    "no_activity": "You have no activity data",
+    "no_pdv_rate": "You have no PDV Rate data",
+    "tabs": {
+      "activity": "Activity",
+      "pdv_rate": "PDV Rate"
+    }
+  }
+}
