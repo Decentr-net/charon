@@ -33,7 +33,7 @@ export class LoginPageComponent implements OnInit {
   ) {
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.form = this.createForm();
   }
 

@@ -36,7 +36,7 @@ export class CodeInputComponent implements OnInit, AfterViewInit, ControlValueAc
     this.setCharsLength(length);
   }
 
-  @Input() public autofocus: boolean = false;
+  @Input() public autofocus = false;
 
   @ViewChildren('inputElement', { read: ElementRef })
   public inputElementsRefs: QueryList<ElementRef<HTMLInputElement>>;
@@ -113,7 +113,7 @@ export class CodeInputComponent implements OnInit, AfterViewInit, ControlValueAc
     }
 
     while (this.formArray.length < length) {
-      this.formArray.push(new FormControl('', Validators.required))
+      this.formArray.push(new FormControl('', Validators.required));
     }
   }
 

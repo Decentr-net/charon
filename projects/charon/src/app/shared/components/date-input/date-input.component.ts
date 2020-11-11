@@ -1,8 +1,9 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Host, Input, Optional, SkipSelf } from '@angular/core';
 import { ControlContainer, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { noop } from 'rxjs';
-import { MatFormFieldAppearance } from '@angular/material/form-field/form-field';
+
 import { LocalControlErrorStateMatcher } from '@shared/providers/local-control-error-state-matcher';
 import { addSeparatorToDate } from '@shared/utils/form-value';
 
@@ -43,7 +44,7 @@ export class DateInputComponent implements AfterViewInit, ControlValueAccessor {
   }
 
   public onChange(): void {
-    this.value = this.formatDate(this.value);
+    this.value = addSeparatorToDate(this.value, '-');
 
     this.propagateChange(this.value);
     this.propagateTouch();
@@ -59,9 +60,5 @@ export class DateInputComponent implements AfterViewInit, ControlValueAccessor {
 
   public registerOnTouched(fn: any): void {
     this.propagateTouch = fn;
-  }
-
-  private formatDate(value: string) {
-    return addSeparatorToDate(value, '-');
   }
 }
