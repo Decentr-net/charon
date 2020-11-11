@@ -6,6 +6,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Gender } from 'decentr-js';
 
+import { UserPrivate } from '@root-shared/services/auth';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
 import { AuthService, AuthUserUpdate } from '@core/auth';
@@ -13,7 +14,7 @@ import { SpinnerService } from '@core/spinner';
 import { NotificationService } from '@core/services';
 import { EditProfilePageService } from './edit-profile-page.service';
 
-interface EditProfileForm extends Required<AuthUserUpdate> {
+interface EditProfileForm extends Required<AuthUserUpdate>, Pick<UserPrivate, 'primaryEmail'> {
   confirmPassword: string;
 }
 
@@ -36,6 +37,9 @@ export class EditProfilePageComponent implements OnInit {
 
   public gender: typeof Gender = Gender;
   public form: FormGroup<EditProfileForm>;
+
+  public readonly maxAdditionalEmailsCount: number = 9;
+  public readonly maxUsernamesCount: number = 10;
 
   constructor(
     private authService: AuthService,
@@ -124,6 +128,7 @@ export class EditProfilePageComponent implements OnInit {
         Validators.required,
       ]],
       emails: this.formBuilder.array([]),
+      primaryEmail: [{ value: '', disabled: true }],
       usernames: this.formBuilder.array([]),
       password: ['', [
         Validators.minLength(8),

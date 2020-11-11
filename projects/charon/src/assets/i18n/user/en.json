@@ -36,6 +36,9 @@
         "label": "Gender",
         "male": "Male"
       },
+      "primary_email": {
+        "label": "Email (primary)"
+      },
       "username": {
         "errors": {
           "minlength": "Length of name should be not less than {{ requiredLength }}",

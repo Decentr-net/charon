@@ -38,34 +38,24 @@
           </app-date-input>
         </div>
 
-        <div formArrayName="emails">
-          <div *ngFor="let email of emailFormArray.controls; let i = index; let first = first">
-            <div class="input-container col-xs-12">
-              <div class="input-label">{{ translate('email.label') }} {{ first ? '' : i + 1 }}</div>
-              <mat-form-field class="input-control icon-protected"
-                              appearance="outline">
-                <input matInput
-                       type="email"
-                       name="email"
-                       [formControlName]="i"
-                       placeholder="">
+        <ng-container
+          [ngTemplateOutlet]="emailControl"
+          [ngTemplateOutletContext]="{
+            $implicit: form.get('primaryEmail'),
+            index: 1,
+            label: translate('primary_email.label')
+          }"
+        ></ng-container>
 
-                <mat-error>
-                  <app-form-error [controlName]="i" i18nControlKey="email"></app-form-error>
-                </mat-error>
-              </mat-form-field>
-
-              <div *ngIf="first && emailFormArray.length < 10"
-                   class="button__add"
-                   (click)="addEmail()">
-              </div>
-              <div *ngIf="!first"
-                   class="button__remove"
-                   (click)="removeEmail(i)">
-              </div>
-            </div>
-          </div>
-        </div>
+        <ng-container
+          *ngFor="let email of emailFormArray.controls; let index = index;"
+          [ngTemplateOutlet]="emailControl"
+          [ngTemplateOutletContext]="{
+            $implicit: email,
+            index: index + 2,
+            label: translate('email.label')
+          }"
+        ></ng-container>
 
         <div formArrayName="usernames">
           <div *ngFor="let username of this.usernameFormArray.controls; let i = index; let first = first">
@@ -84,7 +74,7 @@
                 </mat-error>
               </mat-form-field>
 
-              <div *ngIf="first && usernameFormArray.length < 10"
+              <div *ngIf="first && usernameFormArray.length < maxUsernamesCount"
                    class="button__add"
                    (click)="addUsername()">
               </div>
@@ -147,4 +137,38 @@
     <p>{{ translate('hint.text') }}</p>
   </div>
 </div>
+
+<ng-template #emailControl let-control let-index="index" let-label="label">
+  <div class="input-container col-xs-12">
+    <div class="input-label">{{ label }} {{ index === 1 ? '' : index }}</div>
+    <mat-form-field
+      class="input-control icon-protected"
+      appearance="outline"
+    >
+      <input
+        matInput
+        type="email"
+        name="email"
+        [formControl]="control"
+        placeholder=""
+      >
+
+      <mat-error>
+        <app-form-error [control]="control" i18nControlKey="email"></app-form-error>
+      </mat-error>
+    </mat-form-field>
+
+    <div
+      *ngIf="index === 1 && emailFormArray.length < maxAdditionalEmailsCount"
+      class="button__add"
+      (click)="addEmail()"
+    >
+    </div>
+    <div
+      *ngIf="index > 1"
+      class="button__remove"
+      (click)="removeEmail(index - 1)">
+    </div>
+  </div>
+</ng-template>
 
