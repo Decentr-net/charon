@@ -12,8 +12,9 @@ import { AuthService, AuthUserUpdate } from '@core/auth';
 import { SpinnerService } from '@core/spinner';
 import { NotificationService } from '@core/services';
 import { EditProfilePageService } from './edit-profile-page.service';
+import { UserPrivate } from '@root-shared/services/auth';
 
-interface EditProfileForm extends Required<AuthUserUpdate> {
+interface EditProfileForm extends Required<AuthUserUpdate>, Pick<UserPrivate, 'primaryEmail'> {
   confirmPassword: string;
 }
 
@@ -36,6 +37,9 @@ export class EditProfilePageComponent implements OnInit {
 
   public gender: typeof Gender = Gender;
   public form: FormGroup<EditProfileForm>;
+
+  public readonly maxAdditionalEmailsCount: number = 9;
+  public readonly maxUsernamesCount: number = 10;
 
   constructor(
     private authService: AuthService,
@@ -124,6 +128,7 @@ export class EditProfilePageComponent implements OnInit {
         Validators.required,
       ]],
       emails: this.formBuilder.array([]),
+      primaryEmail: [{ value: '', disabled: true }],
       usernames: this.formBuilder.array([]),
       password: ['', [
         Validators.minLength(8),

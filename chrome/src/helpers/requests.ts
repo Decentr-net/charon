@@ -10,7 +10,7 @@ import RequestFilter = WebRequest.RequestFilter;
 import { objectContains } from './object';
 
 const BASE_REQUEST_FILTER: RequestFilter = {
-  urls: ["<all_urls>"],
+  urls: ['<all_urls>'],
   types: ['main_frame', 'xmlhttprequest'],
 };
 

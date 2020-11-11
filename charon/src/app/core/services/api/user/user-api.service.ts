@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { from, Observable } from 'rxjs';
+import { defer, from, Observable } from 'rxjs';
 import { Account, BroadcastResponse, Decentr, PublicProfile, Wallet } from 'decentr-js';
 
 import { UserPrivate } from '@root-shared/services/auth';
@@ -32,7 +32,7 @@ export class UserApiService {
 
   public getAccount(api: string, walletAddress: Wallet['address']): Observable<Account> {
     const decentr = this.createDecentrConnector(api);
-    return from(decentr.getAccount(walletAddress));
+    return defer(() => decentr.getAccount(walletAddress));
   }
 
   public getPrivateProfile(

@@ -53,13 +53,13 @@ export class NetworkSelectorService {
 
   public getNetworks(): Observable<Network[]> {
     return combineLatest(
-      Object.keys(this.environment.rest).map((network) => {
-        return this.translocoService.selectTranslate(`network_selector.network.${network}`, null, 'core')
+      ['remote', 'local'].map((networkName) => {
+        return this.translocoService.selectTranslate(`network_selector.network.${networkName}`, null, 'core')
           .pipe(
             map((name) => ({
               name,
-              api: this.environment.rest[network],
-            }))
+              api: this.environment.rest[networkName],
+            })),
           );
       }),
     );
