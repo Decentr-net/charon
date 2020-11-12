@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
+    "build": "npm run clean && npm run build:charon && npm run build:toolbar && npm run build:chrome",
+    "build:prod": "npm run clean && npm run build:charon:prod && npm run build:toolbar:prod && npm run build:chrome:prod && npm run pack",
     "build:chrome": "npm run clean && npm run build:charon && npm run build:scripts:chrome",
     "build:chrome:prod": "npm run clean && npm run build:charon:prod && npm run build:scripts:chrome:prod && npm run pack",
     "build:firefox": "npm run clean && npm run build:charon && npm run build:scripts:firefox",
@@ -15,21 +17,24 @@
     "build:scripts:chrome:prod": "BROWSER=chrome npm run build:scripts:prod",
     "build:scripts:firefox": "BROWSER=firefox npm run build:scripts",
     "build:scripts:firefox:prod": "BROWSER=firefox npm run build:scripts:prod",
+    "build:toolbar": "ng build toolbar",
+    "build:toolbar:prod": "ng build toolbar --prod",
     "generate-icons": "svg-to-ts",
     "clean": "rimraf dist",
     "lint": "ng lint",
     "pack": "cd dist && bestzip ../extension-build.zip *",
     "test": "ng test",
-    "watch:chrome": "npm run clean && npm-run-all --parallel watch:charon watch:scripts:chrome",
-    "watch:firefox": "npm run clean && npm-run-all --parallel watch:charon watch:scripts:firefox",
+    "watch:chrome": "npm run clean && npm-run-all --parallel watch:charon watch:scripts:chrome watch:toolbar",
+    "watch:firefox": "npm run clean && npm-run-all --parallel watch:charon watch:scripts:firefox watch:toolbar",
     "watch:charon": "ng build charon --watch --delete-output-path=false --sourceMap=false",
     "watch:scripts": "webpack --config projects/scripts/webpack.config.dev.js -w",
     "watch:scripts:chrome": "BROWSER=chrome npm run watch:scripts",
-    "watch:scripts:firefox": "BROWSER=firefox npm run watch:scripts"
+    "watch:scripts:firefox": "BROWSER=firefox npm run watch:scripts",
+    "watch:toolbar": "ng build toolbar --watch --delete-output-path=false --sourceMap=false"
+
   },
   "private": true,
   "dependencies": {
-    "@angular-devkit/build-angular": "^0.1002.0",
     "@angular/animations": "~10.2.0",
     "@angular/cdk": "^10.2.7",
     "@angular/common": "~10.2.0",
@@ -56,6 +61,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "~0.1002.0",
     "@angular/cli": "~10.2.0",
     "@angular/compiler-cli": "~10.2.0",
     "@types/jasmine": "~3.5.0",
