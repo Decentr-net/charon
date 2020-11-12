@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "cd:charon": "cd projects/charon",
-    "cd:chrome": "cd projects/chrome",
-    "build": "npm run clean && npm run build:charon && npm run build:chrome",
-    "build:prod": "npm run clean && npm run build:charon:prod && npm run build:chrome:prod && npm run pack",
+    "build": "npm run clean && npm run build:charon && npm run build:toolbar && npm run build:chrome",
+    "build:prod": "npm run clean && npm run build:charon:prod && npm run build:toolbar:prod && npm run build:chrome:prod && npm run pack",
     "build:charon": "ng build charon",
     "build:charon:prod": "ng build charon --prod",
+    "build:toolbar": "ng build toolbar",
+    "build:toolbar:prod": "ng build toolbar --prod",
     "build:chrome": "webpack --config projects/chrome/webpack.config.dev.js",
     "build:chrome:prod": "webpack -p --config projects/chrome/webpack.config.prod.js",
     "clean": "rimraf dist",
@@ -17,7 +17,8 @@
     "test": "ng test",
     "watch": "npm run clean && npm-run-all --parallel watch:*",
     "watch:charon": "ng build charon --watch --delete-output-path=false --sourceMap=false",
-    "watch:chrome": "webpack --config projects/chrome/webpack.config.dev.js -w"
+    "watch:chrome": "webpack --config projects/chrome/webpack.config.dev.js -w",
+    "watch:toolbar": "ng build toolbar --watch --delete-output-path=false --sourceMap=false"
   },
   "private": true,
   "dependencies": {
@@ -47,6 +48,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "~0.1002.0",
     "@angular/cli": "~10.2.0",
     "@angular/compiler-cli": "~10.2.0",
     "@types/jasmine": "~3.5.0",
