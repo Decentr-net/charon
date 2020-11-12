@@ -66,6 +66,7 @@ export const listenRequestsBeforeRedirectWithBody = (
     const unsubscribe$: Subject<void> = new Subject();
 
     listenRequestsOnBeforeSend(requestFilter, httpMethod).pipe(
+      filter((details) => !!details.requestBody),
       takeUntil(unsubscribe$),
     ).subscribe(details => requestsStore.set(details.requestId, details));
 
@@ -73,7 +74,6 @@ export const listenRequestsBeforeRedirectWithBody = (
       filter((details) => requestsStore.has(details.requestId)),
       map((details) => requestsStore.get(details.requestId)),
       tap((details) => requestsStore.delete(details.requestId)),
-      filter((details) => !!details.requestBody),
       takeUntil(unsubscribe$),
     ).subscribe((details) => subscriber.next(details));
 
@@ -111,6 +111,7 @@ export const listenRequestsOnCompletedWithBody = (
     const unsubscribe$: Subject<void> = new Subject();
 
     listenRequestsOnBeforeSend(requestFilter, httpMethod).pipe(
+      filter((details) => !!details.requestBody),
       takeUntil(unsubscribe$),
     ).subscribe(details => requestsStore.set(details.requestId, details));
 
@@ -118,7 +119,6 @@ export const listenRequestsOnCompletedWithBody = (
       filter((details) => requestsStore.has(details.requestId)),
       map((details) => requestsStore.get(details.requestId)),
       tap((details) => requestsStore.delete(details.requestId)),
-      filter((details) => !!details.requestBody),
       takeUntil(unsubscribe$),
     ).subscribe((details) => subscriber.next(details));
 
