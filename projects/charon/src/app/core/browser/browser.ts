@@ -2,7 +2,7 @@ import { browser, Tabs } from 'webextension-polyfill-ts';
 
 export const openExtensionInNewTab = (relativeUrl: string): Promise<Tabs.Tab> => {
   return browser.tabs.create({
-    url: browser.extension.getURL(`index.html#/${relativeUrl}`),
+    url: browser.extension.getURL(`${window.location.pathname}${relativeUrl}`),
   });
 };
 

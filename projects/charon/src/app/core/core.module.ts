@@ -8,6 +8,7 @@ import { AppRoute } from '../app-route';
 import { SignUpRoute } from '../sign-up';
 import { AuthModule, AuthService } from './auth';
 import { LockModule, LockService } from './lock';
+import { CORE_GUARDS } from './guards';
 import { NavigationModule } from './navigation';
 import { NetworkSelectorModule, NetworkSelectorService } from './network-selector';
 import { ProfileSelectorModule } from './profile-selector';
@@ -59,6 +60,7 @@ export function initNetworkFactory(networkService: NetworkSelectorService): () =
     ProfileSelectorModule,
   ],
   providers: [
+    CORE_GUARDS,
     CORE_SERVICES,
     {
       provide: Environment,

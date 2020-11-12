@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { BrowserTabGuard } from '@shared/guards';
+import { BrowserTabGuard } from '@core/guards';
 import { AuthCompletedRegistrationGuard, AuthConfirmedGuard, UnauthGuard } from '@core/auth';
 import { LockGuard } from '@core/lock';
 import { AppRoute } from './app-route';

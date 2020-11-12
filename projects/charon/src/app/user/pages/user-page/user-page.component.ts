@@ -5,9 +5,9 @@ import { finalize } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { openExtensionInNewTab } from '@shared/utils/browser';
 import { copyContent } from '@shared/utils/copy-content';
 import { AuthService, AuthUser } from '@core/auth';
+import { NavigationService } from '@core/navigation';
 import { MediaService, NotificationService } from '@core/services';
 import { SpinnerService } from '@core/spinner';
 import { UserRoute } from '../../user.route';
@@ -36,6 +36,7 @@ export class UserPageComponent implements OnInit {
   constructor(
     public matchMediaService: MediaService,
     private authService: AuthService,
+    private navigationService: NavigationService,
     private router: Router,
     private spinnerService: SpinnerService,
     private translocoService: TranslocoService,
@@ -70,7 +71,7 @@ export class UserPageComponent implements OnInit {
   }
 
   public expandView(): void {
-    openExtensionInNewTab(this.router.url);
+    this.navigationService.openInNewTab(this.router.url);
   }
 
   public copyWalletAddress(walletAddress: AuthUser['wallet']['address']): void {
