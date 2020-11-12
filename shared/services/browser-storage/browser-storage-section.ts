@@ -19,7 +19,7 @@ export class BrowserStorageSection<T extends {}> implements BrowserStorage<T> {
     const newSectionValue = {
       ...sectionValue,
       [key]: value,
-    }
+    };
     return this.setSectionValue(newSectionValue);
   }
 

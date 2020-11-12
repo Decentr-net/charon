@@ -6,5 +6,5 @@ export interface BrowserStorage<T> {
   remove(key: keyof T): Promise<void>;
   clear(): Promise<void>;
   onChange<K extends keyof T>(key: K): Observable<T[K]>;
-  useSection<T>(section: string): BrowserStorage<T>;
+  useSection<U>(section: string): BrowserStorage<U>;
 }

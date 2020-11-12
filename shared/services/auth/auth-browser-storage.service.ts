@@ -1,10 +1,10 @@
 import { combineLatest, from, Observable } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 
-import { User } from '../../models/user';
 import { BrowserLocalStorage } from '../browser-storage';
+import { User } from './user';
 
-interface AuthBrowserStorageData<T extends { id: string }> {
+interface AuthBrowserStorageData<T extends User> {
   readonly activeUserId: T['id'];
   readonly users: T[];
 }
@@ -51,15 +51,18 @@ export class AuthBrowserStorageService<T extends User = User> {
     await this.browserStorage.set('users', newUsers);
   }
 
-  public async updateUser(id: T['id'], user: Partial<Omit<T, 'id'>>): Promise<void> {
+  public async updateUser(id: T['id'], update: Partial<Omit<T, 'id'>>): Promise<void> {
     const users = await this.browserStorage.get('users');
-    const userToUpdate = users.find(user => user.id === id);
+
+    const userToUpdate = users.find((user) => user.id === id);
+
     const otherUsers = users.filter(user => user.id !== id);
+
     await this.browserStorage.set('users', [
       ...otherUsers,
       {
         ...userToUpdate,
-        ...user,
+        ...update,
       },
     ]);
   }

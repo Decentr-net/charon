@@ -1,0 +1,51 @@
+{
+  "manifest_version": 2,
+  "name": "Charon",
+  "description": "Charon Browser Extension",
+  "version": "1.0.0",
+  "author": "Decentr",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "browser_action": {
+    "default_icon": {
+      "16": "assets/icons/16.png",
+      "19": "assets/icons/19.png",
+      "32": "assets/icons/32.png",
+      "38": "assets/icons/38.png",
+      "64": "assets/icons/64.png",
+      "128": "assets/icons/128.png",
+      "512": "assets/icons/512.png"
+    },
+    "default_popup": "charon/index.html",
+    "default_title": "Charon extension"
+  },
+  "permissions": [
+    "activeTab",
+    "clipboardWrite",
+    "cookies",
+    "storage",
+    "tabs",
+    "unlimitedStorage",
+    "<all_urls>",
+    "webRequest"
+  ],
+  "content_scripts": [
+    {
+      "js": [
+        "scripts/content-script.js"
+      ],
+      "matches": [
+        "file://*/*",
+        "http://*/*",
+        "https://*/*"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "background": {
+    "scripts": [
+      "scripts/background-script.js"
+    ]
+  },
+  "minimum_chrome_version": "58"
+}
