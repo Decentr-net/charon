@@ -47,5 +47,8 @@
       "scripts/background-script.js"
     ]
   },
+  "web_accessible_resources": [
+    "toolbar/index.html"
+  ],
   "minimum_chrome_version": "58"
 }
