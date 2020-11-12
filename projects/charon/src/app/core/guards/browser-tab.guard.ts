@@ -19,7 +19,7 @@ export class BrowserTabGuard implements CanActivate, CanActivateChild {
       return true;
     }
 
-    this.navigationService.openInNewTab(state.url)
+    this.navigationService.openInNewTab(state.url);
     return false;
   }
 
