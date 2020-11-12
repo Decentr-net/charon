@@ -55,7 +55,6 @@ export class CompleteRegistrationPageComponent implements OnInit {
   public ngOnInit(): void {
     this.form = this.createForm();
 
-    this.addEmail();
     this.addUsername();
 
     const user = this.authService.getActiveUserInstant();
