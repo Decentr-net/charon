@@ -8,8 +8,8 @@ module.exports = webpackMerge(baseConfig, {
     new optimize.AggressiveMergingPlugin(),
     new optimize.OccurrenceOrderPlugin(),
     new NormalModuleReplacementPlugin(
-      /environments\/environment\.js/,
-      '../../../../environments/environment.prod.js',
+      /environments\/environment\.ts/,
+      './environment.prod.ts',
     ),
   ],
 });
