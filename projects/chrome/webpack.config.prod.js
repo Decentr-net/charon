@@ -1,30 +1,15 @@
-const { join } = require('path');
-const { optimize } = require('webpack');
+const { optimize, NormalModuleReplacementPlugin } = require('webpack');
+const webpackMerge = require('webpack-merge');
+const baseConfig = require('./webpack.config.base');
 
-module.exports = {
+module.exports = webpackMerge(baseConfig, {
   mode: 'production',
-  entry: {
-    'content-script': join(__dirname, 'src/content-script.ts'),
-    'background-script': join(__dirname, 'src/background-script.ts')
-  },
-  output: {
-    path: join(__dirname, '../../dist'),
-    filename: '[name].js'
-  },
-  module: {
-    rules: [
-      {
-        test: /\.ts?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-    ]
-  },
   plugins: [
     new optimize.AggressiveMergingPlugin(),
-    new optimize.OccurrenceOrderPlugin()
+    new optimize.OccurrenceOrderPlugin(),
+    new NormalModuleReplacementPlugin(
+      /environments\/environment\.js/,
+      '../../../../environments/environment.prod.js',
+    ),
   ],
-  resolve: {
-    extensions: ['.ts', '.js']
-  }
-};
+});

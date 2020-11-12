@@ -17,14 +17,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "dist/charon",
             "index": "projects/charon/src/index.html",
             "main": "projects/charon/src/main.ts",
             "polyfills": "projects/charon/src/polyfills.ts",
             "tsConfig": "projects/charon/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "projects/charon/src/manifest.json",
               "projects/charon/src/favicon.ico",
               "projects/charon/src/assets"
             ],

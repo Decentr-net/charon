@@ -7,15 +7,15 @@
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "browser_action": {
     "default_icon": {
-      "16": "assets/images/icons/16.png",
-      "19": "assets/images/icons/19.png",
-      "32": "assets/images/icons/32.png",
-      "38": "assets/images/icons/38.png",
-      "64": "assets/images/icons/64.png",
-      "128": "assets/images/icons/128.png",
-      "512": "assets/images/icons/512.png"
+      "16": "assets/icons/16.png",
+      "19": "assets/icons/19.png",
+      "32": "assets/icons/32.png",
+      "38": "assets/icons/38.png",
+      "64": "assets/icons/64.png",
+      "128": "assets/icons/128.png",
+      "512": "assets/icons/512.png"
     },
-    "default_popup": "index.html?#/",
+    "default_popup": "charon/index.html",
     "default_title": "Charon extension"
   },
   "permissions": [
@@ -31,7 +31,7 @@
   "content_scripts": [
     {
       "js": [
-        "content-script.js"
+        "scripts/content-script.js"
       ],
       "matches": [
         "file://*/*",
@@ -44,7 +44,7 @@
   ],
   "background": {
     "scripts": [
-      "background-script.js"
+      "scripts/background-script.js"
     ]
   },
   "minimum_chrome_version": "58"

@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
+    "cd:charon": "cd projects/charon",
+    "cd:chrome": "cd projects/chrome",
     "build": "npm run clean && npm run build:charon && npm run build:chrome",
     "build:prod": "npm run clean && npm run build:charon:prod && npm run build:chrome:prod && npm run pack",
     "build:charon": "ng build charon",
     "build:charon:prod": "ng build charon --prod",
-    "build:chrome": "webpack --config projects/chrome/webpack.config.js",
+    "build:chrome": "webpack --config projects/chrome/webpack.config.dev.js",
     "build:chrome:prod": "webpack -p --config projects/chrome/webpack.config.prod.js",
     "clean": "rimraf dist",
     "lint": "ng lint",
@@ -15,7 +17,7 @@
     "test": "ng test",
     "watch": "npm run clean && npm-run-all --parallel watch:*",
     "watch:charon": "ng build charon --watch --delete-output-path=false --sourceMap=false",
-    "watch:chrome": "webpack --config projects/chrome/webpack.config.js -w"
+    "watch:chrome": "webpack --config projects/chrome/webpack.config.dev.js -w"
   },
   "private": true,
   "dependencies": {
@@ -52,6 +54,7 @@
     "@types/node": "^12.11.1",
     "bestzip": "^2.1.7",
     "codelyzer": "^6.0.0",
+    "copy-webpack-plugin": "^6.3.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.0.0",
