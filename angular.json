@@ -48,8 +48,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/charon/src/environments/environment.ts",
-                  "with": "projects/charon/src/environments/environment.prod.ts"
+                  "replace": "environments/environment.ts",
+                  "with": "environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
