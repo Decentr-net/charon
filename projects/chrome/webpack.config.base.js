@@ -27,7 +27,7 @@ module.exports = {
           to: join(__dirname, '../../dist'),
         },
         {
-          from: join(__dirname, '../../assets'),
+          from: join(__dirname, 'assets'),
           to: join(__dirname, '../../dist/assets'),
         }
       ],
