@@ -8,7 +8,7 @@
       "path": "./projects/charon/tsconfig.spec.json"
     },
     {
-      "path": "./projects/chrome/tsconfig.json"
+      "path": "./projects/scripts/tsconfig.json"
     }
   ]
 }
