@@ -8,3 +8,8 @@ export enum CircleRoute {
   TravelAndTourism = 'travel-and-tourism',
   World = 'world',
 }
+
+export enum CircleWallRoute {
+  Recent = 'recent',
+  MyWall = 'my-wall',
+}

@@ -1,0 +1,13 @@
+<ng-container *transloco="let translate; read: 'circle.wall_navigation'">
+  <app-navigation-link
+    class="wall-navigation__link"
+    [link]="wallRoute.Recent"
+    [title]="translate('recent')"
+  ></app-navigation-link>
+
+  <app-navigation-link
+    class="wall-navigation__link"
+    [link]="wallRoute.MyWall"
+    [title]="translate('my_wall')"
+  ></app-navigation-link>
+</ng-container>

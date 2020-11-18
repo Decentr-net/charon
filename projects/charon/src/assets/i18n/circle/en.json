@@ -7,5 +7,9 @@
     "strange_world": "Strange World",
     "travel_and_tourism": "Travel & Tourism",
     "world_news": "World news"
+  },
+  "wall_navigation": {
+    "my_wall": "My Wall",
+    "recent": "Recent"
   }
 }
