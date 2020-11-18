@@ -1,8 +1,29 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { CirclePageComponent, NewsPageComponent, OverviewPageComponent } from './pages';
-import { CircleRoute } from './circle-route';
+import {
+  CirclePageComponent,
+  MyWallPageComponent,
+  NewsPageComponent,
+  OverviewPageComponent,
+  RecentPageComponent,
+} from './pages';
+import { CircleRoute, CircleWallRoute } from './circle-route';
+
+const NEWS_PAGE_CHILDREN_ROUTES: Routes = [
+  {
+    path: '',
+    redirectTo: CircleWallRoute.Recent,
+  },
+  {
+    path: CircleWallRoute.Recent,
+    component: RecentPageComponent,
+  },
+  {
+    path: CircleWallRoute.MyWall,
+    component: MyWallPageComponent,
+  },
+];
 
 const ROUTES: Routes = [
   {
@@ -25,30 +46,37 @@ const ROUTES: Routes = [
             path: '',
             component: NewsPageComponent,
             pathMatch: 'full',
+            children: NEWS_PAGE_CHILDREN_ROUTES,
           },
           {
             path: CircleRoute.World,
             component: NewsPageComponent,
+            children: NEWS_PAGE_CHILDREN_ROUTES,
           },
           {
             path: CircleRoute.TravelAndTourism,
             component: NewsPageComponent,
+            children: NEWS_PAGE_CHILDREN_ROUTES,
           },
           {
             path: CircleRoute.ScienceAndTechnology,
             component: NewsPageComponent,
+            children: NEWS_PAGE_CHILDREN_ROUTES,
           },
           {
             path: CircleRoute.StrangeWorld,
             component: NewsPageComponent,
+            children: NEWS_PAGE_CHILDREN_ROUTES,
           },
           {
             path: CircleRoute.HealthAndCulture,
             component: NewsPageComponent,
+            children: NEWS_PAGE_CHILDREN_ROUTES,
           },
           {
             path: CircleRoute.FitnessAndExercise,
             component: NewsPageComponent,
+            children: NEWS_PAGE_CHILDREN_ROUTES,
           },
         ],
       },

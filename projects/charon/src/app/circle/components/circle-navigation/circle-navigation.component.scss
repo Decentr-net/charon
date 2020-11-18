@@ -1,8 +1,4 @@
 $circle-navigation--height: 72px;
-$circle-navigation--height: 72px;
-$circle-navigation--link-active-border-color: linear-gradient(90deg, #74C5EE 0%, #4F80FF 100%);
-$circle-navigation--link-color: #999999;
-$circle-navigation--link-color-active: #262628;
 
 :host {
   align-items: center;
@@ -17,51 +13,9 @@ $circle-navigation--link-color-active: #262628;
 }
 
 .circle-navigation__link {
-  color: $circle-navigation--link-color;
-  font-size: 14px;
-  height: 100%;
-  line-height: $circle-navigation--height;
   margin: 0 12px;
-  position: relative;
-  text-decoration: none;
-  white-space: nowrap;
 
   &.mod-overview {
     font-size: 16px;
   }
-
-  &.is-active,
-  &:hover {
-    color: $circle-navigation--link-color-active;
-    font-weight: 500;
-  }
-
-  &.is-active {
-    .circle-navigation__link-border {
-      display: block;
-    }
-  }
-
-  &:after {
-    display: block;
-    content: attr(data-title);
-    font-weight: bold;
-    height: 0;
-    overflow: hidden;
-    visibility: hidden;
-  }
-}
-
-.circle-navigation__link-title {
-  vertical-align: middle;
-}
-
-.circle-navigation__link-border {
-  background: $circle-navigation--link-active-border-color;
-  bottom: 0;
-  display: none;
-  height: 3px;
-  left: 0;
-  position: absolute;
-  right: 0;
 }

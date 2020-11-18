@@ -1,0 +1,17 @@
+$wall-navigation--border-color: #999999;
+$wall-navigation--height: 54px;
+
+:host {
+  border-bottom: 1px solid $wall-navigation--border-color;
+  align-items: center;
+  display: flex;
+  height: $wall-navigation--height;
+}
+
+.wall-navigation__link {
+  height: 100%;
+
+  & + & {
+    margin-left: 24px;
+  }
+}
