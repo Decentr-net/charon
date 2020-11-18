@@ -1,3 +1,10 @@
+$circle-page--background-color: #F2F2F2;
+
 :host {
+  background: $circle-page--background-color;
   display: block;
+}
+
+.circle-page__content-container {
+  padding: 30px;
 }
