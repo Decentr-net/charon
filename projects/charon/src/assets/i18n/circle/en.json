@@ -8,6 +8,10 @@
     "travel_and_tourism": "Travel & Tourism",
     "world_news": "World news"
   },
+  "circle_wall_post": {
+    "pdv": "PDV",
+    "posted": "dposted"
+  },
   "wall_navigation": {
     "my_wall": "My Wall",
     "recent": "Recent"
