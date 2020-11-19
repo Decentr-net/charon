@@ -1,0 +1,18 @@
+<div class="circle-short-post__header">
+  <div class="circle-short-post__header-section">
+    <app-circle-avatar [src]="post.author.avatar"></app-circle-avatar>
+
+    <div class="circle-short-post__info-container">
+      <span class="circle-short-post__author">{{ post.author.name }}</span>
+
+      <app-circle-post-time [time]="post.time"></app-circle-post-time>
+    </div>
+  </div>
+
+  <app-circle-post-pdv [pdv]="post.pdv"></app-circle-post-pdv>
+</div>
+
+<div
+  class="circle-short-post__content"
+  [innerHTML]="post.content | appSanitize : 'html'"
+></div>
