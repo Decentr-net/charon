@@ -1,3 +1,9 @@
-<app-wall-navigation></app-wall-navigation>
+<div class="news-page__wall">
+  <app-wall-navigation class="news-page__wall-navigation"></app-wall-navigation>
 
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
+</div>
+
+<div class="news-page__top-feed">
+  <app-circle-short-post [post]="post"></app-circle-short-post>
+</div>

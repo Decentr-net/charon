@@ -8,6 +8,9 @@
     "travel_and_tourism": "Travel & Tourism",
     "world_news": "World news"
   },
+  "circle-infinite-posts-container": {
+    "load_more_posts": "Load more posts"
+  },
   "circle_wall_post": {
     "pdv": "PDV",
     "posted": "dposted"

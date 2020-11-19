@@ -1,0 +1,16 @@
+:host {
+  column-gap: 30px;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+}
+
+.news-page__wall {
+}
+
+.news-page__wall-navigation {
+  margin-bottom: 20px;
+}
+
+.news-page__top-feed {
+  //margin-left: 30px;
+}

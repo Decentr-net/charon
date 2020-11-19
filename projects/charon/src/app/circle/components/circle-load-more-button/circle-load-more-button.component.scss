@@ -1,0 +1,14 @@
+$circle-load-more-button--color: #00AAFF;
+
+:host {
+  align-items: center;
+  border: 2px solid $circle-load-more-button--color;
+  color: $circle-load-more-button--color;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 500;
+  justify-content: center;
+  padding: 16px 32px;
+  text-transform: uppercase;
+}

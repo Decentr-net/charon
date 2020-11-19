@@ -3,6 +3,7 @@ $circle-page--background-color: #F2F2F2;
 :host {
   background: $circle-page--background-color;
   display: block;
+  min-height: 100%;
 }
 
 .circle-page__content-container {
