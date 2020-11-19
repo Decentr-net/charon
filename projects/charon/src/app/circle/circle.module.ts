@@ -9,11 +9,13 @@ import { SanitizeModule } from '../shared/pipes/sanitize';
 import { CIRCLE_COMPONENTS } from './components';
 import { CIRCLE_PAGES } from './pages';
 import { CircleRoutingModule } from './circle-routing.module';
+import { CircleShortPostComponent } from './components/circle-short-post/circle-short-post.component';
 
 @NgModule({
   declarations: [
     CIRCLE_COMPONENTS,
     CIRCLE_PAGES,
+    CircleShortPostComponent,
   ],
   imports: [
     CircleRoutingModule,
