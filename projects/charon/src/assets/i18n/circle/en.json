@@ -11,6 +11,14 @@
   "circle-infinite-posts-container": {
     "load_more_posts": "Load more posts"
   },
+  "circle_pdv_statistics": {
+    "activity_from": "Activity from {{date}}",
+    "my_pdv": "My PDV",
+    "pdv_change": {
+      "increased": "Your PDV increased by {{ percent }}% in the last 24-hours",
+      "decreased": "Your PDV decreased by {{ percent }}% in the last 24-hours"
+    }
+  },
   "circle_wall_post": {
     "pdv": "PDV",
     "posted": "dposted"
