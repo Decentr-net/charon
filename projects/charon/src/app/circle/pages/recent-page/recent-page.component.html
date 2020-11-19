@@ -1,0 +1,10 @@
+<app-circle-infinite-posts-container
+  [isLoading]="isLoading$ | async"
+  (loadMore)="loadMore()"
+>
+  <app-circle-wall-post
+    class="recent-page__post"
+    *ngFor="let post of posts$ | async; trackBy: trackByPostAddress"
+    [post]="post"
+  ></app-circle-wall-post>
+</app-circle-infinite-posts-container>

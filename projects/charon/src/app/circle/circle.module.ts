@@ -9,6 +9,7 @@ import { SanitizeModule } from '../shared/pipes/sanitize';
 import { CIRCLE_COMPONENTS } from './components';
 import { CIRCLE_PAGES } from './pages';
 import { CircleRoutingModule } from './circle-routing.module';
+import { SpinnerModule } from '../core/spinner';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { CircleRoutingModule } from './circle-routing.module';
     InlineSVGModule,
     MatDividerModule,
     SanitizeModule,
+    SpinnerModule,
     TextEllipsisModule,
     TranslocoModule,
   ],
