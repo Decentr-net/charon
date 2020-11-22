@@ -1,4 +1,12 @@
 {
+  "circle_currency_statistics": {
+    "dec_rate": "DEC Rate",
+    "dec_rate_change": {
+      "increased": "DEC increased by {{ percent }}% in the last 24-hours",
+      "decreased": "DEC decreased by {{ percent }}% in the last 24-hours"
+    },
+    "statistics_from": "Statistic from {{date}}"
+  },
   "circle_navigation": {
     "account_overview": "Account overview",
     "fitness_and_exercise": "Fitness & Exercise",
