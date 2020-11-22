@@ -1,5 +1,5 @@
 .overview-page__statistic-container {
   column-gap: 30px;
   display: grid;
-  grid-template-columns: repeat(3, 420px);
+  grid-template-columns: repeat(2, 420px) 470px;
 }

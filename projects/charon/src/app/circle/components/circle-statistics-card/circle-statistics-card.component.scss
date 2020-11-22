@@ -4,7 +4,8 @@ $circle-statistics-card--padding: 24px;
 
 :host {
   background-color: $circle-statistics-card--background-color;
-  display: block;
+  display: flex;
+  flex-direction: column;
   padding: $circle-statistics-card--padding;
 }
 
@@ -18,6 +19,10 @@ $circle-statistics-card--padding: 24px;
   font-size: 14px;
   line-height: 22px;
   margin-top: 7px;
+}
+
+.circle-statistics-card__content-container {
+  height: 100%;
 }
 
 .circle-statistics-card__divider {

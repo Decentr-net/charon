@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { CirclePDVStatistics } from '../../components/circle-pdv-statistics';
 import { CircleCurrencyStatistics } from '../../components/circle-currency-statistics';
+import { CircleActivityStatistics, CircleDataValueSource } from '../../components/circle-activity-statistics';
 
 @Component({
   selector: 'app-overview-page',
@@ -21,4 +22,11 @@ export class OverviewPageComponent {
     rate: 1.5,
     rateChangedIn24HoursPercent: 13,
   };
+
+  public activityStatistics: CircleActivityStatistics = {
+    pdv: {
+      [CircleDataValueSource.Activity]: 60,
+      [CircleDataValueSource.Platform]: 40,
+    },
+  }
 }

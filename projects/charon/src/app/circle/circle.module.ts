@@ -4,6 +4,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { InlineSVGModule } from 'ng-inline-svg';
 
+import { ColoredDistributionLineModule } from '../shared/components/colored-distribution-line';
+import { ColorLabelModule } from '../shared/components/color-label';
 import { TextEllipsisModule } from '../shared/directives/text-ellipsis';
 import { SanitizeModule } from '../shared/pipes/sanitize';
 import { CIRCLE_COMPONENTS } from './components';
@@ -18,6 +20,8 @@ import { SpinnerModule } from '../core/spinner';
   ],
   imports: [
     CircleRoutingModule,
+    ColoredDistributionLineModule,
+    ColorLabelModule,
     CommonModule,
     InlineSVGModule,
     MatDividerModule,

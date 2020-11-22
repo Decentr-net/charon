@@ -1,0 +1,6 @@
+<div
+  class="colored-distribution-line__part"
+  *ngFor="let part of distribution; trackBy: trackByColor"
+  [style.backgroundColor]="part.color"
+  [style.width.%]="part.percent"
+></div>
