@@ -1,4 +1,19 @@
 {
+  "circle_activity_distribution": {
+    "coming_soon": "(coming soon)",
+    "data_value": "Data Value",
+    "last_24_hours": "Last 24 hours",
+    "params": {
+      "adv": "ADV",
+      "dec": "DEC",
+      "ddv": "DDV",
+      "pdv": "My PDV"
+    },
+    "sources": {
+      "activity": "Activity",
+      "platform": "Platform"
+    }
+  },
   "circle_currency_statistics": {
     "dec_rate": "DEC Rate",
     "dec_rate_change": {

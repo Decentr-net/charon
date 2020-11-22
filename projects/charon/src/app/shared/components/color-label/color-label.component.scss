@@ -1,0 +1,13 @@
+$color-label--circle-size: 8px;
+
+:host {
+  align-items: center;
+  display: inline-flex;
+}
+
+.color-label__circle {
+  border-radius: 100%;
+  height: $color-label--circle-size;
+  margin-right: 10px;
+  width: $color-label--circle-size;
+}
