@@ -1,0 +1,10 @@
+<div class="circle-post-preview-card__title">{{ post.title }}</div>
+
+<div
+  class="circle-post-preview-card__content"
+  [style.-webkit-line-clamp]="maxContentLines"
+>
+  {{ post.content }}
+</div>
+
+<div class="circle-post-preview-card__time">{{ post.time | date }}</div>

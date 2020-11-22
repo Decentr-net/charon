@@ -37,8 +37,6 @@ export class CircleActivityStatisticsComponent {
             percent: statistics[param][source],
           })),
       }));
-
-    console.log(this.distributions)
   }
 
   public distributions: CircleActivityStatisticsRenderParam[];

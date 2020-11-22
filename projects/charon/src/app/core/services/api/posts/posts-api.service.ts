@@ -25,7 +25,7 @@ export class PostsApiService {
     ...this.post,
   }));
 
-  public getPosts(offsetPostAddress: number, count: number): Observable<any> {
+  public getPosts(offsetPostAddress: number, count: number): Observable<any[]> {
     const offsetPostIndex = this.posts.findIndex((post) => post.address === offsetPostAddress);
     const startPostIndex = offsetPostIndex + 1;
 
