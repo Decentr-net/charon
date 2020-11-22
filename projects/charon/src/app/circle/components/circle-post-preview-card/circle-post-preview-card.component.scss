@@ -1,0 +1,34 @@
+$circle-post-preview-card--background-color: #FFFFFF;
+$circle-post-preview-card--time-color: #9EA0A5;
+
+:host {
+  background-color: $circle-post-preview-card--background-color;
+  display: block;
+  padding: 16px 24px;
+}
+
+.circle-post-preview-card__title,
+.circle-post-preview-card__content {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+}
+
+.circle-post-preview-card__title {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 26px;
+  -webkit-line-clamp: 2;
+}
+
+.circle-post-preview-card__content {
+  font-size: 14px;
+  line-height: 22px;
+  margin-top: 8px;
+}
+
+.circle-post-preview-card__time {
+  color: $circle-post-preview-card--time-color;
+  font-size: 12px;
+  margin-top: 10px;
+}

@@ -1,5 +1,32 @@
+$overview-page--analytics-divider-color: #9EA0A5;
+
 .overview-page__statistic-container {
   column-gap: 30px;
   display: grid;
   grid-template-columns: repeat(2, 420px) 470px;
+}
+
+.overview-page__analytics-divider {
+  align-items: center;
+  display: flex;
+  margin: 36px 0;
+
+  .mat-divider {
+    flex-grow: 1;
+  }
+}
+
+.overview-page__analytics-divider-title {
+  color: $overview-page--analytics-divider-color;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 30px;
+  white-space: nowrap;
+}
+
+.overview-page__posts-container {
+  column-gap: 30px;
+  display: grid;
+  grid-template-columns: repeat(4, 320px);
+  row-gap: 30px;
 }

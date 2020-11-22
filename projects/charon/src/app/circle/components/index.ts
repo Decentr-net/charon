@@ -6,7 +6,9 @@ import { CircleInfinitePostsContainerComponent } from './circle-infinite-posts-c
 import { CircleLoadMoreButtonComponent } from './circle-load-more-button';
 import { CircleNavigationComponent } from './circle-navigation';
 import { CirclePdvStatisticsComponent } from './circle-pdv-statistics';
+import { CirclePostAnalyticsCardComponent } from './circle-post-analytics-card';
 import { CirclePostPdvComponent } from './circle-post-pdv';
+import { CirclePostPreviewCardComponent } from './circle-post-preview-card';
 import { CirclePostRatingComponent } from './circle-post-rating';
 import { CirclePostTimeComponent } from './circle-post-time';
 import { CircleShortPostComponent } from './circle-short-post';
@@ -24,7 +26,9 @@ export const CIRCLE_COMPONENTS = [
   CircleLoadMoreButtonComponent,
   CircleNavigationComponent,
   CirclePdvStatisticsComponent,
+  CirclePostAnalyticsCardComponent,
   CirclePostPdvComponent,
+  CirclePostPreviewCardComponent,
   CirclePostRatingComponent,
   CirclePostTimeComponent,
   CircleShortPostComponent,

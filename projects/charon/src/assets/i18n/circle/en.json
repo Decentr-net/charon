@@ -42,9 +42,16 @@
       "decreased": "Your PDV decreased by {{ percent }}% in the last 24-hours"
     }
   },
+  "circle_post_analytics_card": {
+    "activity_or_dec_id": "Activity / DecID",
+    "pdv_increase": "PDV +{{percent}}%"
+  },
   "circle_wall_post": {
     "pdv": "PDV",
     "posted": "dposted"
+  },
+  "overview_page": {
+    "highest_pdv_analytics": "Highest PDV Analytics"
   },
   "wall_navigation": {
     "my_wall": "My Wall",
