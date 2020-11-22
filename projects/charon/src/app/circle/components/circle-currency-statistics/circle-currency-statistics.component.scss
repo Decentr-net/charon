@@ -1,0 +1,23 @@
+$circle-currency-statistics--rate-color: #354052;
+$circle-currency-statistics--rate-change-color: #9EA0A5;
+
+:host {
+  display: block;
+}
+
+.circle-currency-statistics__rate {
+  color: $circle-currency-statistics--rate-color;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 47px;
+  margin-top: 14px;
+}
+
+.circle-currency-statistics__rate-change {
+  color: $circle-currency-statistics--rate-change-color;
+}
+
+.circle-currency-statistics__chart {
+  //height: 74px;
+  margin-top: 28px;
+}

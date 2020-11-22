@@ -1,0 +1,26 @@
+<app-circle-statistics-card *transloco="let translate; read: 'circle.circle_currency_statistics'">
+  <ng-container ngProjectAs="title">
+    {{ translate('dec_rate') }}
+  </ng-container>
+
+  <ng-container ngProjectAs="subtitle">
+    {{ translate('statistics_from', { date: statistics.fromDate | date }) }}
+  </ng-container>
+
+  <div class="circle-currency-statistics__rate">
+    {{ statistics.rate | number : '1.4' }}
+  </div>
+
+  <div class="circle-currency-statistics__rate-change">
+    {{ translate(
+    'dec_rate_change.' + (statistics.rateChangedIn24HoursPercent >= 0 ? 'increased' : 'decreased'),
+    { percent: statistics.rateChangedIn24HoursPercent }
+  ) }}
+  </div>
+
+  <div
+    class="circle-currency-statistics__chart"
+    [inlineSVG]="'assets/images/icons/dynamics-positive.svg'"
+  ></div>
+
+</app-circle-statistics-card>
