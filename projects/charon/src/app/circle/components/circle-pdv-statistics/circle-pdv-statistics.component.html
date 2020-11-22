@@ -1,11 +1,11 @@
-<ng-container *transloco="let translate; read: 'circle.circle_pdv_statistics'">
-  <div class="circle-pdv-statistics__title">
+<app-circle-statistics-card *transloco="let translate; read: 'circle.circle_pdv_statistics'">
+  <ng-container ngProjectAs="title">
     {{ translate('my_pdv') }}
-  </div>
+  </ng-container>
 
-  <div class="circle-pdv-statistics__subtitle">
+  <ng-container ngProjectAs="subtitle">
     {{ translate('activity_from', { date: statistics.fromDate | date }) }}
-  </div>
+  </ng-container>
 
   <div class="circle-pdv-statistics__pdv">
     {{ statistics.pdv | number : '1.4' }}
@@ -23,4 +23,4 @@
     [inlineSVG]="'assets/images/icons/dynamics-positive.svg'"
   ></div>
 
-</ng-container>
+</app-circle-statistics-card>

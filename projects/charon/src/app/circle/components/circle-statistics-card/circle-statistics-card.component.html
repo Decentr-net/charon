@@ -1,0 +1,17 @@
+<div class="circle-statistics-card__title">
+  <ng-content select="title"></ng-content>
+</div>
+
+<div class="circle-statistics-card__subtitle">
+  <ng-content select="subtitle"></ng-content>
+</div>
+
+<ng-content></ng-content>
+
+<mat-divider
+  class="circle-statistics-card__divider"
+  *ngIf="footer.children.length || footer.innerText"
+></mat-divider>
+<div class="circle-statistics-card__footer" #footer>
+  <ng-content select="footer"></ng-content>
+</div>

@@ -1,4 +1,5 @@
 import { CircleAvatarComponent } from './circle-avatar';
+import { CircleCurrencyStatisticsComponent } from './circle-currency-statistics';
 import { CircleHeaderComponent } from './circle-header';
 import { CircleInfinitePostsContainerComponent } from './circle-infinite-posts-container';
 import { CircleLoadMoreButtonComponent } from './circle-load-more-button';
@@ -8,12 +9,14 @@ import { CirclePostPdvComponent } from './circle-post-pdv';
 import { CirclePostRatingComponent } from './circle-post-rating';
 import { CirclePostTimeComponent } from './circle-post-time';
 import { CircleShortPostComponent } from './circle-short-post';
+import { CircleStatisticsCardComponent } from './circle-statistics-card';
 import { CircleWallPostComponent } from './circle-wall-post';
 import { NavigationLinkComponent } from './navigation-link';
 import { WallNavigationComponent } from './wall-navigation';
 
 export const CIRCLE_COMPONENTS = [
   CircleAvatarComponent,
+  CircleCurrencyStatisticsComponent,
   CircleHeaderComponent,
   CircleInfinitePostsContainerComponent,
   CircleLoadMoreButtonComponent,
@@ -23,6 +26,7 @@ export const CIRCLE_COMPONENTS = [
   CirclePostRatingComponent,
   CirclePostTimeComponent,
   CircleShortPostComponent,
+  CircleStatisticsCardComponent,
   CircleWallPostComponent,
   NavigationLinkComponent,
   WallNavigationComponent,
