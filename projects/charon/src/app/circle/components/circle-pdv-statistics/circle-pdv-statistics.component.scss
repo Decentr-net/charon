@@ -1,25 +1,8 @@
-$circle-pdv-statistics--background-color: #FFFFFF;
-$circle-pdv-statistics--subtitle-color: #9EA0A5;
 $circle-pdv-statistics--pdv-color: #354052;
 $circle-pdv-statistics--pdv-change-color: #9EA0A5;
 
 :host {
-  background-color: $circle-pdv-statistics--background-color;
   display: block;
-  padding: 24px;
-  width: 420px;
-}
-
-.circle-pdv-statistics__title {
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.circle-pdv-statistics__subtitle {
-  color: $circle-pdv-statistics--subtitle-color;
-  font-size: 14px;
-  line-height: 22px;
-  margin-top: 7px;
 }
 
 .circle-pdv-statistics__pdv {
@@ -35,6 +18,5 @@ $circle-pdv-statistics--pdv-change-color: #9EA0A5;
 }
 
 .circle-pdv-statistics__chart {
-  height: 74px;
   margin-top: 28px;
 }
