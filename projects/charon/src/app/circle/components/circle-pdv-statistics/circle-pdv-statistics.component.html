@@ -18,9 +18,10 @@
     ) }}
   </div>
 
-  <div
-    class="circle-pdv-statistics__chart"
-    [inlineSVG]="'assets/images/icons/dynamics-positive.svg'"
-  ></div>
+  <app-line-chart *ngIf="chartPoints$ | async as points"
+                  [data]="points"
+                  color="#19A2FF"
+                  class="circle-pdv-statistics__chart">
+  </app-line-chart>
 
 </app-circle-statistics-card>

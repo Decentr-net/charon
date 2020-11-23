@@ -15,6 +15,7 @@ import { CIRCLE_COMPONENTS } from './components';
 import { CIRCLE_DIRECTIVES } from './directives';
 import { CIRCLE_PAGES } from './pages';
 import { CircleRoutingModule } from './circle-routing.module';
+import { LineChartModule } from '../shared/components/line-chart';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { CircleRoutingModule } from './circle-routing.module';
     ColorLabelModule,
     CommonModule,
     InlineSVGModule,
+    LineChartModule,
     MatDialogModule,
     MatDividerModule,
     SanitizeModule,

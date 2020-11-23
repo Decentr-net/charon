@@ -1,0 +1,11 @@
+<ng-container *transloco="let translate; read: 'circle.circle_chart'">
+  <ng-container *ngIf="data.length > 0; else noData">
+    <figure #chart class="chart"></figure>
+  </ng-container>
+
+  <ng-template #noData>
+    <div class="no-data">
+      {{ translate('no_data') }}
+    </div>
+  </ng-template>
+</ng-container>
