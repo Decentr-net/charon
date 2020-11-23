@@ -67,10 +67,13 @@ export class UserPageService {
       switchMap(({ walletAddress, networkApi }) => {
         return this.pdvService.getPDVStats(networkApi, walletAddress);
       }),
-      map((stats) => stats.map(({ date, value }) => ({
-        date: new Date(date).valueOf(),
-        value,
-      })))
+      map((stats) => stats
+        .map(({ date, value }) => ({
+          date: new Date(date).valueOf(),
+          value,
+        }))
+        .sort((a, b) => a.date - b.date)
+      ),
     );
   }
 
@@ -96,7 +99,7 @@ export class UserPageService {
   private getWalletAddressAndNetworkApiStream(): Observable<{
     walletAddress: AuthUser['wallet']['address'];
     networkApi: Network['api'];
-  }>  {
+  }> {
     return combineLatest([
       this.authService.getActiveUser().pipe(
         pluck('wallet', 'address'),
