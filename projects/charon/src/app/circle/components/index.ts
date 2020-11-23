@@ -7,6 +7,7 @@ import { CircleLoadMoreButtonComponent } from './circle-load-more-button';
 import { CircleNavigationComponent } from './circle-navigation';
 import { CirclePdvStatisticsComponent } from './circle-pdv-statistics';
 import { CirclePostAnalyticsCardComponent } from './circle-post-analytics-card';
+import { CirclePostDialogComponent } from './circle-post-dialog';
 import { CirclePostPdvComponent } from './circle-post-pdv';
 import { CirclePostPreviewCardComponent } from './circle-post-preview-card';
 import { CirclePostRatingComponent } from './circle-post-rating';
@@ -27,6 +28,7 @@ export const CIRCLE_COMPONENTS = [
   CircleNavigationComponent,
   CirclePdvStatisticsComponent,
   CirclePostAnalyticsCardComponent,
+  CirclePostDialogComponent,
   CirclePostPdvComponent,
   CirclePostPreviewCardComponent,
   CirclePostRatingComponent,

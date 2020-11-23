@@ -34,6 +34,9 @@
   "circle-infinite-posts-container": {
     "load_more_posts": "Load more posts"
   },
+  "circle_post_dialog": {
+    "pdv": "PDV"
+  },
   "circle_pdv_statistics": {
     "activity_from": "Activity from {{date}}",
     "my_pdv": "My PDV",
