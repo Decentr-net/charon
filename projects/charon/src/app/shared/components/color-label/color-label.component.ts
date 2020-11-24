@@ -8,4 +8,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 })
 export class ColorLabelComponent {
   @Input() public color: string;
+
+  @Input() public circleType: 'filled' | 'hole' = 'filled';
 }
