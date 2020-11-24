@@ -13,6 +13,7 @@ import { NavigationModule } from './navigation';
 import { NetworkSelectorModule, NetworkSelectorService } from './network-selector';
 import { ProfileSelectorModule } from './profile-selector';
 import { SpinnerModule } from './spinner';
+import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES } from './services';
 
@@ -47,6 +48,7 @@ export function initNetworkFactory(networkService: NetworkSelectorService): () =
     }),
     NavigationModule,
     SpinnerModule,
+    SvgIconRootModule,
     ToastrModule.forRoot({
       closeButton: true,
       positionClass: 'toast-top-center',
