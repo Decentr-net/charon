@@ -5,8 +5,7 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { generateMnemonic } from 'decentr-js';
 
 import { NavigationService } from '@core/navigation';
-import { SpinnerService } from '@core/spinner';
-import { NotificationService } from '@core/services';
+import { NotificationService, SpinnerService } from '@core/services';
 import { AccountData } from '../../components';
 import { SignUpRoute } from '../../sign-up-route';
 import { SignUpPageService } from './sign-up-page.service';

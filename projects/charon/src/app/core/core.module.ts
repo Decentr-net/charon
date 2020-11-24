@@ -1,4 +1,5 @@
 import { APP_INITIALIZER, NgModule, Optional, SkipSelf } from '@angular/core';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { fromEvent } from 'rxjs';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -13,7 +14,6 @@ import { CORE_GUARDS } from './guards';
 import { NavigationModule } from './navigation';
 import { NetworkSelectorModule, NetworkSelectorService } from './network-selector';
 import { ProfileSelectorModule } from './profile-selector';
-import { SpinnerModule } from './spinner';
 import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES } from './services';
@@ -48,8 +48,8 @@ export function initNetworkFactory(networkService: NetworkSelectorService): () =
       redirectUrl: AppRoute.Login,
     }),
     NavigationModule,
+    OverlayModule,
     SlotModule.forRoot(),
-    SpinnerModule,
     SvgIconRootModule,
     ToastrModule.forRoot({
       closeButton: true,

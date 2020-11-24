@@ -10,8 +10,7 @@ import { UserPrivate } from '@root-shared/services/auth';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
 import { AuthService, AuthUserUpdate } from '@core/auth';
-import { SpinnerService } from '@core/spinner';
-import { NotificationService } from '@core/services';
+import { NotificationService, SpinnerService } from '@core/services';
 import { EditProfilePageService } from './edit-profile-page.service';
 
 interface EditProfileForm extends Required<AuthUserUpdate>, Pick<UserPrivate, 'primaryEmail'> {

@@ -8,7 +8,7 @@ import {
   AuthUncompletedRegistrationGuard,
   AuthUnconfirmedGuard,
   UnauthGuard,
-} from '../core/auth';
+} from '@core/auth';
 import {
   CompleteRegistrationPageComponent,
   EmailConfirmationPageComponent,

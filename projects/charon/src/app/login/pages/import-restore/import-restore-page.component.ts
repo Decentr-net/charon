@@ -8,8 +8,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
-import { SpinnerService } from '@core/spinner';
-import { NotificationService } from '@core/services';
+import { NotificationService, SpinnerService } from '@core/services';
 import { ImportRestorePageService } from './import-restore-page.service';
 
 export enum ImportRestorePageType {

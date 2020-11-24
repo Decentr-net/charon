@@ -8,8 +8,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { AuthService } from '@core/auth';
-import { SpinnerService } from '@core/spinner';
-import { NotificationService } from '@core/services';
+import { NotificationService, SpinnerService } from '@core/services';
 import { AppRoute } from '../../../app-route';
 import { SignUpRoute } from '../../sign-up-route';
 import { EmailConfirmationPageService } from './email-confirmation-page.service';

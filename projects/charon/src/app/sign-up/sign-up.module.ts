@@ -11,8 +11,7 @@ import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { CodeInputModule } from '@shared/components/code-input';
 import { DateInputModule } from '@shared/components/date-input';
 import { FormErrorModule } from '@shared/components/form-error';
-import { NavigationModule } from '@shared/../core/navigation';
-import { SpinnerModule } from '@shared/../core/spinner';
+import { NavigationModule } from '@core/navigation';
 import { SIGN_UP_COMPONENTS } from './components';
 import { SIGN_UP_PAGES } from './pages';
 import { SIGN_UP_SERVICES } from './services';
@@ -38,7 +37,6 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     NavigationModule,
     ReactiveFormsModule,
     SignUpRoutingModule,
-    SpinnerModule,
     TranslocoModule,
   ],
   providers: [

@@ -16,7 +16,6 @@ import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { DateInputModule } from '@shared/components/date-input';
 import { FormErrorModule } from '@shared/components/form-error';
 import { LayoutHeaderModule } from '@shared/components/layout-header';
-import { SpinnerModule } from '@shared/../core/spinner';
 import { USER_PAGES } from './pages';
 import { USER_COMPONENTS } from './components';
 import { UserRoutingModule } from './user-routing.module';
@@ -38,7 +37,6 @@ import { UserRoutingModule } from './user-routing.module';
     MatTabsModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    SpinnerModule,
     TranslocoModule,
     UserRoutingModule,
   ],
