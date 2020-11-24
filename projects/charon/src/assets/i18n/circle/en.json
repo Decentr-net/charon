@@ -52,7 +52,6 @@
     }
   },
   "circle_post_analytics_card": {
-    "activity_or_dec_id": "Activity / DecID",
     "pdv_increase": "PDV +{{percent}}%"
   },
   "circle_wall_post": {
