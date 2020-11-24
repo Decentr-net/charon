@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 
-import { SpinnerComponent } from './spinner';
+import { SpinnerComponent } from '@shared/components/spinner';
 
 @Injectable()
 export class SpinnerService {

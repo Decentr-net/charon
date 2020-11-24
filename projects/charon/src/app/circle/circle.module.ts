@@ -11,7 +11,6 @@ import { ColorLabelModule } from '../shared/components/color-label';
 import { SlotModule } from '../shared/components/slot';
 import { TextEllipsisModule } from '../shared/directives/text-ellipsis';
 import { SanitizeModule } from '../shared/pipes/sanitize';
-import { SpinnerModule } from '../core/spinner';
 import { CIRCLE_COMPONENTS } from './components';
 import { CIRCLE_DIRECTIVES } from './directives';
 import { CIRCLE_PAGES } from './pages';
@@ -33,7 +32,6 @@ import { CircleRoutingModule } from './circle-routing.module';
     MatDividerModule,
     SanitizeModule,
     SlotModule,
-    SpinnerModule,
     SvgIconsModule,
     TextEllipsisModule,
     TranslocoModule,
