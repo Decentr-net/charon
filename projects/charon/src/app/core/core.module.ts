@@ -4,6 +4,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
+import { SlotModule } from '@shared/components/slot';
 import { AppRoute } from '../app-route';
 import { SignUpRoute } from '../sign-up';
 import { AuthModule, AuthService } from './auth';
