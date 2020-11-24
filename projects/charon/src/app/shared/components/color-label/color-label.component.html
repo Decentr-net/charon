@@ -1,6 +1,7 @@
 <div
   class="color-label__circle"
-  [style.backgroundColor]="color"
+  [style.color]="color"
+  [ngClass]="'mod-' + circleType"
 ></div>
 
 <ng-content></ng-content>
