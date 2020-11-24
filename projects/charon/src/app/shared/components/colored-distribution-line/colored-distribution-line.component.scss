@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+}
+
+.colored-distribution-line__part {
+  height: 3px;
+
+  & + & {
+    margin-left: 2px;
+  }
+}

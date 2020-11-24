@@ -1,0 +1,22 @@
+$circle-pdv-statistics--pdv-color: #354052;
+$circle-pdv-statistics--pdv-change-color: #9EA0A5;
+
+:host {
+  display: block;
+}
+
+.circle-pdv-statistics__pdv {
+  color: $circle-pdv-statistics--pdv-color;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 47px;
+  margin-top: 14px;
+}
+
+.circle-pdv-statistics__pdv-change {
+  color: $circle-pdv-statistics--pdv-change-color;
+}
+
+.circle-pdv-statistics__chart {
+  margin-top: 28px;
+}

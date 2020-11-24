@@ -1,0 +1,34 @@
+$circle-page--background-color: #F2F2F2;
+
+:host {
+  background: $circle-page--background-color;
+  display: block;
+  min-height: 100%;
+}
+
+.circle-page__header {
+  position: sticky;
+  top: 0;
+}
+
+.circle-page__header-meta-container {
+  align-items: center;
+  display: flex;
+  height: 100%;
+}
+
+.circle-page__header-meta-label {
+  font-size: 14px;
+
+  & + & {
+    margin-left: 40px;
+  }
+}
+
+.circle-page__header-meta-label-value {
+  margin-left: 4px;
+}
+
+.circle-page__content-container {
+  padding: 30px;
+}

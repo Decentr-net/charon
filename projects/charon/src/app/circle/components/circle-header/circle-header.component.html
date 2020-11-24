@@ -1,0 +1,42 @@
+<div class="circle-header__bar">
+  <a
+    class="circle-header__bar-icon"
+    [inlineSVG]="'assets/images/logo-icon.svg'"
+    [routerLink]="['./']"
+  ></a>
+
+  <div class="circle-header__bar-meta-container">
+    <ng-content select="meta"></ng-content>
+    <ng-container *appSlotContainer="metaSlotName"></ng-container>
+  </div>
+
+  <app-circle-avatar
+    class="circle-header__bar-avatar"
+    [src]="avatarSrc"
+    [routerLink]="[circleRoute.News, circleRoute.World, circleWallRoute.MyWall]"
+  ></app-circle-avatar>
+
+  <div class="circle-header__bar-actions-container">
+    <a
+      class="circle-header__bar-icon-button"
+      [routerLink]="[circleRoute.News, circleRoute.World, circleWallRoute.Recent]"
+    >
+      <svg-icon class="circle-header__bar-icon" key="notification"></svg-icon>
+    </a>
+
+    <a
+      class="circle-header__bar-icon-button"
+    >
+      <svg-icon class="circle-header__bar-icon" key="plus-bold"></svg-icon>
+    </a>
+
+    <a
+      class="circle-header__bar-icon-button"
+      [routerLink]="['/', appRoute.User, userRoute.Edit]"
+    >
+      <svg-icon class="circle-header__bar-icon" key="settings"></svg-icon>
+    </a>
+  </div>
+</div>
+
+<ng-container *appSlotContainer="contentSlotName"></ng-container>

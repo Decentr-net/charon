@@ -11,6 +11,9 @@ import { SpinnerService } from './spinner.service';
   declarations: [
     SpinnerComponent,
   ],
+  exports: [
+    SpinnerComponent,
+  ],
   providers: [
     SpinnerService,
   ],

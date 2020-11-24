@@ -1,0 +1,43 @@
+<app-circle-statistics-card
+  class="circle-activity-statistics__card"
+  *transloco="let translate; read: 'circle.circle_activity_distribution'"
+>
+  <ng-container ngProjectAs="title">
+    {{ translate('data_value') }}
+  </ng-container>
+
+  <ng-container ngProjectAs="subtitle">
+    {{ translate('last_24_hours') }}
+  </ng-container>
+
+  <div
+    class="circle-activity-statistics__param"
+    *ngFor="let param of distributions; trackBy: trackByParamI18nKey"
+  >
+    <div class="circle-activity-statistics__param-name">{{ translate(param.paramI18nKey) }}</div>
+
+    <app-colored-distribution-line
+      class="circle-activity-statistics__param-distribution"
+      [distribution]="param.distribution"
+    ></app-colored-distribution-line>
+  </div>
+
+  <div class="circle-activity-statistics__future-params">
+    <div>
+      <div class="circle-activity-statistics__param-name">{{ translate('params.adv') }}</div>
+      <div class="circle-activity-statistics__param-name">{{ translate('params.ddv') }}</div>
+      <div class="circle-activity-statistics__param-name">{{ translate('params.dec') }}</div>
+    </div>
+    <div class="circle-activity-statistics__coming-soon">{{ translate('coming_soon') }}</div>
+  </div>
+
+  <ng-container ngProjectAs="footer">
+    <app-color-label
+      class="circle-activity-statistics__source-label"
+      *ngFor="let source of dataValueSources; trackBy: trackBySelf"
+      [color]="colors[source]"
+    >
+      {{ translate('sources.' + source) }}
+    </app-color-label>
+  </ng-container>
+</app-circle-statistics-card>

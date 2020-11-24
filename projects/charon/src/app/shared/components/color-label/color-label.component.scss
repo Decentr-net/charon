@@ -1,0 +1,25 @@
+$color-label--circle-size--filled: 8px;
+$color-label--circle-size--hole: 14px;
+
+:host {
+  align-items: center;
+  display: inline-flex;
+  line-height: 100%;
+}
+
+.color-label__circle {
+  border-radius: 100%;
+  margin-right: 10px;
+
+  &.mod-filled {
+    background-color: currentColor;
+    height: $color-label--circle-size--filled;
+    width: $color-label--circle-size--filled;
+  }
+
+  &.mod-hole {
+    border: 2px solid currentColor;
+    height: $color-label--circle-size--hole;
+    width: $color-label--circle-size--hole;
+  }
+}

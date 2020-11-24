@@ -1,0 +1,26 @@
+<app-circle-statistics-card *transloco="let translate; read: 'circle.circle_pdv_statistics'">
+  <ng-container ngProjectAs="title">
+    {{ translate('my_pdv') }}
+  </ng-container>
+
+  <ng-container ngProjectAs="subtitle">
+    {{ translate('activity_from', { date: statistics.fromDate | date }) }}
+  </ng-container>
+
+  <div class="circle-pdv-statistics__pdv">
+    {{ statistics.pdv | number : '1.4' }}
+  </div>
+
+  <div class="circle-pdv-statistics__pdv-change">
+    {{ translate(
+    'pdv_change.' + (statistics.pdvChangedIn24HoursPercent >= 0 ? 'increased' : 'decreased'),
+    { percent: statistics.pdvChangedIn24HoursPercent }
+    ) }}
+  </div>
+
+  <div
+    class="circle-pdv-statistics__chart"
+    [inlineSVG]="'assets/images/icons/dynamics-positive.svg'"
+  ></div>
+
+</app-circle-statistics-card>

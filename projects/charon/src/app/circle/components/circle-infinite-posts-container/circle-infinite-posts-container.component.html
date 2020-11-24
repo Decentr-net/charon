@@ -1,0 +1,17 @@
+<ng-container *transloco="let translate; read: 'circle.circle-infinite-posts-container'">
+  <ng-content></ng-content>
+
+  <div class="circle-infinite-posts-container__loading-container">
+    <button
+      app-circle-load-more-button
+      *ngIf="!isLoading; else spinner"
+      (click)="onLoadMoreClick()"
+    >
+      {{ translate('load_more_posts') }}
+    </button>
+  </div>
+</ng-container>
+
+<ng-template #spinner>
+  <app-spinner></app-spinner>
+</ng-template>

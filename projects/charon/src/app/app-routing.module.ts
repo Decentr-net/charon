@@ -43,6 +43,13 @@ const ROUTES: Routes = [
       UnauthGuard,
     ],
   },
+  {
+    path: AppRoute.Circle,
+    loadChildren: () => import('./circle/circle.module').then(m => m.CircleModule),
+    canActivate: [
+      AuthCompletedRegistrationGuard,
+    ],
+  }
 ];
 
 @NgModule({

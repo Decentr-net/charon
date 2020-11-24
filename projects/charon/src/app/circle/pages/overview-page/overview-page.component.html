@@ -1,0 +1,32 @@
+<ng-container *transloco="let translate; read: 'circle.overview_page'">
+  <div class="overview-page__statistic-container">
+    <app-circle-pdv-statistics [statistics]="pdvStatistics"></app-circle-pdv-statistics>
+
+    <app-circle-currency-statistics [statistics]="rateStatistics"></app-circle-currency-statistics>
+
+    <app-circle-activity-statistics [statistics]="activityStatistics"></app-circle-activity-statistics>
+  </div>
+
+  <div class="overview-page__analytics-divider">
+    <mat-divider></mat-divider>
+
+    <span class="overview-page__analytics-divider-title">
+      {{ translate('highest_pdv_analytics') }}
+    </span>
+
+    <mat-divider></mat-divider>
+  </div>
+
+  <app-circle-infinite-posts-container
+    [isLoading]="isLoading$ | async"
+    (loadMore)="loadMore()"
+  >
+    <div class="overview-page__posts-container">
+      <app-circle-post-analytics-card
+        *ngFor="let post of posts$ | async; trackBy: trackByPostAddress"
+        [maxContentLines]="7"
+        [postAnalytics]="post"
+      ></app-circle-post-analytics-card>
+    </div>
+  </app-circle-infinite-posts-container>
+</ng-container>

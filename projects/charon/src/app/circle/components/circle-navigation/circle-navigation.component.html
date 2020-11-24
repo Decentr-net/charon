@@ -1,0 +1,18 @@
+<ng-container *transloco="let translate; read: 'circle.circle_navigation'">
+  <div class="circle-navigation__section">
+    <app-navigation-link
+      class="circle-navigation__link mod-overview"
+      [link]="circleRoute.Overview"
+      [title]="translate('account_overview')"
+    ></app-navigation-link>
+  </div>
+
+  <div class="circle-navigation__section">
+    <app-navigation-link
+      class="circle-navigation__link"
+      *ngFor="let linkConfig of newsLinksConfig; trackBy: trackByLink"
+      [link]="[circleRoute.News, linkConfig.link]"
+      [title]="translate(linkConfig.i18nKey)"
+    ></app-navigation-link>
+  </div>
+</ng-container>

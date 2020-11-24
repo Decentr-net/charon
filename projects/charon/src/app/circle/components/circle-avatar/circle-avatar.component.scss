@@ -1,0 +1,14 @@
+$circle-avatar--size: 38px;
+
+:host {
+  border-radius: 6px;
+  display: inline-flex;
+  height: $circle-avatar--size;
+  min-width: $circle-avatar--size;
+  width: $circle-avatar--size;
+}
+
+.circle-avatar__image {
+  height: 100%;
+  width: 100%;
+}
