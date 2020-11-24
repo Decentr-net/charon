@@ -1,5 +1,39 @@
-<app-circle-header>
-  <app-circle-navigation></app-circle-navigation>
+<app-circle-header
+  *transloco="let translate; read: 'circle.circle_page.header'"
+  class="circle-page__header"
+  [avatarSrc]="avatar"
+>
+  <div
+    *appSlot="headerMetaSlotName"
+    class="circle-page__header-meta-container"
+  >
+    <app-color-label
+      class="circle-page__header-meta-label"
+      *ngIf="balance$ | async as balance"
+      [circleType]="'hole'"
+      [color]="'#3796A4'"
+    >
+      <strong>{{ translate('pdv') }}:</strong>
+      <span class="circle-page__header-meta-label-value">{{ balance }}</span>
+    </app-color-label>
+
+    <app-color-label
+      class="circle-page__header-meta-label"
+      *ngIf="coinRate$ | async as coinRate"
+      [circleType]="'hole'"
+      [color]="'#FDC900'"
+    >
+      <strong>{{ translate('dec') }}:</strong>
+      <span class="circle-page__header-meta-label-value">
+        {{ coinRate | currency : 'USD' : 'symbol' : '1.4' }}
+      </span>
+    </app-color-label>
+  </div>
+
+  <ng-container *appSlot="headerContentSlotName">
+    <mat-divider></mat-divider>
+    <app-circle-navigation></app-circle-navigation>
+  </ng-container>
 </app-circle-header>
 
 <div class="circle-page__content-container">
