@@ -18,10 +18,15 @@
   ) }}
   </div>
 
-  <app-line-chart *ngIf="chartPoints$ | async as points"
-                  [data]="points"
+  <app-line-chart *ngIf="statistics.points.length > 0; else noData"
+                  [data]="statistics.points"
                   color="#80D8C9"
                   class="circle-currency-statistics__chart">
   </app-line-chart>
 
+  <ng-template #noData>
+    <div class="circle-currency-statistics__no-data">
+      {{ translate('no_chart_data') }}
+    </div>
+  </ng-template>
 </app-circle-statistics-card>
