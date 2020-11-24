@@ -1,7 +1,9 @@
+$circle-navigation--background-color: #FFFFFF;
 $circle-navigation--height: 72px;
 
 :host {
   align-items: center;
+  background-color: $circle-navigation--background-color;
   display: flex;
   justify-content: space-between;
   height: $circle-navigation--height;

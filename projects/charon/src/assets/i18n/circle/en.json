@@ -34,6 +34,12 @@
   "circle-infinite-posts-container": {
     "load_more_posts": "Load more posts"
   },
+  "circle_page": {
+    "header": {
+      "pdv": "My PDV",
+      "dec": "DEC"
+    }
+  },
   "circle_post_dialog": {
     "pdv": "PDV"
   },

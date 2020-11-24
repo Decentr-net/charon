@@ -47,6 +47,7 @@ export function initNetworkFactory(networkService: NetworkSelectorService): () =
       redirectUrl: AppRoute.Login,
     }),
     NavigationModule,
+    SlotModule.forRoot(),
     SpinnerModule,
     SvgIconRootModule,
     ToastrModule.forRoot({

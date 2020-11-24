@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
+import { SvgIconsModule } from '@ngneat/svg-icon';
 import { InlineSVGModule } from 'ng-inline-svg';
 
 import { ColoredDistributionLineModule } from '../shared/components/colored-distribution-line';
 import { ColorLabelModule } from '../shared/components/color-label';
+import { SlotModule } from '../shared/components/slot';
 import { TextEllipsisModule } from '../shared/directives/text-ellipsis';
 import { SanitizeModule } from '../shared/pipes/sanitize';
 import { SpinnerModule } from '../core/spinner';
@@ -30,7 +32,9 @@ import { CircleRoutingModule } from './circle-routing.module';
     MatDialogModule,
     MatDividerModule,
     SanitizeModule,
+    SlotModule,
     SpinnerModule,
+    SvgIconsModule,
     TextEllipsisModule,
     TranslocoModule,
   ],

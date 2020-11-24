@@ -1,19 +1,54 @@
-$circle-header--background-color: #FFFFFF;
+$circle-header--bar--background-color: #FFFFFF;
+$circle-header--bar-meta-container--background-color: #F8FAFD;
+$circle-header--bar-icon-button--hover-background-color: #F8FAFD;
 
 :host {
-  background: $circle-header--background-color;
   display: block;
 }
 
 .circle-header__bar {
   align-items: center;
+  background-color: $circle-header--bar--background-color;
   display: flex;
   height: 82px;
+  padding: 10px 30px;
+}
+
+.circle-header__bar-avatar {
+  cursor: pointer;
+  margin-right: 24px;
+}
+
+.circle-header__bar-actions-container {
+  align-items: center;
+  column-gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, min-content);
+}
+
+.circle-header__bar-icon-button {
+  background: transparent;
+  border-radius: 100%;
+  box-sizing: content-box;
+  cursor: pointer;
+  display: inline-block;
+  padding: 8px;
+
+  &:hover {
+    background-color: $circle-header--bar-icon-button--hover-background-color;
+  }
 }
 
 .circle-header__bar-icon {
-  border-radius: 100%;
-  height: 40px;
-  padding: 8px;
-  width: 40px;
+  height: 24px;
+  width: 24px;
+}
+
+.circle-header__bar-meta-container {
+  background-color: $circle-header--bar-meta-container--background-color;
+  border-radius: 8px;
+  flex-grow: 1;
+  margin: 0 30px;
+  height: 100%;
+  padding: 0 28px;
 }
