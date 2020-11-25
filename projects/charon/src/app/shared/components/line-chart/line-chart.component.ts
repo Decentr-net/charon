@@ -1,8 +1,9 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import * as d3 from 'd3';
-import { ChartPoint } from '../../models/chart-point.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import * as d3 from 'd3';
+
 import { observeResize } from '../../utils/oberveResize';
+import { ChartPoint } from '../../models/chart-point.model';
 
 @UntilDestroy()
 @Component({
@@ -39,7 +40,6 @@ export class LineChartComponent implements AfterViewInit {
     this.setChartSize();
     this.createSvg();
     this.createAxis();
-    // this.drawAxis();
     this.drawLine();
     this.drawArea();
   }
@@ -81,22 +81,6 @@ export class LineChartComponent implements AfterViewInit {
     this.y = d3.scaleLinear();
 
     this.updateAxis();
-  }
-
-  private drawAxis(): void {
-    // Draw the X-axis on the DOM
-    this.chartContainer.append('g')
-      .attr('transform', `translate(0,${this.height})`)
-      .attr('class', 'axis axis--x')
-      .call(d3.axisBottom(this.x))
-      .selectAll("text")
-      .attr("transform", "translate(-10,0)rotate(-30)")
-      .style("text-anchor", "end");
-
-    // Draw the Y-axis on the DOM
-    this.chartContainer.append('g')
-      .attr('class', 'axis axis--y')
-      .call(d3.axisLeft(this.y));
   }
 
   private drawLine(): void {
