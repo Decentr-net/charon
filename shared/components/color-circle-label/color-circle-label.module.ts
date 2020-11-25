@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ColorLabelComponent } from './color-label.component';
+import { ColorCircleLabelComponent } from './color-circle-label.component';
 
 @NgModule({
   imports: [
     CommonModule,
   ],
   declarations: [
-    ColorLabelComponent,
+    ColorCircleLabelComponent,
   ],
   exports: [
-    ColorLabelComponent,
+    ColorCircleLabelComponent,
   ],
 })
-export class ColorLabelModule {
+export class ColorCircleLabelModule {
 }
 

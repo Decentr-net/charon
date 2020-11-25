@@ -42,7 +42,13 @@ $circle-statistics-card--coming-soon-color: #9EA0A5;
 }
 
 .circle-activity-statistics__source-label {
+  font-size: 8px;
+
   & + & {
     margin-left: 22px;
   }
+}
+
+.circle-activity-statistics__source-label-text {
+  font-size: 14px;
 }
