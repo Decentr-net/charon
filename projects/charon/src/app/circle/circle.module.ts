@@ -6,6 +6,7 @@ import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { InlineSVGModule } from 'ng-inline-svg';
 
+import { AvatarModule } from '@root-shared/components/avatar';
 import { ColorCircleLabelModule } from '@root-shared/components/color-circle-label';
 import { SanitizeModule } from '@root-shared/pipes/sanitize';
 import { ColoredDistributionLineModule } from '../shared/components/colored-distribution-line';
@@ -23,6 +24,7 @@ import { CircleRoutingModule } from './circle-routing.module';
     CIRCLE_PAGES,
   ],
   imports: [
+    AvatarModule,
     CircleRoutingModule,
     ColoredDistributionLineModule,
     ColorCircleLabelModule,
