@@ -1,5 +1,4 @@
 import { CircleActivityStatisticsComponent } from './circle-activity-statistics';
-import { CircleAvatarComponent } from './circle-avatar';
 import { CircleCurrencyStatisticsComponent } from './circle-currency-statistics';
 import { CircleHeaderComponent } from './circle-header';
 import { CircleInfinitePostsContainerComponent } from './circle-infinite-posts-container';
@@ -20,7 +19,6 @@ import { WallNavigationComponent } from './wall-navigation';
 
 export const CIRCLE_COMPONENTS = [
   CircleActivityStatisticsComponent,
-  CircleAvatarComponent,
   CircleCurrencyStatisticsComponent,
   CircleHeaderComponent,
   CircleInfinitePostsContainerComponent,
