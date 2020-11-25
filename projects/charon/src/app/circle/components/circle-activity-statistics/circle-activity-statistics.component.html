@@ -32,12 +32,14 @@
   </div>
 
   <ng-container ngProjectAs="footer">
-    <app-color-label
+    <app-color-circle-label
       class="circle-activity-statistics__source-label"
       *ngFor="let source of dataValueSources; trackBy: trackBySelf"
       [color]="colors[source]"
     >
-      {{ translate('sources.' + source) }}
-    </app-color-label>
+      <span class="circle-activity-statistics__source-label-text">
+        {{ translate('sources.' + source) }}
+      </span>
+    </app-color-circle-label>
   </ng-container>
 </app-circle-statistics-card>
