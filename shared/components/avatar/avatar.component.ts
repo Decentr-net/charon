@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-circle-avatar',
-  templateUrl: './circle-avatar.component.html',
-  styleUrls: ['./circle-avatar.component.scss'],
+  selector: 'app-avatar',
+  templateUrl: './avatar.component.html',
+  styleUrls: ['./avatar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CircleAvatarComponent {
+export class AvatarComponent {
   @Input() public src: string;
 }
