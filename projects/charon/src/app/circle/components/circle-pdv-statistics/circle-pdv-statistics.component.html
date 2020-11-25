@@ -18,11 +18,12 @@
     ) }}
   </div>
 
-  <app-line-chart *ngIf="statistics.points.length > 1; else noData"
-                  [data]="statistics.points"
-                  color="#19A2FF"
-                  class="circle-pdv-statistics__chart">
-  </app-line-chart>
+  <app-line-chart
+    class="circle-pdv-statistics__chart"
+    *ngIf="statistics.points.length > 1; else noData"
+    [data]="statistics.points"
+    color="#19A2FF"
+  ></app-line-chart>
 
   <ng-template #noData>
     <div class="circle-pdv-statistics__no-data">
