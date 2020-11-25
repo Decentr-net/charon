@@ -25,10 +25,10 @@ export class LineChartComponent implements AfterViewInit {
   private height: number;
   private margin = { top: 5, right: 5, bottom: 5, left: 5 };
 
-  private svg: any;
-  private chartContainer: any;
-  private x: any;
-  private y: any;
+  private svg: d3.Selection<SVGSVGElement, unknown, null, undefined>;
+  private chartContainer: d3.Selection<SVGSVGElement, unknown, null, undefined>;
+  private x: d3.ScaleTime<number, number>;
+  private y: d3.ScaleLinear<number, number>;
   private line: d3.Line<ChartPoint>;
   private area: d3.Area<ChartPoint>;
 
@@ -94,14 +94,14 @@ export class LineChartComponent implements AfterViewInit {
       .attr('fill', 'none')
       .attr('stroke', this.color)
       .attr('stroke-width', 2)
-      .attr('d', this.line)
+      .attr('d', this.line);
   }
 
   private drawArea(): void {
     this.area = d3.area<ChartPoint>()
       .x(d => this.x(d.date))
       .y0(this.height)
-      .y1((d: any) => this.y(d.value));
+      .y1(d => this.y(d.value));
 
     this.chartContainer.append('path')
       .datum(this.data)
@@ -114,9 +114,9 @@ export class LineChartComponent implements AfterViewInit {
 
   private updateSvgDimensions(): void {
     this.svg
-      .attr("viewBox", `0 0 ${this.containerWidth} ${this.containerHeight}`)
-      .attr("width", this.containerWidth)
-      .attr("height", this.containerHeight);
+      .attr('viewBox', `0 0 ${this.containerWidth} ${this.containerHeight}`)
+      .attr('width', this.containerWidth)
+      .attr('height', this.containerHeight);
   }
 
   private updateAxis(): void {
