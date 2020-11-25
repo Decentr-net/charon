@@ -3,7 +3,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as d3 from 'd3';
 
 import { observeResize } from '../../utils/oberveResize';
-import { ChartPoint } from '../../models/chart-point.model';
+import { ChartPoint } from '@shared/components/line-chart';
 
 @UntilDestroy()
 @Component({

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ChartPoint } from '../../../shared/models/chart-point.model';
+import { ChartPoint } from '@shared/components/line-chart';
 
 export interface CircleCurrencyStatistics {
   fromDate: number;
