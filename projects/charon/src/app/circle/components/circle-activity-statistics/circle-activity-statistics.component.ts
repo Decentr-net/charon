@@ -44,7 +44,7 @@ export class CircleActivityStatisticsComponent {
 
   public readonly dataValueSources = Object.values(CircleDataValueSource);
 
-  public readonly colors: Record<CircleDataValueSource, ColorCircleLabelColor | string> = {
+  public readonly colors: Record<CircleDataValueSource, DistributionLineParam['color'] & ColorCircleLabelColor> = {
     [CircleDataValueSource.Activity]: 'blue',
     [CircleDataValueSource.Platform]: 'green',
   };
