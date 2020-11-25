@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, V
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as d3 from 'd3';
 
-import { observeResize } from '../../utils/oberveResize';
+import { observeResize } from '@shared/utils/observe-resize';
 import { ChartPoint } from '@shared/components/line-chart';
 
 @UntilDestroy()
