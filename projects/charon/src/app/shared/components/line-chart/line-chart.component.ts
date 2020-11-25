@@ -1,17 +1,10 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  Input,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 import { ChartPoint } from '../../models/chart-point.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { observeResize } from '../../utils/oberveResize';
 
+@UntilDestroy()
 @Component({
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
@@ -19,11 +12,6 @@ import { observeResize } from '../../utils/oberveResize';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineChartComponent implements AfterViewInit {
-
-  @HostListener('window:resize', ['$event.target']) onResize() {
-    this.resizeWorks();
-  }
-
   @ViewChild('chart', { static: false }) chartRef: ElementRef;
 
   @Input() public data: ChartPoint[];
@@ -37,6 +25,7 @@ export class LineChartComponent implements AfterViewInit {
   private margin = { top: 0, right: 5, bottom: 0, left: 5 };
 
   private svg: any;
+  private chartContainer: any;
   private x: any;
   private y: any;
   private line: d3.Line<ChartPoint>;
@@ -57,6 +46,7 @@ export class LineChartComponent implements AfterViewInit {
 
   private resizeWorks(): void {
     this.setChartSize();
+    this.updateSvg();
     this.updateChart();
   }
 
@@ -73,9 +63,14 @@ export class LineChartComponent implements AfterViewInit {
       .append('svg')
       .attr("viewBox", `0 0 ${this.containerWidth} ${this.containerHeight}`)
       .attr("width", this.containerWidth)
-      .attr("height", this.containerHeight)
+      .attr("height", this.containerHeight);
+
+    this.svg
       .append('g')
+      .attr('class', 'chart-container')
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
+
+    this.chartContainer = d3.select(this.chartRef.nativeElement).select('.chart-container');
   }
 
   private createAxis(): void {
@@ -90,7 +85,7 @@ export class LineChartComponent implements AfterViewInit {
 
   private drawAxis(): void {
     // Draw the X-axis on the DOM
-    this.svg.append('g')
+    this.chartContainer.append('g')
       .attr('transform', `translate(0,${this.height})`)
       .attr('class', 'axis axis--x')
       .call(d3.axisBottom(this.x))
@@ -99,7 +94,7 @@ export class LineChartComponent implements AfterViewInit {
       .style("text-anchor", "end");
 
     // Draw the Y-axis on the DOM
-    this.svg.append('g')
+    this.chartContainer.append('g')
       .attr('class', 'axis axis--y')
       .call(d3.axisLeft(this.y));
   }
@@ -110,7 +105,7 @@ export class LineChartComponent implements AfterViewInit {
       .x(d => this.x(d.date))
       .y(d => this.y(d.value));
 
-    this.svg.append('path')
+    this.chartContainer.append('path')
       .datum(this.data)
       .attr('class', 'line')
       .attr('fill', 'none')
@@ -125,13 +120,20 @@ export class LineChartComponent implements AfterViewInit {
       .y0(this.height)
       .y1((d: any) => this.y(d.value));
 
-    this.svg.append('path')
+    this.chartContainer.append('path')
       .datum(this.data)
       .attr('class', 'area')
       .attr('fill', this.color)
       .attr('opacity', '0.105')
       .attr('stroke', 'none')
       .attr('d', this.area);
+  }
+
+  private updateSvg(): void {
+    this.svg
+      .attr("viewBox", `0 0 ${this.containerWidth} ${this.containerHeight}`)
+      .attr("width", this.containerWidth)
+      .attr("height", this.containerHeight);
   }
 
   private updateAxis(): void {
@@ -150,13 +152,13 @@ export class LineChartComponent implements AfterViewInit {
         .domain(d3.extent(this.data, d => d.value));
     }
 
-    this.svg.select(".axis--x")
+    this.chartContainer.select(".axis--x")
       .transition()
       .duration(300)
       .ease(d3.easeLinear)
       .call(d3.axisBottom(this.x));
 
-    this.svg.select(".axis--y")
+    this.chartContainer.select(".axis--y")
       .transition()
       .duration(300)
       .ease(d3.easeLinear)
@@ -166,14 +168,14 @@ export class LineChartComponent implements AfterViewInit {
   private updateChart(): void {
     this.updateAxis();
 
-    this.svg.selectAll(".line")
+    this.chartContainer.selectAll(".line")
       .data([this.data])
       .transition()
       .duration(300)
       .ease(d3.easeLinear)
       .attr('d', this.line);
 
-    this.svg.selectAll(".area")
+    this.chartContainer.selectAll(".area")
       .data([this.data])
       .transition()
       .duration(300)
