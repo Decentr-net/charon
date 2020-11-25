@@ -23,7 +23,7 @@ export class LineChartComponent implements AfterViewInit {
   private containerHeight: number;
   private width: number;
   private height: number;
-  private margin = { top: 0, right: 5, bottom: 0, left: 5 };
+  private margin = { top: 5, right: 5, bottom: 5, left: 5 };
 
   private svg: any;
   private chartContainer: any;
@@ -33,20 +33,20 @@ export class LineChartComponent implements AfterViewInit {
   private area: d3.Area<ChartPoint>;
 
   ngAfterViewInit(): void {
-    observeResize(this.chartRef.nativeElement).pipe(
-      untilDestroyed(this)
-    ).subscribe(() => this.resizeWorks());
-
     this.setChartSize();
     this.createSvg();
     this.createAxis();
     this.drawLine();
     this.drawArea();
+
+    observeResize(this.chartRef.nativeElement).pipe(
+      untilDestroyed(this)
+    ).subscribe(() => this.resizeWorks());
   }
 
   private resizeWorks(): void {
     this.setChartSize();
-    this.updateSvg();
+    this.updateSvgDimensions();
     this.updateChart();
   }
 
@@ -60,10 +60,9 @@ export class LineChartComponent implements AfterViewInit {
 
   private createSvg(): void {
     this.svg = d3.select(this.chartRef.nativeElement)
-      .append('svg')
-      .attr("viewBox", `0 0 ${this.containerWidth} ${this.containerHeight}`)
-      .attr("width", this.containerWidth)
-      .attr("height", this.containerHeight);
+      .append('svg');
+
+    this.updateSvgDimensions();
 
     this.svg
       .append('g')
@@ -113,7 +112,7 @@ export class LineChartComponent implements AfterViewInit {
       .attr('d', this.area);
   }
 
-  private updateSvg(): void {
+  private updateSvgDimensions(): void {
     this.svg
       .attr("viewBox", `0 0 ${this.containerWidth} ${this.containerHeight}`)
       .attr("width", this.containerWidth)
@@ -136,34 +135,26 @@ export class LineChartComponent implements AfterViewInit {
         .domain(d3.extent(this.data, d => d.value));
     }
 
-    this.chartContainer.select(".axis--x")
-      .transition()
-      .duration(300)
-      .ease(d3.easeLinear)
-      .call(d3.axisBottom(this.x));
-
-    this.chartContainer.select(".axis--y")
-      .transition()
-      .duration(300)
-      .ease(d3.easeLinear)
-      .call(d3.axisLeft(this.y));
+    this.updateAxisData(this.chartContainer.select('.axis--x'), d3.axisBottom(this.x));
+    this.updateAxisData(this.chartContainer.select('.axis--y'), d3.axisLeft(this.y));
   }
 
   private updateChart(): void {
     this.updateAxis();
-
-    this.chartContainer.selectAll(".line")
-      .data([this.data])
-      .transition()
-      .duration(300)
-      .ease(d3.easeLinear)
-      .attr('d', this.line);
-
-    this.chartContainer.selectAll(".area")
-      .data([this.data])
-      .transition()
-      .duration(300)
-      .ease(d3.easeLinear)
-      .attr('d', this.area);
+    this.updateChartData(this.chartContainer.selectAll('.line'), this.line);
+    this.updateChartData(this.chartContainer.selectAll('.area'), this.area);
   }
+
+  private updateAxisData = (elem, options) => elem
+    .transition()
+    .duration(300)
+    .ease(d3.easeLinear)
+    .call(options);
+
+  private updateChartData = (elem, option) => elem
+    .data([this.data])
+    .transition()
+    .duration(300)
+    .ease(d3.easeLinear)
+    .attr('d', option);
 }
