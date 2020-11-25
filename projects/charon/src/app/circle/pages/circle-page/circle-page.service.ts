@@ -7,7 +7,7 @@ import { Environment } from '@environments/environment.definitions';
 import { exponentialToFixed } from '@shared/utils/number';
 import { AuthService, AuthUser } from '@core/auth';
 import { Network, NetworkSelectorService } from '@core/network-selector';
-import { CurrencyService } from '../../../core/services';
+import { CurrencyService } from '@core/services';
 
 @Injectable()
 export class CirclePageService {

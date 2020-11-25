@@ -1,6 +1,5 @@
 $circle-post-analytics--background-color: #FFFFFF;
 $circle-post-analytics--pdv-increase-color: #328374;
-$circle-post-analytics--label-color: #9EA0A5;
 
 :host {
   background-color: $circle-post-analytics--background-color;
@@ -25,12 +24,6 @@ $circle-post-analytics--label-color: #9EA0A5;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.circle-post-analytics__label {
-  color: $circle-post-analytics--label-color;
-  font-size: 12px;
-  line-height: 18px;
 }
 
 .circle-post-analytics__dynamics-icon {

@@ -4,8 +4,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { InlineSVGModule } from 'ng-inline-svg';
 
-import { NetworkSelectorModule } from '../../../core/network-selector';
-import { ProfileSelectorModule } from '../../../core/profile-selector';
+import { NetworkSelectorModule } from '@core/network-selector';
+import { ProfileSelectorModule } from '@core/profile-selector';
 import { LayoutHeaderComponent } from './layout-header.component';
 
 @NgModule({
