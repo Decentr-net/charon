@@ -44,6 +44,7 @@
     "@ngneat/svg-icon": "^2.1.0",
     "@ngneat/transloco": "^2.19.1",
     "@ngneat/until-destroy": "^8.0.3",
+    "@types/resize-observer-browser": "^0.1.4",
     "d3": "~6.0.0",
     "decentr-js": "^1.2.1",
     "http-status-codes": "^2.1.4",

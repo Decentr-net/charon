@@ -9,6 +9,8 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3';
 import { ChartPoint } from '../../models/chart-point.model';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { observeResize } from '../../utils/oberveResize';
 
 @Component({
   selector: 'app-line-chart',
@@ -41,14 +43,16 @@ export class LineChartComponent implements AfterViewInit {
   private area: d3.Area<ChartPoint>;
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.setChartSize();
-      this.createSvg();
-      this.createAxis();
-      // this.drawAxis();
-      this.drawLine();
-      this.drawArea();
-    }, 0);
+    observeResize(this.chartRef.nativeElement).pipe(
+      untilDestroyed(this)
+    ).subscribe(() => this.resizeWorks());
+
+    this.setChartSize();
+    this.createSvg();
+    this.createAxis();
+    // this.drawAxis();
+    this.drawLine();
+    this.drawArea();
   }
 
   private resizeWorks(): void {
