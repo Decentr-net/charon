@@ -1,9 +1,21 @@
+$circle-colors: (
+  blue: #01AAFF,
+  green: #3796A4,
+  yellow: #FDC900,
+);
+
 :host {
   display: flex;
 }
 
 .colored-distribution-line__part {
   height: 3px;
+
+  @each $key, $color in $circle-colors {
+    &.mod-#{$key} {
+      background-color: map-get($circle-colors, $key);
+    }
+  }
 
   & + & {
     margin-left: 2px;

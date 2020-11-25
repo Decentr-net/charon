@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, TrackByFunction } from '@angular/core';
 
 export interface DistributionLineParam {
-  color: string;
+  color: 'blue' | 'green' | 'yellow';
   percent: number;
 }
 
