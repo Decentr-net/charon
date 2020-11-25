@@ -7,10 +7,10 @@ import { SvgIconsModule } from '@ngneat/svg-icon';
 import { InlineSVGModule } from 'ng-inline-svg';
 
 import { ColorCircleLabelModule } from '@root-shared/components/color-circle-label';
+import { SanitizeModule } from '@root-shared/pipes/sanitize';
 import { ColoredDistributionLineModule } from '../shared/components/colored-distribution-line';
 import { SlotModule } from '../shared/components/slot';
 import { TextEllipsisModule } from '../shared/directives/text-ellipsis';
-import { SanitizeModule } from '../shared/pipes/sanitize';
 import { CIRCLE_COMPONENTS } from './components';
 import { CIRCLE_DIRECTIVES } from './directives';
 import { CIRCLE_PAGES } from './pages';
