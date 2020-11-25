@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, TrackByFunction } from '@angular/core';
 
+import { ColorCircleLabelColor } from '@root-shared/components/color-circle-label';
 import { DistributionLineParam } from '@shared/components/colored-distribution-line';
 
 export enum CircleActivityParam {
@@ -43,9 +44,9 @@ export class CircleActivityStatisticsComponent {
 
   public readonly dataValueSources = Object.values(CircleDataValueSource);
 
-  public readonly colors: Record<CircleDataValueSource, string> = {
-    [CircleDataValueSource.Activity]: '#01AAFF',
-    [CircleDataValueSource.Platform]: '#48C1C6',
+  public readonly colors: Record<CircleDataValueSource, ColorCircleLabelColor | string> = {
+    [CircleDataValueSource.Activity]: 'blue',
+    [CircleDataValueSource.Platform]: 'green',
   };
 
   public readonly trackByParamI18nKey: TrackByFunction<CircleActivityStatisticsRenderParam>

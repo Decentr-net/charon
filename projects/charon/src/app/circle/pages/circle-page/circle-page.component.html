@@ -7,27 +7,27 @@
     *appSlot="headerMetaSlotName"
     class="circle-page__header-meta-container"
   >
-    <app-color-label
+    <app-color-circle-label
       class="circle-page__header-meta-label"
       *ngIf="balance$ | async as balance"
       [circleType]="'hole'"
-      [color]="'#3796A4'"
+      [color]="'green'"
     >
       <strong>{{ translate('pdv') }}:</strong>
       <span class="circle-page__header-meta-label-value">{{ balance }}</span>
-    </app-color-label>
+    </app-color-circle-label>
 
-    <app-color-label
+    <app-color-circle-label
       class="circle-page__header-meta-label"
       *ngIf="coinRate$ | async as coinRate"
       [circleType]="'hole'"
-      [color]="'#FDC900'"
+      [color]="'yellow'"
     >
       <strong>{{ translate('dec') }}:</strong>
       <span class="circle-page__header-meta-label-value">
         {{ coinRate | currency : 'USD' : 'symbol' : '1.4' }}
       </span>
-    </app-color-label>
+    </app-color-circle-label>
   </div>
 
   <ng-container *appSlot="headerContentSlotName">
