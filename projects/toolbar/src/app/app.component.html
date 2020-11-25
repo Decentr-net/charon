@@ -1,7 +1,47 @@
-<div class="app__section">
-  <svg-icon key="logo"></svg-icon>
-</div>
+<ng-container *transloco="let translate">
+  <div class="app__section app__logo-container">
+    <svg-icon class="app__icon app__logo" key="logo"></svg-icon>
+  </div>
 
-<div class="app__section"></div>
+  <div class="app__section app__middle-container">
+    <div>
+      <app-color-circle-label
+        class="app__meta-label"
+        [circleType]="'hole'"
+        [color]="'green'"
+      >
+        <strong>{{ translate('pdv') }}:</strong>
+        <span class="app__meta-label-value">{{ 1 }}</span>
+      </app-color-circle-label>
 
-<div class="app__section"></div>
+      <app-color-circle-label
+        class="app__meta-label"
+        [circleType]="'hole'"
+        [color]="'yellow'"
+      >
+        <strong>{{ translate('dec') }}:</strong>
+        <span class="app__meta-label-value">
+          {{ 1 | currency : 'USD' : 'symbol' : '1.4' }}
+        </span>
+      </app-color-circle-label>
+    </div>
+
+    <div>
+      <svg-icon
+        class="app__icon"
+        key="notification"
+        (click)="openCharonNews()"
+      ></svg-icon>
+
+      <svg-icon
+        class="app__icon"
+        key="settings"
+        (click)="openCharonSettings()"
+      ></svg-icon>
+    </div>
+  </div>
+
+  <div class="app__section app__close-container" (click)="close()">
+    <svg-icon class="app__icon" key="close"></svg-icon>
+  </div>
+</ng-container>

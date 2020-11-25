@@ -5,8 +5,12 @@ export const createToolbarIframe = (): HTMLIFrameElement => {
 
   const iframe = document.createElement('iframe');
   iframe.src = toolbarSrc;
+
+  iframe.style.border = '0';
+  iframe.style.height = '33px';
   iframe.style.position = 'fixed';
   iframe.style.top = '0';
+  iframe.style.width = '100%';
   iframe.style.zIndex = '10000000';
 
   return iframe;
