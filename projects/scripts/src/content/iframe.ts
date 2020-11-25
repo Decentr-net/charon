@@ -5,11 +5,9 @@ export const createToolbarIframe = (): HTMLIFrameElement => {
 
   const iframe = document.createElement('iframe');
   iframe.src = toolbarSrc;
-
-  iframe.addEventListener('load', () => {
-    // console.log(iframe);
-    // iframe.height = iframe.scrollHeight;
-  })
+  iframe.style.position = 'fixed';
+  iframe.style.top = '0';
+  iframe.style.zIndex = '10000000';
 
   return iframe;
 }

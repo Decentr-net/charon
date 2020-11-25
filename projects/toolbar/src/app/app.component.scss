@@ -1,0 +1,13 @@
+$app--background-color: #FFFFFF;
+$app--section--background-color: #F8FAFD;
+
+:host {
+  background-color: $app--background-color;
+  column-gap: 1px;
+  display: block;
+  grid-template-columns: min-content 1fr min-content;
+}
+
+.app__section {
+  background-color: $app--section--background-color;
+}
