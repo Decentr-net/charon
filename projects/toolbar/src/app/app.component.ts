@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
+import { MessageBus } from '@shared/message-bus';
 import { AppRoute as CharonAppRoute } from '@charon/app-route';
 import { UserRoute as CharonUserRoute } from '@charon/user';
 import {
@@ -7,6 +8,7 @@ import {
   CircleWallRoute as CharonCircleWallRoute,
 } from '@charon/circle';
 import { openCharonPage } from './utils/extension';
+import { TOOLBAR_CLOSE } from './messages';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +17,10 @@ import { openCharonPage } from './utils/extension';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
+  private readonly messageBus = new MessageBus();
+
   public close(): void {
+    this.messageBus.sendMessageToCurrentTab(TOOLBAR_CLOSE);
   }
 
   public openCharonNews(): void {
