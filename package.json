@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "build": "npm run clean && npm run build:charon && npm run build:toolbar && npm run build:chrome",
-    "build:prod": "npm run clean && npm run build:charon:prod && npm run build:toolbar:prod && npm run build:chrome:prod && npm run pack",
+    "build": "npm run clean && npm run build:charon && npm run build:toolbar && npm run build:scripts:chrome",
+    "build:prod": "npm run clean && npm run build:charon:prod && npm run build:toolbar:prod && npm run build:scripts:chrome:prod && npm run pack",
     "build:chrome": "npm run clean && npm run build:charon && npm run build:scripts:chrome",
     "build:chrome:prod": "npm run clean && npm run build:charon:prod && npm run build:scripts:chrome:prod && npm run pack",
     "build:firefox": "npm run clean && npm run build:charon && npm run build:scripts:firefox",
