@@ -23,7 +23,7 @@ export class LockGuard implements CanActivate, CanActivateChild, CanDeactivate<v
   ) {
   }
 
-  public canActivate(r, state: RouterStateSnapshot): boolean | UrlTree {
+  public canActivate({}, state: RouterStateSnapshot): boolean | UrlTree {
     if (!this.lockService.isLocked) {
       this.lockService.start();
       return true;
