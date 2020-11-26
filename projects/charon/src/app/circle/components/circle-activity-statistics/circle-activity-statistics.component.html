@@ -10,20 +10,24 @@
     {{ translate('last_24_hours') }}
   </ng-container>
 
-  <div
-    class="circle-activity-statistics__param"
-    *ngFor="let param of distributions; trackBy: trackByParamI18nKey"
-  >
-    <div class="circle-activity-statistics__param-name">{{ translate(param.paramI18nKey) }}</div>
+  <!-- TODO: make visible when distribution will be done -->
+  <ng-container *ngIf="false">
+    <div
+      class="circle-activity-statistics__param"
+      *ngFor="let param of distributions; trackBy: trackByParamI18nKey"
+    >
+      <div class="circle-activity-statistics__param-name">{{ translate(param.paramI18nKey) }}</div>
 
-    <app-colored-distribution-line
-      class="circle-activity-statistics__param-distribution"
-      [distribution]="param.distribution"
-    ></app-colored-distribution-line>
-  </div>
+      <app-colored-distribution-line
+        class="circle-activity-statistics__param-distribution"
+        [distribution]="param.distribution"
+      ></app-colored-distribution-line>
+    </div>
+  </ng-container>
 
   <div class="circle-activity-statistics__future-params">
     <div>
+      <div class="circle-activity-statistics__param-name">{{ translate('params.pdv') }}</div>
       <div class="circle-activity-statistics__param-name">{{ translate('params.adv') }}</div>
       <div class="circle-activity-statistics__param-name">{{ translate('params.ddv') }}</div>
       <div class="circle-activity-statistics__param-name">{{ translate('params.dec') }}</div>

@@ -27,7 +27,7 @@ export class PdvActivityChartComponent implements OnChanges, AfterViewInit {
 
   @ViewChild('chartLineResult') private chartResultContainer: ElementRef;
 
-  bisectDate = d3.bisector(d => {
+  bisectDate = d3.bisector((d: ChartPoint) => {
     return new Date(d.date);
   }).center;
 

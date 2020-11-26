@@ -18,9 +18,16 @@
     ) }}
   </div>
 
-  <div
+  <app-line-chart
     class="circle-pdv-statistics__chart"
-    [inlineSVG]="'assets/images/icons/dynamics-positive.svg'"
-  ></div>
+    *ngIf="statistics.points.length > 1; else noData"
+    [data]="statistics.points"
+    color="#19A2FF"
+  ></app-line-chart>
 
+  <ng-template #noData>
+    <div class="circle-pdv-statistics__no-data">
+      {{ translate('not_enough_chart_data') }}
+    </div>
+  </ng-template>
 </app-circle-statistics-card>

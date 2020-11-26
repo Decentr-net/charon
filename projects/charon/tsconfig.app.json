@@ -4,7 +4,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "../../out-tsc/app",
-    "types": [],
+    "types": ["resize-observer-browser"],
     "paths": {
       "@core/*": ["src/app/core/*"],
       "@environments/*": ["../../environments/*"],
