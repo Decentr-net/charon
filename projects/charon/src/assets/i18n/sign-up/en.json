@@ -48,6 +48,12 @@
         },
         "label": "E-mail"
       },
+      "first_name": {
+        "errors": {
+          "required": "First Name is required"
+        },
+        "label": "First Name"
+      },
       "gender": {
         "errors": {
           "required": "Gender is required"
@@ -55,6 +61,12 @@
         "female": "Female",
         "label": "Gender",
         "male": "Male"
+      },
+      "last_name": {
+        "errors": {
+          "required": "Last Name is required"
+        },
+        "label": "Last Name"
       },
       "primary_email": {
         "label": "Email (primary)"
