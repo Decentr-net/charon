@@ -4,15 +4,21 @@ import { MessageBus } from '../../../shared/message-bus';
 import { TOOLBAR_CLOSE } from '../../toolbar/src/app/messages';
 import { isTopWindow } from './helpers/window';
 import { createToolbarIframe } from './content/toolbar';
+import { isToolbarClosed, saveToolbarClosed } from './content/session';
 
-const iframe = createToolbarIframe();
+if (!isToolbarClosed()) {
+  const iframe = createToolbarIframe();
 
-if (isTopWindow(window.self)) {
-  document.documentElement.append(iframe);
+  if (isTopWindow(window.self)) {
+    document.documentElement.append(iframe);
+  }
+
+  new MessageBus().onMessage(TOOLBAR_CLOSE)
+    .pipe(
+      take(1),
+    )
+    .subscribe(() => {
+      iframe.remove();
+      saveToolbarClosed();
+    });
 }
-
-new MessageBus().onMessage(TOOLBAR_CLOSE)
-  .pipe(
-    take(1),
-  )
-  .subscribe(() => iframe.remove());
