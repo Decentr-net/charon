@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { mergeMap, startWith } from 'rxjs/operators';
 
@@ -11,6 +12,7 @@ export interface NetworkStorage<T> {
   active: T;
 }
 
+@Injectable()
 export class NetworkBrowserStorageService<T extends Network = Network> {
   private readonly browserStorage: BrowserStorage<NetworkStorage<T>>
     = BrowserLocalStorage.getInstance().useSection('network');

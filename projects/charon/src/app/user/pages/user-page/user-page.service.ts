@@ -4,12 +4,13 @@ import { combineLatest, from, Observable } from 'rxjs';
 import { map, pluck, switchMap } from 'rxjs/operators';
 import { PDVDetails, PDVListItem } from 'decentr-js';
 
+import { CurrencyService } from '@root-shared/services/currency';
 import { PDVService } from '@root-shared/services/pdv';
+import { exponentialToFixed } from '@root-shared/utils/number';
 import { Environment } from '@environments/environment.definitions';
-import { exponentialToFixed } from '@shared/utils/number';
 import { AuthService, AuthUser } from '@core/auth';
 import { Network, NetworkSelectorService } from '@core/network-selector';
-import { CurrencyService, MediaService } from '@core/services';
+import { MediaService } from '@core/services';
 import { ChartPoint, PDVActivityListItem, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
 
 @Injectable()

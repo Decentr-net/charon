@@ -1,14 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { MessageBus } from '@shared/message-bus';
-import { AppRoute as CharonAppRoute } from '@charon/app-route';
-import { UserRoute as CharonUserRoute } from '@charon/user';
-import {
-  CircleRoute as CharonCircleRoute,
-  CircleWallRoute as CharonCircleWallRoute,
-} from '@charon/circle';
-import { openCharonPage } from './utils/extension';
-import { TOOLBAR_CLOSE } from './messages';
+import { AppService } from './app.service';
 
 @Component({
   selector: 'app-root',
@@ -16,26 +9,29 @@ import { TOOLBAR_CLOSE } from './messages';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
-  private readonly messageBus = new MessageBus();
+export class AppComponent implements OnInit {
+  public balance$: Observable<string>;
 
-  public close(): void {
-    this.messageBus.sendMessageToCurrentTab(TOOLBAR_CLOSE);
+  public coinRate$: Observable<number>;
+
+  constructor(private appService: AppService) {
+  }
+
+  public ngOnInit() {
+    this.balance$ = this.appService.getBalance();
+
+    this.coinRate$ = this.appService.getCoinRate();
+  }
+
+  public closeApp(): void {
+    this.appService.closeApp();
   }
 
   public openCharonNews(): void {
-    openCharonPage([
-      CharonAppRoute.User,
-      CharonCircleRoute.News,
-      CharonCircleRoute.World,
-      CharonCircleWallRoute.Recent,
-    ]);
+    this.appService.openCharonNews();
   }
 
   public openCharonSettings(): void {
-    openCharonPage([
-      CharonAppRoute.User,
-      CharonUserRoute.Edit,
-    ]);
+    this.appService.openCharonSettings();
   }
 }

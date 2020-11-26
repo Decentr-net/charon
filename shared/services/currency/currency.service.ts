@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { CurrencyApiService } from '../api';
+import { CurrencyApiService } from './api';
 
 @Injectable()
 export class CurrencyService {
