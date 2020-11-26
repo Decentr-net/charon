@@ -14,7 +14,7 @@ export const CIRCLE_HEADER_CONTENT_SLOT = Symbol('CIRCLE_HEADER_CONTENT_SLOT');
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CircleHeaderComponent {
-  @Input() public avatarSrc: string;
+  @Input() public avatarIcon: string;
 
   public readonly metaSlotName: Symbol = CIRCLE_HEADER_META_SLOT;
   public readonly contentSlotName: Symbol = CIRCLE_HEADER_CONTENT_SLOT;
