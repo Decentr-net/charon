@@ -11,18 +11,26 @@
       *transloco="let translate; read: 'sign_up.complete_registration.form'"
     >
       <div class="row">
+        <div class="radio-container col-xs-12">
+          <div class="input-label">{{ translate('avatar.label') }}</div>
+          <app-choose-avatar-radio
+            formControlName="avatar"
+          >
+          </app-choose-avatar-radio>
+        </div>
+
         <div class="input-container col-xs-12">
           <div class="input-label">{{ translate('first_name.label') }}</div>
           <mat-form-field
-                  class="input-control"
-                  appearance="outline"
+            class="input-control"
+            appearance="outline"
           >
             <input
-                    matInput
-                    type="text"
-                    name="name"
-                    formControlName="firstName"
-                    placeholder=""
+              matInput
+              type="text"
+              name="name"
+              formControlName="firstName"
+              placeholder=""
             >
 
             <mat-error>
@@ -34,15 +42,15 @@
         <div class="input-container col-xs-12">
           <div class="input-label">{{ translate('last_name.label') }}</div>
           <mat-form-field
-                  class="input-control"
-                  appearance="outline"
+            class="input-control"
+            appearance="outline"
           >
             <input
-                    matInput
-                    type="text"
-                    name="name"
-                    formControlName="lastName"
-                    placeholder=""
+              matInput
+              type="text"
+              name="name"
+              formControlName="lastName"
+              placeholder=""
             >
 
             <mat-error>
