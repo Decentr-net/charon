@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { svgUserAvatar1, svgUserAvatar2, svgUserAvatar3, svgUserAvatar4, svgUserAvatar5 } from '../../svg-icons';
+
+import { USER_AVATARS } from './index';
 
 @Component({
   selector: 'app-avatar',
@@ -14,12 +15,6 @@ export class AvatarComponent {
   constructor(
     private svgIconRegistry: SvgIconRegistry,
   ) {
-    svgIconRegistry.register([
-      svgUserAvatar1,
-      svgUserAvatar2,
-      svgUserAvatar3,
-      svgUserAvatar4,
-      svgUserAvatar5,
-    ]);
+    svgIconRegistry.register(USER_AVATARS);
   }
 }

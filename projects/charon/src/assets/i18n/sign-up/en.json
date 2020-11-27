@@ -34,6 +34,9 @@
   },
   "complete_registration": {
     "form": {
+      "avatar": {
+        "label": "Profile Picture"
+      },
       "birthday": {
         "errors": {
           "invalidFormat": "Not valid format",

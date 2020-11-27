@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
+import { ChooseAvatarRadioModule } from '@shared/components/choose-avatar-radio';
 import { CodeInputModule } from '@shared/components/code-input';
 import { DateInputModule } from '@shared/components/date-input';
 import { FormErrorModule } from '@shared/components/form-error';
@@ -23,6 +24,7 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     SIGN_UP_PAGES,
   ],
   imports: [
+    ChooseAvatarRadioModule,
     CodeInputModule,
     CommonModule,
     DateInputModule,
