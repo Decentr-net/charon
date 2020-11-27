@@ -11,6 +11,7 @@ const LOCK_STORE_SECTION_KEY = 'lock';
 
 interface LockStore {
   lastInteractionTime: number;
+  lockedManually: boolean;
 }
 
 @UntilDestroy()
@@ -37,7 +38,8 @@ export class LockService {
 
   public async init(): Promise<void> {
     const lastInteraction = await this.store.get('lastInteractionTime');
-    const isLocked = !lastInteraction || (+new Date() - lastInteraction > this.lockDelay);
+    const isLockedManually = await this.store.get('lockedManually');
+    const isLocked = isLockedManually || !lastInteraction || (+new Date() - lastInteraction > this.lockDelay);
     this.isLocked$.next(isLocked);
   }
 
@@ -67,12 +69,14 @@ export class LockService {
     this.isWorking$.next(false);
   }
 
-  public lock(): void {
+  public lock(): Promise<void> {
     this.isLocked$.next(true);
+    return this.store.set('lockedManually', true);
   }
 
-  public unlock(): void {
+  public unlock(): Promise<void> {
     this.isLocked$.next(false);
+    return this.store.set('lockedManually', false);
   }
 
   private initLockSubscription(): void {
@@ -100,10 +104,6 @@ export class LockService {
       )),
       untilDestroyed(this),
     ).subscribe(() => this.updateLastInteractionTime());
-
-    this.stopped$.pipe(
-      untilDestroyed(this),
-    ).subscribe(() => this.clearStore());
   }
 
   private getLastInteractionTimeSource(): Observable<number> {
@@ -112,10 +112,6 @@ export class LockService {
 
   private updateLastInteractionTime(): Promise<void> {
     return this.store.set('lastInteractionTime', Date.now());
-  }
-
-  private clearStore(): Promise<void> {
-    return this.store.clear();
   }
 
   private navigateToLockedUrl(): void {

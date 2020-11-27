@@ -19,7 +19,9 @@ export class LoginPageService {
       return false;
     }
 
-    this.lockService.unlock();
-    this.router.navigate([returnUrl]);
+    this.lockService.unlock().then(() => {
+      this.router.navigate([returnUrl]);
+    });
+    return true;
   }
 }
