@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChartPoint } from '@shared/components/line-chart';
 
 export interface CircleCurrencyStatistics {
   fromDate: number;
+  points: ChartPoint[];
   rate: number;
   rateChangedIn24HoursPercent: number;
 }

@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChartPoint } from '@shared/components/line-chart';
 
 export interface CirclePDVStatistics {
   pdvChangedIn24HoursPercent: number;
   fromDate: number;
   pdv: number;
+  points: ChartPoint[];
 }
 
 @Component({

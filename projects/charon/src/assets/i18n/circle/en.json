@@ -20,6 +20,7 @@
       "increased": "DEC increased by {{ percent }}% in the last 24-hours",
       "decreased": "DEC decreased by {{ percent }}% in the last 24-hours"
     },
+    "no_chart_data": "No DEC Rate data",
     "statistics_from": "Statistic from {{date}}"
   },
   "circle_navigation": {
@@ -45,6 +46,7 @@
   },
   "circle_pdv_statistics": {
     "activity_from": "Activity from {{date}}",
+    "not_enough_chart_data": "Not enough data PDV for the chart",
     "my_pdv": "My PDV",
     "pdv_change": {
       "increased": "Your PDV increased by {{ percent }}% in the last 24-hours",

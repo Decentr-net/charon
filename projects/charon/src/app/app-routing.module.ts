@@ -10,7 +10,7 @@ const ROUTES: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: AppRoute.User,
+    redirectTo: AppRoute.Circle,
   },
   {
     path: AppRoute.Login,
@@ -47,7 +47,12 @@ const ROUTES: Routes = [
     path: AppRoute.Circle,
     loadChildren: () => import('./circle/circle.module').then(m => m.CircleModule),
     canActivate: [
+      BrowserTabGuard,
       AuthCompletedRegistrationGuard,
+      LockGuard,
+    ],
+    canDeactivate: [
+      LockGuard,
     ],
   }
 ];
