@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, TrackByFunction } from '@angular/core';
 
-import { ColorCircleLabelColor } from '@root-shared/components/color-circle-label';
+import { ColorCircleLabelColor } from '@shared/components/color-circle-label';
 import { DistributionLineParam } from '@shared/components/colored-distribution-line';
 
 export enum CircleActivityParam {

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { delay, mapTo, retryWhen, take } from 'rxjs/operators';
 import { Account, PublicProfile } from 'decentr-js';
 
-import { UserPrivate } from '@root-shared/services/auth';
+import { UserPrivate } from '@shared/services/auth';
 import { NetworkSelectorService } from '@core/network-selector';
 import { UserApiService } from '../api';
 

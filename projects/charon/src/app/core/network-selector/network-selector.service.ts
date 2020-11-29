@@ -8,7 +8,7 @@ import { Environment } from '@environments/environment.definitions';
 import {
   Network as NetworkWithApi,
   NetworkBrowserStorageService,
-} from '@root-shared/services/network-storage';
+} from '@shared/services/network-storage';
 
 export type Network = NetworkWithApi & {
   name: string;

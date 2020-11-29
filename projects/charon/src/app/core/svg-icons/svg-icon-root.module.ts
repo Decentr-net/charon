@@ -5,7 +5,7 @@ import {
   svgNotification,
   svgPlusBold,
   svgSettings,
-} from '@root-shared/svg-icons';
+} from '@shared/svg-icons';
 
 @NgModule({
   imports: [SvgIconsModule.forRoot({

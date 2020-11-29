@@ -13,7 +13,7 @@ $circle-colors: (
 
   @each $key, $color in $circle-colors {
     &.mod-#{$key} {
-      background-color: map-get($circle-colors, $key);
+      background-color: $color;
     }
   }
 
