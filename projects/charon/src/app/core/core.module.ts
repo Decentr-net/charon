@@ -44,7 +44,7 @@ export function initNetworkFactory(networkService: NetworkSelectorService): () =
     }),
     LockModule.forRoot({
       delay: 1000 * 60 * 5,
-      interactionSource: fromEvent(document, 'click'),
+      interactionSource: fromEvent(document, 'click', { capture: true }),
       redirectUrl: AppRoute.Login,
     }),
     NavigationModule,

@@ -11,7 +11,7 @@ const LOCK_STORE_SECTION_KEY = 'lock';
 
 interface LockStore {
   lastInteractionTime: number;
-  lockedManually: boolean;
+  locked: boolean;
 }
 
 @UntilDestroy()
@@ -38,8 +38,8 @@ export class LockService {
 
   public async init(): Promise<void> {
     const lastInteraction = await this.store.get('lastInteractionTime');
-    const isLockedManually = await this.store.get('lockedManually');
-    const isLocked = isLockedManually || !lastInteraction || (+new Date() - lastInteraction > this.lockDelay);
+    const wasLockedLastTime = await this.store.get('locked');
+    const isLocked = wasLockedLastTime || !lastInteraction || (+new Date() - lastInteraction > this.lockDelay);
     this.isLocked$.next(isLocked);
   }
 
@@ -69,14 +69,16 @@ export class LockService {
     this.isWorking$.next(false);
   }
 
-  public lock(): Promise<void> {
+  public async lock(): Promise<boolean> {
+    console.log('lock');
     this.isLocked$.next(true);
-    return this.store.set('lockedManually', true);
+    await this.store.set('locked', true);
+    return this.navigateToLockedUrl();
   }
 
   public unlock(): Promise<void> {
     this.isLocked$.next(false);
-    return this.store.set('lockedManually', false);
+    return this.store.set('locked', false);
   }
 
   private initLockSubscription(): void {
@@ -86,14 +88,8 @@ export class LockService {
         takeUntil(this.stopped$),
       )),
       debounceTime(this.lockDelay),
-      mapTo(true),
       untilDestroyed(this),
-    ).subscribe(this.isLocked$);
-
-    this.isLocked$.pipe(
-      filter(isLocked => isLocked),
-      untilDestroyed(this),
-    ).subscribe(() => this.navigateToLockedUrl());
+    ).subscribe(() => this.lock());
   }
 
   private initInteractionSubscription(): void {
@@ -103,7 +99,10 @@ export class LockService {
         takeUntil(this.stopped$),
       )),
       untilDestroyed(this),
-    ).subscribe(() => this.updateLastInteractionTime());
+    ).subscribe(() => {
+      console.log('interacted');
+      this.updateLastInteractionTime();
+    });
   }
 
   private getLastInteractionTimeSource(): Observable<number> {
@@ -114,9 +113,9 @@ export class LockService {
     return this.store.set('lastInteractionTime', Date.now());
   }
 
-  private navigateToLockedUrl(): void {
-    this.ngZone.run(() => {
-      this.router.navigate([this.lockRedirectUrl]);
+  private navigateToLockedUrl(): Promise<boolean> {
+    return this.ngZone.run(() => {
+      return this.router.navigate([this.lockRedirectUrl]);
     });
   }
 }
