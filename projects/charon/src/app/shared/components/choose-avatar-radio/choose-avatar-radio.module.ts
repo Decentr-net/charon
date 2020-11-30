@@ -6,7 +6,6 @@ import { NgModule } from '@angular/core';
 
 import { AvatarModule } from '@root-shared/components/avatar';
 import { ChooseAvatarRadioComponent } from './choose-avatar-radio.component';
-import { FormErrorModule } from '../form-error';
 
 @NgModule({
   declarations: [
@@ -15,7 +14,6 @@ import { FormErrorModule } from '../form-error';
   imports: [
     AvatarModule,
     CommonModule,
-    FormErrorModule,
     FormsModule,
     MatFormFieldModule,
     MatRadioModule,

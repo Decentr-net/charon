@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs';
 
@@ -24,8 +24,6 @@ export interface Avatar {
   ],
 })
 export class ChooseAvatarRadioComponent implements AfterViewInit, ControlValueAccessor {
-  @Input() formControlName: string;
-
   public avatars: Avatar[] = USER_AVATARS;
   public value: Avatar['name'];
 
