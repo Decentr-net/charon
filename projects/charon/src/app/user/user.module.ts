@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
+import { ChooseAvatarRadioModule } from '@shared/components/choose-avatar-radio';
 import { DateInputModule } from '@shared/components/date-input';
 import { FormErrorModule } from '@shared/components/form-error';
 import { LayoutHeaderModule } from '@shared/components/layout-header';
@@ -22,6 +23,7 @@ import { UserRoutingModule } from './user-routing.module';
 
 @NgModule({
   imports: [
+    ChooseAvatarRadioModule,
     CommonModule,
     DateInputModule,
     FormErrorModule,
