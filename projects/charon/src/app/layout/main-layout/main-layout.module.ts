@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { LayoutHeaderModule } from '../../../projects/charon/src/app/core/layout/layout-header';
+import { LayoutHeaderModule } from '../layout-header';
 import { MainLayoutComponent } from './main-layout.component';
 
 @NgModule({
