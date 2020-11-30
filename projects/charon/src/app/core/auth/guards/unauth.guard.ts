@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
-import { CanActivate, CanActivateChild, Router, UrlTree } from '@angular/router';
+import { CanActivate, CanActivateChild, CanLoad, Router, UrlTree } from '@angular/router';
 
 import { AuthService } from '../services';
 import { AUTHORIZED_REDIRECT_URL } from '../auth.tokens';
 
 @Injectable()
-export class UnauthGuard implements CanActivate, CanActivateChild {
+export class UnauthGuard implements CanActivate, CanActivateChild, CanLoad {
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -22,6 +22,10 @@ export class UnauthGuard implements CanActivate, CanActivateChild {
   }
 
   public canActivateChild(): boolean | UrlTree {
+    return this.canActivate();
+  }
+
+  public canLoad(): boolean | UrlTree {
     return this.canActivate();
   }
 }
