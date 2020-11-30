@@ -6,7 +6,7 @@ import { delay } from 'rxjs/operators';
 export class PostsApiService {
   private post = {
     author: {
-      avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Square_-_black_simple.svg/1200px-Square_-_black_simple.svg.png',
+      avatar: 'user-avatar-1',
       name: 'Eugene Tishkevich',
     },
     content: 'Grocery delivery is one of the fastest growing businesses at Amazon and we think this will be one of the most-loved Prime benefits in the UK, says Russell Jones, country manager of Amazon Fresh UK.\n' +
