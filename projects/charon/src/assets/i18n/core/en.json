@@ -8,6 +8,7 @@
     "title": "Networks"
   },
   "profile_selector": {
+    "decenter_hub": "Decenter Hub",
     "import_account": "Import Account",
     "info_and_help": "Info & Help",
     "lock": "Lock",

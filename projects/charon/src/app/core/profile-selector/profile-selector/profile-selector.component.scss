@@ -100,9 +100,13 @@
       ::ng-deep svg {
         width: 22px;
         height: 22px;
+      }
 
-        * {
-          stroke: #ffffff;
+      &__white {
+        ::ng-deep svg {
+          * {
+            stroke: #ffffff;
+          }
         }
       }
     }
