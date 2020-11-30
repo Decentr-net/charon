@@ -14,6 +14,7 @@ import { ProfileSelectorService } from '../profile-selector.service';
 export class ProfileSelectorComponent implements OnInit {
   public balance$: Observable<string>;
   public username$: Observable<string>;
+  public userAvatar;
 
   constructor(
     private authService: AuthService,
@@ -31,6 +32,8 @@ export class ProfileSelectorComponent implements OnInit {
       pluck('primaryUsername'),
       shareReplay(1),
     );
+
+    this.userAvatar = this.authService.getActiveUserInstant().avatar;
   }
 
   public lock(): void {

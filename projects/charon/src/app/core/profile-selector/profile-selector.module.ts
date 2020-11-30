@@ -4,17 +4,19 @@ import { MatMenuModule } from '@angular/material/menu';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import { AvatarModule } from '@root-shared/components/avatar';
 import { ProfileSelectorComponent } from './profile-selector';
 import { ProfileSelectorService } from './profile-selector.service';
 
 @NgModule({
-  declarations: [ProfileSelectorComponent],
   imports: [
+    AvatarModule,
     CommonModule,
     InlineSVGModule,
     MatMenuModule,
     TranslocoModule,
   ],
+  declarations: [ProfileSelectorComponent],
   exports: [ProfileSelectorComponent],
   providers: [ProfileSelectorService],
 })

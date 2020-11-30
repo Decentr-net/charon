@@ -1,8 +1,9 @@
 <ng-container *transloco="let translate; scope: 'core'; read: 'core.profile_selector'">
-  <div
+  <app-avatar
     class="profile-image"
-    [matMenuTriggerFor]="menuTemplate">
-  </div>
+    [icon]="userAvatar"
+    [matMenuTriggerFor]="menuTemplate"
+  ></app-avatar>
 
   <mat-menu
     #menuTemplate
@@ -16,7 +17,10 @@
 
       <div class="menu__items">
         <div class="menu-item menu-item__active">
-          <div class="profile-image"></div>
+          <app-avatar
+            class="profile-image"
+            [icon]="userAvatar"
+          ></app-avatar>
           <div>
             <div class="name">{{ username$ | async }}</div>
             <div class="rate">{{ balance$ | async }} PDV</div>
@@ -25,21 +29,24 @@
       </div>
 
       <div class="menu__footer">
-        <div class="menu-item"
-             [class.menu-item__disabled]="true">
-          <div class="icon"
-               aria-label="Import Account"
-               [resolveSVGUrl]="false"
-               [inlineSVG]="'assets/images/icons/import.svg'">
-          </div>
+        <div
+          class="menu-item"
+          [class.menu-item__disabled]="true"
+        >
+          <div
+            class="icon"
+            aria-label="Import Account"
+            [resolveSVGUrl]="false"
+            [inlineSVG]="'assets/images/icons/import.svg'"
+          ></div>
           {{ translate('import_account') }} <span>(coming soon)</span>
         </div>
         <div class="menu-item">
           <div class="icon"
-               aria-label="Import Account"
-               [resolveSVGUrl]="false"
-               [inlineSVG]="'assets/images/icons/information.svg'">
-          </div>
+            aria-label="Import Account"
+            [resolveSVGUrl]="false"
+            [inlineSVG]="'assets/images/icons/information.svg'"
+          ></div>
           {{ translate('info_and_help') }}
         </div>
       </div>
