@@ -70,7 +70,6 @@ export class LockService {
   }
 
   public async lock(): Promise<boolean> {
-    console.log('lock');
     this.isLocked$.next(true);
     await this.store.set('locked', true);
     return this.navigateToLockedUrl();
@@ -100,7 +99,6 @@ export class LockService {
       )),
       untilDestroyed(this),
     ).subscribe(() => {
-      console.log('interacted');
       this.updateLastInteractionTime();
     });
   }
