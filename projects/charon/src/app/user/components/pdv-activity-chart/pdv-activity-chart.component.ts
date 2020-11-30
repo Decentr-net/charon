@@ -20,7 +20,7 @@ export interface ChartPoint {
   styleUrls: ['./pdv-activity-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PdvActivityChartComponent implements OnChanges, AfterViewInit {
+export class PdvActivityChartComponent implements AfterViewInit {
   @Input() public data: ChartPoint[];
 
   @ViewChild('chartLine') private chartContainer: ElementRef;
@@ -50,10 +50,6 @@ export class PdvActivityChartComponent implements OnChanges, AfterViewInit {
 
   private chartHover: any;
   private chartLegend: any;
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    this.repaintChart();
-  }
 
   public ngAfterViewInit(): void {
     this.initChart();
