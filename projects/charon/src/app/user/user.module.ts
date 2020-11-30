@@ -15,7 +15,7 @@ import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
 import { DateInputModule } from '@shared/components/date-input';
 import { FormErrorModule } from '@shared/components/form-error';
-import { LayoutHeaderModule } from '@shared/components/layout-header';
+import { LayoutHeaderModule } from '@shared/../core/layout/layout-header';
 import { USER_PAGES } from './pages';
 import { USER_COMPONENTS } from './components';
 import { UserRoutingModule } from './user-routing.module';
