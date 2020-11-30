@@ -4,7 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { NgModule } from '@angular/core';
 
-import { AvatarModule } from '@root-shared/components/avatar';
+import { AvatarModule } from '../avatar';
 import { ChooseAvatarRadioComponent } from './choose-avatar-radio.component';
 
 @NgModule({

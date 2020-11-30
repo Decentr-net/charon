@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ViewEncapsulation } 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs';
 
-import { USER_AVATARS } from '@root-shared/components/avatar';
+import { USER_AVATARS } from '../avatar';
 
 export interface Avatar {
   name: string;
