@@ -5,7 +5,12 @@ export type SvgIconName =
   | 'logo'
   | 'notification'
   | 'plus-bold'
-  | 'settings';
+  | 'settings'
+  | 'user-avatar-1'
+  | 'user-avatar-2'
+  | 'user-avatar-3'
+  | 'user-avatar-4'
+  | 'user-avatar-5';
 export interface SvgIcon {
   name: SvgIconName;
   data: string;

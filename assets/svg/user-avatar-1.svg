@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="36px" height="36px">
+  <defs>
+    <style>
+      .circle_1 {
+        fill: #333333;
+        stroke: #4177E0;
+        stroke-width: 2;
+      }
+
+      .circle_2 {
+        fill: #68BFA7;
+      }
+
+      .circle_3 {
+        fill: #C97793;
+      }
+    </style>
+  </defs>
+
+  <ellipse class="circle_1" rx="17" ry="17" cx="18" cy="18"/>
+  <ellipse class="circle_2" rx="7.5" ry="7.5" cx="14" cy="14"/>
+  <ellipse class="circle_3" rx="5" ry="5" cx="24" cy="24"/>
+</svg>
