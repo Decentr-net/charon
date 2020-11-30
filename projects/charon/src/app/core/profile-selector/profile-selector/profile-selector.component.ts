@@ -19,7 +19,6 @@ export class ProfileSelectorComponent implements OnInit {
   public userAvatar;
 
   public readonly appRoute: typeof AppRoute = AppRoute;
-  public readonly circleRoute: typeof CircleRoute = CircleRoute;
 
   constructor(
     private authService: AuthService,
