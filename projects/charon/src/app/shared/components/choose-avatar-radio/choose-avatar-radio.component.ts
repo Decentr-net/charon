@@ -25,7 +25,6 @@ export interface Avatar {
 })
 export class ChooseAvatarRadioComponent implements AfterViewInit, ControlValueAccessor {
   @Input() formControlName: string;
-  @Input() currentAvatar: Avatar['name'];
 
   public avatars: Avatar[] = USER_AVATARS;
   public value: Avatar['name'];
@@ -34,7 +33,7 @@ export class ChooseAvatarRadioComponent implements AfterViewInit, ControlValueAc
   protected propagateTouch: () => void = noop;
 
   public ngAfterViewInit(): void {
-    this.value = this.currentAvatar || this.avatars[0].name;
+    this.value = this.value || this.avatars[0].name;
     this.onChange();
   }
 
