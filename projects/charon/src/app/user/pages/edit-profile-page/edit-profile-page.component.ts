@@ -116,6 +116,9 @@ export class EditProfilePageComponent implements OnInit {
 
   private createForm(): FormGroup<EditProfileForm> {
     return this.formBuilder.group({
+      avatar: [null, [
+        Validators.required,
+      ]],
       birthday: ['', [
         Validators.required,
         BaseValidationUtil.isFrDateFormatCorrect,
@@ -123,7 +126,13 @@ export class EditProfilePageComponent implements OnInit {
       confirmPassword: ['', [
         PasswordValidationUtil.equalsToAdjacentControl('password'),
       ]],
+      firstName: ['', [
+        Validators.required,
+      ]],
       gender: [null, [
+        Validators.required,
+      ]],
+      lastName: ['', [
         Validators.required,
       ]],
       emails: this.formBuilder.array([]),

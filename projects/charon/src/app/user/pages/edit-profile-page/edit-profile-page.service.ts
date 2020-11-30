@@ -17,14 +17,21 @@ export class EditProfilePageService {
     const user = this.authService.getActiveUserInstant();
 
     return (() => {
-      if (update.gender === user.gender && update.birthday === user.birthday) {
+      if (update.avatar === user.avatar
+        && update.birthday === user.birthday
+        && update.firstName === user.firstName
+        && update.gender === user.gender
+        && update.lastName === user.lastName) {
         return of(void 0);
       }
 
       return this.userService.setPublicProfile(
         {
-          gender: update.gender,
+          avatar: update.avatar,
           birthday: update.birthday,
+          firstName: update.firstName,
+          gender: update.gender,
+          lastName: update.lastName,
         },
         user.wallet.address,
         user.wallet.privateKey,

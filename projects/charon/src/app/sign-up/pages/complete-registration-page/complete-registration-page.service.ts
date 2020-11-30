@@ -22,8 +22,11 @@ export class CompleteRegistrationPageService {
 
     return this.userService.setPublicProfile(
       {
-        gender: update.gender,
+        avatar: update.avatar,
         birthday: update.birthday,
+        firstName: update.firstName,
+        gender: update.gender,
+        lastName: update.lastName,
       },
       user.wallet.address,
       user.wallet.privateKey,

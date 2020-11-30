@@ -4,17 +4,64 @@
       {{ translate('title') }}
     </div>
     <form
-        #ngForm="ngForm"
-        autocomplete="off"
-        [formGroup]="form"
-        (ngSubmit)="onSubmit()"
-        *transloco="let translate; read: 'sign_up.complete_registration.form'"
+      #ngForm="ngForm"
+      autocomplete="off"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      *transloco="let translate; read: 'sign_up.complete_registration.form'"
     >
       <div class="row">
         <div class="radio-container col-xs-12">
+          <div class="input-label">{{ translate('avatar.label') }}</div>
+          <app-choose-avatar-radio formControlName="avatar"></app-choose-avatar-radio>
+        </div>
+
+        <div class="input-container col-xs-12">
+          <div class="input-label">{{ translate('first_name.label') }}</div>
+          <mat-form-field
+            class="input-control"
+            appearance="outline"
+          >
+            <input
+              matInput
+              type="text"
+              name="name"
+              formControlName="firstName"
+              placeholder=""
+            >
+
+            <mat-error>
+              <app-form-error controlName="firstName" i18nControlKey="first_name"></app-form-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="input-container col-xs-12">
+          <div class="input-label">{{ translate('last_name.label') }}</div>
+          <mat-form-field
+            class="input-control"
+            appearance="outline"
+          >
+            <input
+              matInput
+              type="text"
+              name="name"
+              formControlName="lastName"
+              placeholder=""
+            >
+
+            <mat-error>
+              <app-form-error controlName="lastName" i18nControlKey="last_name"></app-form-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="radio-container col-xs-12">
           <div class="input-label">{{ translate('gender.label') }}</div>
-          <mat-radio-group aria-label="Select an option"
-                           formControlName="gender">
+          <mat-radio-group
+            aria-label="Select an option"
+            formControlName="gender"
+          >
             <mat-radio-button [value]="gender.Male">{{ translate('gender.male') }}</mat-radio-button>
             <mat-radio-button [value]="gender.Female">{{ translate('gender.female') }}</mat-radio-button>
           </mat-radio-group>
@@ -91,10 +138,12 @@
         </div>
 
         <div class="col-xs-12">
-          <button class="btn btn__small"
-                  mat-flat-button
-                  color="accent"
-                  [disabled]="form.invalid">
+          <button
+            class="btn btn__small"
+            mat-flat-button
+            color="accent"
+            [disabled]="form.invalid"
+          >
             {{ translate('submit') }}
           </button>
         </div>
@@ -139,7 +188,7 @@
     <div
       *ngIf="index > 1"
       class="button__remove"
-      (click)="removeEmail(index - 1)">
+      (click)="removeEmail(index - 2)">
     </div>
   </div>
 </ng-template>

@@ -115,14 +115,23 @@ export class CompleteRegistrationPageComponent implements OnInit {
 
   private createForm(): FormGroup<CompleteRegistrationForm> {
     return this.formBuilder.group({
+      avatar: [null, [
+        Validators.required,
+      ]],
       birthday: ['', [
         Validators.required,
         BaseValidationUtil.isFrDateFormatCorrect,
       ]],
+      emails: this.formBuilder.array([]),
+      firstName: ['', [
+        Validators.required,
+      ]],
       gender: [null, [
         Validators.required,
       ]],
-      emails: this.formBuilder.array([]),
+      lastName: ['', [
+        Validators.required,
+      ]],
       primaryEmail: [{ value: '', disabled: true }],
       usernames: this.formBuilder.array([]),
     });

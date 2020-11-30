@@ -95,8 +95,11 @@ export class AuthService {
     return this.authStorage.updateUser(
       userId,
       {
+        avatar: update.avatar,
         birthday: update.birthday,
+        firstName: update.firstName,
         gender: update.gender,
+        lastName: update.lastName,
         emails: update.emails,
         usernames: update.usernames,
         primaryUsername: update.usernames?.[0],
