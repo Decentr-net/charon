@@ -20,6 +20,7 @@ import { LayoutHeaderModule } from '@shared/components/layout-header';
 import { USER_PAGES } from './pages';
 import { USER_COMPONENTS } from './components';
 import { UserRoutingModule } from './user-routing.module';
+import { ChooseAvatarRadioModule } from '../shared/components/choose-avatar-radio';
 
 @NgModule({
   imports: [
