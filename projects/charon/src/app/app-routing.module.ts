@@ -19,13 +19,20 @@ const ROUTES: Routes = [
   {
     path: AppRoute.SignUp,
     loadChildren: () => import('./sign-up/sign-up.module').then(m => m.SignUpModule),
+    canLoad: [
+      UnauthGuard,
+    ],
     canActivate: [
       BrowserTabGuard,
+      UnauthGuard,
     ],
   },
   {
     path: AppRoute.User,
     loadChildren: () => import('./user/user.module').then(x => x.UserModule),
+    canLoad: [
+      AuthCompletedRegistrationGuard,
+    ],
     canActivate: [
       AuthConfirmedGuard,
       AuthCompletedRegistrationGuard,
@@ -38,6 +45,9 @@ const ROUTES: Routes = [
   {
     path: AppRoute.Welcome,
     loadChildren: () => import('./welcome/welcome.module').then(m => m.WelcomeModule),
+    canLoad: [
+      UnauthGuard,
+    ],
     canActivate: [
       BrowserTabGuard,
       UnauthGuard,
@@ -46,6 +56,9 @@ const ROUTES: Routes = [
   {
     path: AppRoute.Circle,
     loadChildren: () => import('./circle/circle.module').then(m => m.CircleModule),
+    canLoad: [
+      AuthCompletedRegistrationGuard,
+    ],
     canActivate: [
       BrowserTabGuard,
       AuthCompletedRegistrationGuard,
