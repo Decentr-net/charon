@@ -17,7 +17,7 @@ export class CirclePageComponent implements OnInit {
   public headerMetaSlotName = CIRCLE_HEADER_META_SLOT;
   public headerContentSlotName = CIRCLE_HEADER_CONTENT_SLOT;
 
-  public avatar: string = 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Square_-_black_simple.svg/1200px-Square_-_black_simple.svg.png';
+  public avatar: string = 'user-avatar-1';
 
   public coinRate$: Observable<number>;
   public balance$: Observable<string>;

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 
-import { SanitizeModule } from '../../pipes/sanitize';
 import { AvatarComponent } from './avatar.component';
+import { SvgIconsModule } from '@ngneat/svg-icon';
 
 @NgModule({
   imports: [
-    SanitizeModule,
+    SvgIconsModule,
   ],
   declarations: [
     AvatarComponent,
