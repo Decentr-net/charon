@@ -3,11 +3,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HubWallRoute } from '../../hub-route';
 
 @Component({
-  selector: 'app-wall-navigation',
-  templateUrl: './wall-navigation.component.html',
-  styleUrls: ['./wall-navigation.component.scss'],
+  selector: 'app-hub-wall-navigation',
+  templateUrl: './hub-wall-navigation.component.html',
+  styleUrls: ['./hub-wall-navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WallNavigationComponent {
+export class HubWallNavigationComponent {
   public wallRoute: typeof HubWallRoute = HubWallRoute;
 }

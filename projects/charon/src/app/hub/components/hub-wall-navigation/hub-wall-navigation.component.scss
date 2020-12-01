@@ -1,0 +1,23 @@
+$hub-wall-navigation--height: 54px;
+
+:host {
+  display: block;
+}
+
+.hub-wall-navigation__links-container {
+  align-items: center;
+  display: flex;
+  height: $hub-wall-navigation--height;
+}
+
+.hub-wall-navigation__link {
+  height: 100%;
+
+  & + & {
+    margin-left: 24px;
+  }
+}
+
+.hub-wall-navigation__divider {
+  margin-top: -1px;
+}

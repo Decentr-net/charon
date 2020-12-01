@@ -4,6 +4,7 @@ import { HubHeaderComponent } from './hub-header';
 import { HubInfinitePostsContainerComponent } from './hub-infinite-posts-container';
 import { HubLoadMoreButtonComponent } from './hub-load-more-button';
 import { HubNavigationComponent } from './hub-navigation';
+import { HubNavigationLinkComponent } from './hub-navigation-link';
 import { HubPdvStatisticsComponent } from './hub-pdv-statistics';
 import { HubPostAnalyticsCardComponent } from './hub-post-analytics-card';
 import { HubPostDialogComponent } from './hub-post-dialog';
@@ -13,9 +14,8 @@ import { HubPostRatingComponent } from './hub-post-rating';
 import { HubPostTimeComponent } from './hub-post-time';
 import { HubShortPostComponent } from './hub-short-post';
 import { HubStatisticsCardComponent } from './hub-statistics-card';
+import { HubWallNavigationComponent } from './hub-wall-navigation';
 import { HubWallPostComponent } from './hub-wall-post';
-import { NavigationLinkComponent } from './navigation-link';
-import { WallNavigationComponent } from './wall-navigation';
 
 export const HUB_COMPONENTS = [
   HubActivityStatisticsComponent,
@@ -24,6 +24,7 @@ export const HUB_COMPONENTS = [
   HubInfinitePostsContainerComponent,
   HubLoadMoreButtonComponent,
   HubNavigationComponent,
+  HubNavigationLinkComponent,
   HubPdvStatisticsComponent,
   HubPostAnalyticsCardComponent,
   HubPostDialogComponent,
@@ -33,7 +34,6 @@ export const HUB_COMPONENTS = [
   HubPostTimeComponent,
   HubShortPostComponent,
   HubStatisticsCardComponent,
+  HubWallNavigationComponent,
   HubWallPostComponent,
-  NavigationLinkComponent,
-  WallNavigationComponent,
 ];

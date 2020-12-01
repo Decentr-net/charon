@@ -60,10 +60,10 @@
     "pdv": "PDV",
     "posted": "dposted"
   },
-  "overview_page": {
+  "hub_overview_page": {
     "highest_pdv_analytics": "Highest PDV Analytics"
   },
-  "wall_navigation": {
+  "hub_wall_navigation": {
     "my_wall": "My Wall",
     "recent": "Recent"
   }
