@@ -13,13 +13,13 @@
   <app-avatar
     class="hub-header__bar-avatar"
     [icon]="avatarIcon"
-    [routerLink]="[hubRoute.News, hubRoute.World, hubWallRoute.MyWall]"
+    [routerLink]="[hubRoute.Feed, hubFeedRoute.MyWall]"
   ></app-avatar>
 
   <div class="hub-header__bar-actions-container">
     <a
       class="hub-header__bar-icon-button"
-      [routerLink]="[hubRoute.News, hubRoute.World, hubWallRoute.Recent]"
+      [routerLink]="[hubRoute.Feed, hubFeedRoute.Recent]"
     >
       <svg-icon class="hub-header__bar-icon" key="notification"></svg-icon>
     </a>

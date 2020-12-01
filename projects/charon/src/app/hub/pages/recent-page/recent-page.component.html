@@ -2,10 +2,10 @@
   [isLoading]="isLoading$ | async"
   (loadMore)="loadMore()"
 >
-  <app-hub-wall-post
+  <app-hub-feed-post
     class="recent-page__post"
     *ngFor="let post of posts$ | async; trackBy: trackByPostAddress"
     [post]="post"
     [appHubPostDialog]="post"
-  ></app-hub-wall-post>
+  ></app-hub-feed-post>
 </app-hub-infinite-posts-container>

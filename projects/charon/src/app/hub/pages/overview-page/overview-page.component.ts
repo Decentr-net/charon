@@ -7,6 +7,7 @@ import { HubPDVStatistics } from '../../components/hub-pdv-statistics';
 import { HubCurrencyStatistics } from '../../components/hub-currency-statistics';
 import { HubActivityStatistics, HubDataValueSource } from '../../components/hub-activity-statistics';
 import { OverviewPageService } from './overview-page.service';
+import { HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
 
 @UntilDestroy()
 @Component({
@@ -19,6 +20,8 @@ import { OverviewPageService } from './overview-page.service';
   ],
 })
 export class OverviewPageComponent {
+  public headerContentSlotName = HUB_HEADER_CONTENT_SLOT;
+
   public pdvStatistics: HubPDVStatistics = {
     fromDate: Date.now(),
     pdv: 1.5,

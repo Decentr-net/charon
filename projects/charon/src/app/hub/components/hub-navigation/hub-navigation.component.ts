@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, TrackByFunction } from '@angular/core';
 
+import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../hub-route';
 
-interface NewsLinkConfig {
+interface PostsLinkConfig {
   link: HubRoute;
   i18nKey: string;
 }
@@ -14,9 +15,10 @@ interface NewsLinkConfig {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubNavigationComponent {
+  public readonly appRoute: typeof AppRoute = AppRoute;
   public readonly hubRoute: typeof HubRoute = HubRoute;
 
-  public readonly newsLinksConfig: NewsLinkConfig[] = [
+  public readonly postsLinksConfig: PostsLinkConfig[] = [
     {
       link: HubRoute.World,
       i18nKey: 'world_news'
@@ -43,5 +45,5 @@ export class HubNavigationComponent {
     },
   ];
 
-  public readonly trackByLink: TrackByFunction<NewsLinkConfig> = ({}, { link }) => link;
+  public readonly trackByLink: TrackByFunction<PostsLinkConfig> = ({}, { link }) => link;
 }
