@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
-import { HUB_HEADER_CONTENT_SLOT, HUB_HEADER_META_SLOT } from '../../components/hub-header';
+import { HUB_HEADER_META_SLOT } from '../../components/hub-header';
 import { HubPageService } from './hub-page.service';
 import { Observable } from 'rxjs';
 
@@ -15,7 +15,6 @@ import { Observable } from 'rxjs';
 })
 export class HubPageComponent implements OnInit {
   public headerMetaSlotName = HUB_HEADER_META_SLOT;
-  public headerContentSlotName = HUB_HEADER_CONTENT_SLOT;
 
   public avatar: string = 'user-avatar-1';
 

@@ -56,14 +56,14 @@
   "hub_post_analytics_card": {
     "pdv_increase": "PDV +{{percent}}%"
   },
-  "hub_wall_post": {
+  "hub_feed_post": {
     "pdv": "PDV",
     "posted": "dposted"
   },
   "hub_overview_page": {
     "highest_pdv_analytics": "Highest PDV Analytics"
   },
-  "hub_wall_navigation": {
+  "hub_feed_navigation": {
     "my_wall": "My Wall",
     "recent": "Recent"
   }

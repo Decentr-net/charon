@@ -2,7 +2,7 @@
   <div class="hub-navigation__section">
     <app-hub-navigation-link
       class="hub-navigation__link mod-overview"
-      [link]="hubRoute.Overview"
+      [link]="['/', appRoute.Hub, hubRoute.Overview]"
       [title]="translate('account_overview')"
     ></app-hub-navigation-link>
   </div>
@@ -10,8 +10,8 @@
   <div class="hub-navigation__section">
     <app-hub-navigation-link
       class="hub-navigation__link"
-      *ngFor="let linkConfig of newsLinksConfig; trackBy: trackByLink"
-      [link]="[hubRoute.News, linkConfig.link]"
+      *ngFor="let linkConfig of postsLinksConfig; trackBy: trackByLink"
+      [link]="['/', appRoute.Hub, hubRoute.Posts, linkConfig.link]"
       [title]="translate(linkConfig.i18nKey)"
     ></app-hub-navigation-link>
   </div>
