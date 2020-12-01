@@ -3,11 +3,11 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, pluck, switchMap } from 'rxjs/operators';
 
 import { Environment } from '@environments/environment.definitions';
+import { CurrencyService } from '@shared/services/currency';
 import { PDVService } from '@shared/services/pdv';
 import { exponentialToFixed } from '@shared/utils/number';
 import { AuthService, AuthUser } from '@core/auth';
 import { Network, NetworkSelectorService } from '@core/network-selector';
-import { CurrencyService } from '@core/services';
 
 @Injectable()
 export class HubPageService {

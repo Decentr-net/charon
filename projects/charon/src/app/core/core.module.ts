@@ -5,6 +5,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
+import { CurrencyModule } from '@shared/services/currency';
 import { SlotModule } from '@shared/components/slot';
 import { AppRoute } from '../app-route';
 import { SignUpRoute } from '../sign-up';
@@ -41,6 +42,9 @@ export function initNetworkFactory(networkService: NetworkSelectorService): () =
       unauthorizedRedirectUrl: `/${AppRoute.Welcome}`,
       uncompletedRegistrationUrl: `/${AppRoute.SignUp}/${SignUpRoute.CompleteRegistration}`,
       unconfirmedEmailUrl: `/${AppRoute.SignUp}/${SignUpRoute.EmailConfirmation}`,
+    }),
+    CurrencyModule.forRoot({
+      api: environment.currencyApi,
     }),
     LockModule.forRoot({
       delay: 1000 * 60 * 5,

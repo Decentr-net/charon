@@ -46,5 +46,8 @@
     "scripts": [
       "scripts/background-script.js"
     ]
-  }
+  },
+  "web_accessible_resources": [
+    "toolbar/index.html"
+  ]
 }

@@ -1,0 +1,59 @@
+<ng-container *transloco="let translate">
+  <div class="app__section app__logo-container">
+    <svg-icon
+      class="app__icon app__logo"
+      key="logo"
+      (click)="openCharonHubOverview()"
+    ></svg-icon>
+  </div>
+
+  <div class="app__section app__middle-container">
+    <div class="app__middle-container-section">
+      <app-color-circle-label
+        class="app__meta-label"
+        *ngIf="balance$ | async as balance"
+        [circleType]="'hole'"
+        [color]="'green'"
+      >
+        <strong>{{ translate('pdv') }}:</strong>
+        <span class="app__meta-label-value">{{ balance }}</span>
+      </app-color-circle-label>
+
+      <app-color-circle-label
+        class="app__meta-label"
+        *ngIf="coinRate$ | async as coinRate"
+        [circleType]="'hole'"
+        [color]="'yellow'"
+      >
+        <strong>{{ translate('dec') }}:</strong>
+        <span class="app__meta-label-value">
+          {{ coinRate | currency : 'USD' : 'symbol' : '1.4' }}
+        </span>
+      </app-color-circle-label>
+    </div>
+
+    <div class="app__middle-container-section">
+      <app-avatar
+        class="app__icon"
+        [icon]="avatar$ | async"
+        (click)="openCharonHubMyWall()"
+      ></app-avatar>
+
+      <svg-icon
+        class="app__icon"
+        key="notification"
+        (click)="openCharonHubRecentNews()"
+      ></svg-icon>
+
+      <svg-icon
+        class="app__icon"
+        key="settings"
+        (click)="openCharonUserSettings()"
+      ></svg-icon>
+    </div>
+  </div>
+
+  <div class="app__section app__close-container" (click)="closeApp()">
+    <svg-icon class="app__icon" key="close"></svg-icon>
+  </div>
+</ng-container>
