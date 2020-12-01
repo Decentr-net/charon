@@ -1,0 +1,31 @@
+$hub-currency-statistics--rate-color: #354052;
+$hub-currency-statistics--rate-change-color: #9EA0A5;
+$hub-currency-statistics--no-data-color: #9EA0A5;
+
+:host {
+  display: block;
+}
+
+.hub-currency-statistics__rate {
+  color: $hub-currency-statistics--rate-color;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 47px;
+  margin-top: 14px;
+}
+
+.hub-currency-statistics__rate-change {
+  color: $hub-currency-statistics--rate-change-color;
+}
+
+.hub-currency-statistics__chart {
+  margin-top: 28px;
+  height: 80px;
+}
+
+.hub-currency-statistics__no-data {
+  color: $hub-currency-statistics--no-data-color;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 28px;
+}

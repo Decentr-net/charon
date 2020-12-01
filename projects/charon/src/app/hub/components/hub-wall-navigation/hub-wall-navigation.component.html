@@ -1,0 +1,17 @@
+<ng-container *transloco="let translate; read: 'hub.hub_wall_navigation'">
+  <div class="hub-wall-navigation__links-container">
+    <app-hub-navigation-link
+      class="hub-wall-navigation__link"
+      [link]="wallRoute.Recent"
+      [title]="translate('recent')"
+    ></app-hub-navigation-link>
+
+    <app-hub-navigation-link
+      class="hub-wall-navigation__link"
+      [link]="wallRoute.MyWall"
+      [title]="translate('my_wall')"
+    ></app-hub-navigation-link>
+  </div>
+
+  <mat-divider class="hub-wall-navigation__divider"></mat-divider>
+</ng-container>

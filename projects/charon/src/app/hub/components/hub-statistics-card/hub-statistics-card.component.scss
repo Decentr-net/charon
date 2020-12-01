@@ -1,0 +1,35 @@
+$hub-statistics-card--background-color: #FFFFFF;
+$hub-statistics-card--subtitle-color: #9EA0A5;
+$hub-statistics-card--padding: 24px;
+
+:host {
+  background-color: $hub-statistics-card--background-color;
+  display: flex;
+  flex-direction: column;
+  padding: $hub-statistics-card--padding;
+}
+
+.hub-statistics-card__title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.hub-statistics-card__subtitle {
+  color: $hub-statistics-card--subtitle-color;
+  font-size: 14px;
+  line-height: 22px;
+  margin-top: 7px;
+}
+
+.hub-statistics-card__content-container {
+  height: 100%;
+}
+
+.hub-statistics-card__divider {
+  margin: 16px (-$hub-statistics-card--padding) 0;
+}
+
+.hub-statistics-card__footer {
+  padding: 18px 0;
+  margin-bottom: -$hub-statistics-card--padding;
+}

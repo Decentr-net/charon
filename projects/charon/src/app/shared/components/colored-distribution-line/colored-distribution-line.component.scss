@@ -1,4 +1,4 @@
-$circle-colors: (
+$hub-colors: (
   blue: #01AAFF,
   green: #3796A4,
   yellow: #FDC900,
@@ -11,9 +11,9 @@ $circle-colors: (
 .colored-distribution-line__part {
   height: 3px;
 
-  @each $key, $color in $circle-colors {
+  @each $key, $color in $hub-colors {
     &.mod-#{$key} {
-      background-color: map-get($circle-colors, $key);
+      background-color: map-get($hub-colors, $key);
     }
   }
 
