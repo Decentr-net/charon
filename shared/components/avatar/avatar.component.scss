@@ -1,14 +1,13 @@
-$circle-avatar--size: 38px;
+$avatar--default-size: 38px;
 
 :host {
+  align-items: center;
   border-radius: 6px;
   display: inline-flex;
-  height: $circle-avatar--size;
-  min-width: $circle-avatar--size;
-  width: $circle-avatar--size;
+  font-size: $avatar--default-size;
 }
 
 .user-avatar__image {
-  height: 100%;
-  width: 100%;
+  display: inline-flex;
+  font-size: inherit;
 }
