@@ -10,6 +10,7 @@ import { AppService } from './app.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
+  public avatar$: Observable<string>;
   public balance$: Observable<string>;
 
   public coinRate$: Observable<number>;
@@ -18,6 +19,8 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.avatar$ = this.appService.getAvatar();
+
     this.balance$ = this.appService.getBalance();
 
     this.coinRate$ = this.appService.getCoinRate();
@@ -27,11 +30,19 @@ export class AppComponent implements OnInit {
     this.appService.closeApp();
   }
 
-  public openCharonNews(): void {
-    this.appService.openCharonNews();
+  public openCharonHubMyWall(): void {
+    this.appService.openCharonHubMyWall();
   }
 
-  public openCharonSettings(): void {
-    this.appService.openCharonSettings();
+  public openCharonHubOverview(): void {
+    this.appService.openCharonHubOverview();
+  }
+
+  public openCharonHubRecentNews(): void {
+    this.appService.openCharonHubRecentNews();
+  }
+
+  public openCharonUserSettings(): void {
+    this.appService.openCharonUserSettings();
   }
 }

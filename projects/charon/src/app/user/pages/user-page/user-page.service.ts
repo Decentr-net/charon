@@ -10,7 +10,7 @@ import { PDVService } from '@shared/services/pdv';
 import { exponentialToFixed } from '@shared/utils/number';
 import { AuthService, AuthUser } from '@core/auth';
 import { Network, NetworkSelectorService } from '@core/network-selector';
-import { CurrencyService, MediaService } from '@core/services';
+import { MediaService } from '@core/services';
 import { ChartPoint, PDVActivityListItem, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
 
 @Injectable()

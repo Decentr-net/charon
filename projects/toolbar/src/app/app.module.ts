@@ -5,6 +5,7 @@ import { SvgIconsModule } from '@ngneat/svg-icon';
 
 import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
+import { AvatarModule } from '@shared/components/avatar';
 import { ColorCircleLabelModule } from '@shared/components/color-circle-label';
 import { AuthBrowserStorageService } from '@shared/services/auth';
 import { CurrencyModule } from '@shared/services/currency';
@@ -20,6 +21,7 @@ import { AppService } from './app.service';
     AppComponent,
   ],
   imports: [
+    AvatarModule,
     BrowserModule,
     ColorCircleLabelModule,
     CurrencyModule.forRoot({

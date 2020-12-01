@@ -26,6 +26,7 @@ $app--section--background-color: #F8FAFD;
 
 .app__icon {
   cursor: pointer;
+  font-size: 20px;
 }
 
 .app__middle-container {
@@ -33,8 +34,12 @@ $app--section--background-color: #F8FAFD;
   padding: 0 10px 0 30px;
 
   .app__icon {
-    margin: 0 5px;
+    margin: 0 8px;
   }
+}
+
+.app__middle-container-section {
+  display: flex;
 }
 
 .app__meta-label {

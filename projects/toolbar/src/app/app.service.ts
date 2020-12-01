@@ -5,14 +5,14 @@ import { map, pluck, switchMap } from 'rxjs/operators';
 import { AuthBrowserStorageService, User } from '@shared/services/auth';
 import { CurrencyService } from '@shared/services/currency';
 import { Network, NetworkBrowserStorageService } from '@shared/services/network-storage';
+import { PDVService } from '@shared/services/pdv';
 import { MessageBus } from '@shared/message-bus';
 import { exponentialToFixed } from '@shared/utils/number';
 import { AppRoute as CharonAppRoute } from '@charon/app-route';
-import { CircleRoute as CharonCircleRoute, CircleWallRoute as CharonCircleWallRoute } from '@charon/circle';
+import { HubRoute as CharonHubRoute, HubFeedRoute as CharonHubFeedRoute } from '@charon/hub';
 import { UserRoute as CharonUserRoute } from '@charon/user';
 import { openCharonPage } from './utils/extension';
 import { TOOLBAR_CLOSE } from './messages';
-import { PDVService } from '@shared/services/pdv';
 
 @Injectable()
 export class AppService {
@@ -30,6 +30,12 @@ export class AppService {
     this.messageBus.sendMessageToCurrentTab(TOOLBAR_CLOSE);
   }
 
+  public getAvatar(): Observable<User['avatar']> {
+    return this.authStorageService.getActiveUser().pipe(
+      pluck('avatar'),
+    );
+  }
+
   public getBalance(): Observable<string> {
     return this.getWalletAddressAndNetworkApiStream().pipe(
       switchMap(({ walletAddress, networkApi }) => {
@@ -43,16 +49,29 @@ export class AppService {
     return this.currencyService.getDecentrCoinRateForUsd();
   }
 
-  public openCharonNews(): void {
+  public openCharonHubMyWall(): void {
     openCharonPage([
-      CharonAppRoute.User,
-      CharonCircleRoute.News,
-      CharonCircleRoute.World,
-      CharonCircleWallRoute.Recent,
+      CharonAppRoute.Hub,
+      CharonHubRoute.Feed,
+      CharonHubFeedRoute.MyWall,
     ]);
   }
 
-  public openCharonSettings(): void {
+  public openCharonHubOverview(): void {
+    openCharonPage([
+      CharonAppRoute.Hub,
+    ])
+  }
+
+  public openCharonHubRecentNews(): void {
+    openCharonPage([
+      CharonAppRoute.Hub,
+      CharonHubRoute.Feed,
+      CharonHubFeedRoute.Recent,
+    ]);
+  }
+
+  public openCharonUserSettings(): void {
     openCharonPage([
       CharonAppRoute.User,
       CharonUserRoute.Edit,

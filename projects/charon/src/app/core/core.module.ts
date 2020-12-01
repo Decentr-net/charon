@@ -5,7 +5,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
-import { CurrencyModule } from '@root-shared/services/currency';
+import { CurrencyModule } from '@shared/services/currency';
 import { SlotModule } from '@shared/components/slot';
 import { AppRoute } from '../app-route';
 import { SignUpRoute } from '../sign-up';
