@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-export interface HubWallPost {
+export interface HubFeedPost {
   author: {
     avatar: string;
     name: string;
@@ -16,11 +16,11 @@ export interface HubWallPost {
 }
 
 @Component({
-  selector: 'app-hub-wall-post',
-  templateUrl: './hub-wall-post.component.html',
-  styleUrls: ['./hub-wall-post.component.scss'],
+  selector: 'app-hub-feed-post',
+  templateUrl: './hub-feed-post.component.html',
+  styleUrls: ['./hub-feed-post.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HubWallPostComponent {
-  @Input() public post: HubWallPost;
+export class HubFeedPostComponent {
+  @Input() public post: HubFeedPost;
 }

@@ -1,7 +1,8 @@
 export enum HubRoute {
   FitnessAndExercise = 'fitness-and-exercise',
   HealthAndCulture = 'health-and-culture',
-  News = 'news',
+  Feed = 'feed',
+  Posts = 'posts',
   Overview = 'overview',
   ScienceAndTechnology = 'science-and-technology',
   StrangeWorld = 'strange-world',
@@ -9,7 +10,7 @@ export enum HubRoute {
   World = 'world',
 }
 
-export enum HubWallRoute {
+export enum HubFeedRoute {
   Recent = 'recent',
   MyWall = 'my-wall',
 }

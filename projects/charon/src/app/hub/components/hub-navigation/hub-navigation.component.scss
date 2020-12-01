@@ -5,7 +5,7 @@ $hub-navigation--height: 72px;
   align-items: center;
   background-color: $hub-navigation--background-color;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   height: $hub-navigation--height;
 }
 
@@ -16,8 +16,4 @@ $hub-navigation--height: 72px;
 
 .hub-navigation__link {
   margin: 0 12px;
-
-  &.mod-overview {
-    font-size: 16px;
-  }
 }

@@ -2,25 +2,26 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import {
+  FeedPageComponent,
   HubPageComponent,
   MyWallPageComponent,
-  NewsPageComponent,
+  PostsPageComponent,
   OverviewPageComponent,
   RecentPageComponent,
 } from './pages';
-import { HubRoute, HubWallRoute } from './hub-route';
+import { HubRoute, HubFeedRoute } from './hub-route';
 
-const NEWS_PAGE_CHILDREN_ROUTES: Routes = [
+const FEED_PAGE_CHILDREN_ROUTES: Routes = [
   {
     path: '',
-    redirectTo: HubWallRoute.Recent,
+    redirectTo: HubFeedRoute.Recent,
   },
   {
-    path: HubWallRoute.Recent,
+    path: HubFeedRoute.Recent,
     component: RecentPageComponent,
   },
   {
-    path: HubWallRoute.MyWall,
+    path: HubFeedRoute.MyWall,
     component: MyWallPageComponent,
   },
 ];
@@ -40,43 +41,41 @@ const ROUTES: Routes = [
         component: OverviewPageComponent,
       },
       {
-        path: HubRoute.News,
+        path: HubRoute.Feed,
+        component: FeedPageComponent,
+        children: FEED_PAGE_CHILDREN_ROUTES,
+      },
+      {
+        path: HubRoute.Posts,
         children: [
           {
             path: '',
-            component: NewsPageComponent,
+            component: PostsPageComponent,
             pathMatch: 'full',
-            children: NEWS_PAGE_CHILDREN_ROUTES,
           },
           {
             path: HubRoute.World,
-            component: NewsPageComponent,
-            children: NEWS_PAGE_CHILDREN_ROUTES,
+            component: PostsPageComponent,
           },
           {
             path: HubRoute.TravelAndTourism,
-            component: NewsPageComponent,
-            children: NEWS_PAGE_CHILDREN_ROUTES,
+            component: PostsPageComponent,
           },
           {
             path: HubRoute.ScienceAndTechnology,
-            component: NewsPageComponent,
-            children: NEWS_PAGE_CHILDREN_ROUTES,
+            component: PostsPageComponent,
           },
           {
             path: HubRoute.StrangeWorld,
-            component: NewsPageComponent,
-            children: NEWS_PAGE_CHILDREN_ROUTES,
+            component: PostsPageComponent,
           },
           {
             path: HubRoute.HealthAndCulture,
-            component: NewsPageComponent,
-            children: NEWS_PAGE_CHILDREN_ROUTES,
+            component: PostsPageComponent,
           },
           {
             path: HubRoute.FitnessAndExercise,
-            component: NewsPageComponent,
-            children: NEWS_PAGE_CHILDREN_ROUTES,
+            component: PostsPageComponent,
           },
         ],
       },

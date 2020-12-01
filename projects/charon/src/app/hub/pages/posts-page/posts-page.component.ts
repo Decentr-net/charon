@@ -1,15 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { HubWallPost } from '../../components/hub-wall-post';
+import { HubFeedPost } from '../../components/hub-feed-post';
+import { HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
 
 @Component({
-  selector: 'app-news-page',
-  templateUrl: './news-page.component.html',
-  styleUrls: ['./news-page.component.scss'],
+  selector: 'app-posts-page',
+  templateUrl: './posts-page.component.html',
+  styleUrls: ['./posts-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NewsPageComponent {
-  public post: HubWallPost = {
+export class PostsPageComponent {
+  public headerContentSlotName = HUB_HEADER_CONTENT_SLOT;
+
+  public post: HubFeedPost = {
     author: {
       avatar: 'user-avatar-1',
       name: 'Eugene Tishkevich',

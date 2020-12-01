@@ -14,8 +14,8 @@ import { HubPostRatingComponent } from './hub-post-rating';
 import { HubPostTimeComponent } from './hub-post-time';
 import { HubShortPostComponent } from './hub-short-post';
 import { HubStatisticsCardComponent } from './hub-statistics-card';
-import { HubWallNavigationComponent } from './hub-wall-navigation';
-import { HubWallPostComponent } from './hub-wall-post';
+import { HubFeedNavigationComponent } from './hub-feed-navigation';
+import { HubFeedPostComponent } from './hub-feed-post';
 
 export const HUB_COMPONENTS = [
   HubActivityStatisticsComponent,
@@ -34,6 +34,6 @@ export const HUB_COMPONENTS = [
   HubPostTimeComponent,
   HubShortPostComponent,
   HubStatisticsCardComponent,
-  HubWallNavigationComponent,
-  HubWallPostComponent,
+  HubFeedNavigationComponent,
+  HubFeedPostComponent,
 ];

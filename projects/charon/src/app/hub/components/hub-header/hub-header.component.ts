@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { AppRoute } from '../../../app-route';
 import { UserRoute } from '../../../user';
-import { HubRoute, HubWallRoute } from '../../hub-route';
+import { HubRoute, HubFeedRoute } from '../../hub-route';
 
 export const HUB_HEADER_META_SLOT = Symbol('HUB_HEADER_META_SLOT');
 export const HUB_HEADER_CONTENT_SLOT = Symbol('HUB_HEADER_CONTENT_SLOT');
@@ -21,6 +21,6 @@ export class HubHeaderComponent {
 
   public readonly appRoute: typeof AppRoute = AppRoute;
   public readonly hubRoute: typeof HubRoute = HubRoute;
-  public readonly hubWallRoute: typeof HubWallRoute = HubWallRoute;
+  public readonly hubFeedRoute: typeof HubFeedRoute = HubFeedRoute;
   public readonly userRoute: typeof UserRoute = UserRoute;
 }
