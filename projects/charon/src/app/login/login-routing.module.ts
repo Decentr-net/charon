@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { MainLayoutComponent, MainLayoutModule } from '@shared/components/main-layout';
-import { PublicLayoutComponent, PublicLayoutModule } from '@shared/components/public-layout';
 import { AuthConfirmedGuard, UnauthGuard } from '@core/auth';
 import { BrowserTabGuard } from '@core/guards';
+import { MainLayoutComponent, MainLayoutModule } from '../layout/main-layout';
+import { PublicLayoutComponent, PublicLayoutModule } from '../layout/public-layout';
 import { ImportRestorePageComponent, ImportRestorePageType, LoginPageComponent } from './pages';
 import { LoginRoute } from './login-route';
 

@@ -6,8 +6,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Gender } from 'decentr-js';
 
-import { UserPrivate } from '@root-shared/services/auth';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
+import { UserPrivate } from '@shared/services/auth';
 import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
 import { AuthService, AuthUserUpdate } from '@core/auth';
 import { NotificationService, SpinnerService } from '@core/services';

@@ -11,7 +11,7 @@ import {
   take,
 } from 'rxjs/operators';
 
-import { AuthBrowserStorageService } from '../../../shared/services/auth';
+import { AuthBrowserStorageService } from '@shared/services/auth';
 import {
   listenRequestsBeforeRedirectWithBody,
   listenRequestsOnCompletedWithBody,

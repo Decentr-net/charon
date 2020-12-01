@@ -1,24 +1,24 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-import { FormErrorModule } from '@shared/components/form-error';
-import { DateInputComponent } from './date-input.component';
+import { CodeInputComponent } from './code-input.component';
 
 @NgModule({
   declarations: [
-    DateInputComponent,
+    CodeInputComponent,
   ],
   imports: [
-    FormErrorModule,
-    FormsModule,
+    CommonModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
   ],
   exports: [
-    DateInputComponent,
+    CodeInputComponent,
   ],
 })
-export class DateInputModule {
+export class CodeInputModule {
 }

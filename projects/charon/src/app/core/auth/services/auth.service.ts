@@ -4,7 +4,7 @@ import { first, skip } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { sha256 } from 'js-sha256';
 
-import { AuthBrowserStorageService } from '@root-shared/services/auth';
+import { AuthBrowserStorageService } from '@shared/services/auth';
 import { uuid } from '@shared/utils/uuid';
 import { AuthUser, AuthUserCreate, AuthUserUpdate } from '../models';
 

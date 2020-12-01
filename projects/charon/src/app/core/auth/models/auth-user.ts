@@ -1,4 +1,4 @@
-import { User } from '@root-shared/services/auth';
+import { User } from '@shared/services/auth';
 
 export interface AuthUser extends User {
   readonly emailConfirmed: boolean;
