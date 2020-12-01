@@ -1,0 +1,55 @@
+$hub-wall-post--background-color: #FFFFFF;
+$hub-wall-post--posted-color: #9EA0A5;
+
+:host {
+  background-color: $hub-wall-post--background-color;
+  display: block;
+  font-size: 14px;
+  padding: 24px;
+}
+
+.hub-wall-post__header {
+  display: flex;
+}
+
+.hub-wall-post__info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 16px;
+  overflow: hidden;
+}
+
+.hub-wall-post__author {
+  font-weight: 500;
+}
+
+.hub-wall-post__posted {
+  color: $hub-wall-post--posted-color;
+  margin: 0 4px;
+}
+
+.hub-wall-post__content {
+  line-height: 22px;
+  margin-top: 10px;
+}
+
+.hub-wall-post__divider {
+  margin: 14px 0;
+}
+
+.hub-wall-post__footer {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.hub-wall-post__pdv {
+  align-items: center;
+  display: flex;
+}
+
+.hub-wall-post__pdv-label {
+  font-weight: 500;
+  margin: 0 24px 0 16px;
+}

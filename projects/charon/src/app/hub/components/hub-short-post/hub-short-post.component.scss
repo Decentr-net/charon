@@ -1,0 +1,30 @@
+$hub-short-post--background-color: #FFFFFF;
+
+:host {
+  background-color: $hub-short-post--background-color;
+  display: block;
+  font-size: 14px;
+  padding: 24px;
+}
+
+.hub-short-post__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.hub-short-post__header-section {
+  display: flex;
+}
+
+.hub-short-post__info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 16px;
+  overflow: hidden;
+}
+
+.hub-short-post__content {
+  line-height: 22px;
+  margin-top: 10px;
+}

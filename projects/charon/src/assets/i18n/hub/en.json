@@ -1,0 +1,70 @@
+{
+  "hub_activity_distribution": {
+    "coming_soon": "(coming soon)",
+    "data_value": "Data Value",
+    "last_24_hours": "Last 24 hours",
+    "params": {
+      "adv": "ADV",
+      "dec": "DEC",
+      "ddv": "DDV",
+      "pdv": "My PDV"
+    },
+    "sources": {
+      "activity": "Activity",
+      "platform": "Platform"
+    }
+  },
+  "hub_currency_statistics": {
+    "dec_rate": "DEC Rate",
+    "dec_rate_change": {
+      "increased": "DEC increased by {{ percent }}% in the last 24-hours",
+      "decreased": "DEC decreased by {{ percent }}% in the last 24-hours"
+    },
+    "no_chart_data": "No DEC Rate data",
+    "statistics_from": "Statistic from {{date}}"
+  },
+  "hub_navigation": {
+    "account_overview": "Account overview",
+    "fitness_and_exercise": "Fitness & Exercise",
+    "health_and_culture": "Health & Culture",
+    "science_and_technology": "Science & Technology",
+    "strange_world": "Strange World",
+    "travel_and_tourism": "Travel & Tourism",
+    "world_news": "World news"
+  },
+  "hub_infinite_posts_container": {
+    "load_more_posts": "Load more posts"
+  },
+  "hub_page": {
+    "header": {
+      "pdv": "My PDV",
+      "dec": "DEC"
+    }
+  },
+  "hub_post_dialog": {
+    "pdv": "PDV"
+  },
+  "hub_pdv_statistics": {
+    "activity_from": "Activity from {{date}}",
+    "not_enough_chart_data": "Not enough data PDV for the chart",
+    "my_pdv": "My PDV",
+    "pdv_change": {
+      "increased": "Your PDV increased by {{ percent }}% in the last 24-hours",
+      "decreased": "Your PDV decreased by {{ percent }}% in the last 24-hours"
+    }
+  },
+  "hub_post_analytics_card": {
+    "pdv_increase": "PDV +{{percent}}%"
+  },
+  "hub_wall_post": {
+    "pdv": "PDV",
+    "posted": "dposted"
+  },
+  "overview_page": {
+    "highest_pdv_analytics": "Highest PDV Analytics"
+  },
+  "wall_navigation": {
+    "my_wall": "My Wall",
+    "recent": "Recent"
+  }
+}

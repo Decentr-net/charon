@@ -5,7 +5,6 @@ import { pluck, shareReplay } from 'rxjs/operators';
 import { AuthService } from '../../auth';
 import { LockService } from '../../lock';
 import { ProfileSelectorService } from '../profile-selector.service';
-import { CircleRoute } from '../../../circle/circle-route';
 import { AppRoute } from '../../../app-route';
 
 @Component({
