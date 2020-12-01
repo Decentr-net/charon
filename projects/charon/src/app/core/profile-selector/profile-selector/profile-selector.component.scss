@@ -6,50 +6,9 @@
 }
 
 .profile-image {
-  position: relative;
-  border-radius: 50%;
-  border: 2px solid #4476e4;
-  background: #333333;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
-  transition: all .2s ease;
-
-  &:before {
-    content: '';
-    position: absolute;
-    top: 17%;
-    left: 18%;
-    background: #50C8A6;
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-  }
-
-  &:after {
-    content: '';
-    position: absolute;
-    top: 57%;
-    left: 54%;
-    background: #D26694;
-    border-radius: 50%;
-    width: 10px;
-    height: 10px;
-  }
-
-  &:hover {
-    transform: rotate(90deg);
-
-    &:before {
-      transition: all .25s ease;
-      animation: rotateProfileImageBefore 1s;
-    }
-
-    &:after {
-      transition: all .15s ease;
-      animation: rotateProfileImageAfter 1s;
-    }
-  }
 }
 
 .menu__header {
@@ -141,9 +100,13 @@
       ::ng-deep svg {
         width: 22px;
         height: 22px;
+      }
 
-        * {
-          stroke: #ffffff;
+      &__white {
+        ::ng-deep svg {
+          * {
+            stroke: #ffffff;
+          }
         }
       }
     }
@@ -162,49 +125,5 @@
         }
       }
     }
-  }
-}
-
-@keyframes rotateProfileImageBefore {
-  16% {
-    transform: translateX(5px) translateY(-5px);
-    animation-timing-function: ease-out;
-  }
-
-  48% {
-    transform: translateX(10px) translateY(5px);
-    animation-timing-function: ease-out;
-  }
-
-  78% {
-    transform: translateX(5px) translateY(10px);
-    animation-timing-function: ease-out;
-  }
-
-  100% {
-    transform: translateX(0px) translateY(0px);
-    animation-timing-function: ease-out;
-  }
-}
-
-@keyframes rotateProfileImageAfter {
-  16% {
-    transform: translateX(-5px) translateY(5px);
-    animation-timing-function: ease-out;
-  }
-
-  48% {
-    transform: translateX(-10px) translateY(-5px);
-    animation-timing-function: ease-out;
-  }
-
-  78% {
-    transform: translateX(-5px) translateY(-10px);
-    animation-timing-function: ease-out;
-  }
-
-  100% {
-    transform: translateX(0px) translateY(0px);
-    animation-timing-function: ease-out;
   }
 }

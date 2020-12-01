@@ -1,0 +1,18 @@
+<div class="hub-short-post__header">
+  <div class="hub-short-post__header-section">
+    <app-avatar [icon]="post.author.avatar"></app-avatar>
+
+    <div class="hub-short-post__info-container">
+      <span class="hub-short-post__author">{{ post.author.name }}</span>
+
+      <app-hub-post-time [time]="post.time"></app-hub-post-time>
+    </div>
+  </div>
+
+  <app-hub-post-pdv [pdv]="post.pdv"></app-hub-post-pdv>
+</div>
+
+<div
+  class="hub-short-post__content"
+  [innerHTML]="post.content | appSanitize : 'html'"
+></div>

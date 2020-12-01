@@ -1,0 +1,33 @@
+<app-hub-statistics-card *transloco="let translate; read: 'hub.hub_currency_statistics'">
+  <ng-container ngProjectAs="title">
+    {{ translate('dec_rate') }}
+  </ng-container>
+
+  <ng-container ngProjectAs="subtitle">
+    {{ translate('statistics_from', { date: statistics.fromDate | date }) }}
+  </ng-container>
+
+  <div class="hub-currency-statistics__rate">
+    {{ statistics.rate | number : '1.4' }}
+  </div>
+
+  <div class="hub-currency-statistics__rate-change">
+    {{ translate(
+    'dec_rate_change.' + (statistics.rateChangedIn24HoursPercent >= 0 ? 'increased' : 'decreased'),
+    { percent: statistics.rateChangedIn24HoursPercent }
+  ) }}
+  </div>
+
+  <app-line-chart
+    class="hub-currency-statistics__chart"
+    *ngIf="statistics.points.length > 0; else noData"
+    [data]="statistics.points"
+    color="#80D8C9"
+  ></app-line-chart>
+
+  <ng-template #noData>
+    <div class="hub-currency-statistics__no-data">
+      {{ translate('no_chart_data') }}
+    </div>
+  </ng-template>
+</app-hub-statistics-card>

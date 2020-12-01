@@ -1,4 +1,4 @@
-$circle-colors: (
+$line-colors: (
   blue: #01AAFF,
   green: #3796A4,
   yellow: #FDC900,
@@ -11,7 +11,7 @@ $circle-colors: (
 .colored-distribution-line__part {
   height: 3px;
 
-  @each $key, $color in $circle-colors {
+  @each $key, $color in $line-colors {
     &.mod-#{$key} {
       background-color: $color;
     }

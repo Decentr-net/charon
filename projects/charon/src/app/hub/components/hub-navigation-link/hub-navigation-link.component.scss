@@ -1,0 +1,53 @@
+$hub-navigation-link--color: #999999;
+$hub-navigation-link--active-color: #262628;
+$hub-navigation-link--active-border-color: linear-gradient(90deg, #74C5EE 0%, #4F80FF 100%);
+
+:host {
+  align-items: center;
+  display: flex;
+  font-size: 14px;
+}
+
+.hub-navigation-link {
+  align-items: center;
+  color: $hub-navigation-link--color;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  position: relative;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &.is-active,
+  &:hover {
+    color: $hub-navigation-link--active-color;
+    font-weight: 500;
+  }
+
+  &.is-active {
+    .hub-navigation-link__border {
+      display: block;
+    }
+  }
+}
+
+.hub-navigation-link__title {
+  &:after {
+    display: block;
+    content: attr(data-title);
+    font-weight: bold;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+}
+
+.hub-navigation-link__border {
+  background: $hub-navigation-link--active-border-color;
+  bottom: 0;
+  display: none;
+  height: 3px;
+  left: 0;
+  position: absolute;
+  right: 0;
+}

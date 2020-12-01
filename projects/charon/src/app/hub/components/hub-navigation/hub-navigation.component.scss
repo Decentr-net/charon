@@ -1,0 +1,23 @@
+$hub-navigation--background-color: #FFFFFF;
+$hub-navigation--height: 72px;
+
+:host {
+  align-items: center;
+  background-color: $hub-navigation--background-color;
+  display: flex;
+  justify-content: space-between;
+  height: $hub-navigation--height;
+}
+
+.hub-navigation__section {
+  display: flex;
+  height: 100%;
+}
+
+.hub-navigation__link {
+  margin: 0 12px;
+
+  &.mod-overview {
+    font-size: 16px;
+  }
+}

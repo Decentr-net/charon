@@ -25,7 +25,8 @@ export class SlotContainerDirective implements OnInit {
           return;
         }
 
-        this.viewContainerRef.createEmbeddedView(template);
+        this.viewContainerRef.createEmbeddedView(template)
+          .detectChanges();
       });
   }
 }

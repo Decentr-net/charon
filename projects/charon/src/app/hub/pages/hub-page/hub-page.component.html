@@ -1,0 +1,41 @@
+<app-hub-header
+  *transloco="let translate; read: 'hub.hub_page.header'"
+  class="hub-page__header"
+  [avatarIcon]="avatar"
+>
+  <div
+    *appSlot="headerMetaSlotName"
+    class="hub-page__header-meta-container"
+  >
+    <app-color-circle-label
+      class="hub-page__header-meta-label"
+      *ngIf="balance$ | async as balance"
+      [circleType]="'hole'"
+      [color]="'green'"
+    >
+      <strong>{{ translate('pdv') }}:</strong>
+      <span class="hub-page__header-meta-label-value">{{ balance }}</span>
+    </app-color-circle-label>
+
+    <app-color-circle-label
+      class="hub-page__header-meta-label"
+      *ngIf="coinRate$ | async as coinRate"
+      [circleType]="'hole'"
+      [color]="'yellow'"
+    >
+      <strong>{{ translate('dec') }}:</strong>
+      <span class="hub-page__header-meta-label-value">
+        {{ coinRate | currency : 'USD' : 'symbol' : '1.4' }}
+      </span>
+    </app-color-circle-label>
+  </div>
+
+  <ng-container *appSlot="headerContentSlotName">
+    <mat-divider></mat-divider>
+    <app-hub-navigation></app-hub-navigation>
+  </ng-container>
+</app-hub-header>
+
+<div class="hub-page__content-container">
+  <router-outlet></router-outlet>
+</div>
