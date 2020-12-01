@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { defer, from, Observable } from 'rxjs';
 import { Account, BroadcastResponse, Decentr, PublicProfile, Wallet } from 'decentr-js';
 
-import { UserPrivate } from '@root-shared/services/auth';
 import { Environment } from '@environments/environment.definitions';
+import { UserPrivate } from '@shared/services/auth';
 
 @Injectable({
   providedIn: 'root',

@@ -3,9 +3,9 @@ import { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { PublicProfile } from 'decentr-js';
 
+import { UserPrivate } from '@shared/services/auth';
 import { AuthService } from '@core/auth';
 import { UserService } from '@core/services';
-import { UserPrivate } from '@root-shared/services/auth';
 
 export type UserCompleteUpdate = Pick<UserPrivate, 'emails' | 'usernames'> & PublicProfile;
 
@@ -22,8 +22,11 @@ export class CompleteRegistrationPageService {
 
     return this.userService.setPublicProfile(
       {
-        gender: update.gender,
+        avatar: update.avatar,
         birthday: update.birthday,
+        firstName: update.firstName,
+        gender: update.gender,
+        lastName: update.lastName,
       },
       user.wallet.address,
       user.wallet.privateKey,

@@ -4,7 +4,7 @@ import { first, skip } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { sha256 } from 'js-sha256';
 
-import { AuthBrowserStorageService } from '@root-shared/services/auth';
+import { AuthBrowserStorageService } from '@shared/services/auth';
 import { uuid } from '@shared/utils/uuid';
 import { AuthUser, AuthUserCreate, AuthUserUpdate } from '../models';
 
@@ -95,8 +95,11 @@ export class AuthService {
     return this.authStorage.updateUser(
       userId,
       {
+        avatar: update.avatar,
         birthday: update.birthday,
+        firstName: update.firstName,
         gender: update.gender,
+        lastName: update.lastName,
         emails: update.emails,
         usernames: update.usernames,
         primaryUsername: update.usernames?.[0],

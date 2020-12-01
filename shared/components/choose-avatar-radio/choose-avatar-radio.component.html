@@ -1,0 +1,12 @@
+<mat-radio-group
+  aria-label="Select an option"
+  (change)="onChange()"
+  [(ngModel)]="value"
+>
+  <mat-radio-button
+    *ngFor="let avatar of avatars"
+    [value]="avatar.name"
+  >
+    <app-avatar [icon]="avatar.name"></app-avatar>
+  </mat-radio-button>
+</mat-radio-group>

@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { PublicLayoutComponent, PublicLayoutModule } from '@shared/components/public-layout';
+import { PublicLayoutComponent, PublicLayoutModule } from '../layout/public-layout';
 import {
   AuthCompletedRegistrationGuard,
   AuthConfirmedGuard,
   AuthUncompletedRegistrationGuard,
   AuthUnconfirmedGuard,
-  UnauthGuard,
 } from '@core/auth';
 import {
   CompleteRegistrationPageComponent,
@@ -26,9 +25,6 @@ const ROUTES: Routes = [
         path: '',
         component: SignUpPageComponent,
         pathMatch: 'full',
-        canActivate: [
-          UnauthGuard,
-        ],
       },
       {
         path: SignUpRoute.EmailConfirmation,

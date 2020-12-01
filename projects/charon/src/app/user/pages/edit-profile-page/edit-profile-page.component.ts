@@ -6,8 +6,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Gender } from 'decentr-js';
 
-import { UserPrivate } from '@root-shared/services/auth';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
+import { UserPrivate } from '@shared/services/auth';
 import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
 import { AuthService, AuthUserUpdate } from '@core/auth';
 import { NotificationService, SpinnerService } from '@core/services';
@@ -116,6 +116,9 @@ export class EditProfilePageComponent implements OnInit {
 
   private createForm(): FormGroup<EditProfileForm> {
     return this.formBuilder.group({
+      avatar: [null, [
+        Validators.required,
+      ]],
       birthday: ['', [
         Validators.required,
         BaseValidationUtil.isFrDateFormatCorrect,
@@ -123,7 +126,13 @@ export class EditProfilePageComponent implements OnInit {
       confirmPassword: ['', [
         PasswordValidationUtil.equalsToAdjacentControl('password'),
       ]],
+      firstName: ['', [
+        Validators.required,
+      ]],
       gender: [null, [
+        Validators.required,
+      ]],
+      lastName: ['', [
         Validators.required,
       ]],
       emails: this.formBuilder.array([]),

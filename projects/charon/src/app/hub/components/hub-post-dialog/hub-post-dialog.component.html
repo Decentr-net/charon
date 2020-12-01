@@ -1,0 +1,37 @@
+<ng-container *transloco="let translate; read: 'hub.hub_post_dialog'">
+  <div
+    class="hub-post-dialog__close"
+    [inlineSVG]="'assets/images/icons/plus.svg'"
+    mat-dialog-close
+  ></div>
+
+  <div class="hub-post-dialog__header">
+    <app-avatar [icon]="post.author.avatar"></app-avatar>
+
+    <div class="hub-post-dialog__info-container">
+      <span class="hub-post-dialog__author">{{ post.author.name }}</span>
+
+      <app-hub-post-time [time]="post.time"></app-hub-post-time>
+    </div>
+  </div>
+
+  <mat-dialog-content
+    class="hub-post-dialog__content"
+    [innerHTML]="post.content | appSanitize : 'html'"
+  ></mat-dialog-content>
+
+  <mat-divider class="hub-post-dialog__divider"></mat-divider>
+
+  <div class="hub-post-dialog__footer">
+    <div class="hub-post-dialog__pdv">
+      <span [inlineSVG]="'assets/images/icons/signal.svg'"></span>
+      <span class="hub-post-dialog__pdv-label">{{ translate('pdv') }}</span>
+      <app-hub-post-pdv [pdv]="post.pdv"></app-hub-post-pdv>
+    </div>
+
+    <app-hub-post-rating
+      [likes]="post.rating.likes"
+      [dislikes]="post.rating.dislikes"
+    ></app-hub-post-rating>
+  </div>
+</ng-container>

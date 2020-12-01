@@ -6,8 +6,8 @@ import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Gender } from 'decentr-js';
 
-import { UserPrivate } from '@root-shared/services/auth';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
+import { UserPrivate } from '@shared/services/auth';
 import { BaseValidationUtil } from '@shared/utils/validation';
 import { AuthService } from '@core/auth';
 import { NotificationService, SpinnerService } from '@core/services';
@@ -115,14 +115,23 @@ export class CompleteRegistrationPageComponent implements OnInit {
 
   private createForm(): FormGroup<CompleteRegistrationForm> {
     return this.formBuilder.group({
+      avatar: [null, [
+        Validators.required,
+      ]],
       birthday: ['', [
         Validators.required,
         BaseValidationUtil.isFrDateFormatCorrect,
       ]],
+      emails: this.formBuilder.array([]),
+      firstName: ['', [
+        Validators.required,
+      ]],
       gender: [null, [
         Validators.required,
       ]],
-      emails: this.formBuilder.array([]),
+      lastName: ['', [
+        Validators.required,
+      ]],
       primaryEmail: [{ value: '', disabled: true }],
       usernames: this.formBuilder.array([]),
     });

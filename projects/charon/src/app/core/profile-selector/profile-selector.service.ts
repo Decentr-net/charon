@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, pluck, switchMap } from 'rxjs/operators';
 
-import { PDVService } from '@root-shared/services/pdv';
-import { exponentialToFixed } from '@root-shared/utils/number';
 import { Environment } from '@environments/environment.definitions';
+import { PDVService } from '@shared/services/pdv';
+import { exponentialToFixed } from '@shared/utils/number';
 import { AuthService } from '../auth';
 import { NetworkSelectorService } from '../network-selector';
 

@@ -1,0 +1,28 @@
+$hub-post-rating--color: #6B6C6F;
+
+:host {
+  align-items: center;
+  color: $hub-post-rating--color;
+  display: flex;
+  font-size: 14px;
+  line-height: 100%;
+}
+
+.hub-post-rating__section {
+  align-items: center;
+  display: flex;
+
+  & + & {
+    margin-left: 12px;
+  }
+}
+
+.hub-post-rating__icon {
+  align-items: center;
+  display: flex;
+  margin-right: 8px;
+
+  &.mod-dislike {
+    transform: rotate(180deg);
+  }
+}

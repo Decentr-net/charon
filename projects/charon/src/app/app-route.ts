@@ -1,5 +1,5 @@
 export enum AppRoute {
-  Circle = 'circle',
+  Hub = 'hub',
   Login = 'login',
   SignUp = 'sign-up',
   User = 'user',
