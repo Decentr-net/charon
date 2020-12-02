@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Post } from 'decentr-js';
 
 import { RecentPageService } from './recent-page.service';
 import { catchError, finalize } from 'rxjs/operators';
@@ -51,5 +52,5 @@ export class RecentPageComponent implements OnInit {
       });
   }
 
-  public trackByPostAddress: TrackByFunction<any> = ({}, { address }) => address;
+  public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;
 }

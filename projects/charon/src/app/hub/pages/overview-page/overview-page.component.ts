@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, TrackByFunction } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
-import { catchError, finalize } from 'rxjs/operators';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { BehaviorSubject } from 'rxjs';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { Post } from 'decentr-js';
 
 import { HubPDVStatistics } from '../../components/hub-pdv-statistics';
 import { HubCurrencyStatistics } from '../../components/hub-currency-statistics';
@@ -70,36 +70,13 @@ export class OverviewPageComponent {
   public readonly posts$: BehaviorSubject<any[]> = new BehaviorSubject([]);
   public readonly loadingCount = 4;
 
-  constructor(
-    private overviewPageService: OverviewPageService,
-  ) {
-  }
-
-  private get posts(): any[] {
-    return this.posts$.value;
-  }
-
   public ngOnInit() {
     this.loadMore();
   }
 
   public loadMore(): void {
-    this.isLoading$.next(true);
-
-    const lastPostAddress = this.posts.length
-      ? this.posts[this.posts.length - 1].address
-      : 0;
-
-    this.overviewPageService.getHighestPdvPosts(lastPostAddress, this.loadingCount)
-      .pipe(
-        catchError(() => of([])),
-        finalize(() => this.isLoading$.next(false)),
-        untilDestroyed(this),
-      )
-      .subscribe((posts) => {
-        this.posts$.next([...this.posts$.value, ...posts]);
-      });
+    this.posts$.next([...this.posts$.value, ...[]]);
   }
 
-  public trackByPostAddress: TrackByFunction<any> = ({}, { address }) => address;
+  public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;
 }

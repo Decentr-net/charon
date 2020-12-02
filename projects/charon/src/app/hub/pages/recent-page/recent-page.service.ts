@@ -1,17 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
-import { PostsApiService } from '@core/services/api';
+import { Observable, of } from 'rxjs';
+import { Post } from 'decentr-js';
 
 @Injectable()
 export class RecentPageService {
-  constructor(
-    private postsApiService: PostsApiService,
-  ) {
-  }
 
-
-  public getPosts(offsetPostAddress: number, count: number): Observable<any> {
-    return this.postsApiService.getPosts(offsetPostAddress, count);
+  public getPosts(offsetPostAddress: number, count: number): Observable<Post[]> {
+    return of([]);
   }
 }

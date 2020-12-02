@@ -1,8 +1,8 @@
 import { Directive, HostListener, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Post } from 'decentr-js';
 
 import { HubPostDialogComponent } from '../../components/hub-post-dialog';
-import { Post } from '../../models/post';
 
 @Directive({
   selector: '[appHubPostDialog]'

@@ -6,18 +6,18 @@
   ></div>
 
   <div class="hub-post-dialog__header">
-    <app-avatar [icon]="post.author.avatar"></app-avatar>
+    <app-avatar [icon]="'user-avatar-1'"></app-avatar>
 
     <div class="hub-post-dialog__info-container">
-      <span class="hub-post-dialog__author">{{ post.author.name }}</span>
+      <span class="hub-post-dialog__author">Author name</span>
 
-      <app-hub-post-time [time]="post.time"></app-hub-post-time>
+      <app-hub-post-time [time]="post.createdAt"></app-hub-post-time>
     </div>
   </div>
 
   <mat-dialog-content
     class="hub-post-dialog__content"
-    [innerHTML]="post.content | appSanitize : 'html'"
+    [innerHTML]="post.text | appSanitize : 'html'"
   ></mat-dialog-content>
 
   <mat-divider class="hub-post-dialog__divider"></mat-divider>
@@ -30,8 +30,8 @@
     </div>
 
     <app-hub-post-rating
-      [likes]="post.rating.likes"
-      [dislikes]="post.rating.dislikes"
+      [likes]="post.likesCount"
+      [dislikes]="post.dislikesCount"
     ></app-hub-post-rating>
   </div>
 </ng-container>

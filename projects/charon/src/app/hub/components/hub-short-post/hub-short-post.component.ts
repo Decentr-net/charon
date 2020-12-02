@@ -1,14 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-
-export interface HubShortPost {
-  author: {
-    avatar: string;
-    name: string;
-  }
-  content: string;
-  pdv: string;
-  time: string;
-}
+import { Post } from 'decentr-js';
 
 @Component({
   selector: 'app-hub-short-post',
@@ -17,5 +8,5 @@ export interface HubShortPost {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubShortPostComponent {
-  @Input() public post: HubShortPost;
+  @Input() public post: Post;
 }

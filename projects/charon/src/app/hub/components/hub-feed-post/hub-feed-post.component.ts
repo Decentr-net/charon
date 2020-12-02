@@ -1,19 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-
-export interface HubFeedPost {
-  author: {
-    avatar: string;
-    name: string;
-  };
-  content: string;
-  pdv: number;
-  rating: {
-    dislikes: number;
-    likes: number;
-  }
-  time: number;
-  title: string;
-}
+import { Post } from 'decentr-js';
 
 @Component({
   selector: 'app-hub-feed-post',
@@ -22,5 +8,5 @@ export interface HubFeedPost {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubFeedPostComponent {
-  @Input() public post: HubFeedPost;
+  @Input() public post: Post;
 }

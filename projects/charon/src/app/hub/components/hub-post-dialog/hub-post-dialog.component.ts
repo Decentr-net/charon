@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-import { Post } from '../../models/post';
+import { Post } from 'decentr-js';
 
 @Component({
   selector: 'app-hub-post-dialog',
