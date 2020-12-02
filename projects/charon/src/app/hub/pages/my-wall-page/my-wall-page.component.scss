@@ -1,0 +1,5 @@
+.my-wall-page__post {
+  & + & {
+    margin-top: 20px;
+  }
+}

@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Observable } from 'rxjs';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { Post } from 'decentr-js';
 
 import { RecentPageService } from './recent-page.service';
-import { catchError, finalize } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -17,39 +16,27 @@ import { catchError, finalize } from 'rxjs/operators';
   ],
 })
 export class RecentPageComponent implements OnInit {
-  public readonly isLoading$: BehaviorSubject<boolean> = new BehaviorSubject(true);
-  public readonly posts$: BehaviorSubject<any[]> = new BehaviorSubject([]);
-  public readonly loadingCount = 4;
+  public isLoading$: Observable<boolean>;
+  public posts$: Observable<Post[]>;
+  public canLoadMore$: Observable<boolean>;
 
-  constructor(
-    private recentPageService: RecentPageService,
-  ) {
-  }
+  private readonly loadingCount: number = 4;
 
-  private get posts(): any[] {
-    return this.posts$.value;
+  constructor(private recentPageService: RecentPageService) {
   }
 
   public ngOnInit() {
+    this.posts$ = this.recentPageService.posts$;
+
+    this.isLoading$ = this.recentPageService.isLoading$;
+
+    this.canLoadMore$ = this.recentPageService.canLoadMore$;
+
     this.loadMore();
   }
 
   public loadMore(): void {
-    this.isLoading$.next(true);
-
-    const lastPostAddress = this.posts.length
-      ? this.posts[this.posts.length - 1].address
-      : 0;
-
-    this.recentPageService.getPosts(lastPostAddress, this.loadingCount)
-      .pipe(
-        catchError(() => of([])),
-        finalize(() => this.isLoading$.next(false)),
-        untilDestroyed(this),
-      )
-      .subscribe((posts) => {
-        this.posts$.next([...this.posts$.value, ...posts]);
-      });
+    this.recentPageService.loadMorePosts(this.loadingCount);
   }
 
   public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;

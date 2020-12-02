@@ -1,4 +1,5 @@
 <app-hub-infinite-posts-container
+  [canLoadMore]="canLoadMore$ | async"
   [isLoading]="isLoading$ | async"
   (loadMore)="loadMore()"
 >

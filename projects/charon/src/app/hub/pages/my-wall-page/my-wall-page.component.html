@@ -1,0 +1,12 @@
+<app-hub-infinite-posts-container
+  [canLoadMore]="canLoadMore$ | async"
+  [isLoading]="isLoading$ | async"
+  (loadMore)="loadMore()"
+>
+  <app-hub-feed-post
+    class="my-wall-page__post"
+    *ngFor="let post of posts$ | async; trackBy: trackByPostId"
+    [post]="post"
+    [appHubPostDialog]="post"
+  ></app-hub-feed-post>
+</app-hub-infinite-posts-container>

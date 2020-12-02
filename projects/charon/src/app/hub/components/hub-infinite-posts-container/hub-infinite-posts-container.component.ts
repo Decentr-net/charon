@@ -8,6 +8,9 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 })
 export class HubInfinitePostsContainerComponent {
   @Input() public isLoading: boolean = false;
+
+  @Input() public canLoadMore: boolean = true;
+
   @Output() public readonly loadMore: EventEmitter<void> = new EventEmitter();
 
   public onLoadMoreClick(): void {
