@@ -1,1 +1,1 @@
-export * from './base-hub-posts.service';
+export * from './hub-posts.service';

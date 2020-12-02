@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Post } from 'decentr-js';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { MyWallPageService } from './my-wall-page.service';
+import { HubPostsService } from '../../services';
 
 @Component({
   selector: 'app-my-wall-page',
@@ -10,32 +9,11 @@ import { MyWallPageService } from './my-wall-page.service';
   styleUrls: ['./my-wall-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    MyWallPageService,
+    {
+      provide: HubPostsService,
+      useClass: MyWallPageService,
+    },
   ],
 })
-export class MyWallPageComponent implements OnInit {
-  public isLoading$: Observable<boolean>;
-  public posts$: Observable<Post[]>;
-  public canLoadMore$: Observable<boolean>;
-
-  private readonly loadingCount: number = 4;
-
-  constructor(private myWallPageService: MyWallPageService) {
-  }
-
-  public ngOnInit() {
-    this.posts$ = this.myWallPageService.posts$;
-
-    this.isLoading$ = this.myWallPageService.isLoading$;
-
-    this.canLoadMore$ = this.myWallPageService.canLoadMore$;
-
-    this.loadMore();
-  }
-
-  public loadMore(): void {
-    this.myWallPageService.loadMorePosts(this.loadingCount);
-  }
-
-  public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;
+export class MyWallPageComponent {
 }

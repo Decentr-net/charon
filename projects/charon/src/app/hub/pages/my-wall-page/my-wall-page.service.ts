@@ -5,10 +5,10 @@ import { Post } from 'decentr-js';
 import { AuthService } from '@core/auth';
 import { NetworkSelectorService } from '@core/network-selector';
 import { PostsApiService } from '@core/services/api';
-import { BaseHubPostsService } from '../../services';
+import { HubPostsService } from '../../services';
 
 @Injectable()
-export class MyWallPageService extends BaseHubPostsService implements OnDestroy {
+export class MyWallPageService extends HubPostsService implements OnDestroy {
   constructor(
     private authService: AuthService,
     private networkService: NetworkSelectorService,

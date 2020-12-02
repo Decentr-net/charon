@@ -2,7 +2,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Post } from 'decentr-js';
 
-export abstract class BaseHubPostsService {
+export abstract class HubPostsService {
   private posts: BehaviorSubject<Post[]> = new BehaviorSubject([]);
   private isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private loadMore: Subject<number> = new Subject();
