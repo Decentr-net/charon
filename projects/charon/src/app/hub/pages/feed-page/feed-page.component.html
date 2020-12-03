@@ -1,8 +1,29 @@
-<div class="feed-page__wall">
-  <app-hub-feed-navigation class="feed-page__wall-navigation"></app-hub-feed-navigation>
+<ng-container *transloco="let translate; read: 'hub.feed_page'">
+  <div class="feed-page__wall">
+    <app-hub-feed-navigation class="feed-page__wall-navigation"></app-hub-feed-navigation>
 
-  <router-outlet></router-outlet>
-</div>
+    <router-outlet></router-outlet>
+  </div>
 
-<div class="feed-page__top-feed">
-</div>
+  <div class="feed-page__top-feed">
+    <div class="feed-page__top-feed__header">{{ translate('top_feed') }}</div>
+    <mat-divider></mat-divider>
+
+    <div class="feed-page__top-feed__posts-container">
+
+      <app-hub-infinite-posts-container
+        [canLoadMore]="false"
+        [isLoading]="isLoading$ | async"
+      >
+        <ng-container *ngFor="let post of posts$ | async; let last = last trackBy: trackByPostId">
+          <app-hub-short-post
+            [post]="post"
+            [appHubPostDialog]="post"
+          ></app-hub-short-post>
+
+          <mat-divider *ngIf="!last"></mat-divider>
+        </ng-container>
+      </app-hub-infinite-posts-container>
+    </div>
+  </div>
+</ng-container>

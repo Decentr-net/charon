@@ -1,10 +1,12 @@
+$feed-page--top-feed-header--background-color: #FFFFFF;
+
 :host {
-  column-gap: 30px;
-  display: grid;
-  grid-template-columns: 3fr 2fr;
+  display: flex;
+  height: 100%;
 }
 
 .feed-page__wall {
+  width: 60%;
 }
 
 .feed-page__wall-navigation {
@@ -12,4 +14,16 @@
 }
 
 .feed-page__top-feed {
+  margin-left: 30px;
+  width: 40%;
+}
+
+.feed-page__top-feed__header {
+  background-color: $feed-page--top-feed-header--background-color;
+  padding: 24px;
+}
+
+.feed-page__top-feed__posts-container {
+  height: 100%;
+  overflow: auto;
 }

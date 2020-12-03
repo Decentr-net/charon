@@ -2,8 +2,10 @@ $hub-page--background-color: #F2F2F2;
 
 :host {
   background: $hub-page--background-color;
-  display: block;
-  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 }
 
 .hub-page__header {
@@ -30,5 +32,6 @@ $hub-page--background-color: #F2F2F2;
 }
 
 .hub-page__content-container {
+  overflow: hidden;
   padding: 30px;
 }
