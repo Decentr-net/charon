@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { NetworkSelectorService } from '@core/network-selector';
 import { PostsApiService } from '@core/services/api';
 import { HubPostsService } from '../../services';
-import { map } from 'rxjs/operators';
 
 @Injectable()
 export class FeedPageService extends HubPostsService implements OnDestroy {
@@ -29,8 +28,6 @@ export class FeedPageService extends HubPostsService implements OnDestroy {
         fromUUID: fromPost && fromPost.uuid,
         limit: count,
       }
-    ).pipe(
-      // map(posts => new Array(30).fill(posts[0])),
     );
   }
 }
