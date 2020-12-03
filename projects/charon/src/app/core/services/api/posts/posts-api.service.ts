@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { Decentr, Post, PostsFilterOptions, UserPostsFilterOptions, Wallet } from 'decentr-js';
+import { Decentr, PopularPostsPeriod, Post, PostsFilterOptions, UserPostsFilterOptions, Wallet } from 'decentr-js';
 
 import { Environment } from '@environments/environment.definitions';
 
@@ -16,6 +16,17 @@ export class PostsApiService {
     return from(
       this.createDecentrConnector(api)
         .getLatestPosts(filterOptions),
+    );
+  }
+
+  public getPopularPosts(
+    api: string,
+    period: PopularPostsPeriod,
+    filterOptions?: PostsFilterOptions,
+  ): Observable<Post[]> {
+    return from(
+      this.createDecentrConnector(api)
+        .getPopularPosts(period, filterOptions)
     );
   }
 

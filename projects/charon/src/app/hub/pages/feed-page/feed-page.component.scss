@@ -1,3 +1,5 @@
+$feed-page--top-feed-header--background-color: #FFFFFF;
+
 :host {
   column-gap: 30px;
   display: grid;
@@ -12,4 +14,12 @@
 }
 
 .feed-page__top-feed {
+}
+
+.feed-page__top-feed__header {
+  background-color: $feed-page--top-feed-header--background-color;
+  padding: 24px;
+}
+
+.feed-page__top-feed__posts-container {
 }

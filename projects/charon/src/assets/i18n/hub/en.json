@@ -1,4 +1,7 @@
 {
+  "feed_page": {
+    "top_feed": "TOP 24 hours"
+  },
   "hub_activity_distribution": {
     "coming_soon": "(coming soon)",
     "data_value": "Data Value",
