@@ -1,5 +1,3 @@
-.recent-page__post {
-  & + & {
-    margin-top: 20px;
-  }
+:host {
+  display: block;
 }

@@ -1,9 +1,9 @@
 :host {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
+  display: block;
 }
 
 .hub-infinite-posts-container__loading-container {
+  display: flex;
+  justify-content: center;
   margin-top: 40px;
 }

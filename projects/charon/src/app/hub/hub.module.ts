@@ -11,6 +11,7 @@ import { ColorCircleLabelModule } from '@shared/components/color-circle-label';
 import { LineChartModule } from '@shared/components/line-chart';
 import { ColoredDistributionLineModule } from '@shared/components/colored-distribution-line';
 import { SlotModule } from '@shared/components/slot';
+import { SpinnerModule } from '@shared/components/spinner';
 import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
 import { SanitizeModule } from '@shared/pipes/sanitize';
 import { HUB_COMPONENTS } from './components';
@@ -36,6 +37,7 @@ import { HubRoutingModule } from './hub-routing.module';
     MatDividerModule,
     SanitizeModule,
     SlotModule,
+    SpinnerModule,
     SvgIconsModule,
     TextEllipsisModule,
     TranslocoModule,
