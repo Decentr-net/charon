@@ -1,11 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-
-export interface HubPostPreview {
-  content: string;
-  imageSrc: string;
-  time: number;
-  title: string;
-}
+import { Post } from 'decentr-js';
 
 @Component({
   selector: 'app-hub-post-preview-card',
@@ -14,7 +8,7 @@ export interface HubPostPreview {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubPostPreviewCardComponent {
-  @Input() public post: HubPostPreview;
+  @Input() public post: Post;
 
   @Input() public maxContentLines: number;
 }

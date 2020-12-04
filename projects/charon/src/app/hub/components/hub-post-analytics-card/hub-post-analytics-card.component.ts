@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { HubPostPreview } from '../hub-post-preview-card';
+import { Post } from 'decentr-js';
 
-export interface HubPostAnalytics extends HubPostPreview {
+export interface HubPostAnalytics extends Post {
   pdvIncreasePercent: number;
 }
 

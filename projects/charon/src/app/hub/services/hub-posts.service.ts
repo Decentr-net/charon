@@ -9,12 +9,14 @@ export abstract class HubPostsService {
   private canLoadMore: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   private readonly dispose$: Subject<void> = new Subject();
+  private readonly stopLoading$: Subject<void> = new Subject<void>();
 
   protected constructor() {
     this.loadMore.pipe(
       tap(() => this.isLoading.next(true)),
       switchMap((count) => this.loadPosts(this.getLastPost(), count).pipe(
         tap((posts) => (posts.length < count) && this.canLoadMore.next(false)),
+        takeUntil(this.stopLoading$),
         finalize(() => this.isLoading.next(false)),
       )),
       takeUntil(this.dispose$),
@@ -41,6 +43,11 @@ export abstract class HubPostsService {
 
   public loadMorePosts(count: number): void {
     this.loadMore.next(count);
+  }
+
+  public clear(): void {
+    this.stopLoading$.next();
+    this.posts.next([]);
   }
 
   public dispose(): void {

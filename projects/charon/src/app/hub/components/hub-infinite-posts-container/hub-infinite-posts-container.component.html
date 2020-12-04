@@ -8,7 +8,7 @@
   <ng-template #loadMoreButton>
     <button
       app-hub-load-more-button
-      *ngIf="canLoadMore">
+      *ngIf="canLoadMore"
       (click)="onLoadMoreClick()"
     >
       {{ translate('load_more_posts') }}

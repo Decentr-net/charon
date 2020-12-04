@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, TrackByFunction } from '@angular/core';
+import { PostCategory } from 'decentr-js';
 
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../hub-route';
 
 interface PostsLinkConfig {
-  link: HubRoute;
+  link: PostCategory;
   i18nKey: string;
 }
 
@@ -20,27 +21,27 @@ export class HubNavigationComponent {
 
   public readonly postsLinksConfig: PostsLinkConfig[] = [
     {
-      link: HubRoute.World,
+      link: PostCategory.WorldNews,
       i18nKey: 'world_news'
     },
     {
-      link: HubRoute.TravelAndTourism,
+      link: PostCategory.TravelAndTourism,
       i18nKey: 'travel_and_tourism'
     },
     {
-      link: HubRoute.ScienceAndTechnology,
+      link: PostCategory.ScienceAndTechnology,
       i18nKey: 'science_and_technology'
     },
     {
-      link: HubRoute.StrangeWorld,
+      link: PostCategory.StrangeWorld,
       i18nKey: 'strange_world'
     },
     {
-      link: HubRoute.HealthAndCulture,
+      link: PostCategory.HealthAndCulture,
       i18nKey: 'health_and_culture'
     },
     {
-      link: HubRoute.FitnessAndExercise,
+      link: PostCategory.FitnessAndExercise,
       i18nKey: 'fitness_and_exercise'
     },
   ];
