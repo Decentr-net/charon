@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { BrowserTabGuard } from '@core/guards';
 import {
   AuthCompletedRegistrationGuard,
-  AuthUncompletedRegistrationGuard,
   UnauthGuard,
 } from '@core/auth';
 import { LockGuard } from '@core/lock';
@@ -23,12 +22,8 @@ const ROUTES: Routes = [
   {
     path: AppRoute.SignUp,
     loadChildren: () => import('./sign-up/sign-up.module').then(m => m.SignUpModule),
-    canLoad: [
-      AuthUncompletedRegistrationGuard,
-    ],
     canActivate: [
       BrowserTabGuard,
-      AuthUncompletedRegistrationGuard,
     ],
   },
   {
