@@ -4,7 +4,7 @@
   class="hub-post-preview-card__content"
   [style.-webkit-line-clamp]="maxContentLines"
 >
-  {{ post.content }}
+  {{ post.text }}
 </div>
 
-<div class="hub-post-preview-card__time">{{ post.time | date }}</div>
+<div class="hub-post-preview-card__time">{{ post.createdAt | date }}</div>

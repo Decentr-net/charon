@@ -3,6 +3,16 @@
   <app-hub-navigation></app-hub-navigation>
 </ng-container>
 
-<div class="posts-page__wall">
-  Posts
-</div>
+<app-hub-infinite-posts-container
+  [canLoadMore]="canLoadMore$ | async"
+  [isLoading]="isLoading$ | async"
+>
+  <ng-container *ngFor="let post of posts$ | async; let last = last; trackBy: trackByPostId">
+    <app-hub-post-preview-card
+      [post]="post"
+      [appHubPostDialog]="post"
+    ></app-hub-post-preview-card>
+
+    <mat-divider *ngIf="!last"></mat-divider>
+  </ng-container>
+</app-hub-infinite-posts-container>
