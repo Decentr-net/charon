@@ -1,13 +1,13 @@
-<ng-container *transloco="let translate; read: 'hub.hub_navigation'">
+<ng-container *transloco="let translate">
   <div class="hub-navigation__section">
     <app-hub-navigation-link
       class="hub-navigation__link"
       [link]="['/', appRoute.Hub, hubRoute.Overview]"
-      [title]="translate('overview')"
+      [title]="translate('hub.hub_navigation.overview')"
     ></app-hub-navigation-link>
   </div>
 
-  <div class="hub-navigation__section">
+  <div class="hub-navigation__section" *transloco="let translate; read: 'hub.hub_post_category'">
     <app-hub-navigation-link
       class="hub-navigation__link"
       *ngFor="let linkConfig of postsLinksConfig; trackBy: trackByLink"

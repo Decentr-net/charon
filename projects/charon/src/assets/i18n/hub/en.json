@@ -27,13 +27,7 @@
     "statistics_from": "Statistic from {{date}}"
   },
   "hub_navigation": {
-    "overview": "Overview",
-    "fitness_and_exercise": "Fitness & Exercise",
-    "health_and_culture": "Health & Culture",
-    "science_and_technology": "Science & Technology",
-    "strange_world": "Strange World",
-    "travel_and_tourism": "Travel & Tourism",
-    "world_news": "World news"
+    "overview": "Overview"
   },
   "hub_infinite_posts_container": {
     "load_more_posts": "Load more posts"
@@ -69,5 +63,13 @@
   "hub_feed_navigation": {
     "my_wall": "My Wall",
     "recent": "Recent"
+  },
+  "hub_post_category": {
+    "fitness_and_exercise": "Fitness & Exercise",
+    "health_and_culture": "Health & Culture",
+    "science_and_technology": "Science & Technology",
+    "strange_world": "Strange World",
+    "travel_and_tourism": "Travel & Tourism",
+    "world_news": "World news"
   }
 }
