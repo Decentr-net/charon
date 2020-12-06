@@ -1,0 +1,54 @@
+<ng-container *transloco="let translate; read: 'hub.hub_create_post_dialog'">
+
+  <div
+    class="hub-create-post-dialog__title"
+    mat-dialog-title
+  >
+    <span>{{ translate('title') }}</span>
+
+    <svg-icon
+      class="hub-create-post-dialog__close-icon"
+      key="close"
+      (click)="close()"
+    ></svg-icon>
+  </div>
+
+  <mat-dialog-content class="hub-create-post-dialog__content">
+    <div class="hub-create-post-dialog__author">
+      <app-avatar [icon]="author.avatar"></app-avatar>
+      <span class="hub-create-post-dialog__author-name">
+        <span>{{ author.firstName }}</span>
+        <span>{{ author.lastName }}</span>
+      </span>
+    </div>
+
+    <form
+      class="hub-create-post-dialog__form"
+      autocomplete="off"
+      *transloco="let translate; read: 'hub.hub_create_post_dialog.form'"
+      [attr.id]="formId"
+      [formGroup]="form"
+    >
+      <mat-form-field [floatLabel]="'never'">
+        <mat-label>{{ translate('title.placeholder') }}</mat-label>
+
+        <input matInput formControlName="title">
+      </mat-form-field>
+
+      <textarea></textarea>
+
+      <app-hub-category-select formControlName="category"></app-hub-category-select>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button
+      class="hub-create-post-dialog__submit-button"
+      [attr.form]="formId"
+      [disabled]="form.invalid"
+      (click)="createPost()"
+    >
+      {{ translate('post') }}
+    </button>
+  </mat-dialog-actions>
+</ng-container>

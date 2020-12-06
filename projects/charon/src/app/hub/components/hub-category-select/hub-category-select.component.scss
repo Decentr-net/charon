@@ -1,0 +1,24 @@
+$hub-category-select--button--color: #9EA0A5;
+$hub-category-select--button--active-color: #00AAFF;
+
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hub-category-select__button {
+  background: transparent;
+  border: 2px solid currentColor;
+  color: $hub-category-select--button--color;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 8px;
+  white-space: nowrap;
+
+  &:hover,
+  &.mod-active {
+    border-color: currentColor;
+    color: $hub-category-select--button--active-color;
+  }
+}

@@ -1,0 +1,51 @@
+$hub-create-post-dialog--submit-button--background-color: #00AAFF;
+$hub-create-post-dialog--submit-button--color: #FFFFFF;
+
+:host {
+  display: grid;
+  overflow: hidden;
+  padding: 16px;
+}
+
+.hub-create-post-dialog__title {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.hub-create-post-dialog__close-icon {
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 24px;
+  position: absolute;
+  right: 0;
+}
+
+.hub-create-post-dialog__author {
+  align-items: center;
+  display: flex;
+}
+
+.hub-create-post-dialog__author-name {
+  column-gap: 4px;
+  display: flex;
+  margin-left: 8px;
+}
+
+.hub-create-post-dialog__content {
+  height: 100%;
+}
+
+.hub-create-post-dialog__form {
+  display: grid;
+  margin-top: 24px;
+}
+
+.hub-create-post-dialog__submit-button {
+  background-color: $hub-create-post-dialog--submit-button--background-color;
+  color: $hub-create-post-dialog--submit-button--color;
+  cursor: pointer;
+  line-height: 2;
+  width: 100%;
+}

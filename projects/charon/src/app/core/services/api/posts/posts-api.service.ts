@@ -1,6 +1,15 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { Decentr, PopularPostsPeriod, Post, PostsFilterOptions, UserPostsFilterOptions, Wallet } from 'decentr-js';
+import {
+  BroadcastResponse,
+  Decentr,
+  PopularPostsPeriod,
+  Post,
+  PostCreate,
+  PostsFilterOptions,
+  UserPostsFilterOptions,
+  Wallet,
+} from 'decentr-js';
 
 import { Environment } from '@environments/environment.definitions';
 
@@ -38,6 +47,18 @@ export class PostsApiService {
     return from(
       this.createDecentrConnector(api)
       .getUserPosts(walletAddress, filterOptions),
+    );
+  }
+
+  public createPost(
+    api: string,
+    walletAddress: Wallet['address'],
+    privateKey: Wallet['privateKey'],
+    post: PostCreate,
+  ): Observable<BroadcastResponse> {
+    return from(
+      this.createDecentrConnector(api)
+        .createPost(walletAddress, post, { broadcast: true, privateKey }),
     );
   }
 

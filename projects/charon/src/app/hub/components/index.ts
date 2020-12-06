@@ -1,4 +1,6 @@
 import { HubActivityStatisticsComponent } from './hub-activity-statistics';
+import { HubCategorySelectComponent } from './hub-category-select';
+import { HubCreatePostDialogComponent } from './hub-create-post-dialog';
 import { HubCurrencyStatisticsComponent } from './hub-currency-statistics';
 import { HubHeaderComponent } from './hub-header';
 import { HubInfinitePostsContainerComponent } from './hub-infinite-posts-container';
@@ -20,6 +22,8 @@ import { HubWallPostsComponent } from './hub-wall-posts';
 
 export const HUB_COMPONENTS = [
   HubActivityStatisticsComponent,
+  HubCategorySelectComponent,
+  HubCreatePostDialogComponent,
   HubCurrencyStatisticsComponent,
   HubHeaderComponent,
   HubInfinitePostsContainerComponent,
