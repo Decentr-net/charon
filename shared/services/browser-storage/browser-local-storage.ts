@@ -11,6 +11,9 @@ export class BrowserLocalStorage<T extends {} = {}> implements BrowserStorage<T>
   private readonly storage = browser.storage;
   private readonly localStorage = this.storage.local;
 
+  // private constructor() {
+  // }
+
   public static getInstance<T extends {} = {}>(): BrowserStorage<T> {
     if (!BrowserLocalStorage.instance) {
       BrowserLocalStorage.instance = new BrowserLocalStorage();
@@ -30,6 +33,12 @@ export class BrowserLocalStorage<T extends {} = {}> implements BrowserStorage<T>
 
   public remove(key: keyof T): Promise<void> {
     return BrowserLocalStorage.queue.add(() => this.localStorage.remove(key.toString()));
+  }
+
+  public async pop<K extends keyof T>(key: K): Promise<T[K]> {
+    const value = await this.get(key);
+    await this.remove(key);
+    return value;
   }
 
   public clear(): Promise<void> {
