@@ -32,6 +32,12 @@ export class BrowserLocalStorage<T extends {} = {}> implements BrowserStorage<T>
     return BrowserLocalStorage.queue.add(() => this.localStorage.remove(key.toString()));
   }
 
+  public async pop<K extends keyof T>(key: K): Promise<T[K]> {
+    const value = await this.get(key);
+    await this.remove(key);
+    return value;
+  }
+
   public clear(): Promise<void> {
     return this.localStorage.clear();
   }
