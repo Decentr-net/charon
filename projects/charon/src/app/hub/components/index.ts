@@ -18,6 +18,7 @@ import { HubShortPostComponent } from './hub-short-post';
 import { HubStatisticsCardComponent } from './hub-statistics-card';
 import { HubFeedNavigationComponent } from './hub-feed-navigation';
 import { HubFeedPostComponent } from './hub-feed-post';
+import { HubTextEditorComponent } from './hub-text-editor';
 import { HubWallPostsComponent } from './hub-wall-posts';
 
 export const HUB_COMPONENTS = [
@@ -41,5 +42,6 @@ export const HUB_COMPONENTS = [
   HubStatisticsCardComponent,
   HubFeedNavigationComponent,
   HubFeedPostComponent,
+  HubTextEditorComponent,
   HubWallPostsComponent,
 ];

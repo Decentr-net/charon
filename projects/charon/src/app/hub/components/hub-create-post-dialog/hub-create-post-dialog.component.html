@@ -13,7 +13,7 @@
     ></svg-icon>
   </div>
 
-  <mat-dialog-content class="hub-create-post-dialog__content">
+  <div class="hub-create-post-dialog__content">
     <div class="hub-create-post-dialog__author">
       <app-avatar [icon]="author.avatar"></app-avatar>
       <span class="hub-create-post-dialog__author-name">
@@ -28,6 +28,7 @@
       *transloco="let translate; read: 'hub.hub_create_post_dialog.form'"
       [attr.id]="formId"
       [formGroup]="form"
+      (ngSubmit)="createPost()"
     >
       <mat-form-field [floatLabel]="'never'">
         <mat-label>{{ translate('title.placeholder') }}</mat-label>
@@ -35,20 +36,23 @@
         <input matInput formControlName="title">
       </mat-form-field>
 
-      <textarea></textarea>
+      <app-hub-text-editor
+        class="hub-create-post-dialog__editor"
+        formControlName="text"
+      ></app-hub-text-editor>
 
-      <app-hub-category-select formControlName="category"></app-hub-category-select>
+      <app-hub-category-select
+        class="hub-create-post-dialog__category-select"
+        formControlName="category"
+      ></app-hub-category-select>
     </form>
-  </mat-dialog-content>
+  </div>
 
-  <mat-dialog-actions>
-    <button
-      class="hub-create-post-dialog__submit-button"
-      [attr.form]="formId"
-      [disabled]="form.invalid"
-      (click)="createPost()"
-    >
-      {{ translate('post') }}
-    </button>
-  </mat-dialog-actions>
+  <button
+    class="hub-create-post-dialog__submit-button"
+    [attr.form]="formId"
+    [disabled]="form.invalid"
+  >
+    {{ translate('post') }}
+  </button>
 </ng-container>

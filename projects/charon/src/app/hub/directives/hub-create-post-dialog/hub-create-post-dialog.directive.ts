@@ -44,9 +44,10 @@ export class HubCreatePostDialogDirective {
         author: user as Required<AuthUser>,
       },
       disableClose: true,
-      width: '600px',
+      width: '800px',
       maxWidth: '100%',
-      maxHeight: '700px',
+      height: '600px',
+      maxHeight: '100%',
       panelClass: 'popup-no-padding',
       ...this.config,
     };
@@ -58,6 +59,7 @@ export class HubCreatePostDialogDirective {
       .afterClosed()
       .pipe(
         mergeMap((result) => {
+          debugger
           if (!result.create) {
             return this.hubCreatePostService.saveDraft(result.post);
           }
