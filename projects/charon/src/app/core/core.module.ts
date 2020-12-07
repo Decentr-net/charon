@@ -15,6 +15,7 @@ import { CORE_GUARDS } from './guards';
 import { NavigationModule } from './navigation';
 import { NetworkSelectorModule, NetworkSelectorService } from './network-selector';
 import { ProfileSelectorModule } from './profile-selector';
+import { QuillRootModule } from './quill';
 import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES } from './services';
@@ -53,6 +54,7 @@ export function initNetworkFactory(networkService: NetworkSelectorService): () =
     }),
     NavigationModule,
     OverlayModule,
+    QuillRootModule,
     SlotModule.forRoot(),
     SvgIconRootModule,
     ToastrModule.forRoot({
