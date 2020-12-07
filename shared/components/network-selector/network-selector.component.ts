@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@angular/core';
 import { Observable } from 'rxjs';
-import { pluck, share } from 'rxjs/operators';
+import { pluck } from 'rxjs/operators';
 
-import { Network, NetworkSelectorService } from '../network-selector.service';
+import { Network, NetworkSelectorTranslations } from './network-selector.definitions';
+import { NetworkSelectorService } from './network-selector.service';
 
 @Component({
   selector: 'app-network-selector',
@@ -12,23 +13,28 @@ import { Network, NetworkSelectorService } from '../network-selector.service';
 })
 export class NetworkSelectorComponent implements OnInit {
   public activeNetworkName$: Observable<Network['name']>;
+
   public networks$: Observable<Network[]>;
 
+  public translations$: Observable<NetworkSelectorTranslations>;
+
   constructor(
-    private networkService: NetworkSelectorService,
+    private networkSelectorService: NetworkSelectorService,
   ) {
   }
 
   public ngOnInit(): void {
-    this.networks$ = this.networkService.getNetworks();
-    this.activeNetworkName$ = this.networkService.getActiveNetwork().pipe(
+    this.networks$ = this.networkSelectorService.getNetworks();
+
+    this.activeNetworkName$ = this.networkSelectorService.getActiveNetwork().pipe(
       pluck('name'),
-      share(),
     );
+
+    this.translations$ = this.networkSelectorService.getTranslations();
   }
 
   public switchNetwork(network: Network): void {
-    this.networkService.setActiveNetwork(network);
+    this.networkSelectorService.setActiveNetwork(network);
   }
 
   public trackByName: TrackByFunction<Network> = ({}, { name }) => name;

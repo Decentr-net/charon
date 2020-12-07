@@ -4,7 +4,7 @@ import { delay, mapTo, retryWhen, take } from 'rxjs/operators';
 import { Account, PublicProfile } from 'decentr-js';
 
 import { UserPrivate } from '@shared/services/auth';
-import { NetworkSelectorService } from '@core/network-selector';
+import { NetworkService } from '../network';
 import { UserApiService } from '../api';
 
 @Injectable({
@@ -12,7 +12,7 @@ import { UserApiService } from '../api';
 })
 export class UserService {
   constructor(
-    private networkService: NetworkSelectorService,
+    private networkService: NetworkService,
     private userApiService: UserApiService,
   ) {
   }

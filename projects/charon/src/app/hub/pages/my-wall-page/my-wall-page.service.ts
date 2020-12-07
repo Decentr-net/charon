@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Post } from 'decentr-js';
 
 import { AuthService } from '@core/auth';
-import { NetworkSelectorService } from '@core/network-selector';
+import { NetworkService } from '@core/services';
 import { PostsApiService } from '@core/services/api';
 import { HubPostsService } from '../../services';
 
@@ -11,7 +11,7 @@ import { HubPostsService } from '../../services';
 export class MyWallPageService extends HubPostsService implements OnDestroy {
   constructor(
     private authService: AuthService,
-    private networkService: NetworkSelectorService,
+    private networkService: NetworkService,
     private postsApiService: PostsApiService
   ) {
     super();

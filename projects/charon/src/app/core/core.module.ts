@@ -6,6 +6,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
 import { CurrencyModule } from '@shared/services/currency';
+import { NetworkSelectorModule } from '@shared/components/network-selector';
 import { SlotModule } from '@shared/components/slot';
 import { AppRoute } from '../app-route';
 import { SignUpRoute } from '../sign-up';
@@ -13,11 +14,10 @@ import { AuthModule, AuthService } from './auth';
 import { LockModule, LockService } from './lock';
 import { CORE_GUARDS } from './guards';
 import { NavigationModule } from './navigation';
-import { NetworkSelectorModule, NetworkSelectorService } from './network-selector';
 import { ProfileSelectorModule } from './profile-selector';
 import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
-import { CORE_SERVICES } from './services';
+import { CORE_SERVICES, NetworkService } from './services';
 
 export function initAuthAndLockFactory(authService: AuthService, lockService: LockService): () => void {
   return async () => {
@@ -29,7 +29,7 @@ export function initAuthAndLockFactory(authService: AuthService, lockService: Lo
   };
 }
 
-export function initNetworkFactory(networkService: NetworkSelectorService): () => void {
+export function initNetworkFactory(networkService: NetworkService): () => void {
   return () => networkService.init();
 }
 
@@ -52,6 +52,9 @@ export function initNetworkFactory(networkService: NetworkSelectorService): () =
       redirectUrl: AppRoute.Login,
     }),
     NavigationModule,
+    NetworkSelectorModule.forRoot({
+      service: NetworkService,
+    }),
     OverlayModule,
     SlotModule.forRoot(),
     SvgIconRootModule,
@@ -83,7 +86,7 @@ export function initNetworkFactory(networkService: NetworkSelectorService): () =
     {
       provide: APP_INITIALIZER,
       useFactory: initNetworkFactory,
-      deps: [NetworkSelectorService],
+      deps: [NetworkService],
       multi: true,
     },
   ],

@@ -2,14 +2,14 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Post } from 'decentr-js';
 
-import { NetworkSelectorService } from '@core/network-selector';
+import { NetworkService } from '@core/services';
 import { PostsApiService } from '@core/services/api';
 import { HubPostsService } from '../../services';
 
 @Injectable()
 export class RecentPageService extends HubPostsService implements OnDestroy {
   constructor(
-    private networkService: NetworkSelectorService,
+    private networkService: NetworkService,
     private postsApiService: PostsApiService
   ) {
     super();
