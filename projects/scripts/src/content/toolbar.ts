@@ -1,5 +1,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
+import { TOOLBAR_HEIGHT } from '../../../toolbar/src/app';
+
 export const createToolbarIframe = (): HTMLIFrameElement => {
   const toolbarSrc = browser.extension.getURL('toolbar/index.html');
 
@@ -7,7 +9,7 @@ export const createToolbarIframe = (): HTMLIFrameElement => {
   iframe.src = toolbarSrc;
 
   iframe.style.border = '0';
-  iframe.style.height = '33px';
+  iframe.style.height = TOOLBAR_HEIGHT;
   iframe.style.position = 'fixed';
   iframe.style.top = '0';
   iframe.style.width = '100%';
