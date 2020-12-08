@@ -4,15 +4,17 @@ import { Post } from 'decentr-js';
 
 import { NetworkService } from '@core/services';
 import { PostsApiService } from '@core/services/api';
+import { UserService } from '@core/services';
 import { HubPostsService } from '../../services';
 
 @Injectable()
 export class RecentPageService extends HubPostsService implements OnDestroy {
   constructor(
     private networkService: NetworkService,
-    private postsApiService: PostsApiService
+    private postsApiService: PostsApiService,
+    userService: UserService,
   ) {
-    super();
+    super(userService);
   }
 
   public ngOnDestroy() {
