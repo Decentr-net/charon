@@ -3,6 +3,7 @@ import { fromEvent, Subscription, timer } from 'rxjs';
 
 import { MessageBus } from '../../../shared/message-bus';
 import { TOOLBAR_CLOSE } from '../../toolbar/src/app/messages';
+import { TOOLBAR_HEIGHT } from '../../toolbar/src/app';
 import { createToolbarIframe, createToolbarShiftSpacer } from './content/toolbar';
 import { isTopWindow } from './helpers/window';
 import { isAuthorized$ } from './content/auth';
@@ -10,9 +11,8 @@ import { isToolbarClosed, saveToolbarClosed } from './content/session';
 import { updateShiftContent } from './helpers/shift-content';
 
 if (!isToolbarClosed()) {
-  const toolbarHeight = '33px';
-  const toolbarIframe = createToolbarIframe(toolbarHeight);
-  const toolbarShiftSpacer = createToolbarShiftSpacer(toolbarHeight);
+  const toolbarIframe = createToolbarIframe(TOOLBAR_HEIGHT);
+  const toolbarShiftSpacer = createToolbarShiftSpacer(TOOLBAR_HEIGHT);
   let oldHref = document.location.href;
 
   let scroll$: Subscription = Subscription.EMPTY;
@@ -28,7 +28,7 @@ if (!isToolbarClosed()) {
     }
 
     oldHref = document.location.href;
-    setTimeout(() => updateShiftContent(toolbarHeight), 200);
+    setTimeout(() => updateShiftContent(TOOLBAR_HEIGHT), 200);
   });
 
   const addToolbar = () => {
@@ -46,12 +46,12 @@ if (!isToolbarClosed()) {
         document.body.append(toolbarIframe);
         document.body.prepend(toolbarShiftSpacer);
 
-        updateShiftContent(toolbarHeight);
+        updateShiftContent(TOOLBAR_HEIGHT);
         observer.observe(document.body, mutationObserverConfig);
       }),
       mergeMap(() => fromEvent(document, 'scroll')),
       throttleTime(400)
-    ).subscribe(() => updateShiftContent(toolbarHeight));
+    ).subscribe(() => updateShiftContent(TOOLBAR_HEIGHT));
   };
 
   const removeToolbar = () => {

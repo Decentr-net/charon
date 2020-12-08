@@ -1,5 +1,4 @@
 import { browser } from 'webextension-polyfill-ts';
-import { TOOLBAR_HEIGHT } from '../../../toolbar/src/app';
 
 export const ToolbarIds = {
   iframe: 'charon-toolbar',
@@ -16,7 +15,7 @@ export const createToolbarIframe = (height: string): HTMLIFrameElement => {
   iframe.style.border = '0';
   iframe.style.bottom = 'auto';
   iframe.style.display = 'block';
-  iframe.style.height = TOOLBAR_HEIGHT;
+  iframe.style.height = height;
   iframe.style.left = '0';
   iframe.style.position = 'fixed';
   iframe.style.right = '0';
