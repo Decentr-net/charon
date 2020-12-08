@@ -11,9 +11,6 @@ export class BrowserLocalStorage<T extends {} = {}> implements BrowserStorage<T>
   private readonly storage = browser.storage;
   private readonly localStorage = this.storage.local;
 
-  // private constructor() {
-  // }
-
   public static getInstance<T extends {} = {}>(): BrowserStorage<T> {
     if (!BrowserLocalStorage.instance) {
       BrowserLocalStorage.instance = new BrowserLocalStorage();
