@@ -1,5 +1,5 @@
-import { filter, mergeMap, take, takeUntil, tap, throttleTime } from 'rxjs/operators';
-import { fromEvent, Subscription, timer } from 'rxjs';
+import { map, mergeMap, startWith, take, takeUntil, tap, throttleTime } from 'rxjs/operators';
+import { combineLatest, fromEvent, Observable, Subscription, timer } from 'rxjs';
 
 import { MessageBus } from '../../../shared/message-bus';
 import { TOOLBAR_CLOSE } from '../../toolbar/src/app/messages';
@@ -10,13 +10,17 @@ import { isAuthorized$ } from './content/auth';
 import { isToolbarClosed, saveToolbarClosed } from './content/session';
 import { updateShiftContent } from './helpers/shift-content';
 
-if (!isToolbarClosed()) {
+if (!isToolbarClosed() && isTopWindow(window.self)) {
   const toolbarIframe = createToolbarIframe(TOOLBAR_HEIGHT);
   const toolbarShiftSpacer = createToolbarShiftSpacer(TOOLBAR_HEIGHT);
   let oldHref = document.location.href;
 
   let scroll$: Subscription = Subscription.EMPTY;
-  let fullScreen$: Subscription = Subscription.EMPTY;
+
+  const fullScreen$ = (): Observable<boolean> => fromEvent(document, 'fullscreenchange').pipe(
+    map(() => !!document.fullscreenElement),
+    startWith(false)
+  );
 
   const close$ = new MessageBus().onMessage(TOOLBAR_CLOSE).pipe(
     take(1),
@@ -36,10 +40,6 @@ if (!isToolbarClosed()) {
       childList: true,
       subtree: true
     };
-
-    fullScreen$ = fromEvent(document, 'fullscreenchange').subscribe(() => {
-      document.fullscreenElement ? removeToolbar() : addToolbar();
-    });
 
     scroll$ = timer(2500).pipe(
       tap(() => {
@@ -68,15 +68,16 @@ if (!isToolbarClosed()) {
     saveToolbarClosed();
   });
 
-  isAuthorized$().pipe(
-    filter(() => isTopWindow(window.self)),
+  combineLatest([
+    isAuthorized$(),
+    fullScreen$(),
+  ]).pipe(
     takeUntil(close$),
-  ).subscribe((isAuthorized) => {
-    if (isAuthorized) {
+  ).subscribe(([isAuth, fullscreen]) => {
+    if (isAuth && !fullscreen) {
       addToolbar();
     } else {
       removeToolbar();
-      fullScreen$.unsubscribe();
     }
   });
 }
