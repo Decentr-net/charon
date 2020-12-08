@@ -10,20 +10,20 @@ import { SvgIconsModule } from '@ngneat/svg-icon';
 import { QuillModule } from 'ngx-quill';
 import { InlineSVGModule } from 'ng-inline-svg';
 
-import { HUB_COMPONENTS } from './components';
-import { HUB_DIRECTIVES } from './directives';
-import { HUB_PAGES } from './pages';
-import { HUB_SERVICES } from './services';
 import { AvatarModule } from '@shared/components/avatar';
 import { ColorCircleLabelModule } from '@shared/components/color-circle-label';
 import { ColorValueDynamicModule } from '@shared/components/color-value-dynamic';
-import { LineChartModule } from '@shared/components/line-chart';
 import { ColoredDistributionLineModule } from '@shared/components/colored-distribution-line';
-import { HubRoutingModule } from './hub-routing.module';
+import { LineChartModule } from '@shared/components/line-chart';
 import { SlotModule } from '@shared/components/slot';
 import { SpinnerModule } from '@shared/components/spinner';
 import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
 import { SanitizeModule } from '@shared/pipes/sanitize';
+import { HUB_COMPONENTS } from './components';
+import { HUB_DIRECTIVES } from './directives';
+import { HUB_PAGES } from './pages';
+import { HUB_SERVICES } from './services';
+import { HubRoutingModule } from './hub-routing.module';
 
 @NgModule({
   declarations: [
