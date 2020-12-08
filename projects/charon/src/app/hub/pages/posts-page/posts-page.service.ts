@@ -4,7 +4,7 @@ import { Post } from 'decentr-js';
 import { Observable } from 'rxjs';
 
 import { PostsApiService } from '@core/services/api';
-import { NetworkSelectorService } from '@core/network-selector';
+import { NetworkService } from '@core/services';
 import { UserService } from '@core/services';
 import { HubPostsService } from '../../services';
 import { HubCategoryRouteParam } from '../../hub-route';
@@ -13,7 +13,7 @@ import { HubCategoryRouteParam } from '../../hub-route';
 export class PostsPageService extends HubPostsService implements OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
-    private networkService: NetworkSelectorService,
+    private networkService: NetworkService,
     private postsApiService: PostsApiService,
     userService: UserService,
   ) {

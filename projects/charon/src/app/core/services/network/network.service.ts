@@ -5,6 +5,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 
 import { Environment } from '@environments/environment.definitions';
+import { NetworkSelectorService, NetworkSelectorTranslations } from '@shared/components/network-selector';
 import {
   Network as NetworkWithApi,
   NetworkBrowserStorageService,
@@ -16,13 +17,14 @@ export type Network = NetworkWithApi & {
 
 @UntilDestroy()
 @Injectable()
-export class NetworkSelectorService {
+export class NetworkService extends NetworkSelectorService {
   private readonly networkStorage = new NetworkBrowserStorageService<Network>();
 
   constructor(
     private environment: Environment,
     private translocoService: TranslocoService,
   ) {
+    super();
   }
 
   public init(): Promise<void> {
@@ -54,7 +56,8 @@ export class NetworkSelectorService {
   public getNetworks(): Observable<Network[]> {
     return combineLatest(
       ['remote', 'local'].map((networkName) => {
-        return this.translocoService.selectTranslate(`network_selector.network.${networkName}`, null, 'core')
+        return this.translocoService
+          .selectTranslate(`network_selector.network.${networkName}`, null, 'core')
           .pipe(
             map((name) => ({
               name,
@@ -62,6 +65,20 @@ export class NetworkSelectorService {
             }))
           );
       }),
+    );
+  }
+
+  public getTranslations(): Observable<NetworkSelectorTranslations> {
+    return combineLatest(
+      ['title', 'default_network'].map((key) => {
+        return this.translocoService
+          .selectTranslate(`network_selector.${key}`, null, 'core');
+      }),
+    ).pipe(
+      map(([title, defaultNetwork]) => ({
+        title,
+        defaultNetwork,
+      })),
     );
   }
 }

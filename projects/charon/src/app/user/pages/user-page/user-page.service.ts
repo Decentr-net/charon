@@ -9,8 +9,7 @@ import { CurrencyService } from '@shared/services/currency';
 import { PDVService } from '@shared/services/pdv';
 import { exponentialToFixed } from '@shared/utils/number';
 import { AuthService, AuthUser } from '@core/auth';
-import { Network, NetworkSelectorService } from '@core/network-selector';
-import { MediaService } from '@core/services';
+import { MediaService, Network, NetworkService } from '@core/services';
 import { ChartPoint, PDVActivityListItem, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
 
 @Injectable()
@@ -22,7 +21,7 @@ export class UserPageService {
     private currencyService: CurrencyService,
     private matDialog: MatDialog,
     private mediaService: MediaService,
-    private networkService: NetworkSelectorService,
+    private networkService: NetworkService,
     environment: Environment,
   ) {
     this.pdvService = new PDVService(environment.chainId);

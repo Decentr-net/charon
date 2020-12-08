@@ -6,7 +6,7 @@ import { Environment } from '@environments/environment.definitions';
 import { PDVService } from '@shared/services/pdv';
 import { exponentialToFixed } from '@shared/utils/number';
 import { AuthService } from '../auth';
-import { NetworkSelectorService } from '../network-selector';
+import { NetworkService } from '../services';
 
 @Injectable()
 export class ProfileSelectorService {
@@ -14,7 +14,7 @@ export class ProfileSelectorService {
 
   constructor(
     private authService: AuthService,
-    private networkService: NetworkSelectorService,
+    private networkService: NetworkService,
     environment: Environment
   ) {
     this.pdvService = new PDVService(environment.chainId);
