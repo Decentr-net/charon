@@ -7,7 +7,7 @@ import { CurrencyService } from '@shared/services/currency';
 import { PDVService } from '@shared/services/pdv';
 import { exponentialToFixed } from '@shared/utils/number';
 import { AuthService, AuthUser } from '@core/auth';
-import { Network, NetworkSelectorService } from '@core/network-selector';
+import { Network, NetworkService } from '@core/services';
 
 @Injectable()
 export class HubPageService {
@@ -16,7 +16,7 @@ export class HubPageService {
   constructor(
     private authService: AuthService,
     private currencyService: CurrencyService,
-    private networkService: NetworkSelectorService,
+    private networkService: NetworkService,
     environment: Environment,
   ) {
     this.pdvService = new PDVService(environment.chainId);

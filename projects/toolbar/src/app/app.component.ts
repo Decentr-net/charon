@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AppService } from './app.service';
+import { TOOLBAR_HEIGHT } from './app.definitions';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,8 @@ import { AppService } from './app.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
+  @HostBinding('style.height') public height = TOOLBAR_HEIGHT;
+
   public avatar$: Observable<string>;
   public balance$: Observable<string>;
 
