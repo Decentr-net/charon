@@ -1,4 +1,4 @@
-import { toolbar } from '../content/toolbar'
+import { ToolbarIds } from '../content/toolbar'
 
 let shiftedElements: Map<HTMLElement, string> = new Map();
 
@@ -9,7 +9,7 @@ export const updateShiftContent = (height: string = '0px') => {
     if (
       !shiftedElements.has(node)
       && ['fixed', 'absolute', 'sticky'].includes(style.position)
-      && !([toolbar.iframe.toString(), toolbar.shiftSpacer.toString()].includes(node.id))
+      && !(Object.values(ToolbarIds).includes(node.id))
       && !(style.position === 'fixed' && skipHasNoChildren(node) || style.position === 'absolute' && skipPositionedChild(node))
       && style.top !== 'auto'
     ) {

@@ -1,17 +1,17 @@
 import { browser } from 'webextension-polyfill-ts';
 import { TOOLBAR_HEIGHT } from '../../../toolbar/src/app';
 
-export enum toolbar {
-  iframe = 'charon-toolbar',
-  shiftSpacer = 'charon-toolbar-shift-spacer'
-}
+export const ToolbarIds = {
+  iframe: 'charon-toolbar',
+  shiftSpacer: 'charon-toolbar-shift-spacer'
+};
 
 export const createToolbarIframe = (height: string): HTMLIFrameElement => {
   const toolbarSrc = browser.extension.getURL('toolbar/index.html');
   const iframe = document.createElement('iframe');
 
   iframe.src = toolbarSrc;
-  iframe.id = toolbar.iframe;
+  iframe.id = ToolbarIds.iframe;
 
   iframe.style.border = '0';
   iframe.style.bottom = 'auto';
@@ -30,7 +30,7 @@ export const createToolbarIframe = (height: string): HTMLIFrameElement => {
 export const createToolbarShiftSpacer = (height: string): HTMLDivElement => {
   const div = document.createElement('div');
 
-  div.id = toolbar.shiftSpacer;
+  div.id = ToolbarIds.shiftSpacer;
 
   div.style.display = 'block';
   div.style.height = height;
