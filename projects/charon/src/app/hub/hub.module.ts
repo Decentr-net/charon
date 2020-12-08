@@ -1,9 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { SvgIconsModule } from '@ngneat/svg-icon';
+import { QuillModule } from 'ngx-quill';
 import { InlineSVGModule } from 'ng-inline-svg';
 
 import { AvatarModule } from '@shared/components/avatar';
@@ -17,6 +21,7 @@ import { SanitizeModule } from '@shared/pipes/sanitize';
 import { HUB_COMPONENTS } from './components';
 import { HUB_DIRECTIVES } from './directives';
 import { HUB_PAGES } from './pages';
+import { HUB_SERVICES } from './services';
 import { HubRoutingModule } from './hub-routing.module';
 
 @NgModule({
@@ -35,6 +40,10 @@ import { HubRoutingModule } from './hub-routing.module';
     LineChartModule,
     MatDialogModule,
     MatDividerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    QuillModule,
+    ReactiveFormsModule,
     SanitizeModule,
     SlotModule,
     SpinnerModule,
@@ -43,6 +52,7 @@ import { HubRoutingModule } from './hub-routing.module';
     TranslocoModule,
   ],
   providers: [
+    HUB_SERVICES,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: 'hub',

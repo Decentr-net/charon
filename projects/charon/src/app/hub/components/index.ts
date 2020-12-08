@@ -1,4 +1,6 @@
 import { HubActivityStatisticsComponent } from './hub-activity-statistics';
+import { HubCategorySelectComponent } from './hub-category-select';
+import { HubCreatePostDialogComponent } from './hub-create-post-dialog';
 import { HubCurrencyStatisticsComponent } from './hub-currency-statistics';
 import { HubHeaderComponent } from './hub-header';
 import { HubInfinitePostsContainerComponent } from './hub-infinite-posts-container';
@@ -16,10 +18,13 @@ import { HubShortPostComponent } from './hub-short-post';
 import { HubStatisticsCardComponent } from './hub-statistics-card';
 import { HubFeedNavigationComponent } from './hub-feed-navigation';
 import { HubFeedPostComponent } from './hub-feed-post';
+import { HubTextEditorComponent } from './hub-text-editor';
 import { HubWallPostsComponent } from './hub-wall-posts';
 
 export const HUB_COMPONENTS = [
   HubActivityStatisticsComponent,
+  HubCategorySelectComponent,
+  HubCreatePostDialogComponent,
   HubCurrencyStatisticsComponent,
   HubHeaderComponent,
   HubInfinitePostsContainerComponent,
@@ -37,5 +42,6 @@ export const HUB_COMPONENTS = [
   HubStatisticsCardComponent,
   HubFeedNavigationComponent,
   HubFeedPostComponent,
+  HubTextEditorComponent,
   HubWallPostsComponent,
 ];

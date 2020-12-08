@@ -1,0 +1,73 @@
+@import 'variables';
+
+$hub-create-post-dialog--submit-button--color: #FFFFFF;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 16px;
+}
+
+.hub-create-post-dialog__title {
+  align-items: center;
+  display: flex;
+  height: min-content;
+  justify-content: center;
+  position: relative;
+}
+
+.hub-create-post-dialog__close-icon {
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 24px;
+  position: absolute;
+  right: 0;
+}
+
+.hub-create-post-dialog__author {
+  align-items: center;
+  display: flex;
+}
+
+.hub-create-post-dialog__author-name {
+  column-gap: 4px;
+  display: flex;
+  margin-left: 8px;
+}
+
+.hub-create-post-dialog__content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.hub-create-post-dialog__form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+  flex-grow: 1;
+}
+
+.hub-create-post-dialog__editor {
+  flex-grow: 1;
+}
+
+.hub-create-post-dialog__category-select {
+  margin-top: 20px;
+}
+
+.hub-create-post-dialog__submit-button {
+  background-color: $color-accent;
+  color: $hub-create-post-dialog--submit-button--color;
+  cursor: pointer;
+  line-height: 2;
+  margin-top: 20px;
+  width: 100%;
+
+  &:disabled {
+    opacity: .5;
+  }
+}

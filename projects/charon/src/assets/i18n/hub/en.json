@@ -17,6 +17,18 @@
       "platform": "Platform"
     }
   },
+  "hub_create_post_dialog": {
+    "form": {
+      "text": {
+        "placeholder": "Share what's new with Decentr community"
+      },
+      "title": {
+        "placeholder": "Post title"
+      }
+    },
+    "post": "Post",
+    "title": "Create Post"
+  },
   "hub_currency_statistics": {
     "dec_rate": "DEC Rate",
     "dec_rate_change": {

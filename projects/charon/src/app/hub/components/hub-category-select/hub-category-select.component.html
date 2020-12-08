@@ -1,0 +1,11 @@
+<ng-container *transloco="let translate; read: 'hub.hub_post_category'">
+  <button
+    class="hub-category-select__button"
+    type="button"
+    *ngFor="let category of categories"
+    [class.mod-active]="category === value"
+    (click)="onCategorySelect(category)"
+  >
+    {{ translate(translationMap[category]) }}
+  </button>
+</ng-container>
