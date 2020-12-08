@@ -6,16 +6,16 @@ import { Validators } from '@angular/forms';
 
 export type HubCreatePostDialogPostAuthor = Pick<PublicProfile, 'avatar' | 'lastName' | 'firstName'>;
 
-export type HubCreatePostDialogPost = Pick<PostCreate, 'title' | 'text' | 'category'>;
+export type HubCreatePostDialogPost = Omit<PostCreate, 'previewImage'>;
 
 export interface HubCreatePostDialogResult {
   create: boolean;
-  post: HubCreatePostDialogPost;
+  post: PostCreate;
 }
 
 export interface HubCreatePostDialogData {
   author: HubCreatePostDialogPostAuthor;
-  draft: HubCreatePostDialogPost;
+  draft: PostCreate;
 }
 
 let formId = 0;
@@ -46,28 +46,34 @@ export class HubCreatePostDialogComponent implements OnInit {
     this.form = this.createForm(this.data.draft);
   }
 
-  public close(): void {
-    this.dialogRef.close({
-      create: false,
-      post: this.form.getRawValue(),
-    });
+  public cancel(): void {
+    this.close(true);
   }
 
   public createPost(): void {
+    this.close(false);
+  }
+
+  private close(byCancel: boolean): void {
+    const formValue = this.form.getRawValue();
+
     this.dialogRef.close({
-      create: true,
-      post: this.form.getRawValue(),
+      create: !byCancel,
+      post: {
+        ...formValue,
+        previewImage: this.extractPreviewImage(formValue.text),
+      },
     });
   }
 
   private createForm(initialValue?: HubCreatePostDialogPost): FormGroup<HubCreatePostDialogPost> {
     return this.formBuilder.group({
       title: [
-        initialValue && initialValue.title,
+        initialValue && initialValue.title || '',
         Validators.required,
       ],
       text: [
-        initialValue && initialValue.text,
+        initialValue && initialValue.text || '',
         Validators.required,
       ],
       category: [
@@ -75,5 +81,17 @@ export class HubCreatePostDialogComponent implements OnInit {
         Validators.required,
       ],
     });
+  }
+
+  private extractPreviewImage(html: string): string | undefined {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    const firstImage = div.querySelector('img');
+
+    if (firstImage) {
+      return firstImage.src;
+    }
+
+    return '';
   }
 }
