@@ -59,7 +59,6 @@ export class HubCreatePostDialogDirective {
       .afterClosed()
       .pipe(
         mergeMap((result) => {
-          debugger
           if (!result.create) {
             return this.hubCreatePostService.saveDraft(result.post);
           }

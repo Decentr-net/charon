@@ -44,8 +44,6 @@ export class HubCreatePostDialogComponent implements OnInit {
     this.author = this.data.author;
 
     this.form = this.createForm(this.data.draft);
-
-    this.form.valueChanges.subscribe(console.log);
   }
 
   public close(): void {
