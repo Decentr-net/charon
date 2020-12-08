@@ -23,11 +23,12 @@ if (!isToolbarClosed()) {
   );
 
   const observer: MutationObserver = new MutationObserver(() => {
-    if (oldHref !== document.location.href) {
-      oldHref = document.location.href;
-
-      setTimeout(() => updateShiftContent(toolbarHeight), 200);
+    if (oldHref === document.location.href) {
+      return;
     }
+
+    oldHref = document.location.href;
+    setTimeout(() => updateShiftContent(toolbarHeight), 200);
   });
 
   const addToolbar = () => {
