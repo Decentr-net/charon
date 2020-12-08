@@ -1,9 +1,12 @@
 <div class="hub-short-post__header">
   <div class="hub-short-post__header-section">
-    <app-avatar [icon]="'user-avatar-1'"></app-avatar>
+    <app-avatar [icon]="post.author.avatar"></app-avatar>
 
     <div class="hub-short-post__info-container">
-      <span class="hub-short-post__author">Author name</span>
+      <span class="hub-short-post__author">
+        {{ post.author.firstName }}
+        {{ post.author.lastName }}
+      </span>
 
       <app-hub-post-time [time]="post.createdAt"></app-hub-post-time>
     </div>
