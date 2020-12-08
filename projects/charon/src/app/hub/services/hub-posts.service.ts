@@ -1,9 +1,9 @@
-import { BehaviorSubject, forkJoin, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, of, Subject } from 'rxjs';
 import { distinctUntilChanged, finalize, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Post, PublicProfile } from 'decentr-js';
 
+import { createSharedOneValueObservable } from '@shared/utils/observable';
 import { PostWithAuthor } from '../models/post';
-import { createSharedOneValueObservable } from '../../../../../../shared/utils/observable';
 
 interface HubUserService {
   getPublicProfile(walletAddress: Post['owner']): Observable<PublicProfile>;
@@ -90,6 +90,10 @@ export abstract class HubPostsService {
   }
 
   private updatePostsWithAuthors(posts: Post[]): Observable<PostWithAuthor[]> {
+    if (!posts.length) {
+      return of([]);
+    }
+
     return forkJoin(
       posts.map((post) => this.getPublicProfile(post.owner).pipe(
         map((publicProfile) => ({

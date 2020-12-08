@@ -8,5 +8,7 @@ export const createSharedOneValueObservable = <T>(source: Observable<T>): Observ
     take(1),
   ).subscribe((value) => value$.next(value));
 
-  return value$;
+  return value$.pipe(
+    take(1),
+  );
 }

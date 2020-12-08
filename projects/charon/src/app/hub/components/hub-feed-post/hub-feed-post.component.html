@@ -1,10 +1,13 @@
 <ng-container *transloco="let translate; read: 'hub.hub_feed_post'">
   <div class="hub-feed-post__header">
-    <app-avatar [icon]="'user-avatar-1'"></app-avatar>
+    <app-avatar [icon]="post.author.avatar"></app-avatar>
 
     <div class="hub-feed-post__info-container">
       <div appTextEllipsis>
-        <span class="hub-feed-post__author">{{ post.owner }}</span>
+        <span class="hub-feed-post__author">
+          {{ post.author.firstName }}
+          {{ post.author.lastName }}
+        </span>
         <span class="hub-feed-post__posted">{{ translate('posted') }}</span>
         <span class="hub-feed-post__title">{{ post.title }}</span>
       </div>

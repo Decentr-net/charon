@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Post } from 'decentr-js';
+import { PostWithAuthor } from '../../models/post';
 
 @Component({
   selector: 'app-hub-feed-post',
@@ -8,5 +8,5 @@ import { Post } from 'decentr-js';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubFeedPostComponent {
-  @Input() public post: Post;
+  @Input() public post: PostWithAuthor;
 }
