@@ -10,7 +10,7 @@ export const updateShiftContent = (height: string = '0px') => {
       !shiftedElements.has(node)
       && ['fixed', 'absolute', 'sticky'].includes(style.position)
       && !(Object.values(ToolbarIds).includes(node.id))
-      && !(style.position === 'fixed' && skipHasNoChildren(node) || style.position === 'absolute' && skipPositionedChild(node))
+      && !(style.position === 'fixed' && !hasChildren(node) || style.position === 'absolute' && skipPositionedChild(node))
       && style.top !== 'auto'
     ) {
       shiftedElements.set(node, style.top);
@@ -35,6 +35,6 @@ const hasPositionedParent = (node: HTMLElement): boolean => {
   return position !== 'static';
 };
 
-const skipHasNoChildren = (node: HTMLElement): boolean => {
-  return node.children.length === 0;
+const hasChildren = (node: HTMLElement): boolean => {
+  return node.children.length !== 0;
 };
