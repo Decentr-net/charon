@@ -6,7 +6,7 @@
   display: flex;
   justify-content: center;
 
-  &:has(*) {
+  &:not(:empty) {
     margin-top: 40px;
   }
 }
