@@ -1,15 +1,13 @@
 $overview-page--analytics-divider-color: #9EA0A5;
 
 :host {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
+  display: block;
 }
 
 .overview-page__statistic-container {
   column-gap: 30px;
   display: grid;
-  grid-template-columns: repeat(2, 420px) 470px;
+  grid-template-columns: repeat(3, minmax(250px, 1fr));
 }
 
 .overview-page__analytics-divider {
@@ -31,8 +29,8 @@ $overview-page--analytics-divider-color: #9EA0A5;
 }
 
 .overview-page__posts-container {
-  column-gap: 30px;
+  justify-content: center;
   display: grid;
-  grid-template-columns: repeat(4, 320px);
-  row-gap: 30px;
+  gap: 30px;
+  grid-template-columns: repeat(4, 1fr);
 }
