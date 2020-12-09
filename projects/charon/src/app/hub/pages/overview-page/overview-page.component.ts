@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, TrackByFunction } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Post } from 'decentr-js';
 
@@ -66,16 +66,27 @@ export class OverviewPageComponent {
     },
   };
 
-  public readonly isLoading$: BehaviorSubject<boolean> = new BehaviorSubject(true);
-  public readonly posts$: BehaviorSubject<any[]> = new BehaviorSubject([]);
-  public readonly loadingCount = 4;
+  public isLoading$: Observable<boolean>;
+  public posts$: Observable<Post[]>;
+  public canLoadMore$: Observable<boolean>;
+
+  private readonly loadingCount = 4;
+
+  constructor(private overviewPageService: OverviewPageService) {
+  }
 
   public ngOnInit() {
+    this.posts$ = this.overviewPageService.posts$;
+
+    this.isLoading$ = this.overviewPageService.isLoading$;
+
+    this.canLoadMore$ = this.overviewPageService.canLoadMore$;
+
     this.loadMore();
   }
 
   public loadMore(): void {
-    this.posts$.next([...this.posts$.value, ...[]]);
+    this.overviewPageService.loadMorePosts(this.loadingCount);
   }
 
   public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;

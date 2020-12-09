@@ -37,7 +37,7 @@ export abstract class HubPostsService {
     });
   }
 
-  public get posts$(): Observable<Post[]> {
+  public get posts$(): Observable<PostWithAuthor[]> {
     return this.posts.asObservable();
   }
 
