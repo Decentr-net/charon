@@ -5,7 +5,7 @@ import { PostCreate } from 'decentr-js';
 
 import { BrowserLocalStorage } from '@shared/services/browser-storage';
 import { AuthService } from '@core/auth';
-import { NetworkSelectorService } from '@core/network-selector';
+import { NetworkService } from '@core/services';
 import { PostsApiService } from '@core/services/api';
 
 interface PostStorageValue {
@@ -20,7 +20,7 @@ export class HubCreatePostService {
 
   constructor(
     private authService: AuthService,
-    private networkService: NetworkSelectorService,
+    private networkService: NetworkService,
     private postsApiService: PostsApiService,
   ) {
   }
