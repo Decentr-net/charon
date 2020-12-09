@@ -8,6 +8,7 @@ import { PDVService } from '@shared/services/pdv';
 import { exponentialToFixed } from '@shared/utils/number';
 import { AuthService, AuthUser } from '@core/auth';
 import { Network, NetworkService } from '@core/services';
+import { User } from '@shared/services/auth';
 
 @Injectable()
 export class HubPageService {
@@ -20,6 +21,12 @@ export class HubPageService {
     environment: Environment,
   ) {
     this.pdvService = new PDVService(environment.chainId);
+  }
+
+  public getAvatar(): Observable<User['avatar']> {
+    return this.authService.getActiveUser().pipe(
+      pluck('avatar'),
+    );
   }
 
   public getBalance(): Observable<string> {

@@ -16,8 +16,7 @@ import { Observable } from 'rxjs';
 export class HubPageComponent implements OnInit {
   public headerMetaSlotName = HUB_HEADER_META_SLOT;
 
-  public avatar: string = 'https://tf-decentr-public-testnet.s3.us-east-2.amazonaws.com/user-avatar-1.svg';
-
+  public avatar$: Observable<string>;
   public coinRate$: Observable<number>;
   public balance$: Observable<string>;
 
@@ -27,8 +26,8 @@ export class HubPageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.avatar$ = this.hubPageService.getAvatar();
     this.coinRate$ = this.hubPageService.getCoinRate();
-
     this.balance$ = this.hubPageService.getBalance();
   }
 }
