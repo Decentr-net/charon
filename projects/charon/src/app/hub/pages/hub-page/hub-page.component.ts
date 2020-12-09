@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
 export class HubPageComponent implements OnInit {
   public headerMetaSlotName = HUB_HEADER_META_SLOT;
 
-  public avatar: string = 'user-avatar-1';
+  public avatar: string = 'https://tf-decentr-public-testnet.s3.us-east-2.amazonaws.com/user-avatar-1.svg';
 
   public coinRate$: Observable<number>;
   public balance$: Observable<string>;

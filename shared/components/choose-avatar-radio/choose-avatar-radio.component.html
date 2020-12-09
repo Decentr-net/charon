@@ -5,8 +5,8 @@
 >
   <mat-radio-button
     *ngFor="let avatar of avatars"
-    [value]="avatar.name"
+    [value]="avatar"
   >
-    <app-avatar [icon]="avatar.name"></app-avatar>
+    <app-avatar [avatarUrl]="avatar"></app-avatar>
   </mat-radio-button>
 </mat-radio-group>

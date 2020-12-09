@@ -10,11 +10,5 @@ import { USER_AVATARS } from './avatar.definitions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AvatarComponent {
-  @Input() public icon: string;
-
-  constructor(
-    private svgIconRegistry: SvgIconRegistry,
-  ) {
-    svgIconRegistry.register(USER_AVATARS);
-  }
+  @Input() public avatarUrl: string;
 }

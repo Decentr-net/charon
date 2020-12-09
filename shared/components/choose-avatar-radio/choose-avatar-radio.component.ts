@@ -4,11 +4,6 @@ import { noop } from 'rxjs';
 
 import { USER_AVATARS } from '../avatar';
 
-export interface Avatar {
-  name: string;
-  data: string;
-}
-
 @Component({
   selector: 'app-choose-avatar-radio',
   templateUrl: './choose-avatar-radio.component.html',
@@ -24,14 +19,14 @@ export interface Avatar {
   ],
 })
 export class ChooseAvatarRadioComponent implements AfterViewInit, ControlValueAccessor {
-  public avatars: Avatar[] = USER_AVATARS;
-  public value: Avatar['name'];
+  public avatars: string[] = USER_AVATARS;
+  public value: string;
 
   protected propagateChange: (_: any) => void = noop;
   protected propagateTouch: () => void = noop;
 
   public ngAfterViewInit(): void {
-    this.value = this.value || this.avatars[0].name;
+    this.value = this.value || this.avatars[0];
     this.onChange();
   }
 
