@@ -8,9 +8,4 @@
   grid-template-columns: repeat(auto-fill, 370px);
   justify-content: center;
   margin: auto;
-
-  &:after {
-    content: '';
-    flex: auto;
-  }
 }
