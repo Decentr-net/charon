@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 import { HUB_HEADER_META_SLOT } from '../../components/hub-header';
 import { ColorValueDynamic } from '@shared/components/color-value-dynamic';
 import { HubPageService } from './hub-page.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-hub-page',
@@ -29,6 +29,6 @@ export class HubPageComponent implements OnInit {
   public ngOnInit(): void {
     this.avatar$ = this.hubPageService.getAvatar();
     this.balance$ = this.hubPageService.getBalance();
-    this.coinRate$ = this.hubPageService.getCoinRate();
+    this.coinRate$ = this.hubPageService.getCoinRateWithMargin();
   }
 }

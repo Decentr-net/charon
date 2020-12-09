@@ -12,10 +12,14 @@ export class CurrencyApiService {
   ) {
   }
 
-  public getCoinRate(blockchainIds: string[], currencies: string[]): Observable<CoinRateResponse> {
-    const params = new HttpParams()
+  public getCoinRate(blockchainIds: string[], currencies: string[], include24hChange?: boolean): Observable<CoinRateResponse> {
+    let params = new HttpParams()
       .append(`ids`, blockchainIds.join())
       .append(`vs_currencies`, currencies.join());
+
+    if (include24hChange) {
+      params = params.append(`include_24hr_change`, include24hChange.toString());
+    }
 
     return this.http.get<CoinRateResponse>(
       `${this.api}/simple/price`,

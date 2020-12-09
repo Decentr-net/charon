@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, pluck, switchMap } from 'rxjs/operators';
 
-import { Environment } from '@environments/environment.definitions';
-import { CurrencyService } from '@shared/services/currency';
-import { PDVService } from '@shared/services/pdv';
-import { exponentialToFixed } from '@shared/utils/number';
 import { AuthService, AuthUser } from '@core/auth';
+import { ColorValueDynamic } from '@shared/components/color-value-dynamic';
+import { CurrencyService } from '@shared/services/currency';
+import { Environment } from '@environments/environment.definitions';
+import { exponentialToFixed } from '@shared/utils/number';
 import { Network, NetworkService } from '@core/services';
+import { PDVService } from '@shared/services/pdv';
 import { User } from '@shared/services/auth';
 
 @Injectable()
@@ -38,8 +39,8 @@ export class HubPageService {
     );
   }
 
-  public getCoinRate(): Observable<number> {
-    return this.currencyService.getDecentrCoinRateForUsd();
+  public getCoinRateWithMargin(): Observable<ColorValueDynamic> {
+    return this.currencyService.getDecentrCoinRateForUsd24hours();
   }
 
   private getWalletAddressAndNetworkApiStream(): Observable<{
