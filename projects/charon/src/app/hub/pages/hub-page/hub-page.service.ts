@@ -10,6 +10,7 @@ import { exponentialToFixed } from '@shared/utils/number';
 import { Network, NetworkService } from '@core/services';
 import { PDVService } from '@shared/services/pdv';
 import { User } from '@shared/services/auth';
+import { PDVService } from '@shared/services/pdv';
 
 @Injectable()
 export class HubPageService {
