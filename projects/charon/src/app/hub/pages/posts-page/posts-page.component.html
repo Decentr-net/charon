@@ -6,13 +6,14 @@
 <app-hub-infinite-posts-container
   [canLoadMore]="canLoadMore$ | async"
   [isLoading]="isLoading$ | async"
+  (loadMore)="loadMore()"
 >
-  <ng-container *ngFor="let post of posts$ | async; let last = last; trackBy: trackByPostId">
+  <div class="posts-page__posts-grid-container">
     <app-hub-post-preview-card
+      class="posts-page__post"
+      *ngFor="let post of posts$ | async; trackBy: trackByPostId"
       [post]="post"
       [appHubPostDialog]="post"
     ></app-hub-post-preview-card>
-
-    <mat-divider *ngIf="!last"></mat-divider>
-  </ng-container>
+  </div>
 </app-hub-infinite-posts-container>

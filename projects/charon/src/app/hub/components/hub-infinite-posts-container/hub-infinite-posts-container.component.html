@@ -2,7 +2,9 @@
   <ng-content></ng-content>
 
   <div class="hub-infinite-posts-container__loading-container">
-    <app-spinner *ngIf="isLoading; else loadMoreButton"></app-spinner>
+    <ng-template [ngIf]="isLoading" [ngIfElse]="loadMoreButton">
+      <app-spinner></app-spinner>
+    </ng-template>
   </div>
 
   <ng-template #loadMoreButton>
