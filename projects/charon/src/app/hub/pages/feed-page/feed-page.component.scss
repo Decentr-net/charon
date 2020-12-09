@@ -5,6 +5,13 @@ $feed-page--top-feed-header--background-color: #FFFFFF;
   height: 100%;
 }
 
+.feed-page__wall,
+.feed-page__top-feed {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .feed-page__wall {
   width: 60%;
 }
@@ -26,4 +33,5 @@ $feed-page--top-feed-header--background-color: #FFFFFF;
 .feed-page__top-feed__posts-container {
   height: 100%;
   overflow: auto;
+  padding-bottom: 30px;
 }
