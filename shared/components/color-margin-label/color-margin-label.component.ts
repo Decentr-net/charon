@@ -18,6 +18,6 @@ export class ColorMarginLabelComponent {
 
   @HostBinding('class.mod-positive')
   public get isPositive(): boolean {
-    return this.dayMargin > 0;
+    return !this.isNegative;
   }
 }
