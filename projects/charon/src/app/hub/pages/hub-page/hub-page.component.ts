@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { HUB_HEADER_META_SLOT } from '../../components/hub-header';
 import { ColorValueDynamic } from '@shared/components/color-value-dynamic';
