@@ -1,10 +1,11 @@
 <ng-container *transloco="let translate; read: 'user.user_page'">
-  <ng-container *ngIf="data.length > 0; else noData">
+  <ng-container *ngIf="data.length > 1; else noData">
     <div #chartLineResult></div>
-    <div #chartLine
-         class="d3-chart"
-         (window:resize)="onResize($event)">
-    </div>
+    <div
+      #chartLine
+      class="d3-chart"
+      (window:resize)="onResize($event)"
+    ></div>
 
     <ul class="chart-filter-buttons">
       <li>1W</li>
@@ -18,7 +19,8 @@
 
   <ng-template #noData>
     <div class="no-data">
-      {{ translate('no_pdv_rate') }}
+      <ng-container *ngIf="data.length === 1">{{ translate('not_enough_pdv_rate') }}</ng-container>
+      <ng-container *ngIf="data.length < 1">{{ translate('no_pdv_rate') }}</ng-container>
     </div>
   </ng-template>
 </ng-container>

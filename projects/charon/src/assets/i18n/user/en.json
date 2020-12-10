@@ -88,6 +88,7 @@
     "expand_view": "Expand view",
     "no_activity": "You have no activity data",
     "no_pdv_rate": "You have no PDV Rate data",
+    "not_enough_pdv_rate": "Not enough data for the chart",
     "tabs": {
       "activity": "Activity",
       "pdv_rate": "PDV Rate"

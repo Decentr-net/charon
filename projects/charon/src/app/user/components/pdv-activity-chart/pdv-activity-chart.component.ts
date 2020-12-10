@@ -1,13 +1,7 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef, Input,
-  OnChanges,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
+
+import { exponentialToFixed } from '@shared/utils/number';
 
 export interface ChartPoint {
   date: number;
@@ -161,7 +155,7 @@ export class PdvActivityChartComponent implements AfterViewInit {
 
       self.chartLegend.html(`
             <div>
-              <div class="chart-legend__rate">${d.value} PDV</div>
+              <div class="chart-legend__rate">${exponentialToFixed(d.value)} PDV</div>
               <div class="chart-legend__date">${self.formatDate(new Date(d.date))}</div>
             </div>
             <div class="pdv-rate-history ${rateClass}">
