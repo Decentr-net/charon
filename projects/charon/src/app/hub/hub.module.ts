@@ -33,11 +33,11 @@ import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
   ],
   imports: [
     AvatarModule,
-    HubRoutingModule,
-    ColoredDistributionLineModule,
     ColorCircleLabelModule,
     ColorValueDynamicModule,
+    ColoredDistributionLineModule,
     CommonModule,
+    HubRoutingModule,
     InlineSVGModule,
     LineChartModule,
     MatDialogModule,

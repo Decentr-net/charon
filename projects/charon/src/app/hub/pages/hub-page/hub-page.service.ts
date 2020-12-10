@@ -3,14 +3,14 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, pluck, switchMap } from 'rxjs/operators';
 
 import { AuthService, AuthUser } from '@core/auth';
+import { calculatePercentage, exponentialToFixed } from '@shared/utils/number';
+import { ChartPoint } from '@shared/components/line-chart';
 import { ColorValueDynamic } from '@shared/components/color-value-dynamic';
 import { CurrencyService } from '@shared/services/currency';
 import { Environment } from '@environments/environment.definitions';
-import { calculatePercentage, exponentialToFixed } from '@shared/utils/number';
 import { Network, NetworkService } from '@core/services';
 import { PDVService } from '@shared/services/pdv';
 import { User } from '@shared/services/auth';
-import { ChartPoint } from '@shared/components/line-chart';
 
 @Injectable()
 export class HubPageService {
