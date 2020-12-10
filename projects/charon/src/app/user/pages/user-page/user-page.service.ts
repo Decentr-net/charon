@@ -48,7 +48,7 @@ export class UserPageService {
       map((list) => list.map(({ address, timestamp }) => (
         {
           address,
-          date: new Date(timestamp),
+          date: new Date(Number(timestamp.toString().padEnd(13, '0'))),
         }))
       )
     );
