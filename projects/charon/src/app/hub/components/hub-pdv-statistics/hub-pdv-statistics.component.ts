@@ -5,7 +5,7 @@ import { ChartPoint } from '@shared/components/line-chart';
 export interface HubPDVStatistics {
   pdvChangedIn24HoursPercent: number;
   fromDate: number;
-  pdv: number;
+  pdv: string | number;
   points: ChartPoint[];
 }
 

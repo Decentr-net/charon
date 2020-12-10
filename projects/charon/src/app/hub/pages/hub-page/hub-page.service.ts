@@ -63,7 +63,7 @@ export class HubPageService {
     return this.currencyService.getDecentrCoinRateForUsd24hours();
   }
 
-  private getPDVChartPoints(): Observable<ChartPoint[]> {
+  public getPDVChartPoints(): Observable<ChartPoint[]> {
     return this.getWalletAddressAndNetworkApiStream().pipe(
       switchMap(({ walletAddress, networkApi }) => {
         return this.pdvService.getPDVStats(networkApi, walletAddress);

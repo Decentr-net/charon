@@ -8,6 +8,7 @@ import { HubCurrencyStatistics } from '../../components/hub-currency-statistics'
 import { HubActivityStatistics, HubDataValueSource } from '../../components/hub-activity-statistics';
 import { OverviewPageService } from './overview-page.service';
 import { HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
+import { HubPageService } from '../hub-page/hub-page.service';
 
 @UntilDestroy()
 @Component({
@@ -16,27 +17,14 @@ import { HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
   styleUrls: ['./overview-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    HubPageService,
     OverviewPageService,
   ],
 })
 export class OverviewPageComponent {
   public headerContentSlotName = HUB_HEADER_CONTENT_SLOT;
 
-  public pdvStatistics: HubPDVStatistics = {
-    fromDate: Date.now(),
-    pdv: 1.5,
-    pdvChangedIn24HoursPercent: 13,
-    points: [
-      { date: 1605830400000, value: 1.0000001 },
-      { date: 1605916800000, value: 1.0000005 },
-      { date: 1606003200000, value: 1.0000008 },
-      { date: 1606089600000, value: 1.0000004 },
-      { date: 1606176000000, value: 1.0000015 },
-      { date: 1606262400000, value: 1.0000011 },
-      { date: 1606348800000, value: 1.0000009 },
-      { date: 1606435200000, value: 1.0000005 },
-    ]
-  };
+  public pdvStatistics$: Observable<HubPDVStatistics>;
 
   public rateStatistics: HubCurrencyStatistics = {
     fromDate: Date.now(),
@@ -76,6 +64,8 @@ export class OverviewPageComponent {
   }
 
   public ngOnInit() {
+    this.pdvStatistics$ = this.overviewPageService.getPdvStatistics();
+
     this.posts$ = this.overviewPageService.posts$;
 
     this.isLoading$ = this.overviewPageService.isLoading$;
