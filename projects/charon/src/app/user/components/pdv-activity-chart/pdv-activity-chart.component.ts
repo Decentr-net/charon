@@ -47,16 +47,21 @@ export class PdvActivityChartComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.initChart();
-    this.createChart();
-    this.repaintChart();
   }
 
   private initChart(): void {
+    if (!this.chartContainer) {
+      return;
+    }
+
     this.chart = this.chartContainer.nativeElement;
     this.chartResult = this.chartResultContainer.nativeElement;
     this.chartLegend = d3.select(this.chartResult)
       .append('div')
       .attr('class', 'chart-legend');
+
+    this.createChart();
+    this.repaintChart();
   }
 
   public onResize(event): void {
