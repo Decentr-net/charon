@@ -28,7 +28,7 @@ export class HubPageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.avatar$ = this.hubPageService.getAvatar();
-    this.balance$ = this.hubPageService.getBalance();
+    this.balance$ = this.hubPageService.getBalanceWithMargin();
     this.coinRate$ = this.hubPageService.getCoinRateWithMargin();
   }
 }
