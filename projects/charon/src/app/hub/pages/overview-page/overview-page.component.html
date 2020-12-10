@@ -7,7 +7,7 @@
   <div class="overview-page__statistic-container">
     <app-hub-pdv-statistics [statistics]="pdvStatistics$ | async"></app-hub-pdv-statistics>
 
-    <app-hub-currency-statistics [statistics]="rateStatistics"></app-hub-currency-statistics>
+    <app-hub-currency-statistics [statistics]="rateStatistics$ | async"></app-hub-currency-statistics>
 
     <app-hub-activity-statistics [statistics]="activityStatistics"></app-hub-activity-statistics>
   </div>

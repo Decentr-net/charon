@@ -3,6 +3,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Post } from 'decentr-js';
 
+import { HubCurrencyStatistics } from '../../components/hub-currency-statistics';
 import { HubPDVStatistics } from '../../components/hub-pdv-statistics';
 import { HubPageService } from '../hub-page/hub-page.service';
 import { HubPostsService } from '../../services';
@@ -41,6 +42,26 @@ export class OverviewPageService extends HubPostsService {
           });
         })
       );
+  }
+
+  public getCoinRateStatistics(): Observable<HubCurrencyStatistics> {
+    return combineLatest([
+      this.hubPageService.getCoinRateWithMargin(),
+      this.hubPageService.getDecentCoinRateHistory(365),
+    ])
+      .pipe(
+        map(([rateWithMargin, rateStatistic]) => {
+            const minDate: number = Math.min(...rateStatistic.map(el => el.date));
+
+            return ({
+              fromDate: new Date(minDate).valueOf(),
+              points: rateStatistic,
+              rate: rateWithMargin.value,
+              rateChangedIn24HoursPercent: rateWithMargin.dayMargin,
+            });
+          }
+        )
+      )
   }
 
   protected loadPosts(fromPost: Post | undefined, count: number): Observable<Post[]> {

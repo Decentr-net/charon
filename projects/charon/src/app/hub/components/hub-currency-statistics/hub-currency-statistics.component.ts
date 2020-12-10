@@ -4,7 +4,7 @@ import { ChartPoint } from '@shared/components/line-chart';
 export interface HubCurrencyStatistics {
   fromDate: number;
   points: ChartPoint[];
-  rate: number;
+  rate: string | number;
   rateChangedIn24HoursPercent: number;
 }
 
