@@ -2,17 +2,19 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, pluck, switchMap } from 'rxjs/operators';
 
-import { AuthBrowserStorageService, User } from '@shared/services/auth';
-import { CurrencyService } from '@shared/services/currency';
-import { Network, NetworkBrowserStorageService } from '@shared/services/network-storage';
-import { PDVService } from '@shared/services/pdv';
-import { MessageBus } from '@shared/message-bus';
-import { exponentialToFixed } from '@shared/utils/number';
-import { AppRoute as CharonAppRoute } from '@charon/app-route';
-import { HubRoute as CharonHubRoute, HubFeedRoute as CharonHubFeedRoute } from '@charon/hub';
-import { UserRoute as CharonUserRoute } from '@charon/user';
-import { openCharonPage } from './utils/extension';
 import { TOOLBAR_CLOSE } from './messages';
+import { AppRoute as CharonAppRoute } from '@charon/app-route';
+import { AuthBrowserStorageService, User } from '@shared/services/auth';
+import { calculateDifferencePercentage, exponentialToFixed } from '@shared/utils/number';
+import { ChartPoint } from '@shared/components/line-chart';
+import { ColorValueDynamic } from '@shared/components/color-value-dynamic';
+import { CurrencyService } from '@shared/services/currency';
+import { HubFeedRoute as CharonHubFeedRoute, HubRoute as CharonHubRoute } from '@charon/hub';
+import { MessageBus } from '@shared/message-bus';
+import { Network, NetworkBrowserStorageService } from '@shared/services/network-storage';
+import { openCharonPage } from './utils/extension';
+import { PDVService } from '@shared/services/pdv';
+import { UserRoute as CharonUserRoute } from '@charon/user';
 
 @Injectable()
 export class AppService {
@@ -45,8 +47,46 @@ export class AppService {
     );
   }
 
+  public getBalanceWithMargin(): Observable<ColorValueDynamic> {
+    return combineLatest([
+      this.getBalance(),
+      this.getPDVChartPoints(),
+    ])
+      .pipe(
+        map(([pdvRate, pdvRateHistory]) => {
+          const now = new Date;
+          const historyDate = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+          const historyPdvRate = pdvRateHistory.find(el => el.date === historyDate)?.value;
+
+          return {
+            dayMargin: calculateDifferencePercentage(Number(pdvRate), historyPdvRate),
+            value: pdvRate,
+          }
+        })
+      )
+  }
+
   public getCoinRate(): Observable<number> {
     return this.currencyService.getDecentrCoinRateForUsd();
+  }
+
+  public getCoinRateWithMargin(): Observable<ColorValueDynamic> {
+    return this.currencyService.getDecentrCoinRateForUsd24hours();
+  }
+
+  private getPDVChartPoints(): Observable<ChartPoint[]> {
+    return this.getWalletAddressAndNetworkApiStream().pipe(
+      switchMap(({ walletAddress, networkApi }) => {
+        return this.pdvService.getPDVStats(networkApi, walletAddress);
+      }),
+      map((stats) => stats
+        .map(({ date, value }) => ({
+          date: new Date(date).valueOf(),
+          value,
+        }))
+        .sort((a, b) => a.date - b.date)
+      ),
+    );
   }
 
   public openCharonHubMyWall(): void {

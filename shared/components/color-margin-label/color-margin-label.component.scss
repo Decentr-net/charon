@@ -6,9 +6,8 @@ $hub-color-margin-label--negative-background-color: linear-gradient(90deg, #F031
   border-radius: 4px;
   color: #ffffff;
   display: inline-flex;
-  font-size: 14px;
   font-weight: 500;
-  padding: 5px 10px;
+  padding: .35em .7em;
 
   &.mod-positive {
     background: $hub-color-margin-label--positive-background-color;

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 
 import { AppService } from './app.service';
 import { TOOLBAR_HEIGHT } from './app.definitions';
+import { ColorValueDynamic } from '@shared/components/color-value-dynamic';
 
 @Component({
   selector: 'app-root',
@@ -14,19 +15,16 @@ export class AppComponent implements OnInit {
   @HostBinding('style.height') public height = TOOLBAR_HEIGHT;
 
   public avatar$: Observable<string>;
-  public balance$: Observable<string>;
-
-  public coinRate$: Observable<number>;
+  public balance$: Observable<ColorValueDynamic>;
+  public coinRate$: Observable<ColorValueDynamic>;
 
   constructor(private appService: AppService) {
   }
 
   public ngOnInit() {
     this.avatar$ = this.appService.getAvatar();
-
-    this.balance$ = this.appService.getBalance();
-
-    this.coinRate$ = this.appService.getCoinRate();
+    this.balance$ = this.appService.getBalanceWithMargin();
+    this.coinRate$ = this.appService.getCoinRateWithMargin();
   }
 
   public closeApp(): void {
