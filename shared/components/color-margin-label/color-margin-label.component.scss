@@ -2,14 +2,13 @@ $hub-color-margin-label--positive-background-color: linear-gradient(90deg, #5AAB
 $hub-color-margin-label--negative-background-color: linear-gradient(90deg, #F03167 0%, #F0376B 100%);
 
 :host {
-  margin-left: 10px;
   align-items: center;
-  display: flex;
+  border-radius: 4px;
+  color: #ffffff;
+  display: inline-flex;
   font-size: 14px;
   font-weight: 500;
-  color: #ffffff;
   padding: 5px 10px;
-  border-radius: 4px;
 
   &.mod-positive {
     background: $hub-color-margin-label--positive-background-color;

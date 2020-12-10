@@ -3,7 +3,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, pluck, switchMap } from 'rxjs/operators';
 
 import { AuthService, AuthUser } from '@core/auth';
-import { calculatePercentage, exponentialToFixed } from '@shared/utils/number';
+import { calculateDifferencePercentage, exponentialToFixed } from '@shared/utils/number';
 import { ChartPoint } from '@shared/components/line-chart';
 import { ColorValueDynamic } from '@shared/components/color-value-dynamic';
 import { CurrencyService } from '@shared/services/currency';
@@ -52,7 +52,7 @@ export class HubPageService {
           const historyPdvRate = pdvRateHistory.find(el => el.date === historyDate)?.value;
 
           return {
-            dayMargin: calculatePercentage(Number(pdvRate), historyPdvRate),
+            dayMargin: calculateDifferencePercentage(Number(pdvRate), historyPdvRate),
             value: pdvRate,
           }
         })

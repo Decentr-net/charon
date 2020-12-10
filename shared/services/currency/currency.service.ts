@@ -2,8 +2,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ColorValueDynamic } from '../../components/color-value-dynamic';
 import { CurrencyApiService } from './api';
+
+interface CoinRateFor24Hours {
+  dayMargin: number;
+  value: number
+}
 
 @Injectable()
 export class CurrencyService {
@@ -22,7 +26,7 @@ export class CurrencyService {
       );
   }
 
-  public getDecentrCoinRateForUsd24hours(): Observable<ColorValueDynamic> {
+  public getDecentrCoinRateForUsd24hours(): Observable<CoinRateFor24Hours> {
     const blockchainId = 'decentr';
     const currencyId = 'usd';
     const lastDayChange = `${currencyId}_24h_change`;
