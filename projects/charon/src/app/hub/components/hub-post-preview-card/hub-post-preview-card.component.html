@@ -3,8 +3,7 @@
 <div
   class="hub-post-preview-card__content"
   [style.-webkit-line-clamp]="maxContentLines"
->
-  {{ post.text }}
-</div>
+  [innerHTML]="post.text"
+></div>
 
 <div class="hub-post-preview-card__time">{{ post.createdAt | date }}</div>
