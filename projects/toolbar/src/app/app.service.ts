@@ -6,7 +6,6 @@ import { TOOLBAR_CLOSE } from './messages';
 import { AppRoute as CharonAppRoute } from '@charon/app-route';
 import { AuthBrowserStorageService, User } from '@shared/services/auth';
 import { calculateDifferencePercentage, exponentialToFixed } from '@shared/utils/number';
-import { ChartPoint } from '@shared/components/line-chart';
 import { ColorValueDynamic } from '@shared/components/color-value-dynamic';
 import { CurrencyService } from '@shared/services/currency';
 import { HubFeedRoute as CharonHubFeedRoute, HubRoute as CharonHubRoute } from '@charon/hub';
@@ -15,6 +14,11 @@ import { Network, NetworkBrowserStorageService } from '@shared/services/network-
 import { openCharonPage } from './utils/extension';
 import { PDVService } from '@shared/services/pdv';
 import { UserRoute as CharonUserRoute } from '@charon/user';
+
+export interface ChartPoint {
+  date: number;
+  value: number;
+}
 
 @Injectable()
 export class AppService {
