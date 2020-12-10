@@ -30,7 +30,7 @@ $app--section--background-color: #F8FAFD;
 
 .app__middle-container {
   justify-content: space-between;
-  padding: 0 10px 0 30px;
+  padding: 0 10px 0 20px;
 
   .app__icon {
     margin: 0 8px;
@@ -46,7 +46,7 @@ $app--section--background-color: #F8FAFD;
   font-size: 11px;
 
   & + & {
-    margin-left: 40px;
+    margin-left: 35px;
   }
 }
 

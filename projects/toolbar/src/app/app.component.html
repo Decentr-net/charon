@@ -9,27 +9,29 @@
 
   <div class="app__section app__middle-container">
     <div class="app__middle-container-section">
-      <app-color-circle-label
-        class="app__meta-label"
-        *ngIf="balance$ | async as balance"
-        [circleType]="'hole'"
-        [color]="'green'"
+      <app-color-value-dynamic
+              class="app__meta-label"
+              *ngIf="balance$ | async as balance"
+              [circleType]="'hole'"
+              [color]="'green'"
+              [dayMargin]="balance.dayMargin"
       >
-        <strong>{{ translate('pdv') }}:</strong>
-        <span class="app__meta-label-value">{{ balance }}</span>
-      </app-color-circle-label>
+        <strong>{{ translate('pdv') }}</strong>
+        <span class="app__meta-label-value">{{ balance.value }}</span>
+      </app-color-value-dynamic>
 
-      <app-color-circle-label
-        class="app__meta-label"
-        *ngIf="coinRate$ | async as coinRate"
-        [circleType]="'hole'"
-        [color]="'yellow'"
+      <app-color-value-dynamic
+              class="app__meta-label"
+              *ngIf="coinRate$ | async as coinRate"
+              [circleType]="'hole'"
+              [color]="'yellow'"
+              [dayMargin]="coinRate.dayMargin"
       >
-        <strong>{{ translate('dec') }}:</strong>
+        <strong>{{ translate('dec') }}</strong>
         <span class="app__meta-label-value">
-          {{ coinRate | currency : 'USD' : 'symbol' : '1.4' }}
-        </span>
-      </app-color-circle-label>
+        {{ coinRate.value | currency : 'USD' : 'symbol' : '1.4' }}
+      </span>
+      </app-color-value-dynamic>
     </div>
 
     <div class="app__middle-container-section">
