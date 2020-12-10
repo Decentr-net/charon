@@ -6,7 +6,7 @@ import { AuthService, AuthUser } from '@core/auth';
 import { ColorValueDynamic } from '@shared/components/color-value-dynamic';
 import { CurrencyService } from '@shared/services/currency';
 import { Environment } from '@environments/environment.definitions';
-import { exponentialToFixed } from '@shared/utils/number';
+import { calculatePercentage, exponentialToFixed } from '@shared/utils/number';
 import { Network, NetworkService } from '@core/services';
 import { PDVService } from '@shared/services/pdv';
 import { User } from '@shared/services/auth';
@@ -40,7 +40,7 @@ export class HubPageService {
     );
   }
 
-  public getBalanceWithMargin(): any {
+  public getBalanceWithMargin(): Observable<ColorValueDynamic> {
     return combineLatest([
       this.getBalance(),
       this.getPDVChartPoints(),
@@ -50,10 +50,9 @@ export class HubPageService {
           const now = new Date;
           const historyDate = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() - 1);
           const historyPdvRate = pdvRateHistory.find(el => el.date === historyDate)?.value;
-          const dayMargin = historyPdvRate ? (Number(pdvRate) / historyPdvRate * 100) - 100 : 0;
 
           return {
-            dayMargin,
+            dayMargin: calculatePercentage(Number(pdvRate), historyPdvRate),
             value: pdvRate,
           }
         })
