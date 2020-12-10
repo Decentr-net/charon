@@ -4,7 +4,7 @@ export type SvgIconName =
   | 'close'
   | 'logo'
   | 'notification'
-  | 'plus-bold'
+  | 'plus'
   | 'settings';
 export interface SvgIcon {
   name: SvgIconName;

@@ -4,7 +4,7 @@ import { SvgIconsModule } from '@ngneat/svg-icon';
 import {
   svgClose,
   svgNotification,
-  svgPlusBold,
+  svgPlus,
   svgSettings,
 } from '@shared/svg-icons';
 
@@ -13,7 +13,7 @@ import {
     icons: [
       svgClose,
       svgNotification,
-      svgPlusBold,
+      svgPlus,
       svgSettings,
     ],
   })],
