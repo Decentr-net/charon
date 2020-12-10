@@ -1,9 +1,5 @@
-import { svgUserAvatar1, svgUserAvatar2, svgUserAvatar3, svgUserAvatar4, svgUserAvatar5 } from '../../svg-icons';
+export const USER_AVATARS = [];
 
-export const USER_AVATARS = [
-  svgUserAvatar1,
-  svgUserAvatar2,
-  svgUserAvatar3,
-  svgUserAvatar4,
-  svgUserAvatar5,
-];
+for (let i = 1; i <= 5; i++) {
+  USER_AVATARS.push(`https://tf-decentr-public-testnet.s3.us-east-2.amazonaws.com/user-avatar-${i}.svg`);
+}
