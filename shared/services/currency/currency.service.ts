@@ -4,6 +4,11 @@ import { map } from 'rxjs/operators';
 
 import { CurrencyApiService } from './api';
 
+interface CoinRateFor24Hours {
+  dayMargin: number;
+  value: number
+}
+
 @Injectable()
 export class CurrencyService {
   constructor(
@@ -18,6 +23,20 @@ export class CurrencyService {
     return this.currencyApiService.getCoinRate([blockchainId], [currencyId])
       .pipe(
         map((rates) => rates[blockchainId][currencyId])
+      );
+  }
+
+  public getDecentrCoinRateForUsd24hours(): Observable<CoinRateFor24Hours> {
+    const blockchainId = 'decentr';
+    const currencyId = 'usd';
+    const lastDayChange = `${currencyId}_24h_change`;
+
+    return this.currencyApiService.getCoinRate([blockchainId], [currencyId], true)
+      .pipe(
+        map((rates) => ({
+          dayMargin: rates[blockchainId][lastDayChange],
+          value: rates[blockchainId][currencyId]
+        }))
       );
   }
 }

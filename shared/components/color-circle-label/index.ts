@@ -1,2 +1,2 @@
 export * from './color-circle-label.module';
-export { ColorCircleLabelColor } from './color-circle-label.component';
+export { ColorCircleLabelColor, ColorCircleType } from './color-circle-label.component';

@@ -9,3 +9,7 @@ export const exponentialToFixed = (value: number | string): string => {
   const degree = +numStr.split('-')[1];
   return num.toFixed(degree);
 };
+
+export const calculateDifferencePercentage = (firstNumber: number, secondNumber: number): number => {
+  return secondNumber ? (firstNumber / secondNumber * 100) - 100 : 0;
+};
