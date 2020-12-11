@@ -1,5 +1,8 @@
 <ng-container *ngIf="statistics">
-  <app-hub-statistics-card *transloco="let translate; read: 'hub.hub_pdv_statistics'">
+  <app-hub-statistics-card
+    class="hub-pdv-statistics__card"
+    *transloco="let translate; read: 'hub.hub_pdv_statistics'"
+  >
     <ng-container ngProjectAs="title">
       {{ translate('my_pdv') }}
     </ng-container>

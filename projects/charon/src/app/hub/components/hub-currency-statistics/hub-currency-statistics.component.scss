@@ -6,6 +6,10 @@ $hub-currency-statistics--no-data-color: #9EA0A5;
   display: block;
 }
 
+.hub-currency-statistics__card {
+  height: 100%;
+}
+
 .hub-currency-statistics__rate {
   color: $hub-currency-statistics--rate-color;
   font-size: 40px;

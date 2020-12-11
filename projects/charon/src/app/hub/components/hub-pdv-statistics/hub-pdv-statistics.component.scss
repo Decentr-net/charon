@@ -6,6 +6,10 @@ $hub-pdv-statistics--no-data-color: #9EA0A5;
   display: block;
 }
 
+.hub-pdv-statistics__card {
+  height: 100%;
+}
+
 .hub-pdv-statistics__pdv {
   color: $hub-pdv-statistics--pdv-color;
   font-size: 40px;
