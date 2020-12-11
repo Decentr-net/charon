@@ -4,18 +4,20 @@
     [post]="postAnalytics"
   ></app-hub-post-preview-card>
 
-  <mat-divider></mat-divider>
+  <div>
+    <mat-divider></mat-divider>
 
-  <div class="hub-post-analytics__footer">
-    <div class="hub-post-analytics__labels-container">
-      <div class="hub-post-analytics__pdv-increase">
-        {{ translate('pdv_increase', { percent: postAnalytics.pdvIncreasePercent }) }}
+    <div class="hub-post-analytics__footer">
+      <div class="hub-post-analytics__labels-container">
+        <div class="hub-post-analytics__pdv-increase">
+          {{ translate('pdv_increase', { percent: postAnalytics.pdvIncreasePercent }) }}
+        </div>
       </div>
-    </div>
 
-    <div
-      class="hub-post-analytics__dynamics-icon"
-      [inlineSVG]="'assets/images/icons/dynamics-positive.svg'"
-    ></div>
+      <div
+        class="hub-post-analytics__dynamics-icon"
+        [inlineSVG]="'assets/images/icons/dynamics-positive.svg'"
+      ></div>
+    </div>
   </div>
 </ng-container>

@@ -3,7 +3,9 @@ $hub-post-analytics--pdv-increase-color: #328374;
 
 :host {
   background-color: $hub-post-analytics--background-color;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .hub-post-analytics__footer {
