@@ -12,4 +12,7 @@
   [innerHTML]="post.text"
 ></div>
 
-<div class="hub-post-preview-card__time">{{ post.createdAt | date }}</div>
+<app-hub-post-time
+  class="hub-post-preview-card__time"
+  [time]="post.createdAt"
+></app-hub-post-time>

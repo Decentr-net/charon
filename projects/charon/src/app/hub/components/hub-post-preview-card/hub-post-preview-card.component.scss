@@ -1,5 +1,4 @@
 $hub-post-preview-card--background-color: #FFFFFF;
-$hub-post-preview-card--time-color: #9EA0A5;
 
 :host {
   background-color: $hub-post-preview-card--background-color;
@@ -30,7 +29,5 @@ $hub-post-preview-card--time-color: #9EA0A5;
 }
 
 .hub-post-preview-card__time {
-  color: $hub-post-preview-card--time-color;
-  font-size: 12px;
-  margin-top: 10px;
+  margin-top: 8px;
 }
