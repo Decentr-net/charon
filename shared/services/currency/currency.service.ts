@@ -39,4 +39,14 @@ export class CurrencyService {
         }))
       );
   }
+
+  public getDecentCoinRateHistory(days: number): Observable<any> {
+    const blockchainId = 'decentr';
+    const currencyId = 'usd';
+
+    return this.currencyApiService.getCoinRateHistory(blockchainId, currencyId, days)
+      .pipe(
+        map((rateHistory) => rateHistory['prices'])
+      );
+  }
 }

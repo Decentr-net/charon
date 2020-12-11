@@ -8,6 +8,7 @@ import { HubCurrencyStatistics } from '../../components/hub-currency-statistics'
 import { HubActivityStatistics, HubDataValueSource } from '../../components/hub-activity-statistics';
 import { OverviewPageService } from './overview-page.service';
 import { HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
+import { HubPageService } from '../hub-page/hub-page.service';
 
 @UntilDestroy()
 @Component({
@@ -16,48 +17,15 @@ import { HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
   styleUrls: ['./overview-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    HubPageService,
     OverviewPageService,
   ],
 })
 export class OverviewPageComponent {
   public headerContentSlotName = HUB_HEADER_CONTENT_SLOT;
 
-  public pdvStatistics: HubPDVStatistics = {
-    fromDate: Date.now(),
-    pdv: 1.5,
-    pdvChangedIn24HoursPercent: 13,
-    points: [
-      { date: 1605830400000, value: 1.0000001 },
-      { date: 1605916800000, value: 1.0000005 },
-      { date: 1606003200000, value: 1.0000008 },
-      { date: 1606089600000, value: 1.0000004 },
-      { date: 1606176000000, value: 1.0000015 },
-      { date: 1606262400000, value: 1.0000011 },
-      { date: 1606348800000, value: 1.0000009 },
-      { date: 1606435200000, value: 1.0000005 },
-    ]
-  };
-
-  public rateStatistics: HubCurrencyStatistics = {
-    fromDate: Date.now(),
-    points: [
-      { date: 1605830400000, value: 1.0000003 },
-      { date: 1605916800000, value: 1.0000005 },
-      { date: 1606003200000, value: 1.0000011 },
-      { date: 1606089600000, value: 1.0000003 },
-      { date: 1606176000000, value: 1.0000005 },
-      { date: 1606262400000, value: 1.0000008 },
-      { date: 1606348800000, value: 1.0000003 },
-      { date: 1606435200000, value: 1.0000005 },
-      { date: 1606521600000, value: 1.0000002 },
-      { date: 1606608000000, value: 1.0000007 },
-      { date: 1606694400000, value: 1.0000008 },
-      { date: 1606780800000, value: 1.0000008 },
-      { date: 1606867200000, value: 1.0000005 },
-    ],
-    rate: 1.5,
-    rateChangedIn24HoursPercent: 13,
-  };
+  public pdvStatistics$: Observable<HubPDVStatistics>;
+  public rateStatistics$: Observable<HubCurrencyStatistics>;
 
   public activityStatistics: HubActivityStatistics = {
     pdv: {
@@ -76,6 +44,9 @@ export class OverviewPageComponent {
   }
 
   public ngOnInit() {
+    this.pdvStatistics$ = this.overviewPageService.getPdvStatistics();
+    this.rateStatistics$ = this.overviewPageService.getCoinRateStatistics();
+
     this.posts$ = this.overviewPageService.posts$;
 
     this.isLoading$ = this.overviewPageService.isLoading$;

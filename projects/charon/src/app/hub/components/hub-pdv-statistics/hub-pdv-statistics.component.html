@@ -1,33 +1,35 @@
-<app-hub-statistics-card *transloco="let translate; read: 'hub.hub_pdv_statistics'">
-  <ng-container ngProjectAs="title">
-    {{ translate('my_pdv') }}
-  </ng-container>
+<ng-container *ngIf="statistics">
+  <app-hub-statistics-card *transloco="let translate; read: 'hub.hub_pdv_statistics'">
+    <ng-container ngProjectAs="title">
+      {{ translate('my_pdv') }}
+    </ng-container>
 
-  <ng-container ngProjectAs="subtitle">
-    {{ translate('activity_from', { date: statistics.fromDate | date }) }}
-  </ng-container>
+    <ng-container ngProjectAs="subtitle">
+      {{ translate('activity_from', { date: statistics.fromDate | date }) }}
+    </ng-container>
 
-  <div class="hub-pdv-statistics__pdv">
-    {{ statistics.pdv | number : '1.4' }}
-  </div>
-
-  <div class="hub-pdv-statistics__pdv-change">
-    {{ translate(
-    'pdv_change.' + (statistics.pdvChangedIn24HoursPercent >= 0 ? 'increased' : 'decreased'),
-    { percent: statistics.pdvChangedIn24HoursPercent }
-    ) }}
-  </div>
-
-  <app-line-chart
-    class="hub-pdv-statistics__chart"
-    *ngIf="statistics.points.length > 1; else noData"
-    [data]="statistics.points"
-    color="#19A2FF"
-  ></app-line-chart>
-
-  <ng-template #noData>
-    <div class="hub-pdv-statistics__no-data">
-      {{ translate('not_enough_chart_data') }}
+    <div class="hub-pdv-statistics__pdv">
+      {{ statistics.pdv | number : '1.4-7' }}
     </div>
-  </ng-template>
-</app-hub-statistics-card>
+
+    <div class="hub-pdv-statistics__pdv-change">
+      {{ translate(
+      'pdv_change.' + (statistics.pdvChangedIn24HoursPercent >= 0 ? 'increased' : 'decreased'),
+      { percent: statistics.pdvChangedIn24HoursPercent | positiveNumber | number : '1.0-2' }
+      ) }}
+    </div>
+
+    <app-line-chart
+      class="hub-pdv-statistics__chart"
+      *ngIf="statistics.points.length > 1; else noData"
+      [data]="statistics.points"
+      color="#19A2FF"
+    ></app-line-chart>
+
+    <ng-template #noData>
+      <div class="hub-pdv-statistics__no-data">
+        {{ translate('not_enough_chart_data') }}
+      </div>
+    </ng-template>
+  </app-hub-statistics-card>
+</ng-container>

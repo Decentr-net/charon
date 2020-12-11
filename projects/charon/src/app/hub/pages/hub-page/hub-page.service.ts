@@ -12,6 +12,11 @@ import { Network, NetworkService } from '@core/services';
 import { PDVService } from '@shared/services/pdv';
 import { User } from '@shared/services/auth';
 
+interface CoinRateHistory {
+  date: number,
+  value: number,
+}
+
 @Injectable()
 export class HubPageService {
   private readonly pdvService: PDVService;
@@ -63,7 +68,7 @@ export class HubPageService {
     return this.currencyService.getDecentrCoinRateForUsd24hours();
   }
 
-  private getPDVChartPoints(): Observable<ChartPoint[]> {
+  public getPDVChartPoints(): Observable<ChartPoint[]> {
     return this.getWalletAddressAndNetworkApiStream().pipe(
       switchMap(({ walletAddress, networkApi }) => {
         return this.pdvService.getPDVStats(networkApi, walletAddress);
@@ -75,6 +80,15 @@ export class HubPageService {
         }))
         .sort((a, b) => a.date - b.date)
       ),
+    );
+  }
+
+  public getDecentCoinRateHistory(days: number): Observable<CoinRateHistory[]> {
+    return this.currencyService.getDecentCoinRateHistory(days).pipe(
+      map((historyElements) => historyElements.map((historyElement) => ({
+        date: historyElement[0],
+        value: historyElement[1],
+      })))
     );
   }
 
