@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { ControlValueAccessor } from '@ngneat/reactive-forms';
@@ -19,6 +19,8 @@ import { svgAddImage } from '@shared/svg-icons';
   ],
 })
 export class HubSimpleTextEditorComponent extends ControlValueAccessor<string> {
+  @Input() public placeholder: string = '';
+
   @ViewChild('textContainer', { static: true }) public textContainer: ElementRef<HTMLDivElement>;
 
   constructor(svgIconRegistry: SvgIconRegistry) {

@@ -1,3 +1,5 @@
+$hub-simple-text-editor--placeholder--color: #9EA0A5;
+
 :host {
   display: flex;
   flex-direction: column;
@@ -6,6 +8,11 @@
 .hub-simple-text-editor__text-container {
   height: 100%;
   overflow-y: auto;
+
+  &:empty:before {
+    color: $hub-simple-text-editor--placeholder--color;
+    content: attr(placeholder);
+  }
 }
 
 .hub-simple-text-editor__footer {
