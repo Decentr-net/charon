@@ -20,6 +20,7 @@ import { ColorValueDynamicModule } from '@shared/components/color-value-dynamic'
 import { ColoredDistributionLineModule } from '@shared/components/colored-distribution-line';
 import { HubRoutingModule } from './hub-routing.module';
 import { LineChartModule } from '@shared/components/line-chart';
+import { CutHtmlImagesModule } from '@shared/pipes/cut-html-images';
 import { PositiveNumberModule } from '@shared/pipes/positiveNumber';
 import { SanitizeModule } from '@shared/pipes/sanitize';
 import { SlotModule } from '@shared/components/slot';
@@ -38,6 +39,7 @@ import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
     ColorValueDynamicModule,
     ColoredDistributionLineModule,
     CommonModule,
+    CutHtmlImagesModule,
     HubRoutingModule,
     InlineSVGModule,
     LineChartModule,
