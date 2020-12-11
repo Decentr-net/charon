@@ -1,6 +1,7 @@
 import { Directive, HostListener, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { finalize, mergeMap } from 'rxjs/operators';
+import { noop } from 'rxjs';
+import { finalize, mergeMap, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -67,7 +68,13 @@ export class HubCreatePostDialogDirective {
           }
 
           this.spinnerService.showSpinner();
-          return this.hubCreatePostService.createPost(result.post);
+          return this.hubCreatePostService.createPost(result.post).pipe(
+            tap(() => {
+              this.notificationService.success(
+                this.translocoService.translate('hub_create_post_dialog.success', null, 'hub')
+              );
+            }),
+          );
         }),
         finalize(() => {
           this.spinnerService.hideSpinner();
@@ -75,11 +82,7 @@ export class HubCreatePostDialogDirective {
         }),
         untilDestroyed(this),
       )
-      .subscribe(() => {
-        this.notificationService.success(
-          this.translocoService.translate('hub_create_post_dialog.success', null, 'hub')
-        );
-      }, (error) => {
+      .subscribe(noop, (error) => {
         this.notificationService.error(error);
       });
   }
