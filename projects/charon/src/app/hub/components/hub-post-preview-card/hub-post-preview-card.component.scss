@@ -11,6 +11,7 @@ $hub-post-preview-card--time-color: #9EA0A5;
 .hub-post-preview-card__content {
   display: -webkit-box;
   overflow: hidden;
+  word-break: break-word;
   -webkit-box-orient: vertical;
 }
 
@@ -18,6 +19,7 @@ $hub-post-preview-card--time-color: #9EA0A5;
   font-size: 18px;
   font-weight: 500;
   line-height: 26px;
+  margin-top: 8px;
   -webkit-line-clamp: 2;
 }
 
