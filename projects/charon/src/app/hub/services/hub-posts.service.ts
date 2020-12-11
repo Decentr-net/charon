@@ -60,6 +60,7 @@ export abstract class HubPostsService {
   public clear(): void {
     this.stopLoading$.next();
     this.posts.next([]);
+    this.canLoadMore.next(true);
   }
 
   public dispose(): void {
