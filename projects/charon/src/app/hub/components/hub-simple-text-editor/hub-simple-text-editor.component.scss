@@ -1,0 +1,31 @@
+$hub-simple-text-editor--placeholder--color: #9EA0A5;
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.hub-simple-text-editor__text-container {
+  height: 100%;
+  overflow-y: auto;
+
+  &:empty:before {
+    color: $hub-simple-text-editor--placeholder--color;
+    content: attr(placeholder);
+  }
+}
+
+.hub-simple-text-editor__footer {
+  align-items: center;
+  column-gap: 10px;
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  margin-top: 8px;
+}
+
+.hub-simple-text-editor__add-image-icon {
+  align-items: center;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 24px;
+}
