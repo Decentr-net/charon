@@ -9,7 +9,7 @@
 <div
   class="hub-post-preview-card__content"
   [style.-webkit-line-clamp]="maxContentLines"
-  [innerHTML]="post.text"
+  [innerHTML]="post.text | appCutHtmlImages"
 ></div>
 
 <app-hub-post-time
