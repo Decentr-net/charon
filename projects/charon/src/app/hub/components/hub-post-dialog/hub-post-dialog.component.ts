@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Post } from 'decentr-js';
+
+import { PostWithAuthor } from '../../models/post';
 
 @Component({
   selector: 'app-hub-post-dialog',
@@ -9,6 +10,6 @@ import { Post } from 'decentr-js';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubPostDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public post: Post) {
+  constructor(@Inject(MAT_DIALOG_DATA) public post: PostWithAuthor) {
   }
 }

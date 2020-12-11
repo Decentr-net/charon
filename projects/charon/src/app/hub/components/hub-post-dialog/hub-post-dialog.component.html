@@ -6,10 +6,13 @@
   ></div>
 
   <div class="hub-post-dialog__header">
-    <app-avatar [avatarUrl]="'https://tf-decentr-public-testnet.s3.us-east-2.amazonaws.com/user-avatar-1.svg'"></app-avatar>
+    <app-avatar [avatarUrl]="post.author.avatar"></app-avatar>
 
     <div class="hub-post-dialog__info-container">
-      <span class="hub-post-dialog__author">Author name</span>
+      <span class="hub-post-dialog__author">
+        {{ post.author.firstName }}
+        {{ post.author.lastName }}
+      </span>
 
       <app-hub-post-time [time]="post.createdAt"></app-hub-post-time>
     </div>
