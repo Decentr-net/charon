@@ -15,8 +15,7 @@
     <div class="hub-currency-statistics__rate-change">
       {{ translate(
       'dec_rate_change.' + (statistics.rateChangedIn24HoursPercent >= 0 ? 'increased' : 'decreased'),
-      { percent: (statistics.rateChangedIn24HoursPercent >= 0
-        ? statistics.rateChangedIn24HoursPercent : -statistics.rateChangedIn24HoursPercent) | number : '1.0-2' }
+      { percent: statistics.rateChangedIn24HoursPercent | positiveNumber | number : '1.0-2' }
     ) }}
     </div>
 
