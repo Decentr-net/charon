@@ -53,6 +53,10 @@ $hub-create-post-dialog--submit-button--color: #FFFFFF;
   overflow: hidden;
 }
 
+.hub-create-post-dialog__title-input {
+  font-weight: 500;
+}
+
 .hub-create-post-dialog__editor {
   flex-grow: 1;
   overflow: hidden;

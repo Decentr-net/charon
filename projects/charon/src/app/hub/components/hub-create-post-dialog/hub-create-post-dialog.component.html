@@ -33,7 +33,11 @@
       <mat-form-field [floatLabel]="'never'">
         <mat-label>{{ translate('title.placeholder') }}</mat-label>
 
-        <input matInput formControlName="title">
+        <input
+          class="hub-create-post-dialog__title-input"
+          matInput
+          formControlName="title"
+        >
       </mat-form-field>
 
       <app-hub-text-editor
