@@ -30,11 +30,11 @@ export class HubCategorySelectComponent extends ControlValueAccessor<PostCategor
 
   public categories: PostCategory[] = [
     PostCategory.WorldNews,
+    PostCategory.TravelAndTourism,
     PostCategory.ScienceAndTechnology,
+    PostCategory.StrangeWorld,
     PostCategory.HealthAndCulture,
     PostCategory.FitnessAndExercise,
-    PostCategory.StrangeWorld,
-    PostCategory.TravelAndTourism,
   ];
 
   public translationMap: Record<PostCategory, string> = POST_CATEGORY_TRANSLATION_MAP;
