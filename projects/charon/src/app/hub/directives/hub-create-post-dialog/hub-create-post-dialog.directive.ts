@@ -1,9 +1,10 @@
 import { Directive, HostListener, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { finalize, mergeMap } from 'rxjs/operators';
+import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { SpinnerService } from '@core/services';
+import { NotificationService, SpinnerService } from '@core/services';
 import { AuthService, AuthUser } from '@core/auth';
 import {
   HubCreatePostDialogComponent,
@@ -24,8 +25,10 @@ export class HubCreatePostDialogDirective {
   constructor(
     private authService: AuthService,
     private matDialog: MatDialog,
+    private notificationService: NotificationService,
     private hubCreatePostService: HubCreatePostService,
     private spinnerService: SpinnerService,
+    private translocoService: TranslocoService,
   ) {
   }
 
@@ -71,6 +74,13 @@ export class HubCreatePostDialogDirective {
           this.isDialogOpened = false;
         }),
         untilDestroyed(this),
-      ).subscribe();
+      )
+      .subscribe(() => {
+        this.notificationService.success(
+          this.translocoService.translate('hub_create_post_dialog.success', null, 'hub')
+        );
+      }, (error) => {
+        this.notificationService.error(error);
+      });
   }
 }

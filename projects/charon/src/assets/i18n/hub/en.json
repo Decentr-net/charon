@@ -27,6 +27,7 @@
       }
     },
     "post": "Post",
+    "success": "Post successfully created",
     "title": "Create Post"
   },
   "hub_currency_statistics": {
