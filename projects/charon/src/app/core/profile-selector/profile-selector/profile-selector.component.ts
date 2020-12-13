@@ -15,7 +15,7 @@ import { AppRoute } from '../../../app-route';
 export class ProfileSelectorComponent implements OnInit {
   public balance$: Observable<string>;
   public username$: Observable<string>;
-  public userAvatar;
+  public userAvatar$: Observable<string>;
 
   public readonly appRoute: typeof AppRoute = AppRoute;
 
@@ -36,7 +36,10 @@ export class ProfileSelectorComponent implements OnInit {
       shareReplay(1),
     );
 
-    this.userAvatar = this.authService.getActiveUserInstant().avatar;
+    this.userAvatar$ = this.authService.getActiveUser().pipe(
+      pluck('avatar'),
+      shareReplay(1),
+    );
   }
 
   public lock(): void {

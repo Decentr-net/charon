@@ -1,7 +1,7 @@
 <ng-container *transloco="let translate; scope: 'core'; read: 'core.profile_selector'">
   <app-avatar
     class="profile-image"
-    [avatarUrl]="userAvatar"
+    [avatarUrl]="userAvatar$ | async"
     [matMenuTriggerFor]="menuTemplate"
   ></app-avatar>
 
@@ -19,7 +19,7 @@
         <div class="menu-item menu-item__active">
           <app-avatar
             class="profile-image"
-            [avatarUrl]="userAvatar"
+            [avatarUrl]="userAvatar$ | async"
           ></app-avatar>
           <div>
             <div class="name">{{ username$ | async }}</div>
