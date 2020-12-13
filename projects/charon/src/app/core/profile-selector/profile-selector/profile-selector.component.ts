@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { pluck, shareReplay } from 'rxjs/operators';
+import { shareReplay } from 'rxjs/operators';
 
-import { AuthService } from '../../auth';
+import { AuthService, AuthUser } from '../../auth';
 import { LockService } from '../../lock';
 import { ProfileSelectorService } from '../profile-selector.service';
 import { AppRoute } from '../../../app-route';
@@ -14,8 +14,7 @@ import { AppRoute } from '../../../app-route';
 })
 export class ProfileSelectorComponent implements OnInit {
   public balance$: Observable<string>;
-  public username$: Observable<string>;
-  public userAvatar;
+  public user$: Observable<AuthUser>;
 
   public readonly appRoute: typeof AppRoute = AppRoute;
 
@@ -31,12 +30,9 @@ export class ProfileSelectorComponent implements OnInit {
       shareReplay(1),
     );
 
-    this.username$ = this.authService.getActiveUser().pipe(
-      pluck('primaryUsername'),
+    this.user$ = this.authService.getActiveUser().pipe(
       shareReplay(1),
     );
-
-    this.userAvatar = this.authService.getActiveUserInstant().avatar;
   }
 
   public lock(): void {
