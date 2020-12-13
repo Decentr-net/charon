@@ -3,6 +3,7 @@ import { Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { noop, Observable } from 'rxjs';
 import { finalize, pluck, share } from 'rxjs/operators';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -88,7 +89,7 @@ export class ImportRestorePageComponent implements OnInit {
     return this.formBuilder.group({
       confirmPassword: ['', [
         Validators.required,
-        PasswordValidationUtil.equalsToAdjacentControl('password'),
+        RxwebValidators.compare({ fieldName: 'password' }),
       ]],
       password: ['', [
         Validators.required,
