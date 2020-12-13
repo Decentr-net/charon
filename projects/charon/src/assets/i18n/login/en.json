@@ -31,12 +31,12 @@
     },
     "import": {
       "submit": "IMPORT",
-      "subtitle": "Enter your secret twelve word phrase in the field below to import your account.",
+      "subtitle": "Enter your secret 24 word phrase in the field below to import your account.",
       "title": "Import an account with a seed phrase"
     },
     "restore": {
       "submit": "RESTORE",
-      "subtitle": "Enter your secret twelve word phrase in the field below to restore your account.",
+      "subtitle": "Enter your secret 24 word phrase in the field below to restore your account.",
       "title": "Restore an account with a seed phrase"
     }
   },

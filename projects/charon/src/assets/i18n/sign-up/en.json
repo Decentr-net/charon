@@ -113,7 +113,7 @@
     "hint": {
       "label": "Hint",
       "text1": "Store your seed phrase in a password manager like 1Password.",
-      "text2": "Write this phrase on a piece of paper and store in a secure location. If you want even more security. write it down on multiple pieces of paper and store each in 2 - 3 different locations.",
+      "text2": "Write this phrase on a piece of paper and store in a secure location. If you want even more security, write it down on multiple pieces of paper and store each in 2 - 3 different locations.",
       "text3": "Memorize seed phrase.",
       "text4": "Download this Secret Backup Phrase and keep it stored safely on an external encrypted hard drive or storage medium."
     },
