@@ -15,7 +15,7 @@
       "128": "assets/icons/128.png",
       "512": "assets/icons/512.png"
     },
-    "default_popup": "charon/index.html",
+    "default_popup": "charon/index.html#/user",
     "default_title": "Charon extension"
   },
   "permissions": [
