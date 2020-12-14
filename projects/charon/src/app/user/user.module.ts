@@ -18,6 +18,7 @@ import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 import { ChooseAvatarRadioModule } from '@shared/components/choose-avatar-radio';
 import { DateInputModule } from '@shared/components/date-input';
 import { FormErrorModule } from '@shared/components/form-error';
+import { ProfileFormModule } from '@shared/components/profile-form';
 import { LayoutHeaderModule } from '../layout/layout-header';
 import { USER_PAGES } from './pages';
 import { USER_COMPONENTS } from './components';
@@ -41,6 +42,7 @@ import { UserRoutingModule } from './user-routing.module';
     MatTabsModule,
     MatTooltipModule,
     NgxTrimDirectiveModule,
+    ProfileFormModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
     TranslocoModule,

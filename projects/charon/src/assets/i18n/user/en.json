@@ -29,7 +29,8 @@
       "email": {
         "errors": {
           "email": "Enter valid email",
-          "required": "Email is required"
+          "required": "Email is required",
+          "unique": "This email has already been added"
         },
         "label": "E-mail"
       },

@@ -1,52 +1,8 @@
-@import 'variables';
-
 :host {
   background: #ffffff;
   height: 100%;
   display: block;
   padding-bottom: 1rem;
-
-  .button {
-    &__add,
-    &__remove {
-      cursor: pointer;
-      border: 1px solid $color-accent;
-      border-radius: 4px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 48px;
-      height: 48px;
-      position: relative;
-      margin-left: 1rem;
-      margin-top: -4px;
-      vertical-align: middle;
-
-      &:before,
-      &:after {
-        content: "";
-        position: absolute;
-      }
-
-      &:before {
-        width: 22px;
-        height: 2px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: $color-accent;
-      }
-    }
-
-    &__add {
-      &:after {
-        width: 2px;
-        height: 22px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: $color-accent;
-      }
-    }
-  }
 }
 
 .page-title {

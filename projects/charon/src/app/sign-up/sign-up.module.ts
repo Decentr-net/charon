@@ -14,6 +14,7 @@ import { ChooseAvatarRadioModule } from '@shared/components/choose-avatar-radio'
 import { CodeInputModule } from '@shared/components/code-input';
 import { DateInputModule } from '@shared/components/date-input';
 import { FormErrorModule } from '@shared/components/form-error';
+import { ProfileFormModule } from '@shared/components/profile-form';
 import { NavigationModule } from '@core/navigation';
 import { SIGN_UP_COMPONENTS } from './components';
 import { SIGN_UP_PAGES } from './pages';
@@ -40,6 +41,7 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     MatRadioModule,
     NavigationModule,
     NgxTrimDirectiveModule,
+    ProfileFormModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
     SignUpRoutingModule,
