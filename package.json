@@ -54,6 +54,7 @@
     "ng-inline-svg": "^11.0.0",
     "ngx-quill": "^12.0.1",
     "ngx-toastr": "~12.1.0",
+    "ngx-trim-directive": "^1.1.0",
     "p-queue": "^6.6.2",
     "quill": "^1.3.7",
     "rxjs": "~6.6.0",

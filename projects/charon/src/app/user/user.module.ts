@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
 import { ChooseAvatarRadioModule } from '@shared/components/choose-avatar-radio';
 import { DateInputModule } from '@shared/components/date-input';
@@ -39,6 +40,7 @@ import { UserRoutingModule } from './user-routing.module';
     MatRadioModule,
     MatTabsModule,
     MatTooltipModule,
+    NgxTrimDirectiveModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
     TranslocoModule,

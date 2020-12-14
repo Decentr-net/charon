@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
 import { ChooseAvatarRadioModule } from '@shared/components/choose-avatar-radio';
 import { CodeInputModule } from '@shared/components/code-input';
@@ -38,6 +39,7 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     MatInputModule,
     MatRadioModule,
     NavigationModule,
+    NgxTrimDirectiveModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
     SignUpRoutingModule,

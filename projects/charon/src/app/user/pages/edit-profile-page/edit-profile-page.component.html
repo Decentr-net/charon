@@ -34,6 +34,7 @@
               name="name"
               formControlName="firstName"
               placeholder=""
+              trim="blur"
             >
 
             <mat-error>
@@ -54,6 +55,7 @@
               name="name"
               formControlName="lastName"
               placeholder=""
+              trim="blur"
             >
 
             <mat-error>
@@ -112,7 +114,8 @@
                        type="text"
                        name="name"
                        [formControlName]="i"
-                       placeholder="">
+                       placeholder=""
+                       trim="blur">
 
                 <mat-error>
                   <app-form-error [controlName]="i" i18nControlKey="username"></app-form-error>
@@ -196,6 +199,7 @@
         name="email"
         [formControl]="control"
         placeholder=""
+        trim="blur"
       >
 
       <mat-error>

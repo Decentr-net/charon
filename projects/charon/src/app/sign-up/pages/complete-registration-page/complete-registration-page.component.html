@@ -28,6 +28,7 @@
               name="name"
               formControlName="firstName"
               placeholder=""
+              trim="blur"
             >
 
             <mat-error>
@@ -48,6 +49,7 @@
               name="name"
               formControlName="lastName"
               placeholder=""
+              trim="blur"
             >
 
             <mat-error>
@@ -114,6 +116,7 @@
                   name="name"
                   [formControlName]="i"
                   placeholder=""
+                  trim="blur"
                 >
 
                 <mat-error>
@@ -172,6 +175,7 @@
         name="email"
         [formControl]="control"
         placeholder=""
+        trim="blur"
       >
 
       <mat-error>
