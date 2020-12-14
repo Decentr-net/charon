@@ -2,7 +2,6 @@ import {
   AbstractControl,
   FormControl,
   ValidationErrors,
-  ValidatorFn,
 } from '@angular/forms';
 
 export class BaseValidationUtil {
@@ -33,20 +32,5 @@ export class BaseValidationUtil {
     const datePattern = new RegExp(`\\b(\\d{4})([\\/\\-])(0[1-9]|1[012])\\2(0[1-9]|[12]\\d|3[01])`);
 
     return !control.value.match(datePattern) ? { invalidFormat: true } : null;
-  }
-
-  static equalsToAdjacentControl(controlName: string): ValidatorFn {
-    return (control: AbstractControl) => {
-      const formGroup = control.parent;
-      if (!formGroup) {
-        return;
-      }
-
-      const equalToControl = formGroup.get(controlName);
-
-      return !equalToControl.value || control.value === equalToControl.value
-        ? null
-        : { valueDoNotMatch: controlName };
-    };
   }
 }

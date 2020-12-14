@@ -8,8 +8,8 @@
       "confirm_password": {
         "label": "Confirm password",
         "errors": {
-          "required": "Password is required",
-          "valueDoNotMatch": "Password should be equal"
+          "compare": "Passwords should be equal",
+          "required": "Password is required"
         }
       },
       "password": {

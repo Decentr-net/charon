@@ -10,6 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
@@ -39,6 +40,7 @@ import { UserRoutingModule } from './user-routing.module';
     MatTabsModule,
     MatTooltipModule,
     ReactiveFormsModule,
+    RxReactiveFormsModule,
     TranslocoModule,
     UserRoutingModule,
   ],

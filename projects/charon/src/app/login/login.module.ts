@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
 import { FormErrorModule } from '@shared/components/form-error';
@@ -24,6 +25,7 @@ import { LoginRoutingModule } from './login-routing.module';
     MatInputModule,
     NavigationModule,
     ReactiveFormsModule,
+    RxReactiveFormsModule,
     TranslocoModule,
   ],
   providers: [

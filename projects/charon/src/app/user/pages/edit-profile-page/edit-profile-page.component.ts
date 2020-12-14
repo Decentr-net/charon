@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angula
 import { Validators } from '@angular/forms';
 import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { finalize } from 'rxjs/operators';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Gender } from 'decentr-js';
@@ -124,7 +125,7 @@ export class EditProfilePageComponent implements OnInit {
         BaseValidationUtil.isFrDateFormatCorrect,
       ]],
       confirmPassword: ['', [
-        PasswordValidationUtil.equalsToAdjacentControl('password'),
+        RxwebValidators.compare({ fieldName: 'password' }),
       ]],
       firstName: ['', [
         Validators.required,
