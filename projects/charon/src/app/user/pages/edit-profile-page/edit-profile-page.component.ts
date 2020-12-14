@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { Validators } from '@angular/forms';
 import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { finalize } from 'rxjs/operators';
@@ -48,6 +49,7 @@ export class EditProfilePageComponent implements OnInit {
     private notificationService: NotificationService,
     private translocoService: TranslocoService,
     private editProfilePageService: EditProfilePageService,
+    private datePipe: DatePipe,
   ) {
   }
 
@@ -123,6 +125,8 @@ export class EditProfilePageComponent implements OnInit {
       birthday: ['', [
         Validators.required,
         BaseValidationUtil.isFrDateFormatCorrect,
+        BaseValidationUtil.minDate('1900-01-01'),
+        BaseValidationUtil.maxDate(this.datePipe.transform(Date.now(), 'yyyy-MM-dd')),
       ]],
       confirmPassword: ['', [
         RxwebValidators.compare({ fieldName: 'password' }),

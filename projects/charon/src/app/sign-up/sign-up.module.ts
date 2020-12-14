@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -46,6 +46,7 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     TranslocoModule,
   ],
   providers: [
+    DatePipe,
     SIGN_UP_SERVICES,
     {
       provide: TRANSLOCO_SCOPE,

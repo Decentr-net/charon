@@ -3,6 +3,7 @@ import {
   FormControl,
   ValidationErrors,
 } from '@angular/forms';
+import { ValidatorFn } from '@ngneat/reactive-forms';
 
 export class BaseValidationUtil {
 
@@ -32,5 +33,25 @@ export class BaseValidationUtil {
     const datePattern = new RegExp(`\\b(\\d{4})([\\/\\-])(0[1-9]|1[012])\\2(0[1-9]|[12]\\d|3[01])`);
 
     return !control.value.match(datePattern) ? { invalidFormat: true } : null;
+  }
+
+  static minDate(minDate: string): ValidatorFn<string> {
+    return (control) => {
+      return new Date(minDate) > new Date(control.value)
+        ? {
+          minDate: { value: minDate },
+        }
+        : null
+    };
+  }
+
+  static maxDate(maxDate: string): ValidatorFn<string> {
+    return (control) => {
+      return new Date(maxDate) < new Date(control.value)
+        ? {
+          maxDate: { value: maxDate },
+        }
+        : null
+    };
   }
 }
