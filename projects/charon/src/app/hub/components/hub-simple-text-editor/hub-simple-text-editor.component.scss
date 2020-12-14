@@ -12,6 +12,7 @@ $hub-simple-text-editor--placeholder--color: #9EA0A5;
   &:empty:before {
     color: $hub-simple-text-editor--placeholder--color;
     content: attr(placeholder);
+    pointer-events: none;
   }
 }
 
