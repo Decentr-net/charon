@@ -59,8 +59,6 @@ export class CompleteRegistrationPageComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.form.updateValueAndValidity();
-
     if (!this.form.valid) {
       return;
     }

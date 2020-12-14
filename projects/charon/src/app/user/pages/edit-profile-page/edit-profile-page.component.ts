@@ -57,7 +57,6 @@ export class EditProfilePageComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.form.markAllAsTouched();
     if (!this.form.valid) {
       return;
     }
