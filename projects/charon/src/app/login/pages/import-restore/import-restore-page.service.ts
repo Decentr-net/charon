@@ -49,7 +49,7 @@ export class ImportRestorePageService {
       mergeMap((id) => this.authService.changeUser(id)),
       // hack for restore - active user is locked during restore process
       tap(() => this.lockService.unlock()),
-      mergeMap(() => this.router.navigate([AppRoute.User])),
+      mergeMap(() => this.router.navigate([AppRoute.Hub])),
       mapTo(void 0),
     );
   }
