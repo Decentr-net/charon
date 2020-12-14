@@ -62,6 +62,15 @@ export class ImportRestorePageComponent implements OnInit {
       pluck('pageType'),
       share(),
     );
+
+    const seedPhraseControl = this.form.get('seedPhrase');
+    seedPhraseControl.valueChanges
+      .pipe(
+        untilDestroyed(this),
+      )
+      .subscribe((value) => {
+        seedPhraseControl.setValue(value.toLowerCase(), { emitEvent: false });
+      });
   }
 
   public onSubmit(pageType: ImportRestorePageType): void {
