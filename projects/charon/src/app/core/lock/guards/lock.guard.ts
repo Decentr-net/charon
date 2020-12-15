@@ -28,7 +28,7 @@ export class LockGuard implements CanActivate, CanActivateChild, CanDeactivate<v
     }
 
     this.lockService.navigateToLockedUrl();
-    return true;
+    return false;
   }
 
   public canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
