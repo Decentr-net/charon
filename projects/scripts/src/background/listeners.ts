@@ -10,6 +10,6 @@ export const initMessageListeners = () => {
   });
 
   messageBus.onMessage(MessageCode.ToolbarClose).subscribe(() => {
-    messageBus.sendMessageToTabs(MessageCode.ToolbarClose);
+    messageBus.sendMessageToCurrentTab(MessageCode.ToolbarClose);
   });
 }
