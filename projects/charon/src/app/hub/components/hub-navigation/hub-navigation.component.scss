@@ -7,6 +7,7 @@ $hub-navigation--height: 72px;
   display: flex;
   justify-content: flex-end;
   height: $hub-navigation--height;
+  padding: 0 30px;
 }
 
 .hub-navigation__section {
@@ -15,5 +16,7 @@ $hub-navigation--height: 72px;
 }
 
 .hub-navigation__link {
-  margin: 0 12px;
+  &:not(:last-child) {
+    margin-right: 24px;
+  }
 }
