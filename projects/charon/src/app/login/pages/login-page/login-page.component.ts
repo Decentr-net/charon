@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
-import { LOCK_RETURN_URL_PARAM_NAME } from '@core/lock';
 import { LoginRoute } from '../../login-route';
 import { LoginPageService } from './login-page.service';
 
@@ -43,10 +42,7 @@ export class LoginPageComponent implements OnInit {
   public onSubmit(): void {
     const passwordControl = this.form.getControl('password');
 
-    const unlocked = this.loginPageService.tryUnlock(
-      passwordControl.value,
-      this.activatedRoute.snapshot.queryParamMap.get(LOCK_RETURN_URL_PARAM_NAME) || '/',
-    );
+    const unlocked = this.loginPageService.tryUnlock(passwordControl.value);
 
     if (!unlocked) {
       passwordControl.setErrors({

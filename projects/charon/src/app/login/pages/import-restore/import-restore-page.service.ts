@@ -9,7 +9,6 @@ import { UserService } from '@core/services';
 import { AuthService } from '@core/auth';
 import { LockService } from '@core/lock';
 import { TranslatedError } from '@core/services';
-import { AppRoute } from '../../../app-route';
 
 @Injectable()
 export class ImportRestorePageService {
@@ -49,7 +48,6 @@ export class ImportRestorePageService {
       mergeMap((id) => this.authService.changeUser(id)),
       // hack for restore - active user is locked during restore process
       tap(() => this.lockService.unlock()),
-      mergeMap(() => this.router.navigate(['/'])),
       mapTo(void 0),
     );
   }

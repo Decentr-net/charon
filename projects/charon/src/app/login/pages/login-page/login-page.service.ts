@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { AuthService } from '@core/auth';
 import { LockService } from '@core/lock';
@@ -9,19 +8,16 @@ export class LoginPageService {
   constructor(
     private authService: AuthService,
     private lockService: LockService,
-    private router: Router,
   ) {
   }
 
-  public tryUnlock(password: string, returnUrl: string): boolean {
+  public tryUnlock(password: string): boolean {
     const isPasswordValid = this.authService.validateCurrentUserPassword(password);
     if (!isPasswordValid) {
       return false;
     }
 
-    this.lockService.unlock().then(() => {
-      this.router.navigate([returnUrl]);
-    });
+    this.lockService.unlock();
     return true;
   }
 }
