@@ -37,7 +37,7 @@
             [class.pdv-rate__fall]="balance.dayMargin < 0"
             [class.pdv-rate__none]="balance.dayMargin === 0"
           >
-            {{ balance.value }} PDV
+            {{ balance.value | pdvValue : '1.0-4' : true }} PDV
             <span>
               <div class="rate-icon"
                 [resolveSVGUrl]="false"
