@@ -7,11 +7,13 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
-import { ProfileFormControlValue } from '@shared/components/profile-form';
-import { PasswordValidationUtil } from '@shared/utils/validation';
+import { AppRoute } from '../../../app-route';
 import { AuthService } from '@core/auth';
-import { NotificationService, SpinnerService } from '@core/services';
 import { EditProfilePageService } from './edit-profile-page.service';
+import { NavigationService } from '@core/navigation';
+import { NotificationService, SpinnerService } from '@core/services';
+import { PasswordValidationUtil } from '@shared/utils/validation';
+import { ProfileFormControlValue } from '@shared/components/profile-form';
 
 interface EditProfileForm {
   confirmPassword: string;
@@ -42,6 +44,7 @@ export class EditProfilePageComponent implements OnInit {
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private spinnerService: SpinnerService,
+    private navigationService: NavigationService,
     private notificationService: NotificationService,
     private translocoService: TranslocoService,
     private editProfilePageService: EditProfilePageService,
@@ -54,6 +57,10 @@ export class EditProfilePageComponent implements OnInit {
     const user = this.authService.getActiveUserInstant();
 
     this.form.get('profile').patchValue(user);
+  }
+
+  public navigateBack(): void {
+    this.navigationService.backIfNoHistory([AppRoute.User]);
   }
 
   public onSubmit(): void {
