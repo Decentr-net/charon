@@ -1,0 +1,203 @@
+<form
+  #ngForm="ngForm"
+  autocomplete="off"
+  [formGroup]="form"
+  *transloco="let translate; read: translationsConfig.read; scope: translationsConfig.scope"
+>
+  <div class="row">
+    <div class="radio-container col-xs-12">
+      <div class="input-label">{{ translate('avatar.label') }}</div>
+
+      <app-choose-avatar-radio [formControlName]="controlName.Avatar"></app-choose-avatar-radio>
+    </div>
+
+    <div class="input-container col-xs-12">
+      <div class="input-label">{{ translate('first_name.label') }}</div>
+
+      <mat-form-field
+        class="input-control"
+        appearance="outline"
+      >
+        <input
+          matInput
+          [formControlName]="controlName.FirstName"
+          trim="blur"
+        >
+
+        <mat-error>
+          <app-form-error [controlName]="controlName.FirstName" i18nControlKey="first_name"></app-form-error>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="input-container col-xs-12">
+      <div class="input-label">{{ translate('last_name.label') }}</div>
+
+      <mat-form-field
+        class="input-control"
+        appearance="outline"
+      >
+        <input
+          matInput
+          [formControlName]="controlName.LastName"
+          trim="blur"
+        >
+
+        <mat-error>
+          <app-form-error [controlName]="controlName.LastName" i18nControlKey="last_name"></app-form-error>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="radio-container col-xs-12">
+      <div class="input-label">{{ translate('gender.label') }}</div>
+      <mat-radio-group
+        [formControlName]="controlName.Gender"
+      >
+        <mat-radio-button [value]="gender.Male">
+          {{ translate('gender.male') }}
+        </mat-radio-button>
+
+        <mat-radio-button [value]="gender.Female">
+          {{ translate('gender.female') }}
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <mat-error *ngIf="ngForm.submitted">
+        <app-form-error [controlName]="controlName.Gender"></app-form-error>
+      </mat-error>
+    </div>
+
+    <div class="input-container col-xs-12">
+      <div class="input-label">{{ translate('birthday.label') }}</div>
+
+      <app-date-input
+        [formControlName]="controlName.Birthday"
+        appearance="outline"
+        className="input-control"
+      ></app-date-input>
+    </div>
+
+    <ng-container
+      [ngTemplateOutlet]="emailControl"
+      [ngTemplateOutletContext]="{
+        $implicit: form.get(controlName.PrimaryEmail),
+        index: 0,
+        label: translate('primary_email.label')
+      }"
+    ></ng-container>
+
+    <ng-container
+      *ngFor="let email of getArrayControl(controlName.Emails).controls; let index = index;"
+      [ngTemplateOutlet]="emailControl"
+      [ngTemplateOutletContext]="{
+        $implicit: email.get(controlName.EmailValue),
+        index: index,
+        label: translate('email.label'),
+        imitatedIndex: index + 1
+      }"
+    ></ng-container>
+
+    <div [formArrayName]="controlName.Usernames">
+      <ng-container
+        *ngFor="let username of getArrayControl(controlName.Usernames).controls; let index = index"
+      >
+        <div class="input-container col-xs-12">
+          <div class="input-label">{{ translate('username.label') }} {{ !index ? '' : index + 1 }}</div>
+
+          <mat-form-field
+            [formGroupName]="index"
+            class="input-control icon-protected"
+            appearance="outline"
+          >
+            <input
+              matInput
+              [formControlName]="controlName.UsernameValue"
+              trim="blur"
+            >
+
+            <mat-error>
+              <app-form-error [controlName]="controlName.UsernameValue" i18nControlKey="username"></app-form-error>
+            </mat-error>
+          </mat-form-field>
+
+          <ng-container
+            [ngTemplateOutlet]="arrayControls"
+            [ngTemplateOutletContext]="{
+              $implicit: controlName.Usernames,
+              controlsLimit: maxUsernamesCount,
+              index: index
+            }"
+          ></ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</form>
+
+<ng-template
+  #emailControl
+  let-control
+  let-imitatedIndex="imitatedIndex"
+  let-index="index"
+  let-label="label"
+>
+  <div class="input-container col-xs-12">
+    <div class="input-label">{{ label }} {{ !(imitatedIndex || index) ? '' : (imitatedIndex || index) + 1 }}</div>
+
+    <mat-form-field
+      class="input-control icon-protected"
+      appearance="outline"
+    >
+      <input
+        matInput
+        type="email"
+        [formControl]="control"
+        trim="blur"
+      >
+
+      <mat-error>
+        <app-form-error [control]="control" i18nControlKey="email"></app-form-error>
+      </mat-error>
+    </mat-form-field>
+
+    <ng-container
+      [ngTemplateOutlet]="arrayControls"
+      [ngTemplateOutletContext]="{
+        $implicit: controlName.Emails,
+        controlsLimit: maxAdditionalEmailsCount,
+        imitatedIndex: imitatedIndex,
+        index: index
+      }"
+    ></ng-container>
+  </div>
+</ng-template>
+
+<ng-template
+  #arrayControls
+  let-arrayName
+  let-controlsLimit="controlsLimit"
+  let-imitatedIndex="imitatedIndex"
+  let-index="index"
+>
+  <ng-template
+    [ngIf]="!(imitatedIndex || index)"
+    [ngIfThen]="addBtn"
+    [ngIfElse]="removeBtn"
+  ></ng-template>
+
+  <ng-template #addBtn>
+    <div
+      *ngIf="getArrayControl(arrayName).length < controlsLimit"
+      class="button__add"
+      (click)="addArrayControl(arrayName)"
+    ></div>
+  </ng-template>
+
+  <ng-template #removeBtn>
+    <div
+      class="button__remove"
+      (click)="removeArrayControl(arrayName, index)"
+    ></div>
+  </ng-template>
+</ng-template>

@@ -1,22 +1,21 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Gender } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
-import { UserPrivate } from '@shared/services/auth';
-import { BaseValidationUtil } from '@shared/utils/validation';
+import { ProfileFormControlValue } from '@shared/components/profile-form';
 import { AuthService } from '@core/auth';
 import { NotificationService, SpinnerService } from '@core/services';
 import { AppRoute } from '../../../app-route';
 import { SignUpRoute } from '../../sign-up-route';
-import { CompleteRegistrationPageService, UserCompleteUpdate } from './complete-registration-page.service';
+import { CompleteRegistrationPageService } from './complete-registration-page.service';
 
-type CompleteRegistrationForm = UserCompleteUpdate & Pick<UserPrivate, 'primaryEmail'>;
+interface CompleteRegistrationForm {
+  profile: ProfileFormControlValue;
+}
 
 @UntilDestroy()
 @Component({
@@ -39,9 +38,6 @@ export class CompleteRegistrationPageComponent implements OnInit {
 
   public form: FormGroup<CompleteRegistrationForm>;
 
-  public readonly maxAdditionalEmailsCount: number = 9;
-  public readonly maxUsernamesCount: number = 10;
-
   constructor(
     private authService: AuthService,
     private completeRegistrationPageService: CompleteRegistrationPageService,
@@ -49,17 +45,17 @@ export class CompleteRegistrationPageComponent implements OnInit {
     private notificationService: NotificationService,
     private router: Router,
     private spinnerService: SpinnerService,
-    private datePipe: DatePipe,
   ) {
   }
 
   public ngOnInit(): void {
     this.form = this.createForm();
 
-    this.addUsername();
-
     const user = this.authService.getActiveUserInstant();
-    this.form.patchValue(user);
+    this.form.patchValue({ profile: {
+      ...user,
+      usernames: [''],
+    }});
   }
 
   public onSubmit(): void {
@@ -71,7 +67,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
 
     this.spinnerService.showSpinner();
 
-    this.completeRegistrationPageService.updateUser(formValue)
+    this.completeRegistrationPageService.updateUser(formValue.profile as Required<ProfileFormControlValue>)
       .pipe(
         finalize(() => this.spinnerService.hideSpinner()),
         untilDestroyed(this),
@@ -83,61 +79,9 @@ export class CompleteRegistrationPageComponent implements OnInit {
       });
   }
 
-  public get emailFormArray(): FormArray<string> {
-    return this.form.controls.emails as FormArray;
-  }
-
-  public get usernameFormArray(): FormArray<string> {
-    return this.form.controls.usernames as FormArray;
-  }
-
-  public addEmail(): void {
-    this.emailFormArray.push(this.formBuilder.control('', [
-      Validators.required,
-      Validators.email,
-    ]));
-  }
-
-  public addUsername(): void {
-    this.usernameFormArray.push(this.formBuilder.control('', [
-      Validators.required,
-      Validators.minLength(3),
-    ]));
-  }
-
-  public removeEmail(index: number): void {
-    const emailFormArray = this.form.controls.emails as FormArray;
-    emailFormArray.removeAt(index);
-  }
-
-  public removeUsername(index: number): void {
-    const usernameFormArray = this.form.controls.usernames as FormArray;
-    usernameFormArray.removeAt(index);
-  }
-
   private createForm(): FormGroup<CompleteRegistrationForm> {
     return this.formBuilder.group({
-      avatar: [null, [
-        Validators.required,
-      ]],
-      birthday: ['', [
-        Validators.required,
-        BaseValidationUtil.isFrDateFormatCorrect,
-        BaseValidationUtil.minDate('1900-01-01'),
-        BaseValidationUtil.maxDate(this.datePipe.transform(Date.now(), 'yyyy-MM-dd')),
-      ]],
-      emails: this.formBuilder.array([]),
-      firstName: ['', [
-        Validators.required,
-      ]],
-      gender: [null, [
-        Validators.required,
-      ]],
-      lastName: ['', [
-        Validators.required,
-      ]],
-      primaryEmail: [{ value: '', disabled: true }],
-      usernames: this.formBuilder.array([]),
+      profile: [{}],
     });
   }
 }

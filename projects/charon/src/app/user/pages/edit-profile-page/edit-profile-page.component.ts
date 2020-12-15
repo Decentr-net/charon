@@ -1,22 +1,22 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { Validators } from '@angular/forms';
-import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { finalize } from 'rxjs/operators';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Gender } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
-import { UserPrivate } from '@shared/services/auth';
-import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
-import { AuthService, AuthUserUpdate } from '@core/auth';
+import { ProfileFormControlValue } from '@shared/components/profile-form';
+import { PasswordValidationUtil } from '@shared/utils/validation';
+import { AuthService } from '@core/auth';
 import { NotificationService, SpinnerService } from '@core/services';
 import { EditProfilePageService } from './edit-profile-page.service';
 
-interface EditProfileForm extends Required<AuthUserUpdate>, Pick<UserPrivate, 'primaryEmail'> {
+interface EditProfileForm {
   confirmPassword: string;
+  password: string;
+  profile: ProfileFormControlValue;
 }
 
 @UntilDestroy()
@@ -36,11 +36,7 @@ interface EditProfileForm extends Required<AuthUserUpdate>, Pick<UserPrivate, 'p
 export class EditProfilePageComponent implements OnInit {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
-  public gender: typeof Gender = Gender;
   public form: FormGroup<EditProfileForm>;
-
-  public readonly maxAdditionalEmailsCount: number = 9;
-  public readonly maxUsernamesCount: number = 10;
 
   constructor(
     private authService: AuthService,
@@ -49,7 +45,6 @@ export class EditProfilePageComponent implements OnInit {
     private notificationService: NotificationService,
     private translocoService: TranslocoService,
     private editProfilePageService: EditProfilePageService,
-    private datePipe: DatePipe,
   ) {
   }
 
@@ -58,10 +53,7 @@ export class EditProfilePageComponent implements OnInit {
 
     const user = this.authService.getActiveUserInstant();
 
-    user.emails.forEach(() => this.addEmail());
-    user.usernames.forEach(() => this.addUsername());
-
-    this.form.patchValue(user);
+    this.form.get('profile').patchValue(user);
   }
 
   public onSubmit(): void {
@@ -73,7 +65,10 @@ export class EditProfilePageComponent implements OnInit {
 
     const formValue = this.form.getRawValue();
 
-    this.editProfilePageService.editProfile(formValue).pipe(
+    this.editProfilePageService.editProfile({
+      ...formValue.profile,
+      password: formValue.password,
+    }).pipe(
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
     ).subscribe(() => {
@@ -85,64 +80,12 @@ export class EditProfilePageComponent implements OnInit {
     });
   }
 
-  public get emailFormArray(): FormArray<string> {
-    return this.form.controls.emails as FormArray;
-  }
-
-  public get usernameFormArray(): FormArray<string> {
-    return this.form.controls.usernames as FormArray;
-  }
-
-  public addEmail(): void {
-    this.emailFormArray.push(this.formBuilder.control('', [
-      Validators.required,
-      Validators.email,
-    ]));
-  }
-
-  public addUsername(): void {
-    this.usernameFormArray.push(this.formBuilder.control('', [
-      Validators.required,
-      Validators.minLength(3),
-    ]));
-  }
-
-  public removeEmail(index: number): void {
-    const emailFormArray = this.form.controls.emails as FormArray;
-    emailFormArray.removeAt(index);
-  }
-
-  public removeUsername(index: number): void {
-    const usernameFormArray = this.form.controls.usernames as FormArray;
-    usernameFormArray.removeAt(index);
-  }
-
   private createForm(): FormGroup<EditProfileForm> {
     return this.formBuilder.group({
-      avatar: [null, [
-        Validators.required,
-      ]],
-      birthday: ['', [
-        Validators.required,
-        BaseValidationUtil.isFrDateFormatCorrect,
-        BaseValidationUtil.minDate('1900-01-01'),
-        BaseValidationUtil.maxDate(this.datePipe.transform(Date.now(), 'yyyy-MM-dd')),
-      ]],
+      profile: [{}],
       confirmPassword: ['', [
         RxwebValidators.compare({ fieldName: 'password' }),
       ]],
-      firstName: ['', [
-        Validators.required,
-      ]],
-      gender: [null, [
-        Validators.required,
-      ]],
-      lastName: ['', [
-        Validators.required,
-      ]],
-      emails: this.formBuilder.array([]),
-      primaryEmail: [{ value: '', disabled: true }],
-      usernames: this.formBuilder.array([]),
       password: ['', [
         Validators.minLength(8),
         PasswordValidationUtil.validatePasswordStrength,

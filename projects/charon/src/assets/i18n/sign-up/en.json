@@ -49,7 +49,8 @@
       "email": {
         "errors": {
           "email": "Enter valid email",
-          "required": "Email is required"
+          "required": "Email is required",
+          "unique": "This email has already been added"
         },
         "label": "E-mail"
       },
@@ -79,7 +80,8 @@
       "username": {
         "errors": {
           "minlength": "Length of name should be not less than {{ requiredLength }}",
-          "required": "Name is required"
+          "required": "Nickname is required",
+          "unique": "This nickname has already been added"
         },
         "label": "Nickname (account name)"
       },
