@@ -80,7 +80,8 @@
       "username": {
         "errors": {
           "minlength": "Length of name should be not less than {{ requiredLength }}",
-          "required": "Name is required"
+          "required": "Nickname is required",
+          "unique": "This nickname has already been added"
         },
         "label": "Nickname (account name)"
       },
