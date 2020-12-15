@@ -15,7 +15,7 @@
       [dayMargin]="balance.dayMargin"
     >
       <strong>{{ translate('pdv') }}</strong>
-      <span class="hub-page__header-meta-label-value">{{ balance.value }}</span>
+      <span class="hub-page__header-meta-label-value">{{ balance.value | pdvValue }}</span>
     </app-color-value-dynamic>
 
     <app-color-value-dynamic

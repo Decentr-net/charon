@@ -6,6 +6,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { AvatarModule } from '@shared/components/avatar';
+import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { ProfileSelectorComponent } from './profile-selector';
 import { ProfileSelectorService } from './profile-selector.service';
 
@@ -15,6 +16,7 @@ import { ProfileSelectorService } from './profile-selector.service';
     CommonModule,
     InlineSVGModule,
     MatMenuModule,
+    PdvValueModule,
     TranslocoModule,
     RouterModule,
   ],

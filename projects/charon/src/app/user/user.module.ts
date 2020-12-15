@@ -16,6 +16,7 @@ import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormErrorModule } from '@shared/components/form-error';
 import { ProfileFormModule } from '@shared/components/profile-form';
 import { LayoutHeaderModule } from '../layout/layout-header';
+import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { USER_PAGES } from './pages';
 import { USER_COMPONENTS } from './components';
 import { UserRoutingModule } from './user-routing.module';
@@ -34,6 +35,7 @@ import { UserRoutingModule } from './user-routing.module';
     MatMenuModule,
     MatTabsModule,
     MatTooltipModule,
+    PdvValueModule,
     ProfileFormModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,

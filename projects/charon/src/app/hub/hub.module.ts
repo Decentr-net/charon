@@ -21,6 +21,7 @@ import { ColoredDistributionLineModule } from '@shared/components/colored-distri
 import { HubRoutingModule } from './hub-routing.module';
 import { LineChartModule } from '@shared/components/line-chart';
 import { CutHtmlImagesModule } from '@shared/pipes/cut-html-images';
+import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { PositiveNumberModule } from '@shared/pipes/positiveNumber';
 import { SanitizeModule } from '@shared/pipes/sanitize';
 import { SlotModule } from '@shared/components/slot';
@@ -47,6 +48,7 @@ import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
     MatDividerModule,
     MatFormFieldModule,
     MatInputModule,
+    PdvValueModule,
     PositiveNumberModule,
     QuillModule,
     ReactiveFormsModule,
