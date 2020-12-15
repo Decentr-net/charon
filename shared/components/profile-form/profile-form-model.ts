@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Validators } from '@angular/forms';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
-import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from '@ngneat/reactive-forms';
+import { FormArray, FormControl, FormGroup, ValidatorFn } from '@ngneat/reactive-forms';
 
 import { BaseValidationUtil } from '../../utils/validation';
 import {
@@ -12,6 +12,7 @@ import {
   ProfileFormControlValue,
   UsernameForm
 } from './profile-form.definitions';
+import { parseDateValue } from '../date-input';
 
 @Injectable()
 export class ProfileFormModel {
@@ -163,6 +164,7 @@ export class ProfileFormModel {
         BaseValidationUtil.isFrDateFormatCorrect,
         BaseValidationUtil.minDate('1900-01-01'),
         BaseValidationUtil.maxDate(this.datePipe.transform(Date.now(), 'yyyy-MM-dd')),
+        ProfileFormModel.nonExistentDate(),
       ],
     );
   }
@@ -236,13 +238,31 @@ export class ProfileFormModel {
     });
   }
 
-  private static emailUniqueAdditionalValidator(form: FormGroup<ProfileForm>): ValidatorFn {
-    return (control: AbstractControl<string>) => {
+  protected static emailUniqueAdditionalValidator(form: FormGroup<ProfileForm>): ValidatorFn<string> {
+    return (control) => {
       const primaryEmail = form.get(ProfileFormControlName.PrimaryEmail);
 
       if (primaryEmail && primaryEmail.value && control.value === primaryEmail.value) {
         return {
           unique: {},
+        };
+      }
+
+      return null;
+    }
+  }
+
+  protected static nonExistentDate(): ValidatorFn<string> {
+    return (control) => {
+      const parsedDate = parseDateValue(control.value || '');
+      const realDate = new Date(control.value);
+
+      if (parsedDate.year !== realDate.getFullYear()
+        || parsedDate.month !== realDate.getMonth()
+        || parsedDate.day !== realDate.getDate()
+      ) {
+        return {
+          exists: false,
         };
       }
 

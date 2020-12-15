@@ -12,6 +12,7 @@
       },
       "birthday": {
         "errors": {
+          "exists": "Invalid date",
           "invalidFormat": "Not valid format",
           "maxDate": "Maximum date is {{value}}",
           "minDate": "Minimal date is {{value}}",
