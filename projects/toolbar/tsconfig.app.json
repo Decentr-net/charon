@@ -8,7 +8,8 @@
     "paths": {
       "@charon/*": ["../charon/src/app/*"],
       "@environments/*": ["../../environments/*"],
-      "@shared/*": ["../../shared/*"]
+      "@shared/*": ["../../shared/*"],
+      "@scripts/*": ["../scripts/src/*"]
     }
   },
   "files": [

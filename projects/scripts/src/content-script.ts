@@ -2,13 +2,13 @@ import { map, mergeMap, startWith, take, takeUntil, tap, throttleTime } from 'rx
 import { combineLatest, fromEvent, Observable, Subscription, timer } from 'rxjs';
 
 import { MessageBus } from '../../../shared/message-bus';
-import { TOOLBAR_CLOSE } from '../../toolbar/src/app/messages';
 import { TOOLBAR_HEIGHT } from '../../toolbar/src/app';
 import { createToolbarIframe, createToolbarShiftSpacer } from './content/toolbar';
 import { isTopWindow } from './helpers/window';
 import { isAuthorized$ } from './content/auth';
 import { isToolbarClosed, saveToolbarClosed } from './content/session';
 import { updateShiftContent } from './helpers/shift-content';
+import { MessageCode } from './messages';
 
 if (!isToolbarClosed() && isTopWindow(window.self)) {
   const toolbarIframe = createToolbarIframe(TOOLBAR_HEIGHT);
@@ -22,7 +22,7 @@ if (!isToolbarClosed() && isTopWindow(window.self)) {
     startWith(false)
   );
 
-  const close$ = new MessageBus().onMessage(TOOLBAR_CLOSE).pipe(
+  const close$ = new MessageBus().onMessage(MessageCode.ToolbarClose).pipe(
     take(1),
   );
 

@@ -28,6 +28,7 @@ export class MessageBus<T extends MessageMap> {
     return browser.runtime.sendMessage(messageSent);
   }
 
+  // available only in background script (Firefox)
   public sendMessageToCurrentTab<MessageCode extends keyof T = keyof T>(
     code: MessageCode,
     body?: T[MessageCode]['body']
