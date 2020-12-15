@@ -10,7 +10,8 @@ const POST_CATEGORY_TRANSLATION_MAP: Record<PostCategory, string> = {
   [PostCategory.StrangeWorld]: 'strange_world',
   [PostCategory.TravelAndTourism]: 'travel_and_tourism',
   [PostCategory.WorldNews]: 'world_news',
-}
+  [PostCategory.Crypto]: 'crypto',
+};
 
 @Component({
   selector: 'app-hub-category-select',
@@ -35,6 +36,7 @@ export class HubCategorySelectComponent extends ControlValueAccessor<PostCategor
     PostCategory.StrangeWorld,
     PostCategory.HealthAndCulture,
     PostCategory.FitnessAndExercise,
+    PostCategory.Crypto,
   ];
 
   public translationMap: Record<PostCategory, string> = POST_CATEGORY_TRANSLATION_MAP;

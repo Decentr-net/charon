@@ -44,6 +44,10 @@ export class HubNavigationComponent {
       link: PostCategory.FitnessAndExercise,
       i18nKey: 'fitness_and_exercise'
     },
+    {
+      link: PostCategory.Crypto,
+      i18nKey: 'crypto'
+    },
   ];
 
   public readonly trackByLink: TrackByFunction<PostsLinkConfig> = ({}, { link }) => link;
