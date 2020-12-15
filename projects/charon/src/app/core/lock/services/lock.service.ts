@@ -117,8 +117,6 @@ export class LockService {
   }
 
   public navigateToLockedUrl(): Promise<boolean> {
-    debugger
-    console.log(this.router.routerState);
     return this.ngZone.run(() => {
       return this.router.navigate([this.lockRedirectUrl], {
         queryParams: {
