@@ -18,6 +18,7 @@ import {
   requestBodyContains,
 } from './helpers/requests';
 import { getCookies, sendCookies } from './helpers/cookies';
+import { initMessageListeners } from './background/listeners';
 
 const COOKIES_DEBOUNCE_MS = 500;
 
@@ -56,3 +57,5 @@ authStorage.getActiveUser().pipe(
     );
   }),
 ).subscribe();
+
+initMessageListeners();

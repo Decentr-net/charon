@@ -1,1 +1,0 @@
-export const TOOLBAR_CLOSE = 'TOOLBAR_CLOSE';

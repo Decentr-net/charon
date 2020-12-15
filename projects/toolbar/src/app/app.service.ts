@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, pluck, switchMap } from 'rxjs/operators';
 
-import { TOOLBAR_CLOSE } from './messages';
 import { AppRoute as CharonAppRoute } from '@charon/app-route';
 import { AuthBrowserStorageService, User } from '@shared/services/auth';
 import { calculateDifferencePercentage, exponentialToFixed } from '@shared/utils/number';
@@ -11,9 +10,9 @@ import { CurrencyService } from '@shared/services/currency';
 import { HubFeedRoute as CharonHubFeedRoute, HubRoute as CharonHubRoute } from '@charon/hub';
 import { MessageBus } from '@shared/message-bus';
 import { Network, NetworkBrowserStorageService } from '@shared/services/network-storage';
-import { openCharonPage } from './utils/extension';
 import { PDVService } from '@shared/services/pdv';
 import { UserRoute as CharonUserRoute } from '@charon/user';
+import { MessageCode } from '@scripts/messages';
 
 export interface ChartPoint {
   date: number;
@@ -33,7 +32,7 @@ export class AppService {
   }
 
   public closeApp(): void {
-    this.messageBus.sendMessageToCurrentTab(TOOLBAR_CLOSE);
+    this.messageBus.sendMessage(MessageCode.ToolbarClose);
   }
 
   public getAvatar(): Observable<User['avatar']> {
@@ -70,10 +69,6 @@ export class AppService {
       )
   }
 
-  public getCoinRate(): Observable<number> {
-    return this.currencyService.getDecentrCoinRateForUsd();
-  }
-
   public getCoinRateWithMargin(): Observable<ColorValueDynamic> {
     return this.currencyService.getDecentrCoinRateForUsd24hours();
   }
@@ -94,7 +89,7 @@ export class AppService {
   }
 
   public openCharonHubMyWall(): void {
-    openCharonPage([
+    this.messageBus.sendMessage(MessageCode.Navigate, [
       CharonAppRoute.Hub,
       CharonHubRoute.Feed,
       CharonHubFeedRoute.MyWall,
@@ -102,13 +97,13 @@ export class AppService {
   }
 
   public openCharonHubOverview(): void {
-    openCharonPage([
+    this.messageBus.sendMessage(MessageCode.Navigate, [
       CharonAppRoute.Hub,
-    ])
+    ]);
   }
 
   public openCharonHubRecentNews(): void {
-    openCharonPage([
+    this.messageBus.sendMessage(MessageCode.Navigate, [
       CharonAppRoute.Hub,
       CharonHubRoute.Feed,
       CharonHubFeedRoute.Recent,
@@ -116,7 +111,7 @@ export class AppService {
   }
 
   public openCharonUserSettings(): void {
-    openCharonPage([
+    this.messageBus.sendMessage(MessageCode.Navigate, [
       CharonAppRoute.User,
       CharonUserRoute.Edit,
     ]);

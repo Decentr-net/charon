@@ -1,5 +1,5 @@
-import { coerceArray } from '@angular/cdk/coercion';
 import { browser, Tabs } from 'webextension-polyfill-ts';
+import { coerceArray } from '@angular/cdk/coercion';
 
 export const openCharonPage = (route: string | string[]): Promise<Tabs.Tab> => {
   return browser.tabs.create({
