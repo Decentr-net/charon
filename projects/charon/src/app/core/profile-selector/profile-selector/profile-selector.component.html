@@ -23,7 +23,7 @@
           ></app-avatar>
           <div>
             <div class="name">{{ user.primaryUsername }}</div>
-            <div class="rate">{{ balance$ | async | pdvValue : '1.0-4' : true}} PDV</div>
+            <div class="rate">{{ balance$ | async | pdvValue }} PDV</div>
           </div>
         </div>
       </div>

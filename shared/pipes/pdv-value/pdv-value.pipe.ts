@@ -11,7 +11,7 @@ export class PdvValuePipe implements PipeTransform {
   ) {
   }
 
-  public transform(value: string | number, digitsInfo?: string, showMu?: boolean): string {
+  public transform(value: string | number, showMu: boolean = true, digitsInfo: string = '1.0-4'): string {
     const micro = this.decimalPipe.transform(Number(value) * 1000000, digitsInfo);
 
     return showMu ? micro + 'μ' : micro + '';
