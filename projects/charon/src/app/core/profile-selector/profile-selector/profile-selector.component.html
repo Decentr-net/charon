@@ -16,7 +16,10 @@
       </div>
 
       <div class="menu__items">
-        <div class="menu-item menu-item__active" *ngIf="user$ | async as user">
+        <div class="menu-item menu-item__active"
+          *ngIf="user$ | async as user"
+          [routerLink]="['/', appRoute.User]"
+        >
           <app-avatar
             class="profile-image"
             [avatarUrl]="user.avatar"
