@@ -1,5 +1,6 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Observable } from 'rxjs';
+import { browser } from 'webextension-polyfill-ts';
 
 import { ToolbarStateService } from '../../../../shared/services/toolbar-state';
 
@@ -20,4 +21,14 @@ export const isToolbarClosed = (): boolean => {
 
 export const getToolbarEnabledState = (): Observable<boolean> => {
   return toolbarStateService.getEnabledState();
+}
+
+export const getExtensionDisabledEvent = () => {
+  return new Observable((subscriber) => {
+    const port = browser.runtime.connect();
+    const callback = () => subscriber.next();
+    port.onDisconnect.addListener(callback);
+
+    return () => port.onDisconnect.removeListener(callback);
+  });
 }
