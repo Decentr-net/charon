@@ -5,7 +5,7 @@
   >
     <div class="row">
       <div class="col-xs-12">
-        <div class="btn btn__back" appNavigateBack>
+        <div class="btn btn__back" (click)="navigateBack(currentPageType)">
           < {{ translate('back') }}
         </div>
         <div class="page-title page-title__large">

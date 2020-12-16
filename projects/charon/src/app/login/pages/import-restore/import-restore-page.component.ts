@@ -8,9 +8,12 @@ import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
+import { AppRoute } from '../../../app-route';
 import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
-import { NotificationService, SpinnerService } from '@core/services';
 import { ImportRestorePageService } from './import-restore-page.service';
+import { NavigationService } from '@core/navigation';
+import { NotificationService, SpinnerService } from '@core/services';
+import { WelcomeRoute } from '../../../welcome/welcome-route';
 
 export enum ImportRestorePageType {
   IMPORT_ACCOUNT = 'import-account',
@@ -49,6 +52,7 @@ export class ImportRestorePageComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
+    private navigationService: NavigationService,
     private notificationService: NotificationService,
     private spinnerService: SpinnerService,
     private pageService: ImportRestorePageService,
@@ -71,6 +75,14 @@ export class ImportRestorePageComponent implements OnInit {
       .subscribe((value) => {
         seedPhraseControl.setValue(value.toLowerCase(), { emitEvent: false });
       });
+  }
+
+  public navigateBack(pageType: ImportRestorePageType): void {
+    const urlToNavigate = (pageType === ImportRestorePageType.IMPORT_ACCOUNT)
+      ? [AppRoute.Welcome, WelcomeRoute.NewUser]
+      : [AppRoute.Login];
+
+    this.navigationService.back(urlToNavigate);
   }
 
   public onSubmit(pageType: ImportRestorePageType): void {

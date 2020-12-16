@@ -1,4 +1,4 @@
-import { Directive, HostListener } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 
 import { NavigationService } from '../navigation.service';
 
@@ -6,11 +6,15 @@ import { NavigationService } from '../navigation.service';
   selector: '[appNavigateBack]',
 })
 export class NavigateBackDirective {
-  constructor(private navigationService: NavigationService) {
+  @Input() appNavigateBack: string[];
+
+  constructor(
+    private navigationService: NavigationService,
+    ) {
   }
 
   @HostListener('click')
   public onClick(): void {
-    this.navigationService.back();
+    this.navigationService.back(this.appNavigateBack);
   }
 }

@@ -4,11 +4,13 @@ import { finalize } from 'rxjs/operators';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { generateMnemonic } from 'decentr-js';
 
+import { AccountData } from '../../components';
+import { AppRoute } from '../../../app-route';
 import { NavigationService } from '@core/navigation';
 import { NotificationService, SpinnerService } from '@core/services';
-import { AccountData } from '../../components';
-import { SignUpRoute } from '../../sign-up-route';
 import { SignUpPageService } from './sign-up-page.service';
+import { SignUpRoute } from '../../sign-up-route';
+import { WelcomeRoute } from '../../../welcome/welcome-route';
 
 enum SignUpTab {
   AccountForm,
@@ -61,7 +63,7 @@ export class SignUpPageComponent implements OnInit {
         break;
       }
       default: {
-        this.navigationService.back();
+        this.navigationService.back([AppRoute.Welcome, WelcomeRoute.NewUser]);
         break;
       }
     }

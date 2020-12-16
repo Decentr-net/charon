@@ -7,11 +7,12 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
-import { ProfileFormControlValue } from '@shared/components/profile-form';
-import { PasswordValidationUtil } from '@shared/utils/validation';
+import { AppRoute } from '../../../app-route';
 import { AuthService } from '@core/auth';
-import { NotificationService, SpinnerService } from '@core/services';
 import { EditProfilePageService } from './edit-profile-page.service';
+import { NotificationService, SpinnerService } from '@core/services';
+import { PasswordValidationUtil } from '@shared/utils/validation';
+import { ProfileFormControlValue } from '@shared/components/profile-form';
 
 interface EditProfileForm {
   confirmPassword: string;
@@ -36,6 +37,7 @@ interface EditProfileForm {
 export class EditProfilePageComponent implements OnInit {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
+  public appRoute: typeof AppRoute = AppRoute;
   public form: FormGroup<EditProfileForm>;
 
   constructor(

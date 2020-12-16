@@ -8,7 +8,6 @@ import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
 import { FormErrorModule } from '@shared/components/form-error';
-import { NavigationModule } from '@core/navigation';
 import { LOGIN_PAGES } from './pages';
 import { LoginRoutingModule } from './login-routing.module';
 
@@ -23,7 +22,6 @@ import { LoginRoutingModule } from './login-routing.module';
     MatCheckboxModule,
     MatButtonModule,
     MatInputModule,
-    NavigationModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
     TranslocoModule,
