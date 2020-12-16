@@ -4,13 +4,13 @@ import { map, pluck } from 'rxjs/operators';
 import { Post } from 'decentr-js';
 
 import { AuthService } from '@core/auth/services';
+import { coerceTimestamp } from '@shared/utils/date';
 import { HubCurrencyStatistics } from '../../components/hub-currency-statistics';
 import { HubPDVStatistics } from '../../components/hub-pdv-statistics';
 import { HubPageService } from '../hub-page/hub-page.service';
 import { HubPostsService } from '../../services';
 import { NetworkService, UserService } from '@core/services';
 import { PostsApiService } from '@core/services/api';
-import { unixToJsTimestamp } from '@shared/utils/date';
 
 @Injectable()
 export class OverviewPageService extends HubPostsService {
@@ -46,7 +46,7 @@ export class OverviewPageService extends HubPostsService {
         map(([pdvWithMargin, pdvStatistic, userRegisteredAt]) => {
 
           return ({
-            fromDate: unixToJsTimestamp(userRegisteredAt),
+            fromDate: coerceTimestamp(userRegisteredAt),
             pdv: pdvWithMargin.value,
             pdvChangedIn24HoursPercent: pdvWithMargin.dayMargin,
             points: pdvStatistic,

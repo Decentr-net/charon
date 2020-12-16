@@ -5,6 +5,7 @@ import { map, pluck, switchMap } from 'rxjs/operators';
 import { PDVDetails, PDVListItem } from 'decentr-js';
 
 import { Environment } from '@environments/environment.definitions';
+import { coerceTimestamp } from '@shared/utils/date';
 import { CurrencyService } from '@shared/services/currency';
 import { PDVService } from '@shared/services/pdv';
 import { BalanceValueDynamic } from './user-page.component';
@@ -12,7 +13,6 @@ import { calculateDifferencePercentage, exponentialToFixed } from '@shared/utils
 import { AuthService, AuthUser } from '@core/auth';
 import { MediaService, Network, NetworkService } from '@core/services';
 import { ChartPoint, PDVActivityListItem, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
-import { unixToJsTimestamp } from '@shared/utils/date';
 
 @Injectable()
 export class UserPageService {
@@ -69,7 +69,7 @@ export class UserPageService {
       map((list) => list.map(({ address, timestamp }) => (
         {
           address,
-          date: new Date(unixToJsTimestamp(timestamp)),
+          date: new Date(coerceTimestamp(timestamp)),
         }))
       )
     );
