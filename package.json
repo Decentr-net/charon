@@ -47,6 +47,7 @@
     "@ngneat/transloco": "^2.19.1",
     "@ngneat/until-destroy": "^8.0.3",
     "@rxweb/reactive-form-validators": "^2.1.2",
+    "clamp-js": "^0.7.0",
     "d3": "~6.0.0",
     "decentr-js": "^1.5.1",
     "http-status-codes": "^2.1.4",
