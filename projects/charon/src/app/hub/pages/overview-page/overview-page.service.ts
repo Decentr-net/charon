@@ -17,7 +17,7 @@ export class OverviewPageService extends HubPostsService {
     private hubPageService: HubPageService,
     private networkService: NetworkService,
     private postsApiService: PostsApiService,
-    private n: NotificationService,
+    private notificationService: NotificationService,
     userService: UserService,
   ) {
     super(userService);
@@ -75,9 +75,9 @@ export class OverviewPageService extends HubPostsService {
       fromUUID: fromPost && fromPost.uuid,
     }).pipe(
       catchError((error) => {
-        this.n.error(error);
+        this.notificationService.error(error);
         return EMPTY;
-      })
+      }),
     );
   }
 }
