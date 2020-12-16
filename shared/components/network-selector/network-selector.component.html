@@ -25,6 +25,7 @@
       <div
         class="menu-item"
         [class.menu-item__active]="(activeNetworkName$ | async) === network.name"
+        [class.is-disabled]="network.disabled"
         *ngFor="let network of networks$ | async; trackBy: trackByName"
         (click)="switchNetwork(network)"
       >
