@@ -10,7 +10,6 @@ import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { AppRoute } from '../../../app-route';
 import { AuthService } from '@core/auth';
 import { EditProfilePageService } from './edit-profile-page.service';
-import { NavigationService } from '@core/navigation';
 import { NotificationService, SpinnerService } from '@core/services';
 import { PasswordValidationUtil } from '@shared/utils/validation';
 import { ProfileFormControlValue } from '@shared/components/profile-form';
@@ -38,13 +37,13 @@ interface EditProfileForm {
 export class EditProfilePageComponent implements OnInit {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
+  public appRoute: typeof AppRoute = AppRoute;
   public form: FormGroup<EditProfileForm>;
 
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private spinnerService: SpinnerService,
-    private navigationService: NavigationService,
     private notificationService: NotificationService,
     private translocoService: TranslocoService,
     private editProfilePageService: EditProfilePageService,
@@ -57,10 +56,6 @@ export class EditProfilePageComponent implements OnInit {
     const user = this.authService.getActiveUserInstant();
 
     this.form.get('profile').patchValue(user);
-  }
-
-  public navigateBack(): void {
-    this.navigationService.back([AppRoute.User]);
   }
 
   public onSubmit(): void {

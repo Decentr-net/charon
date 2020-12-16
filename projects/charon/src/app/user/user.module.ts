@@ -14,6 +14,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
 import { FormErrorModule } from '@shared/components/form-error';
+import { NavigationModule } from '@core/navigation';
 import { ProfileFormModule } from '@shared/components/profile-form';
 import { LayoutHeaderModule } from '../layout/layout-header';
 import { USER_PAGES } from './pages';
@@ -34,6 +35,7 @@ import { UserRoutingModule } from './user-routing.module';
     MatMenuModule,
     MatTabsModule,
     MatTooltipModule,
+    NavigationModule,
     ProfileFormModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
