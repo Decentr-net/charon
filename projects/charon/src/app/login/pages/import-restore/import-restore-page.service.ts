@@ -8,7 +8,7 @@ import { createWalletFromMnemonic } from 'decentr-js';
 import { UserService } from '@core/services';
 import { AuthService } from '@core/auth';
 import { LockService } from '@core/lock';
-import { TranslatedError } from '@core/services';
+import { TranslatedError } from '@core/notifications';
 
 @Injectable()
 export class ImportRestorePageService {

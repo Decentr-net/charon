@@ -5,7 +5,8 @@ import { finalize, mergeMap, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { NotificationService, SpinnerService } from '@core/services';
+import { NotificationService } from '@shared/services/notification';
+import { SpinnerService } from '@core/services';
 import { AuthService, AuthUser } from '@core/auth';
 import {
   HubCreatePostDialogComponent,

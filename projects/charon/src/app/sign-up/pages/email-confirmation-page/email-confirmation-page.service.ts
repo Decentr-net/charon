@@ -6,7 +6,8 @@ import { StatusCodes } from 'http-status-codes';
 
 import { createSecondsTimer } from '@shared/utils/timer';
 import { AuthService } from '@core/auth';
-import { TranslatedError, UserService } from '@core/services';
+import { TranslatedError } from '@core/notifications';
+import { UserService } from '@core/services';
 import { SignUpStoreService } from '../../services';
 
 const RESEND_DELAY_SEC = 60;

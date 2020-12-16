@@ -8,6 +8,8 @@ import { environment } from '@environments/environment';
 import { CurrencyModule } from '@shared/services/currency';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
 import { SlotModule } from '@shared/components/slot';
+import { NotificationsModule } from '@shared/services/notification';
+import { ERROR_PROCESSORS, FallbackErrorProcessor } from '@core/notifications';
 import { AppRoute } from '../app-route';
 import { SignUpRoute } from '../sign-up';
 import { AuthModule, AuthService } from './auth';
@@ -55,6 +57,10 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     NavigationModule,
     NetworkSelectorModule.forRoot({
       service: NetworkService,
+    }),
+    NotificationsModule.forRoot({
+      errorProcessors: ERROR_PROCESSORS,
+      fallbackErrorProcessor: FallbackErrorProcessor,
     }),
     OverlayModule,
     QuillRootModule,

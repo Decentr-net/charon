@@ -7,8 +7,9 @@ import { Gender } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { ProfileFormControlValue } from '@shared/components/profile-form';
+import { NotificationService } from '@shared/services/notification';
 import { AuthService } from '@core/auth';
-import { NotificationService, SpinnerService } from '@core/services';
+import { SpinnerService } from '@core/services';
 import { AppRoute } from '../../../app-route';
 import { SignUpRoute } from '../../sign-up-route';
 import { CompleteRegistrationPageService } from './complete-registration-page.service';

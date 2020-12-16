@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, EMPTY, Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Post } from 'decentr-js';
 
 import { HubCurrencyStatistics } from '../../components/hub-currency-statistics';
@@ -9,6 +9,7 @@ import { HubPageService } from '../hub-page/hub-page.service';
 import { HubPostsService } from '../../services';
 import { NetworkService, UserService } from '@core/services';
 import { PostsApiService } from '@core/services/api';
+import { NotificationService } from '@shared/services/notification';
 
 @Injectable()
 export class OverviewPageService extends HubPostsService {
@@ -16,6 +17,7 @@ export class OverviewPageService extends HubPostsService {
     private hubPageService: HubPageService,
     private networkService: NetworkService,
     private postsApiService: PostsApiService,
+    private n: NotificationService,
     userService: UserService,
   ) {
     super(userService);
@@ -71,6 +73,11 @@ export class OverviewPageService extends HubPostsService {
       limit: count,
       fromOwner: fromPost && fromPost.owner,
       fromUUID: fromPost && fromPost.uuid,
-    });
+    }).pipe(
+      catchError((error) => {
+        this.n.error(error);
+        return EMPTY;
+      })
+    );
   }
 }

@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
-import { createWalletFromMnemonic } from 'decentr-js';
-import { AuthService, AuthUserCreate } from '@core/auth';
-import { TranslatedError, UserService } from '@core/services';
-import { catchError, mergeMap } from 'rxjs/operators';
-import { StatusCodes } from 'http-status-codes';
 import { Observable, throwError } from 'rxjs';
+import { catchError, mergeMap } from 'rxjs/operators';
+import { TranslocoService } from '@ngneat/transloco';
+import { StatusCodes } from 'http-status-codes';
+import { createWalletFromMnemonic } from 'decentr-js';
+
+import { AuthService, AuthUserCreate } from '@core/auth';
+import { TranslatedError } from '@core/notifications';
+import { UserService } from '@core/services';
 import { SignUpStoreService } from '../../services';
 
 @Injectable()

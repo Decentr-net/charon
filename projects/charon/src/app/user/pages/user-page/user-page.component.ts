@@ -5,10 +5,11 @@ import { finalize } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+import { NotificationService } from '@shared/services/notification';
 import { copyContent } from '@shared/utils/copy-content';
 import { AuthService, AuthUser } from '@core/auth';
 import { NavigationService } from '@core/navigation';
-import { MediaService, NotificationService, SpinnerService } from '@core/services';
+import { MediaService, SpinnerService } from '@core/services';
 import { UserRoute } from '../../user.route';
 import { ChartPoint, PDVActivityListItem } from '../../components';
 import { UserPageService } from './user-page.service';
