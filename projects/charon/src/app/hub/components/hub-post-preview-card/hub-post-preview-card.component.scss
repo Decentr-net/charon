@@ -2,7 +2,8 @@ $hub-post-preview-card--background-color: #FFFFFF;
 
 :host {
   background-color: $hub-post-preview-card--background-color;
-  display: block;
+  display: flex;
+  flex-direction: column;
   padding: 16px 24px;
 }
 
@@ -15,6 +16,7 @@ $hub-post-preview-card--background-color: #FFFFFF;
 }
 
 .hub-post-preview-card__title {
+  flex-shrink: 0;
   font-size: 18px;
   font-weight: 500;
   line-height: 26px;

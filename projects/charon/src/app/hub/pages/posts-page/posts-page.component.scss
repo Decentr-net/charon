@@ -9,3 +9,7 @@
   grid-template-columns: repeat(4, 1fr);
   justify-content: center;
 }
+
+.posts-page__post {
+  max-height: 300px;
+}

@@ -10,9 +10,9 @@
 >
   <div class="posts-page__posts-grid-container">
     <app-hub-post-preview-card
+      class="posts-page__post"
       *ngFor="let post of posts$ | async; trackBy: trackByPostId"
       [post]="post"
-      [maxContentLines]="7"
       [appHubPostDialog]="post"
     ></app-hub-post-preview-card>
   </div>

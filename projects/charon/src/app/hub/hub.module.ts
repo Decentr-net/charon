@@ -27,6 +27,7 @@ import { SanitizeModule } from '@shared/pipes/sanitize';
 import { SlotModule } from '@shared/components/slot';
 import { SpinnerModule } from '@shared/components/spinner';
 import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
+import { TextClampModule } from '@shared/directives/text-clamp';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
     SlotModule,
     SpinnerModule,
     SvgIconsModule,
+    TextClampModule,
     TextEllipsisModule,
     TranslocoModule,
   ],
