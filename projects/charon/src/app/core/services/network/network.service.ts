@@ -5,15 +5,18 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 
 import { Environment } from '@environments/environment.definitions';
-import { NetworkSelectorService, NetworkSelectorTranslations } from '@shared/components/network-selector';
+import {
+  Network as NetworkSelectorNetwork,
+  NetworkSelectorService,
+  NetworkSelectorTranslations,
+} from '@shared/components/network-selector';
 import {
   Network as NetworkWithApi,
   NetworkBrowserStorageService,
 } from '@shared/services/network-storage';
+import { PingService } from '../api';
 
-export type Network = NetworkWithApi & {
-  name: string;
-};
+export type Network = NetworkWithApi & NetworkSelectorNetwork;
 
 @UntilDestroy()
 @Injectable()
@@ -22,6 +25,7 @@ export class NetworkService extends NetworkSelectorService {
 
   constructor(
     private environment: Environment,
+    private pingService: PingService,
     private translocoService: TranslocoService,
   ) {
     super();
@@ -56,13 +60,19 @@ export class NetworkService extends NetworkSelectorService {
   public getNetworks(): Observable<Network[]> {
     return combineLatest(
       ['remote', 'local'].map((networkName) => {
-        return this.translocoService
-          .selectTranslate(`network_selector.network.${networkName}`, null, 'core')
+        const api = this.environment.rest[networkName];
+
+        return combineLatest([
+          this.translocoService
+            .selectTranslate(`network_selector.network.${networkName}`, null, 'core'),
+          this.pingService.isServerAvailable(api),
+        ])
           .pipe(
-            map((name) => ({
+            map(([name, available]) => ({
               name,
-              api: this.environment.rest[networkName],
-            }))
+              api,
+              disabled: !available,
+            })),
           );
       }),
     );

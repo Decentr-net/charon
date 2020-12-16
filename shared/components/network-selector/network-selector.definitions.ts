@@ -1,5 +1,6 @@
 export interface Network {
   name: string;
+  disabled: boolean;
 }
 
 export interface NetworkSelectorTranslations {

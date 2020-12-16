@@ -35,6 +35,11 @@ $network-indicator-colors: #6bbfa6 #7497C5 #8E00FF #F6CC2A;
     padding: 15px 40px 15px 60px;
     cursor: pointer;
 
+    &.is-disabled {
+      color: #838B94;
+      pointer-events: none;
+    }
+
     &__name {
       max-width: 220px;
       overflow: hidden;
