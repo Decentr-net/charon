@@ -85,6 +85,9 @@
       "successful_update": "User was successfully updated"
     }
   },
+  "toolbar_toggle": {
+    "label": "Enable the Decentr Toolbar"
+  },
   "user_page": {
     "account_details": "Account details",
     "copy_wallet_address": "Copy wallet address",

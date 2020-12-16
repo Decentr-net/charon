@@ -1,0 +1,11 @@
+<ng-container
+  *transloco="let translate; read: 'user.toolbar_toggle'"
+>
+  <span>{{ translate('label') }}</span>
+
+  <mat-slide-toggle
+    color="primary"
+    [ngModel]="toolbarEnabledState$ | async"
+    (ngModelChange)="onToolbarEnabledStateChange($event)"
+  ></mat-slide-toggle>
+</ng-container>

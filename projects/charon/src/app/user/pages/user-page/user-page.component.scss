@@ -246,12 +246,17 @@
 
     .tab-container {
       padding: 1rem;
-      min-height: 270px;
-      max-height: 270px;
+      min-height: 254px;
+      max-height: 254px;
     }
   }
 }
 
 .tab-container {
   width: 100%;
+}
+
+.user-page__toolbar-toggle {
+  border-top: 1px solid $grey-border-color;
+  padding: 0 1rem;
 }
