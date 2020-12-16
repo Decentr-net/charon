@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { noop, Observable } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { finalize, pluck, share } from 'rxjs/operators';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
@@ -54,6 +54,7 @@ export class ImportRestorePageComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private navigationService: NavigationService,
     private notificationService: NotificationService,
+    private router: Router,
     private spinnerService: SpinnerService,
     private pageService: ImportRestorePageService,
   ) {
@@ -97,7 +98,9 @@ export class ImportRestorePageComponent implements OnInit {
     method.pipe(
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
-    ).subscribe(noop, (error) => {
+    ).subscribe(() => {
+      this.router.navigate(['/']);
+    }, (error) => {
       this.notificationService.error(error);
     });
   }
