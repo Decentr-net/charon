@@ -1,7 +1,8 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 
-import { exponentialToFixed } from '@shared/utils/number';
+import { calculateDifferencePercentage, exponentialToFixed } from '@shared/utils/number';
+import { PdvValuePipe } from '@shared/pipes/pdv-value/pdv-value.pipe';
 
 export interface ChartPoint {
   date: number;
@@ -13,6 +14,9 @@ export interface ChartPoint {
   templateUrl: './pdv-activity-chart.component.html',
   styleUrls: ['./pdv-activity-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    PdvValuePipe,
+  ],
 })
 export class PdvActivityChartComponent implements AfterViewInit {
   @Input() public data: ChartPoint[];
@@ -44,6 +48,11 @@ export class PdvActivityChartComponent implements AfterViewInit {
 
   private chartHover: any;
   private chartLegend: any;
+
+  constructor(
+    private pdvValuePipe: PdvValuePipe,
+  ) {
+  }
 
   public ngAfterViewInit(): void {
     this.initChart();
@@ -146,7 +155,7 @@ export class PdvActivityChartComponent implements AfterViewInit {
       const d1UTC: any = new Date(d1.date);
       const d = (date - d0UTC > d1UTC - date) ? d1 : d0;
 
-      const valuePercent = Math.abs((Math.min(value1, value0) / Math.max(value1, value0)) - 1).toFixed(3);
+      const valuePercent = Math.abs(calculateDifferencePercentage(value1, value0)).toFixed(2);
       const rateSign = value1 === value0 ? '' : value1 > value0 ? '+' : '-';
       const rateClass = value1 === value0 ? 'pdv-rate-history__none' : value1 > value0
         ? 'pdv-rate-history__rise' : 'pdv-rate-history__fall';
@@ -160,7 +169,7 @@ export class PdvActivityChartComponent implements AfterViewInit {
 
       self.chartLegend.html(`
             <div>
-              <div class="chart-legend__rate">${exponentialToFixed(d.value)} PDV</div>
+              <div class="chart-legend__rate">${self.pdvValuePipe.transform(exponentialToFixed(d.value))} PDV</div>
               <div class="chart-legend__date">${self.formatDate(new Date(d.date))}</div>
             </div>
             <div class="pdv-rate-history ${rateClass}">
@@ -174,7 +183,7 @@ export class PdvActivityChartComponent implements AfterViewInit {
                    </g>
                   </svg>
                 </div>
-                ${rateSign} ${valuePercent}%
+                ${rateSign}${valuePercent}%
               </span>
             </div>
         `);
@@ -207,8 +216,6 @@ export class PdvActivityChartComponent implements AfterViewInit {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
       timeZone: 'UTC'
     });
   }
