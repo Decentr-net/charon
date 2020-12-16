@@ -60,7 +60,7 @@ export class EditProfilePageComponent implements OnInit {
   }
 
   public navigateBack(): void {
-    this.navigationService.backIfNoHistory([AppRoute.User]);
+    this.navigationService.back([AppRoute.User]);
   }
 
   public onSubmit(): void {

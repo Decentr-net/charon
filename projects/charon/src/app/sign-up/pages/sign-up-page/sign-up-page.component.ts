@@ -63,7 +63,7 @@ export class SignUpPageComponent implements OnInit {
         break;
       }
       default: {
-        this.navigationService.backIfNoHistory([AppRoute.Welcome, WelcomeRoute.NewUser]);
+        this.navigationService.back([AppRoute.Welcome, WelcomeRoute.NewUser]);
         break;
       }
     }

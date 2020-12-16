@@ -21,12 +21,8 @@ export class NavigationService {
     ).subscribe(url => this.previousPageUrl = url);
   }
 
-  public back(): void {
-    this.location.back();
-  }
-
-  public backIfNoHistory(url: string[]): void {
-    const navigateUrl = this.previousPageUrl ? [this.previousPageUrl] : url;
+  public back(fallbackUrl: string[]): void {
+    const navigateUrl = this.previousPageUrl ? [this.previousPageUrl] : fallbackUrl;
 
     this.router.navigate(navigateUrl);
   }

@@ -82,7 +82,7 @@ export class ImportRestorePageComponent implements OnInit {
       ? [AppRoute.Welcome, WelcomeRoute.NewUser]
       : [AppRoute.Login];
 
-    this.navigationService.backIfNoHistory(urlToNavigate);
+    this.navigationService.back(urlToNavigate);
   }
 
   public onSubmit(pageType: ImportRestorePageType): void {
