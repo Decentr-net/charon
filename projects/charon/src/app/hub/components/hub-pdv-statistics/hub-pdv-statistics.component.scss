@@ -1,9 +1,23 @@
 $hub-pdv-statistics--pdv-color: #354052;
 $hub-pdv-statistics--pdv-change-color: #9EA0A5;
+$hub-pdv-statistics--pdv-direction-negative: #C87794;
+$hub-pdv-statistics--pdv-direction-positive: #4DABAF;
 $hub-pdv-statistics--no-data-color: #9EA0A5;
 
 :host {
   display: block;
+
+  &.mod-negative {
+    .hub-pdv-statistics__pdv-direction {
+      color: $hub-pdv-statistics--pdv-direction-negative;
+    }
+  }
+
+  &.mod-positive {
+    .hub-pdv-statistics__pdv-direction {
+      color: $hub-pdv-statistics--pdv-direction-positive;
+    }
+  }
 }
 
 .hub-pdv-statistics__card {

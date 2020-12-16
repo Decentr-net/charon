@@ -16,16 +16,20 @@
     </div>
 
     <div class="hub-pdv-statistics__pdv-change">
+      {{ translate('pdv_change.your_pdv') }}
       <ng-container *ngIf="statistics.pdvChangedIn24HoursPercent !== 0 else notChangedPDV">
-        {{ translate(
-        'pdv_change.' + (statistics.pdvChangedIn24HoursPercent >= 0 ? 'increased' : 'decreased'),
-        { percent: statistics.pdvChangedIn24HoursPercent | positiveNumber | number : '1.0-2' }
-        ) }}
+        <span class="hub-pdv-statistics__pdv-direction">
+          {{ translate(
+          'pdv_change.' + (isPositive >= 0 ? 'increased' : 'decreased'),
+          { percent: statistics.pdvChangedIn24HoursPercent | positiveNumber | number : '1.0-2' }
+          ) }}
+        </span>
       </ng-container>
 
       <ng-template #notChangedPDV>
         {{ translate('pdv_change.not_changed') }}
       </ng-template>
+      {{ translate('pdv_change.last_hours') }}
     </div>
 
     <app-line-chart

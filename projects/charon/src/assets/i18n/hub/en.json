@@ -60,9 +60,11 @@
     "not_enough_chart_data": "Not enough data PDV for the chart",
     "my_pdv": "My PDV",
     "pdv_change": {
-      "decreased": "Your PDV decreased by {{ percent }}% in the last 24-hours",
-      "increased": "Your PDV increased by {{ percent }}% in the last 24-hours",
-      "not_changed": "Your PDV has no change in the last 24-hours"
+      "decreased": "decreased by {{ percent }}%",
+      "increased": "increased by {{ percent }}%",
+      "last_hours": "in the last 24-hours",
+      "not_changed": "has no change",
+      "your_pdv": "Your PDV"
     }
   },
   "hub_post_analytics_card": {
