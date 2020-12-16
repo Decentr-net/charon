@@ -242,7 +242,11 @@ export class ProfileFormModel {
     return (control) => {
       const primaryEmail = form.get(ProfileFormControlName.PrimaryEmail);
 
-      if (primaryEmail && primaryEmail.value && control.value === primaryEmail.value) {
+      if (primaryEmail
+        && primaryEmail.value
+        && control.value
+        && control.value.toLowerCase() === primaryEmail.value.toLowerCase()
+      ) {
         return {
           unique: {},
         };
