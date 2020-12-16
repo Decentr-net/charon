@@ -12,6 +12,7 @@ import { calculateDifferencePercentage, exponentialToFixed } from '@shared/utils
 import { AuthService, AuthUser } from '@core/auth';
 import { MediaService, Network, NetworkService } from '@core/services';
 import { ChartPoint, PDVActivityListItem, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
+import { unixToJsTimestamp } from '@shared/utils/date';
 
 @Injectable()
 export class UserPageService {
@@ -68,7 +69,7 @@ export class UserPageService {
       map((list) => list.map(({ address, timestamp }) => (
         {
           address,
-          date: new Date(Number(timestamp.toString().padEnd(13, '0'))),
+          date: new Date(unixToJsTimestamp(timestamp)),
         }))
       )
     );

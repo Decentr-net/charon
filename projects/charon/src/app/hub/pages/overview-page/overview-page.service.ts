@@ -10,6 +10,7 @@ import { HubPageService } from '../hub-page/hub-page.service';
 import { HubPostsService } from '../../services';
 import { NetworkService, UserService } from '@core/services';
 import { PostsApiService } from '@core/services/api';
+import { unixToJsTimestamp } from '@shared/utils/date';
 
 @Injectable()
 export class OverviewPageService extends HubPostsService {
@@ -45,7 +46,7 @@ export class OverviewPageService extends HubPostsService {
         map(([pdvWithMargin, pdvStatistic, userRegisteredAt]) => {
 
           return ({
-            fromDate: Number(userRegisteredAt.toString().padEnd(13, '0')),
+            fromDate: unixToJsTimestamp(userRegisteredAt),
             pdv: pdvWithMargin.value,
             pdvChangedIn24HoursPercent: pdvWithMargin.dayMargin,
             points: pdvStatistic,
