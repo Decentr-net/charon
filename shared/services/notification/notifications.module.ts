@@ -37,7 +37,6 @@ export class NotificationsModule {
   }
 
   private static getErrorProcessorsProviders(errorProcessors: Type<ErrorProcessor> | Type<ErrorProcessor>[]): ClassProvider[] {
-    console.log(errorProcessors);
     return coerceArray(errorProcessors).map((errorProcessor) => ({
       provide: ERROR_PROCESSOR,
       useClass: errorProcessor,
