@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 import { Post } from 'decentr-js';
 
+import { AuthService } from '@core/auth/services';
 import { HubCurrencyStatistics } from '../../components/hub-currency-statistics';
 import { HubPDVStatistics } from '../../components/hub-pdv-statistics';
 import { HubPageService } from '../hub-page/hub-page.service';
@@ -13,10 +14,11 @@ import { PostsApiService } from '@core/services/api';
 @Injectable()
 export class OverviewPageService extends HubPostsService {
   constructor(
+    private authService: AuthService,
     private hubPageService: HubPageService,
     private networkService: NetworkService,
     private postsApiService: PostsApiService,
-    userService: UserService,
+    protected userService: UserService,
   ) {
     super(userService);
   }
@@ -25,17 +27,25 @@ export class OverviewPageService extends HubPostsService {
     this.dispose();
   }
 
+  private getUserRegisteredAt(): Observable<string> {
+    const user = this.authService.getActiveUserInstant();
+
+    return this.userService.getPublicProfile(user.wallet.address).pipe(
+      pluck('registeredAt'),
+    );
+  }
+
   public getPdvStatistics(): Observable<HubPDVStatistics> {
     return combineLatest([
       this.hubPageService.getBalanceWithMargin(),
       this.hubPageService.getPDVChartPoints(),
+      this.getUserRegisteredAt(),
     ])
       .pipe(
-        map(([pdvWithMargin, pdvStatistic]) => {
-          const minDate: number = Math.min(...pdvStatistic.map(el => el.date));
+        map(([pdvWithMargin, pdvStatistic, userRegisteredAt]) => {
 
           return ({
-            fromDate: new Date(minDate).valueOf(),
+            fromDate: Number(userRegisteredAt.toString().padEnd(13, '0')),
             pdv: pdvWithMargin.value,
             pdvChangedIn24HoursPercent: pdvWithMargin.dayMargin,
             points: pdvStatistic,
