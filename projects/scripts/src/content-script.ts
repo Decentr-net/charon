@@ -6,7 +6,7 @@ import { TOOLBAR_HEIGHT } from '../../toolbar/src/app';
 import { createToolbarIframe, createToolbarShiftSpacer } from './content/toolbar';
 import { isTopWindow } from './helpers/window';
 import { isAuthorized$ } from './content/auth';
-import { isToolbarClosed, saveToolbarClosed } from './content/session';
+import { getToolbarEnabledState, isToolbarClosed, saveToolbarClosed } from './content/session';
 import { updateShiftContent } from './helpers/shift-content';
 import { MessageCode } from './messages';
 
@@ -69,12 +69,13 @@ if (!isToolbarClosed() && isTopWindow(window.self)) {
   });
 
   combineLatest([
+    getToolbarEnabledState(),
     isAuthorized$(),
     fullScreen$(),
   ]).pipe(
     takeUntil(close$),
-  ).subscribe(([isAuth, fullscreen]) => {
-    if (isAuth && !fullscreen) {
+  ).subscribe(([isEnabled, isAuth, fullscreen]) => {
+    if (isEnabled && isAuth && !fullscreen) {
       addToolbar();
     } else {
       removeToolbar();

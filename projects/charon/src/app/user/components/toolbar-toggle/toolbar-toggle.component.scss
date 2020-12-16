@@ -1,0 +1,12 @@
+$toolbar-toggle--background-color: #FFFFFF;
+$toolbar-toggle--label--color: #9EA0A5;
+
+:host {
+  align-items: center;
+  background-color: $toolbar-toggle--background-color;
+  color: $toolbar-toggle--label--color;
+  display: flex;
+  font-weight: 500;
+  height: 3rem;
+  justify-content: space-between;
+}
