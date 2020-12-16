@@ -9,5 +9,4 @@ import { AppRoute } from '../../../app-route';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SuccessPageComponent {
-  public appRoute: typeof AppRoute = AppRoute;
 }
