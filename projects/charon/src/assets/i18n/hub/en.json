@@ -33,8 +33,11 @@
   "hub_currency_statistics": {
     "dec_rate": "DEC Rate",
     "dec_rate_change": {
-      "increased": "DEC increased by {{ percent }}% in the last 24-hours",
-      "decreased": "DEC decreased by {{ percent }}% in the last 24-hours"
+      "dec": "DEC",
+      "increased": "increased by {{ percent }}%",
+      "decreased": "decreased by {{ percent }}%",
+      "last_hours": "in the last 24-hours",
+      "not_changed": "has no change"
     },
     "no_chart_data": "No DEC Rate data",
     "statistics_from": "Statistic from {{date}}"
