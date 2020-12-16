@@ -1,9 +1,23 @@
 $hub-currency-statistics--rate-color: #354052;
 $hub-currency-statistics--rate-change-color: #9EA0A5;
+$hub-currency-statistics--rate-direction-negative: #C87794;
+$hub-currency-statistics--rate-direction-positive: #4DABAF;
 $hub-currency-statistics--no-data-color: #9EA0A5;
 
 :host {
   display: block;
+
+  &.mod-negative {
+    .hub-currency-statistics__rate-direction {
+      color: $hub-currency-statistics--rate-direction-negative;
+    }
+  }
+
+  &.mod-positive {
+    .hub-currency-statistics__rate-direction {
+      color: $hub-currency-statistics--rate-direction-positive;
+    }
+  }
 }
 
 .hub-currency-statistics__card {
