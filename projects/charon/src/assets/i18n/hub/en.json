@@ -56,11 +56,13 @@
   },
   "hub_pdv_statistics": {
     "activity_from": "Activity from {{date}}",
+    "no_chart_data": "You have no PDV Rate data",
     "not_enough_chart_data": "Not enough data PDV for the chart",
     "my_pdv": "My PDV",
     "pdv_change": {
+      "decreased": "Your PDV decreased by {{ percent }}% in the last 24-hours",
       "increased": "Your PDV increased by {{ percent }}% in the last 24-hours",
-      "decreased": "Your PDV decreased by {{ percent }}% in the last 24-hours"
+      "not_changed": "Your PDV has no change in the last 24-hours"
     }
   },
   "hub_post_analytics_card": {

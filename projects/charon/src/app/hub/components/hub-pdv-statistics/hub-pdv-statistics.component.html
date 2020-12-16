@@ -16,10 +16,16 @@
     </div>
 
     <div class="hub-pdv-statistics__pdv-change">
-      {{ translate(
-      'pdv_change.' + (statistics.pdvChangedIn24HoursPercent >= 0 ? 'increased' : 'decreased'),
-      { percent: statistics.pdvChangedIn24HoursPercent | positiveNumber | number : '1.0-2' }
-      ) }}
+      <ng-container *ngIf="statistics.pdvChangedIn24HoursPercent !== 0 else notChangedPDV">
+        {{ translate(
+        'pdv_change.' + (statistics.pdvChangedIn24HoursPercent >= 0 ? 'increased' : 'decreased'),
+        { percent: statistics.pdvChangedIn24HoursPercent | positiveNumber | number : '1.0-2' }
+        ) }}
+      </ng-container>
+
+      <ng-template #notChangedPDV>
+        {{ translate('pdv_change.not_changed') }}
+      </ng-template>
     </div>
 
     <app-line-chart
@@ -31,7 +37,8 @@
 
     <ng-template #noData>
       <div class="hub-pdv-statistics__no-data">
-        {{ translate('not_enough_chart_data') }}
+        <ng-container *ngIf="statistics.points.length === 1">{{ translate('not_enough_chart_data') }}</ng-container>
+        <ng-container *ngIf="statistics.points.length < 1">{{ translate('no_chart_data') }}</ng-container>
       </div>
     </ng-template>
   </app-hub-statistics-card>
