@@ -17,12 +17,12 @@
 
     <div class="hub-currency-statistics__rate-change">
       {{ translate('dec_rate_change.dec') }}
-      <ng-container *ngIf="statistics.rateChangedIn24HoursPercent !== 0 else notChangedPDV">
+      <ng-container *ngIf="isPositive || isNegative else notChangedPDV">
         <span class="hub-currency-statistics__rate-direction">
           {{ translate(
-            'dec_rate_change.' + (isPositive >= 0 ? 'increased' : 'decreased'),
+            'dec_rate_change.' + (isPositive ? 'increased' : 'decreased'),
             { percent: statistics.rateChangedIn24HoursPercent | positiveNumber | number : '1.0-2' }
-        ) }}
+          ) }}
         </span>
       </ng-container>
 
