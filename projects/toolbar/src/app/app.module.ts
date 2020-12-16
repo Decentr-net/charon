@@ -13,6 +13,7 @@ import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
 import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { PDVService } from '@shared/services/pdv';
+import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { svgClose, svgLogo, svgNotification, svgSettings } from '@shared/svg-icons';
 import { TranslocoRootModule } from './transloco';
 
@@ -28,6 +29,7 @@ import { TranslocoRootModule } from './transloco';
       api: environment.currencyApi,
     }),
     HttpClientModule,
+    PdvValueModule,
     SvgIconsModule.forRoot({
       icons: [
         svgClose,

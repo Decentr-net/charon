@@ -31,18 +31,22 @@
         <div class="network-icon">
           <img src="assets/images/logo-icon.svg" alt="Decentr">
         </div>
-        <div class="pdv-rate"
-             [class.pdv-rate__rise]="true"
-             [class.pdv-rate__fall]="false"
-             [class.pdv-rate__none]="false">
-          {{ balance$ | async }} PDV
-          <span>
-          <div class="rate-icon"
-               [resolveSVGUrl]="false"
-               [inlineSVG]="'assets/images/icons/arrow-circle.svg'"></div>
-          + 0.001%
-        </span>
-        </div>
+        <ng-container *ngIf="balance$ | async as balance">
+          <div class="pdv-rate"
+            [class.pdv-rate__rise]="balance.dayMargin > 0"
+            [class.pdv-rate__fall]="balance.dayMargin < 0"
+            [class.pdv-rate__none]="balance.dayMargin === 0"
+          >
+            {{ balance.value | pdvValue }} PDV
+            <span>
+              <div class="rate-icon"
+                [resolveSVGUrl]="false"
+                [inlineSVG]="'assets/images/icons/arrow-circle.svg'"
+              ></div>
+              <ng-container *ngIf="balance.dayMargin > 0">+</ng-container>{{ balance.dayMargin | number : '1.0-2' }}%
+            </span>
+          </div>
+        </ng-container>
         <div class="pdv-exchange-rate" *ngIf="coinRate$ | async as coinRate">
           {{ translate('exchange_rate', { rate: coinRate | number:'1.0-4' }) }}
         </div>

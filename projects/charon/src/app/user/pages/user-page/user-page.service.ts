@@ -7,7 +7,8 @@ import { PDVDetails, PDVListItem } from 'decentr-js';
 import { Environment } from '@environments/environment.definitions';
 import { CurrencyService } from '@shared/services/currency';
 import { PDVService } from '@shared/services/pdv';
-import { exponentialToFixed } from '@shared/utils/number';
+import { BalanceValueDynamic } from './user-page.component';
+import { calculateDifferencePercentage, exponentialToFixed } from '@shared/utils/number';
 import { AuthService, AuthUser } from '@core/auth';
 import { MediaService, Network, NetworkService } from '@core/services';
 import { ChartPoint, PDVActivityListItem, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
@@ -34,6 +35,25 @@ export class UserPageService {
       }),
       map(exponentialToFixed),
     );
+  }
+
+  public getBalanceWithMargin(): Observable<BalanceValueDynamic> {
+    return combineLatest([
+      this.getBalance(),
+      this.getPDVChartPoints(),
+    ])
+      .pipe(
+        map(([pdvRate, pdvRateHistory]) => {
+          const now = new Date;
+          const historyDate = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+          const historyPdvRate = pdvRateHistory.find(el => el.date === historyDate)?.value;
+
+          return {
+            dayMargin: calculateDifferencePercentage(Number(pdvRate), historyPdvRate),
+            value: pdvRate,
+          }
+        })
+      )
   }
 
   public getCoinRate(): Observable<number> {

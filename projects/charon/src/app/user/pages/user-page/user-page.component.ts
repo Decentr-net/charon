@@ -13,6 +13,11 @@ import { UserRoute } from '../../user.route';
 import { ChartPoint, PDVActivityListItem } from '../../components';
 import { UserPageService } from './user-page.service';
 
+export interface BalanceValueDynamic {
+  dayMargin: number;
+  value: string | number;
+}
+
 @UntilDestroy()
 @Component({
   selector: 'app-user-page',
@@ -28,7 +33,7 @@ export class UserPageComponent implements OnInit {
   public userRoute: typeof UserRoute = UserRoute;
   public user$: Observable<AuthUser>;
   public coinRate$: Observable<number>;
-  public balance$: Observable<string>;
+  public balance$: Observable<BalanceValueDynamic>;
   public pdvList$: Observable<PDVActivityListItem[]>;
   public chartPoints$: Observable<ChartPoint[]>;
 
@@ -49,7 +54,7 @@ export class UserPageComponent implements OnInit {
 
     this.coinRate$ = this.userPageService.getCoinRate();
 
-    this.balance$ = this.userPageService.getBalance();
+    this.balance$ = this.userPageService.getBalanceWithMargin();
 
     this.pdvList$ = this.userPageService.getPDVActivityList();
 
