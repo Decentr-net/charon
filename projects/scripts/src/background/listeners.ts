@@ -1,3 +1,6 @@
+import { noop } from 'rxjs';
+import { browser } from 'webextension-polyfill-ts';
+
 import { MessageBus } from '../../../../shared/message-bus';
 import { openCharonPage } from '../helpers/navigation';
 import { MessageCode } from '../messages';
@@ -12,4 +15,6 @@ export const initMessageListeners = () => {
   messageBus.onMessage(MessageCode.ToolbarClose).subscribe(() => {
     messageBus.sendMessageToCurrentTab(MessageCode.ToolbarClose);
   });
+
+  browser.runtime.onConnect.addListener(noop);
 }

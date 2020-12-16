@@ -1,12 +1,17 @@
-import { map, mergeMap, startWith, take, takeUntil, tap, throttleTime } from 'rxjs/operators';
-import { combineLatest, fromEvent, Observable, Subscription, timer } from 'rxjs';
+import { finalize, map, mergeMap, startWith, take, takeUntil, tap, throttleTime } from 'rxjs/operators';
+import { combineLatest, fromEvent, merge, Observable, Subscription, timer } from 'rxjs';
 
 import { MessageBus } from '../../../shared/message-bus';
 import { TOOLBAR_HEIGHT } from '../../toolbar/src/app';
 import { createToolbarIframe, createToolbarShiftSpacer } from './content/toolbar';
 import { isTopWindow } from './helpers/window';
 import { isAuthorized$ } from './content/auth';
-import { getToolbarEnabledState, isToolbarClosed, saveToolbarClosed } from './content/session';
+import {
+  getExtensionDisabledEvent,
+  getToolbarEnabledState,
+  isToolbarClosed,
+  saveToolbarClosed
+} from './content/session';
 import { updateShiftContent } from './helpers/shift-content';
 import { MessageCode } from './messages';
 
@@ -22,7 +27,7 @@ if (!isToolbarClosed() && isTopWindow(window.self)) {
     startWith(false)
   );
 
-  const close$ = new MessageBus().onMessage(MessageCode.ToolbarClose).pipe(
+  const manualClose$ = new MessageBus().onMessage(MessageCode.ToolbarClose).pipe(
     take(1),
   );
 
@@ -63,16 +68,19 @@ if (!isToolbarClosed() && isTopWindow(window.self)) {
     updateShiftContent();
   };
 
-  close$.subscribe(() => {
-    removeToolbar();
-    saveToolbarClosed();
-  });
+  const close$ = merge(
+    manualClose$.pipe(
+      tap(() => saveToolbarClosed()),
+    ),
+    getExtensionDisabledEvent(),
+  );
 
   combineLatest([
     getToolbarEnabledState(),
     isAuthorized$(),
     fullScreen$(),
   ]).pipe(
+    finalize(() => removeToolbar()),
     takeUntil(close$),
   ).subscribe(([isEnabled, isAuth, fullscreen]) => {
     if (isEnabled && isAuth && !fullscreen) {
