@@ -5,6 +5,7 @@ import { map, pluck, switchMap } from 'rxjs/operators';
 import { PDVDetails, PDVListItem } from 'decentr-js';
 
 import { Environment } from '@environments/environment.definitions';
+import { coerceTimestamp } from '@shared/utils/date';
 import { CurrencyService } from '@shared/services/currency';
 import { PDVService } from '@shared/services/pdv';
 import { BalanceValueDynamic } from './user-page.component';
@@ -68,7 +69,7 @@ export class UserPageService {
       map((list) => list.map(({ address, timestamp }) => (
         {
           address,
-          date: new Date(Number(timestamp.toString().padEnd(13, '0'))),
+          date: new Date(coerceTimestamp(timestamp)),
         }))
       )
     );

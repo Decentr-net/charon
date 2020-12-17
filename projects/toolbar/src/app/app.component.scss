@@ -42,6 +42,12 @@ $app--section--background-color: #F8FAFD;
   display: flex;
 }
 
+.app__middle-container-section-dynamic {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
 .app__meta-label {
   font-size: 11px;
 

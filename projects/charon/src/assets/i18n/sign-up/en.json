@@ -153,9 +153,8 @@
       "label": "Tips on storing it safely",
       "tip1": "Save a backup in multiple places.",
       "tip2": "Never share the phrase with anyone.",
-      "tip3": "Be careful of phishing! MetaMask will never spontaneously ask for your seed phrase.",
-      "tip4": "If you need to back up your seed phrase again, you can find it in <strong>Settings -> Security</strong>.",
-      "tip5": "If you ever have questions or see something fishy, email support@decentr.net"
+      "tip3": "Be careful of phishing! Decentr will never spontaneously ask for your seed phrase.",
+      "tip4": "If you ever have questions or see something fishy, email support@decentr.net"
     },
     "title": "Congratulations"
   }
