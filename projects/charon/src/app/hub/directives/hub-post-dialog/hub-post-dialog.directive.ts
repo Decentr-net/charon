@@ -24,7 +24,7 @@ export class HubPostDialogDirective implements OnInit {
   @HostListener('click')
   public onClick(): void {
     const config: MatDialogConfig<Post> = {
-      width: '600px',
+      width: '830px',
       maxWidth: '100%',
       maxHeight: '700px',
       panelClass: 'popup-no-padding',
