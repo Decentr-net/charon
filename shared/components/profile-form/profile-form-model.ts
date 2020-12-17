@@ -162,7 +162,7 @@ export class ProfileFormModel {
       [
         Validators.required,
         BaseValidationUtil.isFrDateFormatCorrect,
-        BaseValidationUtil.minDate('1900-01-01'),
+        BaseValidationUtil.minDate('1901-01-01'),
         BaseValidationUtil.maxDate(this.datePipe.transform(Date.now(), 'yyyy-MM-dd')),
         ProfileFormModel.nonExistentDate(),
       ],
