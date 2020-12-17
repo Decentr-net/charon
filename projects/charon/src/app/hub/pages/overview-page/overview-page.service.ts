@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
+import { Injectable, OnDestroy } from '@angular/core';
+import { combineLatest, EMPTY, Observable } from 'rxjs';
+import { catchError, map, pluck } from 'rxjs/operators';
 import { Post } from 'decentr-js';
 
 import { AuthService } from '@core/auth/services';
@@ -11,14 +11,16 @@ import { HubPageService } from '../hub-page/hub-page.service';
 import { HubPostsService } from '../../services';
 import { NetworkService, UserService } from '@core/services';
 import { PostsApiService } from '@core/services/api';
+import { NotificationService } from '@shared/services/notification';
 
 @Injectable()
-export class OverviewPageService extends HubPostsService {
+export class OverviewPageService extends HubPostsService implements OnDestroy {
   constructor(
     private authService: AuthService,
     private hubPageService: HubPageService,
     private networkService: NetworkService,
     private postsApiService: PostsApiService,
+    private notificationService: NotificationService,
     protected userService: UserService,
   ) {
     super(userService);
@@ -82,6 +84,11 @@ export class OverviewPageService extends HubPostsService {
       limit: count,
       fromOwner: fromPost && fromPost.owner,
       fromUUID: fromPost && fromPost.uuid,
-    });
+    }).pipe(
+      catchError((error) => {
+        this.notificationService.error(error);
+        return EMPTY;
+      }),
+    );
   }
 }

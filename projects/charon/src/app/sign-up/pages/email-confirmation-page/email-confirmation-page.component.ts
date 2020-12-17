@@ -6,9 +6,10 @@ import { finalize } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+import { NotificationService } from '@shared/services/notification';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { AuthService } from '@core/auth';
-import { NotificationService, SpinnerService } from '@core/services';
+import { SpinnerService } from '@core/services';
 import { AppRoute } from '../../../app-route';
 import { SignUpRoute } from '../../sign-up-route';
 import { EmailConfirmationPageService } from './email-confirmation-page.service';

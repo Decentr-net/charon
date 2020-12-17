@@ -4,10 +4,11 @@ import { finalize } from 'rxjs/operators';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { generateMnemonic } from 'decentr-js';
 
+import { NotificationService } from '@shared/services/notification';
 import { AccountData } from '../../components';
 import { AppRoute } from '../../../app-route';
 import { NavigationService } from '@core/navigation';
-import { NotificationService, SpinnerService } from '@core/services';
+import { SpinnerService } from '@core/services';
 import { SignUpPageService } from './sign-up-page.service';
 import { SignUpRoute } from '../../sign-up-route';
 import { WelcomeRoute } from '../../../welcome/welcome-route';

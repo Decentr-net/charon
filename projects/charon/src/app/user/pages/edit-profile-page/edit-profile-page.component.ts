@@ -7,10 +7,11 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
+import { NotificationService } from '@shared/services/notification';
 import { AppRoute } from '../../../app-route';
 import { AuthService } from '@core/auth';
 import { EditProfilePageService } from './edit-profile-page.service';
-import { NotificationService, SpinnerService } from '@core/services';
+import { SpinnerService } from '@core/services';
 import { PasswordValidationUtil } from '@shared/utils/validation';
 import { ProfileFormControlValue } from '@shared/components/profile-form';
 

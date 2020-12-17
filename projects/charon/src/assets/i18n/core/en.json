@@ -7,6 +7,9 @@
     "default_network": "The default network for Decs transactions is Decentr Test Network.",
     "title": "Networks"
   },
+  "notifications": {
+    "unknown_error": "Something went wrong"
+  },
   "profile_selector": {
     "decentr_hub": "Decentr Hub",
     "import_account": "Import Account",
