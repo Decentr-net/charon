@@ -110,7 +110,10 @@
         </div>
       </ng-template>
 
-      <app-toolbar-toggle class="user-page__toolbar-toggle"></app-toolbar-toggle>
+      <app-toolbar-toggle
+        class="user-page__toolbar-toggle"
+        *ngIf="!isOpenedInTab"
+      ></app-toolbar-toggle>
 
     </div>
   </div>
