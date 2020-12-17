@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { delay, mapTo, retryWhen, take } from 'rxjs/operators';
+import { delay, mapTo, repeat, retryWhen, skipWhile, take } from 'rxjs/operators';
 import { Account, PublicProfile } from 'decentr-js';
 
 import { UserPrivate } from '@shared/services/auth';
@@ -38,6 +38,10 @@ export class UserService {
         delay(200),
         take(5),
       )),
+      delay(200),
+      repeat(),
+      skipWhile(v => v === undefined),
+      take(1),
     );
   }
 

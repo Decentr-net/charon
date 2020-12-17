@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { combineLatest, EMPTY, Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, pluck } from 'rxjs/operators';
 import { Post } from 'decentr-js';
 
+import { AuthService } from '@core/auth/services';
+import { coerceTimestamp } from '@shared/utils/date';
 import { HubCurrencyStatistics } from '../../components/hub-currency-statistics';
 import { HubPDVStatistics } from '../../components/hub-pdv-statistics';
 import { HubPageService } from '../hub-page/hub-page.service';
@@ -12,13 +14,14 @@ import { PostsApiService } from '@core/services/api';
 import { NotificationService } from '@shared/services/notification';
 
 @Injectable()
-export class OverviewPageService extends HubPostsService {
+export class OverviewPageService extends HubPostsService implements OnDestroy {
   constructor(
+    private authService: AuthService,
     private hubPageService: HubPageService,
     private networkService: NetworkService,
     private postsApiService: PostsApiService,
     private notificationService: NotificationService,
-    userService: UserService,
+    protected userService: UserService,
   ) {
     super(userService);
   }
@@ -27,17 +30,25 @@ export class OverviewPageService extends HubPostsService {
     this.dispose();
   }
 
+  private getUserRegisteredAt(): Observable<string> {
+    const user = this.authService.getActiveUserInstant();
+
+    return this.userService.getPublicProfile(user.wallet.address).pipe(
+      pluck('registeredAt'),
+    );
+  }
+
   public getPdvStatistics(): Observable<HubPDVStatistics> {
     return combineLatest([
       this.hubPageService.getBalanceWithMargin(),
       this.hubPageService.getPDVChartPoints(),
+      this.getUserRegisteredAt(),
     ])
       .pipe(
-        map(([pdvWithMargin, pdvStatistic]) => {
-          const minDate: number = Math.min(...pdvStatistic.map(el => el.date));
+        map(([pdvWithMargin, pdvStatistic, userRegisteredAt]) => {
 
           return ({
-            fromDate: new Date(minDate).valueOf(),
+            fromDate: coerceTimestamp(userRegisteredAt),
             pdv: pdvWithMargin.value,
             pdvChangedIn24HoursPercent: pdvWithMargin.dayMargin,
             points: pdvStatistic,
