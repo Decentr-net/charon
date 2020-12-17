@@ -13,6 +13,7 @@ import { MediaService, SpinnerService } from '@core/services';
 import { UserRoute } from '../../user.route';
 import { ChartPoint, PDVActivityListItem } from '../../components';
 import { UserPageService } from './user-page.service';
+import { isOpenedInTab } from '../../../core/browser';
 
 export interface BalanceValueDynamic {
   dayMargin: number;
@@ -37,6 +38,7 @@ export class UserPageComponent implements OnInit {
   public balance$: Observable<BalanceValueDynamic>;
   public pdvList$: Observable<PDVActivityListItem[]>;
   public chartPoints$: Observable<ChartPoint[]>;
+  public isOpenedInTab: boolean;
 
   constructor(
     public matchMediaService: MediaService,
@@ -60,6 +62,8 @@ export class UserPageComponent implements OnInit {
     this.pdvList$ = this.userPageService.getPDVActivityList();
 
     this.chartPoints$ = this.userPageService.getPDVChartPoints();
+
+    this.isOpenedInTab = isOpenedInTab();
   }
 
   public openPDVDetails(pdvActivityListItem: PDVActivityListItem): void {

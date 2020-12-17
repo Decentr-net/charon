@@ -1,5 +1,7 @@
 @import 'variables';
 
+$user-page--toolbar-toggle--height: 48px;
+
 .page-home {
   .user-nav-wrapper {
     background: #ffffff;
@@ -246,8 +248,8 @@
 
     .tab-container {
       padding: 1rem;
-      min-height: 254px;
-      max-height: 254px;
+      min-height: 270px - $user-page--toolbar-toggle--height;
+      max-height: 270px - $user-page--toolbar-toggle--height;
     }
   }
 }
@@ -258,5 +260,6 @@
 
 .user-page__toolbar-toggle {
   border-top: 1px solid $grey-border-color;
+  height: $user-page--toolbar-toggle--height;
   padding: 0 1rem;
 }

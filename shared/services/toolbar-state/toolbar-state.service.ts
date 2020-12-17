@@ -1,5 +1,5 @@
 import { from, Observable } from 'rxjs';
-import { mergeMap, startWith } from 'rxjs/operators';
+import { filter, mergeMap, startWith } from 'rxjs/operators';
 
 import { BrowserLocalStorage } from '../browser-storage';
 
@@ -17,6 +17,8 @@ export class ToolbarStateService {
   constructor() {
     this.enabledState$ = from(this.toolbarStateStorage.get('enabled'))
       .pipe(
+        filter((state) => typeof state !== 'undefined'),
+        startWith(true),
         mergeMap((state) => this.toolbarStateStorage.onChange('enabled')
           .pipe(
             startWith(state),
