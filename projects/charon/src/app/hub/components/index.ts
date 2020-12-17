@@ -10,7 +10,7 @@ import { HubNavigationLinkComponent } from './hub-navigation-link';
 import { HubPdvStatisticsComponent } from './hub-pdv-statistics';
 import { HubPostAnalyticsCardComponent } from './hub-post-analytics-card';
 import { HubPostDialogComponent } from './hub-post-dialog';
-import { HubPostDialogContentComponent } from './hub-post-dialog-content';
+import { HubPostContentComponent } from './hub-post-content';
 import { HubPostPdvComponent } from './hub-post-pdv';
 import { HubPostPreviewCardComponent } from './hub-post-preview-card';
 import { HubPostRatingComponent } from './hub-post-rating';
@@ -36,7 +36,7 @@ export const HUB_COMPONENTS = [
   HubPdvStatisticsComponent,
   HubPostAnalyticsCardComponent,
   HubPostDialogComponent,
-  HubPostDialogContentComponent,
+  HubPostContentComponent,
   HubPostPdvComponent,
   HubPostPreviewCardComponent,
   HubPostRatingComponent,
