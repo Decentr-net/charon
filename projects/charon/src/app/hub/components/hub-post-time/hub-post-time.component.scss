@@ -1,0 +1,8 @@
+$hub-post-time--color: #9EA0A5;
+
+:host {
+  color: $hub-post-time--color;
+  display: inline-flex;
+  font-size: 12px;
+  line-height: 18px;
+}

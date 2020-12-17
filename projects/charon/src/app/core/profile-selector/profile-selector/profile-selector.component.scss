@@ -1,0 +1,133 @@
+:host {
+  display: flex;
+}
+
+::ng-deep .cdk-overlay-container .profile-selector__menu {
+  user-select: none;
+  background: #2A2A2A;
+  color: #ffffff;
+  min-width: 330px;
+}
+
+.profile-image {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.menu__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px 15px;
+  border-bottom: 1px solid #5D5D5D;
+
+  .button-lock {
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #ffffff;
+    background: transparent;
+    padding: 4px 23px;
+    cursor: pointer;
+  }
+}
+
+.menu__items {
+  .menu-item {
+    position: relative;
+    padding: 15px 10px 15px 45px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      background: #373737;
+    }
+
+    &__active {
+      &:before {
+        content: "";
+        width: 30px;
+        position: absolute;
+        left: 0;
+        height: 2px;
+        background: white;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    .name {
+      max-width: 240px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .rate {
+      font-size: 14px;
+      color: #929292;
+    }
+  }
+
+  .profile-image {
+    zoom: .6;
+    margin-right: 15px;
+  }
+}
+
+.menu__footer {
+  border-top: 1px solid #5D5D5D;
+  padding-top: 10px;
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    cursor: pointer;
+
+    &:hover {
+      background: #373737;
+    }
+
+    span {
+      font-size: 10px;
+      margin-top: -10px;
+      margin-left: 5px;
+      font-style: italic;
+    }
+
+    .icon {
+      margin-right: 10px;
+
+      ::ng-deep svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      &__white {
+        ::ng-deep svg {
+          * {
+            stroke: #ffffff;
+          }
+        }
+      }
+    }
+
+    &__disabled {
+      cursor: default;
+      color: #8C8888;
+
+      &:hover {
+        background: transparent;
+      }
+
+      .icon ::ng-deep svg {
+        * {
+          stroke: #8C8888;
+        }
+      }
+    }
+  }
+}

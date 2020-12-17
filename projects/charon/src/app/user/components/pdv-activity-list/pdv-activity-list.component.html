@@ -1,0 +1,22 @@
+<ng-container *transloco="let translate; read: 'user.user_page'">
+  <ng-container *ngIf="items.length > 0; else noData">
+    <div
+      class="activity-item"
+      *ngFor="let activityItem of items; let i = index; trackBy: trackByAddress"
+      (click)="onItemClick(activityItem)"
+    >
+      <div class="activity-item__name">
+        {{activityItem.address}}
+      </div>
+      <div class="activity-item__date">
+        {{activityItem.date | date : 'dd.MM.yyyy HH:mm'}}
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #noData>
+    <div class="no-data">
+      {{ translate('no_activity') }}
+    </div>
+  </ng-template>
+</ng-container>

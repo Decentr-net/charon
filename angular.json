@@ -1,0 +1,234 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "charon": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/charon",
+      "sourceRoot": "projects/charon/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/charon",
+            "index": "projects/charon/src/index.html",
+            "main": "projects/charon/src/main.ts",
+            "polyfills": "projects/charon/src/polyfills.ts",
+            "tsConfig": "projects/charon/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/charon/src/favicon.ico",
+              "projects/charon/src/assets"
+            ],
+            "styles": [
+              "projects/charon/src/styles.scss",
+              "node_modules/ngx-toastr/toastr.css"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/charon/src/styles"
+              ]
+            },
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "js-sha256",
+              "p-queue",
+              "webextension-polyfill-ts"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "environments/environment.ts",
+                  "with": "environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "charon:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "charon:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "charon:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/charon/src/test.ts",
+            "polyfills": "projects/charon/src/polyfills.ts",
+            "tsConfig": "projects/charon/tsconfig.spec.json",
+            "karmaConfig": "projects/charon/karma.conf.js",
+            "assets": [
+              "projects/charon/src/favicon.ico",
+              "projects/charon/src/assets"
+            ],
+            "styles": [
+              "projects/charon/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/charon/tsconfig.app.json",
+              "projects/charon/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "toolbar": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/toolbar",
+      "sourceRoot": "projects/toolbar/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/toolbar",
+            "index": "projects/toolbar/src/index.html",
+            "main": "projects/toolbar/src/main.ts",
+            "polyfills": "projects/toolbar/src/polyfills.ts",
+            "tsConfig": "projects/toolbar/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/toolbar/src/favicon.ico",
+              "projects/toolbar/src/assets"
+            ],
+            "styles": [
+              "projects/toolbar/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "environments/environment.ts",
+                  "with": "environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "toolbar:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "toolbar:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "toolbar:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/toolbar/src/test.ts",
+            "polyfills": "projects/toolbar/src/polyfills.ts",
+            "tsConfig": "projects/toolbar/tsconfig.spec.json",
+            "karmaConfig": "projects/toolbar/karma.conf.js",
+            "assets": [
+              "projects/toolbar/src/favicon.ico",
+              "projects/toolbar/src/assets"
+            ],
+            "styles": [
+              "projects/toolbar/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/toolbar/tsconfig.app.json",
+              "projects/toolbar/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }},
+  "defaultProject": "charon"
+}

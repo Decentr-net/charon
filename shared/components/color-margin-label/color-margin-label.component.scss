@@ -1,0 +1,21 @@
+$hub-color-margin-label--positive-background-color: linear-gradient(90deg, #5AAB9B 0%, #4CABB0 100%);
+$hub-color-margin-label--negative-background-color: linear-gradient(90deg, #F03167 0%, #F0376B 100%);
+$hub-color-margin-label--neutral-background-color: linear-gradient(90deg, #797979 0%, #797073 100%);
+
+:host {
+  align-items: center;
+  background: $hub-color-margin-label--neutral-background-color;
+  border-radius: 4px;
+  color: #ffffff;
+  display: inline-flex;
+  font-weight: 500;
+  padding: .35em .7em;
+
+  &.mod-positive {
+    background: $hub-color-margin-label--positive-background-color;
+  }
+
+  &.mod-negative {
+    background: $hub-color-margin-label--negative-background-color;
+  }
+}

@@ -1,0 +1,67 @@
+<div class="row" *transloco="let translate; read: 'sign_up.email_confirmation_page'">
+  <div class="col-xs-12">
+    <div class="page-title page-title__large">
+      {{ translate('title') }}
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <p>{{ translate('sent_to') }} <strong>{{ email }}</strong></p>
+        <p>{{ translate('open') }}</p>
+      </div>
+    </div>
+
+    <form
+      class="email-confirmation-page__form"
+      *transloco="let translate; read: 'sign_up.email_confirmation_page.form'"
+      [formGroup]="codeForm"
+      (ngSubmit)="confirm()"
+    >
+      <div class="row">
+        <div class="email-confirmation-page__form-header col-xs-12">
+          <div class="email-confirmation-page__form-label">{{ translate('label') }}</div>
+
+          <button
+            type="button"
+            *ngIf="!secondsLeftToResend; else timer"
+            mat-button
+            disableRipple
+            class="email-confirmation-page__form-resend-btn"
+            color="accent"
+            (click)="sendEmail()"
+          >
+            {{ translate('resend_code') }}
+          </button>
+
+          <ng-template #timer>
+            {{ secondsLeftToResend }}
+          </ng-template>
+        </div>
+
+        <div class="col-xs-12">
+          <app-code-input [autofocus]="true" [length]="6" formControlName="code"></app-code-input>
+        </div>
+        <div class="email-confirmation-page__form-footer col-xs-12">
+          <button
+            class="btn btn__small"
+            type="submit"
+            mat-flat-button
+            color="accent"
+            [disabled]="codeForm.invalid"
+          >
+            {{ translate('submit') }}
+          </button>
+
+          <button
+            class="btn btn__small"
+            type="button"
+            mat-button
+            color="accent"
+            (click)="registerNewAccount()"
+          >
+            {{ translate('register_new_account') }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

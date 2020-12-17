@@ -1,0 +1,39 @@
+<ng-container *transloco="let translate; read: 'hub.hub_overview_page'">
+  <ng-container *appSlot="headerContentSlotName">
+    <mat-divider></mat-divider>
+    <app-hub-navigation></app-hub-navigation>
+  </ng-container>
+
+  <div class="overview-page__statistic-container">
+    <app-hub-pdv-statistics [statistics]="pdvStatistics$ | async"></app-hub-pdv-statistics>
+
+    <app-hub-currency-statistics [statistics]="rateStatistics$ | async"></app-hub-currency-statistics>
+
+    <app-hub-activity-statistics [statistics]="activityStatistics"></app-hub-activity-statistics>
+  </div>
+
+  <div class="overview-page__analytics-divider">
+    <mat-divider></mat-divider>
+
+    <span class="overview-page__analytics-divider-title">
+      {{ translate('highest_pdv_analytics') }}
+    </span>
+
+    <mat-divider></mat-divider>
+  </div>
+
+  <app-hub-infinite-posts-container
+    [canLoadMore]="canLoadMore$ | async"
+    [isLoading]="isLoading$ | async"
+    (loadMore)="loadMore()"
+  >
+    <div class="overview-page__posts-container">
+      <app-hub-post-analytics-card
+        *ngFor="let post of posts$ | async; trackBy: trackByPostId"
+        [maxContentLines]="7"
+        [postAnalytics]="post"
+        [appHubPostDialog]="post"
+      ></app-hub-post-analytics-card>
+    </div>
+  </app-hub-infinite-posts-container>
+</ng-container>

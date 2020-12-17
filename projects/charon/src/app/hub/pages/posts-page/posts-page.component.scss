@@ -1,0 +1,15 @@
+:host {
+  display: block;
+  padding-bottom: 30px;
+}
+
+.posts-page__posts-grid-container {
+  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: center;
+}
+
+.posts-page__post {
+  max-height: 300px;
+}

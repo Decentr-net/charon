@@ -1,0 +1,38 @@
+<ng-container *transloco="let translate; read: 'hub.hub_feed_post'">
+  <div class="hub-feed-post__header">
+    <app-avatar [avatarUrl]="post.author.avatar"></app-avatar>
+
+    <div class="hub-feed-post__info-container">
+      <div appTextEllipsis>
+        <span class="hub-feed-post__author">
+          {{ post.author.firstName }}
+          {{ post.author.lastName }}
+        </span>
+        <span class="hub-feed-post__posted">{{ translate('posted') }}</span>
+        <span class="hub-feed-post__title">{{ post.title }}</span>
+      </div>
+
+      <app-hub-post-time [time]="post.createdAt"></app-hub-post-time>
+    </div>
+  </div>
+
+  <div
+    class="hub-feed-post__content"
+    [innerHTML]="post.text | appSanitize : 'html'"
+  ></div>
+
+  <mat-divider class="hub-feed-post__divider"></mat-divider>
+
+  <div class="hub-feed-post__footer">
+    <div class="hub-feed-post__pdv">
+      <span [inlineSVG]="'assets/images/icons/signal.svg'"></span>
+      <span class="hub-feed-post__pdv-label">{{ translate('pdv') }}</span>
+      <app-hub-post-pdv [pdv]="post.pdv"></app-hub-post-pdv>
+    </div>
+
+    <app-hub-post-rating
+      [likes]="post.likesCount"
+      [dislikes]="post.dislikesCount"
+    ></app-hub-post-rating>
+  </div>
+</ng-container>

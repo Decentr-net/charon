@@ -1,0 +1,62 @@
+@import 'variables';
+
+.mat-toolbar {
+  padding: 0;
+
+  &__grey-bg {
+    background: #f2f3f4;
+  }
+
+  &__white-bg {
+    background: #ffffff;
+  }
+
+  &__small {
+    height: 64px;
+
+    .header {
+      &__logo {
+        img {
+          width: 37px;
+        }
+      }
+    }
+  }
+
+  &__large {
+    height: 75px;
+
+    .header {
+      &__logo {
+        img {
+          width: 150px;
+        }
+      }
+    }
+  }
+
+  .header {
+    &__logo {
+      display: flex;
+    }
+  }
+}
+
+.header-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__extended {
+    .header {
+      &__logo {
+        flex: 1 0 0;
+      }
+    }
+
+    .profile-selector {
+      margin-left: 20px;
+    }
+  }
+}

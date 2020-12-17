@@ -1,0 +1,43 @@
+<div class="hub-header__bar">
+  <a
+    class="hub-header__bar-icon-logo"
+    [inlineSVG]="'assets/images/logo-icon.svg'"
+    [routerLink]="['./']"
+  ></a>
+
+  <div class="hub-header__bar-meta-container">
+    <ng-content select="meta"></ng-content>
+    <ng-container *appSlotContainer="metaSlotName"></ng-container>
+  </div>
+
+  <app-avatar
+    class="hub-header__bar-avatar"
+    [avatarUrl]="avatarIcon"
+    [routerLink]="[hubRoute.Feed, hubFeedRoute.MyWall]"
+  ></app-avatar>
+
+  <div class="hub-header__bar-actions-container">
+    <a
+      class="hub-header__bar-icon-button"
+      [routerLink]="[hubRoute.Feed, hubFeedRoute.Recent]"
+    >
+      <svg-icon class="hub-header__bar-icon" key="notification"></svg-icon>
+    </a>
+
+    <a
+      class="hub-header__bar-icon-button"
+      appHubCreatePostDialog
+    >
+      <svg-icon class="hub-header__bar-icon" key="plus"></svg-icon>
+    </a>
+
+    <a
+      class="hub-header__bar-icon-button"
+      [routerLink]="['/', appRoute.User, userRoute.Edit]"
+    >
+      <svg-icon class="hub-header__bar-icon" key="settings"></svg-icon>
+    </a>
+  </div>
+</div>
+
+<ng-container *appSlotContainer="contentSlotName"></ng-container>

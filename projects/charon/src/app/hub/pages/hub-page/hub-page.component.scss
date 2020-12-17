@@ -1,0 +1,37 @@
+$hub-page--background-color: #F2F2F2;
+
+:host {
+  background: $hub-page--background-color;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 1020px;
+}
+
+.hub-page__header {
+  position: sticky;
+  top: 0;
+}
+
+.hub-page__header-meta-container {
+  align-items: center;
+  display: flex;
+  height: 100%;
+}
+
+.hub-page__header-meta-label {
+  font-size: 14px;
+
+  & + & {
+    margin-left: 40px;
+  }
+}
+
+.hub-page__header-meta-label-value {
+  margin-left: 4px;
+}
+
+.hub-page__content-container {
+  overflow: auto;
+  padding: 30px 30px 0;
+}

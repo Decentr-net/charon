@@ -1,0 +1,23 @@
+{
+  "new_user_page": {
+    "create": {
+      "button": "Create an Account",
+      "subtitle": "This will create a new wallet and seed phrase",
+      "title": "Yes, create an account"
+    },
+    "import": {
+      "button": "Import Account",
+      "subtitle": "Import your existing account using a 24 word seed phrase",
+      "title": "No, I already have a seed phrase"
+    },
+    "title": "New to Decentr?"
+  },
+  "welcome_page": {
+    "get_started": "Get Started",
+    "subtitle": {
+      "line1": "Connecting you to Decentr and Decentralized Web.",
+      "line2": "We are happy you join us."
+    },
+    "title": "Welcome to Decentr"
+  }
+}

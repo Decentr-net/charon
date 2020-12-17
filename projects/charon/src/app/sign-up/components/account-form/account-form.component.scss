@@ -1,0 +1,10 @@
+@import 'variables';
+
+:host {
+  display: block;
+  margin-top: 4rem;
+
+  .account-form {
+    margin-top: 3rem;
+  }
+}

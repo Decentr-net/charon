@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./projects/charon/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/charon/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/scripts/tsconfig.json"
+    }
+  ]
+}

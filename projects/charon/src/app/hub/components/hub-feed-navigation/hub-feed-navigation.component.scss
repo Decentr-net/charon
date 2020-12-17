@@ -1,0 +1,23 @@
+$hub-feed-navigation--height: 54px;
+
+:host {
+  display: block;
+}
+
+.hub-feed-navigation__links-container {
+  align-items: center;
+  display: flex;
+  height: $hub-feed-navigation--height;
+}
+
+.hub-feed-navigation__link {
+  height: 100%;
+
+  & + & {
+    margin-left: 24px;
+  }
+}
+
+.hub-feed-navigation__divider {
+  margin-top: -1px;
+}

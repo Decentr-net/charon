@@ -1,0 +1,70 @@
+<ng-container *transloco="let translate; scope: 'core'; read: 'core.profile_selector'">
+  <app-avatar
+    class="profile-image"
+    [avatarUrl]="(user$ | async).avatar"
+    [matMenuTriggerFor]="menuTemplate"
+  ></app-avatar>
+
+  <mat-menu
+    #menuTemplate
+    class="profile-selector__menu"
+  >
+    <div class="menu-wrapper">
+      <div class="menu__header">
+        <div class="menu-title">{{ translate('my_accounts') }}</div>
+        <button class="button-lock" (click)="lock()">{{ translate('lock') }}</button>
+      </div>
+
+      <div class="menu__items">
+        <div class="menu-item menu-item__active"
+          *ngIf="user$ | async as user"
+          [routerLink]="['/', appRoute.User]"
+        >
+          <app-avatar
+            class="profile-image"
+            [avatarUrl]="user.avatar"
+          ></app-avatar>
+          <div>
+            <div class="name">{{ user.primaryUsername }}</div>
+            <div class="rate">{{ balance$ | async | pdvValue }} PDV</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu__footer">
+        <div
+          class="menu-item"
+          [routerLink]="['/', appRoute.Hub]"
+        >
+          <div
+            class="icon"
+            aria-label="Decentr Hub"
+            [resolveSVGUrl]="false"
+            [inlineSVG]="'assets/images/icons/decentr-hub-icon.svg'"
+          ></div>
+          {{ translate('decentr_hub') }}
+        </div>
+        <div
+          class="menu-item"
+          [class.menu-item__disabled]="true"
+        >
+          <div
+            class="icon icon__white"
+            aria-label="Import Account"
+            [resolveSVGUrl]="false"
+            [inlineSVG]="'assets/images/icons/import.svg'"
+          ></div>
+          {{ translate('import_account') }} <span>(coming soon)</span>
+        </div>
+        <div class="menu-item">
+          <div class="icon icon__white"
+            aria-label="Import Account"
+            [resolveSVGUrl]="false"
+            [inlineSVG]="'assets/images/icons/information.svg'"
+          ></div>
+          {{ translate('info_and_help') }}
+        </div>
+      </div>
+    </div>
+  </mat-menu>
+</ng-container>

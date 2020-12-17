@@ -1,0 +1,19 @@
+<ng-container *transloco="let translate; read: 'hub.hub_infinite_posts_container'">
+  <ng-content></ng-content>
+
+  <div class="hub-infinite-posts-container__loading-container">
+    <ng-template [ngIf]="isLoading" [ngIfElse]="loadMoreButton">
+      <app-spinner></app-spinner>
+    </ng-template>
+  </div>
+
+  <ng-template #loadMoreButton>
+    <button
+      app-hub-load-more-button
+      *ngIf="canLoadMore"
+      (click)="onLoadMoreClick()"
+    >
+      {{ translate('load_more_posts') }}
+    </button>
+  </ng-template>
+</ng-container>

@@ -1,0 +1,69 @@
+$app--background-color: #FFFFFF;
+$app--section--background-color: #F8FAFD;
+
+:host {
+  background-color: $app--background-color;
+  column-gap: 1px;
+  display: grid;
+  grid-template-columns: min-content 1fr min-content;
+}
+
+.app__section {
+  align-items: center;
+  background-color: $app--section--background-color;
+  display: flex;
+  height: 100%;
+}
+
+.app__logo-container {
+  padding: 0 30px;
+}
+
+.app__logo {
+  width: 65px;
+}
+
+.app__icon {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.app__middle-container {
+  justify-content: space-between;
+  padding: 0 10px 0 20px;
+
+  .app__icon {
+    margin: 0 8px;
+    max-width: 20px;
+  }
+}
+
+.app__middle-container-section {
+  display: flex;
+}
+
+.app__middle-container-section-dynamic {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.app__meta-label {
+  font-size: 11px;
+
+  & + & {
+    margin-left: 35px;
+  }
+}
+
+.app__meta-label-value {
+  margin-left: 4px;
+}
+
+.app__link-icon {
+  margin: 0 5px;
+}
+
+.app__close-container {
+  padding: 0 10px;
+}

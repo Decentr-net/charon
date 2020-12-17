@@ -1,0 +1,5 @@
+<ng-container *transloco="let translate; read: translocoRead">
+  <ng-container *ngIf="error$ | async as error">
+    {{ translate(error.key, error.params) }}
+  </ng-container>
+</ng-container>

@@ -1,0 +1,19 @@
+<ng-container *appSlot="headerContentSlotName">
+  <mat-divider></mat-divider>
+  <app-hub-navigation></app-hub-navigation>
+</ng-container>
+
+<app-hub-infinite-posts-container
+  [canLoadMore]="canLoadMore$ | async"
+  [isLoading]="isLoading$ | async"
+  (loadMore)="loadMore()"
+>
+  <div class="posts-page__posts-grid-container">
+    <app-hub-post-preview-card
+      class="posts-page__post"
+      *ngFor="let post of posts$ | async; trackBy: trackByPostId"
+      [post]="post"
+      [appHubPostDialog]="post"
+    ></app-hub-post-preview-card>
+  </div>
+</app-hub-infinite-posts-container>

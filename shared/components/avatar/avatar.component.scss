@@ -1,0 +1,15 @@
+$avatar--default-size: 38px;
+
+:host {
+  align-items: center;
+  display: inline-flex;
+  font-size: $avatar--default-size;
+  max-width: $avatar--default-size;
+}
+
+.user-avatar__image {
+  border-radius: 6px;
+  display: inline-flex;
+  font-size: inherit;
+  width: 100%;
+}

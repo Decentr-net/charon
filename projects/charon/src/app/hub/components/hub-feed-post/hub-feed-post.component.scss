@@ -1,0 +1,55 @@
+$hub-feed-post--background-color: #FFFFFF;
+$hub-feed-post--posted-color: #9EA0A5;
+
+:host {
+  background-color: $hub-feed-post--background-color;
+  display: block;
+  font-size: 14px;
+  padding: 24px;
+}
+
+.hub-feed-post__header {
+  display: flex;
+}
+
+.hub-feed-post__info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 16px;
+  overflow: hidden;
+}
+
+.hub-feed-post__author {
+  font-weight: 500;
+}
+
+.hub-feed-post__posted {
+  color: $hub-feed-post--posted-color;
+  margin: 0 4px;
+}
+
+.hub-feed-post__content {
+  line-height: 22px;
+  margin-top: 10px;
+}
+
+.hub-feed-post__divider {
+  margin: 14px 0;
+}
+
+.hub-feed-post__footer {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.hub-feed-post__pdv {
+  align-items: center;
+  display: flex;
+}
+
+.hub-feed-post__pdv-label {
+  font-weight: 500;
+  margin: 0 24px 0 16px;
+}

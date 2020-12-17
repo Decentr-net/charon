@@ -1,0 +1,40 @@
+@import 'variables';
+
+:host {
+  display: block;
+}
+
+.no-data {
+  text-align: center;
+  color: #CDCDCD;
+  letter-spacing: 0.2px;
+}
+
+.activity-item {
+  padding: .6rem;
+  color: rgba(68, 119, 228, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background .15s ease;
+  overflow: hidden;
+
+  &:hover {
+    background: #f2f3f4;
+    border-radius: 4px;
+  }
+
+  .activity-item__name {
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 15rem;
+  }
+
+  .activity-item__date {
+    font-size: 8px;
+    white-space: nowrap;
+  }
+}

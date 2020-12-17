@@ -1,0 +1,48 @@
+@import "variables";
+
+:host {
+  display: block;
+}
+.page-subtitle {
+  padding-bottom: 1.5rem;
+}
+
+.finalPhrase {
+  border: 1px solid $grey-border-color;
+  border-radius: 4px;
+  max-width: 550px;
+  min-height: 204px;
+  padding: 1rem 1rem 0 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.buttons-area-shuffled {
+  max-width: 550px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: row wrap;
+
+  button {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    flex: 0 1 23%;
+    line-height: 2.75rem;
+    transition: background .3s ease;
+
+    &:nth-child(4n - 2) {
+      margin-left: 2.5%;
+      margin-right: 1.25%;
+    }
+
+    &:nth-child(4n - 1) {
+      margin-left: 1.25%;
+      margin-right: 2.5%;
+    }
+
+    &:hover {
+      background: $color-accent;
+      color: #ffffff;
+      border: 1px solid transparent;
+    }
+  }
+}

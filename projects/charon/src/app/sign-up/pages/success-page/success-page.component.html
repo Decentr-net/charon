@@ -1,0 +1,45 @@
+<div
+  class="container page-successful-registration"
+  *transloco="let translate; read: 'sign_up.success_page'"
+>
+  <div class="row">
+    <div class="col-xs-12">
+      <img class="image-congratulation" src="assets/images/congratulation.png" alt="Congratulation">
+      <div class="page-title page-title__large">
+        {{ translate('title') }}
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <span>{{ translate('subtitle') }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="page-subtitle">
+            {{ translate('tips.label') }}:
+          </div>
+
+          <ul>
+            <li>{{ translate('tips.tip1') }}</li>
+            <li>{{ translate('tips.tip2') }}</li>
+            <li>{{ translate('tips.tip3') }}</li>
+            <li>{{ translate('tips.tip4') }}</li>
+          </ul>
+
+          <p class="notice">{{ translate('hint.label') }} <a href="#" target="_blank">{{ translate('hint.link') }}</a>.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <button class="btn btn__small"
+                  mat-flat-button
+                  color="accent"
+                  [routerLink]="['/']">
+            {{ translate('done') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

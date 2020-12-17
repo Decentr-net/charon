@@ -1,0 +1,12 @@
+:host {
+  display: block;
+}
+
+.hub-infinite-posts-container__loading-container {
+  display: flex;
+  justify-content: center;
+
+  &:not(:empty) {
+    margin-top: 40px;
+  }
+}

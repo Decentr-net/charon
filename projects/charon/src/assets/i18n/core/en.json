@@ -1,0 +1,44 @@
+{
+  "network_selector": {
+    "network": {
+      "remote": "Decentr Test Network",
+      "local": "Localhost 1317"
+    },
+    "default_network": "The default network for Decs transactions is Decentr Test Network.",
+    "title": "Networks"
+  },
+  "notifications": {
+    "broadcast_error": {
+      "1": "Something went wrong",
+      "2": "Can not parse a transaction",
+      "3": "Invalid sequence provided",
+      "4": "Unauthorized access",
+      "5": "Insufficient funds",
+      "6": "Unknown request",
+      "7": "Invalid address",
+      "8": "Invalid public key",
+      "9": "Account with current wallet address doesn't exist",
+      "10": "Invalid coins",
+      "11": "Out of gas",
+      "12": "Memo is too large",
+      "13": "Insufficient fee",
+      "14": "Too many signatures",
+      "15": "No signatures supplied",
+      "16": "Failed to marshal JSON bytes",
+      "17": "Failed to unmarshal JSON bytes",
+      "18": "Invalid request",
+      "19": "Tx request already exists",
+      "20": "Memory pool is full",
+      "21": "Tx request is too large",
+      "22": "Panic error"
+    },
+    "unknown_error": "Something went wrong"
+  },
+  "profile_selector": {
+    "decentr_hub": "Decentr Hub",
+    "import_account": "Import Account",
+    "info_and_help": "Info & Help",
+    "lock": "Lock",
+    "my_accounts": "My Accounts"
+  }
+}

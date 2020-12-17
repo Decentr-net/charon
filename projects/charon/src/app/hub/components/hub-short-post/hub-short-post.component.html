@@ -1,0 +1,21 @@
+<div class="hub-short-post__header">
+  <div class="hub-short-post__header-section">
+    <app-avatar [avatarUrl]="post.author.avatar"></app-avatar>
+
+    <div class="hub-short-post__info-container">
+      <span class="hub-short-post__author">
+        {{ post.author.firstName }}
+        {{ post.author.lastName }}
+      </span>
+
+      <app-hub-post-time [time]="post.createdAt"></app-hub-post-time>
+    </div>
+  </div>
+
+  <app-hub-post-pdv [pdv]="post.pdv"></app-hub-post-pdv>
+</div>
+
+<div
+  class="hub-short-post__content"
+  [innerHTML]="post.text | appSanitize : 'html'"
+></div>
