@@ -30,6 +30,7 @@ $hub-feed-post--posted-color: #9EA0A5;
 }
 
 .hub-feed-post__content {
+  display: flex;
   line-height: 22px;
   margin-top: 10px;
 }
