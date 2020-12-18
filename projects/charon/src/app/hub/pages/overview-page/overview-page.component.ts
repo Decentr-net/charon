@@ -43,8 +43,6 @@ export class OverviewPageComponent {
   public posts$: Observable<Post[]>;
   public canLoadMore$: Observable<boolean>;
 
-  private readonly loadingCount = 4;
-
   constructor(private overviewPageService: OverviewPageService) {
   }
 
@@ -62,7 +60,7 @@ export class OverviewPageComponent {
   }
 
   public loadMore(): void {
-    this.overviewPageService.loadMorePosts(this.loadingCount);
+    this.overviewPageService.loadMorePosts();
   }
 
   public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;

@@ -30,8 +30,6 @@ export class PostsPageComponent {
   public posts$: Observable<Post[]>;
   public canLoadMore$: Observable<boolean>;
 
-  private readonly loadingCount: number = 4;
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private postsPageService: HubPostsService,
@@ -54,7 +52,7 @@ export class PostsPageComponent {
   }
 
   public loadMore(): void {
-    this.postsPageService.loadMorePosts(this.loadingCount);
+    this.postsPageService.loadMorePosts();
   }
 
   public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;

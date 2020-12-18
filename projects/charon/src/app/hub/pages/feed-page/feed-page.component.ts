@@ -21,8 +21,6 @@ export class FeedPageComponent implements OnInit {
   public isLoading$: Observable<boolean>;
   public posts$: Observable<Post[]>;
 
-  private readonly loadingCount: number = 20;
-
   constructor(private feedPageService: HubPostsService) {
   }
 
@@ -35,7 +33,7 @@ export class FeedPageComponent implements OnInit {
   }
 
   public loadMore(): void {
-    this.feedPageService.loadMorePosts(this.loadingCount);
+    this.feedPageService.loadMorePosts();
   }
 
   public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;
