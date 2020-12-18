@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, OnInit, Renderer2, ViewContainerRef } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Post } from 'decentr-js';
 
@@ -14,6 +14,7 @@ export class HubPostDialogDirective implements OnInit {
     private elementRef: ElementRef,
     private matDialog: MatDialog,
     private renderer: Renderer2,
+    private viewContainerRef: ViewContainerRef,
   ) {
   }
 
@@ -29,6 +30,7 @@ export class HubPostDialogDirective implements OnInit {
       maxHeight: '700px',
       panelClass: 'popup-no-padding',
       data: this.post,
+      viewContainerRef: this.viewContainerRef,
     };
 
     this.matDialog.open(HubPostDialogComponent, config);

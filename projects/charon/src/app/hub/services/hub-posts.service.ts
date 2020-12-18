@@ -1,15 +1,18 @@
-import { BehaviorSubject, forkJoin, Observable, of, Subject } from 'rxjs';
-import { distinctUntilChanged, finalize, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { Post, PublicProfile } from 'decentr-js';
+import { Injector } from '@angular/core';
+import { BehaviorSubject, EMPTY, forkJoin, Observable, of, Subject } from 'rxjs';
+import { catchError, distinctUntilChanged, finalize, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { LikeWeight, Post, PublicProfile } from 'decentr-js';
 
+import { NotificationService } from '@shared/services/notification';
 import { createSharedOneValueObservable } from '@shared/utils/observable';
+import { PostsService, UserService } from '../../core/services';
 import { PostWithAuthor } from '../models/post';
 
-interface HubUserService {
-  getPublicProfile(walletAddress: Post['owner']): Observable<PublicProfile>;
-}
-
 export abstract class HubPostsService {
+  protected readonly notificationService: NotificationService;
+  protected readonly postsService: PostsService;
+  protected readonly userService: UserService;
+
   private posts: BehaviorSubject<PostWithAuthor[]> = new BehaviorSubject([]);
   private isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private loadMore: Subject<number> = new Subject();
@@ -21,12 +24,17 @@ export abstract class HubPostsService {
   private readonly profileMap: Map<Post['owner'], Observable<PublicProfile>> = new Map();
 
   protected constructor(
-    private hubUserService: HubUserService,
+    injector?: Injector,
   ) {
+    this.notificationService = injector.get(NotificationService);
+    this.postsService = injector.get(PostsService);
+    this.userService = injector.get(UserService);
+
     this.loadMore.pipe(
       tap(() => this.isLoading.next(true)),
       switchMap((count) => this.loadPosts(this.getLastPost(), count).pipe(
         mergeMap((posts) => this.updatePostsWithAuthors(posts)),
+        mergeMap((posts) => this.updatePostsWithLikes(posts)),
         tap((posts) => (posts.length < count) && this.canLoadMore.next(false)),
         takeUntil(this.stopLoading$),
         finalize(() => this.isLoading.next(false)),
@@ -57,6 +65,33 @@ export abstract class HubPostsService {
     this.loadMore.next(count);
   }
 
+  public getPostChanges(postId: Post['uuid']): Observable<PostWithAuthor> {
+    return this.posts$.pipe(
+      map(() => this.getPost(postId)),
+    );
+  }
+
+  public likePost(postId: Post['uuid'], likeWeight: LikeWeight): Observable<void> {
+    const post = this.getPost(postId);
+
+    const update: Partial<Pick<PostWithAuthor, 'likeWeight' | 'likesCount' | 'dislikesCount'>> = {
+      ...this.getPostLikesCountUpdate(post, likeWeight),
+      likeWeight,
+    };
+
+    this.updatePost(postId, update);
+
+    return this.postsService.likePost(post, likeWeight).pipe(
+      catchError((error) => {
+        this.notificationService.error(error)
+
+        this.updatePost(postId, post);
+
+        return EMPTY;
+      }),
+    );
+  }
+
   public clear(): void {
     this.stopLoading$.next();
     this.posts.next([]);
@@ -83,14 +118,39 @@ export abstract class HubPostsService {
     if (!this.profileMap.has(walletAddress)) {
       this.profileMap.set(
         walletAddress,
-        createSharedOneValueObservable(this.hubUserService.getPublicProfile(walletAddress)),
+        createSharedOneValueObservable(this.userService.getPublicProfile(walletAddress)),
       );
     }
 
     return this.profileMap.get(walletAddress);
   }
 
-  private updatePostsWithAuthors(posts: Post[]): Observable<PostWithAuthor[]> {
+  public getLikedPosts(): Observable<any> {
+    return this.postsService.getLikedPosts();
+  }
+
+  private getPost(postId: Post['uuid']): PostWithAuthor {
+    return this.posts.value.find((post) => post.uuid === postId);
+  }
+
+  private updatePost(
+    postId: Post['uuid'],
+    update: Partial<Omit<Post, 'uuid'>>,
+  ): void {
+    const postIndex = this.posts.value.findIndex((post) => post.uuid === postId);
+    const post = this.posts.value[postIndex];
+
+    this.posts.next([
+      ...this.posts.value.slice(0, postIndex),
+      {
+        ...post,
+        ...update,
+      },
+      ...this.posts.value.slice(postIndex + 1),
+    ]);
+  }
+
+  private updatePostsWithAuthors(posts: Post[]): Observable<Omit<PostWithAuthor, 'likeWeight'>[]> {
     if (!posts.length) {
       return of([]);
     }
@@ -103,5 +163,71 @@ export abstract class HubPostsService {
         })),
       )),
     );
+  }
+
+  private updatePostsWithLikes(posts: Omit<PostWithAuthor, 'likeWeight'>[]): Observable<PostWithAuthor[]> {
+    if (!posts.length) {
+      return of([]);
+    }
+
+    return this.postsService.getLikedPosts().pipe(
+      map((likedPosts) => posts.map((post) => {
+        const likeWeight = likedPosts[`${post.owner}/${post.uuid}`] || 0;
+
+        return {
+          ...post,
+          likeWeight,
+        };
+      })),
+    );
+  }
+
+  private getPostLikesCountUpdate(
+    post: PostWithAuthor,
+    newLikeWeight: LikeWeight,
+  ): Partial<Pick<PostWithAuthor, 'likesCount' | 'dislikesCount'>> {
+    switch (post.likeWeight) {
+      case LikeWeight.Up:
+        switch (newLikeWeight) {
+          case LikeWeight.Up:
+            return {};
+          case LikeWeight.Zero:
+            return {
+              likesCount: post.likesCount - 1,
+            };
+          case LikeWeight.Down:
+            return {
+              likesCount: post.likesCount - 1,
+              dislikesCount: post.dislikesCount + 1,
+            };
+        }
+        break;
+      case LikeWeight.Down:
+        switch (newLikeWeight) {
+          case LikeWeight.Up:
+            return {
+              likesCount: post.likesCount + 1,
+              dislikesCount: post.dislikesCount - 1,
+            };
+          case LikeWeight.Zero:
+            return {
+              dislikesCount: post.dislikesCount - 1,
+            };
+          case LikeWeight.Down:
+            return {};
+        }
+        break;
+      case LikeWeight.Zero:
+        switch (newLikeWeight) {
+          case LikeWeight.Up:
+            return {
+              likesCount: post.likesCount + 1,
+            };
+          case LikeWeight.Down:
+            return {
+              dislikesCount: post.dislikesCount + 1,
+            };
+        }
+    }
   }
 }

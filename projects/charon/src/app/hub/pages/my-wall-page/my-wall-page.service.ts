@@ -1,11 +1,10 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Post } from 'decentr-js';
 
 import { AuthService } from '@core/auth';
 import { NetworkService } from '@core/services';
 import { PostsApiService } from '@core/services/api';
-import { UserService } from '@core/services';
 import { HubPostsService } from '../../services';
 
 @Injectable()
@@ -14,9 +13,9 @@ export class MyWallPageService extends HubPostsService implements OnDestroy {
     private authService: AuthService,
     private networkService: NetworkService,
     private postsApiService: PostsApiService,
-    userService: UserService,
+    injector: Injector,
   ) {
-    super(userService);
+    super(injector);
   }
 
   public ngOnDestroy() {

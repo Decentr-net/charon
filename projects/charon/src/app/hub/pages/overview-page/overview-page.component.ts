@@ -8,6 +8,7 @@ import { HubCurrencyStatistics } from '../../components/hub-currency-statistics'
 import { HubActivityStatistics, HubDataValueSource } from '../../components/hub-activity-statistics';
 import { OverviewPageService } from './overview-page.service';
 import { HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
+import { HubPostsService } from '../../services';
 import { HubPageService } from '../hub-page/hub-page.service';
 
 @UntilDestroy()
@@ -19,6 +20,10 @@ import { HubPageService } from '../hub-page/hub-page.service';
   providers: [
     HubPageService,
     OverviewPageService,
+    {
+      provide: HubPostsService,
+      useClass: OverviewPageService,
+    },
   ],
 })
 export class OverviewPageComponent {

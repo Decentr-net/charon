@@ -1,12 +1,67 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { LikeWeight } from 'decentr-js';
 
+import { svgLike } from '@shared/svg-icons';
+import { PostWithAuthor } from '../../models/post';
+import { HubLikesService } from '../../services';
+
+@UntilDestroy()
 @Component({
   selector: 'app-hub-post-rating',
   templateUrl: './hub-post-rating.component.html',
   styleUrls: ['./hub-post-rating.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    HubLikesService,
+  ],
 })
-export class HubPostRatingComponent {
-  @Input() public likes: number;
-  @Input() public dislikes: number;
+export class HubPostRatingComponent implements OnInit {
+  @Input() public postId: PostWithAuthor['uuid'];
+
+  public post$: Observable<PostWithAuthor>;
+
+  public readonly likeWeight: typeof LikeWeight = LikeWeight;
+
+  public isUpdating: boolean = false;
+
+  constructor(
+    private hubLikesService: HubLikesService,
+    svgIconRegistry: SvgIconRegistry,
+  ) {
+    svgIconRegistry.register(svgLike);
+  }
+
+  public ngOnInit(): void {
+    this.post$ = this.hubLikesService.getPostChanges(this.postId);
+  }
+
+  public onLike(post: PostWithAuthor): void {
+    this.changeLikeWeight(post, LikeWeight.Up);
+  }
+
+  public onDislike(post: PostWithAuthor): void {
+    this.changeLikeWeight(post, LikeWeight.Down);
+  }
+
+  private changeLikeWeight(post: PostWithAuthor, newLikeWeight: LikeWeight): void {
+    if (this.isUpdating) {
+      return;
+    }
+
+    this.isUpdating = true;
+
+    this.hubLikesService.likePost(
+      this.postId,
+      post.likeWeight === newLikeWeight
+        ? LikeWeight.Zero
+        : newLikeWeight
+    ).pipe(
+      finalize(() => this.isUpdating = false),
+      untilDestroyed(this),
+    ).subscribe();
+  }
 }
