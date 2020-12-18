@@ -57,13 +57,17 @@ $hub-create-post-dialog--submit-button--color: #FFFFFF;
   font-weight: 500;
 }
 
+.hub-create-post-dialog__text-form-field {
+  flex-grow: 1;
+}
+
 .hub-create-post-dialog__editor {
   flex-grow: 1;
   overflow: hidden;
 }
 
 .hub-create-post-dialog__category-select {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .hub-create-post-dialog__submit-button {
