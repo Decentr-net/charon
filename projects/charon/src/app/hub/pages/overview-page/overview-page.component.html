@@ -31,7 +31,7 @@
       <app-hub-post-analytics-card
         *ngFor="let post of posts$ | async; trackBy: trackByPostId"
         [maxContentLines]="7"
-        [postAnalytics]="post"
+        [post]="post"
         [appHubPostDialog]="post"
       ></app-hub-post-analytics-card>
     </div>

@@ -1,22 +1,13 @@
-$hub-post-pdv--positive-color: #338374;
-$hub-post-pdv--negative-color: #F0376B;
-
 :host {
   align-items: center;
-  display: flex;
-  font-size: 14px;
-  font-weight: 500;
-
-  &.mod-positive {
-    color: $hub-post-pdv--positive-color;
-  }
-
-  &.mod-negative {
-    color: $hub-post-pdv--negative-color;
-  }
+  display: inline-flex;
 }
 
-.hub-post-pdv__dynamics-icon {
-  margin-right: 14px;
-  width: 130px;
+.hub-post-pdv__icon {
+  display: inline-flex;
+}
+
+.hub-post-pdv__label {
+  font-weight: 500;
+  margin: 0 24px 0 16px;
 }

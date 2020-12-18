@@ -63,9 +63,6 @@
       "dec": "DEC"
     }
   },
-  "hub_post_dialog": {
-    "pdv": "PDV"
-  },
   "hub_pdv_statistics": {
     "activity_from": "Activity from {{date}}",
     "no_chart_data": "You have no PDV Rate data",
@@ -79,12 +76,11 @@
       "your_pdv": "Your PDV"
     }
   },
-  "hub_post_analytics_card": {
-    "pdv_increase": "PDV +{{percent}}%"
-  },
   "hub_feed_post": {
-    "pdv": "PDV",
     "posted": "dposted"
+  },
+  "hub_post_pdv": {
+    "label": "PDV"
   },
   "hub_overview_page": {
     "highest_pdv_analytics": "Highest PDV Analytics"

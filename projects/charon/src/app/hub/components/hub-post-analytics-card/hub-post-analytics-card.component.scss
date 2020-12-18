@@ -8,27 +8,6 @@ $hub-post-analytics--pdv-increase-color: #328374;
   justify-content: space-between;
 }
 
-.hub-post-analytics__footer {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
+.hub-post-analytics-card__pdv {
   padding: 16px 24px;
-}
-
-.hub-post-analytics__pdv-increase {
-  color: $hub-post-analytics--pdv-increase-color;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 17px;
-}
-
-.hub-post-analytics__labels-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.hub-post-analytics__dynamics-icon {
-  flex-grow: 1;
-  margin-left: 30px;
 }

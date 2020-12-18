@@ -6,9 +6,12 @@ export type IconNameSubset<T extends Readonly<SvgIcon[]>> = T[number]['name'];
 
 export * from './svg/svg-add-image.icon';
 export * from './svg/svg-close.icon';
+export * from './svg/svg-dynamics-negative.icon';
+export * from './svg/svg-dynamics-positive.icon';
 export * from './svg/svg-like.icon';
 export * from './svg/svg-logo.icon';
 export * from './svg/svg-notification.icon';
 export * from './svg/svg-plus.icon';
 export * from './svg/svg-settings.icon';
+export * from './svg/svg-signal.icon';
 export * from './svg/svg-icon.model';
