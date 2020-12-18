@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
@@ -33,6 +33,12 @@ export class HubPostRatingComponent implements OnInit {
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register(svgLike);
+  }
+
+  @HostListener('click', ['$event'])
+  public onClick(event: Event): void
+  {
+    event.stopPropagation();
   }
 
   public ngOnInit(): void {
