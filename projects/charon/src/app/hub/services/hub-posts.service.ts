@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { BehaviorSubject, EMPTY, forkJoin, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -47,9 +47,7 @@ export abstract class HubPostsService {
 
     this.loadMore.pipe(
       tap(() => this.isLoading.next(true)),
-      switchMap((count) => this.loadPosts(this.getLastPost(), count).pipe(
-        mergeMap((posts) => this.updatePostsWithAuthors(posts)),
-        mergeMap((posts) => this.updatePostsWithLikes(posts)),
+      switchMap((count) => this.loadFullPosts(this.getLastPost(), count).pipe(
         tap((posts) => (posts.length < count) && this.canLoadMore.next(false)),
         takeUntil(this.stopLoading$),
         finalize(() => this.isLoading.next(false)),
@@ -104,14 +102,12 @@ export abstract class HubPostsService {
     this.updatePost(postId, update);
 
     return this.postsService.likePost(post, likeWeight).pipe(
-      mergeMap(() => this.updatePostLive(postId)),
       catchError((error) => {
         this.notificationService.error(error)
 
-        this.updatePost(postId, post);
-
-        return EMPTY;
+        return of(void 0);
       }),
+      mergeMap(() => this.updatePostLive(postId)),
     );
   }
 
@@ -136,7 +132,7 @@ export abstract class HubPostsService {
     const index = this.posts.value.findIndex((post) => post.uuid === postId);
     const previousPost = this.posts.value[index - 1];
 
-    return this.loadPosts(previousPost, 1)
+    return this.loadFullPosts(previousPost, 1)
       .pipe(
         map((posts) => posts[0]),
         tap((post) => this.updatePost(postId, post)),
@@ -210,6 +206,14 @@ export abstract class HubPostsService {
           likeWeight,
         };
       })),
+    );
+  }
+
+  private loadFullPosts(fromPost: Post, count: number): Observable<PostWithAuthor[]> {
+    return this.loadPosts(fromPost, count).pipe(
+      map((posts) => posts.filter((post) => !!+post.createdAt)),
+      mergeMap((posts) => this.updatePostsWithAuthors(posts)),
+      mergeMap((posts) => this.updatePostsWithLikes(posts)),
     );
   }
 
