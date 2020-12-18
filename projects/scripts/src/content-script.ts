@@ -10,10 +10,13 @@ import {
   getExtensionDisabledEvent,
   getToolbarEnabledState,
   isToolbarClosed,
+  registerTab,
   saveToolbarClosed
 } from './content/session';
 import { updateShiftContent } from './helpers/shift-content';
 import { MessageCode } from './messages';
+
+registerTab();
 
 if (!isToolbarClosed() && isTopWindow(window.self)) {
   const toolbarIframe = createToolbarIframe(TOOLBAR_HEIGHT);
