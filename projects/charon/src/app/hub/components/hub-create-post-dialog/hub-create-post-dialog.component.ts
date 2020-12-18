@@ -3,7 +3,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PostCategory, PostCreate, PublicProfile } from 'decentr-js';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { Validators } from '@angular/forms';
-import { FORM_ERROR_TRANSLOCO_READ } from '../../../../../../../shared/components/form-error';
+
+import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 
 export type HubCreatePostDialogPostAuthor = Pick<PublicProfile, 'avatar' | 'lastName' | 'firstName'>;
 
