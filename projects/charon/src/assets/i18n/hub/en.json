@@ -20,10 +20,19 @@
   "hub_create_post_dialog": {
     "form": {
       "text": {
-        "placeholder": "Share what's new with Decentr community"
+        "placeholder": "Share what's new with Decentr community",
+        "errors": {
+          "minlength": "The minimum length of the text is {{requiredLength}} characters",
+          "maxlength": "The maximum length of the text is {{requiredLength}} characters",
+          "required": "Post text is requred"
+        }
       },
       "title": {
-        "placeholder": "Post title"
+        "placeholder": "Post title",
+        "errors": {
+          "maxlength": "The maximum length of title is {{requiredLength}} characters",
+          "required": "Title is required"
+        }
       }
     },
     "post": "Post",

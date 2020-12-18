@@ -4,6 +4,8 @@ import { PostCategory, PostCreate, PublicProfile } from 'decentr-js';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { Validators } from '@angular/forms';
 
+import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
+
 export type HubCreatePostDialogPostAuthor = Pick<PublicProfile, 'avatar' | 'lastName' | 'firstName'>;
 
 export type HubCreatePostDialogPost = Omit<PostCreate, 'previewImage'>;
@@ -25,6 +27,12 @@ let formId = 0;
   templateUrl: './hub-create-post-dialog.component.html',
   styleUrls: ['./hub-create-post-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: FORM_ERROR_TRANSLOCO_READ,
+      useValue: 'hub.hub_create_post_dialog.form',
+    },
+  ],
 })
 export class HubCreatePostDialogComponent implements OnInit {
   public form: FormGroup<HubCreatePostDialogPost>;
@@ -51,6 +59,10 @@ export class HubCreatePostDialogComponent implements OnInit {
   }
 
   public createPost(): void {
+    if (this.form.invalid) {
+      return;
+    }
+
     this.close(false);
   }
 
@@ -70,11 +82,18 @@ export class HubCreatePostDialogComponent implements OnInit {
     return this.formBuilder.group({
       title: [
         initialValue && initialValue.title || '',
-        Validators.required,
+        [
+          Validators.required,
+          Validators.maxLength(150),
+        ]
       ],
       text: [
         initialValue && initialValue.text || '',
-        Validators.required,
+        [
+          Validators.required,
+          Validators.minLength(15),
+          Validators.maxLength(10000),
+        ],
       ],
       category: [
         initialValue && initialValue.category || PostCategory.WorldNews,

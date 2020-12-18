@@ -38,13 +38,24 @@
           matInput
           formControlName="title"
         >
+
+        <mat-error>
+          <app-form-error controlName="title"></app-form-error>
+        </mat-error>
       </mat-form-field>
 
-      <app-hub-simple-text-editor
-        class="hub-create-post-dialog__editor"
-        formControlName="text"
-        [placeholder]="translate('text.placeholder')"
-      ></app-hub-simple-text-editor>
+      <mat-form-field class="hub-create-post-dialog__text-form-field" floatLabel="never">
+        <mat-label>{{ translate('text.placeholder') }}</mat-label>
+
+        <app-hub-simple-text-editor
+          class="hub-create-post-dialog__editor"
+          formControlName="text"
+        ></app-hub-simple-text-editor>
+
+        <mat-error>
+          <app-form-error controlName="text"></app-form-error>
+        </mat-error>
+      </mat-form-field>
 
       <app-hub-category-select
         class="hub-create-post-dialog__category-select"
@@ -56,7 +67,6 @@
   <button
     class="hub-create-post-dialog__submit-button"
     [attr.form]="formId"
-    [disabled]="form.invalid"
   >
     {{ translate('post') }}
   </button>
