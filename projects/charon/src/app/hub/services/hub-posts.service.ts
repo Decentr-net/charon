@@ -1,6 +1,16 @@
 import { Injector } from '@angular/core';
 import { BehaviorSubject, EMPTY, forkJoin, Observable, of, Subject } from 'rxjs';
-import { catchError, distinctUntilChanged, finalize, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs/operators';
+import {
+  catchError,
+  distinctUntilChanged,
+  finalize,
+  map,
+  mapTo,
+  mergeMap,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 import { LikeWeight, Post, PublicProfile } from 'decentr-js';
 
 import { NotificationService } from '@shared/services/notification';
@@ -94,6 +104,7 @@ export abstract class HubPostsService {
     this.updatePost(postId, update);
 
     return this.postsService.likePost(post, likeWeight).pipe(
+      mergeMap(() => this.updatePostLive(postId)),
       catchError((error) => {
         this.notificationService.error(error)
 
@@ -119,6 +130,18 @@ export abstract class HubPostsService {
 
   private getLastPost(): PostWithAuthor | undefined {
     return this.posts.value[this.posts.value.length - 1];
+  }
+
+  private updatePostLive(postId: Post['uuid']): Observable<void> {
+    const index = this.posts.value.findIndex((post) => post.uuid === postId);
+    const previousPost = this.posts.value[index - 1];
+
+    return this.loadPosts(previousPost, 1)
+      .pipe(
+        map((posts) => posts[0]),
+        tap((post) => this.updatePost(postId, post)),
+        mapTo(void 0),
+      );
   }
 
   private pushPosts(posts: PostWithAuthor[]): void {

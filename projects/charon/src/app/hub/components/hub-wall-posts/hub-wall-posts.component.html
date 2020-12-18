@@ -7,6 +7,6 @@
     class="hub-wall-posts__post"
     *ngFor="let post of posts$ | async; trackBy: trackByPostId"
     [post]="post"
-    [appHubPostDialog]="post"
+    [appHubPostDialog]="post.uuid"
   ></app-hub-feed-post>
 </app-hub-infinite-posts-container>

@@ -1,16 +1,20 @@
 import { Directive, ElementRef, HostListener, Input, OnInit, Renderer2, ViewContainerRef } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { Post } from 'decentr-js';
 
 import { HubPostDialogComponent } from '../../components/hub-post-dialog';
+import { HubPostsService } from '../../services';
+import { PostWithAuthor } from '../../models/post';
 
 @Directive({
   selector: '[appHubPostDialog]'
 })
 export class HubPostDialogDirective implements OnInit {
-  @Input('appHubPostDialog') public post: Post;
+  @Input('appHubPostDialog') public postId: Post['uuid'];
 
   constructor(
+    private hubPostsService: HubPostsService,
     private elementRef: ElementRef,
     private matDialog: MatDialog,
     private renderer: Renderer2,
@@ -24,12 +28,12 @@ export class HubPostDialogDirective implements OnInit {
 
   @HostListener('click')
   public onClick(): void {
-    const config: MatDialogConfig<Post> = {
+    const config: MatDialogConfig<Observable<PostWithAuthor>> = {
       width: '830px',
       maxWidth: '100%',
       maxHeight: '700px',
       panelClass: 'popup-no-padding',
-      data: this.post,
+      data: this.hubPostsService.getPostChanges(this.postId),
       viewContainerRef: this.viewContainerRef,
     };
 

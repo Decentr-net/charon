@@ -18,7 +18,7 @@
         <ng-container *ngFor="let post of posts$ | async; let last = last trackBy: trackByPostId">
           <app-hub-short-post
             [post]="post"
-            [appHubPostDialog]="post"
+            [appHubPostDialog]="post.uuid"
           ></app-hub-short-post>
 
           <mat-divider *ngIf="!last"></mat-divider>

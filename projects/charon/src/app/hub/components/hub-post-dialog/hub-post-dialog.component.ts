@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 
 import { PostWithAuthor } from '../../models/post';
 
@@ -10,6 +11,6 @@ import { PostWithAuthor } from '../../models/post';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubPostDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public post: PostWithAuthor) {
+  constructor(@Inject(MAT_DIALOG_DATA) public post$: Observable<PostWithAuthor>) {
   }
 }

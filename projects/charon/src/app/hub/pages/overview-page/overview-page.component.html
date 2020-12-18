@@ -32,7 +32,7 @@
         *ngFor="let post of posts$ | async; trackBy: trackByPostId"
         [maxContentLines]="7"
         [post]="post"
-        [appHubPostDialog]="post"
+        [appHubPostDialog]="post.uuid"
       ></app-hub-post-analytics-card>
     </div>
   </app-hub-infinite-posts-container>
