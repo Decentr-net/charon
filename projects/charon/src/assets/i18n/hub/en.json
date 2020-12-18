@@ -22,15 +22,15 @@
       "text": {
         "placeholder": "Share what's new with Decentr community",
         "errors": {
-          "minlength": "The minimum length of the post text is {{requiredLength}} characters",
-          "maxlength": "The maximum length of the post text is {{requiredLength}} characters",
+          "minlength": "The minimum length of the text is {{requiredLength}} characters",
+          "maxlength": "The maximum length of the text is {{requiredLength}} characters",
           "required": "Post text is requred"
         }
       },
       "title": {
         "placeholder": "Post title",
         "errors": {
-          "maxlength": "Maximum length of title is {{requiredLength}} characters",
+          "maxlength": "The maximum length of title is {{requiredLength}} characters",
           "required": "Title is required"
         }
       }
