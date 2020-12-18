@@ -1,8 +1,9 @@
 <div
   #textContainer
   class="hub-simple-text-editor__text-container"
-  contenteditable="true"
+  [attr.contenteditable]="!disabled"
   [attr.placeholder]="placeholder"
+  (blur)="onBlur()"
   (input)="onTextInput()"
 ></div>
 
@@ -13,5 +14,9 @@
     (click)="addImage()"
   ></svg-icon>
 
-  <mat-divider></mat-divider>
+  <mat-divider class="hub-simple-text-editor__divider"></mat-divider>
+
+  <div class="mat-form-field-underline">
+    <span class="mat-form-field-ripple"></span>
+  </div>
 </div>
