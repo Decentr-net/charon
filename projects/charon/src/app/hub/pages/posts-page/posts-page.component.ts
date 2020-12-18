@@ -47,7 +47,7 @@ export class PostsPageComponent {
       pluck(HubCategoryRouteParam),
     ).subscribe(() => {
       this.postsPageService.clear();
-      this.loadMore();
+      this.postsPageService.loadMorePosts(20);
     });
   }
 

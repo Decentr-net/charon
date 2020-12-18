@@ -57,7 +57,7 @@ export class OverviewPageComponent {
 
     this.canLoadMore$ = this.overviewPageService.canLoadMore$;
 
-    this.loadMore();
+    this.overviewPageService.loadMorePosts(20);
   }
 
   public loadMore(): void {
