@@ -41,11 +41,6 @@ export abstract class HubPostsService {
         mergeMap((posts) => this.updatePostsWithAuthors(posts)),
         mergeMap((posts) => this.updatePostsWithLikes(posts)),
         tap((posts) => (posts.length < count) && this.canLoadMore.next(false)),
-        catchError((error) => {
-          console.log(error);
-          this.notificationService.error(error);
-          return EMPTY;
-        }),
         takeUntil(this.stopLoading$),
         finalize(() => this.isLoading.next(false)),
       )),
