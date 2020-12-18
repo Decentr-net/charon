@@ -3,9 +3,11 @@ import { from, Observable } from 'rxjs';
 import {
   BroadcastResponse,
   Decentr,
+  LikeWeight,
   PopularPostsPeriod,
   Post,
   PostCreate,
+  PostIdentificationParameters,
   PostsFilterOptions,
   UserPostsFilterOptions,
   Wallet,
@@ -59,6 +61,35 @@ export class PostsApiService {
     return from(
       this.createDecentrConnector(api)
         .createPost(walletAddress, post, { broadcast: true, privateKey }),
+    );
+  }
+
+  public likePost(
+    api: string,
+    walletAddress: Wallet['address'],
+    privateKey: Wallet['privateKey'],
+    post: PostIdentificationParameters,
+    likeWeight: LikeWeight
+  ): Observable<BroadcastResponse> {
+    return from(
+      this.createDecentrConnector(api).likePost(
+        walletAddress,
+        post,
+        likeWeight,
+        {
+          broadcast: true,
+          privateKey,
+        },
+      ),
+    );
+  }
+
+  public getLikedPosts(
+    api: string,
+    walletAddress: Wallet['address'],
+  ): Observable<any> {
+    return from(
+      this.createDecentrConnector(api).getLikedPosts(walletAddress),
     );
   }
 

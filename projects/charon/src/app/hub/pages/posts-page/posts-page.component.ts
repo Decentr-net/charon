@@ -8,6 +8,7 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
 import { PostsPageService } from './posts-page.service';
 import { HubCategoryRouteParam } from '../../hub-route';
+import { HubPostsService } from '../../services';
 
 @UntilDestroy()
 @Component({
@@ -16,7 +17,10 @@ import { HubCategoryRouteParam } from '../../hub-route';
   styleUrls: ['./posts-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    PostsPageService,
+    {
+      provide: HubPostsService,
+      useClass: PostsPageService
+    },
   ],
 })
 export class PostsPageComponent {
@@ -30,7 +34,7 @@ export class PostsPageComponent {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private postsPageService: PostsPageService,
+    private postsPageService: HubPostsService,
   ) {
   }
 

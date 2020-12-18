@@ -3,6 +3,7 @@
 export type SvgIconName =
   | 'add-image'
   | 'close'
+  | 'like'
   | 'logo'
   | 'notification'
   | 'plus'

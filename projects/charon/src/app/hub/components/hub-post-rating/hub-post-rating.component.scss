@@ -1,4 +1,6 @@
 $hub-post-rating--color: #6B6C6F;
+$hub-post-rating--liked--color: #338374;
+$hub-post-rating--disliked--color: #F0376B;
 
 :host {
   align-items: center;
@@ -11,9 +13,18 @@ $hub-post-rating--color: #6B6C6F;
 .hub-post-rating__section {
   align-items: center;
   display: flex;
+  cursor: pointer;
 
   & + & {
     margin-left: 12px;
+  }
+
+  &.mod-liked {
+    color: $hub-post-rating--liked--color;
+  }
+
+  &.mod-disliked {
+    color: $hub-post-rating--disliked--color;
   }
 }
 

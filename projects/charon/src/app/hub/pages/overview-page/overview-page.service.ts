@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { combineLatest, EMPTY, Observable } from 'rxjs';
 import { catchError, map, pluck } from 'rxjs/operators';
 import { Post } from 'decentr-js';
@@ -9,7 +9,7 @@ import { HubCurrencyStatistics } from '../../components/hub-currency-statistics'
 import { HubPDVStatistics } from '../../components/hub-pdv-statistics';
 import { HubPageService } from '../hub-page/hub-page.service';
 import { HubPostsService } from '../../services';
-import { NetworkService, UserService } from '@core/services';
+import { NetworkService } from '@core/services';
 import { PostsApiService } from '@core/services/api';
 import { NotificationService } from '@shared/services/notification';
 
@@ -20,10 +20,10 @@ export class OverviewPageService extends HubPostsService implements OnDestroy {
     private hubPageService: HubPageService,
     private networkService: NetworkService,
     private postsApiService: PostsApiService,
-    private notificationService: NotificationService,
-    protected userService: UserService,
+    protected notificationService: NotificationService,
+    injector: Injector,
   ) {
-    super(userService);
+    super(injector);
   }
 
   public ngOnDestroy() {

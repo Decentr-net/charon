@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@an
 import { Observable } from 'rxjs';
 import { Post } from 'decentr-js';
 
+import { HubPostsService } from '../../services';
 import { FeedPageService } from './feed-page.service';
 
 @Component({
@@ -10,7 +11,10 @@ import { FeedPageService } from './feed-page.service';
   styleUrls: ['./feed-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    FeedPageService,
+    {
+      provide: HubPostsService,
+      useClass: FeedPageService,
+    },
   ],
 })
 export class FeedPageComponent implements OnInit {
@@ -19,7 +23,7 @@ export class FeedPageComponent implements OnInit {
 
   private readonly loadingCount: number = 20;
 
-  constructor(private feedPageService: FeedPageService) {
+  constructor(private feedPageService: HubPostsService) {
   }
 
   public ngOnInit() {

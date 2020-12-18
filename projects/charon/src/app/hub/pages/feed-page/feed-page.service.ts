@@ -1,10 +1,9 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { Post } from 'decentr-js';
 import { Observable } from 'rxjs';
 
 import { NetworkService } from '@core/services';
 import { PostsApiService } from '@core/services/api';
-import { UserService } from '@core/services';
 import { HubPostsService } from '../../services';
 
 @Injectable()
@@ -12,9 +11,9 @@ export class FeedPageService extends HubPostsService implements OnDestroy {
   constructor(
     private networkService: NetworkService,
     private postsApiService: PostsApiService,
-    userService: UserService,
+    injector: Injector,
   ) {
-    super(userService);
+    super(injector);
   }
 
   public ngOnDestroy() {
