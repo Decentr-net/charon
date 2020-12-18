@@ -18,7 +18,6 @@ import { LockModule, LockService } from './lock';
 import { CORE_GUARDS } from './guards';
 import { NavigationModule } from './navigation';
 import { ProfileSelectorModule } from './profile-selector';
-import { QuillRootModule } from './quill';
 import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES, NetworkService } from './services';
@@ -64,7 +63,6 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       fallbackErrorProcessor: FallbackErrorProcessor,
     }),
     OverlayModule,
-    QuillRootModule,
     SlotModule.forRoot(),
     SvgIconRootModule,
     ToastrModule.forRoot({
