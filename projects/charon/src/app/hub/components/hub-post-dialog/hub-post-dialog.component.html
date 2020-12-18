@@ -18,10 +18,9 @@
     </div>
   </div>
 
-  <mat-dialog-content
-    class="hub-post-dialog__content"
-    [innerHTML]="post.text | appSanitize : 'html'"
-  ></mat-dialog-content>
+  <mat-dialog-content class="hub-post-dialog__content">
+    <app-hub-post-content [content]="post.text"></app-hub-post-content>
+  </mat-dialog-content>
 
   <mat-divider class="hub-post-dialog__divider"></mat-divider>
 
