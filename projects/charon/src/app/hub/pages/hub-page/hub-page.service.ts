@@ -7,7 +7,6 @@ import { calculateDifferencePercentage, exponentialToFixed } from '@shared/utils
 import { ChartPoint } from '@shared/components/line-chart';
 import { ColorValueDynamic } from '@shared/components/color-value-dynamic';
 import { CurrencyService } from '@shared/services/currency';
-import { Environment } from '@environments/environment.definitions';
 import { Network, NetworkService } from '@core/services';
 import { PDVService } from '@shared/services/pdv';
 import { User } from '@shared/services/auth';
@@ -19,15 +18,12 @@ interface CoinRateHistory {
 
 @Injectable()
 export class HubPageService {
-  private readonly pdvService: PDVService;
-
   constructor(
     private authService: AuthService,
     private currencyService: CurrencyService,
     private networkService: NetworkService,
-    environment: Environment,
+    private pdvService: PDVService
   ) {
-    this.pdvService = new PDVService(environment.chainId);
   }
 
   public getAvatar(): Observable<User['avatar']> {

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, pluck, switchMap } from 'rxjs/operators';
 
-import { Environment } from '@environments/environment.definitions';
 import { PDVService } from '@shared/services/pdv';
 import { exponentialToFixed } from '@shared/utils/number';
 import { AuthService } from '../auth';
@@ -10,14 +9,11 @@ import { NetworkService } from '../services';
 
 @Injectable()
 export class ProfileSelectorService {
-  private pdvService: PDVService;
-
   constructor(
     private authService: AuthService,
     private networkService: NetworkService,
-    environment: Environment
+    private pdvService: PDVService,
   ) {
-    this.pdvService = new PDVService(environment.chainId);
   }
 
   public getBalance(): Observable<string> {

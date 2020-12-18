@@ -4,7 +4,6 @@ import { combineLatest, from, Observable } from 'rxjs';
 import { map, pluck, switchMap } from 'rxjs/operators';
 import { PDVDetails, PDVListItem } from 'decentr-js';
 
-import { Environment } from '@environments/environment.definitions';
 import { coerceTimestamp } from '@shared/utils/date';
 import { CurrencyService } from '@shared/services/currency';
 import { PDVService } from '@shared/services/pdv';
@@ -16,17 +15,14 @@ import { ChartPoint, PDVActivityListItem, PdvDetailsDialogComponent, PDVDetailsD
 
 @Injectable()
 export class UserPageService {
-  private readonly pdvService: PDVService;
-
   constructor(
     private authService: AuthService,
     private currencyService: CurrencyService,
     private matDialog: MatDialog,
     private mediaService: MediaService,
     private networkService: NetworkService,
-    environment: Environment,
+    private pdvService: PDVService,
   ) {
-    this.pdvService = new PDVService(environment.chainId);
   }
 
   public getBalance(): Observable<string> {

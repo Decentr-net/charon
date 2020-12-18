@@ -9,6 +9,7 @@ import { CurrencyModule } from '@shared/services/currency';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
 import { SlotModule } from '@shared/components/slot';
 import { NotificationsModule } from '@shared/services/notification';
+import { PDVService } from '@shared/services/pdv';
 import { ERROR_PROCESSORS, FallbackErrorProcessor } from '@core/notifications';
 import { AppRoute } from '../app-route';
 import { SignUpRoute } from '../sign-up';
@@ -81,6 +82,11 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
   providers: [
     CORE_GUARDS,
     CORE_SERVICES,
+    {
+      provide: PDVService,
+      useFactory: (environment: Environment) => new PDVService(environment.chainId),
+      deps: [Environment],
+    },
     {
       provide: Environment,
       useValue: environment,
