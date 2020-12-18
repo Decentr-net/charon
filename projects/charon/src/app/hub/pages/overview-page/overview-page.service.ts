@@ -15,6 +15,8 @@ import { NotificationService } from '@shared/services/notification';
 
 @Injectable()
 export class OverviewPageService extends HubPostsService implements OnDestroy {
+  protected loadingCount: number = 4;
+
   constructor(
     private authService: AuthService,
     private hubPageService: HubPageService,

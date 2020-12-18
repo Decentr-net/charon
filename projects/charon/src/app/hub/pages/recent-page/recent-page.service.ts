@@ -8,6 +8,8 @@ import { HubPostsService } from '../../services';
 
 @Injectable()
 export class RecentPageService extends HubPostsService implements OnDestroy {
+  protected loadingCount: number = 4;
+
   constructor(
     private networkService: NetworkService,
     private postsApiService: PostsApiService,

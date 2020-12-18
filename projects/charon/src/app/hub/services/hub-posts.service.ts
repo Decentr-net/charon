@@ -7,11 +7,15 @@ import { NotificationService } from '@shared/services/notification';
 import { createSharedOneValueObservable } from '@shared/utils/observable';
 import { PostsService, UserService } from '../../core/services';
 import { PostWithAuthor } from '../models/post';
+import { HubCreatePostService } from './hub-create-post.service';
 
 export abstract class HubPostsService {
+  protected readonly createPostService: HubCreatePostService;
   protected readonly notificationService: NotificationService;
   protected readonly postsService: PostsService;
   protected readonly userService: UserService;
+
+  protected abstract loadingCount: number;
 
   private posts: BehaviorSubject<PostWithAuthor[]> = new BehaviorSubject([]);
   private isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -24,8 +28,9 @@ export abstract class HubPostsService {
   private readonly profileMap: Map<Post['owner'], Observable<PublicProfile>> = new Map();
 
   protected constructor(
-    injector?: Injector,
+    injector: Injector,
   ) {
+    this.createPostService = injector.get(HubCreatePostService);
     this.notificationService = injector.get(NotificationService);
     this.postsService = injector.get(PostsService);
     this.userService = injector.get(UserService);
@@ -42,6 +47,13 @@ export abstract class HubPostsService {
       takeUntil(this.dispose$),
     ).subscribe((posts) => {
       this.pushPosts(posts);
+    });
+
+    this.createPostService.postCreated$.pipe(
+      takeUntil(this.dispose$)
+    ).subscribe(() => {
+      this.clear();
+      this.loadMorePosts();
     });
   }
 
@@ -61,7 +73,7 @@ export abstract class HubPostsService {
     );
   }
 
-  public loadMorePosts(count: number): void {
+  public loadMorePosts(count: number = this.loadingCount): void {
     this.loadMore.next(count);
   }
 
@@ -123,10 +135,6 @@ export abstract class HubPostsService {
     }
 
     return this.profileMap.get(walletAddress);
-  }
-
-  public getLikedPosts(): Observable<any> {
-    return this.postsService.getLikedPosts();
   }
 
   private getPost(postId: Post['uuid']): PostWithAuthor {

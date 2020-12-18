@@ -15,8 +15,6 @@ export class HubWallPostsComponent implements OnInit {
   public posts$: Observable<Post[]>;
   public canLoadMore$: Observable<boolean>;
 
-  private readonly loadingCount: number = 4;
-
   constructor(private hubPostsService: HubPostsService) {
   }
 
@@ -31,7 +29,7 @@ export class HubWallPostsComponent implements OnInit {
   }
 
   public loadMore(): void {
-    this.hubPostsService.loadMorePosts(this.loadingCount);
+    this.hubPostsService.loadMorePosts();
   }
 
   public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;

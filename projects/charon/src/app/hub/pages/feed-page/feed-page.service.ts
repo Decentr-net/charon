@@ -8,6 +8,8 @@ import { HubPostsService } from '../../services';
 
 @Injectable()
 export class FeedPageService extends HubPostsService implements OnDestroy {
+  protected loadingCount: number = 20;
+
   constructor(
     private networkService: NetworkService,
     private postsApiService: PostsApiService,
