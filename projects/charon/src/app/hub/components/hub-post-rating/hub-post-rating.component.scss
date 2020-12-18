@@ -19,10 +19,6 @@ $hub-post-rating--disliked--color: #F0376B;
     margin-left: 12px;
   }
 
-  &.is-disabled {
-    pointer-events: none;
-  }
-
   &.mod-liked {
     color: $hub-post-rating--liked--color;
   }
