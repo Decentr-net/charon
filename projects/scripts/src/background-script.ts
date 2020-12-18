@@ -17,7 +17,7 @@ import {
   listenRequestsOnCompletedWithBody,
   requestBodyContains,
 } from './helpers/requests';
-import { getCookies, sendCookies } from './helpers/cookies';
+import { getCookies, sendCookies } from './background/cookies';
 import { initMessageListeners } from './background/listeners';
 
 const COOKIES_DEBOUNCE_MS = 500;

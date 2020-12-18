@@ -1,33 +1,13 @@
-import { defer, forkJoin, Observable } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
-import { Cookies } from 'webextension-polyfill-ts';
-import PQueue from 'p-queue';
-import Cookie = Cookies.Cookie;
-import { Decentr, KeyPair, PDVDetails, PDVListItem, PDVStatItem, Wallet } from 'decentr-js';
-
-import { convertCookiesToPdv, groupCookiesByDomainAndPath } from './utils';
+import { BroadcastResponse, Decentr, KeyPair, PDV, PDVDetails, PDVListItem, PDVStatItem, Wallet } from 'decentr-js';
 
 export class PDVService {
-  private static queue = new PQueue({ concurrency: 1 });
-
   constructor(private chainId: string) {
   }
 
-  public sendCookies(api: string, wallet: Wallet, cookies: Cookie[]): Observable<void> {
+  public sendPDV(api: string, wallet: Wallet, pdv: PDV): Promise<BroadcastResponse> {
     const decentr = this.createDecentrConnector(api);
-    const groupedCookies = groupCookiesByDomainAndPath(cookies);
 
-    return forkJoin(
-      groupedCookies.map((group) => defer(() => PDVService.queue.add(() => {
-        return decentr.sendPDV(
-          convertCookiesToPdv(group.cookies, group.domain, group.path),
-          wallet,
-          { broadcast: true },
-        );
-      }))),
-    ).pipe(
-      mapTo(void 0),
-    );
+    return decentr.sendPDV(pdv, wallet, { broadcast: true });
   }
 
   public getBalance(api: string, walletAddress: Wallet['address']): Promise<number> {
