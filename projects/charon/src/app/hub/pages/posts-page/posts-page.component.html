@@ -13,7 +13,7 @@
       class="posts-page__post"
       *ngFor="let post of posts$ | async; trackBy: trackByPostId"
       [post]="post"
-      [appHubPostDialog]="post"
+      [appHubPostDialog]="post.uuid"
     ></app-hub-post-preview-card>
   </div>
 </app-hub-infinite-posts-container>

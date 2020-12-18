@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Post } from 'decentr-js';
 
 import { HubPostsService } from '../../services';
+import { PostWithAuthor } from '../../models/post';
 
 @Component({
   selector: 'app-hub-wall-posts',
@@ -12,7 +13,7 @@ import { HubPostsService } from '../../services';
 })
 export class HubWallPostsComponent implements OnInit {
   public isLoading$: Observable<boolean>;
-  public posts$: Observable<Post[]>;
+  public posts$: Observable<PostWithAuthor[]>;
   public canLoadMore$: Observable<boolean>;
 
   constructor(private hubPostsService: HubPostsService) {

@@ -4,6 +4,7 @@ import { Post } from 'decentr-js';
 
 import { HubPostsService } from '../../services';
 import { FeedPageService } from './feed-page.service';
+import { PostWithAuthor } from '../../models/post';
 
 @Component({
   selector: 'app-feed-page',
@@ -19,7 +20,7 @@ import { FeedPageService } from './feed-page.service';
 })
 export class FeedPageComponent implements OnInit {
   public isLoading$: Observable<boolean>;
-  public posts$: Observable<Post[]>;
+  public posts$: Observable<PostWithAuthor[]>;
 
   constructor(private feedPageService: HubPostsService) {
   }
