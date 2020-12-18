@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import { browser } from 'webextension-polyfill-ts';
 
 import { ToolbarStateService } from '../../../../shared/services/toolbar-state';
+import { MessageBus } from '../../../../shared/message-bus';
+import { MessageCode } from '../messages';
 
 const toolbarStateService = new ToolbarStateService();
 
@@ -31,4 +33,8 @@ export const getExtensionDisabledEvent = () => {
 
     return () => port.onDisconnect.removeListener(callback);
   });
+}
+
+export const registerTab = (): Promise<void> => {
+  return new MessageBus().sendMessage(MessageCode.RegisterTab);
 }

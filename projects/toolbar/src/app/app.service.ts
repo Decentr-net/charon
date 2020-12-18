@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, pluck, switchMap } from 'rxjs/operators';
+import { map, pluck, startWith, switchMap } from 'rxjs/operators';
 
 import { AppRoute as CharonAppRoute } from '@charon/app-route';
 import { AuthBrowserStorageService, User } from '@shared/services/auth';
@@ -10,7 +10,7 @@ import { CurrencyService } from '@shared/services/currency';
 import { HubFeedRoute as CharonHubFeedRoute, HubRoute as CharonHubRoute } from '@charon/hub';
 import { MessageBus } from '@shared/message-bus';
 import { Network, NetworkBrowserStorageService } from '@shared/services/network-storage';
-import { PDVService } from '@shared/services/pdv';
+import { PDVService, PDVUpdateNotifier } from '@shared/services/pdv';
 import { UserRoute as CharonUserRoute } from '@charon/user';
 import { MessageCode } from '@scripts/messages';
 
@@ -42,8 +42,13 @@ export class AppService {
   }
 
   public getBalance(): Observable<string> {
-    return this.getWalletAddressAndNetworkApiStream().pipe(
-      switchMap(({ walletAddress, networkApi }) => {
+    return combineLatest([
+      this.getWalletAddressAndNetworkApiStream(),
+      PDVUpdateNotifier.listen().pipe(
+        startWith(void 0),
+      ),
+    ]).pipe(
+      switchMap(([{ walletAddress, networkApi }]) => {
         return this.pdvService.getBalance(networkApi, walletAddress);
       }),
       map(exponentialToFixed),

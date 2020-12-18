@@ -12,13 +12,17 @@ import {
 } from 'rxjs/operators';
 
 import { AuthBrowserStorageService } from '../../../shared/services/auth';
+import { PDVUpdateNotifier } from '../../../shared/services/pdv';
 import {
   listenRequestsBeforeRedirectWithBody,
   listenRequestsOnCompletedWithBody,
   requestBodyContains,
 } from './helpers/requests';
 import { getCookies, sendCookies } from './background/cookies';
-import { initMessageListeners } from './background/listeners';
+import { initMessageListeners, registeredTabs } from './background/listeners';
+
+const pdvUpdateNotifier = new PDVUpdateNotifier();
+pdvUpdateNotifier.start({ tabIds: registeredTabs });
 
 const COOKIES_DEBOUNCE_MS = 500;
 
@@ -56,6 +60,8 @@ authStorage.getActiveUser().pipe(
       catchError(() => EMPTY),
     );
   }),
-).subscribe();
+).subscribe(() => {
+  pdvUpdateNotifier.notify(registeredTabs);
+});
 
 initMessageListeners();
