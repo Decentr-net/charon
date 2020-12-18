@@ -1,4 +1,7 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
+
+import { svgSignal } from '@shared/svg-icons';
 
 @Component({
   selector: 'app-hub-post-pdv',
@@ -9,13 +12,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 export class HubPostPdvComponent {
   @Input() public pdv: number;
 
-  @HostBinding('class.mod-negative')
-  public get isNegative(): boolean {
-    return this.pdv < 0;
-  }
-
-  @HostBinding('class.mod-positive')
-  public get isPositive(): boolean {
-    return !this.isNegative;
+  constructor(svgIconRegistry: SvgIconRegistry) {
+    svgIconRegistry.register(svgSignal);
   }
 }

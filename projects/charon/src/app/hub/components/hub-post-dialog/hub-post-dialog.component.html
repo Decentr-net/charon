@@ -25,11 +25,7 @@
   <mat-divider class="hub-post-dialog__divider"></mat-divider>
 
   <div class="hub-post-dialog__footer">
-    <div class="hub-post-dialog__pdv">
-      <span [inlineSVG]="'assets/images/icons/signal.svg'"></span>
-      <span class="hub-post-dialog__pdv-label">{{ translate('pdv') }}</span>
-      <app-hub-post-pdv [pdv]="post.pdv"></app-hub-post-pdv>
-    </div>
+    <app-hub-post-pdv [pdv]="post.pdv"></app-hub-post-pdv>
 
     <app-hub-post-rating
       [postId]="post.uuid"

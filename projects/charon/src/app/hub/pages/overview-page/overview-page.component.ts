@@ -10,6 +10,7 @@ import { OverviewPageService } from './overview-page.service';
 import { HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
 import { HubPostsService } from '../../services';
 import { HubPageService } from '../hub-page/hub-page.service';
+import { PostWithAuthor } from '../../models/post';
 
 @UntilDestroy()
 @Component({
@@ -40,7 +41,7 @@ export class OverviewPageComponent {
   };
 
   public isLoading$: Observable<boolean>;
-  public posts$: Observable<Post[]>;
+  public posts$: Observable<PostWithAuthor[]>;
   public canLoadMore$: Observable<boolean>;
 
   constructor(private overviewPageService: OverviewPageService) {

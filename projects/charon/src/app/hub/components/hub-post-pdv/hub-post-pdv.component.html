@@ -1,6 +1,10 @@
-<div
-  class="hub-post-pdv__dynamics-icon"
-  [inlineSVG]="isPositive ? 'assets/images/icons/dynamics-positive.svg' : 'assets/images/icons/dynamics-negative.svg'"
-></div>
+<ng-container *transloco="let translate; read: 'hub.hub_post_pdv'">
+  <svg-icon
+    class="hub-post-pdv__icon"
+    key="signal"
+  ></svg-icon>
 
-{{ pdv | pdvValue }}
+  <span class="hub-post-pdv__label">{{ translate('label') }}</span>
+
+  <app-hub-post-pdv-diagram [pdv]="pdv"></app-hub-post-pdv-diagram>
+</ng-container>
