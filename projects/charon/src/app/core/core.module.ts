@@ -50,7 +50,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       api: environment.currencyApi,
     }),
     LockModule.forRoot({
-      delay: 1000 * 60 * 5,
+      delay: 1000 * 60 * 40,
       interactionSource: fromEvent(document, 'click', { capture: true }),
       redirectUrl: AppRoute.Login,
     }),
