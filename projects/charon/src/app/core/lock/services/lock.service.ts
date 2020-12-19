@@ -5,7 +5,6 @@ import {
   debounceTime,
   distinctUntilChanged,
   filter,
-  finalize,
   mapTo,
   mergeMap,
   mergeMapTo,
@@ -13,7 +12,6 @@ import {
   switchMapTo,
   take,
   takeUntil,
-  tap,
 } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -120,9 +118,7 @@ export class LockService {
     });
 
     this.unlocked$.pipe(
-      tap(() => console.log('unlocked before navigate')),
       switchMapTo(this.locked$.pipe(
-        tap(() => console.log('locked before navigate')),
         take(1),
       )),
       untilDestroyed(this),
@@ -134,15 +130,10 @@ export class LockService {
       distinctUntilChanged(),
       untilDestroyed(this),
     ).subscribe((isLocked) => {
-      console.log('storage lock', isLocked);
       this.isLocked$.next(isLocked);
     });
 
-    this.started$.pipe(
-      switchMapTo(this.listenActivityEnd().pipe(
-        takeUntil(this.stopped$),
-      )),
-      tap(() => console.log('activity end lock')),
+    this.whenWorking(this.listenActivityEnd()).pipe(
       switchMap(() => this.lock()),
       untilDestroyed(this),
     ).subscribe();
@@ -170,12 +161,7 @@ export class LockService {
   }
 
   private initActivityUpdateSubscription(): void {
-    this.started$.pipe(
-      switchMapTo(this.lockActivitySource.pipe(
-        takeUntil(this.stopped$),
-        finalize(() => console.log('activity update stopped')),
-      )),
-      tap(() => console.log('activity updated', new Date().toTimeString())),
+    this.whenWorking(this.lockActivitySource).pipe(
       mergeMap(() => this.updateLastActivityTime()),
       untilDestroyed(this),
     ).subscribe();
