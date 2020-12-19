@@ -12,7 +12,7 @@
       <div class="app__middle-container-section-dynamic">
         <app-color-value-dynamic
                 class="app__meta-label"
-                *ngIf="balance$ | async as balance"
+                *ngIf="balance"
                 [circleType]="'hole'"
                 [color]="'green'"
                 [dayMargin]="balance.dayMargin"
@@ -23,7 +23,7 @@
 
         <app-color-value-dynamic
                 class="app__meta-label"
-                *ngIf="coinRate$ | async as coinRate"
+                *ngIf="coinRate"
                 [circleType]="'hole'"
                 [color]="'yellow'"
                 [dayMargin]="coinRate.dayMargin"
