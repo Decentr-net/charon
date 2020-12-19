@@ -9,7 +9,7 @@ import { LOCK_DELAY, LOCK_ACTIVITY_SOURCE, LOCK_REDIRECT_URL } from './lock.toke
 export interface LockConfig {
   delay: number;
   redirectUrl: string;
-  activitySource: Observable<unknown>;
+  activitySource?: Observable<unknown>;
 }
 
 @NgModule()

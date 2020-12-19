@@ -1,6 +1,5 @@
 import { APP_INITIALIZER, NgModule, Optional, SkipSelf } from '@angular/core';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { fromEvent } from 'rxjs';
 import { ToastrModule } from 'ngx-toastr';
 
 import { Environment } from '@environments/environment.definitions';
@@ -46,7 +45,6 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     }),
     LockModule.forRoot({
       delay: ONE_MINUTE * 40,
-      activitySource: fromEvent(document, 'click', { capture: true }),
       redirectUrl: AppRoute.Login,
     }),
     NavigationModule,

@@ -1,6 +1,6 @@
-import { Inject, Injectable, NgZone } from '@angular/core';
+import { Inject, Injectable, NgZone, Optional } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { forkJoin, Observable, of, ReplaySubject } from 'rxjs';
+import { forkJoin, fromEvent, merge, Observable, of, ReplaySubject } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -12,10 +12,12 @@ import {
   switchMapTo,
   take,
   takeUntil,
+  throttleTime,
 } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { LockBrowserStorageService } from '@shared/services/lock';
+import { ONE_SECOND } from '@shared/utils/date';
 import { LOCK_DELAY, LOCK_ACTIVITY_SOURCE, LOCK_REDIRECT_URL } from '../lock.tokens';
 
 export const LOCK_RETURN_URL_PARAM = 'returnUrl';
@@ -27,15 +29,26 @@ export class LockService {
 
   private isWorking$: ReplaySubject<boolean> = new ReplaySubject(1);
 
+  private activitySource: Observable<unknown>;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private lockStorage: LockBrowserStorageService,
     private ngZone: NgZone,
     private router: Router,
     @Inject(LOCK_DELAY) private lockDelay: number,
-    @Inject(LOCK_ACTIVITY_SOURCE) private lockActivitySource: Observable<void>,
     @Inject(LOCK_REDIRECT_URL) private lockRedirectUrl: string,
+    @Optional() @Inject(LOCK_ACTIVITY_SOURCE) lockActivitySource: Observable<void>,
   ) {
+    this.activitySource = lockActivitySource
+      || merge(
+        fromEvent(document, 'click', { capture: true }),
+        fromEvent(document, 'keypress'),
+        fromEvent(document, 'mouseover'),
+      ).pipe(
+        throttleTime(ONE_SECOND),
+      );
+
     this.init();
   }
 
@@ -161,7 +174,7 @@ export class LockService {
   }
 
   private initActivityUpdateSubscription(): void {
-    this.whenWorking(this.lockActivitySource).pipe(
+    this.whenWorking(this.activitySource).pipe(
       mergeMap(() => this.updateLastActivityTime()),
       untilDestroyed(this),
     ).subscribe();
