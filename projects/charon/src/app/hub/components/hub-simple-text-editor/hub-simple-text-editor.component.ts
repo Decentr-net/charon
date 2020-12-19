@@ -161,6 +161,10 @@ export class HubSimpleTextEditorComponent
   public addImage(): void {
     const imageSrc = prompt('Enter image url');
 
+    if (!imageSrc) {
+      return;
+    }
+
     const img = document.createElement('img');
     img.src = imageSrc;
 
