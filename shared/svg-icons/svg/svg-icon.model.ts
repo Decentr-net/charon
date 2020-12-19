@@ -8,6 +8,7 @@ export type SvgIconName =
   | 'like'
   | 'logo'
   | 'notification'
+  | 'pdv-rate-icon'
   | 'plus'
   | 'settings'
   | 'signal';

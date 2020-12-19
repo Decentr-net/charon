@@ -1,6 +1,18 @@
 <ng-container *transloco="let translate; read: 'user.user_page'">
   <ng-container *ngIf="data.length > 1; else noData">
-    <div #chartLineResult></div>
+    <div class="chart-legend">
+      <ng-container *ngIf="rate">
+        <div>
+          <div class="chart-legend__rate">{{ rate | pdvValue }} PDV</div>
+          <div class="chart-legend__date">{{ rateDate }}</div>
+        </div>
+        <app-pdv-rate-margin-icon
+          class="pdv-rate-history"
+          [rateMargin]="rateMargin"
+        ></app-pdv-rate-margin-icon>
+      </ng-container>
+    </div>
+
     <div
       #chartLine
       class="d3-chart"
@@ -13,7 +25,7 @@
       <li>3M</li>
       <li>6M</li>
       <li>1Y</li>
-      <li>ALL</li>
+      <li class="active">ALL</li>
     </ul>
   </ng-container>
 
