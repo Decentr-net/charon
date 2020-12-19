@@ -35,4 +35,8 @@ export class NotificationService {
   public success(message: string): void {
     this.toastrService.success(message);
   }
+
+  public warning(message: string): void {
+    this.toastrService.warning(message);
+  }
 }

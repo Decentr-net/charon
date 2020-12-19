@@ -22,6 +22,7 @@ import { ControlValueAccessor, FormControl } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { svgAddImage } from '@shared/svg-icons';
+import { NotificationService } from '@shared/services/notification';
 
 @UntilDestroy()
 @Component({
@@ -95,7 +96,8 @@ export class HubSimpleTextEditorComponent
     @Optional() private parentFormGroup: FormGroupDirective,
     private defaultErrorStateMatcher: ErrorStateMatcher,
     private focusMonitor: FocusMonitor,
-    svgIconRegistry: SvgIconRegistry
+    private notificationService: NotificationService,
+    svgIconRegistry: SvgIconRegistry,
   ) {
     super();
 
@@ -158,10 +160,10 @@ export class HubSimpleTextEditorComponent
     this.describedBy = ids.join(' ');
   }
 
-  public addImage(): void {
+  public async addImage(): Promise<void> {
     const imageSrc = prompt('Enter image url');
 
-    if (!imageSrc) {
+    if (!imageSrc || !await this.validateImageUrl(imageSrc)) {
       return;
     }
 
@@ -169,6 +171,39 @@ export class HubSimpleTextEditorComponent
     img.src = imageSrc;
 
     this.appendText(img.outerHTML);
+  }
+
+  private async validateImageUrl(url: string): Promise<boolean> {
+    if (!this.checkUrlHasImageExtension(url)) {
+      this.notificationService.warning('Incorrect image URL');
+      return false;
+    }
+
+    if (!this.checkMaxUrlLength(url)) {
+      this.notificationService.warning('Too long image URL');
+      return false;
+    }
+
+    if (!await this.checkUrlExist(url)) {
+      this.notificationService.warning('Image URL not exits');
+      return false;
+    }
+
+    return true;
+  }
+
+  private checkUrlExist(url: string): Promise<boolean> {
+    return fetch(url)
+      .then((response) => response.status === 200)
+      .catch(() => false);
+  }
+
+  private checkUrlHasImageExtension(url: string): boolean {
+    return url.match(/\.(jpeg|jpg|gif|png)$/) !== null;
+  }
+
+  private checkMaxUrlLength(url: string): boolean {
+    return url.length <= 4 * 1024;
   }
 
   public onTextInput(): void {
