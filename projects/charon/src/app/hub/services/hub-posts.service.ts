@@ -91,6 +91,10 @@ export abstract class HubPostsService {
     );
   }
 
+  public getPost(postId: Post['uuid']): PostWithAuthor {
+    return this.posts.value.find((post) => post.uuid === postId);
+  }
+
   public likePost(postId: Post['uuid'], likeWeight: LikeWeight): Observable<void> {
     const post = this.getPost(postId);
 
@@ -154,10 +158,6 @@ export abstract class HubPostsService {
     }
 
     return this.profileMap.get(walletAddress);
-  }
-
-  private getPost(postId: Post['uuid']): PostWithAuthor {
-    return this.posts.value.find((post) => post.uuid === postId);
   }
 
   private updatePost(

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LikeWeight } from 'decentr-js';
@@ -26,7 +26,7 @@ export class HubPostRatingComponent implements OnInit {
 
   public readonly likeWeight: typeof LikeWeight = LikeWeight;
 
-  public isUpdating: boolean = false;
+  public isDisabled$: Observable<boolean>;
 
   constructor(
     private hubLikesService: HubLikesService,
@@ -43,6 +43,11 @@ export class HubPostRatingComponent implements OnInit {
 
   public ngOnInit(): void {
     this.post$ = this.hubLikesService.getPostChanges(this.postId);
+
+    this.isDisabled$ = this.hubLikesService.canLikePost(this.postId).pipe(
+      map((canLike) => !canLike),
+      shareReplay(1),
+    );
   }
 
   public onLike(post: PostWithAuthor): void {
@@ -54,19 +59,12 @@ export class HubPostRatingComponent implements OnInit {
   }
 
   private changeLikeWeight(post: PostWithAuthor, newLikeWeight: LikeWeight): void {
-    if (this.isUpdating) {
-      return;
-    }
-
-    this.isUpdating = true;
-
     this.hubLikesService.likePost(
       this.postId,
       post.likeWeight === newLikeWeight
         ? LikeWeight.Zero
         : newLikeWeight
     ).pipe(
-      finalize(() => this.isUpdating = false),
       untilDestroyed(this),
     ).subscribe();
   }

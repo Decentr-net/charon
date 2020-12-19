@@ -1,11 +1,12 @@
 <ng-container *ngIf="post$ | async as post">
   <div
     class="hub-post-rating__section"
-    [class.mod-liked]="post.likeWeight === likeWeight.Up"
+    [class.is-disabled]="isDisabled$ | async"
     (click)="onLike(post)"
   >
     <svg-icon
       class="hub-post-rating__icon"
+      [class.mod-liked]="post.likeWeight === likeWeight.Up"
       key="like"
     ></svg-icon>
 
@@ -14,11 +15,12 @@
 
   <div
     class="hub-post-rating__section"
-    [class.mod-disliked]="post.likeWeight === likeWeight.Down"
+    [class.is-disabled]="isDisabled$ | async"
     (click)="onDislike(post)"
   >
     <svg-icon
       class="hub-post-rating__icon mod-dislike"
+      [class.mod-disliked]="post.likeWeight === likeWeight.Down"
       key="like"
     ></svg-icon>
 
