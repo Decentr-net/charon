@@ -45,7 +45,6 @@ export class AppService {
     return combineLatest([
       this.getWalletAddressAndNetworkApiStream(),
       PDVUpdateNotifier.listen().pipe(
-        tap(() => console.log('notify')),
         startWith(void 0),
       ),
     ]).pipe(
