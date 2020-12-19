@@ -7,7 +7,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { SvgIconsModule } from '@ngneat/svg-icon';
-import { QuillModule } from 'ngx-quill';
 import { InlineSVGModule } from 'ng-inline-svg';
 
 import { HUB_COMPONENTS } from './components';
@@ -53,7 +52,6 @@ import { TextClampModule } from '@shared/directives/text-clamp';
     MatInputModule,
     PdvValueModule,
     PositiveNumberModule,
-    QuillModule,
     ReactiveFormsModule,
     SanitizeModule,
     SlotModule,
