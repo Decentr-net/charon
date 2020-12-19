@@ -22,6 +22,7 @@ import { ControlValueAccessor, FormControl } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { svgAddImage } from '@shared/svg-icons';
+import { NotificationService } from '@shared/services/notification';
 
 @UntilDestroy()
 @Component({
@@ -95,7 +96,8 @@ export class HubSimpleTextEditorComponent
     @Optional() private parentFormGroup: FormGroupDirective,
     private defaultErrorStateMatcher: ErrorStateMatcher,
     private focusMonitor: FocusMonitor,
-    svgIconRegistry: SvgIconRegistry
+    private notificationService: NotificationService,
+    svgIconRegistry: SvgIconRegistry,
   ) {
     super();
 
@@ -158,17 +160,31 @@ export class HubSimpleTextEditorComponent
     this.describedBy = ids.join(' ');
   }
 
-  public addImage(): void {
+  public async addImage(): Promise<void> {
     const imageSrc = prompt('Enter image url');
 
     if (!imageSrc) {
       return;
     }
 
+    if (!this.checkUrlHasImageExtension(imageSrc) || !(await this.checkUrlExist(imageSrc))) {
+      return this.notificationService.warning('Incorrect image URL');
+    }
+
     const img = document.createElement('img');
     img.src = imageSrc;
 
     this.appendText(img.outerHTML);
+  }
+
+  private checkUrlExist(url: string): Promise<boolean> {
+    return fetch(url)
+      .then((response) => response.status === 200)
+      .catch(() => false);
+  }
+
+  private checkUrlHasImageExtension(url: string): boolean {
+    return url.match(/\.(jpeg|jpg|gif|png)$/) !== null;
   }
 
   public onTextInput(): void {
