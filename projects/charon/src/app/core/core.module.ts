@@ -10,6 +10,7 @@ import { NetworkSelectorModule } from '@shared/components/network-selector';
 import { SlotModule } from '@shared/components/slot';
 import { NotificationsModule } from '@shared/services/notification';
 import { PDVService } from '@shared/services/pdv';
+import { ONE_MINUTE } from '@shared/utils/date';
 import { ERROR_PROCESSORS, FallbackErrorProcessor } from '@core/notifications';
 import { AppRoute } from '../app-route';
 import { SignUpRoute } from '../sign-up';
@@ -44,7 +45,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       api: environment.currencyApi,
     }),
     LockModule.forRoot({
-      delay: 1000 * 5,
+      delay: ONE_MINUTE * 40,
       activitySource: fromEvent(document, 'click', { capture: true }),
       redirectUrl: AppRoute.Login,
     }),

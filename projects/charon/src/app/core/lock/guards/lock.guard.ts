@@ -1,14 +1,12 @@
 import {
-  ActivatedRouteSnapshot,
   CanActivate,
   CanActivateChild,
   CanDeactivate,
   Router,
-  RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
 import { Inject, Injectable } from '@angular/core';
-import { first } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 import { LockService } from '../services';
 import { LOCK_REDIRECT_URL } from '../lock.tokens';
@@ -22,10 +20,10 @@ export class LockGuard implements CanActivate, CanActivateChild, CanDeactivate<v
   ) {
   }
 
-  public async canActivate({}, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
+  public async canActivate(): Promise<boolean | UrlTree> {
     const isLocked = await this.lockService.lockedState$
       .pipe(
-        first(),
+        take(1),
       ).toPromise();
 
     if (isLocked) {
@@ -37,8 +35,8 @@ export class LockGuard implements CanActivate, CanActivateChild, CanDeactivate<v
     return true;
   }
 
-  public async canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
-    return this.canActivate(route, state);
+  public async canActivateChild(): Promise<boolean | UrlTree> {
+    return this.canActivate();
   }
 
   public canDeactivate(): boolean {

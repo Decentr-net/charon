@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
@@ -29,7 +28,6 @@ export class LoginPageComponent implements OnInit {
   public form: FormGroup<LoginForm>;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private loginPageService: LoginPageService,
     private formBuilder: FormBuilder,
   ) {
@@ -39,10 +37,10 @@ export class LoginPageComponent implements OnInit {
     this.form = this.createForm();
   }
 
-  public onSubmit(): void {
+  public async onSubmit(): Promise<void> {
     const passwordControl = this.form.getControl('password');
 
-    const unlocked = this.loginPageService.tryUnlock(passwordControl.value);
+    const unlocked = await this.loginPageService.tryUnlock(passwordControl.value);
 
     if (!unlocked) {
       passwordControl.setErrors({

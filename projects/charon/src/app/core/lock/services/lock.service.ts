@@ -1,17 +1,17 @@
 import { Inject, Injectable, NgZone } from '@angular/core';
-import { Router } from '@angular/router';
-import { combineLatest, Observable, ReplaySubject } from 'rxjs';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { forkJoin, Observable, of, ReplaySubject } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
   filter,
   finalize,
-  map,
   mapTo,
   mergeMap,
   mergeMapTo,
   switchMap,
   switchMapTo,
+  take,
   takeUntil,
   tap,
 } from 'rxjs/operators';
@@ -20,6 +20,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LockBrowserStorageService } from '@shared/services/lock';
 import { LOCK_DELAY, LOCK_ACTIVITY_SOURCE, LOCK_REDIRECT_URL } from '../lock.tokens';
 
+export const LOCK_RETURN_URL_PARAM = 'returnUrl';
+
 @UntilDestroy()
 @Injectable()
 export class LockService {
@@ -27,9 +29,8 @@ export class LockService {
 
   private isWorking$: ReplaySubject<boolean> = new ReplaySubject(1);
 
-  private returnUrl: string;
-
   constructor(
+    private activatedRoute: ActivatedRoute,
     private lockStorage: LockBrowserStorageService,
     private ngZone: NgZone,
     private router: Router,
@@ -52,9 +53,8 @@ export class LockService {
     );
   }
 
-  public unlocked$(): Observable<void> {
+  public get unlocked$(): Observable<void> {
     return this.isLocked$.pipe(
-      tap((val) => console.log('unlocked$', val)),
       distinctUntilChanged(),
       filter((isLocked) => !isLocked),
       mapTo(void 0),
@@ -85,34 +85,50 @@ export class LockService {
     this.isWorking$.next(false);
   }
 
-  public lock(): Promise<void> {
+  public async lock(): Promise<void> {
     return this.lockStorage.setLocked(true);
   }
 
   public async unlock(): Promise<void> {
-    await this.updateLastActivityTime();
-    await this.lockStorage.setLocked(false);
+    return this.lockStorage.setLocked(false);
   }
 
   public navigateToLockedUrl(): Promise<boolean> {
-    this.returnUrl = this.router.url;
-
-    console.log('navigating to locked url');
-
-    return this.navigate(this.lockRedirectUrl);
+    return this.navigate(this.lockRedirectUrl, {
+      queryParams: {
+        [LOCK_RETURN_URL_PARAM]: this.router.url,
+      }
+    });
   }
 
-  public navigateToReturnUrl(): Promise<boolean> {
-    const returnUrl = this.returnUrl;
-    this.returnUrl = '';
-
-    console.log(returnUrl);
+  public navigateToUnlockedUrl(): Promise<boolean> {
+    const returnUrl = this.activatedRoute.snapshot.queryParamMap.get(LOCK_RETURN_URL_PARAM);
 
     return this.navigate(returnUrl || '/');
   }
 
   private init(): void {
     this.initActivityUpdateSubscription();
+
+    this.locked$.pipe(
+      switchMapTo(this.unlocked$.pipe(
+        take(1),
+      )),
+      untilDestroyed(this),
+    ).subscribe(() => {
+      this.navigateToUnlockedUrl();
+    });
+
+    this.unlocked$.pipe(
+      tap(() => console.log('unlocked before navigate')),
+      switchMapTo(this.locked$.pipe(
+        tap(() => console.log('locked before navigate')),
+        take(1),
+      )),
+      untilDestroyed(this),
+    ).subscribe(() => {
+      this.navigateToLockedUrl();
+    });
 
     this.listenStorageLockState().pipe(
       distinctUntilChanged(),
@@ -130,27 +146,19 @@ export class LockService {
       switchMap(() => this.lock()),
       untilDestroyed(this),
     ).subscribe();
-
-    this.locked$.pipe(
-      tap(() => console.log('navigate from locked event')),
-      switchMap(() => this.navigateToLockedUrl()),
-      untilDestroyed(this),
-    ).subscribe();
-
-    this.unlocked$().pipe(
-      switchMap(() => this.navigateToReturnUrl()),
-      untilDestroyed(this),
-    ).subscribe();
   }
 
   private listenStorageLockState(): Observable<boolean> {
-    return combineLatest([
-      this.lockStorage.getLockedChanges(),
-      this.lockStorage.getLastActivityTimeChanges(),
+    return forkJoin([
+      this.lockStorage.getLocked(),
+      this.lockStorage.getLastActivityTime(),
     ]).pipe(
-      map(([isLocked, lastActivityTime]) => {
-        return isLocked || lastActivityTime && ((Date.now() - lastActivityTime) > this.lockDelay)
+      mergeMap(([isLocked, lastActivityTime]) => {
+        return !isLocked && lastActivityTime && ((Date.now() - lastActivityTime) > this.lockDelay)
+          ? this.lock()
+          : of(void 0);
       }),
+      mergeMapTo(this.lockStorage.getLockedChanges()),
     );
   }
 
@@ -177,8 +185,8 @@ export class LockService {
     return this.lockStorage.setLastActivityTime(Date.now());
   }
 
-  private navigate(url: string): Promise<boolean> {
-    return this.ngZone.run(() => this.router.navigate([url]));
+  private navigate(url: string, extras?: NavigationExtras): Promise<boolean> {
+    return this.ngZone.run(() => this.router.navigate([url], extras));
   }
 
   private whenWorking<T>(observable: Observable<T>): Observable<T> {
