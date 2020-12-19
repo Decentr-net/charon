@@ -163,18 +163,33 @@ export class HubSimpleTextEditorComponent
   public async addImage(): Promise<void> {
     const imageSrc = prompt('Enter image url');
 
-    if (!imageSrc) {
+    if (!imageSrc || !await this.validateImageUrl(imageSrc)) {
       return;
-    }
-
-    if (!this.checkUrlHasImageExtension(imageSrc) || !(await this.checkUrlExist(imageSrc))) {
-      return this.notificationService.warning('Incorrect image URL');
     }
 
     const img = document.createElement('img');
     img.src = imageSrc;
 
     this.appendText(img.outerHTML);
+  }
+
+  private async validateImageUrl(url: string): Promise<boolean> {
+    if (!this.checkUrlHasImageExtension(url)) {
+      this.notificationService.warning('Incorrect image URL');
+      return false;
+    }
+
+    if (!this.checkMaxUrlLength(url)) {
+      this.notificationService.warning('Too long image URL');
+      return false;
+    }
+
+    if (!await this.checkUrlExist(url)) {
+      this.notificationService.warning('Image URL not exits');
+      return false;
+    }
+
+    return true;
   }
 
   private checkUrlExist(url: string): Promise<boolean> {
@@ -185,6 +200,10 @@ export class HubSimpleTextEditorComponent
 
   private checkUrlHasImageExtension(url: string): boolean {
     return url.match(/\.(jpeg|jpg|gif|png)$/) !== null;
+  }
+
+  private checkMaxUrlLength(url: string): boolean {
+    return url.length <= 4 * 1024;
   }
 
   public onTextInput(): void {
