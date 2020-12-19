@@ -23,7 +23,7 @@ import { PostWithAuthor } from '../../models/post';
     OverviewPageService,
     {
       provide: HubPostsService,
-      useClass: OverviewPageService,
+      useExisting: OverviewPageService,
     },
   ],
 })
