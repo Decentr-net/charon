@@ -18,6 +18,7 @@ import { AvatarModule } from '@shared/components/avatar';
 import { ColorCircleLabelModule } from '@shared/components/color-circle-label';
 import { ColorValueDynamicModule } from '@shared/components/color-value-dynamic';
 import { ColoredDistributionLineModule } from '@shared/components/colored-distribution-line';
+import { DateAgoModule } from '@shared/pipes/date-ago';
 import { FormErrorModule } from '@shared/components/form-error';
 import { HubRoutingModule } from './hub-routing.module';
 import { LineChartModule } from '@shared/components/line-chart';
@@ -43,6 +44,7 @@ import { TextClampModule } from '@shared/directives/text-clamp';
     ColoredDistributionLineModule,
     CommonModule,
     CutHtmlImagesModule,
+    DateAgoModule,
     FormErrorModule,
     HubRoutingModule,
     InlineSVGModule,
