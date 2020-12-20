@@ -93,12 +93,13 @@
     "recent": "Recent"
   },
   "hub_post_category": {
-    "1": "World news",
+    "1": "World News",
     "2": "Travel & Tourism",
     "3": "Science & Technology",
     "4": "Strange World",
-    "5": "Health & Culture",
-    "6": "Fitness & Exercise",
-    "7": "Crypto"
+    "5": "Arts & Entertainment",
+    "6": "Writers & Writing",
+    "7": "Health & Fitness",
+    "8": "Crypto & Blockchain"
   }
 }
