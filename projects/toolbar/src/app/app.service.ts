@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, pluck, startWith, switchMap, tap } from 'rxjs/operators';
+import { map, pluck, startWith, switchMap } from 'rxjs/operators';
 
 import { AppRoute as CharonAppRoute } from '@charon/app-route';
 import { AuthBrowserStorageService, User } from '@shared/services/auth';
