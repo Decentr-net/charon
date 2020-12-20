@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { AppService } from './app.service';
 import { AvatarModule } from '@shared/components/avatar';
 import { AuthBrowserStorageService } from '@shared/services/auth';
+import { LockBrowserStorageService } from '@shared/services/lock';
 import { ColorValueDynamicModule } from '@shared/components/color-value-dynamic';
 import { CurrencyModule } from '@shared/services/currency';
 import { Environment } from '@environments/environment.definitions';
@@ -52,6 +53,10 @@ import { TranslocoRootModule } from './transloco';
       provide: PDVService,
       useFactory: (environment: Environment) => new PDVService(environment.chainId),
       deps: [Environment],
+    },
+    {
+      provide: LockBrowserStorageService,
+      useClass: LockBrowserStorageService,
     },
   ],
   bootstrap: [

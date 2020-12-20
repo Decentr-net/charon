@@ -12,7 +12,7 @@
       <div class="app__middle-container-section-dynamic">
         <app-color-value-dynamic
                 class="app__meta-label"
-                *ngIf="balance"
+                *ngIf="!isLocked && balance"
                 [circleType]="'hole'"
                 [color]="'green'"
                 [dayMargin]="balance.dayMargin"

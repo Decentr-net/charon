@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   public avatar$: Observable<string>;
   public balance: ColorValueDynamic;
   public coinRate: ColorValueDynamic;
+  public isLocked: boolean;
 
   constructor(
     private appService: AppService,
@@ -40,6 +41,13 @@ export class AppComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe((coinRate) => {
       this.coinRate = coinRate;
+      this.changeDetectorRef.detectChanges();
+    });
+
+    this.appService.getLockedState().pipe(
+      untilDestroyed(this),
+    ).subscribe((isLocked) => {
+      this.isLocked = isLocked;
       this.changeDetectorRef.detectChanges();
     });
   }

@@ -7,6 +7,7 @@ import { AuthBrowserStorageService, User } from '@shared/services/auth';
 import { calculateDifferencePercentage, exponentialToFixed } from '@shared/utils/number';
 import { ColorValueDynamic } from '@shared/components/color-value-dynamic';
 import { CurrencyService } from '@shared/services/currency';
+import { LockBrowserStorageService } from '@shared/services/lock';
 import { HubFeedRoute as CharonHubFeedRoute, HubRoute as CharonHubRoute } from '@charon/hub';
 import { MessageBus } from '@shared/message-bus';
 import { Network, NetworkBrowserStorageService } from '@shared/services/network-storage';
@@ -26,6 +27,7 @@ export class AppService {
   constructor(
     private authStorageService: AuthBrowserStorageService,
     private currencyService: CurrencyService,
+    private lockBrowserStorageService: LockBrowserStorageService,
     private networkStorageService: NetworkBrowserStorageService,
     private pdvService: PDVService,
   ) {
@@ -76,6 +78,10 @@ export class AppService {
 
   public getCoinRateWithMargin(): Observable<ColorValueDynamic> {
     return this.currencyService.getDecentrCoinRateForUsd24hours();
+  }
+
+  public getLockedState(): Observable<boolean> {
+    return this.lockBrowserStorageService.getLockedChanges();
   }
 
   private getPDVChartPoints(): Observable<ChartPoint[]> {
