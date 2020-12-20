@@ -1,12 +1,12 @@
-<ng-container *ngIf="statistics">
-  <app-hub-statistics-card
-    class="hub-pdv-statistics__card"
-    *transloco="let translate; read: 'hub.hub_pdv_statistics'"
-  >
-    <ng-container ngProjectAs="title">
-      {{ translate('my_pdv') }}
-    </ng-container>
+<app-hub-statistics-card
+  class="hub-pdv-statistics__card"
+  *transloco="let translate; read: 'hub.hub_pdv_statistics'"
+>
+  <ng-container ngProjectAs="title">
+    {{ translate('my_pdv') }}
+  </ng-container>
 
+  <ng-container *ngIf="statistics; else loader">
     <ng-container ngProjectAs="subtitle">
       {{ translate('activity_from', { date: statistics.fromDate | date }) }}
     </ng-container>
@@ -25,7 +25,6 @@
           ) }}
         </span>
       </ng-container>
-
       <ng-template #notChangedPDV>
         {{ translate('pdv_change.not_changed') }}
       </ng-template>
@@ -45,5 +44,11 @@
         <ng-container *ngIf="statistics.points.length < 1">{{ translate('no_chart_data') }}</ng-container>
       </div>
     </ng-template>
-  </app-hub-statistics-card>
-</ng-container>
+  </ng-container>
+
+  <ng-template #loader>
+    <div class="hub-pdv-statistics__loader-container">
+      <app-spinner></app-spinner>
+    </div>
+  </ng-template>
+</app-hub-statistics-card>
