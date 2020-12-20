@@ -19,6 +19,13 @@ $hub-simple-text-editor--add-image-icon--disabled-color: #9EA0A5;
     content: attr(placeholder);
     pointer-events: none;
   }
+
+  ::ng-deep {
+    img {
+      display: block;
+      padding: 10px 0;
+    }
+  }
 }
 
 .hub-simple-text-editor__footer {
