@@ -39,7 +39,9 @@ export class HubCreatePostDialogComponent implements OnInit {
 
   public author: HubCreatePostDialogPostAuthor;
 
-  public formId = `hub-create-post-dialog-form-${formId++}`
+  public formId = `hub-create-post-dialog-form-${formId++}`;
+
+  public maxImagesCount: number = 5;
 
   constructor(
     private dialogRef: MatDialogRef<HubCreatePostDialogComponent, HubCreatePostDialogResult>,

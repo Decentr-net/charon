@@ -1,4 +1,5 @@
 $hub-simple-text-editor--placeholder--color: #9EA0A5;
+$hub-simple-text-editor--add-image-icon--disabled-color: #9EA0A5;
 
 :host {
   display: flex;
@@ -33,6 +34,11 @@ $hub-simple-text-editor--placeholder--color: #9EA0A5;
   cursor: pointer;
   display: inline-flex;
   font-size: 24px;
+
+  &.is-disabled {
+    color: $hub-simple-text-editor--add-image-icon--disabled-color;
+    cursor: initial;
+  }
 }
 
 .mat-form-field-underline {

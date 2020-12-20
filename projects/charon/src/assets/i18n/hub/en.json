@@ -85,6 +85,9 @@
   "hub_overview_page": {
     "highest_pdv_analytics": "Highest PDV Analytics"
   },
+  "hub_simple_text_editor": {
+    "image_limit_reached": "Image limit reached"
+  },
   "hub_feed_navigation": {
     "my_wall": "My Wall",
     "recent": "Recent"

@@ -16,7 +16,8 @@ import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { share } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { ControlValueAccessor, FormControl } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -42,6 +43,8 @@ export class HubSimpleTextEditorComponent
   extends ControlValueAccessor<string>
   implements MatFormFieldControl<string>, OnInit, DoCheck, OnDestroy
 {
+  @Input() public maxImagesCount: number;
+
   @Input()
   @HostBinding('class.is-disabled')
   get disabled(): boolean {
@@ -75,6 +78,8 @@ export class HubSimpleTextEditorComponent
 
   @ViewChild('textContainer', { static: true }) public textContainer: ElementRef<HTMLDivElement>;
 
+  @ViewChild('addImageIcon', { static: false }) public addImageIcon: ElementRef<HTMLElement>;
+
   @HostBinding() public id = `hub-simple-text-editor-${HubSimpleTextEditorComponent.nextId++}`;
 
   @HostBinding('attr.aria-describedby') public describedBy = '';
@@ -88,6 +93,8 @@ export class HubSimpleTextEditorComponent
   public stateChanges = new Subject<void>();
 
   public focused: boolean = false;
+
+  public isImageLimitReached: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   private static nextId = 0;
 
@@ -135,6 +142,12 @@ export class HubSimpleTextEditorComponent
     this.onTouched();
   }
 
+  public get isImageLimitReached$(): Observable<boolean> {
+    return this.isImageLimitReached.pipe(
+      share(),
+    );
+  }
+
   public get empty(): boolean {
     return this.textContainerElement.innerHTML.length === 0;
   }
@@ -153,7 +166,11 @@ export class HubSimpleTextEditorComponent
   }
 
   public onContainerClick(event: MouseEvent): void {
-    if ((event.target as Element) !== this.textContainerElement) {
+    if (![
+      this.textContainerElement,
+      this.addImageIcon?.nativeElement,
+    ].includes(event.target as HTMLElement)
+    ) {
       this.textContainerElement.focus();
     }
   }
@@ -163,6 +180,10 @@ export class HubSimpleTextEditorComponent
   }
 
   public async addImage(): Promise<void> {
+    if (this.isImageLimitReached.value) {
+      return;
+    }
+
     const imageSrc = prompt('Enter image url');
 
     if (!imageSrc || !await this.validateImageUrl(imageSrc)) {
@@ -209,11 +230,13 @@ export class HubSimpleTextEditorComponent
   }
 
   public onTextInput(): void {
+    this.validateImagesCount();
     this.onChange(this.getTrimmedText());
   }
 
   public writeValue(value: string) {
     this.textContainerElement.innerHTML = value;
+    this.validateImagesCount();
   }
 
   private appendText(text: string): void {
@@ -221,8 +244,18 @@ export class HubSimpleTextEditorComponent
     this.onTextInput();
   }
 
+  private getImagesCount(): number {
+    return this.textContainerElement.querySelectorAll('img').length;
+  }
+
   private getTrimmedText(): string {
     return decodeHtml(this.textContainerElement.innerHTML).trim();
+  }
+
+  private validateImagesCount(): void {
+    if (this.maxImagesCount) {
+      this.isImageLimitReached.next(this.getImagesCount() >= this.maxImagesCount);
+    }
   }
 
   private updateErrorState(): void {
