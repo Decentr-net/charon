@@ -1,8 +1,9 @@
-<img
-  class="hub-post-preview-card__image"
-  *ngIf="post.previewImage"
-  [src]="post.previewImage"
->
+<div class="hub-post-preview-card__image-container" *ngIf="post.previewImage">
+  <img
+    class="hub-post-preview-card__image"
+    [src]="post.previewImage"
+  >
+</div>
 
 <div class="hub-post-preview-card__title">{{ post.title }}</div>
 
