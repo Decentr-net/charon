@@ -10,6 +10,6 @@ export const exponentialToFixed = (value: number | string): string => {
   return num.toFixed(degree);
 };
 
-export const calculateDifferencePercentage = (firstNumber: number, secondNumber: number): number => {
-  return secondNumber ? (firstNumber / secondNumber * 100) - 100 : 0;
+export const calculateDifferencePercentage = (newNumber: number, oldNumber: number): number => {
+  return oldNumber ? (newNumber - oldNumber) / Math.abs(oldNumber) * 100 : 0;
 };
