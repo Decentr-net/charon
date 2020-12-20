@@ -10,3 +10,7 @@
     [appHubPostDialog]="post.uuid"
   ></app-hub-feed-post>
 </app-hub-infinite-posts-container>
+
+<ng-template [ngIf]="(isLoading$ | async) === false && (posts$ | async)?.length === 0">
+  <ng-template [ngIf]="noPostsTemplate" [ngTemplateOutlet]="noPostsTemplate"></ng-template>
+</ng-template>
