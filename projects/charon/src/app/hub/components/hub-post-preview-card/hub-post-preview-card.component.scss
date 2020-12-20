@@ -8,10 +8,10 @@ $hub-post-preview-card--padding-horizontal: 24px;
   display: grid;
   max-height: 300px;
   padding: 16px 24px;
-  grid-template-rows: min-content 1fr;
+  grid-template-rows: min-content 1fr 18px;
 
   &.mod-has-preview-image {
-    grid-template-rows: 7fr min-content 4fr;
+    grid-template-rows: 7fr min-content 4fr 18px;
   }
 }
 

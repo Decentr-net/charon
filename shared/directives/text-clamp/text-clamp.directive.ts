@@ -22,7 +22,7 @@ export class TextClampDirective implements OnInit {
     observeResize(element)
       .pipe(
         auditTime(300),
-        startWith(null),
+        startWith(void 0),
         untilDestroyed(this)
       ).subscribe(() => {
         const height = getComputedStyle(element).height;
