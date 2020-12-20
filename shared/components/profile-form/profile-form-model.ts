@@ -157,13 +157,15 @@ export class ProfileFormModel {
   }
 
   protected createBirthdayControl(): FormControl<ProfileForm['birthday']> | undefined {
+    const prevYearLastDay = new Date(new Date().getFullYear(), 0, 0);
+
     return new FormControl(
       '',
       [
         Validators.required,
         BaseValidationUtil.isFrDateFormatCorrect,
         BaseValidationUtil.minDate('1901-01-01'),
-        BaseValidationUtil.maxDate(this.datePipe.transform(Date.now(), 'yyyy-MM-dd')),
+        BaseValidationUtil.maxDate(this.datePipe.transform(prevYearLastDay, 'yyyy-MM-dd')),
         ProfileFormModel.nonExistentDate(),
       ],
     );
