@@ -6,11 +6,7 @@
     {{ translate('dec_rate') }}
   </ng-container>
 
-  <div *ngIf="!statistics; else cardContent" class="hub-currency-statistics__loader-container">
-    <app-spinner></app-spinner>
-  </div>
-
-  <ng-template #cardContent>
+  <ng-container *ngIf="statistics; else loader">
     <ng-container ngProjectAs="subtitle">
       {{ translate('statistics_from', { date: statistics.fromDate | date }) }}
     </ng-container>
@@ -21,7 +17,7 @@
 
     <div class="hub-currency-statistics__rate-change">
       {{ translate('dec_rate_change.dec') }}
-      <ng-container *ngIf="isPositive || isNegative else notChangedPDV">
+      <ng-container *ngIf="isPositive || isNegative else notChangedRate">
         <span class="hub-currency-statistics__rate-direction">
           {{ translate(
             'dec_rate_change.' + (isPositive ? 'increased' : 'decreased'),
@@ -29,8 +25,7 @@
           ) }}
         </span>
       </ng-container>
-
-      <ng-template #notChangedPDV>
+      <ng-template #notChangedRate>
         {{ translate('dec_rate_change.not_changed') }}
       </ng-template>
       {{ translate('dec_rate_change.last_hours') }}
@@ -48,5 +43,11 @@
         {{ translate('no_chart_data') }}
       </div>
     </ng-template>
+  </ng-container>
+
+  <ng-template #loader>
+    <div class="hub-currency-statistics__loader-container">
+      <app-spinner></app-spinner>
+    </div>
   </ng-template>
 </app-hub-statistics-card>
