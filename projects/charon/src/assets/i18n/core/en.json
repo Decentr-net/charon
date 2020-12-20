@@ -1,4 +1,17 @@
 {
+  "date_ago": {
+    "second": "a few seconds ago",
+    "minute": "a minute ago",
+    "minutes": "minutes ago",
+    "hour": "an hour ago",
+    "hours": "hours ago",
+    "day": "a day ago",
+    "days": "days ago",
+    "month": "a month ago",
+    "months": "months ago",
+    "year": "a year ago",
+    "years": "years ago"
+  },
   "network_selector": {
     "network": {
       "remote": "Decentr Test Network",
