@@ -34,15 +34,12 @@ export class DateAgoPipe implements PipeTransform, OnDestroy {
       value?: number;
     };
 
-    this.ngZone$ = this.ngZone.runOutsideAngular(() => {
-      if (typeof window === 'undefined') {
-        return null;
-      }
-
-      return this.ngZone$ = timer(timeToUpdate).pipe(
-        map(() => this.ngZone.run(() => this.changeDetectorRef.markForCheck()))
-      ).subscribe();
-    });
+    this.ngZone$ = this.ngZone.runOutsideAngular(() => this.ngZone$ = timer(timeToUpdate)
+      .pipe(
+        map(() => this.ngZone.run(() => this.changeDetectorRef.markForCheck())),
+      )
+      .subscribe()
+    );
 
     if (Number.isNaN(seconds)) {
       return of('');
