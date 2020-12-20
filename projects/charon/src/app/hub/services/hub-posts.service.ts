@@ -26,6 +26,7 @@ export abstract class HubPostsService {
   protected readonly userService: UserService;
 
   protected abstract loadingCount: number;
+  protected shouldReloadOnLike: boolean = false;
 
   private posts: BehaviorSubject<PostWithAuthor[]> = new BehaviorSubject([]);
   private isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -58,10 +59,9 @@ export abstract class HubPostsService {
     });
 
     this.createPostService.postCreated$.pipe(
-      takeUntil(this.dispose$)
+      takeUntil(this.dispose$),
     ).subscribe(() => {
-      this.clear();
-      this.loadMorePosts();
+      this.reload();
     });
   }
 
@@ -106,13 +106,24 @@ export abstract class HubPostsService {
     this.updatePost(postId, update);
 
     return this.postsService.likePost(post, likeWeight).pipe(
+      tap(() => {
+        if (this.shouldReloadOnLike) {
+          this.reload();
+        }
+      }),
       catchError((error) => {
-        this.notificationService.error(error)
+        this.notificationService.error(error);
+
+        this.updatePost(postId, post);
 
         return of(void 0);
       }),
-      mergeMap(() => this.updatePostLive(postId)),
     );
+  }
+
+  public reload(): void {
+    this.clear();
+    this.loadMorePosts();
   }
 
   public clear(): void {
