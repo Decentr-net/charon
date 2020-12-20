@@ -1,12 +1,16 @@
-<ng-container *ngIf="statistics">
-  <app-hub-statistics-card
-    class="hub-currency-statistics__card"
-    *transloco="let translate; read: 'hub.hub_currency_statistics'"
-  >
-    <ng-container ngProjectAs="title">
-      {{ translate('dec_rate') }}
-    </ng-container>
+<app-hub-statistics-card
+  class="hub-currency-statistics__card"
+  *transloco="let translate; read: 'hub.hub_currency_statistics'"
+>
+  <ng-container ngProjectAs="title">
+    {{ translate('dec_rate') }}
+  </ng-container>
 
+  <div *ngIf="!statistics; else cardContent" class="hub-currency-statistics__loader-container">
+    <app-spinner></app-spinner>
+  </div>
+
+  <ng-template #cardContent>
     <ng-container ngProjectAs="subtitle">
       {{ translate('statistics_from', { date: statistics.fromDate | date }) }}
     </ng-container>
@@ -44,5 +48,5 @@
         {{ translate('no_chart_data') }}
       </div>
     </ng-template>
-  </app-hub-statistics-card>
-</ng-container>
+  </ng-template>
+</app-hub-statistics-card>
