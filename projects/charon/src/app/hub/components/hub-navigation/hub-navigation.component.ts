@@ -3,6 +3,7 @@ import { PostCategory } from 'decentr-js';
 
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../hub-route';
+import { POST_CATEGORIES, POST_CATEGORY_TRANSLATION_MAP } from '../../models/post-category-translation-map';
 
 interface PostsLinkConfig {
   link: PostCategory;
@@ -19,36 +20,10 @@ export class HubNavigationComponent {
   public readonly appRoute: typeof AppRoute = AppRoute;
   public readonly hubRoute: typeof HubRoute = HubRoute;
 
-  public readonly postsLinksConfig: PostsLinkConfig[] = [
-    {
-      link: PostCategory.WorldNews,
-      i18nKey: 'world_news'
-    },
-    {
-      link: PostCategory.TravelAndTourism,
-      i18nKey: 'travel_and_tourism'
-    },
-    {
-      link: PostCategory.ScienceAndTechnology,
-      i18nKey: 'science_and_technology'
-    },
-    {
-      link: PostCategory.StrangeWorld,
-      i18nKey: 'strange_world'
-    },
-    {
-      link: PostCategory.HealthAndCulture,
-      i18nKey: 'health_and_culture'
-    },
-    {
-      link: PostCategory.FitnessAndExercise,
-      i18nKey: 'fitness_and_exercise'
-    },
-    {
-      link: PostCategory.Crypto,
-      i18nKey: 'crypto'
-    },
-  ];
+  public readonly postsLinksConfig: PostsLinkConfig[] = POST_CATEGORIES.map((category) => ({
+    link: category,
+    i18nKey: POST_CATEGORY_TRANSLATION_MAP[category]
+  }));
 
   public readonly trackByLink: TrackByFunction<PostsLinkConfig> = ({}, { link }) => link;
 }
