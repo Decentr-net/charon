@@ -67,6 +67,7 @@
 
   <button
     class="hub-create-post-dialog__submit-button"
+    [disabled]="form.invalid"
     [attr.form]="formId"
   >
     {{ translate('post') }}
