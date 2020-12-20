@@ -10,5 +10,4 @@ import { PostWithAuthor } from '../../models/post';
 })
 export class HubPostAnalyticsCardComponent {
   @Input() public post: PostWithAuthor;
-  @Input() public maxContentLines: number;
 }
