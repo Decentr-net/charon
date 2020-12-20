@@ -23,6 +23,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { svgAddImage } from '@shared/svg-icons';
 import { NotificationService } from '@shared/services/notification';
+import { decodeHtml } from '@shared/utils/html';
 
 @UntilDestroy()
 @Component({
@@ -130,6 +131,7 @@ export class HubSimpleTextEditorComponent
   }
 
   public onBlur(): void {
+    this.textContainerElement.innerHTML = this.getTrimmedText();
     this.onTouched();
   }
 
@@ -207,7 +209,7 @@ export class HubSimpleTextEditorComponent
   }
 
   public onTextInput(): void {
-    this.onChange(this.textContainerElement.innerHTML);
+    this.onChange(this.getTrimmedText());
   }
 
   public writeValue(value: string) {
@@ -217,6 +219,10 @@ export class HubSimpleTextEditorComponent
   private appendText(text: string): void {
     this.textContainerElement.innerHTML += text;
     this.onTextInput();
+  }
+
+  private getTrimmedText(): string {
+    return decodeHtml(this.textContainerElement.innerHTML).trim();
   }
 
   private updateErrorState(): void {
