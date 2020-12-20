@@ -1,12 +1,27 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild
+} from '@angular/core';
 import * as d3 from 'd3';
 
 import { calculateDifferencePercentage, exponentialToFixed } from '@shared/utils/number';
 import { PdvValuePipe } from '@shared/pipes/pdv-value/pdv-value.pipe';
+import { addAmountToDate, DateAmountType } from '@shared/utils/date';
 
 export interface ChartPoint {
   date: number;
   value: number;
+}
+
+interface FilterButton {
+  amount: number;
+  dateType: DateAmountType,
+  label: string
 }
 
 @Component({
@@ -23,14 +38,25 @@ export class PdvActivityChartComponent implements AfterViewInit {
 
   @ViewChild('chartLine') private chartContainer: ElementRef;
 
-  @ViewChild('chartLineResult') private chartResultContainer: ElementRef;
-
-  bisectDate = d3.bisector((d: ChartPoint) => {
+  private bisectDate = d3.bisector((d: ChartPoint) => {
     return new Date(d.date);
   }).center;
 
+  public filterButtons: FilterButton[] = [
+    {dateType: DateAmountType.DAYS, amount: -7, label: '1W'},
+    {dateType: DateAmountType.MONTHS, amount: -1, label: '1M'},
+    {dateType: DateAmountType.MONTHS, amount: -3, label: '3M'},
+    {dateType: DateAmountType.MONTHS, amount: -6, label: '6M'},
+    {dateType: DateAmountType.YEARS, amount: -1, label: '1Y'},
+    {dateType: DateAmountType.DAYS, amount: 0, label: 'ALL'},
+  ];
+
+  public rateMargin;
+  public rate;
+  public rateDate;
+
   private chart: any;
-  private chartResult: any;
+  private chartData: ChartPoint[];
 
   private margin = { top: 15, right: 5, bottom: 15, left: 5 };
   private width = 0;
@@ -47,11 +73,14 @@ export class PdvActivityChartComponent implements AfterViewInit {
   private line: any;
 
   private chartHover: any;
-  private chartLegend: any;
 
   constructor(
-    private pdvValuePipe: PdvValuePipe,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {
+  }
+
+  public ngOnInit(): void {
+    this.chartData = this.data;
   }
 
   public ngAfterViewInit(): void {
@@ -59,22 +88,20 @@ export class PdvActivityChartComponent implements AfterViewInit {
   }
 
   private initChart(): void {
+    this.changeDetectorRef.detectChanges();
+
     if (!this.chartContainer) {
       return;
     }
 
     this.chart = this.chartContainer.nativeElement;
-    this.chartResult = this.chartResultContainer.nativeElement;
-    this.chartLegend = d3.select(this.chartResult)
-      .append('div')
-      .attr('class', 'chart-legend');
 
     this.createChart();
     this.repaintChart();
   }
 
   public onResize(event): void {
-    if (this.data) {
+    if (this.chartData) {
       this.createChart();
       this.repaintChart();
     }
@@ -102,7 +129,7 @@ export class PdvActivityChartComponent implements AfterViewInit {
 
     this.gx
       .domain(d3.extent(
-        this.data,
+        this.chartData,
         d => new Date((d.date))
       ))
       .range([
@@ -112,8 +139,8 @@ export class PdvActivityChartComponent implements AfterViewInit {
 
     this.gy
       .domain([
-        d3.min(this.data, (d: any) => d.value),
-        d3.max(this.data, (d: any) => d.value)
+        d3.min(this.chartData, (d: any) => d.value),
+        d3.max(this.chartData, (d: any) => d.value)
       ])
       .nice()
       .range([
@@ -146,19 +173,16 @@ export class PdvActivityChartComponent implements AfterViewInit {
     function mousemove(event): void {
       const date = self.gx.invert(d3.pointer(event, this)[0]);
 
-      const index = self.bisectDate(self.data, date, 1);
-      const d0 = self.data[index - 1];
-      const d1 = self.data[index];
-      const value0 = self.data[index - 1].value;
-      const value1 = self.data[index].value;
+      const index = self.bisectDate(self.chartData, date, 1);
+      const d0 = self.chartData[index - 1];
+      const d1 = self.chartData[index];
+      const value0 = self.chartData[index - 1].value;
+      const value1 = self.chartData[index].value;
       const d0UTC: any = new Date(d0.date);
       const d1UTC: any = new Date(d1.date);
       const d = (date - d0UTC > d1UTC - date) ? d1 : d0;
 
-      const valuePercent = Math.abs(calculateDifferencePercentage(value1, value0)).toFixed(2);
-      const rateSign = value1 === value0 ? '' : value1 > value0 ? '+' : '-';
-      const rateClass = value1 === value0 ? 'pdv-rate-history__none' : value1 > value0
-        ? 'pdv-rate-history__rise' : 'pdv-rate-history__fall';
+      const valuePercent = calculateDifferencePercentage(value1, value0);
 
       // self.svg.on('touchend mouseleave', () => self.chartHover.call(self.callout, null));
 
@@ -167,26 +191,10 @@ export class PdvActivityChartComponent implements AfterViewInit {
         .attr('opacity', 1)
         .call(self.callout, `Date: ${self.formatDate(new Date(d.date))}, PDV: ${((d.value))}`);
 
-      self.chartLegend.html(`
-            <div>
-              <div class="chart-legend__rate">${self.pdvValuePipe.transform(exponentialToFixed(d.value))} PDV</div>
-              <div class="chart-legend__date">${self.formatDate(new Date(d.date))}</div>
-            </div>
-            <div class="pdv-rate-history ${rateClass}">
-              <span>
-                <div class="rate-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-                   <g>
-                    <path id="svg_1" d="m0,16c0,8.836 7.164,16 16.004,16c8.832,0 15.996,-7.164 15.996,-16c0,-8.838
-                    -7.164,-16 -15.996,-16c-8.84,0 -16.004,7.162
-                    -16.004,16zm24,-0.031l-6,0l0,8.031l-4,0l0,-8.031l-5.969,0l7.973,-7.971l7.996,7.971z"/>
-                   </g>
-                  </svg>
-                </div>
-                ${rateSign}${valuePercent}%
-              </span>
-            </div>
-        `);
+      self.rateMargin = Number(valuePercent);
+      self.rate = exponentialToFixed(d.value);
+      self.rateDate = self.formatDate(new Date(d.date));
+      self.changeDetectorRef.detectChanges();
     }
 
     this.line = d3.line()
@@ -201,13 +209,21 @@ export class PdvActivityChartComponent implements AfterViewInit {
     this.svg.append('rect')
       .attr('transform', `translate(${this.margin.left}, -${this.margin.top})`)
       .attr('class', 'overlay')
+      .attr('fill', 'none')
+      .attr('pointer-events', 'all')
       .attr('width', this.width - this.margin.left)
       .attr('height', this.height + this.margin.top + this.margin.bottom)
       .on('mousemove', mousemove);
 
     this.svg.append('path')
-      .datum(this.data)
+      .datum(this.chartData)
       .attr('class', 'line-class')
+      .attr('pointer-events', 'none')
+      .attr('fill', 'none')
+      .attr('stroke', '#4477E4')
+      .attr('stroke-width', '1')
+      .attr('stroke-linejoin', 'round')
+      .attr('stroke-linecap', 'round')
       .attr('d', this.line);
   }
 
@@ -220,7 +236,7 @@ export class PdvActivityChartComponent implements AfterViewInit {
     });
   }
 
-  callout = (g, value) => {
+  private callout = (g, value) => {
     if (!value) {
       g.attr('opacity', '0');
     }
@@ -229,14 +245,44 @@ export class PdvActivityChartComponent implements AfterViewInit {
 
     g.append('line')
       .attr('class', 'hover-line')
+      .attr('stroke', '#4477E4')
+      .attr('stroke-width', '1px')
       .attr('y1', -this.height)
       .attr('y2', this.height);
 
     g.append('circle')
       .attr('r', 3)
-      .attr('class', 'hover-circle');
+      .attr('class', 'hover-circle')
+      .attr('stroke', '#4477E4');
+
     g
       .attr('display', null)
       .attr('pointer-events', 'none');
+  };
+
+  public filterChartData($event: MouseEvent, amount: number, dateType: DateAmountType): void {
+    const filterByDate = addAmountToDate(new Date(), amount, dateType).valueOf();
+
+    this.updateClass($event, 'active');
+
+    if (amount === 0) {
+      this.chartData = this.data;
+      return this.initChart();
+    }
+
+    this.chartData = this.data.filter((chartPoint) => chartPoint.date > filterByDate);
+
+    return this.initChart();
+  }
+
+  private removeClass($event: any, className: string, parent: string, removeFrom: string): void {
+    $event.target.closest(parent).querySelectorAll(removeFrom).forEach(item => {
+      item.classList.remove(className);
+    });
+  }
+
+  private updateClass($event: MouseEvent, className: string): void {
+    this.removeClass($event, className, 'ul', 'li');
+    ($event.target as Element).classList.add(className);
   }
 }

@@ -19,6 +19,7 @@ import { NavigationModule } from '@core/navigation';
 import { ProfileFormModule } from '@shared/components/profile-form';
 import { ToolbarStateService } from '@shared/services/toolbar-state';
 import { LayoutHeaderModule } from '../layout/layout-header';
+import { PdvRateMarginIconModule } from '@shared/components/pdv-rate-margin-icon/pdv-rate-margin-icon.module';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { USER_PAGES } from './pages';
 import { USER_COMPONENTS } from './components';
@@ -41,6 +42,7 @@ import { UserRoutingModule } from './user-routing.module';
     MatTabsModule,
     MatTooltipModule,
     NavigationModule,
+    PdvRateMarginIconModule,
     PdvValueModule,
     ProfileFormModule,
     ReactiveFormsModule,

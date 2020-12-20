@@ -22,7 +22,7 @@ $user-page--toolbar-toggle--height: 48px;
 
       &__inner {
         max-width: 136px;
-        padding: 10px;
+        padding: 5px 10px;
         box-sizing: content-box;
         cursor: pointer;
         border-radius: 4px;
@@ -104,7 +104,7 @@ $user-page--toolbar-toggle--height: 48px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 15px 0;
+    padding: 15px 0 5px;
 
     .network-icon {
       display: flex;
@@ -120,71 +120,16 @@ $user-page--toolbar-toggle--height: 48px;
       display: flex;
       font-size: 32px;
       position: relative;
-      letter-spacing: 1px;
       margin-bottom: 5px;
 
-      span {
-        font-size: 10px;
-        margin-left: 5px;
+      .pdv-rate-value {
+        padding-right: 5px;
+      }
+
+      .pdv-rate-margin {
         position: absolute;
         right: 0;
-        transform: translateX(calc(100% + 5px));
-        display: flex;
-        align-items: center;
-        letter-spacing: 0;
-
-        .rate-icon {
-          width: 15px;
-          height: 15px;
-          margin-right: 5px;
-        }
-      }
-
-      &__none {
-        span {
-          color: #797979;
-
-          .rate-icon {
-            border: 2px solid #797979;
-            border-radius: 50%;
-
-            ::ng-deep {
-              svg {
-                fill: transparent;
-              }
-            }
-          }
-        }
-      }
-
-      &__rise {
-        span {
-          color: #6BBFA6;
-
-          .rate-icon {
-            ::ng-deep {
-              svg {
-                fill: #6BBFA6;
-              }
-            }
-          }
-        }
-      }
-
-      &__fall {
-        span {
-          color: #C87794;
-
-          .rate-icon {
-            transform: rotate(180deg);
-
-            ::ng-deep {
-              svg {
-                fill: #C87794;
-              }
-            }
-          }
-        }
+        transform: translateX(100%);
       }
     }
 
@@ -248,15 +193,16 @@ $user-page--toolbar-toggle--height: 48px;
     }
 
     .tab-container {
-      padding: 1rem;
-      min-height: 270px - $user-page--toolbar-toggle--height;
-      max-height: 270px - $user-page--toolbar-toggle--height;
+      padding: 1rem 1rem;
+      min-height: 255px;
+      max-height: 255px;
     }
   }
 }
 
 .tab-container {
   width: 100%;
+  height: 100%;
 }
 
 .user-page__toolbar-toggle {
