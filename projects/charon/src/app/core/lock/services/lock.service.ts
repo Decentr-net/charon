@@ -16,7 +16,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { LockBrowserStorageService } from '@shared/services/lock';
 import { ONE_SECOND } from '@shared/utils/date';
-import { LOCK_DELAY, LOCK_ACTIVITY_SOURCE, LOCK_REDIRECT_URL } from '../lock.tokens';
+import { LOCK_ACTIVITY_SOURCE, LOCK_REDIRECT_URL } from '../lock.tokens';
 
 export const LOCK_RETURN_URL_PARAM = 'returnUrl';
 
@@ -34,7 +34,6 @@ export class LockService {
     private lockStorage: LockBrowserStorageService,
     private ngZone: NgZone,
     private router: Router,
-    @Inject(LOCK_DELAY) private lockDelay: number,
     @Inject(LOCK_REDIRECT_URL) private lockRedirectUrl: string,
     @Optional() @Inject(LOCK_ACTIVITY_SOURCE) lockActivitySource: Observable<void>,
   ) {

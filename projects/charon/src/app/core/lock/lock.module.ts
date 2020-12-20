@@ -4,10 +4,9 @@ import { Observable } from 'rxjs';
 import { LockBrowserStorageService } from '@shared/services/lock';
 import { LOCK_GUARDS } from './guards';
 import { LOCK_SERVICES } from './services';
-import { LOCK_DELAY, LOCK_ACTIVITY_SOURCE, LOCK_REDIRECT_URL } from './lock.tokens';
+import { LOCK_ACTIVITY_SOURCE, LOCK_REDIRECT_URL } from './lock.tokens';
 
 export interface LockConfig {
-  delay: number;
   redirectUrl: string;
   activitySource?: Observable<unknown>;
 }
@@ -23,10 +22,6 @@ export class LockModule {
         {
           provide: LockBrowserStorageService,
           useClass: LockBrowserStorageService,
-        },
-        {
-          provide: LOCK_DELAY,
-          useValue: config.delay,
         },
         {
           provide: LOCK_ACTIVITY_SOURCE,
