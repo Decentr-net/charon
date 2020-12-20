@@ -20,9 +20,12 @@ import {
 } from './helpers/requests';
 import { getCookies, sendCookies } from './background/cookies';
 import { initMessageListeners, registeredTabs } from './background/listeners';
+import { initAutoLock } from './background/lock';
 
 const pdvUpdateNotifier = new PDVUpdateNotifier();
 pdvUpdateNotifier.start({ tabIds: registeredTabs });
+
+initAutoLock();
 
 const COOKIES_DEBOUNCE_MS = 500;
 

@@ -1,14 +1,12 @@
 import { Inject, Injectable, NgZone, Optional } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { forkJoin, fromEvent, merge, Observable, of, ReplaySubject } from 'rxjs';
+import { fromEvent, merge, Observable, ReplaySubject } from 'rxjs';
 import {
-  debounceTime,
   distinctUntilChanged,
   filter,
   mapTo,
   mergeMap,
   mergeMapTo,
-  switchMap,
   switchMapTo,
   take,
   takeUntil,
@@ -58,7 +56,6 @@ export class LockService {
 
   public get locked$(): Observable<void> {
     return this.isLocked$.pipe(
-      distinctUntilChanged(),
       filter(Boolean),
       mapTo(void 0),
     );
@@ -66,7 +63,6 @@ export class LockService {
 
   public get unlocked$(): Observable<void> {
     return this.isLocked$.pipe(
-      distinctUntilChanged(),
       filter((isLocked) => !isLocked),
       mapTo(void 0),
     );
@@ -96,11 +92,11 @@ export class LockService {
     this.isWorking$.next(false);
   }
 
-  public async lock(): Promise<void> {
+  public lock(): Promise<void> {
     return this.lockStorage.setLocked(true);
   }
 
-  public async unlock(): Promise<void> {
+  public unlock(): Promise<void> {
     return this.lockStorage.setLocked(false);
   }
 
@@ -130,10 +126,11 @@ export class LockService {
       this.navigateToUnlockedUrl();
     });
 
-    this.unlocked$.pipe(
+    this.whenWorking(this.unlocked$.pipe(
       switchMapTo(this.locked$.pipe(
         take(1),
-      )),
+      ))),
+    ).pipe(
       untilDestroyed(this),
     ).subscribe(() => {
       this.navigateToLockedUrl();
@@ -145,32 +142,10 @@ export class LockService {
     ).subscribe((isLocked) => {
       this.isLocked$.next(isLocked);
     });
-
-    this.whenWorking(this.listenActivityEnd()).pipe(
-      switchMap(() => this.lock()),
-      untilDestroyed(this),
-    ).subscribe();
   }
 
   private listenStorageLockState(): Observable<boolean> {
-    return forkJoin([
-      this.lockStorage.getLocked(),
-      this.lockStorage.getLastActivityTime(),
-    ]).pipe(
-      mergeMap(([isLocked, lastActivityTime]) => {
-        return !isLocked && lastActivityTime && ((Date.now() - lastActivityTime) > this.lockDelay)
-          ? this.lock()
-          : of(void 0);
-      }),
-      mergeMapTo(this.lockStorage.getLockedChanges()),
-    );
-  }
-
-  private listenActivityEnd(): Observable<void> {
-    return this.lockStorage.getLastActivityTimeChanges().pipe(
-      debounceTime(this.lockDelay),
-      mapTo(void 0),
-    );
+    return this.lockStorage.getLockedChanges();
   }
 
   private initActivityUpdateSubscription(): void {
