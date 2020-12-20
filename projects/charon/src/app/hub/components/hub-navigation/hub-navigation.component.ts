@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, TrackByFunction } from '@angular/co
 import { PostCategory } from 'decentr-js';
 
 import { AppRoute } from '../../../app-route';
+import { POST_CATEGORIES, POST_CATEGORY_TRANSLATION_MAP } from '../../models/post-category';
 import { HubRoute } from '../../hub-route';
-import { POST_CATEGORIES, POST_CATEGORY_TRANSLATION_MAP } from '../../models/post-category-translation-map';
 
 interface PostsLinkConfig {
   link: PostCategory;

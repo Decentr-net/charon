@@ -3,7 +3,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ControlValueAccessor } from '@ngneat/reactive-forms';
 import { PostCategory } from 'decentr-js';
 
-import { POST_CATEGORIES, POST_CATEGORY_TRANSLATION_MAP } from '../../models/post-category-translation-map';
+import { POST_CATEGORIES, POST_CATEGORY_TRANSLATION_MAP } from '../../models/post-category';
 
 @Component({
   selector: 'app-hub-category-select',
