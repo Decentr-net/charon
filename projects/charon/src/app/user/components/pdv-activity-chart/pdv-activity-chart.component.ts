@@ -11,10 +11,17 @@ import * as d3 from 'd3';
 
 import { calculateDifferencePercentage, exponentialToFixed } from '@shared/utils/number';
 import { PdvValuePipe } from '@shared/pipes/pdv-value/pdv-value.pipe';
+import { addAmountToDate, DateAmountType } from '@shared/utils/date';
 
 export interface ChartPoint {
   date: number;
   value: number;
+}
+
+interface FilterButton {
+  amount: number;
+  dateType: DateAmountType,
+  label: string
 }
 
 @Component({
@@ -35,11 +42,21 @@ export class PdvActivityChartComponent implements AfterViewInit {
     return new Date(d.date);
   }).center;
 
+  public filterButtons: FilterButton[] = [
+    {dateType: DateAmountType.DAYS, amount: -7, label: '1W'},
+    {dateType: DateAmountType.MONTHS, amount: -1, label: '1M'},
+    {dateType: DateAmountType.MONTHS, amount: -3, label: '3M'},
+    {dateType: DateAmountType.MONTHS, amount: -6, label: '6M'},
+    {dateType: DateAmountType.YEARS, amount: -1, label: '1Y'},
+    {dateType: DateAmountType.DAYS, amount: 0, label: 'ALL'},
+  ];
+
   public rateMargin;
   public rate;
   public rateDate;
 
   private chart: any;
+  private chartData: ChartPoint[];
 
   private margin = { top: 15, right: 5, bottom: 15, left: 5 };
   private width = 0;
@@ -62,11 +79,17 @@ export class PdvActivityChartComponent implements AfterViewInit {
   ) {
   }
 
+  public ngOnInit(): void {
+    this.chartData = this.data;
+  }
+
   public ngAfterViewInit(): void {
     this.initChart();
   }
 
   private initChart(): void {
+    this.changeDetectorRef.detectChanges();
+
     if (!this.chartContainer) {
       return;
     }
@@ -78,7 +101,7 @@ export class PdvActivityChartComponent implements AfterViewInit {
   }
 
   public onResize(event): void {
-    if (this.data) {
+    if (this.chartData) {
       this.createChart();
       this.repaintChart();
     }
@@ -106,7 +129,7 @@ export class PdvActivityChartComponent implements AfterViewInit {
 
     this.gx
       .domain(d3.extent(
-        this.data,
+        this.chartData,
         d => new Date((d.date))
       ))
       .range([
@@ -116,8 +139,8 @@ export class PdvActivityChartComponent implements AfterViewInit {
 
     this.gy
       .domain([
-        d3.min(this.data, (d: any) => d.value),
-        d3.max(this.data, (d: any) => d.value)
+        d3.min(this.chartData, (d: any) => d.value),
+        d3.max(this.chartData, (d: any) => d.value)
       ])
       .nice()
       .range([
@@ -150,11 +173,11 @@ export class PdvActivityChartComponent implements AfterViewInit {
     function mousemove(event): void {
       const date = self.gx.invert(d3.pointer(event, this)[0]);
 
-      const index = self.bisectDate(self.data, date, 1);
-      const d0 = self.data[index - 1];
-      const d1 = self.data[index];
-      const value0 = self.data[index - 1].value;
-      const value1 = self.data[index].value;
+      const index = self.bisectDate(self.chartData, date, 1);
+      const d0 = self.chartData[index - 1];
+      const d1 = self.chartData[index];
+      const value0 = self.chartData[index - 1].value;
+      const value1 = self.chartData[index].value;
       const d0UTC: any = new Date(d0.date);
       const d1UTC: any = new Date(d1.date);
       const d = (date - d0UTC > d1UTC - date) ? d1 : d0;
@@ -193,7 +216,7 @@ export class PdvActivityChartComponent implements AfterViewInit {
       .on('mousemove', mousemove);
 
     this.svg.append('path')
-      .datum(this.data)
+      .datum(this.chartData)
       .attr('class', 'line-class')
       .attr('pointer-events', 'none')
       .attr('fill', 'none')
@@ -213,7 +236,7 @@ export class PdvActivityChartComponent implements AfterViewInit {
     });
   }
 
-  callout = (g, value) => {
+  private callout = (g, value) => {
     if (!value) {
       g.attr('opacity', '0');
     }
@@ -235,5 +258,31 @@ export class PdvActivityChartComponent implements AfterViewInit {
     g
       .attr('display', null)
       .attr('pointer-events', 'none');
+  };
+
+  public filterChartData($event: MouseEvent, amount: number, dateType: DateAmountType): void {
+    const filterByDate = addAmountToDate(new Date(), amount, dateType).valueOf();
+
+    this.updateClass($event, 'active');
+
+    if (amount === 0) {
+      this.chartData = this.data;
+      return this.initChart();
+    }
+
+    this.chartData = this.data.filter((chartPoint) => chartPoint.date > filterByDate);
+
+    return this.initChart();
+  }
+
+  private removeClass($event: any, className: string, parent: string, removeFrom: string): void {
+    $event.target.closest(parent).querySelectorAll(removeFrom).forEach(item => {
+      item.classList.remove(className);
+    });
+  }
+
+  private updateClass($event: MouseEvent, className: string): void {
+    this.removeClass($event, className, 'ul', 'li');
+    ($event.target as Element).classList.add(className);
   }
 }

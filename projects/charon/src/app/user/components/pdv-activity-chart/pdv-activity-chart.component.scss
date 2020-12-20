@@ -1,55 +1,67 @@
-@import 'variables';
+$pdv-activity-chart__filter-button: #4477E4;
+$pdv-activity-chart__filter-button-active: #838B94;
+$pdv-activity-chart__legend-date-color: #838B94;
 
-.no-data {
-  text-align: center;
-  color: #CDCDCD;
-  letter-spacing: 0.2px;
-}
 
 :host {
-  .chart-legend {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  .pdv-activity-chart__container {
+    width: 100%;
+    height: 100%;
+  }
+
+  .pdv-activity-chart__filter-buttons {
+    display: flex;
+    justify-content: space-between;
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+
+    li {
+      color: $pdv-activity-chart__filter-button;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      margin: 5px 10px;
+      user-select: none;
+
+      &:hover:not(.active) {
+        opacity: .8;
+      }
+
+      &.active {
+        color: $pdv-activity-chart__filter-button-active;
+      }
+    }
+  }
+
+  .pdv-activity-chart__legend {
     min-height: 30px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
 
-    &__rate {
-      font-size: 13px;
-    }
-
-    &__date {
-      color: #838B94;
+    &-date {
+      color: $pdv-activity-chart__legend-date-color;
       font-size: 8px;
     }
-  }
 
-  .pdv-rate-history {
-    display: flex;
-    font-size: 32px;
-    margin-bottom: 5px;
-  }
+    &-margin {
+      min-width: 65px;
+    }
 
-  .chart-filter-buttons {
-    display: flex;
-    justify-content: space-between;
-    max-width: 400px;
-    margin: 0 auto;
-
-    li {
-      margin: 5px 10px;
-      cursor: pointer;
+    &-rate {
       font-size: 13px;
-      font-weight: 500;
-      color: #4477E4;
-
-      &.active {
-        color: #838B94;
-      }
     }
   }
 
-  .d3-chart {
-    width: 100%;
-    height: 100%;
+  .pdv-activity-chart__no-data {
+    text-align: center;
+    color: #CDCDCD;
+    letter-spacing: 0.2px;
   }
 }
