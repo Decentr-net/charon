@@ -147,6 +147,7 @@ export abstract class HubPostsService {
 
     return this.postsService.getPost(oldPost).pipe(
       mergeMap((post) => this.updatePostsWithLikes([post])),
+      map((posts) => posts[0]),
       tap((post) => this.updatePost(postId, post)),
       mapTo(void 0),
     );
@@ -185,7 +186,9 @@ export abstract class HubPostsService {
     ]);
   }
 
-  private updatePostsWithAuthors(posts: Post[]): Observable<Omit<PostWithAuthor, 'likeWeight'>[]> {
+  private updatePostsWithAuthors<T extends Post>(
+    posts: T[],
+  ): Observable<(T & { author: PublicProfile })[]> {
     if (!posts.length) {
       return of([]);
     }
@@ -200,7 +203,9 @@ export abstract class HubPostsService {
     );
   }
 
-  private updatePostsWithLikes(posts: Omit<PostWithAuthor, 'likeWeight'>[]): Observable<PostWithAuthor[]> {
+  private updatePostsWithLikes<T extends Post>(
+    posts: T[],
+  ): Observable<(T & { likeWeight: LikeWeight })[]> {
     if (!posts.length) {
       return of([]);
     }
