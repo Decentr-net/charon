@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { Validators } from '@angular/forms';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
+import { BaseValidationUtil } from '@shared/utils/validation';
 
 export type HubCreatePostDialogPostAuthor = Pick<PublicProfile, 'avatar' | 'lastName' | 'firstName'>;
 
@@ -93,8 +94,8 @@ export class HubCreatePostDialogComponent implements OnInit {
         initialValue && initialValue.text || '',
         [
           Validators.required,
-          Validators.minLength(15),
-          Validators.maxLength(10000),
+          BaseValidationUtil.minHtmlTextLength(15),
+          BaseValidationUtil.maxStringBytes(64000),
         ],
       ],
       category: [
