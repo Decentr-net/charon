@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { EMPTY, forkJoin, Observable, of, throwError } from 'rxjs';
-import { mapTo, mergeMap, mergeMapTo, tap } from 'rxjs/operators';
+import { delay, mapTo, mergeMap, mergeMapTo, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { createWalletFromMnemonic } from 'decentr-js';
 
@@ -49,6 +49,7 @@ export class ImportRestorePageService {
       // hack for restore - active user is locked during restore process
       tap(() => this.lockService.unlock()),
       mapTo(void 0),
+      delay(100),
     );
   }
 
