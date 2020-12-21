@@ -20,6 +20,15 @@ export class PostsApiService {
   constructor(private environment: Environment) {
   }
 
+  public getPost(
+    api: string,
+    postIdentificationParameters: PostIdentificationParameters,
+  ): Observable<Post> {
+    return from(
+      this.createDecentrConnector(api).getPost(postIdentificationParameters)
+    );
+  }
+
   public getLatestPosts(
     api: string,
     filterOptions?: PostsFilterOptions,
