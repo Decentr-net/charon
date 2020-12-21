@@ -1,5 +1,5 @@
 <ng-container *transloco="let translate; read: 'user.user_page'">
-  <ng-container *ngIf="items.length > 0; else noData">
+  <ng-container *ngIf="items?.length > 0; else noData">
     <div
       class="activity-item"
       *ngFor="let activityItem of items; let i = index; trackBy: trackByAddress"
