@@ -25,6 +25,7 @@ export class TextClampDirective implements OnInit {
         startWith(void 0),
         untilDestroyed(this)
       ).subscribe(() => {
+        this.renderer.setStyle(this.elementRef.nativeElement, 'height', 'auto');
         const height = getComputedStyle(element).height;
         clamp(this.elementRef.nativeElement, { clamp: height });
         this.renderer.setStyle(this.elementRef.nativeElement, 'height', 'min-content');
