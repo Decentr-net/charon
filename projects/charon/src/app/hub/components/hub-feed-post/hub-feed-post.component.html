@@ -18,7 +18,7 @@
 
   <app-hub-post-content
     class="hub-feed-post__content"
-    [content]="post.text"
+    [content]="post.text | appCutHtmlImages"
   ></app-hub-post-content>
 
   <mat-divider class="hub-feed-post__divider"></mat-divider>

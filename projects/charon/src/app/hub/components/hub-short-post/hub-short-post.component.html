@@ -15,7 +15,7 @@
   <app-hub-post-pdv-diagram [pdv]="post.pdv"></app-hub-post-pdv-diagram>
 </div>
 
-<div
+<app-hub-post-content
   class="hub-short-post__content"
-  [innerHTML]="post.text | appSanitize : 'html'"
-></div>
+  [content]="post.text | appCutHtmlImages"
+></app-hub-post-content>
