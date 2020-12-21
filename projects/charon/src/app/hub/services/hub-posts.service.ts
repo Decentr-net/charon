@@ -114,10 +114,9 @@ export abstract class HubPostsService {
       catchError((error) => {
         this.notificationService.error(error);
 
-        this.updatePost(postId, post);
-
         return of(void 0);
       }),
+      mergeMap(() => this.updatePostLive(postId)),
     );
   }
 
@@ -144,15 +143,13 @@ export abstract class HubPostsService {
   }
 
   private updatePostLive(postId: Post['uuid']): Observable<void> {
-    const index = this.posts.value.findIndex((post) => post.uuid === postId);
-    const previousPost = this.posts.value[index - 1];
+    const oldPost = this.getPost(postId);
 
-    return this.loadFullPosts(previousPost, 1)
-      .pipe(
-        map((posts) => posts[0]),
-        tap((post) => this.updatePost(postId, post)),
-        mapTo(void 0),
-      );
+    return this.postsService.getPost(oldPost).pipe(
+      mergeMap((post) => this.updatePostsWithLikes([post])),
+      tap((post) => this.updatePost(postId, post)),
+      mapTo(void 0),
+    );
   }
 
   private pushPosts(posts: PostWithAuthor[]): void {

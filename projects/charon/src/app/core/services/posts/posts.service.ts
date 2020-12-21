@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { mapTo } from 'rxjs/operators';
 import { LikeWeight, Post } from 'decentr-js'
 
 import { PostsApiService } from '../api';
 import { AuthService } from '../../auth';
 import { NetworkService } from '../network';
-import { Observable } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
 
 @Injectable()
 export class PostsService {
@@ -14,6 +14,18 @@ export class PostsService {
     private networkService: NetworkService,
     private postsApiService: PostsApiService
   ) {
+  }
+
+  public getPost(
+    postIdentificationParameters: Pick<Post, 'owner' | 'uuid'>,
+  ): Observable<Post> {
+    return this.postsApiService.getPost(
+      this.networkService.getActiveNetworkInstant().api,
+      {
+        author: postIdentificationParameters.owner,
+        postId: postIdentificationParameters.uuid,
+      },
+    );
   }
 
   public likePost(post: Pick<Post, 'owner' | 'uuid'>, likeWeight: LikeWeight): Observable<void> {
