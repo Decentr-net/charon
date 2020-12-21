@@ -54,4 +54,43 @@ export class BaseValidationUtil {
         : null
     };
   }
+
+  static minHtmlTextLength(minLength: number): ValidatorFn<string> {
+    return (control) => {
+      const html = control.value;
+      const textarea = document.createElement('textarea');
+      textarea.innerHTML = html;
+      const htmlTextLength = textarea.textContent.trim().length;
+
+      console.log(htmlTextLength);
+
+      return htmlTextLength < minLength
+        ? {
+          minHtmlTextLength: {
+            current: htmlTextLength,
+            min: minLength,
+          },
+        }
+        : null;
+    }
+  }
+
+  static maxStringBytes(maxBytes: number): ValidatorFn<string> {
+    return (control) => {
+      if (!control.value) {
+        return null;
+      }
+
+      const bytesLength = new TextEncoder().encode(control.value).length;
+
+      return bytesLength > maxBytes
+        ? {
+          maxBytes: {
+            current: bytesLength,
+            max: maxBytes,
+          },
+        }
+        : null;
+    }
+  }
 }

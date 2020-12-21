@@ -22,8 +22,8 @@
       "text": {
         "placeholder": "Share what's new with Decentr community",
         "errors": {
-          "minlength": "The minimum length of the text is {{requiredLength}} characters",
-          "maxlength": "The maximum length of the text is {{requiredLength}} characters",
+          "maxBytes": "The text limit reached",
+          "minHtmlTextLength": "The minimum length of the text is {{min}} characters",
           "required": "Post text is requred"
         }
       },
