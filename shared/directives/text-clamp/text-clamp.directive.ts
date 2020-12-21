@@ -1,5 +1,5 @@
 import { Directive, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { auditTime, startWith } from 'rxjs/operators';
+import { auditTime, distinctUntilChanged } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import clamp from 'clamp-js';
 
@@ -22,13 +22,11 @@ export class TextClampDirective implements OnInit {
     observeResize(element)
       .pipe(
         auditTime(300),
-        startWith(void 0),
+        distinctUntilChanged((prev, curr) => prev.height === curr.height),
         untilDestroyed(this)
-      ).subscribe(() => {
-        this.renderer.setStyle(this.elementRef.nativeElement, 'height', 'auto');
-        const height = getComputedStyle(element).height;
-        clamp(this.elementRef.nativeElement, { clamp: height });
-        this.renderer.setStyle(this.elementRef.nativeElement, 'height', 'min-content');
-      });
+      ).subscribe(({ height }) => {
+      clamp(this.elementRef.nativeElement, { clamp: height });
+      this.renderer.setStyle(this.elementRef.nativeElement, 'max-height', height);
+    });
   }
 }
