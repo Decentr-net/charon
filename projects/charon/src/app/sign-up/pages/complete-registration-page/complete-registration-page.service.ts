@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { delay, mergeMap } from 'rxjs/operators';
 import { PublicProfile } from 'decentr-js';
 
 import { UserPrivate } from '@shared/services/auth';
@@ -46,6 +46,7 @@ export class CompleteRegistrationPageService {
         }),
         mergeMap(() => this.authService.updateUser(user.id, update)),
         mergeMap(() => this.authService.completeRegistration(user.id)),
+        delay(100),
       );
   }
 }

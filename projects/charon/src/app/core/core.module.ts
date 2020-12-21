@@ -32,9 +32,9 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
 @NgModule({
   imports: [
     AuthModule.forRoot({
-      authorizedRedirectUrl: `/${AppRoute.User}`,
-      completedRegistrationUrl: `/${AppRoute.User}`,
-      confirmedEmailUrl: `/${AppRoute.User}`,
+      authorizedRedirectUrl: `/`,
+      completedRegistrationUrl: `/`,
+      confirmedEmailUrl: `/${AppRoute.SignUp}/${SignUpRoute.CompleteRegistration}`,
       unauthorizedRedirectUrl: `/${AppRoute.Welcome}`,
       uncompletedRegistrationUrl: `/${AppRoute.SignUp}/${SignUpRoute.CompleteRegistration}`,
       unconfirmedEmailUrl: `/${AppRoute.SignUp}/${SignUpRoute.EmailConfirmation}`,
