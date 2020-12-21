@@ -17,6 +17,7 @@ import { PDVService } from '@shared/services/pdv';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { svgClose, svgLogo, svgNotification, svgSettings } from '@shared/svg-icons';
 import { TranslocoRootModule } from './transloco';
+import { TOOLBAR_SERVICES } from './services';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { TranslocoRootModule } from './transloco';
     TranslocoRootModule,
   ],
   providers: [
+    TOOLBAR_SERVICES,
     AppService,
     AuthBrowserStorageService,
     NetworkBrowserStorageService,

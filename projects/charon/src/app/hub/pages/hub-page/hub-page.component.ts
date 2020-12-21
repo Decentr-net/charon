@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { CoinRateFor24Hours } from '@shared/services/currency';
+import { BalanceValueDynamic } from '@shared/services/pdv';
 import { HUB_HEADER_META_SLOT } from '../../components/hub-header';
-import { ColorValueDynamic } from '@shared/components/color-value-dynamic';
 import { HubPageService } from './hub-page.service';
 
 @Component({
@@ -18,8 +19,8 @@ export class HubPageComponent implements OnInit {
   public headerMetaSlotName = HUB_HEADER_META_SLOT;
 
   public avatar$: Observable<string>;
-  public balance$: Observable<ColorValueDynamic>;
-  public coinRate$: Observable<ColorValueDynamic>;
+  public balance$: Observable<BalanceValueDynamic>;
+  public coinRate$: Observable<CoinRateFor24Hours>;
 
   constructor(
     private hubPageService: HubPageService,

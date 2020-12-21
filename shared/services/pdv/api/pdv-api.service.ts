@@ -1,6 +1,6 @@
 import { BroadcastResponse, Decentr, KeyPair, PDV, PDVDetails, PDVListItem, PDVStatItem, Wallet } from 'decentr-js';
 
-export class PDVService {
+export class PDVApiService {
   constructor(private chainId: string) {
   }
 
