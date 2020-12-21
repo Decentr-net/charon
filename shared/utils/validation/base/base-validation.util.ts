@@ -58,7 +58,7 @@ export class BaseValidationUtil {
   static minHtmlTextLength(minLength: number): ValidatorFn<string> {
     return (control) => {
       const html = control.value;
-      const textarea = document.createElement('textarea');
+      const textarea = document.createElement('div');
       textarea.innerHTML = html;
       const htmlTextLength = textarea.textContent.trim().length;
 
