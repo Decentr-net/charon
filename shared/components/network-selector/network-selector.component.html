@@ -16,26 +16,34 @@
   class="network-selector__menu"
 >
   <ng-template matMenuContent>
-    <div class="menu-wrapper">
-      <ng-container *ngIf="translations$ | async as translations">
-        <div class="menu-title">{{ translations.title }}</div>
-        <div class="menu-description">{{ translations.defaultNetwork }}</div>
-      </ng-container>
+    <ng-container *ngIf="networks$ | async as networks; else loader">
+      <div class="menu-wrapper">
+        <ng-container *ngIf="translations$ | async as translations">
+          <div class="menu-title">{{ translations.title }}</div>
+          <div class="menu-description">{{ translations.defaultNetwork }}</div>
+        </ng-container>
 
-      <div class="menu-items">
-        <div
-          class="menu-item"
-          [class.menu-item__active]="(activeNetworkName$ | async) === network.name"
-          [class.is-disabled]="network.disabled"
-          *ngFor="let network of networks$ | async; trackBy: trackByName"
-          (click)="switchNetwork(network)"
-        >
-          <div class="network-indicator"></div>
-          <div class="menu-item__name">
-            {{ network.name }}
+        <div class="menu-items">
+          <div
+            class="menu-item"
+            [class.menu-item__active]="(activeNetworkName$ | async) === network.name"
+            [class.is-disabled]="network.disabled"
+            *ngFor="let network of networks; trackBy: trackByName"
+            (click)="switchNetwork(network)"
+          >
+            <div class="network-indicator"></div>
+            <div class="menu-item__name">
+              {{ network.name }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ng-container>
+
+    <ng-template #loader>
+      <div class="network-selector__loader">
+        <app-spinner></app-spinner>
+      </div>
+    </ng-template>
   </ng-template>
 </mat-menu>
