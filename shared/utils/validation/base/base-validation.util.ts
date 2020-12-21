@@ -62,8 +62,6 @@ export class BaseValidationUtil {
       textarea.innerHTML = html;
       const htmlTextLength = textarea.textContent.trim().length;
 
-      console.log(htmlTextLength);
-
       return htmlTextLength < minLength
         ? {
           minHtmlTextLength: {
