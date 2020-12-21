@@ -213,6 +213,7 @@ export class PdvActivityChartComponent implements AfterViewInit {
       .attr('pointer-events', 'all')
       .attr('width', this.width - this.margin.left)
       .attr('height', this.height + this.margin.top + this.margin.bottom)
+      .on('mouseenter', mousemove)
       .on('mousemove', mousemove);
 
     this.svg.append('path')
