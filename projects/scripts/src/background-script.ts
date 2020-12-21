@@ -23,7 +23,7 @@ import { initMessageListeners, registeredTabs } from './background/listeners';
 import { initAutoLock } from './background/lock';
 
 const pdvUpdateNotifier = new PDVUpdateNotifier();
-pdvUpdateNotifier.start({ tabIds: registeredTabs, interval: 1000 });
+pdvUpdateNotifier.start({ tabIds: registeredTabs });
 
 initAutoLock();
 
