@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -31,7 +31,7 @@ export class UserPageComponent implements OnInit {
   public userRoute: typeof UserRoute = UserRoute;
   public user$: Observable<AuthUser>;
   public coinRate$: Observable<number>;
-  public balance$: Observable<BalanceValueDynamic>;
+  public balance: BalanceValueDynamic;
   public pdvList$: Observable<PDVActivityListItem[]>;
   public chartPoints$: Observable<ChartPoint[]>;
   public isOpenedInTab: boolean;
@@ -39,6 +39,7 @@ export class UserPageComponent implements OnInit {
   constructor(
     public matchMediaService: MediaService,
     private authService: AuthService,
+    private changeDetectorRef: ChangeDetectorRef,
     private navigationService: NavigationService,
     private router: Router,
     private spinnerService: SpinnerService,
@@ -53,7 +54,12 @@ export class UserPageComponent implements OnInit {
 
     this.coinRate$ = this.userPageService.getCoinRate();
 
-    this.balance$ = this.userPageService.getBalanceWithMargin();
+    this.userPageService.getBalanceWithMargin().pipe(
+      untilDestroyed(this),
+    ).subscribe((balance) => {
+      this.balance = balance;
+      this.changeDetectorRef.detectChanges();
+    });
 
     this.pdvList$ = this.userPageService.getPDVActivityList();
 

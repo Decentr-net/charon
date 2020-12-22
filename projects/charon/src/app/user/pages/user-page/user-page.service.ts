@@ -21,10 +21,6 @@ export class UserPageService {
   ) {
   }
 
-  public getBalance(): Observable<string> {
-    return this.pdvService.getBalance();
-  }
-
   public getBalanceWithMargin(): Observable<BalanceValueDynamic> {
     return this.pdvService.getBalanceWithMargin();
   }
