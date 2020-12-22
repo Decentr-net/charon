@@ -1,0 +1,10 @@
+@import 'mixins';
+
+:host {
+  @include clamp(2);
+
+  flex-shrink: 0;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 26px;
+}
