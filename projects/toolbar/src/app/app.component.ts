@@ -2,9 +2,11 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnI
 import { Observable } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { ColorValueDynamic } from '@shared/components/color-value-dynamic';
+import { CoinRateFor24Hours } from '@shared/services/currency';
+import { BalanceValueDynamic } from '@shared/services/pdv';
 import { AppService } from './app.service';
 import { TOOLBAR_HEIGHT } from './app.definitions';
+import { NavigationService } from './services';
 
 @UntilDestroy()
 @Component({
@@ -17,12 +19,13 @@ export class AppComponent implements OnInit {
   @HostBinding('style.height') public height = TOOLBAR_HEIGHT;
 
   public avatar$: Observable<string>;
-  public balance: ColorValueDynamic;
-  public coinRate: ColorValueDynamic;
+  public balance: BalanceValueDynamic;
+  public coinRate: CoinRateFor24Hours;
   public isLocked: boolean;
 
   constructor(
     private appService: AppService,
+    private navigationService: NavigationService,
     private changeDetectorRef: ChangeDetectorRef,
   ) {
   }
@@ -53,22 +56,22 @@ export class AppComponent implements OnInit {
   }
 
   public closeApp(): void {
-    this.appService.closeApp();
+    this.navigationService.closeApp();
   }
 
   public openCharonHubMyWall(): void {
-    this.appService.openCharonHubMyWall();
+    this.navigationService.openCharonHubMyWall();
   }
 
   public openCharonHubOverview(): void {
-    this.appService.openCharonHubOverview();
+    this.navigationService.openCharonHubOverview();
   }
 
   public openCharonHubRecentNews(): void {
-    this.appService.openCharonHubRecentNews();
+    this.navigationService.openCharonHubRecentNews();
   }
 
   public openCharonUserSettings(): void {
-    this.appService.openCharonUserSettings();
+    this.navigationService.openCharonUserSettings();
   }
 }

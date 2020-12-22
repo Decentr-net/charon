@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, pluck, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, pluck } from 'rxjs/operators';
 
-import { AuthService, AuthUser } from '@core/auth';
-import { calculateDifferencePercentage, exponentialToFixed } from '@shared/utils/number';
 import { ChartPoint } from '@shared/components/line-chart';
-import { ColorValueDynamic } from '@shared/components/color-value-dynamic';
-import { CurrencyService } from '@shared/services/currency';
-import { Network, NetworkService } from '@core/services';
-import { PDVService } from '@shared/services/pdv';
-import { User } from '@shared/services/auth';
+import { CoinRateFor24Hours, CurrencyService } from '@shared/services/currency';
+import { BalanceValueDynamic } from '@shared/services/pdv';
+import { AuthService, AuthUser } from '@core/auth';
+import { PDVService } from '@core/services';
 
 interface CoinRateHistory {
   date: number,
@@ -21,62 +18,26 @@ export class HubPageService {
   constructor(
     private authService: AuthService,
     private currencyService: CurrencyService,
-    private networkService: NetworkService,
-    private pdvService: PDVService
+    private pdvService: PDVService,
   ) {
   }
 
-  public getAvatar(): Observable<User['avatar']> {
+  public getAvatar(): Observable<AuthUser['avatar']> {
     return this.authService.getActiveUser().pipe(
       pluck('avatar'),
     );
   }
 
-  public getBalance(): Observable<string> {
-    return this.getWalletAddressAndNetworkApiStream().pipe(
-      switchMap(({ walletAddress, networkApi }) => {
-        return this.pdvService.getBalance(networkApi, walletAddress);
-      }),
-      map(exponentialToFixed),
-    );
+  public getBalanceWithMargin(): Observable<BalanceValueDynamic> {
+    return this.pdvService.getBalanceWithMargin();
   }
 
-  public getBalanceWithMargin(): Observable<ColorValueDynamic> {
-    return combineLatest([
-      this.getBalance(),
-      this.getPDVChartPoints(),
-    ])
-      .pipe(
-        map(([pdvRate, pdvRateHistory]) => {
-          const now = new Date;
-          const historyDate = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() - 1);
-          const historyPdvRate = pdvRateHistory.find(el => el.date === historyDate)?.value;
-
-          return {
-            dayMargin: calculateDifferencePercentage(Number(pdvRate), historyPdvRate),
-            value: pdvRate,
-          }
-        })
-      )
-  }
-
-  public getCoinRateWithMargin(): Observable<ColorValueDynamic> {
+  public getCoinRateWithMargin(): Observable<CoinRateFor24Hours> {
     return this.currencyService.getDecentrCoinRateForUsd24hours();
   }
 
   public getPDVChartPoints(): Observable<ChartPoint[]> {
-    return this.getWalletAddressAndNetworkApiStream().pipe(
-      switchMap(({ walletAddress, networkApi }) => {
-        return this.pdvService.getPDVStats(networkApi, walletAddress);
-      }),
-      map((stats) => stats
-        .map(({ date, value }) => ({
-          date: new Date(date).valueOf(),
-          value,
-        }))
-        .sort((a, b) => a.date - b.date)
-      ),
-    );
+    return this.pdvService.getPDVStatChartPoints();
   }
 
   public getDecentCoinRateHistory(days: number): Observable<CoinRateHistory[]> {
@@ -85,22 +46,6 @@ export class HubPageService {
         date: historyElement[0],
         value: historyElement[1],
       })))
-    );
-  }
-
-  private getWalletAddressAndNetworkApiStream(): Observable<{
-    walletAddress: AuthUser['wallet']['address'];
-    networkApi: Network['api'];
-  }> {
-    return combineLatest([
-      this.authService.getActiveUser().pipe(
-        pluck('wallet', 'address'),
-      ),
-      this.networkService.getActiveNetwork().pipe(
-        pluck('api')
-      ),
-    ]).pipe(
-      map(([walletAddress, networkApi]) => ({ walletAddress, networkApi })),
     );
   }
 }

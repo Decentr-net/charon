@@ -4,7 +4,7 @@ import { shareReplay } from 'rxjs/operators';
 
 import { AuthService, AuthUser } from '../../auth';
 import { LockService } from '../../lock';
-import { ProfileSelectorService } from '../profile-selector.service';
+import { PDVService } from '../../services';
 import { AppRoute } from '../../../app-route';
 
 @Component({
@@ -21,12 +21,12 @@ export class ProfileSelectorComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private lockService: LockService,
-    private profileSelectorService: ProfileSelectorService,
+    private pdvService: PDVService,
   ) {
   }
 
   public ngOnInit(): void {
-    this.balance$ = this.profileSelectorService.getBalance().pipe(
+    this.balance$ = this.pdvService.getBalance().pipe(
       shareReplay(1),
     );
 

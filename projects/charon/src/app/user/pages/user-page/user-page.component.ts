@@ -6,19 +6,15 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { NotificationService } from '@shared/services/notification';
+import { BalanceValueDynamic } from '@shared/services/pdv';
 import { copyContent } from '@shared/utils/copy-content';
 import { AuthService, AuthUser } from '@core/auth';
+import { isOpenedInTab } from '@core/browser';
 import { NavigationService } from '@core/navigation';
 import { MediaService, SpinnerService } from '@core/services';
 import { UserRoute } from '../../user.route';
 import { ChartPoint, PDVActivityListItem } from '../../components';
 import { UserPageService } from './user-page.service';
-import { isOpenedInTab } from '../../../core/browser';
-
-export interface BalanceValueDynamic {
-  dayMargin: number;
-  value: string | number;
-}
 
 @UntilDestroy()
 @Component({
