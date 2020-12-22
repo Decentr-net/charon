@@ -1,7 +1,5 @@
 import { Observable, Subject, Subscription, timer } from 'rxjs';
 import { debounceTime, mapTo, repeat, takeUntil } from 'rxjs/operators';
-import { Tabs } from 'webextension-polyfill-ts';
-import Tab = Tabs.Tab;
 
 import { MessageBus } from '../../message-bus';
 
@@ -22,16 +20,16 @@ export class PDVUpdateNotifier {
       );
   }
 
-  public notify(tabIds: Tab['id'][]): Promise<void[]> {
+  public notify(): Promise<void[]> {
     this.resetTimer$.next();
 
-    return PDVUpdateNotifier.messageBus.sendMessageToTabs(tabIds, messageCode);
+    return PDVUpdateNotifier.messageBus.sendMessage(messageCode);
   }
 
-  public start(options: { interval?: number, tabIds: Tab['id'][] }): void {
+  public start(options?: { interval?: number }): void {
     this.stop();
 
-    const interval = options.interval || 1000 * 60;
+    const interval = options?.interval || 1000 * 60;
 
     this.timerSubscription = timer(interval, interval)
       .pipe(
@@ -39,7 +37,7 @@ export class PDVUpdateNotifier {
         repeat(),
       )
       .subscribe(() => {
-        this.notify(options.tabIds);
+        this.notify();
       });
   }
 

@@ -31,7 +31,7 @@
         <div class="network-icon">
           <img src="assets/images/logo-icon.svg" alt="Decentr">
         </div>
-        <ng-container *ngIf="balance$ | async as balance">
+        <ng-container *ngIf="balance">
           <div class="pdv-rate">
             <span class="pdv-rate-value">{{ balance.value | pdvValue }} PDV</span>
 

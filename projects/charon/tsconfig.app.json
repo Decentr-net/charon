@@ -8,6 +8,7 @@
     "paths": {
       "@core/*": ["src/app/core/*"],
       "@environments/*": ["../../environments/*"],
+      "@scripts/*": ["../scripts/src/*"],
       "@shared/*": ["../../shared/*"]
     }
   },

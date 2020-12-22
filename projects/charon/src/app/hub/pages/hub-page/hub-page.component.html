@@ -9,7 +9,7 @@
   >
     <app-color-value-dynamic
       class="hub-page__header-meta-label"
-      *ngIf="balance$ | async as balance"
+      *ngIf="balance"
       [circleType]="'hole'"
       [color]="'green'"
       [dayMargin]="balance.dayMargin"
