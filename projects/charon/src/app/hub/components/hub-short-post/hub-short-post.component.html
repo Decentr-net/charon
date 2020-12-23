@@ -17,5 +17,5 @@
 
 <app-hub-post-content
   class="hub-short-post__content"
-  [content]="post.text | appCutHtmlImages"
+  [content]="post.text | appCutHtmlImages | appFirstParagraph"
 ></app-hub-post-content>

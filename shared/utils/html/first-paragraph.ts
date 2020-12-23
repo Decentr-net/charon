@@ -40,7 +40,7 @@ export const getFirstParagraph = (
     nodeToCheck = nodeToCheck.nextSibling;
   }
 
-  return target.innerHTML;
+  return target.innerHTML + (source.textContent > target.textContent ? '...' : '');
 }
 
 const createFragmentWrappedContainer = (): HTMLDivElement => {

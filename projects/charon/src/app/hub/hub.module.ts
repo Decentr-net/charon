@@ -24,6 +24,7 @@ import { FormErrorModule } from '@shared/components/form-error';
 import { HubRoutingModule } from './hub-routing.module';
 import { LineChartModule } from '@shared/components/line-chart';
 import { CutHtmlImagesModule } from '@shared/pipes/cut-html-images';
+import { FirstParagraphModule } from '@shared/pipes/first-paragraph';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { PositiveNumberModule } from '@shared/pipes/positiveNumber';
 import { SanitizeModule } from '@shared/pipes/sanitize';
@@ -46,6 +47,7 @@ import { TextClampModule } from '@shared/directives/text-clamp';
     CommonModule,
     CutHtmlImagesModule,
     DateAgoModule,
+    FirstParagraphModule,
     FormErrorModule,
     HubRoutingModule,
     InlineSVGModule,
