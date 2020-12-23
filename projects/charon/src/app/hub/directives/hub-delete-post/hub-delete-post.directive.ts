@@ -1,7 +1,7 @@
 import { Directive, HostListener, Input } from '@angular/core';
 import { Post } from 'decentr-js';
 
-import { HubDeletePostDialogComponent } from './hub-delete-post-dialog.component';
+import { HubDeletePostDialogComponent } from '../../components/hub-delete-post-dialog';
 import { HubPostsService } from '../../services';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -12,8 +12,8 @@ export class HubDeletePostDirective {
   @Input('appHubDeletePost') public post: Post;
 
   constructor(
+    private dialog: MatDialog,
     private hubPostsService: HubPostsService,
-    public dialog: MatDialog,
   ) {
   }
 

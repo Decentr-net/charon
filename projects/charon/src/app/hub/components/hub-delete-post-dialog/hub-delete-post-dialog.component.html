@@ -1,0 +1,19 @@
+<ng-container *transloco="let translate; read: 'hub.hub_delete_posts.dialog'">
+  <h1 mat-dialog-title>
+    {{ translate('delete_post') }}
+  </h1>
+  <mat-dialog-actions class="hub-delete-post-dialog__actions">
+    <button
+      class="hub-delete-post-dialog__button hub-delete-post-dialog__button-yes"
+      [mat-dialog-close]="true"
+    >
+      {{ translate('yes') }}
+    </button>
+    <button
+      class="hub-delete-post-dialog__button"
+      [mat-dialog-close]="false"
+    >
+      {{ translate('no') }}
+    </button>
+  </mat-dialog-actions>
+</ng-container>

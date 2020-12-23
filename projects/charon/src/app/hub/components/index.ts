@@ -2,7 +2,7 @@ import { HubActivityStatisticsComponent } from './hub-activity-statistics';
 import { HubCategorySelectComponent } from './hub-category-select';
 import { HubCreatePostDialogComponent } from './hub-create-post-dialog';
 import { HubCurrencyStatisticsComponent } from './hub-currency-statistics';
-import { HubDeletePostDialogComponent } from '../directives/hub-delete-post';
+import { HubDeletePostDialogComponent } from './hub-delete-post-dialog';
 import { HubHeaderComponent } from './hub-header';
 import { HubInfinitePostsContainerComponent } from './hub-infinite-posts-container';
 import { HubLoadMoreButtonComponent } from './hub-load-more-button';

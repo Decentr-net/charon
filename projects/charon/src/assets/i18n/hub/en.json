@@ -96,6 +96,11 @@
     "recent": "Recent"
   },
   "hub_delete_posts": {
+    "dialog": {
+      "delete_post": "Delete post?",
+      "no": "No",
+      "yes": "Yes"
+    },
     "success": "Post has been removed successfully"
   },
   "hub_post_category": {
