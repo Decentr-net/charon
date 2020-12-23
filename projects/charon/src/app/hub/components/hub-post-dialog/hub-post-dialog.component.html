@@ -22,6 +22,7 @@
     <div class="hub-post-dialog__title">
       <app-hub-post-title>{{ post.title }}</app-hub-post-title>
       <svg-icon
+        *appHasPermission="permissions.DELETE_POST"
         class="hub-post-dialog__title-remove"
         key="trash"
         title="{{ translate('remove_post') }}"

@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { arrayIntersection, excludeArrayValues } from '../utils/array';
 
 @Injectable()
-export class PermissionsService<T = string> {
+export class PermissionsService<T = string | number> {
   private permissions$: BehaviorSubject<T[]> = new BehaviorSubject([]);
 
   public getPermissions(): Observable<T[]> {

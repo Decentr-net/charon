@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
+import { UserPermissions } from '@core/permissions';
 import { PostWithAuthor } from '../../models/post';
 import { svgTrash } from '@shared/svg-icons';
 
@@ -13,6 +14,8 @@ import { svgTrash } from '@shared/svg-icons';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubPostDialogComponent {
+  public readonly permissions: typeof UserPermissions = UserPermissions;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public post$: Observable<PostWithAuthor>,
     private svgIconRegistry: SvgIconRegistry,
