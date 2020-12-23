@@ -73,6 +73,18 @@ export class PostsApiService {
     );
   }
 
+  public deletePost(
+    api: string,
+    walletAddress: Wallet['address'],
+    privateKey: Wallet['privateKey'],
+    post: PostIdentificationParameters,
+  ): Observable<BroadcastResponse> {
+    return from(
+      this.createDecentrConnector(api)
+        .deletePost(walletAddress, post, { broadcast: true, privateKey }),
+    );
+  }
+
   public likePost(
     api: string,
     walletAddress: Wallet['address'],

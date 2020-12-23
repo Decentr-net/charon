@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
-import { LikeWeight, Post } from 'decentr-js'
+import { LikeWeight, Post, PostIdentificationParameters } from 'decentr-js'
 
 import { PostsApiService } from '../api';
 import { AuthService } from '../../auth';
@@ -49,6 +49,21 @@ export class PostsService {
     return this.postsApiService.getLikedPosts(
       this.networkService.getActiveNetworkInstant().api,
       this.authService.getActiveUserInstant().wallet.address,
+    );
+  }
+
+  public deletePost(
+    post: PostIdentificationParameters,
+  ): Observable<void> {
+    const wallet = this.authService.getActiveUserInstant().wallet;
+
+    return this.postsApiService.deletePost(
+      this.networkService.getActiveNetworkInstant().api,
+      wallet.address,
+      wallet.privateKey,
+      post,
+    ).pipe(
+      mapTo(void 0),
     );
   }
 }

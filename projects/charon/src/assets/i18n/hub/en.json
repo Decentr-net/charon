@@ -95,6 +95,9 @@
     "my_wall": "My Wall",
     "recent": "Recent"
   },
+  "hub_delete_posts": {
+    "success": "Post has been removed successfully"
+  },
   "hub_post_category": {
     "1": "World News",
     "2": "Travel & Tourism",

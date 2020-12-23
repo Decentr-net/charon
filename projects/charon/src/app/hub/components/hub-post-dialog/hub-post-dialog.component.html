@@ -23,7 +23,7 @@
       <app-hub-post-title>{{ post.title }}</app-hub-post-title>
       <ng-container *appHasPermission="permissions.DELETE_POST">
         <svg-icon
-          [appHubDeletePost]="post.uuid"
+          [appHubDeletePost]="post"
           class="hub-post-dialog__title-remove"
           key="trash"
           title="{{ translate('remove_post') }}"
