@@ -29,7 +29,11 @@ export class SignUpPageService {
           ? new TranslatedError(
             this.translocoService.translate('sign_up_page.errors.account_conflict', null, 'sign-up')
           )
-          : error;
+          : error.status === StatusCodes.TOO_MANY_REQUESTS
+            ? new TranslatedError(
+              this.translocoService.translate('sign_up_page.errors.too_many_requests', null, 'sign-up')
+            )
+            : error;
 
         return throwError(errorToThrow);
       }),
