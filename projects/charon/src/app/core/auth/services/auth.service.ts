@@ -59,6 +59,7 @@ export class AuthService {
       emailConfirmed: user.emailConfirmed,
       emails: user.emails,
       gender: user.gender,
+      isModerator: user.isModerator,
       passwordHash: AuthService.encryptPassword(user.password),
       primaryEmail: user.primaryEmail,
       primaryUsername: user.usernames?.[0],

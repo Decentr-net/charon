@@ -32,6 +32,12 @@ export class UserService {
     );
   }
 
+  public getModeratorAddress(): Observable<string> {
+    return this.userApiService.getModeratorAddress(
+      this.networkService.getActiveNetworkInstant().api,
+    );
+  }
+
   public waitAccount(walletAddress: string): Observable<Account> {
     return this.getAccount(walletAddress).pipe(
       retryWhen(errors => errors.pipe(
