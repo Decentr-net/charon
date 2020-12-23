@@ -35,10 +35,10 @@ export class UserService {
   public waitAccount(walletAddress: string): Observable<Account> {
     return this.getAccount(walletAddress).pipe(
       retryWhen(errors => errors.pipe(
-        delay(200),
+        delay(500),
         take(5),
       )),
-      delay(200),
+      delay(500),
       repeat(),
       skipWhile(v => v === undefined),
       take(1),
