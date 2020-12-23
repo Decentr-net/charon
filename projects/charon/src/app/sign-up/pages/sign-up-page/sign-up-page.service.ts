@@ -25,15 +25,25 @@ export class SignUpPageService {
 
     return this.userService.createUser(user.primaryEmail, wallet.address).pipe(
       catchError((error) => {
-        const errorToThrow = error.status === StatusCodes.CONFLICT
-          ? new TranslatedError(
-            this.translocoService.translate('sign_up_page.errors.account_conflict', null, 'sign-up')
-          )
-          : error.status === StatusCodes.TOO_MANY_REQUESTS
-            ? new TranslatedError(
+        let errorToThrow: Error;
+
+        switch (error.status) {
+          case StatusCodes.CONFLICT: {
+            errorToThrow = new TranslatedError(
+              this.translocoService.translate('sign_up_page.errors.account_conflict', null, 'sign-up')
+            );
+            break;
+          }
+          case StatusCodes.TOO_MANY_REQUESTS: {
+            errorToThrow = new TranslatedError(
               this.translocoService.translate('sign_up_page.errors.too_many_requests', null, 'sign-up')
-            )
-            : error;
+            );
+            break;
+          }
+          default: {
+            errorToThrow = error;
+          }
+        }
 
         return throwError(errorToThrow);
       }),
