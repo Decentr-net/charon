@@ -11,8 +11,8 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
-import { BACKSPACE } from '@angular/cdk/keycodes';
-import { noop } from 'rxjs';
+import { BACKSPACE, SPACE } from '@angular/cdk/keycodes';
+import { fromEvent, noop } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ControlValueAccessor, FormArray, FormControl } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -49,6 +49,11 @@ export class CodeInputComponent implements OnInit, AfterViewInit, ControlValueAc
   public onChange: (value: string | null) => void = noop;
   public onTouched: () => void = noop;
 
+  constructor(private elementRef: ElementRef) {
+    fromEvent(this.elementRef.nativeElement, 'keydown', { capture: true })
+      .subscribe((event: KeyboardEvent) => this.onKeydown(event));
+  }
+
   public ngOnInit(): void {
     this.formArray.value$.pipe(
       map(chars => chars.join('')),
@@ -61,7 +66,7 @@ export class CodeInputComponent implements OnInit, AfterViewInit, ControlValueAc
 
   public ngAfterViewInit(): void {
     if (this.autofocus) {
-      this.inputElementsRefs.toArray()[0].nativeElement.focus();
+      this.getInputAt(0).focus();
     }
   }
 
@@ -82,27 +87,47 @@ export class CodeInputComponent implements OnInit, AfterViewInit, ControlValueAc
 
   public onInput(event: Event): void {
     if ((event as InputEvent).inputType !== 'deleteContentBackward') {
-      this.moveTo(event.target as HTMLInputElement, 'right');
+      this.moveFrom(event.target as HTMLInputElement, 'right');
     }
   }
 
   public onKeydown(event: KeyboardEvent): void {
     const target = event.target as HTMLInputElement;
-    if (event.keyCode === BACKSPACE) {
-      const hasValue = target.value;
-      const currentInput = this.moveTo(event.target as HTMLInputElement, 'left');
-      if (!currentInput || hasValue) {
-        return;
-      }
 
-      const controlIndex = this.inputElementsRefs.toArray()
-        .findIndex((ref) => ref.nativeElement === currentInput);
-      this.formArray.controls[controlIndex].setValue('');
+    switch (event.keyCode) {
+      case BACKSPACE: {
+        const hasValue = target.value;
+
+        const controlIndex = this.inputElementsRefs.toArray()
+          .findIndex((ref) => ref.nativeElement === event.target);
+
+        if (hasValue) {
+          this.getControlAt(controlIndex).setValue('');
+        } else {
+          const prevControl = this.getControlAt(controlIndex - 1);
+          if (prevControl) {
+            prevControl.setValue('');
+          }
+        }
+
+        this.moveFrom(event.target as HTMLInputElement, 'left');
+
+        event.preventDefault();
+        break;
+      }
+      case SPACE: {
+        event.preventDefault();
+        break;
+      }
     }
   }
 
   public onPaste(pasteEvent: ClipboardEvent): void {
     const text = pasteEvent.clipboardData.getData('Text');
+
+    const inputToFocus = this.getInputAt(Math.min(text.length, this.formArray.length - 1));
+    inputToFocus.focus();
+
     this.writeValue(text);
   }
 
@@ -117,7 +142,15 @@ export class CodeInputComponent implements OnInit, AfterViewInit, ControlValueAc
     }
   }
 
-  private moveTo(from: HTMLInputElement, direction: 'left' | 'right'): HTMLInputElement | null {
+  private getControlAt(index: number): FormControl<string> {
+    return this.formArray.controls[index];
+  }
+
+  private getInputAt(index: number): HTMLInputElement | undefined {
+    return this.inputElementsRefs.toArray()[index].nativeElement;
+  }
+
+  private moveFrom(from: HTMLInputElement, direction: 'left' | 'right'): HTMLInputElement | null {
     const fromElementRef = this.inputElementsRefs.toArray()
       .findIndex((ref) => ref.nativeElement === from);
     const nextElementRef = this.inputElementsRefs.toArray()[fromElementRef + (direction === 'left' ? -1 : 1)];
