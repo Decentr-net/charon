@@ -91,6 +91,12 @@ export abstract class HubPostsService {
     );
   }
 
+  public deletePost(
+    postId: Post['uuid'],
+  ) {
+    this.replacePost(postId, () => {});
+  };
+
   public getPost(postId: Post['uuid']): PostWithAuthor {
     return this.posts.value.find((post) => post.uuid === postId);
   }
@@ -169,21 +175,29 @@ export abstract class HubPostsService {
     return this.profileMap.get(walletAddress);
   }
 
+  private replacePost(
+    postId: Post['uuid'],
+    updateFn: (post: PostWithAuthor) => PostWithAuthor | void,
+  ) {
+    const postIndex = this.posts.value.findIndex((post) => post.uuid === postId);
+    const post = this.posts.value[postIndex];
+    const newPost = updateFn(post);
+
+    this.posts.next([
+      ...this.posts.value.slice(0, postIndex),
+      ...newPost ? [newPost] : [],
+      ...this.posts.value.slice(postIndex + 1),
+    ]);
+  }
+
   private updatePost(
     postId: Post['uuid'],
     update: Partial<Omit<Post, 'uuid'>>,
   ): void {
-    const postIndex = this.posts.value.findIndex((post) => post.uuid === postId);
-    const post = this.posts.value[postIndex];
-
-    this.posts.next([
-      ...this.posts.value.slice(0, postIndex),
-      {
-        ...post,
-        ...update,
-      },
-      ...this.posts.value.slice(postIndex + 1),
-    ]);
+    this.replacePost(postId, (post) => ({
+      ...post,
+      ...update,
+    }));
   }
 
   private updatePostsWithAuthors<T extends Post>(

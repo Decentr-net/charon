@@ -1,5 +1,14 @@
-import { Directive, ElementRef, HostListener, Input, OnInit, Renderer2, ViewContainerRef } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {
+  Directive,
+  ElementRef,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  ViewContainerRef
+} from '@angular/core';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { Post } from 'decentr-js';
 
@@ -10,8 +19,10 @@ import { PostWithAuthor } from '../../models/post';
 @Directive({
   selector: '[appHubPostDialog]'
 })
-export class HubPostDialogDirective implements OnInit {
+export class HubPostDialogDirective implements OnInit, OnDestroy {
   @Input('appHubPostDialog') public postId: Post['uuid'];
+
+  private dialogRef: MatDialogRef<HubPostDialogComponent>;
 
   constructor(
     private hubPostsService: HubPostsService,
@@ -37,6 +48,12 @@ export class HubPostDialogDirective implements OnInit {
       viewContainerRef: this.viewContainerRef,
     };
 
-    this.matDialog.open(HubPostDialogComponent, config);
+    this.dialogRef = this.matDialog.open(HubPostDialogComponent, config);
+  }
+
+  ngOnDestroy(): void {
+    if (this.dialogRef) {
+      this.dialogRef.close();
+    }
   }
 }
