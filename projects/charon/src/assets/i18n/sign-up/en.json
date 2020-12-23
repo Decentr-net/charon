@@ -111,7 +111,7 @@
     "title": "E-mail Confirmation",
     "errors": {
       "account_conflict": "Account already confirmed",
-      "account_not_found": "Account not found"
+      "account_not_found": "Account not found or activation code is not valid"
     }
   },
   "seed_phrase_page": {
