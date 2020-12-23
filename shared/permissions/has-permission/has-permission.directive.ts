@@ -33,7 +33,9 @@ export class HasPermissionDirective<T> implements OnInit {
         return;
       }
 
-      this.viewContainerRef.createEmbeddedView(this.templateRef);
+      if (!this.viewContainerRef.length) {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
     });
   }
 }
