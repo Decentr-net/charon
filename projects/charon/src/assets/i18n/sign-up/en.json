@@ -111,7 +111,7 @@
     "title": "E-mail Confirmation",
     "errors": {
       "account_conflict": "Account already confirmed",
-      "account_not_found": "Account not found"
+      "account_not_found": "Account not found or activation code is not valid"
     }
   },
   "seed_phrase_page": {
@@ -139,7 +139,8 @@
   },
   "sign_up_page": {
     "errors": {
-      "account_conflict": "A wallet has already been created for this email or wallet address"
+      "account_conflict": "A wallet has already been created for this email or wallet address",
+      "too_many_requests": "Too many requests"
     }
   },
   "success_page": {
