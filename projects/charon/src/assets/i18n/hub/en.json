@@ -76,6 +76,9 @@
       "your_pdv": "Your PDV"
     }
   },
+  "hub_post_dialog": {
+    "remove_post": "Remove post"
+  },
   "hub_feed_post": {
     "posted": "dposted"
   },

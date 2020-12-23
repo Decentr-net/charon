@@ -47,3 +47,16 @@ $hub-post-dialog--background-color: #FFFFFF;
   display: flex;
   justify-content: space-between;
 }
+
+.hub-post-dialog__title {
+  align-items: center;
+  display: inline-flex;
+}
+
+.hub-post-dialog__title-remove {
+  cursor: pointer;
+  display: inline-flex;
+  height: 20px;
+  margin-left: 10px;
+  width: 20px;
+}
