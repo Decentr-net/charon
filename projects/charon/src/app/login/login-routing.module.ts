@@ -6,6 +6,7 @@ import { BrowserTabGuard } from '@core/guards';
 import { MainLayoutComponent, MainLayoutModule } from '../layout/main-layout';
 import { PublicLayoutComponent, PublicLayoutModule } from '../layout/public-layout';
 import { ImportRestorePageComponent, ImportRestorePageType, LoginPageComponent } from './pages';
+import { LOGIN_GUARDS, LoginGuard } from './guards';
 import { LoginRoute } from './login-route';
 
 const ROUTES: Routes = [
@@ -19,6 +20,7 @@ const ROUTES: Routes = [
       },
     ],
     canActivate: [
+      LoginGuard,
       AuthConfirmedGuard,
     ],
   },
@@ -33,6 +35,7 @@ const ROUTES: Routes = [
       },
     ],
     canActivate: [
+      LoginGuard,
       BrowserTabGuard,
       UnauthGuard,
     ],
@@ -48,6 +51,7 @@ const ROUTES: Routes = [
       },
     ],
     canActivate: [
+      LoginGuard,
       BrowserTabGuard,
       AuthConfirmedGuard,
     ],
@@ -62,6 +66,9 @@ const ROUTES: Routes = [
   ],
   exports: [
     RouterModule,
+  ],
+  providers: [
+    LOGIN_GUARDS,
   ],
 })
 export class LoginRoutingModule {
