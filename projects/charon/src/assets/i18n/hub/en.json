@@ -100,8 +100,7 @@
       "delete_post": "Delete post?",
       "no": "No",
       "yes": "Yes"
-    },
-    "success": "Post has been removed successfully"
+    }
   },
   "hub_post_category": {
     "1": "World News",
@@ -112,5 +111,11 @@
     "6": "Writers & Writing",
     "7": "Health & Fitness",
     "8": "Crypto & Blockchain"
+  },
+  "notifications": {
+    "delete": {
+      "success": "Post has been removed successfully"
+    },
+    "not_exists": "Current post is no longer available, because it breaks Decentr policy"
   }
 }

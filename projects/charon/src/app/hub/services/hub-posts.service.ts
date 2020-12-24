@@ -5,20 +5,20 @@ import {
   distinctUntilChanged,
   finalize,
   map,
-  mapTo,
   mergeMap,
   switchMap,
   takeUntil,
   tap,
 } from 'rxjs/operators';
+import { TranslocoService } from '@ngneat/transloco';
 import { LikeWeight, Post, PublicProfile } from 'decentr-js';
 
 import { NotificationService } from '@shared/services/notification';
 import { createSharedOneValueObservable } from '@shared/utils/observable';
+import { TranslatedError } from '@core/notifications';
 import { PostsService, SpinnerService, UserService } from '../../core/services';
 import { PostWithAuthor } from '../models/post';
 import { HubCreatePostService } from './hub-create-post.service';
-import { TranslocoService } from '@ngneat/transloco';
 
 export abstract class HubPostsService {
   protected readonly createPostService: HubCreatePostService;
@@ -41,7 +41,8 @@ export abstract class HubPostsService {
 
   private readonly profileMap: Map<Post['owner'], Observable<PublicProfile>> = new Map();
 
-  static reloadNotifier$: Subject<void> = new Subject();
+  private static deleteNotifier$: Subject<Post['uuid']> = new Subject();
+  private static reloadNotifier$: Subject<void> = new Subject();
 
   protected constructor(
     injector: Injector,
@@ -75,6 +76,12 @@ export abstract class HubPostsService {
       takeUntil(this.dispose$),
     ).subscribe(() => {
       this.reload();
+    });
+
+    HubPostsService.deleteNotifier$.pipe(
+      takeUntil(this.dispose$),
+    ).subscribe((postId) => {
+      this.replacePost(postId, () => undefined);
     });
   }
 
@@ -121,7 +128,7 @@ export abstract class HubPostsService {
       })
     ).subscribe(
       () => {
-        this.notificationService.success(this.translocoService.translate('hub.hub_delete_posts.success'));
+        this.notificationService.success(this.translocoService.translate('hub.notifications.delete.success'));
     }, (error) => {
         this.notificationService.error(error);
       });
@@ -182,10 +189,21 @@ export abstract class HubPostsService {
     const oldPost = this.getPost(postId);
 
     return this.postsService.getPost(oldPost).pipe(
-      mergeMap((post) => this.updatePostsWithLikes([post])),
-      map((posts) => posts[0]),
-      tap((post) => this.updatePost(postId, post)),
-      mapTo(void 0),
+      mergeMap((post) => {
+        if (!+post.createdAt) {
+            this.notificationService.error(
+              new TranslatedError(this.translocoService.translate('hub.notifications.not_exists')),
+            );
+
+            HubPostsService.deleteNotifier$.next(postId);
+            return of(void 0);
+        }
+
+        return this.updatePostsWithLikes([post]).pipe(
+          map((posts) => posts[0]),
+          tap((post) => this.updatePost(postId, post)),
+        );
+      }),
     );
   }
 

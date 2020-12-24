@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { LikeWeight, Post } from 'decentr-js';
 
 import { AuthService } from '../../core/auth';
@@ -42,7 +42,7 @@ export class HubLikesService {
     HubLikesService.isLikeUpdating.next(true);
 
     return this.hubPostsService.likePost(postId, likeWeight).pipe(
-      tap(() => HubLikesService.isLikeUpdating.next(false)),
+      finalize(() => HubLikesService.isLikeUpdating.next(false)),
     );
   }
 }
