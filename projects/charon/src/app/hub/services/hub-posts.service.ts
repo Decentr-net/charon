@@ -286,7 +286,11 @@ export abstract class HubPostsService {
 
   private loadFullPosts(fromPost: Post, count: number): Observable<PostWithAuthor[]> {
     return this.loadPosts(fromPost, count).pipe(
-      map((posts) => posts.filter((post) => !!+post.createdAt)),
+      map((posts) => {
+        return posts
+          .filter((post) => !!+post.createdAt)
+          .sort((left, right) => right.pdv - left.pdv || right.createdAt - left.createdAt);
+      }),
       mergeMap((posts) => this.updatePostsWithAuthors(posts)),
       mergeMap((posts) => this.updatePostsWithLikes(posts)),
     );
