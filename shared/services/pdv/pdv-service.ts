@@ -63,7 +63,7 @@ export class PDVService {
       )
   }
 
-  public sendPDV(api: string, wallet: Wallet, pdv: PDV): Observable<BroadcastResponse> {
-    return from(this.pdvApiService.sendPDV(api, wallet, pdv));
+  public sendPDV(api: string, wallet: Wallet, pdv: PDV): Promise<BroadcastResponse> {
+    return this.pdvApiService.sendPDV(api, wallet, pdv);
   }
 }

@@ -1,4 +1,4 @@
-import { defer, forkJoin, Observable } from 'rxjs';
+import { defer, Observable } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 import PQueue from 'p-queue';
 import { browser, Cookies } from 'webextension-polyfill-ts';
@@ -77,15 +77,15 @@ export const sendCookies = (
 ): Observable<void> => {
   const groupedCookies = groupCookiesByDomainAndPath(cookies);
 
-  return forkJoin(
-    groupedCookies.map((group) => defer(() => queue.add(() => {
+  return defer(() => queue.add(() => {
+    return Promise.all(groupedCookies.map((group) => {
       return pdvService.sendPDV(
         networkStorage.getActiveNetworkInstant().api,
         wallet,
         convertCookiesToPdv(group.cookies, group.domain, group.path),
       );
-    }))),
-  ).pipe(
+    }));
+  })).pipe(
     mapTo(void 0),
   );
 }
