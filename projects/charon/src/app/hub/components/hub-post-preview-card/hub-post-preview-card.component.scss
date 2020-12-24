@@ -28,7 +28,4 @@ $hub-post-preview-card--padding-horizontal: 24px;
 
 .hub-post-preview-card__content {
   @include pre-clamp();
-
-  font-size: 14px;
-  line-height: 22px;
 }
