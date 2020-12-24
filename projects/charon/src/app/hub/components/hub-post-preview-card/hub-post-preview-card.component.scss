@@ -22,6 +22,10 @@ $hub-post-preview-card--padding-horizontal: 24px;
   margin: (-$hub-post-preview-card--padding-vertical) (-$hub-post-preview-card--padding-horizontal) 0;
 }
 
+.hub-post-preview-card__image {
+  width: 100%;
+}
+
 .hub-post-preview-card__content {
   @include pre-clamp();
 
