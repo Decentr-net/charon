@@ -10,14 +10,15 @@ import {
   takeUntil,
   tap,
 } from 'rxjs/operators';
+import { TranslocoService } from '@ngneat/transloco';
 import { LikeWeight, Post, PublicProfile } from 'decentr-js';
 
 import { NotificationService } from '@shared/services/notification';
 import { createSharedOneValueObservable } from '@shared/utils/observable';
+import { TranslatedError } from '@core/notifications';
 import { PostsService, SpinnerService, UserService } from '../../core/services';
 import { PostWithAuthor } from '../models/post';
 import { HubCreatePostService } from './hub-create-post.service';
-import { TranslocoService } from '@ngneat/transloco';
 
 export abstract class HubPostsService {
   protected readonly createPostService: HubCreatePostService;
@@ -184,7 +185,7 @@ export abstract class HubPostsService {
       mergeMap((post) => {
         if (!post.createdAt) {
             this.notificationService.error(
-              this.translocoService.translate('hub.notifications.not_exists')
+              new TranslatedError(this.translocoService.translate('hub.notifications.not_exists')),
             );
             this.replacePost(postId, () => undefined);
             return of(void 0);
