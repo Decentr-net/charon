@@ -146,8 +146,7 @@
   "success_page": {
     "done": "ALL DONE",
     "hint": {
-      "label": "*Decentr cannot recover your seed phrase.",
-      "link": "Learn more"
+      "label": "*Decentr cannot recover your seed phrase."
     },
     "subtitle": "You passed the test - keep your seed phrase safe, it's your responsibility!",
     "tips": {
