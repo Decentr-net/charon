@@ -11,11 +11,12 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
-import { BACKSPACE, SPACE } from '@angular/cdk/keycodes';
+import { BACKSPACE, LEFT_ARROW, RIGHT_ARROW, SPACE } from '@angular/cdk/keycodes';
 import { fromEvent, noop } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ControlValueAccessor, FormArray, FormControl } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { even } from '@rxweb/reactive-form-validators';
 
 @UntilDestroy()
 @Component({
@@ -118,6 +119,22 @@ export class CodeInputComponent implements OnInit, AfterViewInit, ControlValueAc
       case SPACE: {
         event.preventDefault();
         break;
+      }
+      case LEFT_ARROW: {
+        this.moveFrom(event.target as HTMLInputElement, 'left');
+        break;
+      }
+      case RIGHT_ARROW: {
+        this.moveFrom(event.target as HTMLInputElement, 'right');
+        break;
+      }
+      default: {
+        const controlIndex = this.inputElementsRefs.toArray()
+          .findIndex((ref) => ref.nativeElement === event.target);
+
+        if (!event.altKey && !event.ctrlKey && !event.shiftKey) {
+          this.getControlAt(controlIndex).setValue('');
+        }
       }
     }
   }
