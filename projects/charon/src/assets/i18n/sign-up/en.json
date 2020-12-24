@@ -154,7 +154,7 @@
       "tip1": "Save a backup in multiple places.",
       "tip2": "Never share the phrase with anyone.",
       "tip3": "Be careful of phishing! Decentr will never spontaneously ask for your seed phrase.",
-      "tip4": "If you ever have questions or see something fishy, email support@decentr.net"
+      "tip4": "If you ever have questions or see something fishy, email <a href='mailto:support@decentr.net'>support@decentr.net</a>."
     },
     "title": "Congratulations"
   }
