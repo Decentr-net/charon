@@ -41,7 +41,8 @@ export abstract class HubPostsService {
 
   private readonly profileMap: Map<Post['owner'], Observable<PublicProfile>> = new Map();
 
-  static reloadNotifier$: Subject<void> = new Subject();
+  private static deleteNotifier$: Subject<Post['uuid']> = new Subject();
+  private static reloadNotifier$: Subject<void> = new Subject();
 
   protected constructor(
     injector: Injector,
@@ -75,6 +76,12 @@ export abstract class HubPostsService {
       takeUntil(this.dispose$),
     ).subscribe(() => {
       this.reload();
+    });
+
+    HubPostsService.deleteNotifier$.pipe(
+      takeUntil(this.dispose$),
+    ).subscribe((postId) => {
+      this.replacePost(postId, () => undefined);
     });
   }
 
@@ -183,11 +190,12 @@ export abstract class HubPostsService {
 
     return this.postsService.getPost(oldPost).pipe(
       mergeMap((post) => {
-        if (!post.createdAt) {
+        if (!+post.createdAt) {
             this.notificationService.error(
               new TranslatedError(this.translocoService.translate('hub.notifications.not_exists')),
             );
-            this.replacePost(postId, () => undefined);
+
+            HubPostsService.deleteNotifier$.next(postId);
             return of(void 0);
         }
 
