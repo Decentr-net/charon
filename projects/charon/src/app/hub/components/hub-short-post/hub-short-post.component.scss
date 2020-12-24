@@ -26,6 +26,10 @@ $hub-short-post--background-color: #FFFFFF;
   overflow: hidden;
 }
 
+.hub-short-post__title {
+  margin-top: 8px;
+}
+
 .hub-short-post__content {
   @include clamp(4);
 

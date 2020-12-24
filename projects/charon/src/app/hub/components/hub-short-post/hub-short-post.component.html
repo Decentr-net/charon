@@ -15,6 +15,8 @@
   <app-hub-post-pdv-diagram [pdv]="post.pdv"></app-hub-post-pdv-diagram>
 </div>
 
+<app-hub-post-title class="hub-short-post__title">{{ post.title }}</app-hub-post-title>
+
 <app-hub-post-content
   class="hub-short-post__content"
   [content]="post.text | appCutHtmlImages | appFirstParagraph"
