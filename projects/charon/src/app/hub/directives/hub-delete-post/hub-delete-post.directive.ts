@@ -21,8 +21,8 @@ export class HubDeletePostDirective {
   public onClick(): void {
     const dialogRef = this.dialog.open(HubDeletePostDialogComponent);
 
-    dialogRef.afterClosed().subscribe((dialog) => {
-      if (dialog) {
+    dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
+      if (isConfirmed) {
         this.hubPostsService.deletePost(this.post);
       }
     });
