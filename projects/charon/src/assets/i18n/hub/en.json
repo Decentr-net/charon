@@ -76,6 +76,9 @@
       "your_pdv": "Your PDV"
     }
   },
+  "hub_post_dialog": {
+    "remove_post": "Remove post"
+  },
   "hub_feed_post": {
     "posted": "dposted"
   },
@@ -91,6 +94,14 @@
   "hub_feed_navigation": {
     "my_wall": "My Wall",
     "recent": "Recent"
+  },
+  "hub_delete_posts": {
+    "dialog": {
+      "delete_post": "Delete post?",
+      "no": "No",
+      "yes": "Yes"
+    },
+    "success": "Post has been removed successfully"
   },
   "hub_post_category": {
     "1": "World News",

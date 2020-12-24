@@ -35,6 +35,12 @@ export class UserApiService {
     return defer(() => decentr.getAccount(walletAddress));
   }
 
+  public getModeratorAddress(api: string) {
+    const decentr = this.createDecentrConnector(api);
+
+    return defer(() => decentr.getModeratorAddress());
+  }
+
   public getPrivateProfile(
     api: string,
     walletAddress: Wallet['address'],

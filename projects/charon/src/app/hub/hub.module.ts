@@ -27,6 +27,7 @@ import { CutHtmlImagesModule } from '@shared/pipes/cut-html-images';
 import { FirstParagraphModule } from '@shared/pipes/first-paragraph';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { PositiveNumberModule } from '@shared/pipes/positiveNumber';
+import { PermissionsModule } from '@shared/permissions';
 import { SanitizeModule } from '@shared/pipes/sanitize';
 import { SlotModule } from '@shared/components/slot';
 import { SpinnerModule } from '@shared/components/spinner';
@@ -59,6 +60,7 @@ import { TextClampModule } from '@shared/directives/text-clamp';
     MatTooltipModule,
     NgxTrimDirectiveModule,
     PdvValueModule,
+    PermissionsModule,
     PositiveNumberModule,
     ReactiveFormsModule,
     SanitizeModule,

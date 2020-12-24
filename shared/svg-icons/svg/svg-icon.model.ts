@@ -11,7 +11,8 @@ export type SvgIconName =
   | 'pdv-rate-icon'
   | 'plus'
   | 'settings'
-  | 'signal';
+  | 'signal'
+  | 'trash';
 export interface SvgIcon {
   name: SvgIconName;
   data: string;

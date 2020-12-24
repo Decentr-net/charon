@@ -15,6 +15,7 @@ import { AuthModule, AuthService } from './auth';
 import { LockModule } from './lock';
 import { CORE_GUARDS } from './guards';
 import { NavigationModule } from './navigation';
+import { PermissionsModule } from '@shared/permissions';
 import { ProfileSelectorModule } from './profile-selector';
 import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
@@ -53,6 +54,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       fallbackErrorProcessor: FallbackErrorProcessor,
     }),
     OverlayModule,
+    PermissionsModule.forRoot(),
     SlotModule.forRoot(),
     SvgIconRootModule,
     ToastrModule.forRoot({

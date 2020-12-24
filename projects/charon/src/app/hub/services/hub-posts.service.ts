@@ -15,14 +15,17 @@ import { LikeWeight, Post, PublicProfile } from 'decentr-js';
 
 import { NotificationService } from '@shared/services/notification';
 import { createSharedOneValueObservable } from '@shared/utils/observable';
-import { PostsService, UserService } from '../../core/services';
+import { PostsService, SpinnerService, UserService } from '../../core/services';
 import { PostWithAuthor } from '../models/post';
 import { HubCreatePostService } from './hub-create-post.service';
+import { TranslocoService } from '@ngneat/transloco';
 
 export abstract class HubPostsService {
   protected readonly createPostService: HubCreatePostService;
   protected readonly notificationService: NotificationService;
   protected readonly postsService: PostsService;
+  protected readonly spinnerService: SpinnerService;
+  protected readonly translocoService: TranslocoService;
   protected readonly userService: UserService;
 
   protected abstract loadingCount: number;
@@ -38,12 +41,16 @@ export abstract class HubPostsService {
 
   private readonly profileMap: Map<Post['owner'], Observable<PublicProfile>> = new Map();
 
+  static reloadNotifier$: Subject<void> = new Subject();
+
   protected constructor(
     injector: Injector,
   ) {
     this.createPostService = injector.get(HubCreatePostService);
     this.notificationService = injector.get(NotificationService);
     this.postsService = injector.get(PostsService);
+    this.spinnerService = injector.get(SpinnerService);
+    this.translocoService = injector.get(TranslocoService);
     this.userService = injector.get(UserService);
 
     this.loadMore.pipe(
@@ -59,6 +66,12 @@ export abstract class HubPostsService {
     });
 
     this.createPostService.postCreated$.pipe(
+      takeUntil(this.dispose$),
+    ).subscribe(() => {
+      HubPostsService.reloadNotifier$.next();
+    });
+
+    HubPostsService.reloadNotifier$.pipe(
       takeUntil(this.dispose$),
     ).subscribe(() => {
       this.reload();
@@ -90,6 +103,29 @@ export abstract class HubPostsService {
       map(() => this.getPost(postId)),
     );
   }
+
+  public deletePost(
+    post: Post,
+  ) {
+    this.spinnerService.showSpinner();
+
+    this.postsService.deletePost({
+      author: post.owner,
+      postId: post.uuid,
+    }).pipe(
+      takeUntil(this.dispose$),
+      finalize(() => {
+        this.spinnerService.hideSpinner();
+
+        HubPostsService.reloadNotifier$.next();
+      })
+    ).subscribe(
+      () => {
+        this.notificationService.success(this.translocoService.translate('hub.hub_delete_posts.success'));
+    }, (error) => {
+        this.notificationService.error(error);
+      });
+  };
 
   public getPost(postId: Post['uuid']): PostWithAuthor {
     return this.posts.value.find((post) => post.uuid === postId);
@@ -169,21 +205,29 @@ export abstract class HubPostsService {
     return this.profileMap.get(walletAddress);
   }
 
+  private replacePost(
+    postId: Post['uuid'],
+    updateFn: (post: PostWithAuthor) => PostWithAuthor | undefined,
+  ) {
+    const postIndex = this.posts.value.findIndex((post) => post.uuid === postId);
+    const post = this.posts.value[postIndex];
+    const newPost = updateFn(post);
+
+    this.posts.next([
+      ...this.posts.value.slice(0, postIndex),
+      ...newPost ? [newPost] : [],
+      ...this.posts.value.slice(postIndex + 1),
+    ]);
+  }
+
   private updatePost(
     postId: Post['uuid'],
     update: Partial<Omit<Post, 'uuid'>>,
   ): void {
-    const postIndex = this.posts.value.findIndex((post) => post.uuid === postId);
-    const post = this.posts.value[postIndex];
-
-    this.posts.next([
-      ...this.posts.value.slice(0, postIndex),
-      {
-        ...post,
-        ...update,
-      },
-      ...this.posts.value.slice(postIndex + 1),
-    ]);
+    this.replacePost(postId, (post) => ({
+      ...post,
+      ...update,
+    }));
   }
 
   private updatePostsWithAuthors<T extends Post>(

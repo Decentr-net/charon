@@ -37,14 +37,16 @@ export class ImportRestorePageService {
       mergeMapTo(forkJoin([
         this.userService.getPrivateProfile(wallet.address, wallet.privateKey),
         this.userService.getPublicProfile(wallet.address),
+        this.userService.getModeratorAddress(),
       ])),
-      mergeMap(([privateProfile, publicProfile]) => this.authService.createUser({
-        ...privateProfile,
-        ...publicProfile,
-        wallet,
-        password,
-        emailConfirmed: true,
-      })),
+      mergeMap(([privateProfile, publicProfile, moderatorAddress]) => this.authService.createUser({
+          ...privateProfile,
+          ...publicProfile,
+          isModerator: moderatorAddress === wallet.address || undefined,
+          wallet,
+          password,
+          emailConfirmed: true,
+        })),
       mergeMap((id) => this.authService.changeUser(id)),
       // hack for restore - active user is locked during restore process
       tap(() => this.lockService.unlock()),
