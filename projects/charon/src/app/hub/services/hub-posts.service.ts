@@ -5,7 +5,6 @@ import {
   distinctUntilChanged,
   finalize,
   map,
-  mapTo,
   mergeMap,
   switchMap,
   takeUntil,
@@ -121,7 +120,7 @@ export abstract class HubPostsService {
       })
     ).subscribe(
       () => {
-        this.notificationService.success(this.translocoService.translate('hub.hub_delete_posts.success'));
+        this.notificationService.success(this.translocoService.translate('hub.notifications.delete.success'));
     }, (error) => {
         this.notificationService.error(error);
       });
@@ -182,10 +181,20 @@ export abstract class HubPostsService {
     const oldPost = this.getPost(postId);
 
     return this.postsService.getPost(oldPost).pipe(
-      mergeMap((post) => this.updatePostsWithLikes([post])),
-      map((posts) => posts[0]),
-      tap((post) => this.updatePost(postId, post)),
-      mapTo(void 0),
+      mergeMap((post) => {
+        if (!post.createdAt) {
+            this.notificationService.error(
+              this.translocoService.translate('hub.notifications.not_exists')
+            );
+            this.replacePost(postId, () => undefined);
+            return of(void 0);
+        }
+
+        return this.updatePostsWithLikes([post]).pipe(
+          map((posts) => posts[0]),
+          tap((post) => this.updatePost(postId, post)),
+        );
+      }),
     );
   }
 
