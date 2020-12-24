@@ -3,10 +3,11 @@ import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { AuthService, AuthUser } from '../../auth';
+import { AppRoute } from '../../../app-route';
+import { AuthService } from '../../auth';
 import { LockService } from '../../lock';
 import { PDVService } from '../../services';
-import { AppRoute } from '../../../app-route';
+import { PublicProfile } from 'decentr-js';
 
 @UntilDestroy()
 @Component({
@@ -16,7 +17,7 @@ import { AppRoute } from '../../../app-route';
 })
 export class ProfileSelectorComponent implements OnInit {
   public balance: string;
-  public user$: Observable<AuthUser>;
+  public user$: Observable<Partial<PublicProfile>>;
 
   public readonly appRoute: typeof AppRoute = AppRoute;
 
