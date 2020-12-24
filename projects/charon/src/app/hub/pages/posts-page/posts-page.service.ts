@@ -10,7 +10,7 @@ import { HubCategoryRouteParam } from '../../hub-route';
 
 @Injectable()
 export class PostsPageService extends HubPostsService implements OnDestroy {
-  protected loadingCount: number = 4;
+  protected loadingInitialCount: number = 20;
 
   constructor(
     private activatedRoute: ActivatedRoute,

@@ -28,8 +28,8 @@ export abstract class HubPostsService {
   protected readonly translocoService: TranslocoService;
   protected readonly userService: UserService;
 
-  protected abstract loadingCount: number;
-  protected shouldReloadOnLike: boolean = false;
+  protected loadingMoreCount: number = 4;
+  protected loadingInitialCount: number = 4;
 
   private posts: BehaviorSubject<PostWithAuthor[]> = new BehaviorSubject([]);
   private isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -101,8 +101,12 @@ export abstract class HubPostsService {
     );
   }
 
-  public loadMorePosts(count: number = this.loadingCount): void {
+  public loadMorePosts(count: number = this.loadingMoreCount): void {
     this.loadMore.next(count);
+  }
+
+  public loadInitialPosts(count: number = this.loadingInitialCount): void {
+    this.loadMorePosts(count);
   }
 
   public getPostChanges(postId: Post['uuid']): Observable<PostWithAuthor> {
@@ -149,11 +153,6 @@ export abstract class HubPostsService {
     this.updatePost(postId, update);
 
     return this.postsService.likePost(post, likeWeight).pipe(
-      tap(() => {
-        if (this.shouldReloadOnLike) {
-          this.reload();
-        }
-      }),
       catchError((error) => {
         this.notificationService.error(error);
 
@@ -165,7 +164,7 @@ export abstract class HubPostsService {
 
   public reload(): void {
     this.clear();
-    this.loadMorePosts();
+    this.loadMorePosts(this.loadingInitialCount);
   }
 
   public clear(): void {

@@ -40,7 +40,7 @@ export class HubWallPostsComponent implements OnInit {
 
     this.canLoadMore$ = this.hubPostsService.canLoadMore$;
 
-    this.loadMore();
+    this.hubPostsService.loadInitialPosts();
   }
 
   public loadMore(): void {

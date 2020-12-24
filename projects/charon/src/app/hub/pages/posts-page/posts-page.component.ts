@@ -46,8 +46,7 @@ export class PostsPageComponent {
     this.activatedRoute.params.pipe(
       pluck(HubCategoryRouteParam),
     ).subscribe(() => {
-      this.postsPageService.clear();
-      this.postsPageService.loadMorePosts(20);
+      this.postsPageService.reload();
     });
   }
 

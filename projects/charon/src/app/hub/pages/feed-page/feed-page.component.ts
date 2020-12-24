@@ -30,7 +30,7 @@ export class FeedPageComponent implements OnInit {
 
     this.isLoading$ = this.feedPageService.isLoading$;
 
-    this.loadMore();
+    this.feedPageService.loadInitialPosts();
   }
 
   public loadMore(): void {

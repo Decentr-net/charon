@@ -9,8 +9,6 @@ import { HubPostsService } from '../../services';
 
 @Injectable()
 export class MyWallPageService extends HubPostsService implements OnDestroy {
-  protected loadingCount: number = 4;
-
   constructor(
     private authService: AuthService,
     private networkService: NetworkService,
