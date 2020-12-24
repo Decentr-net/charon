@@ -51,7 +51,7 @@ export class DateAgoPipe implements PipeTransform, OnDestroy {
       params = { translateKey: 'minutes', value: minutes };
     } else if (minutes <= 90) {
       params = { translateKey: 'hour' };
-    } else if (hours <= 22) {
+    } else if (hours <= 23) {
       params = { translateKey: 'hours', value: hours };
     } else if (hours <= 36) {
       params = { translateKey: 'day' };
