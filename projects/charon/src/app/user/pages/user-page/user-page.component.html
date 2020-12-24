@@ -9,7 +9,7 @@
                (click)="copyWalletAddress(user.wallet.address)"
                [matTooltip]="translate('copy_wallet_address')">
             <div class="wallet-username">
-              {{ user.primaryUsername }}
+              {{ user.firstName }} {{ user.lastName }}
             </div>
             <div class="wallet-id">
               {{ user.wallet.address }}
