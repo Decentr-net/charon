@@ -1,4 +1,4 @@
-import { ToolbarIds } from '../content/toolbar'
+import { ToolbarIds } from './toolbar'
 
 let shiftedElements: Map<HTMLElement, string> = new Map();
 

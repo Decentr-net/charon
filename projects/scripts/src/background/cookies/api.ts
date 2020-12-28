@@ -5,9 +5,9 @@ import { browser, Cookies } from 'webextension-polyfill-ts';
 import { PDV, Wallet } from 'decentr-js';
 import Cookie = Cookies.Cookie;
 
-import { environment } from '../../../../environments/environment';
-import { NetworkBrowserStorageService } from '../../../../shared/services/network-storage';
-import { PDVService } from '../../../../shared/services/pdv';
+import { environment } from '../../../../../environments/environment';
+import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
+import { PDVService } from '../../../../../shared/services/pdv';
 
 const pdvService = new PDVService(environment.chainId);
 const networkStorage = new NetworkBrowserStorageService();

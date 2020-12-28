@@ -17,8 +17,8 @@ import {
   listenRequestsBeforeRedirectWithBody,
   listenRequestsOnCompletedWithBody,
   requestBodyContains,
-} from './helpers/requests';
-import { getCookies, sendCookies } from './background/cookies';
+} from './background/requests';
+import { getCookies, sendCookies } from './background/cookies/api';
 import { initMessageListeners } from './background/listeners';
 import { initAutoLock } from './background/lock';
 
