@@ -27,7 +27,7 @@ export class MessageBus<T extends MessageMap> {
   ): Promise<T[MessageCode]['response']> {
     const messageSent: MessageSent<T, MessageCode> = { code, body };
 
-    return browser.runtime.sendMessage(messageSent);
+    return browser.runtime.sendMessage(messageSent).catch(() => void 0);
   }
 
   // available only in background script (Firefox)
