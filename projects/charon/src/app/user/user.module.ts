@@ -13,8 +13,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { InlineSVGModule } from 'ng-inline-svg';
-
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
+
 import { FormErrorModule } from '@shared/components/form-error';
 import { NavigationModule } from '@core/navigation';
 import { ProfileFormModule } from '@shared/components/profile-form';
