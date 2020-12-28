@@ -2,7 +2,7 @@ import { defer, Observable } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 import PQueue from 'p-queue';
 import { browser, Cookies } from 'webextension-polyfill-ts';
-import { PDV, Wallet } from 'decentr-js';
+import { PDV, PDVType, Wallet } from 'decentr-js';
 import Cookie = Cookies.Cookie;
 
 import { environment } from '../../../../../environments/environment';
@@ -73,6 +73,7 @@ export const getCookies = (
 
 export const sendCookies = (
   wallet: Wallet,
+  pdvType: PDVType,
   cookies: Cookie[],
 ): Observable<void> => {
   const groupedCookies = groupCookiesByDomainAndPath(cookies);
@@ -82,6 +83,7 @@ export const sendCookies = (
       return pdvService.sendPDV(
         networkStorage.getActiveNetworkInstant().api,
         wallet,
+        pdvType,
         convertCookiesToPdv(group.cookies, group.domain, group.path),
       );
     }));

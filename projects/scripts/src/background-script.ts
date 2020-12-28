@@ -1,15 +1,5 @@
 import { EMPTY, merge } from 'rxjs';
-import {
-  catchError,
-  debounceTime,
-  delay,
-  filter,
-  map,
-  mergeMap,
-  retryWhen,
-  switchMap,
-  take,
-} from 'rxjs/operators';
+import { catchError, debounceTime, delay, filter, map, mergeMap, retryWhen, switchMap, take, } from 'rxjs/operators';
 
 import { AuthBrowserStorageService } from '../../../shared/services/auth';
 import { PDVUpdateNotifier } from '../../../shared/services/pdv';
@@ -21,6 +11,7 @@ import {
 import { getCookies, sendCookies } from './background/cookies/api';
 import { initMessageListeners } from './background/listeners';
 import { initAutoLock } from './background/lock';
+import { PDVType } from 'decentr-js';
 
 const pdvUpdateNotifier = new PDVUpdateNotifier();
 pdvUpdateNotifier.start();
@@ -54,6 +45,7 @@ authStorage.getActiveUser().pipe(
   mergeMap(({ user, cookies }) => {
     return sendCookies(
       user.wallet,
+      PDVType.LoginCookie,
       cookies,
     ).pipe(
       retryWhen(errors => errors.pipe(

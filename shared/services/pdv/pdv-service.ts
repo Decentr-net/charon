@@ -1,6 +1,6 @@
 import { combineLatest, from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BroadcastResponse, KeyPair, PDV, PDVDetails, PDVListItem, Wallet } from 'decentr-js';
+import { BroadcastResponse, KeyPair, PDV, PDVDetails, PDVListItem, PDVType, Wallet } from 'decentr-js';
 
 import { calculateDifferencePercentage, exponentialToFixed } from '../../utils/number';
 import { PDVApiService } from './api';
@@ -63,7 +63,7 @@ export class PDVService {
       )
   }
 
-  public sendPDV(api: string, wallet: Wallet, pdv: PDV): Promise<BroadcastResponse> {
-    return this.pdvApiService.sendPDV(api, wallet, pdv);
+  public sendPDV(api: string, wallet: Wallet, pdvType: PDVType, pdv: PDV): Promise<BroadcastResponse> {
+    return this.pdvApiService.sendPDV(api, wallet, pdvType, pdv);
   }
 }
