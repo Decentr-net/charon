@@ -1,6 +1,16 @@
-import { merge, noop, Observable, timer } from 'rxjs';
+import { merge, noop, Observable, Subject, timer } from 'rxjs';
 import { browser, Cookies } from 'webextension-polyfill-ts';
-import { debounceTime, filter, map, repeat, scan, switchMap, takeLast, takeUntil } from 'rxjs/operators';
+import {
+  debounceTime,
+  filter,
+  finalize,
+  map,
+  scan,
+  startWith,
+  switchMap,
+  takeLast,
+  takeUntil,
+} from 'rxjs/operators';
 
 import { MessageBus } from '../../../../shared/message-bus';
 import { ONE_SECOND } from '../../../../shared/utils/date';
@@ -42,12 +52,17 @@ export const listenLoginCookies = (loginIdentifiers: string[]): Observable<Cooki
 }
 
 export const listenAllCookiesSet = (): Observable<Cookie[]> => {
-  return listenCookiesSet().pipe(
-    filter((cookie) => !cookie.httpOnly && !cookie.session),
-    scan((store, cookie) => store.set(cookie), new CookieUniqueStore()),
-    takeUntil(timer(ONE_SECOND * 10)),
-    takeLast(1),
-    map((store) => store.getAll()),
-    repeat(),
+  const reset$ = new Subject<void>();
+
+  return reset$.pipe(
+    startWith(void 0),
+    switchMap(() => listenCookiesSet().pipe(
+      filter((cookie) => !cookie.httpOnly && !cookie.session),
+      scan((store, cookie) => store.set(cookie), new CookieUniqueStore()),
+      takeUntil(timer(ONE_SECOND * 10)),
+      takeLast(1),
+      map((store) => store.getAll()),
+      finalize(() => reset$.next()),
+    )),
   );
 }

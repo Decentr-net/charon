@@ -7,7 +7,6 @@ import {
   retryWhen,
   switchMap,
   take,
-  tap,
 } from 'rxjs/operators';
 import { PDVType } from 'decentr-js';
 
