@@ -25,16 +25,26 @@
     border-radius: 4px;
   }
 
+  .activity-item__name-container {
+    display: inline-flex;
+  }
+
   .activity-item__name {
     font-size: 13px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 15rem;
+    max-width: 13rem;
   }
 
   .activity-item__name-login-cookie {
     display: inline-flex;
+    min-width: 20px;
+    margin-right: 5px;
+
+    &-icon {
+      display: inline-flex;
+    }
   }
 
   .activity-item__date {

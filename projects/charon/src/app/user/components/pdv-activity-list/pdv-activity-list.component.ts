@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TrackByFunction } from '@angular/core';
 import { PDVType } from 'decentr-js';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
+
+import { svgLock } from '@shared/svg-icons';
 
 export interface PDVActivityListItem {
   address: string;
@@ -19,6 +22,12 @@ export class PdvActivityListComponent {
   @Input() public items: PDVActivityListItem[] = [];
 
   @Output() public details: EventEmitter<PDVActivityListItem> = new EventEmitter();
+
+  constructor(
+    svgIconRegistry: SvgIconRegistry,
+  ) {
+    svgIconRegistry.register(svgLock);
+  }
 
   public onItemClick(item: PDVActivityListItem): void {
     this.details.emit(item);
