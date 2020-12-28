@@ -63,16 +63,16 @@ export const sendCookies = (
 ): Observable<void> => {
   const groupedCookies = groupCookiesByDomainAndPath(cookies);
 
-  return defer(() => queue.add(() => {
+  return defer(() => {
     return Promise.all(groupedCookies.map((group) => {
-      return pdvService.sendPDV(
+      return queue.add(() => pdvService.sendPDV(
         networkStorage.getActiveNetworkInstant().api,
         wallet,
         pdvType,
         convertCookiesToPdv(group.cookies, group.domain, group.path),
-      );
+      ));
     }));
-  })).pipe(
+  }).pipe(
     mapTo(void 0),
   );
 }
