@@ -11,6 +11,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
+import { SvgIconsModule } from '@ngneat/svg-icon';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
@@ -47,6 +48,7 @@ import { UserRoutingModule } from './user-routing.module';
     ProfileFormModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
+    SvgIconsModule,
     TranslocoModule,
     UserRoutingModule,
   ],

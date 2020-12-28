@@ -6,6 +6,7 @@ export type SvgIconName =
   | 'dynamics-negative'
   | 'dynamics-positive'
   | 'like'
+  | 'lock'
   | 'logo'
   | 'notification'
   | 'pdv-rate-icon'

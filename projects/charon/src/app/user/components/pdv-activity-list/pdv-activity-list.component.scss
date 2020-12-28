@@ -13,9 +13,9 @@
 .activity-item {
   padding: .6rem;
   color: rgba(68, 119, 228, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 20px 1fr .2fr;
+  grid-gap: 10px;
   cursor: pointer;
   transition: background .15s ease;
   overflow: hidden;
@@ -30,7 +30,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 15rem;
+  }
+
+  .activity-item__type {
+    min-width: 20px;
+
+    &-icon {
+      display: inline-flex;
+    }
   }
 
   .activity-item__date {

@@ -9,6 +9,7 @@ export * from './svg/svg-close.icon';
 export * from './svg/svg-dynamics-negative.icon';
 export * from './svg/svg-dynamics-positive.icon';
 export * from './svg/svg-like.icon';
+export * from './svg/svg-lock.icon';
 export * from './svg/svg-logo.icon';
 export * from './svg/svg-notification.icon';
 export * from './svg/svg-pdv-rate-icon.icon';
