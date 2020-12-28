@@ -13,9 +13,9 @@
 .activity-item {
   padding: .6rem;
   color: rgba(68, 119, 228, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 20px 1fr .2fr;
+  grid-gap: 10px;
   cursor: pointer;
   transition: background .15s ease;
   overflow: hidden;
@@ -25,22 +25,15 @@
     border-radius: 4px;
   }
 
-  .activity-item__name-container {
-    display: inline-flex;
-  }
-
   .activity-item__name {
     font-size: 13px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 13rem;
   }
 
-  .activity-item__name-login-cookie {
-    display: inline-flex;
+  .activity-item__type {
     min-width: 20px;
-    margin-right: 5px;
 
     &-icon {
       display: inline-flex;
