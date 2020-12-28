@@ -1,7 +1,7 @@
 import { defer, Observable } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 import PQueue from 'p-queue';
-import { browser, Cookies } from 'webextension-polyfill-ts';
+import { Cookies } from 'webextension-polyfill-ts';
 import { PDV, PDVType, Wallet } from 'decentr-js';
 import Cookie = Cookies.Cookie;
 
@@ -56,21 +56,6 @@ export const convertCookiesToPdv = (cookies: Cookie[], domain: string, path: str
   };
 };
 
-export const getCookies = (
-  url: URL,
-): Promise<Cookie[]> => {
-  return Promise.all([
-    browser.cookies.getAll({
-      url: `http://${url.hostname}`,
-      session: false,
-    }),
-    browser.cookies.getAll({
-      url: `https://${url.hostname}`,
-      session: false,
-    })
-  ]).then(([http, https]) => [...http, ...https].filter(cookie => !cookie.httpOnly));
-};
-
 export const sendCookies = (
   wallet: Wallet,
   pdvType: PDVType,
@@ -78,16 +63,16 @@ export const sendCookies = (
 ): Observable<void> => {
   const groupedCookies = groupCookiesByDomainAndPath(cookies);
 
-  return defer(() => queue.add(() => {
+  return defer(() => {
     return Promise.all(groupedCookies.map((group) => {
-      return pdvService.sendPDV(
+      return queue.add(() => pdvService.sendPDV(
         networkStorage.getActiveNetworkInstant().api,
         wallet,
         pdvType,
         convertCookiesToPdv(group.cookies, group.domain, group.path),
-      );
+      ));
     }));
-  })).pipe(
+  }).pipe(
     mapTo(void 0),
   );
 }
