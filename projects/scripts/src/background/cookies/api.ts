@@ -41,8 +41,8 @@ export const convertCookiesToPdv = (cookies: Cookie[], domain: string, path: str
       domain: pdvDomain,
       user_agent: window.navigator.userAgent,
       data: cookies.map((cookie) => ({
-        domain: '*',
-        path: '*',
+        domain: pdvDomain,
+        path: path,
         version: 'v1',
         type: 'cookie',
         name: cookie.name,
