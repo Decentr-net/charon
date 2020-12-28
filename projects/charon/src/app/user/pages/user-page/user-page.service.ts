@@ -34,10 +34,11 @@ export class UserPageService {
       switchMap(({ wallet, networkApi }) => {
         return this.pdvService.getPDVList(networkApi, wallet.address);
       }),
-      map((list) => list.map(({ address, timestamp }) => (
+      map((list) => list.map(({ address, timestamp, type }) => (
         {
           address,
           date: new Date(coerceTimestamp(timestamp)),
+          type: Number(type)
         }))
       )
     );

@@ -6,6 +6,12 @@
       (click)="onItemClick(activityItem)"
     >
       <div class="activity-item__name">
+        <span
+          *ngIf="activityItem.type === pdvType.LoginCookie"
+          class="activity-item__name-login-cookie"
+        >
+          Login
+        </span>
         {{activityItem.address}}
       </div>
       <div class="activity-item__date">

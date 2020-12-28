@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TrackByFunction } from '@angular/core';
+import { PDVType } from 'decentr-js';
 
 export interface PDVActivityListItem {
   address: string;
   date: Date;
+  type: PDVType;
 }
 
 @Component({
@@ -12,6 +14,8 @@ export interface PDVActivityListItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PdvActivityListComponent {
+  public readonly pdvType: typeof PDVType = PDVType;
+
   @Input() public items: PDVActivityListItem[] = [];
 
   @Output() public details: EventEmitter<PDVActivityListItem> = new EventEmitter();
