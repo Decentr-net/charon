@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, OnDestroy, OnInit, Optional, Output } from '@angular/core';
 
 import { IntersectionAreaDirective } from './intersection-area.directive';
 
@@ -12,7 +12,7 @@ export class IntersectionTargetDirective implements OnInit, OnDestroy {
 
   constructor(
     private elementRef: ElementRef<HTMLElement>,
-    private intersectionArea: IntersectionAreaDirective,
+    @Optional() private intersectionArea: IntersectionAreaDirective,
   ) {
   }
 
@@ -24,7 +24,7 @@ export class IntersectionTargetDirective implements OnInit, OnDestroy {
         }
       },
       {
-        root: this.intersectionArea.element,
+        root: this.intersectionArea?.element,
         threshold: 1,
       },
     );

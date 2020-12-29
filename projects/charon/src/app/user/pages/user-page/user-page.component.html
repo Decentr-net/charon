@@ -53,7 +53,6 @@
             mat-stretch-tabs
             mat-align-tabs="center"
             animationDuration="0ms"
-            appIntersectionArea
           >
             <mat-tab [label]="translate('tabs.pdv_rate')">
               <div class="tab-container">
@@ -70,23 +69,7 @@
                   (details)="openPDVDetails($event)"
                 ></app-activity-list>
 
-                <div
-                  class="user-page__pdv-activity-list__loading-container"
-                  *ngIf="canLoadMoreActivity$ | async"
-                >
-                  <app-spinner
-                    class="user-page__pdv-activity-list__spinner"
-                    *ngIf="isLoadingActivity$ | async; else intersectionTarget"
-                  ></app-spinner>
-
-                  <ng-template #intersectionTarget>
-                    <div
-                      class="user-page__pdv-activity-list__loading-intersection-target"
-                      appIntersectionTarget
-                      (intersect)="onLoadMoreActivity()"
-                    ></div>
-                  </ng-template>
-                </div>
+                <ng-template [ngTemplateOutlet]="activityLoading"></ng-template>
               </div>
             </mat-tab>
           </mat-tab-group>
@@ -116,10 +99,11 @@
             <mat-tab [label]="translate('tabs.activity')">
               <div class="tab-container">
                 <app-activity-list
-                  *ngIf="pdvList$ | async as list"
-                  [items]="list"
+                  [items]="pdvList$ | async"
                   (details)="openPDVDetails($event)"
                 ></app-activity-list>
+
+                <ng-template [ngTemplateOutlet]="activityLoading"></ng-template>
               </div>
             </mat-tab>
           </mat-tab-group>
@@ -164,3 +148,23 @@
     </ng-template>
   </mat-menu>
 </ng-container>
+
+<ng-template #activityLoading>
+  <div
+    class="user-page__pdv-activity-list__loading-container"
+    *ngIf="canLoadMoreActivity$ | async"
+  >
+    <app-spinner
+      class="user-page__pdv-activity-list__spinner"
+      *ngIf="isLoadingActivity$ | async; else intersectionTarget"
+    ></app-spinner>
+
+    <ng-template #intersectionTarget>
+      <div
+        class="user-page__pdv-activity-list__loading-intersection-target"
+        appIntersectionTarget
+        (intersect)="onLoadMoreActivity()"
+      ></div>
+    </ng-template>
+  </div>
+</ng-template>
