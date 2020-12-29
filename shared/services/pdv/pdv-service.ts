@@ -1,6 +1,15 @@
 import { combineLatest, from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BroadcastResponse, KeyPair, PDV, PDVDetails, PDVListItem, PDVType, Wallet } from 'decentr-js';
+import {
+  BroadcastResponse,
+  KeyPair,
+  PDV,
+  PDVDetails,
+  PDVListItem,
+  PDVListPaginationOptions,
+  PDVType,
+  Wallet,
+} from 'decentr-js';
 
 import { calculateDifferencePercentage, exponentialToFixed } from '../../utils/number';
 import { PDVApiService } from './api';
@@ -27,8 +36,12 @@ export class PDVService {
     return from(this.pdvApiService.getPDVDetails(api, address, keyPair));
   }
 
-  public getPDVList(api: string, walletAddress: Wallet['address']): Observable<PDVListItem[]> {
-    return from(this.pdvApiService.getPDVList(api, walletAddress));
+  public getPDVList(
+    api: string,
+    walletAddress: Wallet['address'],
+    paginationOptions?: PDVListPaginationOptions,
+  ): Observable<PDVListItem[]> {
+    return from(this.pdvApiService.getPDVList(api, walletAddress, paginationOptions));
   }
 
   public getPDVStatChartPoints(api: string, walletAddress: string): Observable<PDVStatChartPoint[]> {

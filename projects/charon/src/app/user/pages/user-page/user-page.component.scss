@@ -210,3 +210,19 @@ $user-page--toolbar-toggle--height: 48px;
   height: $user-page--toolbar-toggle--height;
   padding: 0 1rem;
 }
+
+.user-page__pdv-activity-list__loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.user-page__pdv-activity-list__spinner {
+  height: 30px;
+  width: 30px;
+}
+
+.user-page__pdv-activity-list__loading-intersection-target {
+  height: 30px;
+  width: 100%;
+}

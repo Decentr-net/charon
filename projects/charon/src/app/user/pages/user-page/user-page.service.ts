@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
 import { PDVDetails, PDVListItem } from 'decentr-js';
 
-import { coerceTimestamp } from '@shared/utils/date';
 import { CurrencyService } from '@shared/services/currency';
 import { BalanceValueDynamic } from '@shared/services/pdv';
-import { MediaService, PDVService, StateChangesService } from '@core/services';
-import { ChartPoint, PDVActivityListItem, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
+import { MediaService, PDVService } from '@core/services';
+import { ChartPoint, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
 
 @Injectable()
 export class UserPageService {
@@ -17,7 +15,6 @@ export class UserPageService {
     private currencyService: CurrencyService,
     private matDialog: MatDialog,
     private mediaService: MediaService,
-    private stateChangesService: StateChangesService,
   ) {
   }
 
@@ -27,21 +24,6 @@ export class UserPageService {
 
   public getCoinRate(): Observable<number> {
     return this.currencyService.getDecentrCoinRateForUsd();
-  }
-
-  public getPDVActivityList(): Observable<PDVActivityListItem[]> {
-    return this.stateChangesService.getWalletAndNetworkApiChanges().pipe(
-      switchMap(({ wallet, networkApi }) => {
-        return this.pdvService.getPDVList(networkApi, wallet.address);
-      }),
-      map((list) => list.map(({ address, timestamp, type }) => (
-        {
-          address,
-          date: new Date(coerceTimestamp(timestamp)),
-          type: Number(type)
-        }))
-      )
-    );
   }
 
   public getPDVDetails(address: PDVListItem['address']): Observable<PDVDetails> {

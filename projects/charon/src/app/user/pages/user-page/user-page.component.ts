@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -15,6 +15,7 @@ import { MediaService, SpinnerService } from '@core/services';
 import { UserRoute } from '../../user.route';
 import { ChartPoint, PDVActivityListItem } from '../../components';
 import { UserPageService } from './user-page.service';
+import { UserPageActivityService } from './user-page-activity.service';
 
 @UntilDestroy()
 @Component({
@@ -24,6 +25,7 @@ import { UserPageService } from './user-page.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     UserPageService,
+    UserPageActivityService,
   ],
 })
 export class UserPageComponent implements OnInit {
@@ -33,6 +35,8 @@ export class UserPageComponent implements OnInit {
   public coinRate$: Observable<number>;
   public balance: BalanceValueDynamic;
   public pdvList$: Observable<PDVActivityListItem[]>;
+  public canLoadMoreActivity$: Observable<boolean>;
+  public isLoadingActivity$: Observable<boolean>;
   public chartPoints$: Observable<ChartPoint[]>;
   public isOpenedInTab: boolean;
 
@@ -46,6 +50,7 @@ export class UserPageComponent implements OnInit {
     private translocoService: TranslocoService,
     private notificationService: NotificationService,
     private userPageService: UserPageService,
+    private userPageActivityService: UserPageActivityService,
   ) {
   }
 
@@ -61,7 +66,11 @@ export class UserPageComponent implements OnInit {
       this.changeDetectorRef.detectChanges();
     });
 
-    this.pdvList$ = this.userPageService.getPDVActivityList();
+    this.pdvList$ = this.userPageActivityService.activityList$;
+
+    this.canLoadMoreActivity$ = this.userPageActivityService.canLoadMore$;
+
+    this.isLoadingActivity$ = this.userPageActivityService.isLoading$;
 
     this.chartPoints$ = this.userPageService.getPDVChartPoints();
 
@@ -79,6 +88,10 @@ export class UserPageComponent implements OnInit {
     }, (error) => {
       this.notificationService.error(error);
     });
+  }
+
+  public onLoadMoreActivity(): void {
+    this.userPageActivityService.loadMoreActivity();
   }
 
   public expandView(): void {

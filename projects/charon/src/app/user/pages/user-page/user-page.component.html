@@ -49,9 +49,12 @@
 
       <ng-container *ngIf="matchMediaService.isSmall() else tabsTwoColumns">
         <div class="tabs-wrapper">
-          <mat-tab-group mat-stretch-tabs
-                         mat-align-tabs="center"
-                         animationDuration="0ms">
+          <mat-tab-group
+            mat-stretch-tabs
+            mat-align-tabs="center"
+            animationDuration="0ms"
+            appIntersectionArea
+          >
             <mat-tab [label]="translate('tabs.pdv_rate')">
               <div class="tab-container">
                 <app-chart
@@ -66,6 +69,24 @@
                   [items]="pdvList$ | async"
                   (details)="openPDVDetails($event)"
                 ></app-activity-list>
+
+                <div
+                  class="user-page__pdv-activity-list__loading-container"
+                  *ngIf="canLoadMoreActivity$ | async"
+                >
+                  <app-spinner
+                    class="user-page__pdv-activity-list__spinner"
+                    *ngIf="isLoadingActivity$ | async; else intersectionTarget"
+                  ></app-spinner>
+
+                  <ng-template #intersectionTarget>
+                    <div
+                      class="user-page__pdv-activity-list__loading-intersection-target"
+                      appIntersectionTarget
+                      (intersect)="onLoadMoreActivity()"
+                    ></div>
+                  </ng-template>
+                </div>
               </div>
             </mat-tab>
           </mat-tab-group>

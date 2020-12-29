@@ -16,8 +16,10 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
 import { FormErrorModule } from '@shared/components/form-error';
+import { SpinnerModule } from '@shared/components/spinner';
 import { NavigationModule } from '@core/navigation';
 import { ProfileFormModule } from '@shared/components/profile-form';
+import { IntersectionModule } from '@shared/directives/intersection';
 import { ToolbarStateService } from '@shared/services/toolbar-state';
 import { LayoutHeaderModule } from '../layout/layout-header';
 import { PdvRateMarginIconModule } from '@shared/components/pdv-rate-margin-icon/pdv-rate-margin-icon.module';
@@ -32,6 +34,7 @@ import { UserRoutingModule } from './user-routing.module';
     FormErrorModule,
     FormsModule,
     InlineSVGModule,
+    IntersectionModule,
     LayoutHeaderModule,
     MatExpansionModule,
     MatButtonModule,
@@ -48,6 +51,7 @@ import { UserRoutingModule } from './user-routing.module';
     ProfileFormModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
+    SpinnerModule,
     SvgIconsModule,
     TranslocoModule,
     UserRoutingModule,
