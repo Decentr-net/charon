@@ -1,6 +1,6 @@
 {
   "name": "charon",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "scripts": {
     "ng": "ng",
     "build:chrome": "npm run clean && npm run build:charon && npm run build:scripts:chrome && npm run build:toolbar",
