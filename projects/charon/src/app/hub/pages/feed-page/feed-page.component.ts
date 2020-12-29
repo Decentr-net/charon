@@ -2,7 +2,9 @@ import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@an
 import { Observable } from 'rxjs';
 import { Post } from 'decentr-js';
 
+import { HubPostsService } from '../../services';
 import { FeedPageService } from './feed-page.service';
+import { PostWithAuthor } from '../../models/post';
 
 @Component({
   selector: 'app-feed-page',
@@ -10,16 +12,17 @@ import { FeedPageService } from './feed-page.service';
   styleUrls: ['./feed-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    FeedPageService,
+    {
+      provide: HubPostsService,
+      useClass: FeedPageService,
+    },
   ],
 })
 export class FeedPageComponent implements OnInit {
   public isLoading$: Observable<boolean>;
-  public posts$: Observable<Post[]>;
+  public posts$: Observable<PostWithAuthor[]>;
 
-  private readonly loadingCount: number = 20;
-
-  constructor(private feedPageService: FeedPageService) {
+  constructor(private feedPageService: HubPostsService) {
   }
 
   public ngOnInit() {
@@ -27,11 +30,11 @@ export class FeedPageComponent implements OnInit {
 
     this.isLoading$ = this.feedPageService.isLoading$;
 
-    this.loadMore();
+    this.feedPageService.loadInitialPosts();
   }
 
   public loadMore(): void {
-    this.feedPageService.loadMorePosts(this.loadingCount);
+    this.feedPageService.loadMorePosts();
   }
 
   public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;

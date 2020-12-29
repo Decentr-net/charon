@@ -1,19 +1,15 @@
-<img
-  class="hub-post-preview-card__image"
-  *ngIf="post.previewImage"
-  [src]="post.previewImage"
->
+<div class="hub-post-preview-card__image-container" *ngIf="post.previewImage">
+  <img class="hub-post-preview-card__image" [src]="post.previewImage">
+</div>
 
-<div class="hub-post-preview-card__title">{{ post.title }}</div>
+<app-hub-post-title>{{ post.title }}</app-hub-post-title>
 
 <div
   class="hub-post-preview-card__content"
-  [style.-webkit-line-clamp]="maxContentLines"
   [innerHTML]="post.text | appCutHtmlImages"
   appTextClamp
 ></div>
 
 <app-hub-post-time
-  class="hub-post-preview-card__time"
   [time]="post.createdAt"
 ></app-hub-post-time>

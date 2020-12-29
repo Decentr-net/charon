@@ -1,6 +1,5 @@
 import { APP_INITIALIZER, NgModule, Optional, SkipSelf } from '@angular/core';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { fromEvent } from 'rxjs';
 import { ToastrModule } from 'ngx-toastr';
 
 import { Environment } from '@environments/environment.definitions';
@@ -13,23 +12,17 @@ import { ERROR_PROCESSORS, FallbackErrorProcessor } from '@core/notifications';
 import { AppRoute } from '../app-route';
 import { SignUpRoute } from '../sign-up';
 import { AuthModule, AuthService } from './auth';
-import { LockModule, LockService } from './lock';
+import { LockModule } from './lock';
 import { CORE_GUARDS } from './guards';
 import { NavigationModule } from './navigation';
+import { PermissionsModule } from '@shared/permissions';
 import { ProfileSelectorModule } from './profile-selector';
-import { QuillRootModule } from './quill';
 import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES, NetworkService } from './services';
 
-export function initAuthAndLockFactory(authService: AuthService, lockService: LockService): () => void {
-  return async () => {
-    await authService.init();
-
-    if (authService.isLoggedIn) {
-      await lockService.init();
-    }
-  };
+export function initAuthFactory(authService: AuthService): () => void {
+  return () => authService.init();
 }
 
 export function initNetworkFactory(networkService: NetworkService): () => void {
@@ -39,9 +32,9 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
 @NgModule({
   imports: [
     AuthModule.forRoot({
-      authorizedRedirectUrl: `/${AppRoute.User}`,
-      completedRegistrationUrl: `/${AppRoute.User}`,
-      confirmedEmailUrl: `/${AppRoute.User}`,
+      authorizedRedirectUrl: `/`,
+      completedRegistrationUrl: `/`,
+      confirmedEmailUrl: `/${AppRoute.SignUp}/${SignUpRoute.CompleteRegistration}`,
       unauthorizedRedirectUrl: `/${AppRoute.Welcome}`,
       uncompletedRegistrationUrl: `/${AppRoute.SignUp}/${SignUpRoute.CompleteRegistration}`,
       unconfirmedEmailUrl: `/${AppRoute.SignUp}/${SignUpRoute.EmailConfirmation}`,
@@ -50,8 +43,6 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       api: environment.currencyApi,
     }),
     LockModule.forRoot({
-      delay: 1000 * 60 * 5,
-      interactionSource: fromEvent(document, 'click', { capture: true }),
       redirectUrl: AppRoute.Login,
     }),
     NavigationModule,
@@ -63,7 +54,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       fallbackErrorProcessor: FallbackErrorProcessor,
     }),
     OverlayModule,
-    QuillRootModule,
+    PermissionsModule.forRoot(),
     SlotModule.forRoot(),
     SvgIconRootModule,
     ToastrModule.forRoot({
@@ -87,8 +78,8 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     },
     {
       provide: APP_INITIALIZER,
-      useFactory: initAuthAndLockFactory,
-      deps: [AuthService, LockService],
+      useFactory: initAuthFactory,
+      deps: [AuthService],
       multi: true,
     },
     {

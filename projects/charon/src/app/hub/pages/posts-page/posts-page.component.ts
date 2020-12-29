@@ -8,6 +8,7 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
 import { PostsPageService } from './posts-page.service';
 import { HubCategoryRouteParam } from '../../hub-route';
+import { HubPostsService } from '../../services';
 
 @UntilDestroy()
 @Component({
@@ -16,7 +17,10 @@ import { HubCategoryRouteParam } from '../../hub-route';
   styleUrls: ['./posts-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    PostsPageService,
+    {
+      provide: HubPostsService,
+      useClass: PostsPageService
+    },
   ],
 })
 export class PostsPageComponent {
@@ -26,11 +30,9 @@ export class PostsPageComponent {
   public posts$: Observable<Post[]>;
   public canLoadMore$: Observable<boolean>;
 
-  private readonly loadingCount: number = 4;
-
   constructor(
     private activatedRoute: ActivatedRoute,
-    private postsPageService: PostsPageService,
+    private postsPageService: HubPostsService,
   ) {
   }
 
@@ -44,13 +46,12 @@ export class PostsPageComponent {
     this.activatedRoute.params.pipe(
       pluck(HubCategoryRouteParam),
     ).subscribe(() => {
-      this.postsPageService.clear();
-      this.loadMore();
+      this.postsPageService.reload();
     });
   }
 
   public loadMore(): void {
-    this.postsPageService.loadMorePosts(this.loadingCount);
+    this.postsPageService.loadMorePosts();
   }
 
   public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;

@@ -3,9 +3,11 @@ import { from, Observable } from 'rxjs';
 import {
   BroadcastResponse,
   Decentr,
+  LikeWeight,
   PopularPostsPeriod,
   Post,
   PostCreate,
+  PostIdentificationParameters,
   PostsFilterOptions,
   UserPostsFilterOptions,
   Wallet,
@@ -16,6 +18,15 @@ import { Environment } from '@environments/environment.definitions';
 @Injectable()
 export class PostsApiService {
   constructor(private environment: Environment) {
+  }
+
+  public getPost(
+    api: string,
+    postIdentificationParameters: PostIdentificationParameters,
+  ): Observable<Post> {
+    return from(
+      this.createDecentrConnector(api).getPost(postIdentificationParameters)
+    );
   }
 
   public getLatestPosts(
@@ -59,6 +70,47 @@ export class PostsApiService {
     return from(
       this.createDecentrConnector(api)
         .createPost(walletAddress, post, { broadcast: true, privateKey }),
+    );
+  }
+
+  public deletePost(
+    api: string,
+    walletAddress: Wallet['address'],
+    privateKey: Wallet['privateKey'],
+    post: PostIdentificationParameters,
+  ): Observable<BroadcastResponse> {
+    return from(
+      this.createDecentrConnector(api)
+        .deletePost(walletAddress, post, { broadcast: true, privateKey }),
+    );
+  }
+
+  public likePost(
+    api: string,
+    walletAddress: Wallet['address'],
+    privateKey: Wallet['privateKey'],
+    post: PostIdentificationParameters,
+    likeWeight: LikeWeight
+  ): Observable<BroadcastResponse> {
+    return from(
+      this.createDecentrConnector(api).likePost(
+        walletAddress,
+        post,
+        likeWeight,
+        {
+          broadcast: true,
+          privateKey,
+        },
+      ),
+    );
+  }
+
+  public getLikedPosts(
+    api: string,
+    walletAddress: Wallet['address'],
+  ): Observable<any> {
+    return from(
+      this.createDecentrConnector(api).getLikedPosts(walletAddress),
     );
   }
 

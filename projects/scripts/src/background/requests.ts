@@ -7,7 +7,7 @@ import OnBeforeRequestDetailsTypeRequestBodyType = WebRequest.OnBeforeRequestDet
 import OnBeforeRedirectDetailsType = WebRequest.OnBeforeRedirectDetailsType;
 import OnCompletedDetailsType = WebRequest.OnCompletedDetailsType;
 import RequestFilter = WebRequest.RequestFilter;
-import { objectContains } from './object';
+import { objectContains } from '../helpers/object';
 
 const BASE_REQUEST_FILTER: RequestFilter = {
   urls: ['<all_urls>'],

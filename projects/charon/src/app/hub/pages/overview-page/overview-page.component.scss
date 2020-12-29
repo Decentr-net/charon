@@ -34,4 +34,8 @@ $overview-page--analytics-divider-color: #9EA0A5;
   display: grid;
   gap: 30px;
   grid-template-columns: repeat(4, 1fr);
+
+  @media (max-width: 1119px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

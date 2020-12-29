@@ -1,6 +1,15 @@
+$my-wall-page--no-posts--color: #9EA0A5;
+
 :host {
   display: block;
   height: 100%;
   overflow: auto;
   padding-bottom: 30px;
+}
+
+.my-wall-page__no-posts {
+  color: $my-wall-page--no-posts--color;
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
 }

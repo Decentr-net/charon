@@ -9,7 +9,7 @@
                (click)="copyWalletAddress(user.wallet.address)"
                [matTooltip]="translate('copy_wallet_address')">
             <div class="wallet-username">
-              {{ user.primaryUsername }}
+              {{ user.firstName }} {{ user.lastName }}
             </div>
             <div class="wallet-id">
               {{ user.wallet.address }}
@@ -31,22 +31,17 @@
         <div class="network-icon">
           <img src="assets/images/logo-icon.svg" alt="Decentr">
         </div>
-        <ng-container *ngIf="balance$ | async as balance">
-          <div class="pdv-rate"
-            [class.pdv-rate__rise]="balance.dayMargin > 0"
-            [class.pdv-rate__fall]="balance.dayMargin < 0"
-            [class.pdv-rate__none]="balance.dayMargin === 0"
-          >
-            {{ balance.value | pdvValue }} PDV
-            <span>
-              <div class="rate-icon"
-                [resolveSVGUrl]="false"
-                [inlineSVG]="'assets/images/icons/arrow-circle.svg'"
-              ></div>
-              <ng-container *ngIf="balance.dayMargin > 0">+</ng-container>{{ balance.dayMargin | number : '1.0-2' }}%
-            </span>
+        <ng-container *ngIf="balance">
+          <div class="pdv-rate">
+            <span class="pdv-rate-value">{{ balance.value | pdvValue }} PDV</span>
+
+            <app-pdv-rate-margin-icon
+              class="pdv-rate-margin"
+              [rateMargin]="balance.dayMargin"
+            ></app-pdv-rate-margin-icon>
           </div>
         </ng-container>
+
         <div class="pdv-exchange-rate" *ngIf="coinRate$ | async as coinRate">
           {{ translate('exchange_rate', { rate: coinRate | number:'1.0-4' }) }}
         </div>
@@ -54,9 +49,11 @@
 
       <ng-container *ngIf="matchMediaService.isSmall() else tabsTwoColumns">
         <div class="tabs-wrapper">
-          <mat-tab-group mat-stretch-tabs
-                         mat-align-tabs="center"
-                         animationDuration="0ms">
+          <mat-tab-group
+            mat-stretch-tabs
+            mat-align-tabs="center"
+            animationDuration="0ms"
+          >
             <mat-tab [label]="translate('tabs.pdv_rate')">
               <div class="tab-container">
                 <app-chart
@@ -71,6 +68,8 @@
                   [items]="pdvList$ | async"
                   (details)="openPDVDetails($event)"
                 ></app-activity-list>
+
+                <ng-template [ngTemplateOutlet]="activityLoading"></ng-template>
               </div>
             </mat-tab>
           </mat-tab-group>
@@ -100,10 +99,11 @@
             <mat-tab [label]="translate('tabs.activity')">
               <div class="tab-container">
                 <app-activity-list
-                  *ngIf="pdvList$ | async as list"
-                  [items]="list"
+                  [items]="pdvList$ | async"
                   (details)="openPDVDetails($event)"
                 ></app-activity-list>
+
+                <ng-template [ngTemplateOutlet]="activityLoading"></ng-template>
               </div>
             </mat-tab>
           </mat-tab-group>
@@ -148,3 +148,23 @@
     </ng-template>
   </mat-menu>
 </ng-container>
+
+<ng-template #activityLoading>
+  <div
+    class="user-page__pdv-activity-list__loading-container"
+    *ngIf="canLoadMoreActivity$ | async"
+  >
+    <app-spinner
+      class="user-page__pdv-activity-list__spinner"
+      *ngIf="isLoadingActivity$ | async; else intersectionTarget"
+    ></app-spinner>
+
+    <ng-template #intersectionTarget>
+      <div
+        class="user-page__pdv-activity-list__loading-intersection-target"
+        appIntersectionTarget
+        (intersect)="onLoadMoreActivity()"
+      ></div>
+    </ng-template>
+  </div>
+</ng-template>

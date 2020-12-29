@@ -1,9 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Post } from 'decentr-js';
 
-export interface HubPostAnalytics extends Post {
-  pdvIncreasePercent: number;
-}
+import { PostWithAuthor } from '../../models/post';
 
 @Component({
   selector: 'app-hub-post-analytics-card',
@@ -12,6 +9,5 @@ export interface HubPostAnalytics extends Post {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubPostAnalyticsCardComponent {
-  @Input() public postAnalytics: HubPostAnalytics;
-  @Input() public maxContentLines: number;
+  @Input() public post: PostWithAuthor;
 }

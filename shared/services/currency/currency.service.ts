@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 
 import { CurrencyApiService } from './api';
 
-interface CoinRateFor24Hours {
+export interface CoinRateFor24Hours {
   dayMargin: number;
   value: number
 }

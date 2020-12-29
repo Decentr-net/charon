@@ -1,17 +1,29 @@
-<div class="hub-post-rating__section">
-  <span
-    class="hub-post-rating__icon"
-    [inlineSVG]="'assets/images/icons/like.svg'"
-  ></span>
+<ng-container *ngIf="post$ | async as post">
+  <div
+    class="hub-post-rating__section"
+    [class.is-disabled]="isDisabled$ | async"
+    (click)="onLike(post)"
+  >
+    <svg-icon
+      class="hub-post-rating__icon"
+      [class.mod-liked]="post.likeWeight === likeWeight.Up"
+      key="like"
+    ></svg-icon>
 
-  <span>{{ likes }}</span>
-</div>
+    <span>{{ post.likesCount }}</span>
+  </div>
 
-<div class="hub-post-rating__section">
-  <span
-    class="hub-post-rating__icon mod-dislike"
-    [inlineSVG]="'assets/images/icons/like.svg'"
-  ></span>
+  <div
+    class="hub-post-rating__section"
+    [class.is-disabled]="isDisabled$ | async"
+    (click)="onDislike(post)"
+  >
+    <svg-icon
+      class="hub-post-rating__icon mod-dislike"
+      [class.mod-disliked]="post.likeWeight === likeWeight.Down"
+      key="like"
+    ></svg-icon>
 
-  <span>{{ dislikes }}</span>
-</div>
+    <span>{{ post.dislikesCount }}</span>
+  </div>
+</ng-container>

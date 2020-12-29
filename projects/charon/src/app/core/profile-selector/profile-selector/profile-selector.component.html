@@ -25,8 +25,8 @@
             [avatarUrl]="user.avatar"
           ></app-avatar>
           <div>
-            <div class="name">{{ user.primaryUsername }}</div>
-            <div class="rate">{{ balance$ | async | pdvValue }} PDV</div>
+            <div class="name">{{ user.firstName }} {{ user.lastName }}</div>
+            <div class="rate">{{ balance | pdvValue }} PDV</div>
           </div>
         </div>
       </div>
@@ -56,14 +56,18 @@
           ></div>
           {{ translate('import_account') }} <span>(coming soon)</span>
         </div>
-        <div class="menu-item">
+        <a
+          class="menu-item"
+          href="https://decentr.net/"
+          target="_blank"
+        >
           <div class="icon icon__white"
             aria-label="Import Account"
             [resolveSVGUrl]="false"
             [inlineSVG]="'assets/images/icons/information.svg'"
           ></div>
           {{ translate('info_and_help') }}
-        </div>
+        </a>
       </div>
     </div>
   </mat-menu>

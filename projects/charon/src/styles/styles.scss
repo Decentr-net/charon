@@ -17,7 +17,7 @@ html {
 }
 
 body {
-  min-width: 375px;
+  min-width: 376px;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -149,6 +149,12 @@ body {
 mat-form-field {
   &.input-control {
     width: 350px;
+  }
+
+  @media (max-width: 991px) {
+    &.input-control {
+      width: 330px;
+    }
   }
 
   .mat-form-field-infix {
@@ -360,6 +366,60 @@ div.selectUserMenu {
           transform: rotate(-45deg);
         }
       }
+    }
+  }
+}
+
+// Mat-toggle
+.mat-slide-toggle {
+  .mat-slide-toggle-ripple {
+    transform: translateY(-25%);
+    top: calc(50% - 21px);
+    left: calc(50% - 21px);
+    height: 44px;
+    width: 44px;
+  }
+
+  // Disabled background
+  .mat-slide-toggle-bar {
+    background-color: #f2f3f4 !important;
+    width: 43px;
+    height: 22px;
+    border-radius: 135px;
+    border: 1px solid #aeaeae;
+  }
+
+  .mat-slide-toggle-thumb {
+    background-color: #ffffff;
+    transform: translateY(-50%);
+    box-shadow: none;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    border: 1px solid #aeaeae;
+  }
+
+  .mat-slide-toggle-thumb-container {
+    top: 50%;
+    transform: translateX(-1px) translateY(0px);
+    cursor: pointer;
+  }
+
+  &.mat-checked {
+    .mat-slide-toggle-bar {
+      background-color: $color-primary !important;
+    }
+
+    .mat-slide-toggle-thumb {
+      background-color: #ffffff !important;
+    }
+
+    .mat-ripple-element {
+      background-color: $color-primary !important;
+    }
+
+    .mat-slide-toggle-thumb-container {
+      transform: translate3d(21px, 0, 0) !important;
     }
   }
 }

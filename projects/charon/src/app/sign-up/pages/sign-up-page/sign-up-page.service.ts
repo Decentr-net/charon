@@ -25,19 +25,35 @@ export class SignUpPageService {
 
     return this.userService.createUser(user.primaryEmail, wallet.address).pipe(
       catchError((error) => {
-        const errorToThrow = error.status === StatusCodes.CONFLICT
-          ? new TranslatedError(
-            this.translocoService.translate('sign_up_page.errors.account_conflict', null, 'sign-up')
-          )
-          : error;
+        let errorToThrow: Error;
+
+        switch (error.status) {
+          case StatusCodes.CONFLICT: {
+            errorToThrow = new TranslatedError(
+              this.translocoService.translate('sign_up_page.errors.account_conflict', null, 'sign-up')
+            );
+            break;
+          }
+          case StatusCodes.TOO_MANY_REQUESTS: {
+            errorToThrow = new TranslatedError(
+              this.translocoService.translate('sign_up_page.errors.too_many_requests', null, 'sign-up')
+            );
+            break;
+          }
+          default: {
+            errorToThrow = error;
+          }
+        }
 
         return throwError(errorToThrow);
       }),
       mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
-      mergeMap(() => this.authService.createUser({
+      mergeMap(() => this.userService.getModeratorAddress()),
+      mergeMap((isModerator) => this.authService.createUser({
         wallet,
         ...user,
         emailConfirmed: false,
+        isModerator: isModerator === wallet.address || undefined,
         registrationCompleted: false,
       })),
       mergeMap(id => this.authService.changeUser(id)),

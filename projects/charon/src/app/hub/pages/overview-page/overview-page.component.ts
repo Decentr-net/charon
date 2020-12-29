@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, TrackByFunction } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, TrackByFunction } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UntilDestroy } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Post } from 'decentr-js';
 
 import { HubPDVStatistics } from '../../components/hub-pdv-statistics';
@@ -8,7 +8,9 @@ import { HubCurrencyStatistics } from '../../components/hub-currency-statistics'
 import { HubActivityStatistics, HubDataValueSource } from '../../components/hub-activity-statistics';
 import { OverviewPageService } from './overview-page.service';
 import { HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
+import { HubPostsService } from '../../services';
 import { HubPageService } from '../hub-page/hub-page.service';
+import { PostWithAuthor } from '../../models/post';
 
 @UntilDestroy()
 @Component({
@@ -19,12 +21,16 @@ import { HubPageService } from '../hub-page/hub-page.service';
   providers: [
     HubPageService,
     OverviewPageService,
+    {
+      provide: HubPostsService,
+      useExisting: OverviewPageService,
+    },
   ],
 })
 export class OverviewPageComponent {
   public headerContentSlotName = HUB_HEADER_CONTENT_SLOT;
 
-  public pdvStatistics$: Observable<HubPDVStatistics>;
+  public pdvStatistics: HubPDVStatistics;
   public rateStatistics$: Observable<HubCurrencyStatistics>;
 
   public activityStatistics: HubActivityStatistics = {
@@ -35,16 +41,23 @@ export class OverviewPageComponent {
   };
 
   public isLoading$: Observable<boolean>;
-  public posts$: Observable<Post[]>;
+  public posts$: Observable<PostWithAuthor[]>;
   public canLoadMore$: Observable<boolean>;
 
-  private readonly loadingCount = 4;
-
-  constructor(private overviewPageService: OverviewPageService) {
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+    private overviewPageService: OverviewPageService,
+  ) {
   }
 
   public ngOnInit() {
-    this.pdvStatistics$ = this.overviewPageService.getPdvStatistics();
+    this.overviewPageService.getPdvStatistics().pipe(
+      untilDestroyed(this),
+    ).subscribe((statistics) => {
+      this.pdvStatistics = statistics;
+      this.changeDetectorRef.detectChanges();
+    });
+
     this.rateStatistics$ = this.overviewPageService.getCoinRateStatistics();
 
     this.posts$ = this.overviewPageService.posts$;
@@ -53,11 +66,11 @@ export class OverviewPageComponent {
 
     this.canLoadMore$ = this.overviewPageService.canLoadMore$;
 
-    this.loadMore();
+    this.overviewPageService.loadInitialPosts();
   }
 
   public loadMore(): void {
-    this.overviewPageService.loadMorePosts(this.loadingCount);
+    this.overviewPageService.loadMorePosts();
   }
 
   public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;

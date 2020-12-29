@@ -6,7 +6,7 @@
       [title]="translate('hub.hub_navigation.overview')"
     ></app-hub-navigation-link>
 
-    <ng-container *transloco="let translate; read: 'hub.hub_post_category'">
+    <ng-container *transloco="let translate;">
       <app-hub-navigation-link
         class="hub-navigation__link"
         *ngFor="let linkConfig of postsLinksConfig; trackBy: trackByLink"

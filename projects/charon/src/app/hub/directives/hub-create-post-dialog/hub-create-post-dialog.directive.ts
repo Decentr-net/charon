@@ -1,5 +1,5 @@
-import { Directive, HostListener, Input } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Directive, HostListener, Input, OnDestroy } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { noop } from 'rxjs';
 import { finalize, mergeMap, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
@@ -19,10 +19,10 @@ import { HubCreatePostService } from '../../services';
 @Directive({
   selector: '[appHubCreatePostDialog]'
 })
-export class HubCreatePostDialogDirective {
+export class HubCreatePostDialogDirective implements OnDestroy {
   @Input('appHubCreatePostDialogConfig') public config: MatDialogConfig<void>;
 
-  private isDialogOpened: boolean = false;
+  private dialogRef: MatDialogRef<HubCreatePostDialogComponent>
 
   constructor(
     private authService: AuthService,
@@ -34,9 +34,15 @@ export class HubCreatePostDialogDirective {
   ) {
   }
 
+  public ngOnDestroy() {
+    if (this.dialogRef) {
+      this.dialogRef.close();
+    }
+  }
+
   @HostListener('click')
   public async openCreatePostDialog(): Promise<void> {
-    if (this.isDialogOpened) {
+    if (this.dialogRef) {
       return Promise.resolve();
     }
 
@@ -57,11 +63,12 @@ export class HubCreatePostDialogDirective {
       ...this.config,
     };
 
-    this.matDialog.open<HubCreatePostDialogComponent, HubCreatePostDialogData, HubCreatePostDialogResult>(
+    this.dialogRef = this.matDialog.open<HubCreatePostDialogComponent, HubCreatePostDialogData, HubCreatePostDialogResult>(
       HubCreatePostDialogComponent,
       config,
-    )
-      .afterClosed()
+    );
+
+    this.dialogRef.afterClosed()
       .pipe(
         mergeMap((result) => {
           if (!result.create) {
@@ -79,7 +86,7 @@ export class HubCreatePostDialogDirective {
         }),
         finalize(() => {
           this.spinnerService.hideSpinner();
-          this.isDialogOpened = false;
+          this.dialogRef = undefined;
         }),
         untilDestroyed(this),
       )

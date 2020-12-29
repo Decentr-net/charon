@@ -3,10 +3,17 @@
 export type SvgIconName =
   | 'add-image'
   | 'close'
+  | 'dynamics-negative'
+  | 'dynamics-positive'
+  | 'like'
+  | 'lock'
   | 'logo'
   | 'notification'
+  | 'pdv-rate-icon'
   | 'plus'
-  | 'settings';
+  | 'settings'
+  | 'signal'
+  | 'trash';
 export interface SvgIcon {
   name: SvgIconName;
   data: string;

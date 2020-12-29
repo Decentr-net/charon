@@ -1,35 +1,31 @@
 $hub-post-preview-card--background-color: #FFFFFF;
+$hub-post-preview-card--padding-vertical: 16px;
+$hub-post-preview-card--padding-horizontal: 24px;
+
+@import 'mixins';
 
 :host {
   background-color: $hub-post-preview-card--background-color;
-  display: flex;
-  flex-direction: column;
+  row-gap: 8px;
+  display: grid;
+  max-height: 293px;
   padding: 16px 24px;
+  grid-template-rows: min-content 1fr 18px;
+
+  &.mod-has-preview-image {
+    grid-template-rows: 7fr min-content 4fr 18px;
+  }
 }
 
-.hub-post-preview-card__title,
-.hub-post-preview-card__content {
-  display: -webkit-box;
+.hub-post-preview-card__image-container {
   overflow: hidden;
-  word-break: break-word;
-  -webkit-box-orient: vertical;
+  margin: (-$hub-post-preview-card--padding-vertical) (-$hub-post-preview-card--padding-horizontal) 0;
 }
 
-.hub-post-preview-card__title {
-  flex-shrink: 0;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 26px;
-  margin-top: 8px;
-  -webkit-line-clamp: 2;
+.hub-post-preview-card__image {
+  width: 100%;
 }
 
 .hub-post-preview-card__content {
-  font-size: 14px;
-  line-height: 22px;
-  margin-top: 8px;
-}
-
-.hub-post-preview-card__time {
-  margin-top: 8px;
+  @include pre-clamp();
 }

@@ -1,24 +1,21 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { NotificationService } from '@shared/services/notification';
+import { BalanceValueDynamic } from '@shared/services/pdv';
 import { copyContent } from '@shared/utils/copy-content';
 import { AuthService, AuthUser } from '@core/auth';
+import { isOpenedInTab } from '@core/browser';
 import { NavigationService } from '@core/navigation';
 import { MediaService, SpinnerService } from '@core/services';
 import { UserRoute } from '../../user.route';
 import { ChartPoint, PDVActivityListItem } from '../../components';
 import { UserPageService } from './user-page.service';
-import { isOpenedInTab } from '../../../core/browser';
-
-export interface BalanceValueDynamic {
-  dayMargin: number;
-  value: string | number;
-}
+import { UserPageActivityService } from './user-page-activity.service';
 
 @UntilDestroy()
 @Component({
@@ -28,6 +25,7 @@ export interface BalanceValueDynamic {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     UserPageService,
+    UserPageActivityService,
   ],
 })
 export class UserPageComponent implements OnInit {
@@ -35,20 +33,24 @@ export class UserPageComponent implements OnInit {
   public userRoute: typeof UserRoute = UserRoute;
   public user$: Observable<AuthUser>;
   public coinRate$: Observable<number>;
-  public balance$: Observable<BalanceValueDynamic>;
+  public balance: BalanceValueDynamic;
   public pdvList$: Observable<PDVActivityListItem[]>;
+  public canLoadMoreActivity$: Observable<boolean>;
+  public isLoadingActivity$: Observable<boolean>;
   public chartPoints$: Observable<ChartPoint[]>;
   public isOpenedInTab: boolean;
 
   constructor(
     public matchMediaService: MediaService,
     private authService: AuthService,
+    private changeDetectorRef: ChangeDetectorRef,
     private navigationService: NavigationService,
     private router: Router,
     private spinnerService: SpinnerService,
     private translocoService: TranslocoService,
     private notificationService: NotificationService,
     private userPageService: UserPageService,
+    private userPageActivityService: UserPageActivityService,
   ) {
   }
 
@@ -57,9 +59,18 @@ export class UserPageComponent implements OnInit {
 
     this.coinRate$ = this.userPageService.getCoinRate();
 
-    this.balance$ = this.userPageService.getBalanceWithMargin();
+    this.userPageService.getBalanceWithMargin().pipe(
+      untilDestroyed(this),
+    ).subscribe((balance) => {
+      this.balance = balance;
+      this.changeDetectorRef.detectChanges();
+    });
 
-    this.pdvList$ = this.userPageService.getPDVActivityList();
+    this.pdvList$ = this.userPageActivityService.activityList$;
+
+    this.canLoadMoreActivity$ = this.userPageActivityService.canLoadMore$;
+
+    this.isLoadingActivity$ = this.userPageActivityService.isLoading$;
 
     this.chartPoints$ = this.userPageService.getPDVChartPoints();
 
@@ -77,6 +88,10 @@ export class UserPageComponent implements OnInit {
     }, (error) => {
       this.notificationService.error(error);
     });
+  }
+
+  public onLoadMoreActivity(): void {
+    this.userPageActivityService.loadMoreActivity();
   }
 
   public expandView(): void {

@@ -20,10 +20,19 @@
   "hub_create_post_dialog": {
     "form": {
       "text": {
-        "placeholder": "Share what's new with Decentr community"
+        "placeholder": "Share what's new with Decentr community",
+        "errors": {
+          "maxBytes": "The text limit reached",
+          "minHtmlTextLength": "The minimum length of the text is {{min}} characters",
+          "required": "Post text is requred"
+        }
       },
       "title": {
-        "placeholder": "Post title"
+        "placeholder": "Post title",
+        "errors": {
+          "maxlength": "The maximum length of title is {{requiredLength}} characters",
+          "required": "Title is required"
+        }
       }
     },
     "post": "Post",
@@ -54,9 +63,6 @@
       "dec": "DEC"
     }
   },
-  "hub_post_dialog": {
-    "pdv": "PDV"
-  },
   "hub_pdv_statistics": {
     "activity_from": "Activity from {{date}}",
     "no_chart_data": "You have no PDV Rate data",
@@ -70,27 +76,47 @@
       "your_pdv": "Your PDV"
     }
   },
-  "hub_post_analytics_card": {
-    "pdv_increase": "PDV +{{percent}}%"
+  "hub_post_dialog": {
+    "remove_post": "Remove post"
   },
   "hub_feed_post": {
-    "pdv": "PDV",
     "posted": "dposted"
+  },
+  "hub_post_pdv": {
+    "label": "PDV"
   },
   "hub_overview_page": {
     "highest_pdv_analytics": "Highest PDV Analytics"
+  },
+  "hub_simple_text_editor": {
+    "image_limit_reached": "Image limit reached"
   },
   "hub_feed_navigation": {
     "my_wall": "My Wall",
     "recent": "Recent"
   },
+  "hub_delete_posts": {
+    "dialog": {
+      "delete_post": "Delete post?",
+      "no": "No",
+      "yes": "Yes"
+    }
+  },
   "hub_post_category": {
-    "crypto": "Crypto",
-    "fitness_and_exercise": "Fitness & Exercise",
-    "health_and_culture": "Health & Culture",
-    "science_and_technology": "Science & Technology",
-    "strange_world": "Strange World",
-    "travel_and_tourism": "Travel & Tourism",
-    "world_news": "World news"
+    "1": "World News",
+    "2": "Travel & Tourism",
+    "3": "Science & Technology",
+    "4": "Strange World",
+    "5": "Arts & Entertainment",
+    "6": "Writers & Writing",
+    "7": "Health & Fitness",
+    "8": "Crypto & Blockchain",
+    "9": "Sports"
+  },
+  "notifications": {
+    "delete": {
+      "success": "Post has been removed successfully"
+    },
+    "not_exists": "Current post is no longer available, because it breaks Decentr policy"
   }
 }

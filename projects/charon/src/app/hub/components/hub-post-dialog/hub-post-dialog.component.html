@@ -1,40 +1,48 @@
 <ng-container *transloco="let translate; read: 'hub.hub_post_dialog'">
-  <div
-    class="hub-post-dialog__close"
-    [inlineSVG]="'assets/images/icons/plus.svg'"
-    mat-dialog-close
-  ></div>
+  <ng-container *ngIf="post$ | async as post">
+    <div
+      class="hub-post-dialog__close"
+      [inlineSVG]="'assets/images/icons/plus.svg'"
+      mat-dialog-close
+    ></div>
 
-  <div class="hub-post-dialog__header">
-    <app-avatar [avatarUrl]="post.author.avatar"></app-avatar>
+    <div class="hub-post-dialog__header">
+      <app-avatar [avatarUrl]="post.author.avatar"></app-avatar>
 
-    <div class="hub-post-dialog__info-container">
-      <span class="hub-post-dialog__author">
-        {{ post.author.firstName }}
-        {{ post.author.lastName }}
-      </span>
+      <div class="hub-post-dialog__info-container">
+        <span class="hub-post-dialog__author">
+          {{ post.author.firstName }}
+          {{ post.author.lastName }}
+        </span>
 
-      <app-hub-post-time [time]="post.createdAt"></app-hub-post-time>
+        <app-hub-post-time [time]="post.createdAt"></app-hub-post-time>
+      </div>
     </div>
-  </div>
 
-  <mat-dialog-content
-    class="hub-post-dialog__content"
-    [innerHTML]="post.text | appSanitize : 'html'"
-  ></mat-dialog-content>
+    <div class="hub-post-dialog__title">
+      <app-hub-post-title>{{ post.title }}</app-hub-post-title>
+      <ng-container *appHasPermission="permissions.DELETE_POST">
+        <svg-icon
+          [appHubDeletePost]="post"
+          class="hub-post-dialog__title-remove"
+          key="trash"
+          title="{{ translate('remove_post') }}"
+        ></svg-icon>
+      </ng-container>
+    </div>
 
-  <mat-divider class="hub-post-dialog__divider"></mat-divider>
+    <mat-dialog-content class="hub-post-dialog__content">
+      <app-hub-post-content [content]="post.text"></app-hub-post-content>
+    </mat-dialog-content>
 
-  <div class="hub-post-dialog__footer">
-    <div class="hub-post-dialog__pdv">
-      <span [inlineSVG]="'assets/images/icons/signal.svg'"></span>
-      <span class="hub-post-dialog__pdv-label">{{ translate('pdv') }}</span>
+    <mat-divider class="hub-post-dialog__divider"></mat-divider>
+
+    <div class="hub-post-dialog__footer">
       <app-hub-post-pdv [pdv]="post.pdv"></app-hub-post-pdv>
-    </div>
 
-    <app-hub-post-rating
-      [likes]="post.likesCount"
-      [dislikes]="post.dislikesCount"
-    ></app-hub-post-rating>
-  </div>
+      <app-hub-post-rating
+        [postId]="post.uuid"
+      ></app-hub-post-rating>
+    </div>
+  </ng-container>
 </ng-container>

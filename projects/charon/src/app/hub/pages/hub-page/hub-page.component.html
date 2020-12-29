@@ -9,10 +9,11 @@
   >
     <app-color-value-dynamic
       class="hub-page__header-meta-label"
-      *ngIf="balance$ | async as balance"
+      *ngIf="balance"
       [circleType]="'hole'"
       [color]="'green'"
       [dayMargin]="balance.dayMargin"
+      [digitsInfo]="'1.0-5'"
     >
       <strong>{{ translate('pdv') }}</strong>
       <span class="hub-page__header-meta-label-value">{{ balance.value | pdvValue }}</span>
@@ -24,6 +25,7 @@
       [circleType]="'hole'"
       [color]="'yellow'"
       [dayMargin]="coinRate.dayMargin"
+      [digitsInfo]="'1.0-2'"
     >
       <strong>{{ translate('dec') }}</strong>
       <span class="hub-page__header-meta-label-value">

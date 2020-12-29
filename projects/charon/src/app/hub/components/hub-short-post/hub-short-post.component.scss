@@ -1,3 +1,5 @@
+@import 'mixins';
+
 $hub-short-post--background-color: #FFFFFF;
 
 :host {
@@ -24,8 +26,13 @@ $hub-short-post--background-color: #FFFFFF;
   overflow: hidden;
 }
 
+.hub-short-post__title {
+  margin-top: 8px;
+}
+
 .hub-short-post__content {
+  @include clamp(4);
+
   line-height: 22px;
   margin-top: 10px;
-  word-break: break-word;
 }

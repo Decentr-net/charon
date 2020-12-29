@@ -3,15 +3,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ControlValueAccessor } from '@ngneat/reactive-forms';
 import { PostCategory } from 'decentr-js';
 
-const POST_CATEGORY_TRANSLATION_MAP: Record<PostCategory, string> = {
-  [PostCategory.FitnessAndExercise]: 'fitness_and_exercise',
-  [PostCategory.HealthAndCulture]: 'health_and_culture',
-  [PostCategory.ScienceAndTechnology]: 'science_and_technology',
-  [PostCategory.StrangeWorld]: 'strange_world',
-  [PostCategory.TravelAndTourism]: 'travel_and_tourism',
-  [PostCategory.WorldNews]: 'world_news',
-  [PostCategory.Crypto]: 'crypto',
-};
+import { POST_CATEGORIES, POST_CATEGORY_TRANSLATION_MAP } from '../../models/post-category';
 
 @Component({
   selector: 'app-hub-category-select',
@@ -29,15 +21,7 @@ const POST_CATEGORY_TRANSLATION_MAP: Record<PostCategory, string> = {
 export class HubCategorySelectComponent extends ControlValueAccessor<PostCategory> {
   public value: PostCategory;
 
-  public categories: PostCategory[] = [
-    PostCategory.WorldNews,
-    PostCategory.TravelAndTourism,
-    PostCategory.ScienceAndTechnology,
-    PostCategory.StrangeWorld,
-    PostCategory.HealthAndCulture,
-    PostCategory.FitnessAndExercise,
-    PostCategory.Crypto,
-  ];
+  public categories: PostCategory[] = POST_CATEGORIES;
 
   public translationMap: Record<PostCategory, string> = POST_CATEGORY_TRANSLATION_MAP;
 

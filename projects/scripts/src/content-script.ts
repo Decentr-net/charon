@@ -12,7 +12,7 @@ import {
   isToolbarClosed,
   saveToolbarClosed
 } from './content/session';
-import { updateShiftContent } from './helpers/shift-content';
+import { updateShiftContent } from './content/shift-content';
 import { MessageCode } from './messages';
 
 if (!isToolbarClosed() && isTopWindow(window.self)) {

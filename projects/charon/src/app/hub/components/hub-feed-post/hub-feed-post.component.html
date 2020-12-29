@@ -16,23 +16,18 @@
     </div>
   </div>
 
-  <div
+  <app-hub-post-content
     class="hub-feed-post__content"
-    [innerHTML]="post.text | appSanitize : 'html'"
-  ></div>
+    [content]="post.text | appCutHtmlImages | appFirstParagraph"
+  ></app-hub-post-content>
 
   <mat-divider class="hub-feed-post__divider"></mat-divider>
 
   <div class="hub-feed-post__footer">
-    <div class="hub-feed-post__pdv">
-      <span [inlineSVG]="'assets/images/icons/signal.svg'"></span>
-      <span class="hub-feed-post__pdv-label">{{ translate('pdv') }}</span>
-      <app-hub-post-pdv [pdv]="post.pdv"></app-hub-post-pdv>
-    </div>
+    <app-hub-post-pdv [pdv]="post.pdv"></app-hub-post-pdv>
 
     <app-hub-post-rating
-      [likes]="post.likesCount"
-      [dislikes]="post.dislikesCount"
+      [postId]="post.uuid"
     ></app-hub-post-rating>
   </div>
 </ng-container>

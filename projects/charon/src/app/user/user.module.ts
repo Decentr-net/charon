@@ -11,14 +11,18 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
+import { SvgIconsModule } from '@ngneat/svg-icon';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
 import { FormErrorModule } from '@shared/components/form-error';
+import { SpinnerModule } from '@shared/components/spinner';
 import { NavigationModule } from '@core/navigation';
 import { ProfileFormModule } from '@shared/components/profile-form';
+import { IntersectionModule } from '@shared/directives/intersection';
 import { ToolbarStateService } from '@shared/services/toolbar-state';
 import { LayoutHeaderModule } from '../layout/layout-header';
+import { PdvRateMarginIconModule } from '@shared/components/pdv-rate-margin-icon/pdv-rate-margin-icon.module';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { USER_PAGES } from './pages';
 import { USER_COMPONENTS } from './components';
@@ -30,6 +34,7 @@ import { UserRoutingModule } from './user-routing.module';
     FormErrorModule,
     FormsModule,
     InlineSVGModule,
+    IntersectionModule,
     LayoutHeaderModule,
     MatExpansionModule,
     MatButtonModule,
@@ -41,10 +46,13 @@ import { UserRoutingModule } from './user-routing.module';
     MatTabsModule,
     MatTooltipModule,
     NavigationModule,
+    PdvRateMarginIconModule,
     PdvValueModule,
     ProfileFormModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
+    SpinnerModule,
+    SvgIconsModule,
     TranslocoModule,
     UserRoutingModule,
   ],

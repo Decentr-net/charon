@@ -1,23 +1,14 @@
 <ng-container *transloco="let translate; read: 'hub.hub_post_analytics_card'">
   <app-hub-post-preview-card
-    [maxContentLines]="maxContentLines"
-    [post]="postAnalytics"
+    [post]="post"
   ></app-hub-post-preview-card>
 
   <div>
     <mat-divider></mat-divider>
 
-    <div class="hub-post-analytics__footer">
-      <div class="hub-post-analytics__labels-container">
-        <div class="hub-post-analytics__pdv-increase">
-          {{ translate('pdv_increase', { percent: postAnalytics.pdvIncreasePercent }) }}
-        </div>
-      </div>
-
-      <div
-        class="hub-post-analytics__dynamics-icon"
-        [inlineSVG]="'assets/images/icons/dynamics-positive.svg'"
-      ></div>
-    </div>
+    <app-hub-post-pdv
+      class="hub-post-analytics-card__pdv"
+      [pdv]="post.pdv"
+    ></app-hub-post-pdv>
   </div>
 </ng-container>

@@ -71,3 +71,15 @@
     font-weight: 500;
   }
 }
+
+@mixin pre-clamp() {
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-word;
+  -webkit-box-orient: vertical;
+}
+
+@mixin clamp($lines) {
+  @include pre-clamp();
+  -webkit-line-clamp: $lines;
+}

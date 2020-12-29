@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { Post } from 'decentr-js';
 
 @Component({
@@ -10,5 +10,8 @@ import { Post } from 'decentr-js';
 export class HubPostPreviewCardComponent {
   @Input() public post: Post;
 
-  @Input() public maxContentLines: number;
+  @HostBinding('class.mod-has-preview-image')
+  public get hasPreviewImage(): boolean {
+    return this.post && !!this.post.previewImage;
+  }
 }

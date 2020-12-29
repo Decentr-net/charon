@@ -1,10 +1,14 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+import { CoinRateFor24Hours } from '@shared/services/currency';
+import { BalanceValueDynamic } from '@shared/services/pdv';
 import { AppService } from './app.service';
 import { TOOLBAR_HEIGHT } from './app.definitions';
-import { ColorValueDynamic } from '@shared/components/color-value-dynamic';
+import { NavigationService } from './services';
 
+@UntilDestroy()
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,35 +19,59 @@ export class AppComponent implements OnInit {
   @HostBinding('style.height') public height = TOOLBAR_HEIGHT;
 
   public avatar$: Observable<string>;
-  public balance$: Observable<ColorValueDynamic>;
-  public coinRate$: Observable<ColorValueDynamic>;
+  public balance: BalanceValueDynamic;
+  public coinRate: CoinRateFor24Hours;
+  public isLocked: boolean;
 
-  constructor(private appService: AppService) {
+  constructor(
+    private appService: AppService,
+    private navigationService: NavigationService,
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {
   }
 
   public ngOnInit() {
     this.avatar$ = this.appService.getAvatar();
-    this.balance$ = this.appService.getBalanceWithMargin();
-    this.coinRate$ = this.appService.getCoinRateWithMargin();
+
+    this.appService.getBalanceWithMargin().pipe(
+      untilDestroyed(this),
+    ).subscribe((balance) => {
+      this.balance = balance;
+      this.changeDetectorRef.detectChanges();
+    });
+
+    this.appService.getCoinRateWithMargin().pipe(
+      untilDestroyed(this),
+    ).subscribe((coinRate) => {
+      this.coinRate = coinRate;
+      this.changeDetectorRef.detectChanges();
+    });
+
+    this.appService.getLockedState().pipe(
+      untilDestroyed(this),
+    ).subscribe((isLocked) => {
+      this.isLocked = isLocked;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   public closeApp(): void {
-    this.appService.closeApp();
+    this.navigationService.closeApp();
   }
 
   public openCharonHubMyWall(): void {
-    this.appService.openCharonHubMyWall();
+    this.navigationService.openCharonHubMyWall();
   }
 
   public openCharonHubOverview(): void {
-    this.appService.openCharonHubOverview();
+    this.navigationService.openCharonHubOverview();
   }
 
   public openCharonHubRecentNews(): void {
-    this.appService.openCharonHubRecentNews();
+    this.navigationService.openCharonHubRecentNews();
   }
 
   public openCharonUserSettings(): void {
-    this.appService.openCharonUserSettings();
+    this.navigationService.openCharonUserSettings();
   }
 }

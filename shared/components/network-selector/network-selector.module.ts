@@ -4,18 +4,20 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { NetworkSelectorComponent } from './network-selector.component';
 import { NetworkSelectorService } from './network-selector.service';
+import { SpinnerModule } from '../spinner';
 
 export interface NetworkSelectorModuleConfig {
   service: Type<NetworkSelectorService>;
 }
 
 @NgModule({
-  declarations: [
-    NetworkSelectorComponent,
-  ],
   imports: [
     CommonModule,
     MatMenuModule,
+    SpinnerModule,
+  ],
+  declarations: [
+    NetworkSelectorComponent,
   ],
   exports: [
     NetworkSelectorComponent,

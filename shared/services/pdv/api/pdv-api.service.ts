@@ -1,0 +1,59 @@
+import {
+  BroadcastResponse,
+  Decentr,
+  KeyPair,
+  PDV,
+  PDVDetails,
+  PDVListItem,
+  PDVListPaginationOptions,
+  PDVStatItem,
+  PDVType,
+  Wallet
+} from 'decentr-js';
+
+export class PDVApiService {
+  constructor(private chainId: string) {
+  }
+
+  public sendPDV(api: string, wallet: Wallet, pdvType: PDVType, pdv: PDV): Promise<BroadcastResponse> {
+    const decentr = this.createDecentrConnector(api);
+
+    return decentr.sendPDV(pdv, pdvType, wallet, { broadcast: true });
+  }
+
+  public getBalance(api: string, walletAddress: Wallet['address']): Promise<number> {
+    const decentr = this.createDecentrConnector(api);
+
+    return decentr.getTokenBalance(walletAddress);
+  }
+
+  public getPDVList(
+    api: string,
+    walletAddress: Wallet['address'],
+    paginationOptions?: PDVListPaginationOptions,
+  ): Promise<PDVListItem[]> {
+    const decentr = this.createDecentrConnector(api);
+
+    return decentr.getPDVList(walletAddress, paginationOptions);
+  }
+
+  public getPDVDetails(
+    api: string,
+    address: PDVListItem['address'],
+    keyPair: KeyPair,
+  ): Promise<PDVDetails> {
+    const decentr = this.createDecentrConnector(api);
+
+    return decentr.getPDVDetails(address, keyPair);
+  }
+
+  public getPDVStats(api: string, walletAddress: Wallet['address']): Promise<PDVStatItem[]> {
+    const decentr = this.createDecentrConnector(api);
+
+    return decentr.getPDVStats(walletAddress);
+  }
+
+  private createDecentrConnector(api: string): Decentr {
+    return new Decentr(api, this.chainId);
+  }
+}

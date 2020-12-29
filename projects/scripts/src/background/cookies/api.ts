@@ -1,6 +1,17 @@
+import { defer, Observable } from 'rxjs';
+import { mapTo } from 'rxjs/operators';
+import PQueue from 'p-queue';
 import { Cookies } from 'webextension-polyfill-ts';
+import { PDV, PDVType, Wallet } from 'decentr-js';
 import Cookie = Cookies.Cookie;
-import { PDV } from 'decentr-js';
+
+import { environment } from '../../../../../environments/environment';
+import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
+import { PDVService } from '../../../../../shared/services/pdv';
+
+const pdvService = new PDVService(environment.chainId);
+const networkStorage = new NetworkBrowserStorageService();
+const queue = new PQueue({ concurrency: 1 });
 
 interface CookieGroup {
   domain: string;
@@ -30,8 +41,8 @@ export const convertCookiesToPdv = (cookies: Cookie[], domain: string, path: str
       domain: pdvDomain,
       user_agent: window.navigator.userAgent,
       data: cookies.map((cookie) => ({
-        domain: '*',
-        path: '*',
+        domain: pdvDomain,
+        path: path,
         version: 'v1',
         type: 'cookie',
         name: cookie.name,
@@ -44,3 +55,24 @@ export const convertCookiesToPdv = (cookies: Cookie[], domain: string, path: str
     },
   };
 };
+
+export const sendCookies = (
+  wallet: Wallet,
+  pdvType: PDVType,
+  cookies: Cookie[],
+): Observable<void> => {
+  const groupedCookies = groupCookiesByDomainAndPath(cookies);
+
+  return defer(() => {
+    return Promise.all(groupedCookies.map((group) => {
+      return queue.add(() => pdvService.sendPDV(
+        networkStorage.getActiveNetworkInstant().api,
+        wallet,
+        pdvType,
+        convertCookiesToPdv(group.cookies, group.domain, group.path),
+      ));
+    }));
+  }).pipe(
+    mapTo(void 0),
+  );
+}

@@ -1,0 +1,7 @@
+<svg-icon
+  class="pdv-rate-margin__icon"
+  key="pdv-rate-icon"
+></svg-icon>
+<div class="pdv-rate-margin__label">
+  <ng-container *ngIf="isPositive">+</ng-container>{{ rateMargin | number : '1.0-5' }}%
+</div>

@@ -7,6 +7,10 @@
     class="hub-wall-posts__post"
     *ngFor="let post of posts$ | async; trackBy: trackByPostId"
     [post]="post"
-    [appHubPostDialog]="post"
+    [appHubPostDialog]="post.uuid"
   ></app-hub-feed-post>
 </app-hub-infinite-posts-container>
+
+<ng-template [ngIf]="(isLoading$ | async) === false && (posts$ | async)?.length === 0">
+  <ng-template [ngIf]="noPostsTemplate" [ngTemplateOutlet]="noPostsTemplate"></ng-template>
+</ng-template>

@@ -1,8 +1,13 @@
 $hub-simple-text-editor--placeholder--color: #9EA0A5;
+$hub-simple-text-editor--add-image-icon--disabled-color: #9EA0A5;
 
 :host {
   display: flex;
   flex-direction: column;
+
+  &.id-disabled {
+    pointer-events: none;
+  }
 }
 
 .hub-simple-text-editor__text-container {
@@ -13,6 +18,13 @@ $hub-simple-text-editor--placeholder--color: #9EA0A5;
     color: $hub-simple-text-editor--placeholder--color;
     content: attr(placeholder);
     pointer-events: none;
+  }
+
+  ::ng-deep {
+    img {
+      display: block;
+      padding: 10px 0;
+    }
   }
 }
 
@@ -29,4 +41,36 @@ $hub-simple-text-editor--placeholder--color: #9EA0A5;
   cursor: pointer;
   display: inline-flex;
   font-size: 24px;
+
+  &.is-disabled {
+    color: $hub-simple-text-editor--add-image-icon--disabled-color;
+    cursor: initial;
+  }
+}
+
+.mat-form-field-underline {
+  bottom: initial;
+  position: relative;
+}
+
+::ng-deep {
+  .mat-form-field-type-hub-simple-text-editor {
+    .mat-form-field-wrapper,
+    .mat-form-field-flex,
+    .mat-form-field-infix,
+    .hub-simple-text-editor {
+      height: 100%;
+    }
+
+    .mat-form-field-wrapper {
+      > .mat-form-field-underline,
+      .hub-simple-text-editor__divider {
+        display: none;
+      }
+    }
+
+    .mat-form-field-subscript-wrapper {
+      margin-top: 0;
+    }
+  }
 }

@@ -1,16 +1,23 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { first, skip } from 'rxjs/operators';
+import { first, skip, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { sha256 } from 'js-sha256';
 
 import { AuthBrowserStorageService } from '@shared/services/auth';
 import { uuid } from '@shared/utils/uuid';
 import { AuthUser, AuthUserCreate, AuthUserUpdate } from '../models';
+import { PermissionsService } from '@shared/permissions';
+import { UserPermissions } from '../../permissions';
 
 @UntilDestroy()
 @Injectable()
 export class AuthService {
+  constructor(
+    private permissionsService: PermissionsService,
+  ) {
+  }
+
   private activeUser$: BehaviorSubject<AuthUser | undefined> = new BehaviorSubject(undefined);
 
   private authStorage = new AuthBrowserStorageService<AuthUser>();
@@ -43,7 +50,13 @@ export class AuthService {
   }
 
   public getActiveUser(): Observable<AuthUser | undefined> {
-    return this.activeUser$.asObservable();
+    return this.activeUser$.asObservable().pipe(
+      tap((user) => {
+        if (user.isModerator) {
+          this.permissionsService.setPermissions(UserPermissions.DELETE_POST);
+        }
+      })
+    );
   }
 
   public getActiveUserInstant(): AuthUser | undefined {
@@ -59,6 +72,7 @@ export class AuthService {
       emailConfirmed: user.emailConfirmed,
       emails: user.emails,
       gender: user.gender,
+      isModerator: user.isModerator,
       passwordHash: AuthService.encryptPassword(user.password),
       primaryEmail: user.primaryEmail,
       primaryUsername: user.usernames?.[0],
