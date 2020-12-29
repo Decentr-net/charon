@@ -8,6 +8,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 })
 export class ColorMarginLabelComponent {
   @Input() public dayMargin: number;
+  @Input() public digitsInfo: string;
 
   @HostBinding('class.mod-negative')
   public get isNegative(): boolean {
