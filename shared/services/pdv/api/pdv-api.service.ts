@@ -5,6 +5,7 @@ import {
   PDV,
   PDVDetails,
   PDVListItem,
+  PDVListPaginationOptions,
   PDVStatItem,
   PDVType,
   Wallet
@@ -26,10 +27,14 @@ export class PDVApiService {
     return decentr.getTokenBalance(walletAddress);
   }
 
-  public getPDVList(api: string, walletAddress: Wallet['address']): Promise<PDVListItem[]> {
+  public getPDVList(
+    api: string,
+    walletAddress: Wallet['address'],
+    paginationOptions?: PDVListPaginationOptions,
+  ): Promise<PDVListItem[]> {
     const decentr = this.createDecentrConnector(api);
 
-    return decentr.getPDVList(walletAddress);
+    return decentr.getPDVList(walletAddress, paginationOptions);
   }
 
   public getPDVDetails(
