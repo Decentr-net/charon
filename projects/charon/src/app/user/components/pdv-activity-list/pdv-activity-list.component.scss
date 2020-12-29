@@ -31,6 +31,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    @media (max-width: 768px) {
+      max-width: 13rem;
+    }
   }
 
   .activity-item__type {
