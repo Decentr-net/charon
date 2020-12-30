@@ -8,6 +8,7 @@ import { StateChangesService } from './state';
 import { UserService } from './user';
 
 export * from './media';
+export * from './menu';
 export * from './network';
 export * from './pdv';
 export * from './posts';

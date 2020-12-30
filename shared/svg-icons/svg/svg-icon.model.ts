@@ -3,8 +3,11 @@
 export type SvgIconName =
   | 'add-image'
   | 'close'
+  | 'decentr-hub'
   | 'dynamics-negative'
   | 'dynamics-positive'
+  | 'import'
+  | 'information'
   | 'like'
   | 'lock'
   | 'logo'
