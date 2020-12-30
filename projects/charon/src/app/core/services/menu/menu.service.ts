@@ -7,6 +7,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { MenuLink, MenuService as MenuBaseService, MenuTranslations, MenuUserLink } from '@shared/components/menu';
 import { svgDecentrHub, svgImport, svgInformation } from '@shared/svg-icons';
 import { AppRoute } from '../../../app-route';
+import { HubFeedRoute, HubRoute } from '../../../hub';
+import { UserRoute } from '../../../user';
 import { LockService } from '../../lock';
 import { AuthService } from '../../auth';
 import { PDVService } from '../pdv';
@@ -45,6 +47,16 @@ export class MenuService extends MenuBaseService {
             title: linksTranslationsObject['decentr_hub'],
           },
           {
+            iconKey: svgDecentrHub.name,
+            link: `/${AppRoute.Hub}/${HubRoute.Feed}/${HubFeedRoute.MyWall}`,
+            title: linksTranslationsObject['decentr_feed'],
+          },
+          {
+            iconKey: svgDecentrHub.name,
+            link: `/${AppRoute.User}`,
+            title: linksTranslationsObject['decentr_portal'],
+          },
+          {
             iconKey: svgImport.name,
             title: linksTranslationsObject['import_account'],
           },
@@ -65,7 +77,7 @@ export class MenuService extends MenuBaseService {
     ]).pipe(
       map(([user, pdvValue]) => ({
         pdvValue,
-        link: `/${AppRoute.User}`,
+        link: `/${AppRoute.User}/${UserRoute.Edit}`,
         title: `${user.firstName} ${user.lastName}`,
       })),
     );

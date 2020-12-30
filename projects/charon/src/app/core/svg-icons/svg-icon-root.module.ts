@@ -5,7 +5,6 @@ import {
   svgClose,
   svgNotification,
   svgPlus,
-  svgSettings,
 } from '@shared/svg-icons';
 
 @NgModule({
@@ -14,7 +13,6 @@ import {
       svgClose,
       svgNotification,
       svgPlus,
-      svgSettings,
     ],
   })],
 })

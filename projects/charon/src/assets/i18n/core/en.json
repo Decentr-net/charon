@@ -15,7 +15,9 @@
   "menu": {
     "coming_soon": "coming soon",
     "links": {
-      "decentr_hub": "Decentr Hub",
+      "decentr_feed": "dFeed",
+      "decentr_hub": "dHub",
+      "decentr_portal": "dPortal",
       "import_account": "Import Account",
       "info_and_help": "Info & Help"
     },
