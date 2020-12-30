@@ -70,8 +70,4 @@ export class AppComponent implements OnInit {
   public openCharonHubRecentNews(): void {
     this.navigationService.openCharonHubRecentNews();
   }
-
-  public openCharonUserSettings(): void {
-    this.navigationService.openCharonUserSettings();
-  }
 }
