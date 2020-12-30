@@ -1,0 +1,92 @@
+import { Injectable } from '@angular/core';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { TranslocoService } from '@ngneat/transloco';
+
+import { MenuLink, MenuService as MenuBaseService, MenuTranslations, MenuUserLink } from '@shared/components/menu';
+import { svgDecentrHub, svgImport, svgInformation } from '@shared/svg-icons';
+import { AppRoute } from '../../../app-route';
+import { LockService } from '../../lock';
+import { AuthService } from '../../auth';
+import { PDVService } from '../pdv';
+
+@Injectable()
+export class MenuService extends MenuBaseService {
+  constructor(
+    private authService: AuthService,
+    private pdvService: PDVService,
+    private lockService: LockService,
+    private translocoService: TranslocoService,
+    svgIconRegistry: SvgIconRegistry,
+  ) {
+    super();
+
+    svgIconRegistry.register([
+      svgDecentrHub,
+      svgImport,
+      svgInformation,
+    ]);
+  }
+
+  public getAvatarUrl(): Observable<string> {
+    return this.authService.getActiveUser().pipe(
+      map((user) => user.avatar),
+    )
+  }
+
+  public getLinks(): Observable<MenuLink[]> {
+    return this.translocoService.selectTranslateObject('menu.links', null, 'core')
+      .pipe(
+        map((linksTranslationsObject) => [
+          {
+            iconKey: svgDecentrHub.name,
+            link: `/${AppRoute.Hub}`,
+            title: linksTranslationsObject['decentr_hub'],
+          },
+          {
+            iconKey: svgImport.name,
+            title: linksTranslationsObject['import_account'],
+          },
+          {
+            blank: true,
+            iconKey: svgInformation.name,
+            link: 'https://decentr.net/',
+            title: linksTranslationsObject['info_and_help'],
+          },
+        ])
+      );
+  }
+
+  public getUserLink(): Observable<MenuUserLink> {
+    return combineLatest([
+      this.authService.getActiveUser(),
+      this.pdvService.getBalance(),
+    ]).pipe(
+      map(([user, pdvValue]) => ({
+        pdvValue,
+        link: `/${AppRoute.User}`,
+        title: `${user.firstName} ${user.lastName}`,
+      })),
+    );
+  }
+
+  public getTranslations(): Observable<MenuTranslations> {
+    return this.translocoService.selectTranslateObject('menu', null, 'core')
+      .pipe(
+        map(({
+          coming_soon: comingSoon,
+          my_accounts: myAccounts,
+          ...rest
+        }) => ({
+          ...rest,
+          comingSoon,
+          myAccounts,
+        })),
+      );
+  }
+
+  public lock(): void {
+    this.lockService.lock();
+  }
+}

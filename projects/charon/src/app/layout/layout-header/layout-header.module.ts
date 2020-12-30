@@ -4,8 +4,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { InlineSVGModule } from 'ng-inline-svg';
 
+import { MenuModule } from '@shared/components/menu';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
-import { ProfileSelectorModule } from '@core/profile-selector';
 import { LayoutHeaderComponent } from './layout-header.component';
 
 @NgModule({
@@ -14,8 +14,8 @@ import { LayoutHeaderComponent } from './layout-header.component';
     InlineSVGModule,
     MatMenuModule,
     MatToolbarModule,
+    MenuModule,
     NetworkSelectorModule,
-    ProfileSelectorModule,
   ],
   declarations: [LayoutHeaderComponent],
   exports: [LayoutHeaderComponent],
