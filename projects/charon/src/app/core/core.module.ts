@@ -43,7 +43,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       api: environment.currencyApi,
     }),
     LockModule.forRoot({
-      redirectUrl: AppRoute.Login,
+      redirectUrl: `/${AppRoute.Login}`,
     }),
     MenuModule.forRoot({
       service: MenuService,
