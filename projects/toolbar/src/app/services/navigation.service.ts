@@ -35,11 +35,4 @@ export class NavigationService {
       CharonHubFeedRoute.Recent,
     ]);
   }
-
-  public openCharonUserSettings(): void {
-    this.messageBus.sendMessage(MessageCode.Navigate, [
-      CharonAppRoute.User,
-      CharonUserRoute.Edit,
-    ]);
-  }
 }

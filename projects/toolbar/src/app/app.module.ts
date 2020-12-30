@@ -15,7 +15,7 @@ import { environment } from '@environments/environment';
 import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { PDVService } from '@shared/services/pdv';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
-import { svgClose, svgLogo, svgNotification, svgSettings } from '@shared/svg-icons';
+import { svgClose, svgLogo, svgNotification } from '@shared/svg-icons';
 import { TranslocoRootModule } from './transloco';
 import { TOOLBAR_SERVICES } from './services';
 
@@ -37,7 +37,6 @@ import { TOOLBAR_SERVICES } from './services';
         svgClose,
         svgLogo,
         svgNotification,
-        svgSettings,
       ],
     }),
     TranslocoRootModule,
