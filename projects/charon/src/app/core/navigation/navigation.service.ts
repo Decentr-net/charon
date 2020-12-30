@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, pairwise } from 'rxjs/operators';
 import { Location } from '@angular/common';
+import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { openExtensionInNewTab } from '@core/browser';
-import { Router, RoutesRecognized } from '@angular/router';
 import { Tabs } from 'webextension-polyfill-ts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class NavigationService {
-  private previousPageUrl: string = undefined;
+  private previousPageUrl: string;
 
   constructor(
     private location: Location,
@@ -18,19 +20,22 @@ export class NavigationService {
   ) {
     this.getUrlChanges().pipe(
       untilDestroyed(this),
-    ).subscribe(url => this.previousPageUrl = url);
+    ).subscribe((url) => this.previousPageUrl = url);
   }
 
-  public back(fallbackUrl: string[]): void {
-    const navigateUrl = this.previousPageUrl ? [this.previousPageUrl] : fallbackUrl;
+  public async back(fallbackUrl: string[]): Promise<void> {
+    if (this.previousPageUrl && await this.router.navigateByUrl(this.previousPageUrl)) {
+      return;
+    }
 
-    this.router.navigate(navigateUrl);
+    this.router.navigate(fallbackUrl);
   }
 
   private getUrlChanges(): Observable<string> {
     return this.router.events.pipe(
-      filter(e => e instanceof RoutesRecognized),
-      map(() => this.router.url),
+      filter((event: NavigationEnd) => event instanceof NavigationEnd),
+      pairwise(),
+      map(([prev]) => prev.urlAfterRedirects),
     )
   }
 

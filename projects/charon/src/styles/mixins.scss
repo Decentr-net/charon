@@ -66,9 +66,10 @@
   }
 
   &__back {
-    margin: 2rem 0 1.5rem;
+    display: inline-flex;
     font-size: 1rem;
     font-weight: 500;
+    margin: 2rem 0 1.5rem;
   }
 }
 

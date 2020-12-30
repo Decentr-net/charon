@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 
 import { NavigateBackDirective } from './navigate-back';
-import { NavigationService } from './navigation.service';
 
 @NgModule({
   declarations: [
@@ -9,9 +8,6 @@ import { NavigationService } from './navigation.service';
   ],
   exports: [
     NavigateBackDirective,
-  ],
-  providers: [
-    NavigationService,
   ],
 })
 export class NavigationModule {
