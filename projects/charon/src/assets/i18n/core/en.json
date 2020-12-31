@@ -12,6 +12,19 @@
     "year": "a year ago",
     "years": "years ago"
   },
+  "menu": {
+    "coming_soon": "coming soon",
+    "links": {
+      "decentr_feed": "dFeed",
+      "decentr_hub": "dHub",
+      "decentr_portal": "dPortal",
+      "import_account": "Import Account",
+      "info_and_help": "Info & Help"
+    },
+    "lock": "Lock",
+    "my_accounts": "My Accounts",
+    "pdv": "PDV"
+  },
   "network_selector": {
     "network": {
       "remote": "Decentr Test Network",
@@ -46,12 +59,5 @@
       "22": "Panic error"
     },
     "unknown_error": "Something went wrong"
-  },
-  "profile_selector": {
-    "decentr_hub": "Decentr Hub",
-    "import_account": "Import Account",
-    "info_and_help": "Info & Help",
-    "lock": "Lock",
-    "my_accounts": "My Accounts"
   }
 }

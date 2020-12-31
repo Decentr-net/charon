@@ -1,0 +1,81 @@
+<ng-container *ngIf="translations$ | async as translations">
+  <app-avatar
+    class="profile-image"
+    [avatarUrl]="avatarUrl$ | async"
+    [matMenuTriggerFor]="menuTemplate"
+  ></app-avatar>
+
+  <mat-menu
+    #menuTemplate
+    class="profile-selector__menu"
+  >
+    <div class="menu-wrapper">
+      <div class="menu__header">
+        <div class="menu-title">{{ translations.myAccounts }}</div>
+        <button class="button-lock" (click)="lock()">{{ translations.lock }}</button>
+      </div>
+
+      <div class="menu__items">
+        <div class="menu-item menu-item__active"
+          *ngIf="userLink$ | async as user"
+          [routerLink]="user.link"
+        >
+          <app-avatar
+            class="profile-image"
+            [avatarUrl]="avatarUrl$ | async"
+          ></app-avatar>
+          <div>
+            <div class="name">{{ user.title }}</div>
+            <div class="rate">{{ user.pdvValue | pdvValue }} PDV</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu__footer">
+        <ng-container *ngFor="let link of links$ | async">
+          <ng-template
+            [ngTemplateOutlet]="link.blank ? externalLink : localLink"
+            [ngTemplateOutletContext]="{ $implicit: link }"
+          ></ng-template>
+        </ng-container>
+      </div>
+    </div>
+  </mat-menu>
+</ng-container>
+
+<ng-template #localLink let-link>
+  <a
+    class="menu-item"
+    [routerLink]="[link.link]"
+    [class.menu-item__disabled]="!link.link"
+  >
+    <ng-template
+      [ngTemplateOutlet]="linkContent"
+      [ngTemplateOutletContext]="{ $implicit: link }"
+    ></ng-template>
+  </a>
+</ng-template>
+
+<ng-template #externalLink let-link>
+  <a
+    class="menu-item"
+    target="_blank"
+    [href]="link.link"
+    [class.menu-item__disabled]="!link.link"
+  >
+    <ng-template
+      [ngTemplateOutlet]="linkContent"
+      [ngTemplateOutletContext]="{ $implicit: link }"
+    ></ng-template>
+  </a>
+</ng-template>
+
+<ng-template #linkContent let-link>
+  <svg-icon
+    class="icon icon__white"
+    [key]="link.iconKey"
+  ></svg-icon>
+
+  {{ link.title }}
+  <span *ngIf="!link.link">({{ (translations$ | async).comingSoon }})</span>
+</ng-template>

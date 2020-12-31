@@ -100,6 +100,10 @@ export class LockService {
   }
 
   public navigateToLockedUrl(): Promise<boolean> {
+    if (this.isOnLockedPage()) {
+      return Promise.resolve(true);
+    }
+
     return this.navigate(this.lockRedirectUrl, {
       queryParams: {
         [LOCK_RETURN_URL_PARAM]: this.router.url,
@@ -160,6 +164,10 @@ export class LockService {
 
   private navigate(url: string, extras?: NavigationExtras): Promise<boolean> {
     return this.ngZone.run(() => this.router.navigate([url], extras));
+  }
+
+  private isOnLockedPage(): boolean {
+    return this.router.url.startsWith(this.lockRedirectUrl);
   }
 
   private whenWorking<T>(observable: Observable<T>): Observable<T> {

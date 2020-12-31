@@ -12,5 +12,5 @@ export class ColorValueDynamicComponent {
   @Input() public circleType: ColorCircleType;
   @Input() public color: ColorCircleLabelColor;
   @Input() public dayMargin: number;
-  @Input() public digitsInfo: string;
+  @Input() public dayMarginDigitsInfo: string;
 }

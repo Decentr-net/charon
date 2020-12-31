@@ -40,9 +40,10 @@ export class HubPostDialogDirective implements OnInit, OnDestroy {
   @HostListener('click')
   public onClick(): void {
     const config: MatDialogConfig<Observable<PostWithAuthor>> = {
-      width: '830px',
+      width: '80vw',
       maxWidth: '100%',
-      maxHeight: '700px',
+      height: '80vh',
+      maxHeight: '100%',
       panelClass: 'popup-no-padding',
       data: this.hubPostsService.getPostChanges(this.postId),
       viewContainerRef: this.viewContainerRef,

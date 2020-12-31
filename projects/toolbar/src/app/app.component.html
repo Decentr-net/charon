@@ -16,6 +16,7 @@
                 [circleType]="'hole'"
                 [color]="'green'"
                 [dayMargin]="balance.dayMargin"
+                [dayMarginDigitsInfo]="'1.0-5'"
         >
           <strong>{{ translate('pdv') }}</strong>
           <span class="app__meta-label-value">{{ balance.value | pdvValue }}</span>
@@ -37,23 +38,17 @@
     </div>
 
     <div class="app__middle-container-section">
-      <app-avatar
-        class="app__icon"
-        [avatarUrl]="avatar$ | async"
-        (click)="openCharonHubMyWall()"
-      ></app-avatar>
-
       <svg-icon
         class="app__icon"
         key="notification"
         (click)="openCharonHubRecentNews()"
       ></svg-icon>
 
-      <svg-icon
+      <app-avatar
         class="app__icon"
-        key="settings"
-        (click)="openCharonUserSettings()"
-      ></svg-icon>
+        [avatarUrl]="avatar$ | async"
+        (click)="openCharonHubMyWall()"
+      ></app-avatar>
     </div>
   </div>
 

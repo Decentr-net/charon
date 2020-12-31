@@ -5,6 +5,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
 import { CurrencyModule } from '@shared/services/currency';
+import { MenuModule } from '@shared/components/menu';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
 import { SlotModule } from '@shared/components/slot';
 import { NotificationsModule } from '@shared/services/notification';
@@ -16,10 +17,9 @@ import { LockModule } from './lock';
 import { CORE_GUARDS } from './guards';
 import { NavigationModule } from './navigation';
 import { PermissionsModule } from '@shared/permissions';
-import { ProfileSelectorModule } from './profile-selector';
 import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
-import { CORE_SERVICES, NetworkService } from './services';
+import { CORE_SERVICES, MenuService, NetworkService } from './services';
 
 export function initAuthFactory(authService: AuthService): () => void {
   return () => authService.init();
@@ -43,7 +43,10 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       api: environment.currencyApi,
     }),
     LockModule.forRoot({
-      redirectUrl: AppRoute.Login,
+      redirectUrl: `/${AppRoute.Login}`,
+    }),
+    MenuModule.forRoot({
+      service: MenuService,
     }),
     NavigationModule,
     NetworkSelectorModule.forRoot({
@@ -63,11 +66,6 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       timeOut: 4000,
     }),
     TranslocoRootModule,
-  ],
-  exports: [
-    NavigationModule,
-    NetworkSelectorModule,
-    ProfileSelectorModule,
   ],
   providers: [
     CORE_GUARDS,
