@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 import { ChartPoint } from '@shared/components/line-chart';
 
 export interface HubCurrencyStatistics {
-  fromDate: number;
   points: ChartPoint[];
   rate: string | number;
   rateChangedIn24HoursPercent: number;
