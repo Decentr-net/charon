@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { pluck } from 'rxjs/operators';
 
 import { ImageApiService } from '@core/services/api';
 
@@ -12,11 +12,8 @@ export class ImageUploaderService {
   }
 
   public upload(image: File): Observable<string> {
-    const formData = new FormData();
-    formData.append('image', image);
-
     return this.imageApiService.upload(image).pipe(
-      map((response) => response.data.link),
+      pluck('data', 'link'),
     );
   }
 }
