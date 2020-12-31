@@ -13,7 +13,7 @@ export class ImageUploaderService {
 
   public upload(image: File): Observable<string> {
     return this.imageApiService.upload(image).pipe(
-      pluck('data', 'link'),
+      pluck('data', 'url'),
     );
   }
 }

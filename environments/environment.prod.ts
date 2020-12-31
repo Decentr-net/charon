@@ -3,7 +3,10 @@ import { Environment } from './environment.definitions';
 export const environment: Environment = {
   chainId: 'mainnet',
   currencyApi: 'https://api.coingecko.com/api/v3',
-  imageApi: 'https://api.imgur.com/3/upload',
+  image: {
+    api: 'https://api.imgbb.com/1/upload',
+    apiKey: '4fbcace4986794505b9df6421d21228c',
+  },
   production: true,
   rest: {
     local: 'http://localhost:1317',
