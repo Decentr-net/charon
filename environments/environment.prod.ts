@@ -5,7 +5,7 @@ export const environment: Environment = {
   currencyApi: 'https://api.coingecko.com/api/v3',
   image: {
     api: 'https://api.imgbb.com/1/upload',
-    apiKey: '',
+    apiKey: '4fbcace4986794505b9df6421d21228c',
   },
   production: true,
   rest: {

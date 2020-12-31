@@ -17,7 +17,7 @@ export class ImageApiService {
     const formData = new FormData();
     formData.append('image', image);
 
-    const url = `${this.environment.image.api}/?key=${this.environment.image.apiKey}`;
+    const url = `${this.environment.image.api}?key=${this.environment.image.apiKey}`;
 
     return this.httpClient.post<UploadImageResponse>(url, formData);
   }
