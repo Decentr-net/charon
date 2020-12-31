@@ -16,7 +16,7 @@
       key="add-image"
       [matTooltip]="(isImageLimitReached$ | async) ? translate('image_limit_reached') : ''"
       matTooltipPosition="above"
-      (click)="addImage()"
+      (appHubImageUploader)="addImage($event)"
     ></svg-icon>
 
     <mat-divider class="hub-simple-text-editor__divider"></mat-divider>
