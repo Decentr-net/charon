@@ -1,6 +1,6 @@
 export interface UploadImageResponse {
   data: {
-    link: string;
+    url: string;
   };
   status: number;
   success: boolean;
