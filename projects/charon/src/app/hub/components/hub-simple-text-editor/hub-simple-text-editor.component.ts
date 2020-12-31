@@ -180,16 +180,6 @@ export class HubSimpleTextEditorComponent
   }
 
   public addImage(imageSrc: string): void {
-    // if (this.isImageLimitReached.value) {
-    //   return;
-    // }
-
-    // const imageSrc = prompt('Enter image url');
-
-    // if (!imageSrc || !await this.validateImageUrl(imageSrc)) {
-    //   return;
-    // }
-
     const img = document.createElement('img');
     img.src = imageSrc;
 
