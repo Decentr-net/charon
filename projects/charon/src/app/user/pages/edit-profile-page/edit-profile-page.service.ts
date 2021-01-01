@@ -25,10 +25,11 @@ export class EditProfilePageService {
         return of(void 0);
       }
 
+      // TODO: temporary solution to disable birthday
       return this.userService.setPublicProfile(
         {
           avatar: update.avatar,
-          birthday: update.birthday,
+          birthday: '1911-11-11',
           firstName: update.firstName,
           gender: update.gender,
           lastName: update.lastName,
