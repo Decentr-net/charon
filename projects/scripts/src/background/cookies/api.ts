@@ -1,6 +1,5 @@
 import { defer, Observable } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
-import PQueue from 'p-queue';
 import { Cookies } from 'webextension-polyfill-ts';
 import { PDV, PDVType, Wallet } from 'decentr-js';
 import Cookie = Cookies.Cookie;
@@ -8,10 +7,10 @@ import Cookie = Cookies.Cookie;
 import { environment } from '../../../../../environments/environment';
 import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
 import { PDVService } from '../../../../../shared/services/pdv';
+import QUEUE from '../queue';
 
 const pdvService = new PDVService(environment.chainId);
 const networkStorage = new NetworkBrowserStorageService();
-const queue = new PQueue({ concurrency: 1 });
 
 interface CookieGroup {
   domain: string;
@@ -65,7 +64,7 @@ export const sendCookies = (
 
   return defer(() => {
     return Promise.all(groupedCookies.map((group) => {
-      return queue.add(() => pdvService.sendPDV(
+      return QUEUE.add(() => pdvService.sendPDV(
         networkStorage.getActiveNetworkInstant().api,
         wallet,
         pdvType,
