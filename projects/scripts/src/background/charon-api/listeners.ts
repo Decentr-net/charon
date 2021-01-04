@@ -1,14 +1,14 @@
 import { MessageBus } from '../../../../../shared/message-bus';
 import { MessageCode } from '../../messages';
 import { createPost, deletePost, likePost, setPrivateProfile, setPublicProfile } from './api';
-import QUEUE from '../queue';
+import QUEUE, { QueuePriority } from '../queue';
 import { CharonAPIMessageBusMap } from './message-bus-map';
 
 const sendRequest = <T>(
   fn: () => PromiseLike<T>,
   callback: ({ success: boolean, error: any }) => void,
 ): void => {
-  QUEUE.add(fn, { priority: 1 })
+  QUEUE.add(fn, { priority: QueuePriority.Charon })
     .then(
       () => callback({ success: true, error: undefined }),
       (error) => callback({ success: false, error }),

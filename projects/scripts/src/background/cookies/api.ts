@@ -7,7 +7,7 @@ import Cookie = Cookies.Cookie;
 import { environment } from '../../../../../environments/environment';
 import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
 import { PDVService } from '../../../../../shared/services/pdv';
-import QUEUE from '../queue';
+import QUEUE, { QueuePriority } from '../queue';
 
 const pdvService = new PDVService(environment.chainId);
 const networkStorage = new NetworkBrowserStorageService();
@@ -69,7 +69,9 @@ export const sendCookies = (
         wallet,
         pdvType,
         convertCookiesToPdv(group.cookies, group.domain, group.path),
-      ));
+      ), {
+        priority: QueuePriority.Cookies,
+      });
     }));
   }).pipe(
     mapTo(void 0),
