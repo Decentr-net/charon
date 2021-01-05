@@ -66,9 +66,10 @@ export class AuthService {
   public async createUser(user: AuthUserCreate): Promise<AuthUser['id']> {
     const id = uuid();
 
+    // TODO: temporary solution to disable birthday
     await this.authStorage.createUser({
       id,
-      birthday: user.birthday,
+      birthday: '1911-11-11',
       emailConfirmed: user.emailConfirmed,
       emails: user.emails,
       gender: user.gender,
@@ -106,11 +107,12 @@ export class AuthService {
   }
 
   public updateUser(userId: AuthUser['id'], update: AuthUserUpdate): Promise<void> {
+    // TODO: temporary solution to disable birthday
     return this.authStorage.updateUser(
       userId,
       {
         avatar: update.avatar,
-        birthday: update.birthday,
+        birthday: '1911-11-11',
         firstName: update.firstName,
         gender: update.gender,
         lastName: update.lastName,
