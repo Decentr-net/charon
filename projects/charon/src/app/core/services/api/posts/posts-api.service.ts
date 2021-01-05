@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import {
-  BroadcastResponse,
   Decentr,
-  LikeWeight,
   PopularPostsPeriod,
   Post,
-  PostCreate,
   PostIdentificationParameters,
   PostsFilterOptions,
   UserPostsFilterOptions,
@@ -58,50 +55,6 @@ export class PostsApiService {
     return from(
       this.createDecentrConnector(api)
       .getUserPosts(walletAddress, filterOptions),
-    );
-  }
-
-  public createPost(
-    api: string,
-    walletAddress: Wallet['address'],
-    privateKey: Wallet['privateKey'],
-    post: PostCreate,
-  ): Observable<BroadcastResponse> {
-    return from(
-      this.createDecentrConnector(api)
-        .createPost(walletAddress, post, { broadcast: true, privateKey }),
-    );
-  }
-
-  public deletePost(
-    api: string,
-    walletAddress: Wallet['address'],
-    privateKey: Wallet['privateKey'],
-    post: PostIdentificationParameters,
-  ): Observable<BroadcastResponse> {
-    return from(
-      this.createDecentrConnector(api)
-        .deletePost(walletAddress, post, { broadcast: true, privateKey }),
-    );
-  }
-
-  public likePost(
-    api: string,
-    walletAddress: Wallet['address'],
-    privateKey: Wallet['privateKey'],
-    post: PostIdentificationParameters,
-    likeWeight: LikeWeight
-  ): Observable<BroadcastResponse> {
-    return from(
-      this.createDecentrConnector(api).likePost(
-        walletAddress,
-        post,
-        likeWeight,
-        {
-          broadcast: true,
-          privateKey,
-        },
-      ),
     );
   }
 

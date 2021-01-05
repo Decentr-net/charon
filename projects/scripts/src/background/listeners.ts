@@ -25,6 +25,7 @@ import { getBrowserCookies } from './cookies/browser';
 import Cookie = Cookies.Cookie;
 import { listenCookiesSet } from './cookies/events';
 import { CookieUniqueStore } from './cookies/cookie-unique-store';
+import { initCharonAPIListeners } from './charon-api';
 
 export const initMessageListeners = () => {
   const messageBus = new MessageBus();
@@ -38,6 +39,8 @@ export const initMessageListeners = () => {
   });
 
   browser.runtime.onConnect.addListener(noop);
+
+  initCharonAPIListeners();
 }
 
 export const listenLoginCookies = (loginIdentifiers: string[]): Observable<Cookie[]> => {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { defer, from, Observable } from 'rxjs';
-import { Account, BroadcastResponse, Decentr, PublicProfile, Wallet } from 'decentr-js';
+import { Account, Decentr, PublicProfile, Wallet } from 'decentr-js';
 
 import { Environment } from '@environments/environment.definitions';
 import { UserPrivate } from '@shared/services/auth';
@@ -55,33 +55,6 @@ export class UserApiService {
     const decentr = this.createDecentrConnector(api);
 
     return from(decentr.getPublicProfile(walletAddress));
-  }
-
-  public setPublicProfile(
-    publicProfile: PublicProfile,
-    api: string,
-    walletAddress: Wallet['address'],
-    privateKey: Wallet['privateKey'],
-  ): Observable<BroadcastResponse> {
-    const decentr = this.createDecentrConnector(api);
-
-    return from(decentr.setPublicProfile(walletAddress, publicProfile, {
-      broadcast: true,
-      privateKey,
-    }));
-  }
-
-  public setPrivateProfile(
-    privateProfile: UserPrivate,
-    api: string,
-    walletAddress: Wallet['address'],
-    privateKey: Wallet['privateKey'],
-  ): Observable<BroadcastResponse> {
-    const decentr = this.createDecentrConnector(api);
-
-    return from(decentr.setPrivateProfile<UserPrivate>(walletAddress, privateProfile, privateKey, {
-      broadcast: true,
-    }));
   }
 
   private createDecentrConnector(api: string): Decentr {
