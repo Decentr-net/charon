@@ -29,7 +29,6 @@ import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { USER_PAGES } from './pages';
 import { USER_COMPONENTS } from './components';
 import { UserRoutingModule } from './user-routing.module';
-import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   imports: [
