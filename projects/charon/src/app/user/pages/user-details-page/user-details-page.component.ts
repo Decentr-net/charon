@@ -3,12 +3,11 @@ import { Observable } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { BalanceValueDynamic } from '@shared/services/pdv';
-// import { AuthService } from '@core/auth';
+import { isOpenedInTab } from '@core/browser';
 import { MediaService } from '@core/services';
 import { ChartPoint, PDVActivityListItem } from '../../components';
 import { UserDetailsPageActivityService } from './user-details-page-activity.service';
 import { UserDetailsPageService } from './user-details-page.service';
-import { isOpenedInTab } from '../../../core/browser';
 
 @UntilDestroy()
 @Component({
@@ -31,7 +30,6 @@ export class UserDetailsPageComponent implements OnInit {
   public isOpenedInTab: boolean;
 
   constructor(
-    // private authService: AuthService,
     public matchMediaService: MediaService,
     private changeDetectorRef: ChangeDetectorRef,
     private userDetailsPageService: UserDetailsPageService,
@@ -39,8 +37,6 @@ export class UserDetailsPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.user$ = this.authService.getActiveUser();
-
     this.coinRate$ = this.userDetailsPageService.getCoinRate();
 
     this.userDetailsPageService.getBalanceWithMargin().pipe(
