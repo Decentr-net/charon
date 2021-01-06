@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { getBankBalances, BankCoin, Wallet } from 'decentr-js';
 
 @Injectable()
