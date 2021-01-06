@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
+import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Wallet } from 'decentr-js';
 
+import { AppRoute } from '../../../app-route';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { svgClose, svgLogoIcon } from '@shared/svg-icons';
 import { TransferPageService } from './transfer-page.service';
+import { UserRoute } from '../../user.route';
 
 interface TransferForm {
   amount: number;
@@ -29,6 +31,9 @@ interface TransferForm {
   ],
 })
 export class TransferPageComponent implements OnInit {
+  public appRoute: typeof AppRoute = AppRoute;
+  public userRoute: typeof UserRoute = UserRoute;
+
   public form: FormGroup<TransferForm>;
 
   constructor(
@@ -48,8 +53,7 @@ export class TransferPageComponent implements OnInit {
   }
 
   public get canSubmit(): boolean {
-    return true;
-    // return this.form && this.form.valid;
+    return this.form && this.form.valid;
   }
 
   public clearReceiver(): void {

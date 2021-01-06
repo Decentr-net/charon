@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
+import { AppRoute } from '../../../app-route';
 import { svgSendCoin } from '@shared/svg-icons';
+import { UserRoute } from '../../user.route';
 
 @Component({
   selector: 'app-user-bank-balance',
@@ -11,6 +13,9 @@ import { svgSendCoin } from '@shared/svg-icons';
 })
 export class UserBankBalanceComponent {
   @Input() bankBalance: string;
+
+  public appRoute: typeof AppRoute = AppRoute;
+  public userRoute: typeof UserRoute = UserRoute;
 
   constructor(
     svgIconRegistry: SvgIconRegistry,

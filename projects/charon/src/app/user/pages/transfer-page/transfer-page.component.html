@@ -60,7 +60,9 @@
     <div class="transfer-page__form-footer">
       <button
         type="button"
-        mat-button
+        color="accent"
+        mat-stroked-button
+        [routerLink]="['/', appRoute.User]"
       >
         {{ translate('cancel') }}
       </button>

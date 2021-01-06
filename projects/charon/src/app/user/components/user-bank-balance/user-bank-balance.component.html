@@ -3,7 +3,10 @@
     {{ bankBalance }} tDEC
   </div>
 
-  <div class="bank-button">
+  <div
+    class="bank-button"
+    [routerLink]="['/', appRoute.User, userRoute.Transfer]"
+  >
     <svg-icon class="bank-button__send" key="send-coin"></svg-icon>
     <span>{{ translate('buttons.send') }}</span>
   </div>
