@@ -22,6 +22,10 @@ const ROUTES: Routes = [
         children: [
           {
             path: '',
+            component: TransferPageComponent,
+          },
+          {
+            path: 'details',
             component: UserDetailsPageComponent,
           },
           {
