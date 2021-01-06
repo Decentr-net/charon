@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgDecentrHub } from '@shared/svg-icons';
+import { BankCoin } from 'decentr-js';
 
 @Component({
   selector: 'app-assets-list',
@@ -10,6 +11,8 @@ import { svgDecentrHub } from '@shared/svg-icons';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssetsListComponent {
+  @Input() balance: BankCoin['amount'];
+
   constructor(
     svgIconRegistry: SvgIconRegistry,
   ) {

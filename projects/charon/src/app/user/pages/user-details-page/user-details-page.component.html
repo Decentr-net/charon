@@ -50,6 +50,7 @@
         <mat-tab [label]="translate('tabs.assets')">
           <div class="tab-container">
             <app-assets-list
+              [balance]="bankBalance$ | async"
             ></app-assets-list>
           </div>
         </mat-tab>
