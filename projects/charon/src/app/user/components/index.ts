@@ -5,6 +5,7 @@ import { PdvDetailsDialogComponent } from './pdv-details-dialog';
 import { ToolbarToggleComponent } from './toolbar-toggle';
 import { UserBankBalanceComponent } from './user-bank-balance';
 import { UserLayoutComponent } from './user-layout';
+import { AssetsListComponent } from './assets-list';
 
 export * from './pdv-activity-chart';
 export * from './pdv-activity-list';
