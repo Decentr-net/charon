@@ -22,11 +22,11 @@ const ROUTES: Routes = [
         children: [
           {
             path: '',
-            component: TransferPageComponent,
+            component: UserDetailsPageComponent,
           },
           {
-            path: 'details',
-            component: UserDetailsPageComponent,
+            path: UserRoute.Transfer,
+            component: TransferPageComponent,
           },
           {
             path: UserRoute.Transfer,
