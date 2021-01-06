@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { BankCoin } from 'decentr-js';
 
 import { BalanceValueDynamic } from '@shared/services/pdv';
 import { isOpenedInTab } from '@core/browser';
@@ -21,6 +22,7 @@ import { UserDetailsPageService } from './user-details-page.service';
   ],
 })
 export class UserDetailsPageComponent implements OnInit {
+  public bankBalance$: Observable<BankCoin['amount']>;
   public coinRate$: Observable<number>;
   public balance: BalanceValueDynamic;
   public pdvList$: Observable<PDVActivityListItem[]>;
@@ -45,6 +47,8 @@ export class UserDetailsPageComponent implements OnInit {
       this.balance = balance;
       this.changeDetectorRef.detectChanges();
     });
+
+    this.bankBalance$ = this.userDetailsPageService.getBankBalance();
 
     this.pdvList$ = this.userDetailsPageActivityService.activityList$;
 
