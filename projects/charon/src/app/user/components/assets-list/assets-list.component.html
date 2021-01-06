@@ -1,0 +1,19 @@
+<ng-container *transloco="let translate; read: 'user.assets_list'">
+  <div class="assets-list__items">
+    <div class="assets-list__item">
+      <svg-icon class="assets-list__item-icon" key="decentr-hub"></svg-icon>
+      <div class="assets-list__item-name">1000 tDEC</div>
+    </div>
+  </div>
+
+  <div class="assets-list__add">
+    <button
+      class="btn"
+      color="accent"
+      disabled
+      mat-stroked-button
+    >
+      {{ translate('add_token')}}
+    </button>
+  </div>
+</ng-container>
