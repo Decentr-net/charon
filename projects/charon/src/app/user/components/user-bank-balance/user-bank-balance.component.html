@@ -1,0 +1,10 @@
+<ng-container *transloco="let translate; read: 'user.user_bank_balance'">
+  <div *ngIf="bankBalance" class="bank-balance">
+    {{ bankBalance }} tDEC
+  </div>
+
+  <div class="bank-button">
+    <svg-icon class="bank-button__send" key="send-coin"></svg-icon>
+    <span>{{ translate('buttons.send') }}</span>
+  </div>
+</ng-container>

@@ -18,6 +18,7 @@ export * from './svg/svg-logo.icon';
 export * from './svg/svg-notification.icon';
 export * from './svg/svg-pdv-rate-icon.icon';
 export * from './svg/svg-plus.icon';
+export * from './svg/svg-send-coin.icon';
 export * from './svg/svg-settings.icon';
 export * from './svg/svg-signal.icon';
 export * from './svg/svg-trash.icon';

@@ -7,6 +7,11 @@
   "assets_list": {
     "add_token": "Add Token"
   },
+  "user_bank_balance": {
+    "buttons": {
+      "send": "Send"
+    }
+  },
   "edit_profile_page": {
     "back": "< Back",
     "form": {

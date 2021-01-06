@@ -4,20 +4,28 @@
       <img src="assets/images/logo-icon.svg" alt="Decentr">
     </div>
 
-    <ng-container *ngIf="balance">
-      <div class="pdv-rate">
-        <span class="pdv-rate-value">{{ balance.value | pdvValue }} PDV</span>
+    <ng-container *ngIf="false else userBankBalance">
+      <ng-container *ngIf="balance">
+        <div class="pdv-rate">
+          <span class="pdv-rate-value">{{ balance.value | pdvValue }} PDV</span>
 
-        <app-pdv-rate-margin-icon
-          class="pdv-rate-margin"
-          [rateMargin]="balance.dayMargin"
-        ></app-pdv-rate-margin-icon>
+          <app-pdv-rate-margin-icon
+            class="pdv-rate-margin"
+            [rateMargin]="balance.dayMargin"
+          ></app-pdv-rate-margin-icon>
+        </div>
+      </ng-container>
+
+      <div class="pdv-exchange-rate" *ngIf="coinRate$ | async as coinRate">
+        {{ translate('exchange_rate', { rate: coinRate | number:'1.0-4' }) }}
       </div>
     </ng-container>
 
-    <div class="pdv-exchange-rate" *ngIf="coinRate$ | async as coinRate">
-      {{ translate('exchange_rate', { rate: coinRate | number:'1.0-4' }) }}
-    </div>
+    <ng-template #userBankBalance>
+      <app-user-bank-balance
+        [bankBalance]="bankBalance$ | async"
+      ></app-user-bank-balance>
+    </ng-template>
   </div>
 
   <ng-container *ngIf="matchMediaService.isSmall() else tabsTwoColumns">
@@ -26,6 +34,7 @@
         mat-stretch-tabs
         mat-align-tabs="center"
         animationDuration="0ms"
+        [selectedIndex]="2"
       >
         <mat-tab [label]="translate('tabs.pdv_rate')">
           <div class="tab-container">
@@ -47,7 +56,7 @@
           </div>
         </mat-tab>
 
-        <mat-tab [label]="translate('tabs.assets')">
+        <mat-tab [label]="translate('tabs.assets')" [id]="'assets'">
           <div class="tab-container">
             <app-assets-list
               [balance]="bankBalance$ | async"
