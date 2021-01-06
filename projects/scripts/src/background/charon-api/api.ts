@@ -5,6 +5,7 @@ import {
   PostCreate,
   PostIdentificationParameters,
   PublicProfile,
+  TransferData,
   Wallet
 } from 'decentr-js';
 
@@ -89,6 +90,19 @@ export const setPrivateProfile = (
     privateKey,
     {
       broadcast: true,
+    },
+  );
+};
+
+export const transferCoins = (
+  transferData: TransferData,
+  privateKey: Wallet['privateKey'],
+): Promise<BroadcastResponse> => {
+  return new Decentr(getApi(), environment.chainId).sendCoin(
+    transferData,
+    {
+      broadcast: true,
+      privateKey,
     },
   );
 };

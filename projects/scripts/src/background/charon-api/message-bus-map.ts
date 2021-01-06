@@ -1,4 +1,4 @@
-import { LikeWeight, PostCreate, PostIdentificationParameters, PublicProfile, Wallet } from 'decentr-js';
+import { LikeWeight, PostCreate, PostIdentificationParameters, PublicProfile, TransferData, Wallet } from 'decentr-js';
 
 import { MessageMap } from '../../../../../shared/message-bus';
 import { UserPrivate } from '../../../../../shared/services/auth';
@@ -61,4 +61,14 @@ export interface CharonAPIMessageBusMap extends MessageMap {
       error?: any;
     };
   };
+  [MessageCode.CoinTransfer]: {
+    body: {
+      transferData: TransferData;
+      privateKey: Wallet['privateKey'];
+    };
+    response: {
+      success: boolean;
+      error?: any;
+    };
+  }
 }

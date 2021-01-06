@@ -1,6 +1,6 @@
 import { MessageBus } from '../../../../../shared/message-bus';
 import { MessageCode } from '../../messages';
-import { createPost, deletePost, likePost, setPrivateProfile, setPublicProfile } from './api';
+import { createPost, deletePost, likePost, setPrivateProfile, setPublicProfile, transferCoins } from './api';
 import QUEUE, { QueuePriority } from '../queue';
 import { CharonAPIMessageBusMap } from './message-bus-map';
 
@@ -69,6 +69,16 @@ export const initCharonAPIListeners = () => {
         message.body.walletAddress,
         message.body.publicProfile,
         message.body.privateKey,
+      ),
+      message.sendResponse,
+    );
+  });
+
+  messageBus.onMessage(MessageCode.CoinTransfer).subscribe((message) => {
+    sendRequest(
+      () => transferCoins(
+        message.body.transferData,
+        message.body.privateKey
       ),
       message.sendResponse,
     );
