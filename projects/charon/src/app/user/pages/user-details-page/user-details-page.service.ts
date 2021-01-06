@@ -1,20 +1,26 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PDVDetails, PDVListItem } from 'decentr-js';
 
 import { CurrencyService } from '@shared/services/currency';
+import { NotificationService } from '@shared/services/notification';
 import { BalanceValueDynamic } from '@shared/services/pdv';
-import { MediaService, PDVService } from '@core/services';
-import { ChartPoint, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
+import { MediaService, PDVService, SpinnerService } from '@core/services';
+import { ChartPoint, PDVActivityListItem, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
 
+@UntilDestroy()
 @Injectable()
-export class UserPageService {
+export class UserDetailsPageService {
   constructor(
     private pdvService: PDVService,
     private currencyService: CurrencyService,
     private matDialog: MatDialog,
     private mediaService: MediaService,
+    private notificationService: NotificationService,
+    private spinnerService: SpinnerService,
   ) {
   }
 
@@ -34,7 +40,20 @@ export class UserPageService {
     return this.pdvService.getPDVStatChartPoints();
   }
 
-  public openPDVDetailsDialog(details: PDVDetails, date: Date): MatDialogRef<PdvDetailsDialogComponent> {
+  public openPDVDetails(pdvItem: PDVActivityListItem): void {
+    this.spinnerService.showSpinner();
+
+    this.getPDVDetails(pdvItem.address).pipe(
+      finalize(() => this.spinnerService.hideSpinner()),
+      untilDestroyed(this),
+    ).subscribe(details => {
+      this.openPDVDetailsDialog(details, pdvItem.date);
+    }, (error) => {
+      this.notificationService.error(error);
+    });
+  }
+
+  private openPDVDetailsDialog(details: PDVDetails, date: Date): MatDialogRef<PdvDetailsDialogComponent> {
     const config: MatDialogConfig<PDVDetailsDialogData> = {
       width: '940px',
       maxWidth: '100%',

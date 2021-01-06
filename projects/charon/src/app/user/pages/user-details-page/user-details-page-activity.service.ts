@@ -10,7 +10,7 @@ import { PDVActivityListItem } from '../../components';
 
 @UntilDestroy()
 @Injectable()
-export class UserPageActivityService {
+export class UserDetailsPageActivityService {
   private readonly activityList: BehaviorSubject<PDVActivityListItem[]> = new BehaviorSubject([]);
   private readonly canLoadMore: BehaviorSubject<boolean> = new BehaviorSubject(true);
   private readonly isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
