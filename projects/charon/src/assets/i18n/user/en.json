@@ -4,6 +4,14 @@
     "domain": "Domain",
     "ip": "IP"
   },
+  "assets_list": {
+    "add_token": "Add Token"
+  },
+  "user_bank_balance": {
+    "buttons": {
+      "send": "Send"
+    }
+  },
   "edit_profile_page": {
     "back": "< Back",
     "form": {
@@ -95,6 +103,36 @@
   },
   "toolbar_toggle": {
     "label": "Enable the Decentr Toolbar"
+  },
+  "transfer_page": {
+    "cancel": "Cancel",
+    "form": {
+      "amount": {
+        "label": "Amount",
+        "errors": {
+          "insufficient": "Insifficient funds",
+          "min": "Minimum value is {{ min }}",
+          "pattern": "Value is not a number",
+          "required": "Amount is required"
+        }
+      },
+      "asset": {
+        "label": "Asset"
+      },
+      "receiver": {
+        "errors": {
+          "exists": "Enter valid wallet address",
+          "myAddress": "You can not send to your account",
+          "required": "Wallet address is required"
+        }
+      }
+    },
+    "send": "Send",
+    "tDEC": "tDEC",
+    "title": "Send tDEC",
+    "toastr": {
+      "successful_sent": "Successfully sent"
+    }
   },
   "user_details_page": {
     "exchange_rate": "1 DEC = ${{ rate }} USD",

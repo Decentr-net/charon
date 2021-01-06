@@ -2,6 +2,7 @@
 
 export type SvgIconName =
   | 'add-image'
+  | 'check'
   | 'close'
   | 'decentr-hub'
   | 'dynamics-negative'
@@ -10,10 +11,12 @@ export type SvgIconName =
   | 'information'
   | 'like'
   | 'lock'
+  | 'logo-icon'
   | 'logo'
   | 'notification'
   | 'pdv-rate-icon'
   | 'plus'
+  | 'send-coin'
   | 'settings'
   | 'signal'
   | 'trash';

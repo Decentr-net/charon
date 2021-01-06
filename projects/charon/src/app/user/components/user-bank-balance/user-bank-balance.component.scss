@@ -1,0 +1,35 @@
+$bank-balance--buttons-bg-color: #4477e4;
+$bank-balance--buttons-text-color: #4477e4;
+
+:host {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.bank-balance {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.bank-button {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+
+  &__send {
+    background: $bank-balance--buttons-bg-color;
+    border-radius: 50%;
+    display: inline-flex;
+    height: 25px;
+    padding: 5px;
+    width: 25px;
+  }
+
+  span {
+    color: $bank-balance--buttons-text-color;
+    font-size: 12px;
+    user-select: none;
+  }
+}

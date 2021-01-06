@@ -17,6 +17,8 @@ import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
 import { FormErrorModule } from '@shared/components/form-error';
 import { SpinnerModule } from '@shared/components/spinner';
+import { MatDividerModule } from '@angular/material/divider';
+import { MicroValueModule } from '@shared/pipes/micro-value';
 import { NavigationModule } from '@core/navigation';
 import { ProfileFormModule } from '@shared/components/profile-form';
 import { IntersectionModule } from '@shared/directives/intersection';
@@ -45,6 +47,7 @@ import { UserRoutingModule } from './user-routing.module';
     MatSlideToggleModule,
     MatTabsModule,
     MatTooltipModule,
+    MicroValueModule,
     NavigationModule,
     PdvRateMarginIconModule,
     PdvValueModule,
@@ -55,6 +58,7 @@ import { UserRoutingModule } from './user-routing.module';
     SvgIconsModule,
     TranslocoModule,
     UserRoutingModule,
+    MatDividerModule,
   ],
   declarations: [
     USER_PAGES,

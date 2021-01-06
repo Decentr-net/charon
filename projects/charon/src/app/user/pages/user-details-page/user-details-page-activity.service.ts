@@ -4,8 +4,8 @@ import { finalize, map, shareReplay, switchMap, take, takeUntil, tap } from 'rxj
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PDVListPaginationOptions } from 'decentr-js';
 
-import { coerceTimestamp } from '@shared/utils/date';
-import { PDVService, StateChangesService } from '@core/services';
+import { coerceTimestamp } from '../../../../../../../shared/utils/date';
+import { PDVService, StateChangesService } from '../../../core/services';
 import { PDVActivityListItem } from '../../components';
 
 @UntilDestroy()

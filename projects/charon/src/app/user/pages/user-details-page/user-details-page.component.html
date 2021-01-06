@@ -4,89 +4,66 @@
       <img src="assets/images/logo-icon.svg" alt="Decentr">
     </div>
 
-    <ng-container *ngIf="balance">
-      <div class="pdv-rate">
-        <span class="pdv-rate-value">{{ balance.value | pdvValue }} PDV</span>
+    <app-user-bank-balance
+      *ngIf="showBankBalance$ | async; else userPDVBalance"
+      [bankBalance]="bankBalance$ | async"
+    ></app-user-bank-balance>
 
-        <app-pdv-rate-margin-icon
-          class="pdv-rate-margin"
-          [rateMargin]="balance.dayMargin"
-        ></app-pdv-rate-margin-icon>
+    <ng-template #userPDVBalance>
+      <ng-container *ngIf="balance">
+        <div class="pdv-rate">
+          <span class="pdv-rate-value">{{ balance.value | pdvValue }} PDV</span>
+
+          <app-pdv-rate-margin-icon
+            class="pdv-rate-margin"
+            [rateMargin]="balance.dayMargin"
+          ></app-pdv-rate-margin-icon>
+        </div>
+      </ng-container>
+
+      <div class="pdv-exchange-rate" *ngIf="coinRate$ | async as coinRate">
+        {{ translate('exchange_rate', { rate: coinRate | number:'1.0-4' }) }}
       </div>
-    </ng-container>
-
-    <div class="pdv-exchange-rate" *ngIf="coinRate$ | async as coinRate">
-      {{ translate('exchange_rate', { rate: coinRate | number:'1.0-4' }) }}
-    </div>
+    </ng-template>
   </div>
 
-  <ng-container *ngIf="matchMediaService.isSmall() else tabsTwoColumns">
-    <div class="tabs-wrapper">
-      <mat-tab-group
-        mat-stretch-tabs
-        mat-align-tabs="center"
-        animationDuration="0ms"
-      >
-        <mat-tab [label]="translate('tabs.pdv_rate')">
-          <div class="tab-container">
-            <app-chart
-              *ngIf="chartPoints$ | async as points"
-              [data]="points"
-            ></app-chart>
-          </div>
-        </mat-tab>
+  <div class="tabs-wrapper">
+    <mat-tab-group
+      mat-stretch-tabs
+      mat-align-tabs="center"
+      animationDuration="0ms"
+      [selectedIndex]="selectedTabIndex$ | async"
+      (selectedTabChange)="onTabChange($event.index)"
+    >
+      <mat-tab [label]="translate('tabs.pdv_rate')">
+        <div class="tab-container">
+          <app-chart
+            *ngIf="chartPoints$ | async as points"
+            [data]="points"
+          ></app-chart>
+        </div>
+      </mat-tab>
 
-        <mat-tab [label]="translate('tabs.activity')">
-          <div class="tab-container">
-            <app-activity-list
-              [items]="pdvList$ | async"
-              (details)="openPDVDetails($event)"
-            ></app-activity-list>
+      <mat-tab [label]="translate('tabs.activity')">
+        <div class="tab-container">
+          <app-activity-list
+            [items]="pdvList$ | async"
+            (details)="openPDVDetails($event)"
+          ></app-activity-list>
 
-            <ng-template [ngTemplateOutlet]="activityLoading"></ng-template>
-          </div>
-        </mat-tab>
-      </mat-tab-group>
-    </div>
-  </ng-container>
+          <ng-template [ngTemplateOutlet]="activityLoading"></ng-template>
+        </div>
+      </mat-tab>
 
-  <ng-template #tabsTwoColumns>
-    <div class="tabs-wrapper tabs-wrapper__two-columns">
-      <mat-tab-group
-        mat-stretch-tabs
-        mat-align-tabs="center"
-        disableRipple
-        animationDuration="0ms"
-      >
-        <mat-tab [label]="translate('tabs.pdv_rate')">
-          <div class="tab-container">
-            <app-chart
-              *ngIf="chartPoints$ | async as points"
-              [data]="points"
-            ></app-chart>
-          </div>
-        </mat-tab>
-      </mat-tab-group>
-
-      <mat-tab-group
-        mat-stretch-tabs
-        mat-align-tabs="center"
-        disableRipple
-        animationDuration="0ms"
-      >
-        <mat-tab [label]="translate('tabs.activity')">
-          <div class="tab-container">
-            <app-activity-list
-              [items]="pdvList$ | async"
-              (details)="openPDVDetails($event)"
-            ></app-activity-list>
-
-            <ng-template [ngTemplateOutlet]="activityLoading"></ng-template>
-          </div>
-        </mat-tab>
-      </mat-tab-group>
-    </div>
-  </ng-template>
+      <mat-tab [label]="translate('tabs.assets')">
+        <div class="tab-container">
+          <app-assets-list
+            [balance]="bankBalance$ | async"
+          ></app-assets-list>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 
   <ng-template #activityLoading>
     <div

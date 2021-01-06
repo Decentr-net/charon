@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { BankCoin } from 'decentr-js';
 
 import { BalanceValueDynamic } from '@shared/services/pdv';
-import { isOpenedInTab } from '@core/browser';
 import { MediaService } from '@core/services';
 import { ChartPoint, PDVActivityListItem } from '../../components';
 import { UserDetailsPageActivityService } from './user-details-page-activity.service';
@@ -21,13 +22,15 @@ import { UserDetailsPageService } from './user-details-page.service';
   ],
 })
 export class UserDetailsPageComponent implements OnInit {
+  public bankBalance$: Observable<BankCoin['amount']>;
   public coinRate$: Observable<number>;
   public balance: BalanceValueDynamic;
   public pdvList$: Observable<PDVActivityListItem[]>;
   public canLoadMoreActivity$: Observable<boolean>;
   public isLoadingActivity$: Observable<boolean>;
   public chartPoints$: Observable<ChartPoint[]>;
-  public isOpenedInTab: boolean;
+  public selectedTabIndex$: BehaviorSubject<number> = new BehaviorSubject(0);
+  public showBankBalance$: Observable<boolean>;
 
   constructor(
     public matchMediaService: MediaService,
@@ -46,6 +49,8 @@ export class UserDetailsPageComponent implements OnInit {
       this.changeDetectorRef.detectChanges();
     });
 
+    this.bankBalance$ = this.userDetailsPageService.getBankBalance();
+
     this.pdvList$ = this.userDetailsPageActivityService.activityList$;
 
     this.canLoadMoreActivity$ = this.userDetailsPageActivityService.canLoadMore$;
@@ -54,7 +59,9 @@ export class UserDetailsPageComponent implements OnInit {
 
     this.chartPoints$ = this.userDetailsPageService.getPDVChartPoints();
 
-    this.isOpenedInTab = isOpenedInTab();
+    this.showBankBalance$ = this.selectedTabIndex$.pipe(
+      map((index) => index === 2),
+    )
   }
 
   public openPDVDetails(pdvActivityListItem: PDVActivityListItem): void {
@@ -65,4 +72,7 @@ export class UserDetailsPageComponent implements OnInit {
     this.userDetailsPageActivityService.loadMoreActivity();
   }
 
+  public onTabChange(tabIndex: number): void {
+    this.selectedTabIndex$.next(tabIndex);
+  }
 }

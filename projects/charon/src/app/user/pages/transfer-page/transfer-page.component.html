@@ -1,0 +1,97 @@
+<ng-container *transloco="let translate; read: 'user.transfer_page'">
+  <div class="transfer-page__title">{{ translate('title') }}</div>
+
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    autocomplete="off"
+  >
+    <mat-form-field
+      class="transfer-page__field"
+      appearance="outline"
+
+    >
+      <svg-icon
+        *ngIf="receiverControl?.valid"
+        class="transfer-page__receiver-check-icon"
+        key="check"
+        matPrefix
+      ></svg-icon>
+
+      <input
+        #receiverInput
+        matInput
+        formControlName="receiver"
+      >
+
+      <svg-icon
+        *ngIf="receiverInput.value"
+        class="transfer-page__receiver-clear-icon"
+        key="close"
+        matSuffix
+        (click)="clearReceiver()"
+      ></svg-icon>
+
+      <mat-error>
+        <app-form-error controlName="receiver"></app-form-error>
+      </mat-error>
+    </mat-form-field>
+
+    <div class="transfer-page__labelled-field-container">
+      <span class="transfer-page__field-label">{{ translate('form.asset.label') }}:</span>
+
+      <mat-form-field
+        appearance="outline"
+        class="transfer-page__field"
+      >
+        <input
+          matInput
+          disabled
+          [value]="'tDEC'"
+        >
+
+        <div class="transfer-page__asset-icon-container" matPrefix>
+          <svg-icon class="transfer-page__asset-icon" key="logo-icon"></svg-icon>
+        </div>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <span>{{ translate('form.amount.label') }}:</span>
+
+      <mat-form-field
+        appearance="outline"
+        class="transfer-page__field"
+      >
+        <input
+          matInput
+          formControlName="amount"
+        >
+
+        <mat-error>
+          <app-form-error controlName="amount"></app-form-error>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="transfer-page__form-footer">
+      <button
+        type="button"
+        color="accent"
+        mat-stroked-button
+        [routerLink]="['/', appRoute.User]"
+      >
+        {{ translate('cancel') }}
+      </button>
+
+      <button
+        type="submit"
+        [disabled]="!canSubmit"
+        mat-flat-button
+        color="accent"
+      >
+        {{ translate('send') }}
+      </button>
+    </div>
+  </form>
+</ng-container>
