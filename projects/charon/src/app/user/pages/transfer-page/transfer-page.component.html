@@ -1,7 +1,9 @@
 <ng-container *transloco="let translate; read: 'user.transfer_page'">
   <div class="transfer-page__title">{{ translate('title') }}</div>
 
-  <form [formGroup]="form" autocomplete="off">
+  <form [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+        autocomplete="off">
     <mat-form-field
       class="transfer-page__field"
       appearance="outline"
@@ -18,6 +20,10 @@
         matSuffix
         (click)="clearReceiver()"
       ></svg-icon>
+
+      <mat-error>
+        <app-form-error controlName="receiver"></app-form-error>
+      </mat-error>
     </mat-form-field>
 
     <div class="transfer-page__labelled-field-container">

@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import { of, ReplaySubject, timer } from 'rxjs';
+import { from, Observable, of, ReplaySubject, timer } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { AsyncValidatorFn } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Wallet } from 'decentr-js';
+import { TransferData, Wallet } from 'decentr-js';
 
 import { AuthService } from '@core/auth';
+import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { BankService, UserService } from '@core/services';
+import { MessageBus } from '@shared/message-bus';
+import { MessageCode } from '@scripts/messages';
 
 @UntilDestroy()
 @Injectable()
@@ -16,17 +19,31 @@ export class TransferPageService {
   constructor(
     private userService: UserService,
     private bankService: BankService,
-    authService: AuthService,
+    private authService: AuthService,
   ) {
     this.bankService.getDECBalance(authService.getActiveUserInstant().wallet.address).pipe(
       untilDestroyed(this),
     ).subscribe((balance) => this.decBalance.next(parseFloat(balance)));
   }
 
-  public createAsyncWalletAddressValidator(): AsyncValidatorFn<Wallet['address']> {
+  public createAsyncWalletAddressValidator(): AsyncValidatorFn<string> {
     return (control) => {
       if (!control.value) {
         return of(null);
+      }
+
+
+    };
+  }
+
+  public createAsyncValidWalletAddressValidator(): AsyncValidatorFn<Wallet['address']> {
+    return (control) => {
+      if (!control.value) {
+        return of(null);
+      }
+
+      if (control.value === this.authService.getActiveUserInstant().wallet.address) {
+        return of({ myAddress: false });
       }
 
       return timer(300).pipe(
@@ -53,7 +70,7 @@ export class TransferPageService {
       return timer(300).pipe(
         switchMap(() => this.decBalance.pipe(
           map((balance) => {
-            if (balance < amount * 1000 * 1000) {
+            if (balance / 1000000 < amount) {
               return { insufficient: false };
             }
           }),
@@ -61,5 +78,18 @@ export class TransferPageService {
         )),
       );
     };
+  }
+
+  public sendCoin(transferData: TransferData, privateKey: string): Observable<void> {
+    return from(new MessageBus<CharonAPIMessageBusMap>()
+      .sendMessage(MessageCode.CoinTransfer, {
+        transferData,
+        privateKey: privateKey,
+      })
+      .then(response => {
+        if (!response.success) {
+          throw response.error;
+        }
+      }));
   }
 }
