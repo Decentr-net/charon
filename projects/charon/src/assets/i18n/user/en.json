@@ -138,6 +138,7 @@
     "exchange_rate": "1 DEC = ${{ rate }} USD",
     "tabs": {
       "activity": "Activity",
+      "assets": "Assets",
       "pdv_rate": "PDV Rate"
     }
   },
