@@ -3,21 +3,25 @@ import { BankCoin, TransferData, Wallet } from 'decentr-js';
 import { defer, from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { AuthService } from '../../auth';
-import { BankApiService } from '../api';
 import { MessageBus } from '@shared/message-bus';
 import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
+import { AuthService } from '../../auth';
+import { BankApiService } from '../api';
+import { NetworkService } from '../network';
 
 @Injectable()
 export class BankService {
   constructor(
     private authService: AuthService,
     private bankApiService: BankApiService,
+    private networkService: NetworkService,
   ) {
   }
 
-  public getDECBalance(apiUrl: string, walletAddress: Wallet['address']): Observable<BankCoin['amount']> {
+  public getDECBalance(walletAddress: Wallet['address']): Observable<BankCoin['amount']> {
+    const apiUrl = this.networkService.getActiveNetworkInstant().api;
+
     return from(this.bankApiService.getCoinBalance(apiUrl, walletAddress)).pipe(
       map((coins) => {
         return coins.find(({ denom }) => denom === 'udec').amount;
