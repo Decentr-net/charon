@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PDVDetails, PDVListItem } from 'decentr-js';
 
 import { CurrencyService } from '@shared/services/currency';
-import { NotificationService } from '@shared/services/notification';
 import { BalanceValueDynamic } from '@shared/services/pdv';
-import { MediaService, PDVService, SpinnerService } from '@core/services';
-import { ChartPoint, PDVActivityListItem, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
+import { MediaService, PDVService } from '@core/services';
+import { ChartPoint, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
 
 @UntilDestroy()
 @Injectable()
@@ -19,8 +16,6 @@ export class UserDetailsPageService {
     private currencyService: CurrencyService,
     private matDialog: MatDialog,
     private mediaService: MediaService,
-    private notificationService: NotificationService,
-    private spinnerService: SpinnerService,
   ) {
   }
 
