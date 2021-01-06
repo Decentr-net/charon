@@ -10,6 +10,7 @@ export type SvgIconName =
   | 'information'
   | 'like'
   | 'lock'
+  | 'logo-icon'
   | 'logo'
   | 'notification'
   | 'pdv-rate-icon'

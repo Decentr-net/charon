@@ -96,6 +96,25 @@
   "toolbar_toggle": {
     "label": "Enable the Decentr Toolbar"
   },
+  "transfer_page": {
+    "cancel": "Cancel",
+    "form": {
+      "amount": {
+        "label": "Amount",
+        "errors": {
+          "insufficient": "Insifficient funds",
+          "pattern": "Value is not a number",
+          "required": "Amount is required"
+        }
+      },
+      "asset": {
+        "label": "Asset"
+      }
+    },
+    "send": "Send",
+    "tDEC": "tDEC",
+    "title": "Send tDEC"
+  },
   "user_details_page": {
     "exchange_rate": "1 DEC = ${{ rate }} USD",
     "tabs": {

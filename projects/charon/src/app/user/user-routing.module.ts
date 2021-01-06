@@ -5,6 +5,7 @@ import { BrowserTabGuard } from '@core/guards';
 import { UserLayoutComponent } from './components';
 import {
   EditProfilePageComponent,
+  TransferPageComponent,
   UserDetailsPageComponent,
   UserPageComponent,
 } from './pages';
@@ -21,6 +22,10 @@ const ROUTES: Routes = [
         children: [
           {
             path: '',
+            component: TransferPageComponent,
+          },
+          {
+            path: 'details',
             component: UserDetailsPageComponent,
           },
         ],

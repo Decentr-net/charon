@@ -13,6 +13,7 @@ export * from './svg/svg-import.icon';
 export * from './svg/svg-information.icon';
 export * from './svg/svg-like.icon';
 export * from './svg/svg-lock.icon';
+export * from './svg/svg-logo-icon.icon';
 export * from './svg/svg-logo.icon';
 export * from './svg/svg-notification.icon';
 export * from './svg/svg-pdv-rate-icon.icon';
