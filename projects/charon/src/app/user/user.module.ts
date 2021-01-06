@@ -17,6 +17,8 @@ import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
 import { FormErrorModule } from '@shared/components/form-error';
 import { SpinnerModule } from '@shared/components/spinner';
+import { MatDividerModule } from '@angular/material/divider';
+import { MicroValueModule } from '@shared/pipes/micro-value';
 import { NavigationModule } from '@core/navigation';
 import { ProfileFormModule } from '@shared/components/profile-form';
 import { IntersectionModule } from '@shared/directives/intersection';
@@ -27,7 +29,6 @@ import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { USER_PAGES } from './pages';
 import { USER_COMPONENTS } from './components';
 import { UserRoutingModule } from './user-routing.module';
-import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatSlideToggleModule,
     MatTabsModule,
     MatTooltipModule,
+    MicroValueModule,
     NavigationModule,
     PdvRateMarginIconModule,
     PdvValueModule,

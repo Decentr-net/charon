@@ -1,6 +1,6 @@
 <ng-container *transloco="let translate; read: 'user.user_bank_balance'">
   <div *ngIf="bankBalance" class="bank-balance">
-    {{ bankBalance }} tDEC
+    {{ bankBalance | microValue }} tDEC
   </div>
 
   <div
