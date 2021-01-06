@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { AbstractControl, Validators } from '@angular/forms';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -10,7 +10,7 @@ import { AppRoute } from '../../../app-route';
 import { finalize } from 'rxjs/operators';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { NotificationService } from '@shared/services/notification';
-import { svgClose, svgLogoIcon } from '@shared/svg-icons';
+import { svgCheck, svgClose, svgLogoIcon } from '@shared/svg-icons';
 import { TransferPageService } from './transfer-page.service';
 import { Router } from '@angular/router';
 import { SpinnerService } from '@core/services/spinner';
@@ -56,6 +56,7 @@ export class TransferPageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.svgIconRegistry.register([
+      svgCheck,
       svgClose,
       svgLogoIcon,
     ]);
@@ -127,5 +128,9 @@ export class TransferPageComponent implements OnInit {
     }, (error) => {
       this.notificationService.error(error);
     });
+  }
+
+  get receiverControl(): AbstractControl {
+    return this.form.get('receiver');
   }
 }

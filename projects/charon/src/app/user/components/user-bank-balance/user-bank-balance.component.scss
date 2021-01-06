@@ -8,7 +8,7 @@ $bank-balance--buttons-text-color: #4477e4;
 }
 
 .bank-balance {
-  font-size: 22px;
+  font-size: 18px;
   margin-bottom: 8px;
 }
 
@@ -22,9 +22,9 @@ $bank-balance--buttons-text-color: #4477e4;
     background: $bank-balance--buttons-bg-color;
     border-radius: 50%;
     display: inline-flex;
-    height: 30px;
+    height: 25px;
     padding: 5px;
-    width: 30px;
+    width: 25px;
   }
 
   span {

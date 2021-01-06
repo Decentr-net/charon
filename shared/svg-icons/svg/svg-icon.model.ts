@@ -2,6 +2,7 @@
 
 export type SvgIconName =
   | 'add-image'
+  | 'check'
   | 'close'
   | 'decentr-hub'
   | 'dynamics-negative'

@@ -1,20 +1,31 @@
 <ng-container *transloco="let translate; read: 'user.transfer_page'">
   <div class="transfer-page__title">{{ translate('title') }}</div>
 
-  <form [formGroup]="form"
-        (ngSubmit)="onSubmit()"
-        autocomplete="off">
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    autocomplete="off"
+  >
     <mat-form-field
       class="transfer-page__field"
       appearance="outline"
 
     >
+      <svg-icon
+        *ngIf="receiverControl?.valid"
+        class="transfer-page__receiver-check-icon"
+        key="check"
+        matPrefix
+      ></svg-icon>
+
       <input
+        #receiverInput
         matInput
         formControlName="receiver"
       >
 
       <svg-icon
+        *ngIf="receiverInput.value"
         class="transfer-page__receiver-clear-icon"
         key="close"
         matSuffix

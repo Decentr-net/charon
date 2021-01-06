@@ -3,7 +3,7 @@
 :host {
   background-color: #ffffff;
   display: block;
-  min-height: 435px;
+  min-height: 430px;
   padding: 20px;
 
   ::ng-deep {
@@ -24,6 +24,13 @@
 
 .transfer-page__field {
   width: 100%;
+}
+
+.transfer-page__receiver-check-icon {
+  display: inline-flex;
+  color: green;
+  border-radius: 50%;
+  margin: 5px;
 }
 
 .transfer-page__receiver-clear-icon {

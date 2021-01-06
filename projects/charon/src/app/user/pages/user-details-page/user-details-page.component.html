@@ -27,83 +27,43 @@
     </ng-template>
   </div>
 
-  <ng-container *ngIf="matchMediaService.isSmall() else tabsTwoColumns">
-    <div class="tabs-wrapper">
-      <mat-tab-group
-        mat-stretch-tabs
-        mat-align-tabs="center"
-        animationDuration="0ms"
-        [selectedIndex]="selectedTabIndex$ | async"
-        (selectedTabChange)="onTabChange($event.index)"
-      >
-        <mat-tab [label]="translate('tabs.pdv_rate')">
-          <div class="tab-container">
-            <app-chart
-              *ngIf="chartPoints$ | async as points"
-              [data]="points"
-            ></app-chart>
-          </div>
-        </mat-tab>
+  <div class="tabs-wrapper">
+    <mat-tab-group
+      mat-stretch-tabs
+      mat-align-tabs="center"
+      animationDuration="0ms"
+      [selectedIndex]="selectedTabIndex$ | async"
+      (selectedTabChange)="onTabChange($event.index)"
+    >
+      <mat-tab [label]="translate('tabs.pdv_rate')">
+        <div class="tab-container">
+          <app-chart
+            *ngIf="chartPoints$ | async as points"
+            [data]="points"
+          ></app-chart>
+        </div>
+      </mat-tab>
 
-        <mat-tab [label]="translate('tabs.activity')">
-          <div class="tab-container">
-            <app-activity-list
-              [items]="pdvList$ | async"
-              (details)="openPDVDetails($event)"
-            ></app-activity-list>
+      <mat-tab [label]="translate('tabs.activity')">
+        <div class="tab-container">
+          <app-activity-list
+            [items]="pdvList$ | async"
+            (details)="openPDVDetails($event)"
+          ></app-activity-list>
 
-            <ng-template [ngTemplateOutlet]="activityLoading"></ng-template>
-          </div>
-        </mat-tab>
+          <ng-template [ngTemplateOutlet]="activityLoading"></ng-template>
+        </div>
+      </mat-tab>
 
-        <mat-tab [label]="translate('tabs.assets')">
-          <div class="tab-container">
-            <app-assets-list
-              [balance]="bankBalance$ | async"
-            ></app-assets-list>
-          </div>
-        </mat-tab>
-      </mat-tab-group>
-    </div>
-  </ng-container>
-
-  <ng-template #tabsTwoColumns>
-    <div class="tabs-wrapper tabs-wrapper__two-columns">
-      <mat-tab-group
-        mat-stretch-tabs
-        mat-align-tabs="center"
-        disableRipple
-        animationDuration="0ms"
-      >
-        <mat-tab [label]="translate('tabs.pdv_rate')">
-          <div class="tab-container">
-            <app-chart
-              *ngIf="chartPoints$ | async as points"
-              [data]="points"
-            ></app-chart>
-          </div>
-        </mat-tab>
-      </mat-tab-group>
-
-      <mat-tab-group
-        mat-stretch-tabs
-        mat-align-tabs="center"
-        disableRipple
-        animationDuration="0ms"
-      >
-        <mat-tab [label]="translate('tabs.activity')">
-          <div class="tab-container">
-            <app-activity-list
-              [items]="pdvList$ | async"
-              (details)="openPDVDetails($event)"
-            ></app-activity-list>
-
-            <ng-template [ngTemplateOutlet]="activityLoading"></ng-template>
-          </div>
-        </mat-tab>
-      </mat-tab-group>
-    </div>
-  </ng-template>
+      <mat-tab [label]="translate('tabs.assets')">
+        <div class="tab-container">
+          <app-assets-list
+            [balance]="bankBalance$ | async"
+          ></app-assets-list>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 
   <ng-template #activityLoading>
     <div

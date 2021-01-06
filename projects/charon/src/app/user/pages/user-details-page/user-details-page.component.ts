@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BankCoin } from 'decentr-js';
@@ -59,16 +59,8 @@ export class UserDetailsPageComponent implements OnInit {
 
     this.chartPoints$ = this.userDetailsPageService.getPDVChartPoints();
 
-    this.showBankBalance$ = combineLatest([
-      this.matchMediaService.mediaChanged$.pipe(
-        map(() => this.matchMediaService.isSmall()),
-      ),
-      this.selectedTabIndex$.pipe(
-        map((index) => index === 2),
-      ),
-    ]).pipe(
-      map(([isSmallMedia, isAssetsTabSelected]) => isSmallMedia && isAssetsTabSelected),
-      untilDestroyed(this),
+    this.showBankBalance$ = this.selectedTabIndex$.pipe(
+      map((index) => index === 2),
     )
   }
 
