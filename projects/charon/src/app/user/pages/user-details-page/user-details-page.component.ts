@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BankCoin } from 'decentr-js';
 
 import { BalanceValueDynamic } from '@shared/services/pdv';
-import { isOpenedInTab } from '@core/browser';
 import { MediaService } from '@core/services';
 import { ChartPoint, PDVActivityListItem } from '../../components';
 import { UserDetailsPageActivityService } from './user-details-page-activity.service';
@@ -29,7 +29,8 @@ export class UserDetailsPageComponent implements OnInit {
   public canLoadMoreActivity$: Observable<boolean>;
   public isLoadingActivity$: Observable<boolean>;
   public chartPoints$: Observable<ChartPoint[]>;
-  public isOpenedInTab: boolean;
+  public selectedTabIndex$: BehaviorSubject<number> = new BehaviorSubject(0);
+  public showBankBalance$: Observable<boolean>;
 
   constructor(
     public matchMediaService: MediaService,
@@ -58,7 +59,17 @@ export class UserDetailsPageComponent implements OnInit {
 
     this.chartPoints$ = this.userDetailsPageService.getPDVChartPoints();
 
-    this.isOpenedInTab = isOpenedInTab();
+    this.showBankBalance$ = combineLatest([
+      this.matchMediaService.mediaChanged$.pipe(
+        map(() => this.matchMediaService.isSmall()),
+      ),
+      this.selectedTabIndex$.pipe(
+        map((index) => index === 2),
+      ),
+    ]).pipe(
+      map(([isSmallMedia, isAssetsTabSelected]) => isSmallMedia && isAssetsTabSelected),
+      untilDestroyed(this),
+    )
   }
 
   public openPDVDetails(pdvActivityListItem: PDVActivityListItem): void {
@@ -69,4 +80,7 @@ export class UserDetailsPageComponent implements OnInit {
     this.userDetailsPageActivityService.loadMoreActivity();
   }
 
+  public onTabChange(tabIndex: number): void {
+    this.selectedTabIndex$.next(tabIndex);
+  }
 }
