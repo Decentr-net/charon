@@ -4,13 +4,13 @@ import { finalize, map, shareReplay, switchMap, take, takeUntil, tap } from 'rxj
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PDVListPaginationOptions } from 'decentr-js';
 
-import { coerceTimestamp } from '@shared/utils/date';
-import { PDVService, StateChangesService } from '@core/services';
+import { coerceTimestamp } from '../../../../../../../shared/utils/date';
+import { PDVService, StateChangesService } from '../../../core/services';
 import { PDVActivityListItem } from '../../components';
 
 @UntilDestroy()
 @Injectable()
-export class UserPageActivityService {
+export class UserDetailsPageActivityService {
   private readonly activityList: BehaviorSubject<PDVActivityListItem[]> = new BehaviorSubject([]);
   private readonly canLoadMore: BehaviorSubject<boolean> = new BehaviorSubject(true);
   private readonly isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
