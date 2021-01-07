@@ -7,6 +7,10 @@
   "assets_list": {
     "add_token": "Add Token"
   },
+  "assets_history_list_item": {
+    "received": "Received",
+    "sent": "Sent"
+  },
   "user_bank_balance": {
     "buttons": {
       "send": "Send"
