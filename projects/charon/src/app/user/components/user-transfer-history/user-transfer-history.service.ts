@@ -112,6 +112,7 @@ export class UserTransferHistoryService
         ...transaction,
         role,
       }))),
+      tap((transactions) => roleList.next([...roleList.value, ...transactions])),
     );
   }
 
