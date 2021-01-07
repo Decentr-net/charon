@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BankCoin, TransferData, Wallet } from 'decentr-js';
-import { defer, from, Observable } from 'rxjs';
+import { defer, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { MessageBus } from '@shared/message-bus';
@@ -22,7 +22,7 @@ export class BankService {
   public getDECBalance(walletAddress: Wallet['address']): Observable<BankCoin['amount']> {
     const apiUrl = this.networkService.getActiveNetworkInstant().api;
 
-    return from(this.bankApiService.getCoinBalance(apiUrl, walletAddress)).pipe(
+    return defer(() => this.bankApiService.getCoinBalance(apiUrl, walletAddress)).pipe(
       map((coins) => {
         return coins.find(({ denom }) => denom === 'udec').amount;
       }),

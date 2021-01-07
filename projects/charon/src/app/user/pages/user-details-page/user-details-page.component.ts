@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, share } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BankCoin } from 'decentr-js';
 
@@ -49,7 +49,9 @@ export class UserDetailsPageComponent implements OnInit {
       this.changeDetectorRef.detectChanges();
     });
 
-    this.bankBalance$ = this.userDetailsPageService.getBankBalance();
+    this.bankBalance$ = this.userDetailsPageService.getBankBalance().pipe(
+      share(),
+    );
 
     this.pdvList$ = this.userDetailsPageActivityService.activityList$;
 
