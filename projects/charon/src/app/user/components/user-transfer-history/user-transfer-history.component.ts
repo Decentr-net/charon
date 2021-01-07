@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { InfiniteLoadingPresenter } from '@shared/utils/infinite-loading';
 import { AssetHistoryItem } from '../assets-history-list-item';
@@ -13,15 +13,8 @@ import { UserTransferHistoryService } from './user-transfer-history.service';
     UserTransferHistoryService,
   ],
 })
-export class UserTransferHistoryComponent
-  extends InfiniteLoadingPresenter<AssetHistoryItem>
-  implements OnInit
-{
+export class UserTransferHistoryComponent extends InfiniteLoadingPresenter<AssetHistoryItem> {
   constructor(private userTransferHistoryService: UserTransferHistoryService) {
     super(userTransferHistoryService);
-  }
-
-  public ngOnInit(): void {
-    this.userTransferHistoryService.loadMoreItems();
   }
 }
