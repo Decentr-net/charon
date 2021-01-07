@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
-import { LikeWeight, Post, PostIdentificationParameters } from 'decentr-js'
+import { from, Observable } from 'rxjs';
+import { LikeWeight, Post, PostCreate, PostIdentificationParameters } from 'decentr-js'
 
+import { MessageBus } from '@shared/message-bus';
+import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { MessageCode } from '@scripts/messages';
 import { PostsApiService } from '../api';
 import { AuthService } from '../../auth';
 import { NetworkService } from '../network';
@@ -28,21 +30,40 @@ export class PostsService {
     );
   }
 
-  public likePost(post: Pick<Post, 'owner' | 'uuid'>, likeWeight: LikeWeight): Observable<void> {
-    const user = this.authService.getActiveUserInstant();
+  public createPost(post: PostCreate): Observable<void> {
+    const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return this.postsApiService.likePost(
-      this.networkService.getActiveNetworkInstant().api,
-      user.wallet.address,
-      user.wallet.privateKey,
-      {
-        author: post.owner,
-        postId: post.uuid,
-      },
-      likeWeight,
-    ).pipe(
-      mapTo(void 0),
-    );
+    return from(new MessageBus<CharonAPIMessageBusMap>()
+      .sendMessage(MessageCode.PostCreate, {
+        walletAddress: wallet.address,
+        post: post,
+        privateKey: wallet.privateKey
+      })
+      .then(response => {
+        if (!response.success) {
+          throw response.error;
+        }
+      }));
+  }
+
+  public likePost(post: Pick<Post, 'owner' | 'uuid'>, likeWeight: LikeWeight): Observable<void> {
+    const wallet = this.authService.getActiveUserInstant().wallet;
+
+    return from(new MessageBus<CharonAPIMessageBusMap>()
+      .sendMessage(MessageCode.PostLike, {
+        walletAddress: wallet.address,
+        postIdentificationParameters: {
+          author: post.owner,
+          postId: post.uuid,
+        },
+        likeWeight,
+        privateKey: wallet.privateKey
+      })
+      .then(response => {
+        if (!response.success) {
+          throw response.error;
+        }
+      }));
   }
 
   public getLikedPosts(): Observable<any> {
@@ -57,13 +78,19 @@ export class PostsService {
   ): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return this.postsApiService.deletePost(
-      this.networkService.getActiveNetworkInstant().api,
-      wallet.address,
-      wallet.privateKey,
-      post,
-    ).pipe(
-      mapTo(void 0),
-    );
+    return from(new MessageBus<CharonAPIMessageBusMap>()
+      .sendMessage(MessageCode.PostDelete, {
+        walletAddress: wallet.address,
+        postIdentificationParameters: {
+          author: post.author,
+          postId: post.postId,
+        },
+        privateKey: wallet.privateKey
+      })
+      .then(response => {
+        if (!response.success) {
+          throw response.error;
+        }
+      }));
   }
 }

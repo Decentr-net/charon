@@ -3,7 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { BrowserTabGuard } from '@core/guards';
 import { UserLayoutComponent } from './components';
-import { EditProfilePageComponent, UserPageComponent } from './pages';
+import {
+  EditProfilePageComponent,
+  TransferPageComponent,
+  UserDetailsPageComponent,
+  UserPageComponent,
+} from './pages';
 import { UserRoute } from './user.route';
 
 const ROUTES: Routes = [
@@ -14,6 +19,20 @@ const ROUTES: Routes = [
       {
         path: '',
         component: UserPageComponent,
+        children: [
+          {
+            path: '',
+            component: UserDetailsPageComponent,
+          },
+          {
+            path: UserRoute.Transfer,
+            component: TransferPageComponent,
+          },
+          {
+            path: UserRoute.Transfer,
+            component: TransferPageComponent,
+          },
+        ],
       },
       {
         path: UserRoute.Edit,

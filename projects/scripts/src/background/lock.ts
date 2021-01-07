@@ -2,9 +2,9 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { debounceTime, mapTo, mergeMap } from 'rxjs/operators';
 
 import { LockBrowserStorageService } from '../../../../shared/services/lock';
-import { ONE_MINUTE } from '../../../../shared/utils/date';
+import { ONE_HOUR } from '../../../../shared/utils/date';
 
-const LOCK_DELAY = ONE_MINUTE * 40;
+const LOCK_DELAY = ONE_HOUR * 4;
 
 const lockStorage = new LockBrowserStorageService();
 
@@ -17,7 +17,7 @@ const listenActivityEnd = (): Observable<void> => {
 
 const lock = (): Promise<void> => {
   return lockStorage.setLocked(true);
-}
+};
 
 export const initAutoLock = () => {
   forkJoin([
@@ -31,4 +31,4 @@ export const initAutoLock = () => {
     }),
     mergeMap(() => listenActivityEnd()),
   ).subscribe(() => lock());
-}
+};

@@ -61,10 +61,7 @@ export class ProfileFormModel {
       form.addControl(ProfileFormControlName.Avatar, avatarControl);
     }
 
-    const birthdayControl = this.createBirthdayControl();
-    if (birthdayControl) {
-      form.addControl(ProfileFormControlName.Birthday, birthdayControl);
-    }
+    // TODO: temporary solution to disable birthday
 
     const genderControl = this.createGenderControl();
     if (genderControl) {

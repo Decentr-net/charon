@@ -4,6 +4,14 @@
     "domain": "Domain",
     "ip": "IP"
   },
+  "assets_list": {
+    "add_token": "Add Token"
+  },
+  "user_bank_balance": {
+    "buttons": {
+      "send": "Send"
+    }
+  },
   "edit_profile_page": {
     "back": "< Back",
     "form": {
@@ -85,22 +93,59 @@
       "successful_update": "User was successfully updated"
     }
   },
+  "pdv_activity_chart": {
+    "no_pdv_rate": "You have no PDV Rate data",
+    "not_enough_pdv_rate": "Not enough data for the chart"
+  },
+  "pdv_activity_list": {
+    "login_cookie": "Login cookie",
+    "no_activity": "You have no activity data"
+  },
   "toolbar_toggle": {
     "label": "Enable the Decentr Toolbar"
+  },
+  "transfer_page": {
+    "cancel": "Cancel",
+    "form": {
+      "amount": {
+        "label": "Amount",
+        "errors": {
+          "insufficient": "Insifficient funds",
+          "min": "Minimum value is {{ min }}",
+          "pattern": "Value is not a number",
+          "required": "Amount is required"
+        }
+      },
+      "asset": {
+        "label": "Asset"
+      },
+      "receiver": {
+        "errors": {
+          "exists": "Enter valid wallet address",
+          "myAddress": "You can not send to your account",
+          "required": "Wallet address is required"
+        }
+      }
+    },
+    "send": "Send",
+    "tDEC": "tDEC",
+    "title": "Send tDEC",
+    "toastr": {
+      "successful_sent": "Successfully sent"
+    }
+  },
+  "user_details_page": {
+    "exchange_rate": "1 DEC = ${{ rate }} USD",
+    "tabs": {
+      "activity": "Activity",
+      "assets": "Assets",
+      "pdv_rate": "PDV Rate"
+    }
   },
   "user_page": {
     "account_details": "Account details",
     "copy_wallet_address": "Copy wallet address",
     "copy_wallet_address_success": "The wallet address was copied successfully",
-    "exchange_rate": "1 DEC = ${{ rate }} USD",
-    "expand_view": "Expand view",
-    "login_cookie": "Login cookie",
-    "no_activity": "You have no activity data",
-    "no_pdv_rate": "You have no PDV Rate data",
-    "not_enough_pdv_rate": "Not enough data for the chart",
-    "tabs": {
-      "activity": "Activity",
-      "pdv_rate": "PDV Rate"
-    }
+    "expand_view": "Expand view"
   }
 }

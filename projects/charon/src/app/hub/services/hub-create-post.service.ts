@@ -4,9 +4,7 @@ import { mapTo, tap } from 'rxjs/operators';
 import { PostCreate } from 'decentr-js';
 
 import { BrowserLocalStorage } from '@shared/services/browser-storage';
-import { AuthService } from '@core/auth';
-import { NetworkService } from '@core/services';
-import { PostsApiService } from '@core/services/api';
+import { PostsService } from '@core/services';
 
 interface PostStorageValue {
   draft: PostCreate;
@@ -21,9 +19,7 @@ export class HubCreatePostService {
   private postCreated: Subject<void> = new Subject();
 
   constructor(
-    private authService: AuthService,
-    private networkService: NetworkService,
-    private postsApiService: PostsApiService,
+    private postsService: PostsService,
   ) {
   }
 
@@ -40,11 +36,7 @@ export class HubCreatePostService {
   }
 
   public createPost(post: PostCreate): Observable<void> {
-    const api = this.networkService.getActiveNetworkInstant().api;
-
-    const wallet = this.authService.getActiveUserInstant().wallet;
-
-    return this.postsApiService.createPost(api, wallet.address, wallet.privateKey, post)
+    return this.postsService.createPost(post)
       .pipe(
         tap(() => this.postCreated.next()),
         mapTo(void 0),

@@ -1,21 +1,34 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { PDVDetails, PDVListItem } from 'decentr-js';
+import { BankCoin, PDVDetails, PDVListItem } from 'decentr-js';
 
+import { AuthService } from '@core/auth/services';
 import { CurrencyService } from '@shared/services/currency';
+import { NotificationService } from '@shared/services/notification';
 import { BalanceValueDynamic } from '@shared/services/pdv';
-import { MediaService, PDVService } from '@core/services';
-import { ChartPoint, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
+import { BankService, MediaService, PDVService, SpinnerService } from '@core/services';
+import { ChartPoint, PDVActivityListItem, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { finalize } from 'rxjs/operators';
 
+@UntilDestroy()
 @Injectable()
-export class UserPageService {
+export class UserDetailsPageService {
   constructor(
+    private authService: AuthService,
+    private bankService: BankService,
     private pdvService: PDVService,
     private currencyService: CurrencyService,
     private matDialog: MatDialog,
     private mediaService: MediaService,
+    private notificationService: NotificationService,
+    private spinnerService: SpinnerService,
   ) {
+  }
+
+  public getBankBalance(): Observable<BankCoin['amount']> {
+    return this.bankService.getDECBalance(this.authService.getActiveUserInstant().wallet.address);
   }
 
   public getBalanceWithMargin(): Observable<BalanceValueDynamic> {
@@ -34,7 +47,20 @@ export class UserPageService {
     return this.pdvService.getPDVStatChartPoints();
   }
 
-  public openPDVDetailsDialog(details: PDVDetails, date: Date): MatDialogRef<PdvDetailsDialogComponent> {
+  public openPDVDetails(pdvItem: PDVActivityListItem): void {
+    this.spinnerService.showSpinner();
+
+    this.getPDVDetails(pdvItem.address).pipe(
+      finalize(() => this.spinnerService.hideSpinner()),
+      untilDestroyed(this),
+    ).subscribe(details => {
+      this.openPDVDetailsDialog(details, pdvItem.date);
+    }, (error) => {
+      this.notificationService.error(error);
+    });
+  }
+
+  private openPDVDetailsDialog(details: PDVDetails, date: Date): MatDialogRef<PdvDetailsDialogComponent> {
     const config: MatDialogConfig<PDVDetailsDialogData> = {
       width: '940px',
       maxWidth: '100%',

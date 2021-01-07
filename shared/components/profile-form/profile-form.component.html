@@ -68,15 +68,7 @@
       </mat-error>
     </div>
 
-    <div class="input-container col-xs-12">
-      <div class="input-label">{{ translate('birthday.label') }}</div>
-
-      <app-date-input
-        [formControlName]="controlName.Birthday"
-        appearance="outline"
-        className="input-control"
-      ></app-date-input>
-    </div>
+    <!-- TODO: temporary solution to disable birthday -->
 
     <ng-container
       [ngTemplateOutlet]="emailControl"

@@ -45,6 +45,7 @@ $hub-simple-text-editor--add-image-icon--disabled-color: #9EA0A5;
   &.is-disabled {
     color: $hub-simple-text-editor--add-image-icon--disabled-color;
     cursor: initial;
+    pointer-events: none;
   }
 }
 

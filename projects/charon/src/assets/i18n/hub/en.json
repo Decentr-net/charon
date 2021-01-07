@@ -48,8 +48,7 @@
       "last_hours": "in the last 24-hours",
       "not_changed": "has no change"
     },
-    "no_chart_data": "No DEC Rate data",
-    "statistics_from": "Statistic from {{date}}"
+    "no_chart_data": "No DEC Rate data"
   },
   "hub_navigation": {
     "overview": "Overview"
