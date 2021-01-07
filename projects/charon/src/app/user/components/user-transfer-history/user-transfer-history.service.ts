@@ -56,7 +56,6 @@ export class UserTransferHistoryService
       this.canLoadMoreAsSender,
     ]).pipe(
       map((canLoadMoreValues) => canLoadMoreValues.some(Boolean)),
-      tap(console.log),
     );
   }
 
