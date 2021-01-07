@@ -1,8 +1,12 @@
 <ng-container *transloco="let translate; read: 'user.user_transfer_history'">
-  <ng-container *ngIf="list$ | async as list">
-    <div *ngFor="let item of list">
-      {{ item.timestamp }}
-    </div>
+  <ng-container *ngIf="list$ | async as list; let last = last">
+    <ng-container *ngFor="let item of list">
+      <app-assets-history-list-item
+        [item]="item"
+      ></app-assets-history-list-item>
+
+      <mat-divider *ngIf="!last"></mat-divider>
+    </ng-container>
 
     <div
       class="user-transfer-history__no-data"

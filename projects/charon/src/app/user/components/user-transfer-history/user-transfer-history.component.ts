@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { TransferHistoryTransaction } from 'decentr-js';
 
 import { InfiniteLoadingPresenter } from '@shared/utils/infinite-loading';
+import { AssetHistoryItem } from '../assets-history-list-item';
 import { UserTransferHistoryService } from './user-transfer-history.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { UserTransferHistoryService } from './user-transfer-history.service';
   ],
 })
 export class UserTransferHistoryComponent
-  extends InfiniteLoadingPresenter<TransferHistoryTransaction>
+  extends InfiniteLoadingPresenter<AssetHistoryItem>
   implements OnInit
 {
   constructor(private userTransferHistoryService: UserTransferHistoryService) {

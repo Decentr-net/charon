@@ -2,25 +2,26 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { TransferHistoryTransaction, TransferRole } from 'decentr-js';
+import { TransferRole } from 'decentr-js';
 
 import { InfiniteLoadingService } from '@shared/utils/infinite-loading';
 import { AuthService } from '@core/auth';
 import { BankService, StateChangesService } from '@core/services';
+import { AssetHistoryItem } from '../assets-history-list-item';
 
 @UntilDestroy()
 @Injectable()
 export class UserTransferHistoryService
-  extends InfiniteLoadingService<TransferHistoryTransaction>
+  extends InfiniteLoadingService<AssetHistoryItem>
   implements OnDestroy
 {
   private canLoadMoreAsRecipient: BehaviorSubject<boolean> = new BehaviorSubject(true);
   private canLoadMoreAsSender: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
-  private readonly sentList: BehaviorSubject<TransferHistoryTransaction[]>
+  private readonly sentList: BehaviorSubject<AssetHistoryItem[]>
     = new BehaviorSubject([]);
 
-  private readonly receivedList: BehaviorSubject<TransferHistoryTransaction[]>
+  private readonly receivedList: BehaviorSubject<AssetHistoryItem[]>
     = new BehaviorSubject([]);
 
   private loadingCount: number = 10;
@@ -60,7 +61,7 @@ export class UserTransferHistoryService
     );
   }
 
-  protected getNextItems(): Observable<TransferHistoryTransaction[]> {
+  protected getNextItems(): Observable<AssetHistoryItem[]> {
     return combineLatest([
       this.getHistory('recipient'),
       this.getHistory('sender'),
@@ -69,7 +70,7 @@ export class UserTransferHistoryService
     );
   }
 
-  protected pushItems(items: TransferHistoryTransaction[]): void {
+  protected pushItems(items: AssetHistoryItem[]): void {
     const newValue = [...this.list.value, ...items]
       .sort((left, right) => {
         return new Date(right.timestamp).valueOf() - new Date(left.timestamp).valueOf();
@@ -85,7 +86,7 @@ export class UserTransferHistoryService
     this.sentList.next([]);
   }
 
-  private getHistory(role: TransferRole): Observable<TransferHistoryTransaction[]> {
+  private getHistory(role: TransferRole): Observable<AssetHistoryItem[]> {
     const roleCanLoadMore = this.getRoleCanLoadMore(role);
     const roleList = this.getRoleList(role);
 
@@ -108,7 +109,10 @@ export class UserTransferHistoryService
           roleCanLoadMore.next(false);
         }
       }),
-      map((response) => response.transactions),
+      map((response) => response.transactions.map((transaction) => ({
+        ...transaction,
+        role,
+      }))),
     );
   }
 
@@ -121,7 +125,7 @@ export class UserTransferHistoryService
     }
   }
 
-  private getRoleList(role: TransferRole): BehaviorSubject<TransferHistoryTransaction[]> {
+  private getRoleList(role: TransferRole): BehaviorSubject<AssetHistoryItem[]> {
     switch (role) {
       case 'recipient':
         return this.receivedList;

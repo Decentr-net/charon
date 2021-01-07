@@ -1,24 +1,32 @@
 <ng-container *transloco="let translate; read: 'user.assets_history_list_item'">
   <div class="assets-history-list-item__container">
-    <svg-icon class="assets-history-list-item__icon" key="receive-coin"></svg-icon>
+    <svg-icon
+      class="assets-history-list-item__icon"
+      [key]="item.role === 'recipient' ? 'receive-coin' : 'send-coin'"
+    ></svg-icon>
 
     <div class="assets-history-list-item__details">
       <div class="assets-history-list-item__details-direction">
-        {{ translate('received') }}
+        {{ translate(item.role === 'recipient' ? 'received' : 'sent') }}
       </div>
 
       <div class="assets-history-list-item__details-wallet">
-        {{ translate('from') }}: {{ 'decentr1ltx6yymrs8eq4nmnhzfzxj6tspjuymh8mgd6gz' }}
+        <ng-container *ngIf="item.role === 'recipient'; else to">
+          {{ translate('from') }}: {{ item.sender }}
+        </ng-container>
+
+        <ng-template #to>
+          {{ translate('to') }}: {{ item.recipient }}
+        </ng-template>
       </div>
 
       <div class="assets-history-list-item__details-date">
-        {{ '2020-01-01' | date }}
+        {{ item.timestamp | date }}
       </div>
     </div>
 
     <div class="assets-history-list-item__amount">
-      {{ 999999 | microValue }}&nbsp;tDEC
+      {{ item.amount.amount | microValue }}&nbsp;tDEC
     </div>
   </div>
-  <mat-divider></mat-divider>
 </ng-container>

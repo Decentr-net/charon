@@ -1,7 +1,12 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { TransferHistoryTransaction, TransferRole } from 'decentr-js';
 
 import { svgReceiveCoin, svgSendCoin } from '@shared/svg-icons';
+
+export interface AssetHistoryItem extends TransferHistoryTransaction {
+  role: TransferRole;
+}
 
 @Component({
   selector: 'app-assets-history-list-item',
@@ -10,6 +15,7 @@ import { svgReceiveCoin, svgSendCoin } from '@shared/svg-icons';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssetsHistoryListItemComponent {
+  @Input() public item: AssetHistoryItem;
 
   constructor(
     svgIconRegistry: SvgIconRegistry,
