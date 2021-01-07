@@ -7,6 +7,12 @@
   "assets_list": {
     "add_token": "Add Token"
   },
+  "assets_history_list_item": {
+    "from": "From",
+    "received": "Received",
+    "sent": "Sent",
+    "to": "To"
+  },
   "user_bank_balance": {
     "buttons": {
       "send": "Send"
@@ -135,6 +141,7 @@
     }
   },
   "user_details_page": {
+    "back": "< Back",
     "exchange_rate": "1 DEC = ${{ rate }} USD",
     "tabs": {
       "activity": "Activity",
@@ -147,5 +154,8 @@
     "copy_wallet_address": "Copy wallet address",
     "copy_wallet_address_success": "The wallet address was copied successfully",
     "expand_view": "Expand view"
+  },
+  "user_transfer_history": {
+    "no_history": "This asset has no any transfers"
   }
 }

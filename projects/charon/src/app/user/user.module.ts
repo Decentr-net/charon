@@ -16,6 +16,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
 import { FormErrorModule } from '@shared/components/form-error';
+import { SlotModule } from '@shared/components/slot';
 import { SpinnerModule } from '@shared/components/spinner';
 import { MatDividerModule } from '@angular/material/divider';
 import { MicroValueModule } from '@shared/pipes/micro-value';
@@ -54,6 +55,7 @@ import { UserRoutingModule } from './user-routing.module';
     ProfileFormModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
+    SlotModule,
     SpinnerModule,
     SvgIconsModule,
     TranslocoModule,

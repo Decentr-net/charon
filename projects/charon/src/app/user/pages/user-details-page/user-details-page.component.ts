@@ -5,8 +5,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BankCoin } from 'decentr-js';
 
 import { BalanceValueDynamic } from '@shared/services/pdv';
-import { MediaService } from '@core/services';
 import { ChartPoint, PDVActivityListItem } from '../../components';
+import { USER_PAGE_HEADER_SLOT } from '../user-page';
 import { UserDetailsPageActivityService } from './user-details-page-activity.service';
 import { UserDetailsPageService } from './user-details-page.service';
 
@@ -32,8 +32,10 @@ export class UserDetailsPageComponent implements OnInit {
   public selectedTabIndex$: BehaviorSubject<number> = new BehaviorSubject(0);
   public showBankBalance$: Observable<boolean>;
 
+  public isTransferHistoryVisible: boolean;
+  public userPageHeaderSlotName = USER_PAGE_HEADER_SLOT;
+
   constructor(
-    public matchMediaService: MediaService,
     private changeDetectorRef: ChangeDetectorRef,
     private userDetailsPageService: UserDetailsPageService,
     private userDetailsPageActivityService: UserDetailsPageActivityService,
@@ -64,6 +66,15 @@ export class UserDetailsPageComponent implements OnInit {
     this.showBankBalance$ = this.selectedTabIndex$.pipe(
       map((index) => index === 2),
     )
+  }
+
+  public showTransferHistory(): void {
+    this.isTransferHistoryVisible = true;
+  }
+
+  public closeTransferHistory(): void {
+    this.isTransferHistoryVisible = false;
+    this.changeDetectorRef.markForCheck();
   }
 
   public openPDVDetails(pdvActivityListItem: PDVActivityListItem): void {

@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.user-transfer-history__loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.user-transfer-history__spinner {
+  height: 30px;
+  width: 30px;
+}
+
+.user-transfer-history__loading-intersection-target {
+  height: 30px;
+  width: 100%;
+}
+
+.user-transfer-history__no-data {
+  color: #CDCDCD;
+  letter-spacing: 0.2px;
+  padding-top: 30px;
+  text-align: center;
+}

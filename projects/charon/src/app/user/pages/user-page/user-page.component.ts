@@ -11,6 +11,8 @@ import { NavigationService } from '@core/navigation';
 import { MediaService } from '@core/services';
 import { UserRoute } from '../../user.route';
 
+export const USER_PAGE_HEADER_SLOT = Symbol('USER_PAGE_HEADER_SLOT');
+
 @Component({
   selector: 'app-user-page',
   templateUrl: './user-page.component.html',
@@ -22,6 +24,8 @@ export class UserPageComponent implements OnInit {
   public userRoute: typeof UserRoute = UserRoute;
   public user$: Observable<AuthUser>;
   public isOpenedInTab: boolean;
+
+  public headerSlotName = USER_PAGE_HEADER_SLOT;
 
   constructor(
     public matchMediaService: MediaService,

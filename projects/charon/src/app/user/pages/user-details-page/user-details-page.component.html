@@ -27,7 +27,7 @@
     </ng-template>
   </div>
 
-  <div class="tabs-wrapper">
+  <div class="tabs-wrapper" *ngIf="!isTransferHistoryVisible; else transferHistory">
     <mat-tab-group
       mat-stretch-tabs
       mat-align-tabs="center"
@@ -59,11 +59,26 @@
         <div class="tab-container">
           <app-assets-list
             [balance]="bankBalance$ | async"
+            (selected)="showTransferHistory()"
           ></app-assets-list>
         </div>
       </mat-tab>
     </mat-tab-group>
   </div>
+
+  <ng-template #transferHistory>
+    <div
+      class="user-details-page__back-btn"
+      *appSlot="userPageHeaderSlotName"
+      (click)="closeTransferHistory()"
+    >
+      {{ translate('back') }}
+    </div>
+
+    <app-user-transfer-history
+      class="user-details-page__transfer-history"
+    ></app-user-transfer-history>
+  </ng-template>
 
   <ng-template #activityLoading>
     <div
