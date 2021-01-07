@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+.user-transfer-history__loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.user-transfer-history__spinner {
+  height: 30px;
+  width: 30px;
+}
+
+.user-transfer-history__loading-intersection-target {
+  height: 30px;
+  width: 100%;
+}

@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BankCoin, TransferData, Wallet } from 'decentr-js';
+import {
+  BankCoin,
+  TransferData,
+  TransferHistory,
+  TransferHistoryPaginationOptions,
+  TransferRole,
+  Wallet,
+} from 'decentr-js';
 import { defer, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -46,5 +53,20 @@ export class BankService {
           throw response.error;
         }
       }));
+  }
+
+  public getTransferHistory(
+    walletAddress: Wallet['address'],
+    role: TransferRole,
+    paginationOptions?: TransferHistoryPaginationOptions,
+  ): Observable<TransferHistory> {
+    const apiUrl = this.networkService.getActiveNetworkInstant().api;
+
+    return defer(() => this.bankApiService.getTransferHistory(
+      apiUrl,
+      walletAddress,
+      role,
+      paginationOptions,
+    ));
   }
 }

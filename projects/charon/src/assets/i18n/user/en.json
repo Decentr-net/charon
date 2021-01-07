@@ -135,6 +135,7 @@
     }
   },
   "user_details_page": {
+    "back": "< Back",
     "exchange_rate": "1 DEC = ${{ rate }} USD",
     "tabs": {
       "activity": "Activity",

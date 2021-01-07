@@ -5,6 +5,7 @@ import { PdvDetailsDialogComponent } from './pdv-details-dialog';
 import { ToolbarToggleComponent } from './toolbar-toggle';
 import { UserBankBalanceComponent } from './user-bank-balance';
 import { UserLayoutComponent } from './user-layout';
+import { UserTransferHistoryComponent } from './user-transfer-history';
 
 export * from './pdv-activity-chart';
 export * from './pdv-activity-list';
@@ -20,4 +21,5 @@ export const USER_COMPONENTS = [
   ToolbarToggleComponent,
   UserBankBalanceComponent,
   UserLayoutComponent,
+  UserTransferHistoryComponent,
 ];

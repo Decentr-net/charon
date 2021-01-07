@@ -2,7 +2,9 @@
   <div class="page-home" *ngIf="user$ | async as user">
     <div class="container" [class.no-padding]="matchMediaService.isSmall()">
       <div class="user-nav-wrapper">
-        <div></div>
+        <div>
+          <ng-template [appSlotContainer]="headerSlotName"></ng-template>
+        </div>
 
         <div class="user-data">
           <div

@@ -1,0 +1,21 @@
+<div *ngFor="let item of list$ | async">
+  {{ item.timestamp }}
+</div>
+
+<div
+  class="user-transfer-history__loading-container"
+  *ngIf="canLoadMore$ | async"
+>
+  <app-spinner
+    class="user-transfer-history__spinner"
+    *ngIf="isLoading$ | async; else intersectionTarget"
+  ></app-spinner>
+
+  <ng-template #intersectionTarget>
+    <div
+      class="user-transfer-history__loading-intersection-target"
+      appIntersectionTarget
+      (intersect)="loadMore()"
+    ></div>
+  </ng-template>
+</div>
