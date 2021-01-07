@@ -55,7 +55,8 @@ export class UserTransferHistoryService
       this.canLoadMoreAsRecipient,
       this.canLoadMoreAsSender,
     ]).pipe(
-      map((canLoadMoreValues) => canLoadMoreValues.every(Boolean)),
+      map((canLoadMoreValues) => canLoadMoreValues.some(Boolean)),
+      tap(console.log),
     );
   }
 
@@ -103,7 +104,7 @@ export class UserTransferHistoryService
       },
     ).pipe(
       tap((response) => {
-        if (roleList.value.length + response.count <= response.totalCount) {
+        if (+roleList.value.length + +response.count >= +response.totalCount) {
           roleCanLoadMore.next(false);
         }
       }),
