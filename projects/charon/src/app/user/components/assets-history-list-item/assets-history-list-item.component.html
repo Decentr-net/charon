@@ -1,3 +1,24 @@
 <ng-container *transloco="let translate; read: 'user.assets_history_list_item'">
+  <div class="assets-history-list-item__container">
+    <svg-icon class="assets-history-list-item__icon" key="receive-coin"></svg-icon>
 
+    <div class="assets-history-list-item__details">
+      <div class="assets-history-list-item__details-direction">
+        {{ translate('received') }}
+      </div>
+
+      <div class="assets-history-list-item__details-wallet">
+        {{ translate('from') }}: {{ 'decentr1ltx6yymrs8eq4nmnhzfzxj6tspjuymh8mgd6gz' }}
+      </div>
+
+      <div class="assets-history-list-item__details-date">
+        {{ '2020-01-01' | date }}
+      </div>
+    </div>
+
+    <div class="assets-history-list-item__amount">
+      {{ 999999 | microValue }}&nbsp;tDEC
+    </div>
+  </div>
+  <mat-divider></mat-divider>
 </ng-container>
