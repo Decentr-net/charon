@@ -24,7 +24,7 @@ export class UserTransferHistoryService
   private readonly receivedList: BehaviorSubject<AssetHistoryItem[]>
     = new BehaviorSubject([]);
 
-  private loadingCount: number = 10;
+  private loadingCount: number = 100;
 
   constructor(
     private authService: AuthService,
