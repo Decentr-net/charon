@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
+import { shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PDVDetails, PDVListItem, Wallet } from 'decentr-js';
 
@@ -44,6 +44,7 @@ export class PDVService extends NativePDVService {
       switchMap(([{ wallet, networkApi }]) => {
         return super.getBalance(networkApi, wallet.address);
       }),
+      shareReplay(1),
     );
   }
 
