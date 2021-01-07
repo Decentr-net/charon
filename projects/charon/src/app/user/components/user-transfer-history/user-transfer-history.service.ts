@@ -37,8 +37,6 @@ export class UserTransferHistoryService
       untilDestroyed(this),
     ).subscribe(() => this.reload());
 
-    this.canLoadMore$.subscribe(console.log);
-
     this.canLoadMore.pipe(
       filter(Boolean),
       untilDestroyed(this),
