@@ -148,5 +148,8 @@
     "copy_wallet_address": "Copy wallet address",
     "copy_wallet_address_success": "The wallet address was copied successfully",
     "expand_view": "Expand view"
+  },
+  "user_transfer_history": {
+    "no_history": "This asset has no any transfers"
   }
 }
