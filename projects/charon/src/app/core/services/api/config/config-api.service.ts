@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { Environment } from '@environments/environment.definitions';
 
-interface Config {
+export interface Config {
   network: {
     rest: string[];
   },
