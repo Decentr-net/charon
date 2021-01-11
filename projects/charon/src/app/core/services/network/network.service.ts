@@ -4,6 +4,7 @@ import { first, map, mapTo, switchMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 
+import { ConfigService } from '@core/services/config';
 import { Environment } from '@environments/environment.definitions';
 import {
   Network as NetworkSelectorNetwork,
@@ -24,6 +25,7 @@ export class NetworkService extends NetworkSelectorService {
   private readonly networkStorage = new NetworkBrowserStorageService<Network>();
 
   constructor(
+    private configService: ConfigService,
     private environment: Environment,
     private pingService: PingService,
     private translocoService: TranslocoService,
