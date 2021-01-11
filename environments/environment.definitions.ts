@@ -9,7 +9,6 @@ export abstract class Environment {
   abstract production: boolean;
   abstract rest: {
     local: string;
-    remote: string;
   };
   abstract vulcanApi: string;
 }

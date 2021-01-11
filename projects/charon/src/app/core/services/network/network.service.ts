@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of, throwError } from 'rxjs';
-import { first, map, mapTo, mergeMap, retry, switchMap } from 'rxjs/operators';
+import { first, map, mergeMap, retry, switchMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 
@@ -35,7 +35,7 @@ export class NetworkService extends NetworkSelectorService {
       switchMap((activeNetwork) => of(activeNetwork).pipe(
         mergeMap(network => this.pingService.isServerAvailable(network.api)),
         mergeMap(isAvailable => isAvailable && activeNetwork.api === this.environment.rest.local
-          ? of(activeNetwork)
+          ? of(void 0)
           : this.getRandomNetwork().pipe(
             mergeMap(network => this.translocoService
               .selectTranslate(`network_selector.network.remote`, null, 'core').pipe(
@@ -46,11 +46,10 @@ export class NetworkService extends NetworkSelectorService {
                 })),
               ),
             ),
+            switchMap((network) => this.setActiveNetwork(network)),
           )
         ),
-        switchMap((network) => this.setActiveNetwork(network)),
       )),
-      mapTo(void 0),
       first(),
     ).toPromise();
   }

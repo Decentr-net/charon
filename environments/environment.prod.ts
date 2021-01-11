@@ -11,7 +11,6 @@ export const environment: Environment = {
   production: true,
   rest: {
     local: 'http://localhost:1317',
-    remote: 'https://rest.testnet.decentr.xyz',
   },
   vulcanApi: 'https://vulcan.testnet.decentr.xyz/v1',
 };
