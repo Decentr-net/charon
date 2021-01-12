@@ -60,7 +60,7 @@
   <a
     class="menu-item"
     target="_blank"
-    [href]="link.link"
+    [href]="link.link | appSanitize : 'url'"
     [class.menu-item__disabled]="!link.link"
   >
     <ng-template
