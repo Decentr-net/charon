@@ -94,7 +94,6 @@ export class NetworkService extends NetworkSelectorService {
   private getRandomNetwork(): Observable<string> {
     return this.configService.getRestNodes().pipe(
       mergeMap(nodes => {
-        nodes = ["https://hermes.testnet.decentr.xyz", "https://hera.testnet.decentr.xyz"];
         const random = Math.floor(Math.random() * nodes.length);
         const node = nodes[random];
 
