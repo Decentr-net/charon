@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -20,6 +20,12 @@ export class ConfigApiService {
   }
 
   public getConfig(): Observable<Config> {
-    return this.httpClient.get<Config>(`${this.environment.awsStorage}/config.json`);
+    const headers = new HttpHeaders({
+      'Cache-Control': 'no-cache',
+      'Pragma': 'no-cache',
+      'Expires': '0'
+    });
+
+    return this.httpClient.get<Config>(`${this.environment.awsStorage}/config.json`, { headers });
   }
 }
