@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@angular/core';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { pluck, shareReplay } from 'rxjs/operators';
 
 import { Network, NetworkSelectorTranslations } from './network-selector.definitions';
 import { NetworkSelectorService } from './network-selector.service';
@@ -28,6 +28,7 @@ export class NetworkSelectorComponent implements OnInit {
 
     this.activeNetworkName$ = this.networkSelectorService.getActiveNetwork().pipe(
       pluck('name'),
+      shareReplay(1),
     );
 
     this.translations$ = this.networkSelectorService.getTranslations();
