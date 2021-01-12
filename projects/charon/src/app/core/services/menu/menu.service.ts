@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { MenuLink, MenuService as MenuBaseService, MenuTranslations, MenuUserLink } from '@shared/components/menu';
+import { getCharonPageUrl } from '@shared/utils/navigation';
 import { svgDecentrHub, svgImport, svgInformation } from '@shared/svg-icons';
 import { AppRoute } from '../../../app-route';
 import { HubFeedRoute, HubRoute } from '../../../hub';
@@ -14,13 +14,11 @@ import { LockService } from '../../lock';
 import { AuthService } from '../../auth';
 import { isOpenedInTab } from '../../browser';
 import { PDVService } from '../pdv';
-import { getCharonPageUrl } from '@shared/utils/navigation/navigation';
 
 @Injectable()
 export class MenuService extends MenuBaseService {
   constructor(
     private authService: AuthService,
-    private domSanitizer: DomSanitizer,
     private pdvService: PDVService,
     private lockService: LockService,
     private translocoService: TranslocoService,
