@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 
 import { PdvValueModule } from '../../pipes/pdv-value';
+import { SanitizeModule } from '../../pipes/sanitize';
 import { AvatarModule } from '../avatar';
 import { MenuComponent } from './menu';
 import { MenuService } from './menu.service';
@@ -21,6 +22,7 @@ export interface MenuModuleConfig {
     PdvValueModule,
     SvgIconsModule,
     RouterModule,
+    SanitizeModule,
   ],
   declarations: [
     MenuComponent

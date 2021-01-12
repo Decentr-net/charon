@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
@@ -11,12 +12,15 @@ import { HubFeedRoute, HubRoute } from '../../../hub';
 import { UserRoute } from '../../../user';
 import { LockService } from '../../lock';
 import { AuthService } from '../../auth';
+import { isOpenedInTab } from '../../browser';
 import { PDVService } from '../pdv';
+import { getCharonPageUrl } from '@shared/utils/navigation/navigation';
 
 @Injectable()
 export class MenuService extends MenuBaseService {
   constructor(
     private authService: AuthService,
+    private domSanitizer: DomSanitizer,
     private pdvService: PDVService,
     private lockService: LockService,
     private translocoService: TranslocoService,
@@ -52,8 +56,9 @@ export class MenuService extends MenuBaseService {
             title: linksTranslationsObject['decentr_feed'],
           },
           {
+            blank: !isOpenedInTab(),
             iconKey: svgDecentrHub.name,
-            link: `/${AppRoute.User}`,
+            link: isOpenedInTab() ? `/${AppRoute.User}` : getCharonPageUrl(AppRoute.User),
             title: linksTranslationsObject['decentr_portal'],
           },
           {
