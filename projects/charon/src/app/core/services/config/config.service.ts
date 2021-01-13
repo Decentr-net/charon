@@ -29,6 +29,12 @@ export class ConfigService {
     return this.config$;
   }
 
+  public getAppMinVersionRequired(): Observable<string> {
+    return this.getConfig().pipe(
+      map(({ minVersion }) => minVersion),
+    );
+  }
+
   public getRestNodes(): Observable<string[]> {
     return this.getConfig().pipe(
       map(({ network }) => network.rest),
