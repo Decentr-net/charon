@@ -1,7 +1,7 @@
 import { Directive, HostListener, Input, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { noop } from 'rxjs';
-import { finalize, mergeMap, tap } from 'rxjs/operators';
+import { noop, Observable, timer } from 'rxjs';
+import { finalize, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -14,6 +14,7 @@ import {
   HubCreatePostDialogResult
 } from '../../components/hub-create-post-dialog';
 import { HubCreatePostService } from '../../services';
+import { ONE_SECOND } from '../../../../../../../shared/utils/date';
 
 @UntilDestroy()
 @Directive({
@@ -22,7 +23,7 @@ import { HubCreatePostService } from '../../services';
 export class HubCreatePostDialogDirective implements OnDestroy {
   @Input('appHubCreatePostDialogConfig') public config: MatDialogConfig<void>;
 
-  private dialogRef: MatDialogRef<HubCreatePostDialogComponent>
+  private dialogRef: MatDialogRef<HubCreatePostDialogComponent>;
 
   constructor(
     private authService: AuthService,
@@ -68,8 +69,11 @@ export class HubCreatePostDialogDirective implements OnDestroy {
       config,
     );
 
+    const autoSaveSubscription = this.createAutoSaveObservable(this.dialogRef).subscribe();
+
     this.dialogRef.afterClosed()
       .pipe(
+        tap(() => autoSaveSubscription.unsubscribe()),
         mergeMap((result) => {
           if (!result.create) {
             return this.hubCreatePostService.saveDraft(result.post);
@@ -93,5 +97,12 @@ export class HubCreatePostDialogDirective implements OnDestroy {
       .subscribe(noop, (error) => {
         this.notificationService.error(error);
       });
+  }
+
+  private createAutoSaveObservable(dialogRef: MatDialogRef<HubCreatePostDialogComponent>): Observable<void> {
+    return timer(ONE_SECOND * 10).pipe(
+      map(() => dialogRef.componentInstance.getFinalPost()),
+      switchMap((draft) => this.hubCreatePostService.saveDraft(draft)),
+    );
   }
 }

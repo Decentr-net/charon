@@ -69,15 +69,19 @@ export class HubCreatePostDialogComponent implements OnInit {
     this.close(false);
   }
 
-  private close(byCancel: boolean): void {
+  public getFinalPost(): PostCreate {
     const formValue = this.form.getRawValue();
 
+    return {
+      ...formValue,
+      previewImage: this.extractPreviewImage(formValue.text),
+    };
+  }
+
+  private close(byCancel: boolean): void {
     this.dialogRef.close({
       create: !byCancel,
-      post: {
-        ...formValue,
-        previewImage: this.extractPreviewImage(formValue.text),
-      },
+      post: this.getFinalPost(),
     });
   }
 
