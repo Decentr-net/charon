@@ -6,14 +6,14 @@ import { QuillModule } from 'ngx-quill';
     QuillModule.forRoot({
       modules: {
         toolbar: [
-          ['bold', 'italic', 'underline', 'strike'],
-          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-          [{ 'color': [] }, { 'background': [] }],
-          [{ 'font': [] }],
-          [{ size: [] }],
-          [{ align: [] }],
-          ['clean'],
-          ['link', 'image', 'video'],
+        //   ['bold', 'italic', 'underline', 'strike'],
+        //   [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        //   [{ 'color': [] }, { 'background': [] }],
+        //   [{ 'font': [] }],
+        //   [{ size: [] }],
+        //   [{ align: [] }],
+        //   ['clean'],
+        //   ['link', 'image', 'video'],
         ],
       },
     }),

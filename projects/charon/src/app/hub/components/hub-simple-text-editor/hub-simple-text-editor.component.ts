@@ -17,14 +17,15 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { share } from 'rxjs/operators';
+import { distinctUntilChanged, map, mergeMap, share } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { ControlValueAccessor, FormControl } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { QuillEditorComponent } from 'ngx-quill';
 
 import { svgAddImage } from '@shared/svg-icons';
 import { NotificationService } from '@shared/services/notification';
-import { decodeHtml } from '@shared/utils/html';
+import { createFragmentWrappedContainer, decodeHtml } from '@shared/utils/html';
 
 @UntilDestroy()
 @Component({
@@ -76,7 +77,7 @@ export class HubSimpleTextEditorComponent
   }
   private _placeholder: string;
 
-  @ViewChild('textContainer', { static: true }) public textContainer: ElementRef<HTMLDivElement>;
+  @ViewChild(QuillEditorComponent, { static: true }) public quillEditor: QuillEditorComponent;
 
   @ViewChild('addImageIcon', { static: false }) public addImageIcon: ElementRef<HTMLElement>;
 
@@ -95,6 +96,8 @@ export class HubSimpleTextEditorComponent
   public focused: boolean = false;
 
   public isImageLimitReached: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+  public quillControl: FormControl<string> = new FormControl();
 
   private static nextId = 0;
 
@@ -117,7 +120,16 @@ export class HubSimpleTextEditorComponent
   }
 
   public ngOnInit(): void {
-    this.focusMonitor.monitor(this.textContainerElement).pipe(
+    this.quillControl.valueChanges.pipe(
+      map(Boolean),
+      distinctUntilChanged(),
+      untilDestroyed(this),
+    ).subscribe(() => {
+      this.stateChanges.next();
+    });
+
+    this.quillEditor.onEditorCreated.pipe(
+      mergeMap(() => this.focusMonitor.monitor(this.quillEditor.quillEditor.root)),
       untilDestroyed(this),
     ).subscribe((origin) => {
       this.focused = !!origin;
@@ -134,11 +146,11 @@ export class HubSimpleTextEditorComponent
   public ngOnDestroy(): void {
     this.stateChanges.complete();
 
-    this.focusMonitor.stopMonitoring(this.textContainerElement);
+    this.focusMonitor.stopMonitoring(this.quillEditor.editorElem);
   }
 
   public onBlur(): void {
-    this.textContainerElement.innerHTML = this.getTrimmedText();
+    this.quillControl.setValue(this.getTrimmedText());
     this.onTouched();
   }
 
@@ -149,15 +161,11 @@ export class HubSimpleTextEditorComponent
   }
 
   public get empty(): boolean {
-    return this.textContainerElement.innerHTML.length === 0;
+    return !this.quillControl.value?.length;
   }
 
   public get shouldLabelFloat(): boolean {
-    return this.focused || !this.empty;
-  }
-
-  private get textContainerElement(): HTMLDivElement {
-    return this.textContainer.nativeElement;
+    return false;
   }
 
   public set value(value: string | null) {
@@ -166,12 +174,16 @@ export class HubSimpleTextEditorComponent
   }
 
   public onContainerClick(event: MouseEvent): void {
+    if (!this.quillEditor.editorElem) {
+      return;
+    }
+
     if (![
-      this.textContainerElement,
+      this.quillEditor?.editorElem,
       this.addImageIcon?.nativeElement,
     ].includes(event.target as HTMLElement)
     ) {
-      this.textContainerElement.focus();
+      this.quillEditor.editorElem.focus();
     }
   }
 
@@ -192,21 +204,24 @@ export class HubSimpleTextEditorComponent
   }
 
   public writeValue(value: string) {
-    this.textContainerElement.innerHTML = value;
+    this.quillControl.setValue(value);
     this.validateImagesCount();
   }
 
   private appendText(text: string): void {
-    this.textContainerElement.innerHTML += text;
+    const currentValue = typeof this.quillControl.value === 'string' ? this.quillControl.value : '';
+    this.quillControl.setValue(currentValue + text);
     this.onTextInput();
   }
 
   private getImagesCount(): number {
-    return this.textContainerElement.querySelectorAll('img').length;
+    const container = createFragmentWrappedContainer();
+    container.innerHTML = this.quillControl.value;
+    return container.querySelectorAll('img').length;
   }
 
   private getTrimmedText(): string {
-    return decodeHtml(this.textContainerElement.innerHTML).trim();
+    return decodeHtml(this.quillControl.value).trim();
   }
 
   private validateImagesCount(): void {

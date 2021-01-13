@@ -46,11 +46,10 @@
       </mat-form-field>
 
       <mat-form-field class="hub-create-post-dialog__text-form-field" floatLabel="never">
-        <mat-label>{{ translate('text.placeholder') }}</mat-label>
-
         <app-hub-simple-text-editor
           class="hub-create-post-dialog__editor"
           [maxImagesCount]="maxImagesCount"
+          [placeholder]="translate('text.placeholder')"
           formControlName="text"
         ></app-hub-simple-text-editor>
 

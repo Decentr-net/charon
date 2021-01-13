@@ -20,6 +20,7 @@ import { PermissionsModule } from '@shared/permissions';
 import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES, MenuService, NetworkService } from './services';
+import { QuillRootModule } from './quill';
 
 export function initAuthFactory(authService: AuthService): () => void {
   return () => authService.init();
@@ -58,6 +59,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     }),
     OverlayModule,
     PermissionsModule.forRoot(),
+    QuillRootModule,
     SlotModule.forRoot(),
     SvgIconRootModule,
     ToastrModule.forRoot({
