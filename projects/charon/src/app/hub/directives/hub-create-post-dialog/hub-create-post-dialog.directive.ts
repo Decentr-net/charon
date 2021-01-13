@@ -6,6 +6,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { NotificationService } from '@shared/services/notification';
+import { ONE_SECOND } from '@shared/utils/date';
 import { SpinnerService } from '@core/services';
 import { AuthService, AuthUser } from '@core/auth';
 import {
@@ -14,7 +15,6 @@ import {
   HubCreatePostDialogResult
 } from '../../components/hub-create-post-dialog';
 import { HubCreatePostService } from '../../services';
-import { ONE_SECOND } from '../../../../../../../shared/utils/date';
 
 @UntilDestroy()
 @Directive({
