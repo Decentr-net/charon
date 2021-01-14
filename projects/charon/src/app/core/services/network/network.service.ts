@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, from, Observable } from 'rxjs';
-import { first, map, mergeMap } from 'rxjs/operators';
+import { filter, first, map, mergeMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 
@@ -31,6 +31,7 @@ export class NetworkService extends NetworkSelectorService {
   public async init(): Promise<void> {
     return this.getNetworks().pipe(
       mergeMap((networks) => this.getActiveNetwork().pipe(
+        filter((activeNetwork) => !!activeNetwork),
         map((activeNetwork) => {
           return networks.find((network) => this.isNetworksEqual(network, activeNetwork));
         }),

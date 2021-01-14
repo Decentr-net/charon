@@ -51,4 +51,8 @@ export class NetworkBrowserStorageService<T extends Network = Network> {
   public setDefaultNetwork(network: T): Promise<void> {
     return this.browserStorage.set('default', network);
   }
+
+  public clear(): Promise<void> {
+    return this.browserStorage.clear();
+  }
 }

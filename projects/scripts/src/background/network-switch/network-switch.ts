@@ -26,6 +26,8 @@ export const getRandomRest = (): Observable<string> => {
 export const setRandomNetwork = async (): Promise<void> => {
   const networkStorage = new NetworkBrowserStorageService();
 
+  networkStorage.clear();
+
   const activeNetwork = await networkStorage.getActiveNetwork().pipe(
     first(),
   ).toPromise();
