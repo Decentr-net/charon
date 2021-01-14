@@ -20,4 +20,4 @@ export const compareSemver = (a: string, b: string): -1 | 0 | 1 => {
 
 const splitVersion = (version: string): number[] => {
   return version.split('.').map((num) => +num);
-}
+};

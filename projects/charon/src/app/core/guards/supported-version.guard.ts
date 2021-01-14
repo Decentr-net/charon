@@ -20,7 +20,7 @@ export class SupportedVersionGuard implements CanActivate, CanLoad {
   public canActivate(): Observable<boolean | UrlTree> {
     return this.configService.getAppMinVersionRequired().pipe(
       map((minVersion) => compareSemver(manifest.version, minVersion)),
-      map((diff) => diff > 0 || this.router.createUrlTree(['/', AppRoute.Update])),
+      map((diff) => diff >= 0 || this.router.createUrlTree(['/', AppRoute.Update])),
     );
   }
 
