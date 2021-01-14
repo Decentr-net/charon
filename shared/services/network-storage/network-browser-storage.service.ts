@@ -10,6 +10,7 @@ export interface Network {
 
 export interface NetworkStorage<T> {
   active: T;
+  default: T;
 }
 
 @Injectable()
@@ -37,5 +38,17 @@ export class NetworkBrowserStorageService<T extends Network = Network> {
 
   public setActiveNetwork(network: T): Promise<void> {
     return this.browserStorage.set('active', network);
+  }
+
+  public getDefaultNetwork(): Observable<T | undefined> {
+    return from(this.browserStorage.get('default')).pipe(
+      mergeMap((activeNetwork) => this.browserStorage.onChange('default').pipe(
+        startWith(activeNetwork),
+      )),
+    );
+  }
+
+  public setDefaultNetwork(network: T): Promise<void> {
+    return this.browserStorage.set('default', network);
   }
 }

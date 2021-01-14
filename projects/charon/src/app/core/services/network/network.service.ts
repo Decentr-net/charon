@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, of, throwError } from 'rxjs';
-import { first, map, mergeMap, retry, switchMap, take } from 'rxjs/operators';
+import { combineLatest, from, Observable } from 'rxjs';
+import { first, map, mergeMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 
-import { ConfigService } from '@core/services/config';
 import { Environment } from '@environments/environment.definitions';
 import {
   Network as NetworkSelectorNetwork,
@@ -12,7 +11,7 @@ import {
   NetworkSelectorTranslations,
 } from '@shared/components/network-selector';
 import { Network as NetworkWithApi, NetworkBrowserStorageService, } from '@shared/services/network-storage';
-import { PingService } from '../api';
+import { PingService } from '@shared/services/ping';
 
 export type Network = NetworkWithApi & NetworkSelectorNetwork;
 
@@ -22,7 +21,6 @@ export class NetworkService extends NetworkSelectorService {
   private readonly networkStorage = new NetworkBrowserStorageService<Network>();
 
   constructor(
-    private configService: ConfigService,
     private environment: Environment,
     private pingService: PingService,
     private translocoService: TranslocoService,
@@ -30,27 +28,16 @@ export class NetworkService extends NetworkSelectorService {
     super();
   }
 
-  public init(): Promise<void> {
-    return this.getActiveNetwork().pipe(
-      take(1),
-      switchMap((activeNetwork) => of(activeNetwork).pipe(
-        mergeMap(network => network ? this.pingService.isServerAvailable(network.api) : of(false)),
-        mergeMap(isAvailable => isAvailable && activeNetwork.api === this.environment.rest.local
-          ? of(void 0)
-          : this.getRandomNetwork().pipe(
-            mergeMap(network => this.translocoService
-              .selectTranslate(`network_selector.network.remote`, null, 'core').pipe(
-                map(name => ({
-                  api: network,
-                  disabled: false,
-                  name,
-                })),
-              ),
-            ),
-            switchMap((network) => this.setActiveNetwork(network)),
-          )
-        ),
+  public async init(): Promise<void> {
+    return this.getNetworks().pipe(
+      mergeMap((networks) => this.getActiveNetwork().pipe(
+        map((activeNetwork) => {
+          return networks.find((network) => this.isNetworksEqual(network, activeNetwork));
+        }),
       )),
+      mergeMap((translatedActiveNetwork) => {
+        return this.networkStorage.setActiveNetwork(translatedActiveNetwork)
+      }),
       first(),
     ).toPromise();
   }
@@ -68,16 +55,16 @@ export class NetworkService extends NetworkSelectorService {
   }
 
   public getNetworks(): Observable<Network[]> {
-    return this.getRandomNetwork().pipe(
-      mergeMap(node => combineLatest(
-        ['remote', 'local'].map((networkName) => {
-          const api = networkName === 'local'
-            ? this.environment.rest[networkName]
-            : node;
-
+    return from(this.networkStorage.getDefaultNetwork()).pipe(
+      first(),
+      mergeMap(({ api: remoteApi }) => combineLatest(
+        [
+          { key: 'remote', api: remoteApi },
+          { key: 'local', api: this.environment.rest['local'] },
+        ].map(({ key, api }) => {
           return combineLatest([
             this.translocoService
-              .selectTranslate(`network_selector.network.${networkName}`, null, 'core'),
+              .selectTranslate(`network_selector.network.${key}`, null, 'core'),
             this.pingService.isServerAvailable(api),
           ]).pipe(
             map(([name, available]) => ({
@@ -91,18 +78,8 @@ export class NetworkService extends NetworkSelectorService {
     );
   }
 
-  private getRandomNetwork(): Observable<string> {
-    return this.configService.getRestNodes().pipe(
-      mergeMap(nodes => {
-        const random = Math.floor(Math.random() * nodes.length);
-        const node = nodes[random];
-
-        return this.pingService.isServerAvailable(node).pipe(
-          mergeMap(isAvailable => !isAvailable ? throwError('error') : of(node)),
-        );
-      }),
-      retry(),
-    );
+  public isNetworksEqual(left: Network, right: Network): boolean {
+    return left?.api === right?.api;
   }
 
   public getTranslations(): Observable<NetworkSelectorTranslations> {

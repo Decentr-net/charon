@@ -15,6 +15,11 @@ import { PDVUpdateNotifier } from '../../../shared/services/pdv';
 import { sendCookies } from './background/cookies/api';
 import { initMessageListeners, listenAllCookiesSet, listenLoginCookies } from './background/listeners';
 import { initAutoLock } from './background/lock';
+import { setRandomNetwork } from './background/network-switch';
+
+(async () => {
+  await setRandomNetwork();
+})();
 
 initAutoLock();
 
