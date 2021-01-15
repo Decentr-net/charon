@@ -66,6 +66,7 @@
         <input
           matInput
           formControlName="amount"
+          (keydown)="onAmountKeyDown($event)"
         >
 
         <mat-error>

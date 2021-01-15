@@ -118,7 +118,7 @@
         "errors": {
           "insufficient": "Insifficient funds",
           "min": "Minimum value is {{ min }}",
-          "pattern": "Value is not a number",
+          "pattern": "Incorrect amount format",
           "required": "Amount is required"
         }
       },
