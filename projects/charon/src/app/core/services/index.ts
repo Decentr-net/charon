@@ -1,3 +1,4 @@
+import { ConfigService } from '@shared/services/configuration';
 import { CORE_API_SERVICES } from './api';
 import { BankService } from './bank';
 import { ImageUploaderService } from './image-uploader';
@@ -23,6 +24,7 @@ export * from './user';
 export const CORE_SERVICES = [
   CORE_API_SERVICES,
   BankService,
+  ConfigService,
   ImageUploaderService,
   MediaService,
   NetworkService,

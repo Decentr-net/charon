@@ -2,17 +2,18 @@ import { Injectable } from '@angular/core';
 import { map, mergeMapTo, tap } from 'rxjs/operators';
 import { Observable, ReplaySubject } from 'rxjs';
 
-import { Config, ConfigApiService } from '../api/config';
+import { Config, ConfigApiService } from './config-api.service';
+import { Environment } from '../../../environments/environment.definitions';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ConfigService {
   private config$: ReplaySubject<Config> = new ReplaySubject(1);
   private pendingConfig: boolean;
 
+  private readonly configApiService: ConfigApiService = new ConfigApiService(this.environment);
+
   constructor(
-    private configApiService: ConfigApiService,
+    private environment: Environment,
   ) {
   }
 

@@ -7,12 +7,13 @@ import { Wallet } from 'decentr-js';
 
 import { AuthService } from '@core/auth/services';
 import { AppRoute } from '../../../app-route';
+import { DASH, SPACE } from '@angular/cdk/keycodes';
 import { finalize } from 'rxjs/operators';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { NotificationService } from '@shared/services/notification';
 import { svgCheck, svgClose, svgLogoIcon } from '@shared/svg-icons';
 import { TransferPageService } from './transfer-page.service';
-import { Router } from '@angular/router';
+import { NavigationService } from '@core/navigation';
 import { SpinnerService } from '@core/services/spinner';
 import { TranslocoService } from '@ngneat/transloco';
 import { UserRoute } from '../../user.route';
@@ -45,8 +46,8 @@ export class TransferPageComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
+    private navigationService: NavigationService,
     private notificationService: NotificationService,
-    private router: Router,
     private transferPageService: TransferPageService,
     private spinnerService: SpinnerService,
     private svgIconRegistry: SvgIconRegistry,
@@ -78,7 +79,7 @@ export class TransferPageComponent implements OnInit {
         0.000001,
         [
           Validators.required,
-          Validators.pattern('^\\d*\\.?\\d*$'),
+          Validators.pattern('^((0)|([1-9]+)(0+)?).?\\d{0,6}$'),
           Validators.min(0.000001),
         ],
         [
@@ -99,6 +100,12 @@ export class TransferPageComponent implements OnInit {
 
   private getWallet(): Wallet {
     return this.authService.getActiveUserInstant().wallet;
+  }
+
+  public onAmountKeyDown(event): void {
+    if (event.keyCode === SPACE || event.keyCode === DASH) {
+      event.preventDefault();
+    }
   }
 
   public onSubmit(): void {
@@ -124,7 +131,7 @@ export class TransferPageComponent implements OnInit {
         this.translocoService.translate('transfer_page.toastr.successful_sent', null, 'user'),
       );
 
-      this.router.navigate(['/', AppRoute.User]);
+      this.navigationService.back(['/', AppRoute.User])
     }, (error) => {
       this.notificationService.error(error);
     });
