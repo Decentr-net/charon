@@ -8,6 +8,7 @@
     "add_token": "Add Token"
   },
   "assets_history_list_item": {
+    "copy_wallet_address": "Copy wallet address",
     "from": "From",
     "received": "Received",
     "sent": "Sent",
