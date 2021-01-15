@@ -3,9 +3,9 @@ import { CanActivate, CanLoad, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { ConfigService } from '@shared/services/configuration';
 import { compareSemver } from '@shared/utils/number';
 import { AppRoute } from '../../app-route';
-import { ConfigService } from '../services/config';
 
 const manifest =  require('../../../../../scripts/manifest.base.json');
 
