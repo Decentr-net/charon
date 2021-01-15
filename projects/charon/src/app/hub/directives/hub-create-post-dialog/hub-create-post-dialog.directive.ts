@@ -82,6 +82,7 @@ export class HubCreatePostDialogDirective implements OnDestroy {
           this.spinnerService.showSpinner();
           return this.hubCreatePostService.createPost(result.post).pipe(
             tap(() => {
+              this.hubCreatePostService.removeDraft();
               this.notificationService.success(
                 this.translocoService.translate('hub_create_post_dialog.success', null, 'hub')
               );

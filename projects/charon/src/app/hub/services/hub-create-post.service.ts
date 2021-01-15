@@ -28,11 +28,15 @@ export class HubCreatePostService {
   }
 
   public getDraft(): Promise<PostCreate> {
-    return this.postStorage.pop('draft');
+    return this.postStorage.get('draft');
   }
 
   public saveDraft(post: PostCreate): Promise<void> {
     return this.postStorage.set('draft', post);
+  }
+
+  public removeDraft(): Promise<void> {
+    return this.postStorage.remove('draft');
   }
 
   public createPost(post: PostCreate): Observable<void> {
