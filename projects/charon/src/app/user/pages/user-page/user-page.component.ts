@@ -1,10 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { TranslocoService } from '@ngneat/transloco';
 
-import { NotificationService } from '@shared/services/notification';
-import { copyContent } from '@shared/utils/copy-content';
 import { AuthService, AuthUser } from '@core/auth';
 import { isOpenedInTab } from '@core/browser';
 import { NavigationService } from '@core/navigation';
