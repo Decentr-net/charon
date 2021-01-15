@@ -13,26 +13,24 @@
       <div class="assets-history-list-item__details-wallet">
         <ng-container *ngIf="item.role === 'recipient'; else to">
           {{ translate('from') }}:
-          <span
-            [appCopyWalletAddress]="item.sender"
-            class="assets-history-list-item__details-wallet-address"
-            [matTooltip]="translate('copy_wallet_address')"
-          >
-            {{ item.sender }}
-          </span>
+          <ng-container *ngTemplateOutlet="walletAddress; context: {$implicit: item.sender}"></ng-container>
         </ng-container>
 
         <ng-template #to>
           {{ translate('to') }}:
-          <span
-            [appCopyWalletAddress]="item.recipient"
-            class="assets-history-list-item__details-wallet-address"
-            [matTooltip]="translate('copy_wallet_address')"
-          >
-            {{ item.recipient }}
-          </span>
+          <ng-container *ngTemplateOutlet="walletAddress; context: {$implicit: item.recipient}"></ng-container>
         </ng-template>
       </div>
+
+      <ng-template #walletAddress let-walletAddress>
+        <span
+          [appCopyWalletAddress]="walletAddress"
+          class="assets-history-list-item__details-wallet-address"
+          [matTooltip]="translate('copy_wallet_address')"
+        >
+          {{ walletAddress }}
+        </span>
+      </ng-template>
 
       <div class="assets-history-list-item__details-date">
         {{ item.timestamp | date }}
