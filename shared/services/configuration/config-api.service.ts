@@ -18,6 +18,7 @@ export class ConfigApiService {
   }
 
   public getConfig(): Observable<Config> {
+    const now = Date.now();
     const headers = {
       'Cache-Control': 'no-cache',
       'Pragma': 'no-cache',
@@ -25,7 +26,7 @@ export class ConfigApiService {
     };
 
     return defer(() => {
-      return fetch(`${this.environment.awsStorage}/config.json`, { headers })
+      return fetch(`${this.environment.awsStorage}/config.json?${now}`, { headers })
         .then((response) => response.json());
     });
   }
