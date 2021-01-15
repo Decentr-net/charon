@@ -1,10 +1,11 @@
 import { Observable, of, throwError } from 'rxjs';
-import { first, map, mergeMap, retry } from 'rxjs/operators';
+import { delay, first, map, mergeMap, retryWhen } from 'rxjs/operators';
 
 import { environment } from '../../../../../environments/environment';
 import { ConfigService } from '../../../../../shared/services/configuration';
 import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
 import { PingService } from '../../../../../shared/services/ping';
+import { ONE_SECOND } from '../../../../../shared/utils/date';
 
 const configService = new ConfigService(environment);
 const pingService = new PingService();
@@ -19,7 +20,9 @@ export const getRandomRest = (): Observable<string> => {
         mergeMap(isAvailable => !isAvailable ? throwError('error') : of(node)),
       );
     }),
-    retry(),
+    retryWhen((errors) => errors.pipe(
+      delay(ONE_SECOND / 2),
+    )),
   );
 };
 
