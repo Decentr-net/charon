@@ -79,7 +79,7 @@ export class TransferPageComponent implements OnInit {
         0.000001,
         [
           Validators.required,
-          Validators.pattern('^((0)|([1-9]+)(0+)?).?\\d{0,6}$'),
+          Validators.pattern('^((0)|(([1-9])([0-9]+)?)(0+)?)\\.?\\d{0,6}$'),
           Validators.min(0.000001),
         ],
         [
