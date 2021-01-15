@@ -1,3 +1,5 @@
+export * from './compare-semver';
+
 export const exponentialToFixed = (value: number | string): string => {
   const numStr = value.toString();
   const num = +value;
