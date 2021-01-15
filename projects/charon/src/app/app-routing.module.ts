@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { BrowserTabGuard, SupportedVersionGuard } from '@core/guards';
+import { BrowserTabGuard, SupportedVersionGuard, UpdateGuard } from '@core/guards';
 import {
   AuthCompletedRegistrationGuard,
   UnauthGuard,
@@ -76,6 +76,9 @@ const ROUTES: Routes = [
   {
     path: AppRoute.Update,
     loadChildren: () => import('./update/update.module').then(m => m.UpdateModule),
+    canActivate: [
+      UpdateGuard,
+    ],
   },
 ];
 
