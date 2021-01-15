@@ -94,7 +94,6 @@ export class UserDetailsPageComponent implements OnInit {
 
   public onTabChange(tabIndex: number): void {
     this.selectedTabIndex$.next(tabIndex);
-    console.log(tabIndex);
 
     this.router.navigate(['./'], {
       fragment: tabIndex.toString(),
