@@ -9,7 +9,7 @@
         <div class="user-data">
           <div
             class="user-data__inner"
-            (click)="copyWalletAddress(user.wallet.address)"
+            [appCopyWalletAddress]="user.wallet.address"
             [matTooltip]="translate('copy_wallet_address')"
           >
             <div class="wallet-username">

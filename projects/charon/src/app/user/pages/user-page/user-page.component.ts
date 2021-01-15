@@ -32,8 +32,6 @@ export class UserPageComponent implements OnInit {
     private authService: AuthService,
     private navigationService: NavigationService,
     private router: Router,
-    private translocoService: TranslocoService,
-    private notificationService: NotificationService,
   ) {
   }
 
@@ -45,13 +43,5 @@ export class UserPageComponent implements OnInit {
 
   public expandView(): void {
     this.navigationService.openInNewTab(this.router.url);
-  }
-
-  public copyWalletAddress(walletAddress: AuthUser['wallet']['address']): void {
-    copyContent(walletAddress);
-
-    this.notificationService.success(
-      this.translocoService.translate('user_page.copy_wallet_address_success', null, 'user'),
-    );
   }
 }
