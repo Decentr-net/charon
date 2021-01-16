@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, mergeMapTo, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable, ReplaySubject } from 'rxjs';
 
 import { Config, ConfigApiService } from './config-api.service';
@@ -21,10 +21,7 @@ export class ConfigService {
     if (!this.pendingConfig) {
       this.pendingConfig = true;
 
-      return this.configApiService.getConfig().pipe(
-        tap((config) => this.config$.next(config)),
-        mergeMapTo(this.config$),
-      );
+      this.configApiService.getConfig().subscribe(this.config$)
     }
 
     return this.config$;
