@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Charon",
   "description": "Charon Browser Extension",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "Decentr",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "browser_action": {
