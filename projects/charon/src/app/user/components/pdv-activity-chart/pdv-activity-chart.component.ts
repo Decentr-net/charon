@@ -5,6 +5,8 @@ import {
   Component,
   ElementRef,
   Input,
+  OnChanges,
+  SimpleChanges,
   ViewChild
 } from '@angular/core';
 import * as d3 from 'd3';
@@ -25,7 +27,7 @@ interface FilterButton {
 }
 
 @Component({
-  selector: 'app-chart',
+  selector: 'app-activity-chart',
   templateUrl: './pdv-activity-chart.component.html',
   styleUrls: ['./pdv-activity-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,7 +35,7 @@ interface FilterButton {
     PdvValuePipe,
   ],
 })
-export class PdvActivityChartComponent implements AfterViewInit {
+export class PdvActivityChartComponent implements AfterViewInit, OnChanges {
   @Input() public data: ChartPoint[];
 
   @ViewChild('chartLine') private chartContainer: ElementRef;
@@ -81,6 +83,16 @@ export class PdvActivityChartComponent implements AfterViewInit {
 
   public ngOnInit(): void {
     this.chartData = this.data;
+  }
+
+  public ngOnChanges({ data }: SimpleChanges) {
+    if (data) {
+      this.chartData = data.currentValue;
+
+      if (this.chart) {
+        this.repaintChart();
+      }
+    }
   }
 
   public ngAfterViewInit(): void {
