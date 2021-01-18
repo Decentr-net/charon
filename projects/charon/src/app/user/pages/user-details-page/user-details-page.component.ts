@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, share } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BankCoin } from 'decentr-js';
 
 import { BalanceValueDynamic } from '@shared/services/pdv';
-import { MediaService } from '@core/services';
 import { ChartPoint, PDVActivityListItem } from '../../components';
+import { USER_PAGE_HEADER_SLOT } from '../user-page';
 import { UserDetailsPageActivityService } from './user-details-page-activity.service';
 import { UserDetailsPageService } from './user-details-page.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @UntilDestroy()
 @Component({
@@ -32,11 +33,15 @@ export class UserDetailsPageComponent implements OnInit {
   public selectedTabIndex$: BehaviorSubject<number> = new BehaviorSubject(0);
   public showBankBalance$: Observable<boolean>;
 
+  public isTransferHistoryVisible: boolean;
+  public userPageHeaderSlotName = USER_PAGE_HEADER_SLOT;
+
   constructor(
-    public matchMediaService: MediaService,
+    private activatedRoute: ActivatedRoute,
     private changeDetectorRef: ChangeDetectorRef,
     private userDetailsPageService: UserDetailsPageService,
     private userDetailsPageActivityService: UserDetailsPageActivityService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -49,7 +54,9 @@ export class UserDetailsPageComponent implements OnInit {
       this.changeDetectorRef.detectChanges();
     });
 
-    this.bankBalance$ = this.userDetailsPageService.getBankBalance();
+    this.bankBalance$ = this.userDetailsPageService.getBankBalance().pipe(
+      share(),
+    );
 
     this.pdvList$ = this.userDetailsPageActivityService.activityList$;
 
@@ -61,7 +68,20 @@ export class UserDetailsPageComponent implements OnInit {
 
     this.showBankBalance$ = this.selectedTabIndex$.pipe(
       map((index) => index === 2),
-    )
+    );
+
+    this.activatedRoute.fragment.pipe(
+      untilDestroyed(this),
+    ).subscribe((tabIndex) => this.selectedTabIndex$.next(+tabIndex));
+  }
+
+  public showTransferHistory(): void {
+    this.isTransferHistoryVisible = true;
+  }
+
+  public closeTransferHistory(): void {
+    this.isTransferHistoryVisible = false;
+    this.changeDetectorRef.markForCheck();
   }
 
   public openPDVDetails(pdvActivityListItem: PDVActivityListItem): void {
@@ -74,5 +94,11 @@ export class UserDetailsPageComponent implements OnInit {
 
   public onTabChange(tabIndex: number): void {
     this.selectedTabIndex$.next(tabIndex);
+
+    this.router.navigate(['./'], {
+      fragment: tabIndex.toString(),
+      relativeTo: this.activatedRoute,
+      replaceUrl: true,
+    });
   }
 }

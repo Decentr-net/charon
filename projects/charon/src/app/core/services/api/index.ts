@@ -1,12 +1,11 @@
+import { PingService } from '@shared/services/ping';
 import { BankApiService } from './bank';
 import { ImageApiService } from './image';
-import { PingService } from './ping';
 import { PostsApiService } from './posts';
 import { UserApiService } from './user';
 
 export * from './bank';
 export * from './image';
-export * from './ping';
 export * from './posts';
 export * from './user';
 

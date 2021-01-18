@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { shareReplay, startWith, switchMap } from 'rxjs/operators';
+import { startWith, switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PDVDetails, PDVListItem, Wallet } from 'decentr-js';
 
@@ -11,6 +11,7 @@ import {
   PDVStatChartPoint,
   PDVUpdateNotifier,
 } from '@shared/services/pdv';
+import { whileDocumentVisible } from '@shared/utils/document';
 import { StateChangesService } from '../state';
 import { Network } from '@core/services';
 
@@ -35,16 +36,17 @@ export class PDVService extends NativePDVService {
   }
 
   public getBalance(): Observable<string> {
-    return combineLatest([
-      this.stateChangesService.getWalletAndNetworkApiChanges(),
-      PDVUpdateNotifier.listen().pipe(
-        startWith(void 0),
+    return whileDocumentVisible(
+      combineLatest([
+        this.stateChangesService.getWalletAndNetworkApiChanges(),
+        PDVUpdateNotifier.listen().pipe(
+          startWith(void 0),
+        ),
+      ]).pipe(
+        switchMap(([{ wallet, networkApi }]) => {
+          return super.getBalance(networkApi, wallet.address);
+        }),
       ),
-    ]).pipe(
-      switchMap(([{ wallet, networkApi }]) => {
-        return super.getBalance(networkApi, wallet.address);
-      }),
-      shareReplay(1),
     );
   }
 
@@ -61,15 +63,17 @@ export class PDVService extends NativePDVService {
   }
 
   public getBalanceWithMargin(): Observable<BalanceValueDynamic> {
-    return combineLatest([
-      this.stateChangesService.getWalletAndNetworkApiChanges(),
-      PDVUpdateNotifier.listen().pipe(
-        startWith(void 0),
+    return whileDocumentVisible(
+      combineLatest([
+        this.stateChangesService.getWalletAndNetworkApiChanges(),
+        PDVUpdateNotifier.listen().pipe(
+          startWith(void 0),
+        ),
+      ]).pipe(
+        switchMap(([{ wallet, networkApi }]) => {
+          return super.getBalanceWithMargin(networkApi, wallet.address);
+        })
       ),
-    ]).pipe(
-      switchMap(([{ wallet, networkApi }]) => {
-        return super.getBalanceWithMargin(networkApi, wallet.address);
-      })
     );
   }
 }

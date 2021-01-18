@@ -16,6 +16,7 @@ export type SvgIconName =
   | 'notification'
   | 'pdv-rate-icon'
   | 'plus'
+  | 'receive-coin'
   | 'send-coin'
   | 'settings'
   | 'signal'

@@ -5,12 +5,14 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { MenuLink, MenuService as MenuBaseService, MenuTranslations, MenuUserLink } from '@shared/components/menu';
+import { getCharonPageUrl } from '@shared/utils/navigation';
 import { svgDecentrHub, svgImport, svgInformation } from '@shared/svg-icons';
 import { AppRoute } from '../../../app-route';
 import { HubFeedRoute, HubRoute } from '../../../hub';
 import { UserRoute } from '../../../user';
 import { LockService } from '../../lock';
 import { AuthService } from '../../auth';
+import { isOpenedInTab } from '../../browser';
 import { PDVService } from '../pdv';
 
 @Injectable()
@@ -52,8 +54,9 @@ export class MenuService extends MenuBaseService {
             title: linksTranslationsObject['decentr_feed'],
           },
           {
+            blank: !isOpenedInTab(),
             iconKey: svgDecentrHub.name,
-            link: `/${AppRoute.User}`,
+            link: isOpenedInTab() ? `/${AppRoute.User}` : getCharonPageUrl(AppRoute.User),
             title: linksTranslationsObject['decentr_portal'],
           },
           {

@@ -14,6 +14,8 @@ import {
 } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+import { AppRoute } from '../../../app-route';
+import { isOpenedInTab } from '@core/browser';
 import { LockBrowserStorageService } from '@shared/services/lock';
 import { ONE_SECOND } from '@shared/utils/date';
 import { LOCK_ACTIVITY_SOURCE, LOCK_REDIRECT_URL } from '../lock.tokens';
@@ -114,7 +116,7 @@ export class LockService {
   public navigateToUnlockedUrl(): Promise<boolean> {
     const returnUrl = this.activatedRoute.snapshot.queryParamMap.get(LOCK_RETURN_URL_PARAM);
 
-    return this.navigate(returnUrl || '/');
+    return this.navigate(isOpenedInTab() ? returnUrl || '/' : AppRoute.User);
   }
 
   private init(): void {

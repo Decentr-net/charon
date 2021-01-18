@@ -14,7 +14,7 @@ import {
 
 import { MessageBus } from '../../../../shared/message-bus';
 import { ONE_SECOND } from '../../../../shared/utils/date';
-import { openCharonPage } from '../helpers/navigation';
+import { openCharonPage } from '../../../../shared/utils/navigation';
 import { MessageCode } from '../messages';
 import {
   listenRequestsBeforeRedirectWithBody,

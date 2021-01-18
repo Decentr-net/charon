@@ -12,13 +12,12 @@ export class BaseValidationUtil {
       return null;
     }
 
-    const controlValueArr = control.value.split(' ');
+    const controlValueArr = control.value.trim().split(' ');
 
     const isInvalid = typeof control.value === 'string'
       && (controlValueArr.length !== 24
         || controlValueArr[controlValueArr.length - 1] === ''
         || controlValueArr[0] === ''
-        || control.value.indexOf('  ') !== -1
       );
 
     return isInvalid ? { length: true } : null;

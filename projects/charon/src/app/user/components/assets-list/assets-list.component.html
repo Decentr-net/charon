@@ -1,6 +1,6 @@
 <ng-container *transloco="let translate; read: 'user.assets_list'">
   <div class="assets-list__items">
-    <div class="assets-list__item">
+    <div class="assets-list__item" (click)="select()">
       <svg-icon class="assets-list__item-icon" key="decentr-hub"></svg-icon>
       <div class="assets-list__item-name">{{ balance | microValue }} tDEC</div>
     </div>

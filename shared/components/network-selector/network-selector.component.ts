@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TrackByFunction } from '@angular/core';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
 
 import { Network, NetworkSelectorTranslations } from './network-selector.definitions';
 import { NetworkSelectorService } from './network-selector.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-network-selector',
   templateUrl: './network-selector.component.html',
@@ -12,13 +13,14 @@ import { NetworkSelectorService } from './network-selector.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NetworkSelectorComponent implements OnInit {
-  public activeNetworkName$: Observable<Network['name']>;
+  public activeNetwork: Network;
 
   public networks$: Observable<Network[]>;
 
   public translations$: Observable<NetworkSelectorTranslations>;
 
   constructor(
+    private changeDetectorRef: ChangeDetectorRef,
     private networkSelectorService: NetworkSelectorService,
   ) {
   }
@@ -26,15 +28,22 @@ export class NetworkSelectorComponent implements OnInit {
   public ngOnInit(): void {
     this.networks$ = this.networkSelectorService.getNetworks();
 
-    this.activeNetworkName$ = this.networkSelectorService.getActiveNetwork().pipe(
-      pluck('name'),
-    );
+    this.networkSelectorService.getActiveNetwork().pipe(
+      untilDestroyed(this),
+    ).subscribe((activeNetwork) => {
+      this.activeNetwork = activeNetwork;
+      this.changeDetectorRef.markForCheck();
+    });
 
     this.translations$ = this.networkSelectorService.getTranslations();
   }
 
   public switchNetwork(network: Network): void {
     this.networkSelectorService.setActiveNetwork(network);
+  }
+
+  public isNetworksEqual(left: Network, right: Network): boolean {
+    return this.networkSelectorService.isNetworksEqual(left, right);
   }
 
   public trackByName: TrackByFunction<Network> = ({}, { name }) => name;

@@ -2,12 +2,14 @@
   <div class="page-home" *ngIf="user$ | async as user">
     <div class="container" [class.no-padding]="matchMediaService.isSmall()">
       <div class="user-nav-wrapper">
-        <div></div>
+        <div>
+          <ng-template [appSlotContainer]="headerSlotName"></ng-template>
+        </div>
 
         <div class="user-data">
           <div
             class="user-data__inner"
-            (click)="copyWalletAddress(user.wallet.address)"
+            [appCopyWalletAddress]="user.wallet.address"
             [matTooltip]="translate('copy_wallet_address')"
           >
             <div class="wallet-username">

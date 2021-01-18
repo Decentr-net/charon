@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import { first, map, mapTo, switchMap } from 'rxjs/operators';
+import { combineLatest, from, Observable, of } from 'rxjs';
+import { filter, first, map, mergeMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 
@@ -10,11 +10,8 @@ import {
   NetworkSelectorService,
   NetworkSelectorTranslations,
 } from '@shared/components/network-selector';
-import {
-  Network as NetworkWithApi,
-  NetworkBrowserStorageService,
-} from '@shared/services/network-storage';
-import { PingService } from '../api';
+import { Network as NetworkWithApi, NetworkBrowserStorageService, } from '@shared/services/network-storage';
+import { PingService } from '@shared/services/ping';
 
 export type Network = NetworkWithApi & NetworkSelectorNetwork;
 
@@ -31,16 +28,17 @@ export class NetworkService extends NetworkSelectorService {
     super();
   }
 
-  public init(): Promise<void> {
-    return this.getActiveNetwork().pipe(
-      switchMap((activeNetwork) => activeNetwork
-        ? of(activeNetwork)
-        : this.getNetworks().pipe(
-          map((networks) => networks[0]),
-          switchMap((network) => this.setActiveNetwork(network)),
-        )
-      ),
-      mapTo(void 0),
+  public async init(): Promise<void> {
+    return this.getNetworks(false).pipe(
+      mergeMap((networks) => this.getActiveNetwork().pipe(
+        filter((activeNetwork) => !!activeNetwork),
+        map((activeNetwork) => {
+          return networks.find((network) => this.isNetworksEqual(network, activeNetwork));
+        }),
+      )),
+      mergeMap((translatedActiveNetwork) => {
+        return this.networkStorage.setActiveNetwork(translatedActiveNetwork)
+      }),
       first(),
     ).toPromise();
   }
@@ -49,7 +47,7 @@ export class NetworkService extends NetworkSelectorService {
     return this.networkStorage.getActiveNetwork();
   }
 
-  public getActiveNetworkInstant(): Network {
+  public getActiveNetworkInstant(): NetworkWithApi {
     return this.networkStorage.getActiveNetworkInstant();
   }
 
@@ -57,25 +55,32 @@ export class NetworkService extends NetworkSelectorService {
     return this.networkStorage.setActiveNetwork(network);
   }
 
-  public getNetworks(): Observable<Network[]> {
-    return combineLatest(
-      ['remote', 'local'].map((networkName) => {
-        const api = this.environment.rest[networkName];
-
-        return combineLatest([
-          this.translocoService
-            .selectTranslate(`network_selector.network.${networkName}`, null, 'core'),
-          this.pingService.isServerAvailable(api),
-        ])
-          .pipe(
+  public getNetworks(checkAvailable: boolean = true): Observable<Network[]> {
+    return from(this.networkStorage.getDefaultNetwork()).pipe(
+      first(),
+      mergeMap(({ api: remoteApi }) => combineLatest(
+        [
+          { key: 'remote', api: remoteApi },
+          { key: 'local', api: this.environment.rest['local'] },
+        ].map(({ key, api }) => {
+          return combineLatest([
+            this.translocoService
+              .selectTranslate(`network_selector.network.${key}`, null, 'core'),
+            checkAvailable ? this.pingService.isServerAvailable(api) : of(true),
+          ]).pipe(
             map(([name, available]) => ({
               name,
               api,
               disabled: !available,
             })),
           );
-      }),
+        }),
+      )),
     );
+  }
+
+  public isNetworksEqual(left: Network, right: Network): boolean {
+    return left?.api === right?.api;
   }
 
   public getTranslations(): Observable<NetworkSelectorTranslations> {

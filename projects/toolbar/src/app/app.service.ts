@@ -7,6 +7,7 @@ import { CoinRateFor24Hours, CurrencyService } from '@shared/services/currency';
 import { LockBrowserStorageService } from '@shared/services/lock';
 import { Network, NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { BalanceValueDynamic, PDVService, PDVUpdateNotifier } from '@shared/services/pdv';
+import { whileDocumentVisible } from '@shared/utils/document';
 
 @Injectable()
 export class AppService {
@@ -26,16 +27,18 @@ export class AppService {
   }
 
   public getBalanceWithMargin(): Observable<BalanceValueDynamic> {
-    return combineLatest([
-      this.getWalletAddressAndNetworkApiChanges(),
-      PDVUpdateNotifier.listen().pipe(
-        startWith(void 0),
+    return whileDocumentVisible(
+      combineLatest([
+        this.getWalletAddressAndNetworkApiChanges(),
+        PDVUpdateNotifier.listen().pipe(
+          startWith(void 0),
+        ),
+      ]).pipe(
+        switchMap(([{ walletAddress, networkApi }]) => {
+          return this.pdvService.getBalanceWithMargin(networkApi, walletAddress);
+        }),
       ),
-    ]).pipe(
-      switchMap(([{ walletAddress, networkApi }]) => {
-        return this.pdvService.getBalanceWithMargin(networkApi, walletAddress);
-      }),
-    )
+    );
   }
 
   public getCoinRateWithMargin(): Observable<CoinRateFor24Hours> {
