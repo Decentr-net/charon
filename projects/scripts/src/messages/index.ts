@@ -1,4 +1,5 @@
 export enum MessageCode {
+  CoinTransferred = 'CHARON_COIN_TRANSFERRED',
   Navigate = 'CHARON_NAVIGATE',
   PostCreate = 'CHARON_POST_CREATE',
   PostDelete = 'CHARON_POST_DELETE',
