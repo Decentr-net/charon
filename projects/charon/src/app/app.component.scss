@@ -1,0 +1,19 @@
+:host {
+  .app-init-loading {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 594px;
+
+    &__icon {
+      display: inline-flex;
+      font-size: 50px;
+      margin-bottom: .5rem;
+    }
+
+    &__message {
+      font-size: 18px;
+    }
+  }
+}
