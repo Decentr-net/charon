@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
+import { AutoFocusModule } from '@shared/directives/auto-focus';
 import { FormErrorModule } from '@shared/components/form-error';
 import { LOGIN_PAGES } from './pages';
 import { LoginRoutingModule } from './login-routing.module';
@@ -16,6 +17,7 @@ import { LoginRoutingModule } from './login-routing.module';
     LOGIN_PAGES,
   ],
   imports: [
+    AutoFocusModule,
     CommonModule,
     FormErrorModule,
     LoginRoutingModule,
