@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit } from 
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { LikeWeight } from 'decentr-js';
 
 import { svgLike } from '@shared/svg-icons';
@@ -59,13 +59,13 @@ export class HubPostRatingComponent implements OnInit {
   }
 
   private changeLikeWeight(post: PostWithAuthor, newLikeWeight: LikeWeight): void {
+    // this subscription has no unsubscribe logic
+    // to ensure the post was updated after some dialog (for ex) closed
     this.hubLikesService.likePost(
       this.postId,
       post.likeWeight === newLikeWeight
         ? LikeWeight.Zero
         : newLikeWeight
-    ).pipe(
-      untilDestroyed(this),
     ).subscribe();
   }
 }

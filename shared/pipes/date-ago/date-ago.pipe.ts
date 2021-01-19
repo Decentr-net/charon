@@ -23,8 +23,8 @@ export class DateAgoPipe implements PipeTransform, OnDestroy {
     const seconds = Math.round(Math.abs((now.getTime() - date.getTime()) / 1000));
     const timeToUpdate = (Number.isNaN(seconds)) ? 1000 : this.getSecondsUntilUpdate(seconds) * 1000;
 
-    const minutes = Math.round(Math.abs(seconds / 60));
-    const hours = Math.round(Math.abs(minutes / 60));
+    const minutes = Math.floor(Math.abs(seconds / 60));
+    const hours = Math.floor(Math.abs(minutes / 60));
     const days = Math.round(Math.abs(hours / 24));
     const months = Math.round(Math.abs(days / 30.416));
     const years = Math.round(Math.abs(days / 365));
@@ -47,15 +47,15 @@ export class DateAgoPipe implements PipeTransform, OnDestroy {
       params = { translateKey: 'second' };
     } else if (seconds <= 90) {
       params = { translateKey: 'minute' };
-    } else if (minutes <= 45) {
+    } else if (minutes < 60) {
       params = { translateKey: 'minutes', value: minutes };
-    } else if (minutes <= 90) {
+    } else if (minutes < 120) {
       params = { translateKey: 'hour' };
-    } else if (hours <= 23) {
+    } else if (hours < 24) {
       params = { translateKey: 'hours', value: hours };
-    } else if (hours <= 36) {
+    } else if (hours < 48) {
       params = { translateKey: 'day' };
-    } else if (days <= 25) {
+    } else if (days <= 28) {
       params = { translateKey: 'days', value: days };
     } else if (days <= 45) {
       params = { translateKey: 'month' };

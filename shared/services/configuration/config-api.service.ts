@@ -1,8 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { defer, Observable } from 'rxjs';
 
-import { Environment } from '@environments/environment.definitions';
+import { Environment } from '../../../environments/environment.definitions';
 
 export interface Config {
   network: {
@@ -15,17 +14,20 @@ export interface Config {
 export class ConfigApiService {
   constructor(
     private environment: Environment,
-    private httpClient: HttpClient,
   ) {
   }
 
   public getConfig(): Observable<Config> {
-    const headers = new HttpHeaders({
+    const now = Date.now();
+    const headers = {
       'Cache-Control': 'no-cache',
       'Pragma': 'no-cache',
       'Expires': '0'
-    });
+    };
 
-    return this.httpClient.get<Config>(`${this.environment.awsStorage}/config.json`, { headers });
+    return defer(() => {
+      return fetch(`${this.environment.awsStorage}/config.json?${now}`, { headers })
+        .then((response) => response.json());
+    });
   }
 }

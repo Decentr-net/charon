@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { mapTo, tap } from 'rxjs/operators';
-import { PostCreate } from 'decentr-js';
+import { PostCreate, Wallet } from 'decentr-js';
 
+import { AuthService } from '@core/auth/services';
 import { BrowserLocalStorage } from '@shared/services/browser-storage';
 import { PostsService } from '@core/services';
 
 interface PostStorageValue {
-  draft: PostCreate;
+  draft: Record<Wallet['address'], PostCreate>;
 }
 
 @Injectable()
@@ -19,6 +20,7 @@ export class HubCreatePostService {
   private postCreated: Subject<void> = new Subject();
 
   constructor(
+    private authService: AuthService,
     private postsService: PostsService,
   ) {
   }
@@ -28,11 +30,23 @@ export class HubCreatePostService {
   }
 
   public getDraft(): Promise<PostCreate> {
-    return this.postStorage.pop('draft');
+    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
+
+    return this.postStorage.get('draft').then((draft) => draft && draft[walletAddress]);
   }
 
-  public saveDraft(post: PostCreate): Promise<void> {
-    return this.postStorage.set('draft', post);
+  public async saveDraft(post: PostCreate): Promise<void> {
+    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
+    const prevDraft = await this.postStorage.get('draft');
+
+    return this.postStorage.set('draft', {
+      ...prevDraft,
+      [walletAddress]: post,
+    });
+  }
+
+  public removeDraft(): Promise<void> {
+    return this.saveDraft(undefined);
   }
 
   public createPost(post: PostCreate): Observable<void> {

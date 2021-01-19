@@ -66,6 +66,7 @@
         <input
           matInput
           formControlName="amount"
+          (keydown)="onAmountKeyDown($event)"
         >
 
         <mat-error>
@@ -79,7 +80,7 @@
         type="button"
         color="accent"
         mat-stroked-button
-        [routerLink]="['/', appRoute.User]"
+        [appNavigateBack]="['/', appRoute.User]"
       >
         {{ translate('cancel') }}
       </button>

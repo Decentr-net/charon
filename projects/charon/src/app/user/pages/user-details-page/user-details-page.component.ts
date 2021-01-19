@@ -9,6 +9,7 @@ import { ChartPoint, PDVActivityListItem } from '../../components';
 import { USER_PAGE_HEADER_SLOT } from '../user-page';
 import { UserDetailsPageActivityService } from './user-details-page-activity.service';
 import { UserDetailsPageService } from './user-details-page.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @UntilDestroy()
 @Component({
@@ -36,9 +37,11 @@ export class UserDetailsPageComponent implements OnInit {
   public userPageHeaderSlotName = USER_PAGE_HEADER_SLOT;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private changeDetectorRef: ChangeDetectorRef,
     private userDetailsPageService: UserDetailsPageService,
     private userDetailsPageActivityService: UserDetailsPageActivityService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -65,7 +68,11 @@ export class UserDetailsPageComponent implements OnInit {
 
     this.showBankBalance$ = this.selectedTabIndex$.pipe(
       map((index) => index === 2),
-    )
+    );
+
+    this.activatedRoute.fragment.pipe(
+      untilDestroyed(this),
+    ).subscribe((tabIndex) => this.selectedTabIndex$.next(+tabIndex));
   }
 
   public showTransferHistory(): void {
@@ -87,5 +94,11 @@ export class UserDetailsPageComponent implements OnInit {
 
   public onTabChange(tabIndex: number): void {
     this.selectedTabIndex$.next(tabIndex);
+
+    this.router.navigate(['./'], {
+      fragment: tabIndex.toString(),
+      relativeTo: this.activatedRoute,
+      replaceUrl: true,
+    });
   }
 }

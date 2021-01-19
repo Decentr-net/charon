@@ -75,7 +75,7 @@ export class ImportRestorePageComponent implements OnInit {
         untilDestroyed(this),
       )
       .subscribe((value) => {
-        seedPhraseControl.setValue(value.toLowerCase(), { emitEvent: false });
+        seedPhraseControl.setValue(value.replace(/\s+/g, ' ').toLowerCase(), { emitEvent: false });
       });
   }
 
@@ -89,10 +89,11 @@ export class ImportRestorePageComponent implements OnInit {
 
   public onSubmit(pageType: ImportRestorePageType): void {
     const { seedPhrase, password } = this.form.getRawValue();
+    const trimmedSeedPhrase = seedPhrase.trim();
 
     const method = pageType === ImportRestorePageType.IMPORT_ACCOUNT
-      ? this.pageService.importUser(seedPhrase, password)
-      : this.pageService.restoreUser(seedPhrase, password);
+      ? this.pageService.importUser(trimmedSeedPhrase, password)
+      : this.pageService.restoreUser(trimmedSeedPhrase, password);
 
     this.spinnerService.showSpinner();
 

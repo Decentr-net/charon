@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { BrowserTabGuard } from '@core/guards';
+import { BrowserTabGuard, SupportedVersionGuard, UpdateGuard } from '@core/guards';
 import {
   AuthCompletedRegistrationGuard,
   UnauthGuard,
@@ -18,11 +18,15 @@ const ROUTES: Routes = [
   {
     path: AppRoute.Login,
     loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
+    canActivate: [
+      SupportedVersionGuard,
+    ],
   },
   {
     path: AppRoute.SignUp,
     loadChildren: () => import('./sign-up/sign-up.module').then(m => m.SignUpModule),
     canActivate: [
+      SupportedVersionGuard,
       BrowserTabGuard,
     ],
   },
@@ -33,6 +37,7 @@ const ROUTES: Routes = [
       AuthCompletedRegistrationGuard,
     ],
     canActivate: [
+      SupportedVersionGuard,
       AuthCompletedRegistrationGuard,
       LockGuard,
     ],
@@ -47,6 +52,7 @@ const ROUTES: Routes = [
       UnauthGuard,
     ],
     canActivate: [
+      SupportedVersionGuard,
       BrowserTabGuard,
       UnauthGuard,
     ],
@@ -58,6 +64,7 @@ const ROUTES: Routes = [
       AuthCompletedRegistrationGuard,
     ],
     canActivate: [
+      SupportedVersionGuard,
       BrowserTabGuard,
       AuthCompletedRegistrationGuard,
       LockGuard,
@@ -65,7 +72,14 @@ const ROUTES: Routes = [
     canDeactivate: [
       LockGuard,
     ],
-  }
+  },
+  {
+    path: AppRoute.Update,
+    loadChildren: () => import('./update/update.module').then(m => m.UpdateModule),
+    canActivate: [
+      UpdateGuard,
+    ],
+  },
 ];
 
 @NgModule({
