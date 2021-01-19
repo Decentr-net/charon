@@ -6,7 +6,7 @@
 
     <app-user-bank-balance
       *ngIf="showBankBalance$ | async; else userPDVBalance"
-      [bankBalance]="bankBalance$ | async"
+      [bankBalance]="bankBalance"
     ></app-user-bank-balance>
 
     <ng-template #userPDVBalance>
@@ -58,7 +58,7 @@
       <mat-tab [label]="translate('tabs.assets')">
         <div class="tab-container">
           <app-assets-list
-            [balance]="bankBalance$ | async"
+            [balance]="bankBalance"
             (selected)="showTransferHistory()"
           ></app-assets-list>
         </div>

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, share } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BankCoin } from 'decentr-js';
 
@@ -23,7 +23,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   ],
 })
 export class UserDetailsPageComponent implements OnInit {
-  public bankBalance$: Observable<BankCoin['amount']>;
+  public bankBalance: BankCoin['amount'];
   public coinRate$: Observable<number>;
   public balance: BalanceValueDynamic;
   public pdvList$: Observable<PDVActivityListItem[]>;
@@ -54,9 +54,12 @@ export class UserDetailsPageComponent implements OnInit {
       this.changeDetectorRef.detectChanges();
     });
 
-    this.bankBalance$ = this.userDetailsPageService.getBankBalance().pipe(
-      share(),
-    );
+    this.userDetailsPageService.getBankBalance().pipe(
+      untilDestroyed(this),
+    ).subscribe((bankBalance) => {
+      this.bankBalance = bankBalance;
+      this.changeDetectorRef.detectChanges();
+    });
 
     this.pdvList$ = this.userDetailsPageActivityService.activityList$;
 
