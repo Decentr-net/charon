@@ -37,10 +37,10 @@
     >
       <mat-tab [label]="translate('tabs.pdv_rate')">
         <div class="tab-container">
-          <app-chart
+          <app-activity-chart
             *ngIf="chartPoints$ | async as points"
             [data]="points"
-          ></app-chart>
+          ></app-activity-chart>
         </div>
       </mat-tab>
 

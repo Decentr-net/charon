@@ -55,10 +55,17 @@ export class PDVService extends NativePDVService {
   }
 
   public getPDVStatChartPoints(): Observable<PDVStatChartPoint[]> {
-    return this.stateChangesService.getWalletAndNetworkApiChanges().pipe(
-      switchMap(({ wallet, networkApi }) => {
-        return super.getPDVStatChartPoints(networkApi, wallet.address);
-      }),
+    return whileDocumentVisible(
+      combineLatest([
+        this.stateChangesService.getWalletAndNetworkApiChanges(),
+        PDVUpdateNotifier.listen().pipe(
+          startWith(void 0),
+        ),
+      ]).pipe(
+        switchMap(([{ wallet, networkApi }]) => {
+          return super.getPDVStatChartPoints(networkApi, wallet.address);
+        }),
+      ),
     );
   }
 
