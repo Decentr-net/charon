@@ -2,6 +2,9 @@
   class="hub-simple-text-editor__quill"
   [placeholder]="''"
   [formControl]="quillControl"
+  (onBlur)="onBlur()"
+  (onContentChanged)="onTextInput()"
+  (onSelectionChanged)="onSelectionChanged($event)"
 ></quill-editor>
 
 <ng-container *transloco="let translate; read: 'hub.hub_simple_text_editor'">
