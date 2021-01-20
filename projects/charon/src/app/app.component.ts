@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { filter, take } from 'rxjs/operators';
-import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
+import { NavigationCancel, NavigationEnd, NavigationError, Router } from '@angular/router';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -27,15 +27,13 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.router.events.pipe(
+      filter(event =>
+        event instanceof NavigationEnd ||
+        event instanceof NavigationCancel ||
+        event instanceof NavigationError,
+      ),
       take(1),
       untilDestroyed(this),
-      filter(
-        event =>
-          event instanceof NavigationStart ||
-          event instanceof NavigationEnd ||
-          event instanceof NavigationCancel ||
-          event instanceof NavigationError,
-      ),
     ).subscribe(() => {
       this.isInitLoading = false;
     });
