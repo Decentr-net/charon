@@ -1,5 +1,6 @@
 {
   "feed_page": {
+    "no_posts": "There is no activity last 24 hours",
     "top_feed": "TOP 24 hours"
   },
   "hub_activity_distribution": {
