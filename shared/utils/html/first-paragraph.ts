@@ -1,3 +1,5 @@
+import { createFragmentWrappedContainer } from './fragment-wrapped-fragment';
+
 export const getFirstParagraph = (
   html: string,
   options?: { skipLineBreak: boolean },
@@ -41,12 +43,4 @@ export const getFirstParagraph = (
   }
 
   return target.innerHTML + (source.textContent > target.textContent ? '...' : '');
-}
-
-const createFragmentWrappedContainer = (): HTMLDivElement => {
-  const fragment = document.createDocumentFragment();
-  const container = document.createElement('div');
-  fragment.appendChild(container);
-
-  return container;
 }

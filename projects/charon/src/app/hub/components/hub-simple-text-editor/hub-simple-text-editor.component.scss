@@ -1,4 +1,3 @@
-$hub-simple-text-editor--placeholder--color: #9EA0A5;
 $hub-simple-text-editor--add-image-icon--disabled-color: #9EA0A5;
 
 :host {
@@ -10,17 +9,29 @@ $hub-simple-text-editor--add-image-icon--disabled-color: #9EA0A5;
   }
 }
 
-.hub-simple-text-editor__text-container {
+.hub-simple-text-editor__quill {
   height: 100%;
   overflow-y: auto;
 
-  &:empty:before {
-    color: $hub-simple-text-editor--placeholder--color;
-    content: attr(placeholder);
-    pointer-events: none;
-  }
+  &::ng-deep {
+    .ql-container {
+      border: none;
+      font-size: 1rem;
+    }
 
-  ::ng-deep {
+    .ql-editor {
+      padding: 0;
+    }
+
+    .ql-toolbar {
+      display: none;
+      padding: 0;
+    }
+
+    .mat-form-field-label {
+      display: none;
+    }
+
     img {
       display: block;
       padding: 10px 0;
