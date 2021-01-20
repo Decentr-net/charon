@@ -17,7 +17,7 @@ import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { BehaviorSubject, fromEvent, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, mergeMap, share } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { ControlValueAccessor, FormControl } from '@ngneat/reactive-forms';
@@ -147,8 +147,6 @@ export class HubSimpleTextEditorComponent
       this.focused = !!origin;
       this.stateChanges.next();
     });
-
-    fromEvent(this.elementRef.nativeElement, 'blur').subscribe(console.log);
   }
 
   public ngDoCheck(): void {
