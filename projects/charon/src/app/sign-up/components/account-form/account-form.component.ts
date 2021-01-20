@@ -61,7 +61,7 @@ export class AccountFormComponent implements OnInit {
       ]],
       email: ['', [
         Validators.required,
-        Validators.email,
+        RxwebValidators.email(),
       ]],
       password: ['', [
         Validators.required,
