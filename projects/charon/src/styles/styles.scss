@@ -162,6 +162,11 @@ mat-form-field {
 
   .mat-form-field-infix {
     border-top: 0.3em solid transparent;
+
+    input {
+      line-height: 1.25rem;
+      margin-bottom: -0.0625em;
+    }
   }
 }
 
@@ -172,6 +177,10 @@ mat-form-field {
     .mat-form-field-outline-end {
       border-width: 1px !important;
     }
+  }
+
+  .mat-form-field-infix {
+    margin: -0.05em 0 0.05em 0;
   }
 }
 
