@@ -24,6 +24,12 @@
           <mat-divider *ngIf="!last"></mat-divider>
         </ng-container>
       </app-hub-infinite-posts-container>
+
+      <ng-template [ngIf]="(isLoading$ | async) === false && (posts$ | async)?.length === 0">
+        <div class="feed-page__top-feed__no-posts">
+          {{ translate('no_posts') }}
+        </div>
+      </ng-template>
     </div>
   </div>
 </ng-container>

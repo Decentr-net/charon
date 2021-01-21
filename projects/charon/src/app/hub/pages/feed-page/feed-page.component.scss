@@ -1,4 +1,5 @@
 $feed-page--top-feed-header--background-color: #FFFFFF;
+$feed-page--top-feed--no-posts--color: #9EA0A5;
 
 :host {
   display: flex;
@@ -34,4 +35,11 @@ $feed-page--top-feed-header--background-color: #FFFFFF;
   height: 100%;
   overflow: auto;
   padding-bottom: 30px;
+}
+
+.feed-page__top-feed__no-posts {
+  color: $feed-page--top-feed--no-posts--color;
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
 }
