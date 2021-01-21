@@ -26,6 +26,7 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
   @Input() public data: ChartPoint[];
   @Input() private color: string;
   @Input() private isMinYZero: boolean = false;
+  @Input() private showArea: boolean = true;
 
   private containerWidth: number;
   private containerHeight: number;
@@ -45,7 +46,10 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
     this.createSvg();
     this.createAxis();
     this.drawLine();
-    this.drawArea();
+
+    if (this.showArea) {
+      this.drawArea();
+    }
 
     observeResize(this.chartRef.nativeElement).pipe(
       untilDestroyed(this)
@@ -160,7 +164,10 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
   private updateChart(): void {
     this.updateAxis();
     this.updateChartData(this.chartContainer.selectAll('.line'), this.line);
-    this.updateChartData(this.chartContainer.selectAll('.area'), this.area);
+
+    if (this.showArea) {
+      this.updateChartData(this.chartContainer.selectAll('.area'), this.area);
+    }
   }
 
   private updateAxisData = (elem, options) => elem
