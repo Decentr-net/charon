@@ -3,7 +3,7 @@ import { Directive, HostListener, Input } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { Wallet } from 'decentr-js';
 
-import { NotificationService } from '../../services/notification';
+import { NotificationService } from '@shared/services/notification';
 
 @Directive({
   selector: '[appCopyWalletAddress]'

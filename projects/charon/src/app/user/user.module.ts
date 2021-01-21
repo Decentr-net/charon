@@ -15,7 +15,7 @@ import { SvgIconsModule } from '@ngneat/svg-icon';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
-import { CopyWalletAddressModule } from '@shared/directives/copy-wallet-address';
+import { CopyWalletAddressModule } from './directives/copy-wallet-address';
 import { FormErrorModule } from '@shared/components/form-error';
 import { SlotModule } from '@shared/components/slot';
 import { SpinnerModule } from '@shared/components/spinner';
@@ -31,13 +31,11 @@ import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { USER_PAGES } from './pages';
 import { USER_COMPONENTS } from './components';
 import { UserRoutingModule } from './user-routing.module';
-import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   imports: [
     CommonModule,
     CopyWalletAddressModule,
-    ClipboardModule,
     FormErrorModule,
     FormsModule,
     InlineSVGModule,
