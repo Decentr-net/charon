@@ -1,4 +1,12 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input, OnChanges,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as d3 from 'd3';
 
@@ -12,7 +20,7 @@ import { observeResize } from '@shared/utils/observe-resize';
   styleUrls: ['./line-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LineChartComponent implements AfterViewInit {
+export class LineChartComponent implements AfterViewInit, OnChanges {
   @ViewChild('chart', { static: false }) chartRef: ElementRef;
 
   @Input() public data: ChartPoint[];
@@ -32,7 +40,7 @@ export class LineChartComponent implements AfterViewInit {
   private line: d3.Line<ChartPoint>;
   private area: d3.Area<ChartPoint>;
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.setChartSize();
     this.createSvg();
     this.createAxis();
@@ -42,6 +50,16 @@ export class LineChartComponent implements AfterViewInit {
     observeResize(this.chartRef.nativeElement).pipe(
       untilDestroyed(this)
     ).subscribe(() => this.resizeWorks());
+  }
+
+  public ngOnChanges({ data }: SimpleChanges): void {
+    if (data) {
+      this.data = data.currentValue;
+
+      if (this.chartRef) {
+        this.resizeWorks();
+      }
+    }
   }
 
   private resizeWorks(): void {
