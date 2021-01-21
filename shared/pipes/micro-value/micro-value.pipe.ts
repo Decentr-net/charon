@@ -14,6 +14,6 @@ export class MicroValuePipe implements PipeTransform {
   public transform(value: string | number, digitsInfo: string = '1.6'): string {
     return value
       ? this.decimalPipe.transform(Number(value) / 1000000, digitsInfo).replace(',', '')
-      : null;
+      : '';
   }
 }
