@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { share, startWith, switchMap } from 'rxjs/operators';
+import { combineLatest, EMPTY, Observable } from 'rxjs';
+import { catchError, share, startWith, switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PDVDetails, PDVListItem, Wallet } from 'decentr-js';
 
@@ -84,6 +84,7 @@ export class PDVService extends NativePDVService {
         switchMap(([{ wallet, networkApi }]) => {
           return super.getBalance(networkApi, wallet.address);
         }),
+        catchError(() => EMPTY),
       ),
     );
   }
@@ -98,7 +99,8 @@ export class PDVService extends NativePDVService {
       ]).pipe(
         switchMap(([{ wallet, networkApi }]) => {
           return super.getBalanceWithMargin(networkApi, wallet.address);
-        })
+        }),
+        catchError(() => EMPTY),
       ),
     );
   }
@@ -114,6 +116,7 @@ export class PDVService extends NativePDVService {
         switchMap(([{ wallet, networkApi }]) => {
           return super.getPDVStatChartPoints(networkApi, wallet.address);
         }),
+        catchError(() => EMPTY),
       ),
     );
   }
