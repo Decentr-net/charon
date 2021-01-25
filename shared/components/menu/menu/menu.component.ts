@@ -37,9 +37,7 @@ export class MenuComponent implements OnInit {
 
     this.links$ = this.menuService.getLinks();
 
-    this.userLink$ = this.menuService.getUserLink().pipe(
-      shareReplay(1),
-    );
+    this.userLink$ = this.menuService.getUserLink();
   }
 
   public lock(): void {
