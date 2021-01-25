@@ -27,6 +27,7 @@ import { QuillEditorComponent, Range, SelectionChange } from 'ngx-quill';
 import { svgAddImage } from '@shared/svg-icons';
 import { NotificationService } from '@shared/services/notification';
 import { createFragmentWrappedContainer, decodeHtml } from '@shared/utils/html';
+import Delta from '@core/quill/delta';
 
 @UntilDestroy()
 @Component({
@@ -146,6 +147,19 @@ export class HubSimpleTextEditorComponent
     ).subscribe((origin) => {
       this.focused = !!origin;
       this.stateChanges.next();
+    });
+
+    this.quillEditor.onEditorCreated.pipe(
+      untilDestroyed(this),
+    ).subscribe(({ clipboard }) => {
+      clipboard.addMatcher(Node.ELEMENT_NODE, ({}, delta) => {
+        delta.forEach(e => e.attributes = undefined);
+        return delta;
+      });
+
+      clipboard.addMatcher('IMG', () => new Delta().insert(''));
+
+      clipboard.addMatcher('PICTURE', () => new Delta().insert(''));
     });
   }
 
