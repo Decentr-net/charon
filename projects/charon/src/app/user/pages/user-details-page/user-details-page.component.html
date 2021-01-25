@@ -46,10 +46,13 @@
 
       <mat-tab [label]="translate('tabs.activity')">
         <div class="tab-container">
-          <app-activity-list
-            [items]="pdvList$ | async"
-            (details)="openPDVDetails($event)"
-          ></app-activity-list>
+          <ng-container *ngIf="pdvList$ | async as pdvList">
+            <app-activity-list
+              *ngIf="pdvList.length || (isLoadingActivity$ | async) === false"
+              [items]="pdvList"
+              (details)="openPDVDetails($event)"
+            ></app-activity-list>
+          </ng-container>
 
           <ng-template [ngTemplateOutlet]="activityLoading"></ng-template>
         </div>
