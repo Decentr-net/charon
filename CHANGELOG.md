@@ -64,7 +64,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix dHub: remove draft only after it successful posted.
 
 ## 1.0.8
+
+### Added
+
+- dPortal assets: transfer history.
+
+### Fixed
+
+- dPortal mini-view: adjust height.
+- dPortal assets: reduce of requests to DEC balance.
+- Disable update PDV on inactive browser tabs.
+
 ## 1.0.7
+
+### Added
+
+- dPortal assets: transfer DEC coins.
+- Sync Charon transactions. Querying of transactions.
+
+### Fixed
+
+- dPortal: stop rising of balance requests if keep page inactive.
+
 ## 1.0.6
 ## 1.0.5
 ## 1.0.4
