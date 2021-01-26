@@ -19,6 +19,7 @@ import { CopyWalletAddressModule } from './directives/copy-wallet-address';
 import { FormErrorModule } from '@shared/components/form-error';
 import { SlotModule } from '@shared/components/slot';
 import { SpinnerModule } from '@shared/components/spinner';
+import { LineChartModule } from '@shared/components/line-chart';
 import { MatDividerModule } from '@angular/material/divider';
 import { MicroValueModule } from '@shared/pipes/micro-value';
 import { NavigationModule } from '@core/navigation';
@@ -41,6 +42,7 @@ import { UserRoutingModule } from './user-routing.module';
     InlineSVGModule,
     IntersectionModule,
     LayoutHeaderModule,
+    LineChartModule,
     MatExpansionModule,
     MatButtonModule,
     MatDialogModule,

@@ -5,12 +5,13 @@ import { BankCoin, PDVDetails, PDVListItem } from 'decentr-js';
 
 import { AuthService } from '@core/auth/services';
 import { MessageBus } from '@shared/message-bus';
+import { ChartPoint } from '@shared/components/line-chart';
 import { CurrencyService } from '@shared/services/currency';
 import { NotificationService } from '@shared/services/notification';
 import { BalanceValueDynamic } from '@shared/services/pdv';
 import { MessageCode } from '@scripts/messages';
 import { BankService, MediaService, PDVService, SpinnerService } from '@core/services';
-import { ChartPoint, PDVActivityListItem, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
+import { PDVActivityListItem, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { finalize, startWith, switchMap } from 'rxjs/operators';
 

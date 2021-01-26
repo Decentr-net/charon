@@ -1,1 +1,11 @@
 <figure #chart class="chart"></figure>
+<div
+  #tooltipContainer
+  class="tooltip"
+>
+  <ng-container
+    *ngIf="chartPointActive"
+    [ngTemplateOutlet]="tooltipRef"
+    [ngTemplateOutletContext]="{ $implicit: chartPointActive }"
+  ></ng-container>
+</div>

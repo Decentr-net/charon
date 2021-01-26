@@ -76,6 +76,17 @@
   height: 100%;
 }
 
+.user-page__pdv-rate__container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.user-page__pdv-rate__spinner {
+  height: 45px;
+  width: 45px;
+}
+
 .user-page__pdv-activity-list__loading-container {
   display: flex;
   justify-content: center;

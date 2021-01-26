@@ -32,11 +32,24 @@
     </div>
 
     <app-line-chart
-      class="hub-currency-statistics__chart"
       *ngIf="statistics.points.length > 0; else noData"
-      [data]="statistics.points"
+      class="hub-currency-statistics__chart"
       color="#FDC900"
-    ></app-line-chart>
+      [data]="statistics.points"
+      [showArea]="true"
+      [showHoverLine]="true"
+      [showTooltip]="true"
+    >
+      <div
+        *appLineChartTooltip="let chartPoint"
+        class="hub-currency-statistics__tooltip"
+      >
+        {{ chartPoint.value | currency : 'USD' :'symbol' :'1.4' }}
+        <div class="hub-currency-statistics__tooltip-date">
+          {{ chartPoint.date | date }}
+        </div>
+      </div>
+    </app-line-chart>
 
     <ng-template #noData>
       <div class="hub-currency-statistics__no-data">
