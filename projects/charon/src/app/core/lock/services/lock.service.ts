@@ -1,5 +1,5 @@
 import { Inject, Injectable, NgZone, Optional } from '@angular/core';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router, UrlTree } from '@angular/router';
 import { fromEvent, merge, Observable, ReplaySubject } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -116,7 +116,7 @@ export class LockService {
   public navigateToUnlockedUrl(): Promise<boolean> {
     const returnUrl = this.activatedRoute.snapshot.queryParamMap.get(LOCK_RETURN_URL_PARAM);
 
-    return this.navigate(isOpenedInTab() ? returnUrl || '/' : AppRoute.User);
+    return this.navigate(isOpenedInTab() ? this.router.parseUrl(returnUrl || '/') : AppRoute.User);
   }
 
   private init(): void {
@@ -164,8 +164,12 @@ export class LockService {
     return this.lockStorage.setLastActivityTime(Date.now());
   }
 
-  private navigate(url: string, extras?: NavigationExtras): Promise<boolean> {
-    return this.ngZone.run(() => this.router.navigate([url], extras));
+  private navigate(url: string | UrlTree, extras?: NavigationExtras): Promise<boolean> {
+    return this.ngZone.run(() => {
+      return url instanceof UrlTree
+        ? this.router.navigateByUrl(url, extras)
+        : this.router.navigate([url], extras);
+    });
   }
 
   private isOnLockedPage(): boolean {
