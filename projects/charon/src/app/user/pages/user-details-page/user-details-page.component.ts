@@ -1,15 +1,16 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BankCoin } from 'decentr-js';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { BankCoin } from 'decentr-js';
 
 import { BalanceValueDynamic } from '@shared/services/pdv';
-import { ChartPoint, PDVActivityListItem } from '../../components';
+import { ChartPoint } from '@shared/components/line-chart';
+import { PDVActivityListItem } from '../../components';
 import { USER_PAGE_HEADER_SLOT } from '../user-page';
 import { UserDetailsPageActivityService } from './user-details-page-activity.service';
 import { UserDetailsPageService } from './user-details-page.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @UntilDestroy()
 @Component({

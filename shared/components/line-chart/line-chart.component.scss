@@ -1,7 +1,17 @@
 :host {
   display: block;
+  position: relative;
 }
 
 .chart {
   height: inherit;
+  position: relative;
+}
+
+.tooltip {
+  background: #FFFFFF;
+  pointer-events: none;
+  position: absolute;
+  transform: translateY(-50%);
+  visibility: hidden;
 }

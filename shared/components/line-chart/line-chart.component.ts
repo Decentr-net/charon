@@ -1,9 +1,27 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ContentChild,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as d3 from 'd3';
 
-import { ChartPoint } from '@shared/components/line-chart';
+import { ChartPoint } from './line-chart.module';
+import { coerceTimestamp } from '@shared/utils/date';
 import { observeResize } from '@shared/utils/observe-resize';
+import { LineChartTooltipDirective } from './line-chart-tooltip.directive';
+import { Subject } from 'rxjs';
+import { throttleTime } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -12,39 +30,80 @@ import { observeResize } from '@shared/utils/observe-resize';
   styleUrls: ['./line-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LineChartComponent implements AfterViewInit {
+export class LineChartComponent implements AfterViewInit, OnChanges {
+  @ContentChild(LineChartTooltipDirective, { static: false, read: TemplateRef }) tooltipRef: TemplateRef<{}>;
+
+  @ViewChild('tooltipContainer', { static: true }) tooltipContainerRef: ElementRef;
   @ViewChild('chart', { static: false }) chartRef: ElementRef;
 
   @Input() public data: ChartPoint[];
-  @Input() private color: string;
+  @Input() private color: string = '#000000';
   @Input() private isMinYZero: boolean = false;
+  @Input() private lineWidth: number = 2;
+  @Input() private showArea: boolean = false;
+  @Input() private showHoverLine: boolean = false;
+  @Input() private showTooltip: boolean = false;
 
-  private containerWidth: number;
+  @Output() public chartPointHovered: EventEmitter<ChartPoint> = new EventEmitter();
+
   private containerHeight: number;
-  private width: number;
+  private containerWidth: number;
   private height: number;
-  private margin = { top: 5, right: 5, bottom: 5, left: 5 };
+  private margin = {
+    bottom: 5,
+    left: 5,
+    right: 5,
+    top: 5
+  };
+  private width: number;
 
-  private svg: d3.Selection<SVGSVGElement, unknown, null, undefined>;
   private chartContainer: d3.Selection<SVGSVGElement, unknown, null, undefined>;
+  public chartPointActive: ChartPoint;
+  private hoverLine: d3.Selection<SVGGElement, unknown, null, undefined>;
+  private onMouserMoveSubj = new Subject<MouseEvent>();
+  private svg: d3.Selection<SVGSVGElement, unknown, null, undefined>;
+  private tooltip: d3.Selection<any, unknown, HTMLElement, any>;
+
+  private area: d3.Area<ChartPoint>;
+  private line: d3.Line<ChartPoint>;
   private x: d3.ScaleTime<number, number>;
   private y: d3.ScaleLinear<number, number>;
-  private line: d3.Line<ChartPoint>;
-  private area: d3.Area<ChartPoint>;
 
-  ngAfterViewInit(): void {
+  constructor(
+    private cdRef: ChangeDetectorRef,
+  ) {
+  }
+
+  public ngAfterViewInit(): void {
     this.setChartSize();
     this.createSvg();
     this.createAxis();
     this.drawLine();
-    this.drawArea();
+
+    if (this.showArea) {
+      this.drawArea();
+    }
 
     observeResize(this.chartRef.nativeElement).pipe(
       untilDestroyed(this)
-    ).subscribe(() => this.resizeWorks());
+    ).subscribe(() => this.repaint());
+
+    this.onMouserMoveSubj.pipe(
+      throttleTime(10),
+      untilDestroyed(this),
+    ).subscribe((event) => this.onMouseMove(event));
   }
 
-  private resizeWorks(): void {
+  public ngOnChanges({ data }: SimpleChanges): void {
+    if (data) {
+      this.data = data.currentValue;
+      if (this.svg) {
+        this.repaint();
+      }
+    }
+  }
+
+  private repaint(): void {
     this.setChartSize();
     this.updateSvgDimensions();
     this.updateChart();
@@ -54,8 +113,8 @@ export class LineChartComponent implements AfterViewInit {
     this.containerWidth = this.chartRef.nativeElement.clientWidth;
     this.containerHeight = this.chartRef.nativeElement.clientHeight;
 
-    this.width = this.containerWidth - this.margin.left - this.margin.right;
-    this.height = this.containerHeight - this.margin.top - this.margin.bottom;
+    this.width = (this.containerWidth - this.margin.left - this.margin.right >= 0) ? this.containerWidth - this.margin.left - this.margin.right : 0;
+    this.height = (this.containerWidth - this.margin.left - this.margin.right >= 0) ? this.containerHeight - this.margin.top - this.margin.bottom : 0;
   }
 
   private createSvg(): void {
@@ -69,7 +128,107 @@ export class LineChartComponent implements AfterViewInit {
       .attr('class', 'chart-container')
       .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
 
+    this.svg
+      .append('rect')
+      .attr('transform', `translate(${this.margin.left}, -${this.margin.top})`)
+      .attr('class', 'overlay')
+      .attr('fill', 'none')
+      .attr('pointer-events', 'all')
+      .attr('width', this.width - this.margin.left)
+      .attr('height', this.height + this.margin.top + this.margin.bottom)
+      .on('mouseenter', this.onMouseEnter)
+      .on('mousemove', (event) => this.onMouserMoveSubj.next(event))
+      .on('mouseleave', this.onMouseLeave);
+
     this.chartContainer = d3.select(this.chartRef.nativeElement).select('.chart-container');
+
+    if (this.showHoverLine) {
+      this.hoverLine = this.chartContainer
+        .append('g')
+        .attr('class', 'hover-line-items')
+        .attr('pointer-events', 'none');
+    }
+
+    if (this.showTooltip) {
+      this.tooltip = d3.select(this.tooltipContainerRef.nativeElement);
+    }
+  }
+
+  private bisectDate = d3.bisector((d: ChartPoint): Date => {
+    return new Date(d.date);
+  }).center;
+
+  public onMouseEnter = (event: MouseEvent): void => {
+    if (this.showHoverLine) {
+      this.hoverLine.append('line')
+        .attr('class', 'hover-line')
+        .attr('stroke', this.color)
+        .attr('stroke-width', '1px')
+        .attr('y1', 0)
+        .attr('y2', this.height);
+
+      this.hoverLine.append('circle')
+        .attr('class', 'hover-circle')
+        .attr('r', 3)
+        .attr('fill', this.color);
+    }
+
+    if (this.showTooltip) {
+      this.tooltip.style('visibility', 'visible');
+    }
+
+    this.cdRef.detectChanges();
+  };
+
+  public onMouseMove = (event: MouseEvent): void => {
+    const positionX = d3.pointer(event)[0];
+    const invertedX = this.x.invert(positionX);
+    const index = this.bisectDate(this.data, invertedX, 1);
+    const leftPoint = this.data[index - 1];
+    const rightPoint = this.data[index];
+    const hoverPoint: ChartPoint = (
+      +coerceTimestamp(invertedX) - +coerceTimestamp(leftPoint.date) >
+      +coerceTimestamp(rightPoint.date) - +coerceTimestamp(invertedX)
+    ) ? rightPoint : leftPoint;
+    const hoverPointX = Math.round(this.x(new Date(hoverPoint.date)));
+
+    this.chartPointHovered.emit(hoverPoint);
+    this.chartPointActive = hoverPoint;
+
+    if (this.showTooltip) {
+      const hoverPointXOffset = (hoverPointX < this.svg.node().clientWidth / 2)
+        ? hoverPointX + this.margin.left * 2
+        : hoverPointX - this.tooltip.node().clientWidth - this.margin.left;
+
+      this.tooltip
+        .style('top', `${this.y(hoverPoint.value) + this.margin.top}px`)
+        .style('left', `${hoverPointXOffset}px`);
+    }
+
+    if (this.showHoverLine) {
+      this.hoverLine
+        .attr('transform', `translate(${hoverPointX}, 0)`)
+        .select('.hover-circle')
+        .attr('transform', `translate(0, ${this.y(hoverPoint.value)})`);
+    }
+
+    this.cdRef.detectChanges();
+  };
+
+  public onMouseLeave = (): void => {
+    this.clearHoverItems();
+  };
+
+  private clearHoverItems(): void {
+    if (this.showHoverLine) {
+      this.hoverLine.selectAll('*').remove();
+    }
+
+    if (this.showTooltip) {
+      this.tooltip.style('visibility', 'hidden');
+    }
+
+    this.chartPointHovered.emit(undefined);
   }
 
   private createAxis(): void {
@@ -93,7 +252,7 @@ export class LineChartComponent implements AfterViewInit {
       .attr('class', 'line')
       .attr('fill', 'none')
       .attr('stroke', this.color)
-      .attr('stroke-width', 2)
+      .attr('stroke-width', this.lineWidth)
       .attr('d', this.line);
   }
 
@@ -116,7 +275,10 @@ export class LineChartComponent implements AfterViewInit {
     this.svg
       .attr('viewBox', `0 0 ${this.containerWidth} ${this.containerHeight}`)
       .attr('width', this.containerWidth)
-      .attr('height', this.containerHeight);
+      .attr('height', this.containerHeight)
+      .select('.overlay')
+      .attr('width', this.width)
+      .attr('height', this.height + this.margin.top + this.margin.bottom)
   }
 
   private updateAxis(): void {
@@ -142,19 +304,16 @@ export class LineChartComponent implements AfterViewInit {
   private updateChart(): void {
     this.updateAxis();
     this.updateChartData(this.chartContainer.selectAll('.line'), this.line);
-    this.updateChartData(this.chartContainer.selectAll('.area'), this.area);
+
+    if (this.showArea) {
+      this.updateChartData(this.chartContainer.selectAll('.area'), this.area);
+    }
   }
 
   private updateAxisData = (elem, options) => elem
-    .transition()
-    .duration(300)
-    .ease(d3.easeLinear)
     .call(options);
 
   private updateChartData = (elem, option) => elem
     .data([this.data])
-    .transition()
-    .duration(300)
-    .ease(d3.easeLinear)
     .attr('d', option);
 }

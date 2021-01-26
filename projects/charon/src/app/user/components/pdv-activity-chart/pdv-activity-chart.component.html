@@ -1,38 +1,48 @@
 <ng-container *transloco="let translate; read: 'user.pdv_activity_chart'">
-  <ng-container *ngIf="chartData.length > 1; else noData">
-    <div class="pdv-activity-chart__legend">
-      <ng-container *ngIf="rate">
-        <div>
-          <div class="pdv-activity-chart__legend-rate">{{ rate | pdvValue }} PDV</div>
-          <div class="pdv-activity-chart__legend-date">{{ rateDate }}</div>
-        </div>
-        <app-pdv-rate-margin-icon
-          class="pdv-activity-chart__legend-margin"
-          [rateMargin]="rateMargin"
-        ></app-pdv-rate-margin-icon>
-      </ng-container>
-    </div>
+  <ng-container *ngIf="chartData$ | async as chartData">
+    <ng-container *ngIf="chartData.length > 1; else noData">
+      <div class="pdv-activity-chart__legend">
+        <ng-container *ngIf="legend$ | async as legend">
+          <div>
+            <div class="pdv-activity-chart__legend-rate">{{ legend.rate | pdvValue }} PDV</div>
+            <div class="pdv-activity-chart__legend-date">{{ legend.rateDate }}</div>
+          </div>
+          <app-pdv-rate-margin-icon
+            class="pdv-activity-chart__legend-margin"
+            [rateMargin]="legend.rateMargin"
+          ></app-pdv-rate-margin-icon>
+        </ng-container>
+      </div>
 
-    <div
-      #chartLine
-      class="pdv-activity-chart__container"
-      (window:resize)="onResize($event)"
-    ></div>
-  </ng-container>
+      <app-line-chart
+        *ngIf="chartData"
+        class="pdv-activity-chart__container"
+        color="#4477E4"
+        [data]="chartData"
+        [lineWidth]="1"
+        [showHoverLine]="true"
+        (chartPointHovered)="setLegendData($event)"
+      ></app-line-chart>
+    </ng-container>
 
-  <ng-template #noData>
-    <div class="pdv-activity-chart__no-data">
-      <ng-container *ngIf="chartData.length === 1">{{ translate('not_enough_pdv_rate') }}</ng-container>
-      <ng-container *ngIf="chartData.length < 1">{{ translate('no_pdv_rate') }}</ng-container>
-    </div>
-  </ng-template>
+    <ng-template #noData>
+      <div class="pdv-activity-chart__no-data">
+        <ng-container *ngIf="chartData.length === 1">{{ translate('not_enough_pdv_rate') }}</ng-container>
+        <ng-container *ngIf="chartData.length < 1">{{ translate('no_pdv_rate') }}</ng-container>
+      </div>
+    </ng-template>
 
-  <ul *ngIf="data.length > 1" class="pdv-activity-chart__filter-buttons">
-    <li
-      *ngFor="let button of filterButtons"
-      (click)="filterChartData($event, button.amount, button.dateType)"
+    <ul
+      *ngIf="(data$ | async)?.length > 1"
+      class="pdv-activity-chart__filter-buttons"
     >
-      {{ button.label }}
-    </li>
-  </ul>
+      <li
+        *ngFor="let button of filterButtons"
+        [class.active]="(activeFilter$ | async) === button"
+        (click)="setFilter(button)"
+      >
+        {{ button.label }}
+      </li>
+    </ul>
+  </ng-container>
 </ng-container>

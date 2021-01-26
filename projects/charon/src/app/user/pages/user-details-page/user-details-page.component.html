@@ -31,16 +31,19 @@
     <mat-tab-group
       mat-stretch-tabs
       mat-align-tabs="center"
-      animationDuration="0ms"
       [selectedIndex]="selectedTabIndex$ | async"
       (selectedTabChange)="onTabChange($event.index)"
     >
       <mat-tab [label]="translate('tabs.pdv_rate')">
-        <div class="tab-container">
+        <div class="tab-container user-page__pdv-rate__container">
           <app-activity-chart
-            *ngIf="chartPoints$ | async as points"
+            *ngIf="(chartPoints$ | async) as points; else loadingChart"
             [data]="points"
           ></app-activity-chart>
+
+          <ng-template #loadingChart>
+            <app-spinner class="user-page__pdv-rate__spinner"></app-spinner>
+          </ng-template>
         </div>
       </mat-tab>
 
