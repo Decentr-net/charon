@@ -26,11 +26,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fix visibility of underscore for inputs.
-- Fix Create profile page: email validation.
-- Fix dPortal, dHub: catch errors during getting PDV balance/stats.
-- Fix dPortal assets: micro-value pipe for undefined.
-- Fix dPortal activity-list: hide "No activity" label during first loading.
+- visibility of underscore for inputs.
+- Create profile page: email validation.
+- dPortal, dHub: catch errors during getting PDV balance/stats.
+- dPortal assets: micro-value pipe for undefined.
+- dPortal activity-list: hide "No activity" label during first loading.
 
 ## 1.1.1
 
@@ -55,19 +55,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fix disabled config caching.
-- Fix dPortal assets: adjusted amount regexp.
-- Fix dPortal assets: remove comma for thousands figures.
-- Fix dPortal assets: navigation after successful transfer.
-- Fix Import/restore pages: trim trailing spaces for mnemonic.
-- Fix date-ago pipe adjust minutes/hours timings.
-- Fix dHub: remove draft only after it successful posted.
+- disabled config caching.
+- dPortal assets: adjusted amount regexp.
+- dPortal assets: remove comma for thousands figures.
+- dPortal assets: navigation after successful transfer.
+- Import/restore pages: trim trailing spaces for mnemonic.
+- date-ago pipe adjust minutes/hours timings.
+- dHub: remove draft only after it successful posted.
 
 ## 1.0.8
 
 ### Added
 
 - dPortal assets: transfer history.
+
+### Changed
+
+- Updated decentr-js to v1.7.5.
 
 ### Fixed
 
@@ -84,11 +88,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- dPortal: translate assets tab.
 - dPortal: stop rising of balance requests if keep page inactive.
+- Disabled PDV auto-updating for inactive tabs.
 
 ## 1.0.6
+
+### Changed
+
+- Hide birthday date field.
+
 ## 1.0.5
-## 1.0.4
+
+### Added
+
+- dHub: upload images to images hosting.
+- dHub: remove "Statistic from" from Coin rate.
+- Default digitsInfo implemented for dayMargin.
+
+### Changed
+
+- Auto-lock changed from 40 minutes to 4 hours.
+- dHub: extended size of post popup.
+- Toolbar: removed settings button.
+
+### Fixed
+
+- Navigation back behavior for guarded pages.
+
 ## 1.0.3
 ## 1.0.2
 ## 1.0.1
