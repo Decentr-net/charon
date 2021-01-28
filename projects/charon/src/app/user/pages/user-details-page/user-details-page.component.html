@@ -34,41 +34,52 @@
       [selectedIndex]="selectedTabIndex$ | async"
       (selectedTabChange)="onTabChange($event.index)"
     >
-      <mat-tab [label]="translate('tabs.pdv_rate')">
-        <div class="tab-container user-page__pdv-rate__container">
-          <app-activity-chart
-            *ngIf="(chartPoints$ | async) as points; else loadingChart"
-            [data]="points"
-          ></app-activity-chart>
+      <ng-container *ngFor="let tab of tabs" [ngSwitch]="tab">
+        <mat-tab
+          *ngSwitchCase="tabsEnum.PDVRate"
+          [label]="translate('tabs.pdv_rate')"
+        >
+          <div class="tab-container user-page__pdv-rate__container">
+            <app-activity-chart
+              *ngIf="(chartPoints$ | async) as points; else loadingChart"
+              [data]="points"
+            ></app-activity-chart>
 
-          <ng-template #loadingChart>
-            <app-spinner class="user-page__pdv-rate__spinner"></app-spinner>
-          </ng-template>
-        </div>
-      </mat-tab>
+            <ng-template #loadingChart>
+              <app-spinner class="user-page__pdv-rate__spinner"></app-spinner>
+            </ng-template>
+          </div>
+        </mat-tab>
 
-      <mat-tab [label]="translate('tabs.activity')">
-        <div class="tab-container">
-          <ng-container *ngIf="pdvList$ | async as pdvList">
-            <app-activity-list
-              *ngIf="pdvList.length || (isLoadingActivity$ | async) === false"
-              [items]="pdvList"
-              (details)="openPDVDetails($event)"
-            ></app-activity-list>
-          </ng-container>
+        <mat-tab
+          *ngSwitchCase="tabsEnum.Activity"
+          [label]="translate('tabs.activity')"
+        >
+          <div class="tab-container">
+            <ng-container *ngIf="pdvList$ | async as pdvList">
+              <app-activity-list
+                *ngIf="pdvList.length || (isLoadingActivity$ | async) === false"
+                [items]="pdvList"
+                (details)="openPDVDetails($event)"
+              ></app-activity-list>
+            </ng-container>
 
-          <ng-template [ngTemplateOutlet]="activityLoading"></ng-template>
-        </div>
-      </mat-tab>
+            <ng-template [ngTemplateOutlet]="activityLoading"></ng-template>
+          </div>
+        </mat-tab>
 
-      <mat-tab [label]="translate('tabs.assets')">
-        <div class="tab-container">
-          <app-assets-list
-            [balance]="bankBalance"
-            (selected)="showTransferHistory()"
-          ></app-assets-list>
-        </div>
-      </mat-tab>
+        <mat-tab
+          *ngSwitchCase="tabsEnum.Assets"
+          [label]="translate('tabs.assets')"
+        >
+          <div class="tab-container">
+            <app-assets-list
+              [balance]="bankBalance"
+              (selected)="showTransferHistory()"
+            ></app-assets-list>
+          </div>
+        </mat-tab>
+      </ng-container>
     </mat-tab-group>
   </div>
 

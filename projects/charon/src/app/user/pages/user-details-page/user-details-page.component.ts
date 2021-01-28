@@ -12,6 +12,12 @@ import { USER_PAGE_HEADER_SLOT } from '../user-page';
 import { UserDetailsPageActivityService } from './user-details-page-activity.service';
 import { UserDetailsPageService } from './user-details-page.service';
 
+enum UserDetailsPageTab {
+  Activity = 'activity',
+  Assets = 'assets',
+  PDVRate = 'pdv-rate',
+}
+
 @UntilDestroy()
 @Component({
   selector: 'app-user-details-page',
@@ -36,6 +42,13 @@ export class UserDetailsPageComponent implements OnInit {
 
   public isTransferHistoryVisible: boolean;
   public userPageHeaderSlotName = USER_PAGE_HEADER_SLOT;
+
+  public readonly tabsEnum: typeof UserDetailsPageTab = UserDetailsPageTab;
+  public readonly tabs: UserDetailsPageTab[] = [
+    UserDetailsPageTab.PDVRate,
+    UserDetailsPageTab.Activity,
+    UserDetailsPageTab.Assets,
+  ];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -71,12 +84,12 @@ export class UserDetailsPageComponent implements OnInit {
     this.chartPoints$ = this.userDetailsPageService.getPDVChartPoints();
 
     this.showBankBalance$ = this.selectedTabIndex$.pipe(
-      map((index) => index === 2),
+      map((index) => this.tabs[index] === UserDetailsPageTab.Assets),
     );
 
     this.activatedRoute.fragment.pipe(
       untilDestroyed(this),
-    ).subscribe((tabIndex) => this.selectedTabIndex$.next(+tabIndex));
+    ).subscribe((tab: UserDetailsPageTab) => this.selectedTabIndex$.next(Math.max(this.tabs.indexOf(tab), 0)));
   }
 
   public showTransferHistory(): void {
@@ -100,7 +113,7 @@ export class UserDetailsPageComponent implements OnInit {
     this.selectedTabIndex$.next(tabIndex);
 
     this.router.navigate(['./'], {
-      fragment: tabIndex.toString(),
+      fragment: this.tabs[tabIndex],
       relativeTo: this.activatedRoute,
       replaceUrl: true,
     });
