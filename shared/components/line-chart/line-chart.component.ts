@@ -113,8 +113,8 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
     this.containerWidth = this.chartRef.nativeElement.clientWidth;
     this.containerHeight = this.chartRef.nativeElement.clientHeight;
 
-    this.width = (this.containerWidth - this.margin.left - this.margin.right >= 0) ? this.containerWidth - this.margin.left - this.margin.right : 0;
-    this.height = (this.containerWidth - this.margin.left - this.margin.right >= 0) ? this.containerHeight - this.margin.top - this.margin.bottom : 0;
+    this.width = Math.max(this.containerWidth - this.margin.left - this.margin.right, 0);
+    this.height = Math.max(this.containerHeight - this.margin.top - this.margin.bottom, 0);
   }
 
   private createSvg(): void {
@@ -134,8 +134,8 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
       .attr('class', 'overlay')
       .attr('fill', 'none')
       .attr('pointer-events', 'all')
-      .attr('width', this.width - this.margin.left)
-      .attr('height', this.height + this.margin.top + this.margin.bottom)
+      .attr('width', this.width)
+      .attr('height', this.height)
       .on('mouseenter', this.onMouseEnter)
       .on('mousemove', (event) => this.onMouserMoveSubj.next(event))
       .on('mouseleave', this.onMouseLeave);
