@@ -10,19 +10,49 @@
     ></app-user-bank-balance>
 
     <ng-template #userPDVBalance>
-      <ng-container *ngIf="balance">
-        <div class="pdv-rate">
-          <span class="pdv-rate-value">{{ balance.value | pdvValue }} PDV</span>
+      <div class="pdv-rate">
+        <span class="pdv-rate-value">
+          <ngx-skeleton-loader
+            *ngIf="!balance"
+            [theme]="{
+              height: '26px',
+              marginBottom: '0',
+              width: '200px'
+            }"
+          ></ngx-skeleton-loader>
+          <ng-container *ngIf="balance">{{ balance.value | pdvValue }} PDV</ng-container>
+        </span>
 
-          <app-pdv-rate-margin-icon
-            class="pdv-rate-margin"
-            [rateMargin]="balance.dayMargin"
-          ></app-pdv-rate-margin-icon>
-        </div>
-      </ng-container>
+        <app-pdv-rate-margin-icon
+          *ngIf="balance"
+          class="pdv-rate-margin"
+          [rateMargin]="balance.dayMargin"
+        ></app-pdv-rate-margin-icon>
 
-      <div class="pdv-exchange-rate" *ngIf="coinRate$ | async as coinRate">
-        {{ translate('exchange_rate', { rate: coinRate | number:'1.0-4' }) }}
+        <ngx-skeleton-loader
+          *ngIf="!balance"
+          class="pdv-rate-margin"
+          [theme]="{
+            height: '15px',
+            marginBottom: '0',
+            width: '73px'
+          }"
+        ></ngx-skeleton-loader>
+      </div>
+
+      <div class="pdv-exchange-rate">
+        <ng-container *ngIf="coinRate$ | async as coinRate">
+          {{ translate('exchange_rate', { rate: coinRate | number:'1.0-4' }) }}
+        </ng-container>
+
+        <ngx-skeleton-loader
+          *ngIf="!(coinRate$ | async)"
+          [theme]="{
+            height: '18px',
+            marginBottom: '0',
+            width: '155px'
+          }"
+        ></ngx-skeleton-loader>
       </div>
     </ng-template>
   </div>
