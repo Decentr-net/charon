@@ -41,12 +41,12 @@
       </div>
 
       <div class="pdv-exchange-rate">
-        <ng-container *ngIf="coinRate$ | async as coinRate">
+        <ng-container *ngIf="coinRate">
           {{ translate('exchange_rate', { rate: coinRate | number:'1.0-4' }) }}
         </ng-container>
 
         <ngx-skeleton-loader
-          *ngIf="!(coinRate$ | async)"
+          *ngIf="!coinRate"
           [theme]="{
             height: '18px',
             marginBottom: '0',
