@@ -103,9 +103,6 @@ export class BaseValidationUtil {
       container.innerHTML = control.value;
       const imagesCount = container.querySelectorAll('img').length;
 
-      console.log(imagesCount);
-      console.log(maxImages)
-
       return imagesCount > maxImages
         ? {
           maxImages: {
