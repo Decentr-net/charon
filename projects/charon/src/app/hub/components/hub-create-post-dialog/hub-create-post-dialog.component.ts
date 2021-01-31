@@ -55,6 +55,11 @@ export class HubCreatePostDialogComponent implements OnInit {
     this.author = this.data.author;
 
     this.form = this.createForm(this.data.draft);
+
+    const textControl = this.form.get('text');
+    if (textControl.value && textControl.errors) {
+      textControl.markAsTouched();
+    }
   }
 
   public cancel(): void {
@@ -99,6 +104,7 @@ export class HubCreatePostDialogComponent implements OnInit {
         [
           Validators.required,
           BaseValidationUtil.minHtmlTextLength(15),
+          BaseValidationUtil.maxHTMLImages(this.maxImagesCount),
           BaseValidationUtil.maxStringBytes(64000),
         ],
       ],

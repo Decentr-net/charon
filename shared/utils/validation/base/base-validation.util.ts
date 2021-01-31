@@ -5,6 +5,8 @@ import {
 } from '@angular/forms';
 import { ValidatorFn } from '@ngneat/reactive-forms';
 
+import { createFragmentWrappedContainer } from '../../html';
+
 export class BaseValidationUtil {
 
   static isSeedPhraseCorrect(control: AbstractControl): ValidationErrors | null {
@@ -85,6 +87,30 @@ export class BaseValidationUtil {
           maxBytes: {
             current: bytesLength,
             max: maxBytes,
+          },
+        }
+        : null;
+    }
+  }
+
+  static maxHTMLImages(maxImages: number): ValidatorFn<string> {
+    return (control) => {
+      if (!control.value) {
+        return null;
+      }
+
+      const container = createFragmentWrappedContainer();
+      container.innerHTML = control.value;
+      const imagesCount = container.querySelectorAll('img').length;
+
+      console.log(imagesCount);
+      console.log(maxImages)
+
+      return imagesCount > maxImages
+        ? {
+          maxImages: {
+            current: imagesCount,
+            max: maxImages,
           },
         }
         : null;

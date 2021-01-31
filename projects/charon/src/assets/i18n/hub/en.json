@@ -24,6 +24,7 @@
         "placeholder": "Share what's new with Decentr community",
         "errors": {
           "maxBytes": "The text limit reached",
+          "maxImages": "The maximum count of images is {{max}}",
           "minHtmlTextLength": "The minimum length of the text is {{min}} characters",
           "required": "Post text is requred"
         }
