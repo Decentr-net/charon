@@ -1,10 +1,15 @@
 import { Directive, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
-import { EMPTY, fromEvent, Observable } from 'rxjs';
-import { catchError, filter, finalize, map, mergeMap, tap } from 'rxjs/operators';
+import { EMPTY, fromEvent, Observable, of, throwError } from 'rxjs';
+import { catchError, filter, finalize, map, mergeMap, take, tap } from 'rxjs/operators';
+import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { NotificationService } from '@shared/services/notification';
+import { MEGABYTE } from '@shared/utils/file';
+import { TranslatedError } from '@core/notifications';
 import { ImageUploaderService, SpinnerService } from '@core/services';
+
+const MAX_IMAGE_SIZE = 32 * MEGABYTE;
 
 @UntilDestroy()
 @Directive({
@@ -19,6 +24,7 @@ export class HubImageUploaderDirective implements OnInit {
     private imageUploader: ImageUploaderService,
     private notificationService: NotificationService,
     private spinnerService: SpinnerService,
+    private translocoService: TranslocoService,
   ) {
   }
 
@@ -29,6 +35,16 @@ export class HubImageUploaderDirective implements OnInit {
       map(() => this.imageInput.files[0]),
       filter((image) => !!image),
       tap(() => this.imageInput.value = ''),
+      mergeMap((image) => {
+        if (image.size > MAX_IMAGE_SIZE) {
+          return this.translocoService.selectTranslate('hub_image_uploader.errors.max_size', null, 'hub').pipe(
+            take(1),
+            mergeMap((errorTranslate) => throwError(new TranslatedError(errorTranslate))),
+          );
+        }
+
+        return of(image);
+      }),
       mergeMap((image) => this.uploadImage(image)),
       catchError((error) => {
         this.notificationService.error(error);
