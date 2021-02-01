@@ -17,7 +17,7 @@ import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, fromEvent, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, mergeMap, share } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { ControlValueAccessor, FormControl } from '@ngneat/reactive-forms';
@@ -138,6 +138,24 @@ export class HubSimpleTextEditorComponent
       untilDestroyed(this),
     ).subscribe(({ editor }) => {
       this.quillEditorInstance = editor;
+    });
+
+    this.quillEditor.onEditorCreated.pipe(
+      mergeMap(() => fromEvent<ClipboardEvent>(this.quillEditor.quillEditor.root, 'paste')),
+      untilDestroyed(this),
+    ).subscribe((event) => {
+      const items = event.clipboardData.items;
+
+      if (!items) {
+        return;
+      }
+
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') > -1) {
+          event.preventDefault();
+          break;
+        }
+      }
     });
 
     this.quillEditor.onEditorCreated.pipe(
