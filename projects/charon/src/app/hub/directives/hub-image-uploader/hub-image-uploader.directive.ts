@@ -65,6 +65,7 @@ export class HubImageUploaderDirective implements OnInit {
     this.spinnerService.showSpinner();
 
     return this.imageUploader.upload(image).pipe(
+      catchError(() => EMPTY),
       finalize(() => this.spinnerService.hideSpinner()),
     );
   }
