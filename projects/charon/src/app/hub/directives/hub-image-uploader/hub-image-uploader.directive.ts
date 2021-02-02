@@ -1,6 +1,6 @@
 import { Directive, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { EMPTY, fromEvent, Observable, of, throwError } from 'rxjs';
-import { catchError, filter, finalize, map, mergeMap, take, tap } from 'rxjs/operators';
+import { catchError, filter, finalize, map, mergeMap, repeat, take, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -10,6 +10,8 @@ import { TranslatedError } from '@core/notifications';
 import { ImageUploaderService, SpinnerService } from '@core/services';
 
 const MAX_IMAGE_SIZE = 32 * MEGABYTE;
+const IMAGE_PATTERN = /(image)*\/(?:jpg|jpeg|png)/;
+const IMAGE_ACCEPT_FORMATS = '.jpg,.jpeg,.png';
 
 @UntilDestroy()
 @Directive({
@@ -36,20 +38,29 @@ export class HubImageUploaderDirective implements OnInit {
       filter((image) => !!image),
       tap(() => this.imageInput.value = ''),
       mergeMap((image) => {
+        let errorKey = '';
+
         if (image.size > MAX_IMAGE_SIZE) {
-          return this.translocoService.selectTranslate('hub_image_uploader.errors.max_size', null, 'hub').pipe(
-            take(1),
-            mergeMap((errorTranslate) => throwError(new TranslatedError(errorTranslate))),
-          );
+          errorKey = 'max_size';
         }
 
-        return of(image);
+        if (!image.type.match(IMAGE_PATTERN)) {
+          errorKey = 'not_allowed_type';
+        }
+
+        return errorKey
+          ? this.translocoService.selectTranslate(`hub_image_uploader.errors.${errorKey}`, null, 'hub').pipe(
+            take(1),
+            mergeMap((errorTranslate) => throwError(new TranslatedError(errorTranslate))),
+          )
+          : of(image);
       }),
       mergeMap((image) => this.uploadImage(image)),
       catchError((error) => {
         this.notificationService.error(error);
         return EMPTY;
       }),
+      repeat(),
       untilDestroyed(this),
     ).subscribe((imageLink) => {
       this.uploaded.emit(imageLink);
@@ -65,7 +76,6 @@ export class HubImageUploaderDirective implements OnInit {
     this.spinnerService.showSpinner();
 
     return this.imageUploader.upload(image).pipe(
-      catchError(() => EMPTY),
       finalize(() => this.spinnerService.hideSpinner()),
     );
   }
@@ -73,7 +83,7 @@ export class HubImageUploaderDirective implements OnInit {
   private static createImageInput(): HTMLInputElement {
     const input = document.createElement('input');
     input.type = 'file';
-    input.accept = 'image/*';
+    input.accept = IMAGE_ACCEPT_FORMATS;
 
     return input;
   }
