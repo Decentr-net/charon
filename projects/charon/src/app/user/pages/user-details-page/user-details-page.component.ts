@@ -63,6 +63,7 @@ export class UserDetailsPageComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe((rate) => {
       this.coinRate = rate;
+      this.changeDetectorRef.detectChanges();
     });
 
     this.userDetailsPageService.getBalanceWithMargin().pipe(
