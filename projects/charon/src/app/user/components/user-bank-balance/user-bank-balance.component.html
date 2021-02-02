@@ -1,6 +1,17 @@
 <ng-container *transloco="let translate; read: 'user.user_bank_balance'">
-  <div *ngIf="bankBalance" class="bank-balance">
-    {{ bankBalance | microValue }} tDEC
+  <div class="bank-balance">
+    <ng-container *ngIf="bankBalance">
+      {{ bankBalance | microValue }} tDEC
+    </ng-container>
+
+    <ngx-skeleton-loader
+      *ngIf="!bankBalance"
+      [theme]="{
+        height: '17px',
+        marginBottom: '0',
+        width: '150px'
+      }"
+    ></ngx-skeleton-loader>
   </div>
 
   <div
