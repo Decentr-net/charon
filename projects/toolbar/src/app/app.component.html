@@ -38,16 +38,10 @@
     </div>
 
     <div class="app__middle-container-section">
-      <svg-icon
-        class="app__icon"
-        key="notification"
-        (click)="openCharonHubRecentNews()"
-      ></svg-icon>
-
       <app-avatar
         class="app__icon"
         [avatarUrl]="avatar$ | async"
-        (click)="openCharonHubMyWall()"
+        (click)="openCharonHubFeed()"
       ></app-avatar>
     </div>
   </div>
