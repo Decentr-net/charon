@@ -8,6 +8,7 @@ export type AccumulatedPDV = Record<PDVType, PDVItem[]>;
 
 interface PDVStorageUserValue {
   accumulated: AccumulatedPDV;
+  readyToSend: PDVItem[][];
 }
 
 type PDVStorageValue = Record<Wallet['address'], PDVStorageUserValue>;
@@ -30,6 +31,24 @@ export class PDVStorageService {
     return defer(() => userPDVStorage.get('accumulated')).pipe(
       mergeMap((accumulated) => userPDVStorage.onChange('accumulated').pipe(
         startWith(accumulated),
+      )),
+    );
+  }
+
+  public setUserReadyToSend(walletAddress: Wallet['address'], blocks: PDVItem[][]): Promise<void> {
+    return this.getUserPDVStorage(walletAddress).set('readyToSend', blocks);
+  }
+
+  public getUserReadyToSend(walletAddress: Wallet['address']): Promise<PDVItem[][]> {
+    return this.getUserPDVStorage(walletAddress).get('readyToSend');
+  }
+
+  public getUserReadyToSendChanges(walletAddress: Wallet['address']): Observable<PDVItem[][]> {
+    const userPDVStorage = this.getUserPDVStorage(walletAddress);
+
+    return defer(() => userPDVStorage.get('readyToSend')).pipe(
+      mergeMap((readyToSend) => userPDVStorage.onChange('readyToSend').pipe(
+        startWith(readyToSend),
       )),
     );
   }
