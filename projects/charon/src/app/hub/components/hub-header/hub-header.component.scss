@@ -1,5 +1,4 @@
 $hub-header--bar--background-color: #FFFFFF;
-$hub-header--bar-meta-container--background-color: #F8FAFD;
 $hub-header--bar-icon-button--hover-background-color: #F8FAFD;
 
 :host {
@@ -45,7 +44,6 @@ $hub-header--bar-icon-button--hover-background-color: #F8FAFD;
 }
 
 .hub-header__bar-meta-container {
-  background-color: $hub-header--bar-meta-container--background-color;
   border-radius: 8px;
   display: flex;
   flex-grow: 1;

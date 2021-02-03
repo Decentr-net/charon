@@ -1,8 +1,10 @@
+$hub-page--background-color: #F2F2F2;
 $hub-page--border-color: #D5D5DC;
 $hub-page--details--color: #92929D;
 $hub-page--details--background-color-hover: #f0f0f1;
 
 :host {
+  background: $hub-page--background-color;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -39,9 +41,12 @@ $hub-page--details--background-color-hover: #f0f0f1;
 .hub-page__header-meta-details {
   border-left: 1px solid $hub-page--border-color;
   color: $hub-page--details--color;
+  display: inline-block;
   font-size: 14px;
+  min-width: 132px;
   padding: 11.5px 16px;
   position: relative;
+  text-align: right;
   transition: background .3s ease;
   user-select: none;
 
@@ -59,9 +64,9 @@ $hub-page--details--background-color-hover: #f0f0f1;
     width: 6px;
   }
 
-  &-is-open {
+  &-isOpen {
     &:after {
-      transform: translateY(calc(-50% - 3px)) rotate(135deg);
+      transform: translateY(calc(-50% - 3px)) rotate(-225deg);
     }
   }
 

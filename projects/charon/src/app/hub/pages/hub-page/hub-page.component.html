@@ -29,8 +29,12 @@
       </span>
     </app-color-value-dynamic>
 
-    <div class="hub-page__header-meta-details">
-      {{ translate(true ? 'show_details' : 'short_view') }}
+    <div
+      class="hub-page__header-meta-details"
+      [class.hub-page__header-meta-details-isOpen]="isDashboardVisible"
+      (click)="isDashboardVisible = !isDashboardVisible"
+    >
+      {{ translate(isDashboardVisible ? 'short_view' : 'show_details') }}
     </div>
   </div>
 </app-hub-header>

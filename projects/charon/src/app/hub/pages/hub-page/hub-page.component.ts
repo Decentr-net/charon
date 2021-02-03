@@ -24,6 +24,7 @@ export class HubPageComponent implements OnInit {
   public balance: BalanceValueDynamic;
   public coinRate$: Observable<CoinRateFor24Hours>;
   public estimatedBalance$: Observable<string>;
+  public isDashboardVisible: boolean;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
