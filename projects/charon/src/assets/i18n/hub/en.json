@@ -67,6 +67,7 @@
   "hub_page": {
     "header": {
       "estimated_balance": "In progress: {{estimatedBalance}} PDV",
+      "new_post": "New post",
       "pdv": "My PDV",
       "dec": "DEC",
       "show_details": "show details",

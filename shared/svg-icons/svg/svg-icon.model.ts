@@ -16,7 +16,6 @@ export type SvgIconName =
   | 'margin-negative'
   | 'margin-neutral'
   | 'margin-positive'
-  | 'notification'
   | 'pdv-rate-icon'
   | 'plus-small'
   | 'plus'

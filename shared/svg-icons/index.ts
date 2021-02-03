@@ -19,7 +19,6 @@ export * from './svg/svg-logo.icon';
 export * from './svg/svg-margin-negative.icon';
 export * from './svg/svg-margin-neutral.icon';
 export * from './svg/svg-margin-positive.icon';
-export * from './svg/svg-notification.icon';
 export * from './svg/svg-pdv-rate-icon.icon';
 export * from './svg/svg-plus-small.icon';
 export * from './svg/svg-plus.icon';
