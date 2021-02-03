@@ -77,10 +77,10 @@ export class UserDetailsPageService {
       panelClass: 'popup-no-padding',
       data: {
         date,
-        domain: details.user_data.pdv.domain,
+        domain: details.user_data.pdv[0].domain,
         ip: details.calculated_data.ip,
-        pdvData: details.user_data.pdv.data,
-        userAgent: details.user_data.pdv.user_agent,
+        pdvData: details.user_data.pdv[0].data,
+        userAgent: details.user_data.pdv[0].user_agent,
       },
     };
 

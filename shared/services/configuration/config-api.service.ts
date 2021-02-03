@@ -3,10 +3,17 @@ import { defer, Observable } from 'rxjs';
 
 import { Environment } from '../../../environments/environment.definitions';
 
+export type PDVReward = 'cookie' | 'loginCookie';
+
 export interface Config {
+  cerberus: {
+    minPDVCount: number;
+    maxPDVCount: number;
+    rewards: Record<PDVReward, number>;
+  };
   network: {
     rest: string[];
-  },
+  };
   minVersion: string;
 }
 

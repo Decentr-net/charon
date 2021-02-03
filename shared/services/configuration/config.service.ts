@@ -38,4 +38,10 @@ export class ConfigService {
       map(({ network }) => network.rest),
     );
   }
+
+  public getMinPDVCountToSend(): Observable<number> {
+    return this.getConfig().pipe(
+      map((config) => config.cerberus.minPDVCount),
+    );
+  }
 }
