@@ -33,9 +33,14 @@ $hub-header--bar-icon-button--hover-background-color: #F8FAFD;
   }
 }
 
-.hub-header__bar-icon-logo {
-  height: 30px;
-  width: 30px;
+.hub-header__bar-logo {
+  display: inline-flex;
+}
+
+.hub-header__bar-logo-icon {
+  display: inline-flex;
+  height: 40px;
+  width: 115px;
 }
 
 .hub-header__bar-icon {
@@ -47,6 +52,5 @@ $hub-header--bar-icon-button--hover-background-color: #F8FAFD;
   border-radius: 8px;
   display: flex;
   flex-grow: 1;
-  margin: 0 30px;
-  padding: 0 28px;
+  margin: 0 40px;
 }

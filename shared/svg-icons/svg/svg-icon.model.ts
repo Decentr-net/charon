@@ -18,6 +18,7 @@ export type SvgIconName =
   | 'margin-positive'
   | 'notification'
   | 'pdv-rate-icon'
+  | 'plus-small'
   | 'plus'
   | 'receive-coin'
   | 'send-coin'

@@ -1,9 +1,10 @@
 <div class="hub-header__bar">
   <a
-    class="hub-header__bar-icon-logo"
-    [inlineSVG]="'assets/images/logo-icon.svg'"
+    class="hub-header__bar-logo"
     [routerLink]="['./']"
-  ></a>
+  >
+    <svg-icon class="hub-header__bar-logo-icon" key="logo"></svg-icon>
+  </a>
 
   <div class="hub-header__bar-meta-container">
     <ng-content select="meta"></ng-content>
