@@ -47,8 +47,8 @@ $hub-header--bar-icon-button--hover-background-color: #F8FAFD;
 .hub-header__bar-meta-container {
   background-color: $hub-header--bar-meta-container--background-color;
   border-radius: 8px;
+  display: flex;
   flex-grow: 1;
   margin: 0 30px;
-  height: 100%;
   padding: 0 28px;
 }

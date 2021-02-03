@@ -10,28 +10,28 @@
     <app-color-value-dynamic
       class="hub-page__header-meta-label"
       *ngIf="balance"
-      [circleType]="'hole'"
-      [color]="'green'"
       [dayMargin]="balance.dayMargin"
       [dayMarginDigitsInfo]="'1.0-5'"
       [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async })"
     >
-      <strong>{{ translate('pdv') }}</strong>
+      {{ translate('pdv') }}:
       <span class="hub-page__header-meta-label-value">{{ balance.value | pdvValue }}</span>
     </app-color-value-dynamic>
 
     <app-color-value-dynamic
       class="hub-page__header-meta-label"
       *ngIf="coinRate$ | async as coinRate"
-      [circleType]="'hole'"
-      [color]="'yellow'"
       [dayMargin]="coinRate.dayMargin"
     >
-      <strong>{{ translate('dec') }}</strong>
+      {{ translate('dec') }}:
       <span class="hub-page__header-meta-label-value">
         {{ coinRate.value | currency : 'USD' : 'symbol' : '1.4' }}
       </span>
     </app-color-value-dynamic>
+
+    <div class="hub-page__header-meta-details">
+      {{ translate(true ? 'show_details' : 'short_view') }}
+    </div>
   </div>
 </app-hub-header>
 

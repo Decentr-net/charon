@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { ColorCircleLabelColor, ColorCircleType } from '../color-circle-label';
-
 @Component({
   selector: 'app-color-value-dynamic',
   templateUrl: './color-value-dynamic.component.html',
@@ -9,8 +7,6 @@ import { ColorCircleLabelColor, ColorCircleType } from '../color-circle-label';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ColorValueDynamicComponent {
-  @Input() public circleType: ColorCircleType;
-  @Input() public color: ColorCircleLabelColor;
   @Input() public dayMargin: number;
   @Input() public dayMarginDigitsInfo: string;
 }

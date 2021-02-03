@@ -49,6 +49,7 @@ $app--section--background-color: #F8FAFD;
 }
 
 .app__meta-label {
+  alight-items: center;
   font-size: 11px;
 
   & + & {
@@ -57,7 +58,8 @@ $app--section--background-color: #F8FAFD;
 }
 
 .app__meta-label-value {
-  margin-left: 4px;
+  font-weight: 500;
+  margin-left: 6px;
 }
 
 .app__link-icon {
