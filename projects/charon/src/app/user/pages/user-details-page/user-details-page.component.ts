@@ -31,7 +31,7 @@ enum UserDetailsPageTab {
 })
 export class UserDetailsPageComponent implements OnInit {
   public bankBalance: BankCoin['amount'];
-  public coinRate$: Observable<number>;
+  public coinRate: number;
   public balance: BalanceValueDynamic;
   public pdvList$: Observable<PDVActivityListItem[]>;
   public canLoadMoreActivity$: Observable<boolean>;
@@ -59,7 +59,12 @@ export class UserDetailsPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.coinRate$ = this.userDetailsPageService.getCoinRate();
+    this.userDetailsPageService.getCoinRate().pipe(
+      untilDestroyed(this),
+    ).subscribe((rate) => {
+      this.coinRate = rate;
+      this.changeDetectorRef.detectChanges();
+    });
 
     this.userDetailsPageService.getBalanceWithMargin().pipe(
       untilDestroyed(this),

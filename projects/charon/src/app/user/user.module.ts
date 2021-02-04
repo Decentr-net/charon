@@ -10,6 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { InlineSVGModule } from 'ng-inline-svg';
@@ -54,6 +55,7 @@ import { UserRoutingModule } from './user-routing.module';
     MatTooltipModule,
     MicroValueModule,
     NavigationModule,
+    NgxSkeletonLoaderModule,
     PdvRateMarginIconModule,
     PdvValueModule,
     ProfileFormModule,

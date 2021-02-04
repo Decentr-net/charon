@@ -53,6 +53,7 @@
     "js-sha256": "^0.9.0",
     "ng-inline-svg": "^11.0.0",
     "ngx-quill": "^12.0.1",
+    "ngx-skeleton-loader": "^2.6.2",
     "ngx-toastr": "~12.1.0",
     "ngx-trim-directive": "^1.1.0",
     "p-queue": "^6.6.2",
