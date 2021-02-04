@@ -47,7 +47,7 @@ export class UserDetailsPageService {
     return this.currencyService.getDecentrCoinRateForUsd();
   }
 
-  public getPDVDetails(address: PDVListItem['address']): Observable<PDVDetails> {
+  public getPDVDetails(address: PDVListItem): Observable<PDVDetails> {
     return this.pdvService.getPDVDetails(address);
   }
 
@@ -58,7 +58,7 @@ export class UserDetailsPageService {
   public openPDVDetails(pdvItem: PDVActivityListItem): void {
     this.spinnerService.showSpinner();
 
-    this.getPDVDetails(pdvItem.address).pipe(
+    this.getPDVDetails(pdvItem.id).pipe(
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
     ).subscribe(details => {
@@ -77,10 +77,7 @@ export class UserDetailsPageService {
       panelClass: 'popup-no-padding',
       data: {
         date,
-        domain: details.user_data.pdv[0].domain,
-        ip: details.calculated_data.ip,
-        pdvData: details.user_data.pdv[0].data,
-        userAgent: details.user_data.pdv[0].user_agent,
+        pdv: details.pdv,
       },
     };
 

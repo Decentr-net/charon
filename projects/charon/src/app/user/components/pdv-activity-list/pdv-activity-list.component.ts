@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TrackByFunction } from '@angular/core';
 
 export interface PDVActivityListItem {
-  address: string;
+  id: number;
   date: Date;
 }
 
@@ -20,5 +20,5 @@ export class PdvActivityListComponent {
     this.details.emit(item);
   }
 
-  public trackByAddress: TrackByFunction<PDVActivityListItem> = ({}, { address }) => address;
+  public trackByAddress: TrackByFunction<PDVActivityListItem> = ({}, { id }) => id;
 }

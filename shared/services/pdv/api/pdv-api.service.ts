@@ -37,12 +37,12 @@ export class PDVApiService {
 
   public getPDVDetails(
     api: string,
-    address: PDVListItem['address'],
-    keyPair: KeyPair,
+    address: PDVListItem,
+    wallet: Wallet,
   ): Promise<PDVDetails> {
     const decentr = this.createDecentrConnector(api);
 
-    return decentr.getPDVDetails(address, keyPair);
+    return decentr.getPDVDetails(address, wallet);
   }
 
   public getPDVStats(api: string, walletAddress: Wallet['address']): Promise<PDVStatItem[]> {

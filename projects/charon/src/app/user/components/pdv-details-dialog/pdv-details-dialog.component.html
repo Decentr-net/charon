@@ -7,25 +7,26 @@
           {{ details.date | date: 'dd.MM.yyyy HH:mm' }}
         </span>
       </span>
-      <span class="popup-header__details-description__field">
-        <strong>{{ translate('ip') }}:</strong>
-        <span class="popup-header__details-description__field-value">{{ details.ip }}</span>
-      </span>
-      <span class="popup-header__details-description__field">
-        <strong>{{ translate('domain') }}:</strong>
-        <span class="popup-header__details-description__field-value">{{ details.domain }}</span>
-      </span>
     </div>
 
     <div class="btn-close-popup" mat-dialog-close></div>
   </div>
   <mat-dialog-content class="popup-body">
-    <mat-expansion-panel *ngFor="let dataItem of details.pdvData">
+    <mat-expansion-panel *ngFor="let pdv of details.pdv">
       <mat-expansion-panel-header>
-        <mat-panel-title>{{ dataItem.name }}</mat-panel-title>
+        <mat-panel-title>{{ pdv.domain }}</mat-panel-title>
       </mat-expansion-panel-header>
+
       <ng-template matExpansionPanelContent>
-        <p>{{ dataItem | json }}</p>
+        <mat-expansion-panel *ngFor="let cookie of pdv.data">
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ cookie.name }}</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <ng-template matExpansionPanelContent>
+            <p>{{ cookie | json }}</p>
+          </ng-template>
+        </mat-expansion-panel>
       </ng-template>
     </mat-expansion-panel>
   </mat-dialog-content>

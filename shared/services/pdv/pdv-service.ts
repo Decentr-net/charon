@@ -28,10 +28,10 @@ export class PDVService {
 
   public getPDVDetails(
     api: string,
-    address: PDVListItem['address'],
-    keyPair: KeyPair,
+    address: PDVListItem,
+    wallet: Wallet,
   ): Observable<PDVDetails> {
-    return from(this.pdvApiService.getPDVDetails(api, address, keyPair));
+    return from(this.pdvApiService.getPDVDetails(api, address, wallet));
   }
 
   public getPDVList(

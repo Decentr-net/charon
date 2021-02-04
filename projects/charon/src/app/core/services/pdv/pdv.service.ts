@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { combineLatest, EMPTY, Observable } from 'rxjs';
 import { catchError, share, startWith, switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { PDVDetails, PDVListItem, Wallet } from 'decentr-js';
+import { PDVDetails, PDVListItem, PDVListPaginationOptions, Wallet } from 'decentr-js';
 
 import { Environment } from '@environments/environment.definitions';
 import {
@@ -17,20 +17,19 @@ import { Network } from '@core/services';
 
 @UntilDestroy()
 @Injectable()
-export class PDVService extends NativePDVService {
+export class PDVService {
   private wallet: Wallet;
   private networkApi: Network['api'];
 
   private balance$: Observable<string>;
   private balanceWithMargin$: Observable<BalanceValueDynamic>;
   private pDVStatChartPoints$: Observable<PDVStatChartPoint[]>;
+  private nativePdvService: NativePDVService = new NativePDVService(this.environment.chainId);
 
   constructor(
     private environment: Environment,
     private stateChangesService: StateChangesService,
   ) {
-    super(environment.chainId);
-
     this.stateChangesService.getWalletAndNetworkApiChanges().pipe(
       untilDestroyed(this),
     ).subscribe(({ wallet, networkApi }) => {
@@ -49,8 +48,16 @@ export class PDVService extends NativePDVService {
     return this.balance$;
   }
 
-  public getPDVDetails(address: PDVListItem['address'],): Observable<PDVDetails> {
-    return super.getPDVDetails(this.networkApi, address, this.wallet);
+  public getPDVList(
+    api: string,
+    walletAddress: Wallet['address'],
+    paginationOptions?: PDVListPaginationOptions,
+  ): Observable<PDVListItem[]> {
+    return this.nativePdvService.getPDVList(api, walletAddress, paginationOptions);
+  }
+
+  public getPDVDetails(address: PDVListItem,): Observable<PDVDetails> {
+    return this.nativePdvService.getPDVDetails(this.networkApi, address, this.wallet);
   }
 
   public getPDVStatChartPoints(): Observable<PDVStatChartPoint[]> {
@@ -82,7 +89,7 @@ export class PDVService extends NativePDVService {
         ),
       ]).pipe(
         switchMap(([{ wallet, networkApi }]) => {
-          return super.getBalance(networkApi, wallet.address);
+          return this.nativePdvService.getBalance(networkApi, wallet.address);
         }),
         catchError(() => EMPTY),
       ),
@@ -98,7 +105,7 @@ export class PDVService extends NativePDVService {
         ),
       ]).pipe(
         switchMap(([{ wallet, networkApi }]) => {
-          return super.getBalanceWithMargin(networkApi, wallet.address);
+          return this.nativePdvService.getBalanceWithMargin(networkApi, wallet.address);
         }),
         catchError(() => EMPTY),
       ),
@@ -114,7 +121,7 @@ export class PDVService extends NativePDVService {
         ),
       ]).pipe(
         switchMap(([{ wallet, networkApi }]) => {
-          return super.getPDVStatChartPoints(networkApi, wallet.address);
+          return this.nativePdvService.getPDVStatChartPoints(networkApi, wallet.address);
         }),
         catchError(() => EMPTY),
       ),
