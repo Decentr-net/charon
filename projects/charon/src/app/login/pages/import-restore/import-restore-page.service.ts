@@ -37,12 +37,12 @@ export class ImportRestorePageService {
       mergeMapTo(forkJoin([
         this.userService.getPrivateProfile(wallet.address, wallet.privateKey),
         this.userService.getPublicProfile(wallet.address),
-        this.userService.getModeratorAddress(),
+        this.userService.getModeratorAddresses(),
       ])),
-      mergeMap(([privateProfile, publicProfile, moderatorAddress]) => this.authService.createUser({
+      mergeMap(([privateProfile, publicProfile, moderatorAddresses]) => this.authService.createUser({
           ...privateProfile,
           ...publicProfile,
-          isModerator: moderatorAddress === wallet.address || undefined,
+          isModerator: moderatorAddresses.includes(wallet.address) || undefined,
           wallet,
           password,
           emailConfirmed: true,

@@ -48,12 +48,12 @@ export class SignUpPageService {
         return throwError(errorToThrow);
       }),
       mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
-      mergeMap(() => this.userService.getModeratorAddress()),
-      mergeMap((isModerator) => this.authService.createUser({
+      mergeMap(() => this.userService.getModeratorAddresses()),
+      mergeMap((moderatorAddresses) => this.authService.createUser({
         wallet,
         ...user,
         emailConfirmed: false,
-        isModerator: isModerator === wallet.address || undefined,
+        isModerator: moderatorAddresses.includes(wallet.address) || undefined,
         registrationCompleted: false,
       })),
       mergeMap(id => this.authService.changeUser(id)),

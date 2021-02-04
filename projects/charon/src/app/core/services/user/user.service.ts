@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { delay, repeat, retryWhen, skipWhile, take } from 'rxjs/operators';
-import { Account, PublicProfile } from 'decentr-js';
+import { Account, ModeratorAddressesResponse, PublicProfile } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
 import { UserPrivate } from '@shared/services/auth';
@@ -35,8 +35,8 @@ export class UserService {
     );
   }
 
-  public getModeratorAddress(): Observable<string> {
-    return this.userApiService.getModeratorAddress(
+  public getModeratorAddresses(): Observable<ModeratorAddressesResponse> {
+    return this.userApiService.getModeratorAddresses(
       this.networkService.getActiveNetworkInstant().api,
     );
   }
