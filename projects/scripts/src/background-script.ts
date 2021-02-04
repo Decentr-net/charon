@@ -6,17 +6,17 @@ import { initCookiesCollection } from './background/cookies/collection';
 
 (async () => {
   await setRandomNetwork();
+
+  initAutoLock();
+
+  initMessageListeners();
+
+  const pdvUpdateNotifier = new PDVUpdateNotifier();
+  pdvUpdateNotifier.start();
+
+  initCookiesCollection()
+    .subscribe(() => pdvUpdateNotifier.notify());
 })();
-
-initAutoLock();
-
-initMessageListeners();
-
-const pdvUpdateNotifier = new PDVUpdateNotifier();
-pdvUpdateNotifier.start();
-
-initCookiesCollection()
-  .subscribe(() => pdvUpdateNotifier.notify());
 
 // authStorage.getActiveUser().pipe(
 //   switchMap((user) => {

@@ -1,16 +1,18 @@
 import { EMPTY, from, merge, Observable, of, timer } from 'rxjs';
 import {
   concatMap,
+  delay,
   distinctUntilChanged,
   filter,
   map,
   mapTo,
   mergeMap,
-  mergeMapTo,
   repeat,
+  retryWhen,
   scan,
   takeLast,
   takeUntil,
+  tap,
 } from 'rxjs/operators';
 import { Cookies } from 'webextension-polyfill-ts';
 import Cookie = Cookies.Cookie;
@@ -21,6 +23,7 @@ import { ConfigService } from '../../../../../shared/services/configuration';
 import { PDVStorageService } from '../../../../../shared/services/pdv';
 import { ONE_SECOND } from '../../../../../shared/utils/date';
 import { whileUserActive } from '../auth/while-user-active';
+import { sendPDV } from './api';
 import { convertCookiesToPDV } from './convert';
 import { listenCookiesSet, listenLoginCookies } from './events';
 import { groupCookiesByDomainAndPath } from './grouping';
@@ -118,11 +121,36 @@ const collectPDVItemsReadyBlocks = (): Observable<void> => {
   });
 };
 
+const processedBlocks = new Set<string>();
+
+const initSendPDVBlocks = (): Observable<void> => {
+  return whileUserActive((user) => {
+    return pdvStorageService.getUserReadyBlocksChanges(user.wallet.address).pipe(
+      map((blocks) => (blocks || []).filter((block) => !processedBlocks.has(block.id))),
+      filter((blocksToProcess) => blocksToProcess.length > 0),
+      tap((blocksToProcess) => blocksToProcess.forEach(({ id }) => processedBlocks.add(id))),
+      mergeMap((blocksToProcess) => from(blocksToProcess)),
+      mergeMap((block) => sendPDV(user.wallet, block.pDVs).pipe(
+        retryWhen((errors) => errors.pipe(
+          delay(ONE_SECOND * 10),
+        )),
+        mapTo(block.id),
+      )),
+      concatMap((blockId) => {
+        processedBlocks.delete(blockId);
+        return pdvStorageService.removeUserReadyBlock(user.wallet.address, blockId);
+      }),
+      mapTo(void 0),
+    );
+  });
+};
+
 export const initCookiesCollection = (): Observable<void> => {
   return new Observable<void>((subscriber) => {
     const subscriptions = [
       collectPDVIntoStorage().subscribe(),
       collectPDVItemsReadyBlocks().subscribe(),
+      initSendPDVBlocks().subscribe(() => subscriber.next()),
     ];
 
     return () => subscriptions.map((sub) => sub.unsubscribe());

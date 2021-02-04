@@ -65,7 +65,7 @@ export class PDVStorageService {
     });
   }
 
-  private setUserReadyBlocks(walletAddress: Wallet['address'], blocks: PDVBlock[]): Promise<void> {
+  public setUserReadyBlocks(walletAddress: Wallet['address'], blocks: PDVBlock[]): Promise<void> {
     return this.getUserPDVStorage(walletAddress).set('readyBlocks', blocks);
   }
 
