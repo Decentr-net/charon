@@ -39,9 +39,9 @@ export class ConfigService {
     );
   }
 
-  public getMinPDVCountToSend(): Observable<number> {
+  public getPDVCountToSend(): Observable<Pick<Config['cerberus'], 'minPDVCount' | 'maxPDVCount'>> {
     return this.getConfig().pipe(
-      map((config) => config.cerberus.minPDVCount),
+      map((config) => config.cerberus),
     );
   }
 }

@@ -105,7 +105,6 @@
     "not_enough_pdv_rate": "Not enough data for the chart"
   },
   "pdv_activity_list": {
-    "login_cookie": "Login cookie",
     "no_activity": "You have no activity data"
   },
   "toolbar_toggle": {

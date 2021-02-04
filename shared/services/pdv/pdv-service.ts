@@ -1,13 +1,11 @@
 import { combineLatest, from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
-  BroadcastResponse,
   KeyPair,
   PDV,
   PDVDetails,
   PDVListItem,
   PDVListPaginationOptions,
-  PDVType,
   Wallet,
 } from 'decentr-js';
 
@@ -76,7 +74,7 @@ export class PDVService {
       )
   }
 
-  public sendPDV(api: string, wallet: Wallet, pdvType: PDVType, pdv: PDV): Promise<BroadcastResponse> {
-    return this.pdvApiService.sendPDV(api, wallet, pdvType, pdv);
+  public sendPDV(api: string, keys: KeyPair, pdv: PDV[]): Promise<string> {
+    return this.pdvApiService.sendPDV(api, keys, pdv);
   }
 }

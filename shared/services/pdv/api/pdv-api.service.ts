@@ -1,5 +1,4 @@
 import {
-  BroadcastResponse,
   Decentr,
   KeyPair,
   PDV,
@@ -7,7 +6,6 @@ import {
   PDVListItem,
   PDVListPaginationOptions,
   PDVStatItem,
-  PDVType,
   Wallet
 } from 'decentr-js';
 
@@ -15,10 +13,10 @@ export class PDVApiService {
   constructor(private chainId: string) {
   }
 
-  public sendPDV(api: string, wallet: Wallet, pdvType: PDVType, pdv: PDV): Promise<BroadcastResponse> {
+  public sendPDV(api: string, keys: KeyPair, pdv: PDV[]): Promise<string> {
     const decentr = this.createDecentrConnector(api);
 
-    return decentr.sendPDV(pdv, pdvType, wallet, { broadcast: true });
+    return decentr.sendPDV(pdv, keys);
   }
 
   public getBalance(api: string, walletAddress: Wallet['address']): Promise<number> {

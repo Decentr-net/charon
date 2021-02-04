@@ -1,11 +1,12 @@
 import { EMPTY, from, merge, Observable, of, timer } from 'rxjs';
 import {
-  debounceTime,
+  concatMap,
   distinctUntilChanged,
   filter,
   map,
   mapTo,
   mergeMap,
+  mergeMapTo,
   repeat,
   scan,
   takeLast,
@@ -13,14 +14,14 @@ import {
 } from 'rxjs/operators';
 import { Cookies } from 'webextension-polyfill-ts';
 import Cookie = Cookies.Cookie;
-import { PDVData, PDVItem, PDVType } from 'decentr-js';
+import { PDV, PDVData, PDVDataType } from 'decentr-js';
 
 import { environment } from '../../../../../environments/environment';
 import { ConfigService } from '../../../../../shared/services/configuration';
-import { AccumulatedPDV, PDVStorageService } from '../../../../../shared/services/pdv';
+import { PDVStorageService } from '../../../../../shared/services/pdv';
 import { ONE_SECOND } from '../../../../../shared/utils/date';
 import { whileUserActive } from '../auth/while-user-active';
-import { convertCookiesToPDVItem } from './convert';
+import { convertCookiesToPDV } from './convert';
 import { listenCookiesSet, listenLoginCookies } from './events';
 import { groupCookiesByDomainAndPath } from './grouping';
 import { PDVDataUniqueStore } from './pdv-data-unique-store';
@@ -34,19 +35,18 @@ const mergePDVData = (left: PDVData[], right: PDVData[]): PDVData[] => {
     .getAll();
 };
 
-const isSamePDVItem = (left: PDVItem, right: PDVItem): boolean => {
+const isSamePDV = (left: PDV, right: PDV): boolean => {
   return left.domain === right.domain
     && left.path === right.path
     && left.user_agent === right.user_agent;
 }
 
-const mergePDVItems = (left: PDVItem[], right: PDVItem[]): PDVItem[] => {
+const mergePDVs = (left: PDV[], right: PDV[]): PDV[] => {
   return right.reduce((acc, pdv) => {
-    const existingPDV = acc.find((existing) => isSamePDVItem(existing, pdv));
+    const existingPDV = acc.find((existing) => isSamePDV(existing, pdv));
 
     if (existingPDV) {
-      // TODO: make decentr.js interfaces writable
-      (existingPDV.data as any) = mergePDVData(existingPDV.data, pdv.data);
+      existingPDV.data = mergePDVData(existingPDV.data, pdv.data);
       return acc;
     }
 
@@ -54,22 +54,11 @@ const mergePDVItems = (left: PDVItem[], right: PDVItem[]): PDVItem[] => {
   }, [...left]);
 };
 
-const mergeAccumulatedPDV = (left: Partial<AccumulatedPDV>, right: Partial<AccumulatedPDV>): AccumulatedPDV => {
-  return Object.keys(right).reduce((acc, key) => ({
-    ...acc,
-    [key]: mergePDVItems(acc[key] || [], right[key]),
-  }), { ...left }) as AccumulatedPDV;
-};
-
-const mergeCookiesWithAccumulatedPDV = (
-  accumulatedPDV: Partial<AccumulatedPDV>,
-  cookiesWithPDVType: { cookies: Cookie[], pdvType: PDVType },
-): AccumulatedPDV => {
-  const cookieGroups = groupCookiesByDomainAndPath(cookiesWithPDVType.cookies);
-  const newPDVs = cookieGroups.map((group) => convertCookiesToPDVItem(group.cookies, group.domain, group.path));
-
-  return mergeAccumulatedPDV(accumulatedPDV, { [cookiesWithPDVType.pdvType]: newPDVs });
-};
+const convertCookiesToPDVs = (cookies: Cookie[], pdvDataType: PDVDataType): PDV[] => {
+  return groupCookiesByDomainAndPath(cookies).map((group) => {
+    return convertCookiesToPDV(group.cookies, group.domain, group.path, pdvDataType);
+  });
+}
 
 const collectPDVIntoStorage = (): Observable<void> => {
   return whileUserActive((user) => merge(
@@ -80,72 +69,54 @@ const collectPDVIntoStorage = (): Observable<void> => {
     ]).pipe(
       map((cookies) => cookies.filter((cookie) => !cookie.httpOnly && !cookie.session)),
       filter((cookies) => cookies.length > 0),
-      map((cookies) => ({ cookies, pdvType: PDVType.LoginCookie })),
+      map((cookies) => ({ cookies, pdvDataType: PDVDataType.LoginCookie })),
     ),
     listenCookiesSet({
       httpOnly: false,
       session: false,
     }).pipe(
-      map((cookie) => ({ cookies: [cookie], pdvType: PDVType.Cookie })),
+      map((cookie) => ({ cookies: [cookie], pdvDataType: PDVDataType.Cookie })),
     ),
   ).pipe(
-    scan((acc, cookiesWithPDVType) => {
-      return mergeCookiesWithAccumulatedPDV(acc, cookiesWithPDVType);
-    }, {}),
+    scan((acc, { cookies, pdvDataType }) => [
+      ...acc,
+      ...convertCookiesToPDVs(cookies, pdvDataType),
+    ], []),
     takeUntil(timer(ONE_SECOND * 5)),
     takeLast(1),
-    mergeMap((additionalAccumulatedPDV) => {
-      return from(pdvStorageService.getUserPDV(user.wallet.address)).pipe(
-        map((accumulated) => mergeAccumulatedPDV(accumulated, additionalAccumulatedPDV)),
+    concatMap((newPDVs) => {
+      return from(pdvStorageService.getUserAccumulatedPDV(user.wallet.address)).pipe(
+        map((accumulated) => mergePDVs(accumulated || [], newPDVs)),
       );
     }),
-    mergeMap((newAccumulated) => pdvStorageService.setUserPDV(user.wallet.address, newAccumulated)),
+    mergeMap((newAccumulated) => pdvStorageService.setUserAccumulatedPDV(user.wallet.address, newAccumulated)),
     repeat(),
   ));
 };
 
 const collectPDVItemsReadyBlocks = (): Observable<void> => {
   return whileUserActive((user) => {
-    return pdvStorageService.getUserPDVChanges(user.wallet.address).pipe(
-      debounceTime(1000),
-      map((accumulated) => {
-        return Object.keys(accumulated || {}).reduce((acc, pdvType) => ([
-          ...acc,
-          ...accumulated[pdvType].map((pdvItem) => ({ pdvItem, pdvType })),
-        ]), []);
-      }),
+    return pdvStorageService.getUserAccumulatedPDVChanges(user.wallet.address).pipe(
+      filter(pDVs => pDVs?.length > 0),
       distinctUntilChanged((prev, curr) => prev.length === curr.length),
-      mergeMap((allPDVItems) => configService.getMinPDVCountToSend().pipe(
-        mergeMap((minCountToSend) => {
-          minCountToSend = 3;
-          return allPDVItems.length >= minCountToSend
+      concatMap((pDVs) => configService.getPDVCountToSend().pipe(
+        mergeMap(({ minPDVCount, maxPDVCount }) => {
+          return pDVs.length >= minPDVCount
             ? of({
-              readyBlock: allPDVItems.slice(0, minCountToSend),
-              rest: allPDVItems.slice(minCountToSend),
+              readyBlockPDVs: pDVs.slice(0, maxPDVCount),
+              restPDVs: pDVs.slice(maxPDVCount),
             })
             : EMPTY;
         }),
       )),
-      mergeMap(({ readyBlock, rest }) => {
-        return pdvStorageService.setUserPDV(
-          user.wallet.address,
-          rest.reduce((acc, item) => ({
-            ...acc,
-            [item.pdvType]: [...acc[item.pdvType] || [], item.pdvItem],
-          }), {}),
-        ).then(() => {
-          return pdvStorageService.getUserReadyToSend(user.wallet.address).then((blocks) => {
-            return pdvStorageService.setUserReadyToSend(
-              user.wallet.address,
-              [...blocks || [], readyBlock],
-            );
-          });
-        });
+      concatMap(({ readyBlockPDVs, restPDVs }) => {
+        return from(pdvStorageService.setUserAccumulatedPDV(user.wallet.address, restPDVs)).pipe(
+          mergeMap(() => pdvStorageService.addUserReadyBlock(user.wallet.address, readyBlockPDVs)),
+        );
       }),
-      mapTo(void 0),
     );
   });
-}
+};
 
 export const initCookiesCollection = (): Observable<void> => {
   return new Observable<void>((subscriber) => {

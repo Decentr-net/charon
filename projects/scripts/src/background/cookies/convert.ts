@@ -1,8 +1,8 @@
-import { PDVItem } from 'decentr-js';
+import { PDV, PDVDataType } from 'decentr-js';
 import { Cookies } from 'webextension-polyfill-ts';
 import Cookie = Cookies.Cookie;
 
-export const convertCookiesToPDVItem = (cookies: Cookie[], domain: string, path: string): PDVItem => {
+export const convertCookiesToPDV = (cookies: Cookie[], domain: string, path: string, pdvDataType: PDVDataType): PDV => {
   const pdvDomainMatch = domain.match(/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*$/);
   const pdvDomain = pdvDomainMatch && pdvDomainMatch[0] || domain;
 
@@ -14,7 +14,7 @@ export const convertCookiesToPDVItem = (cookies: Cookie[], domain: string, path:
       domain: pdvDomain,
       path: path,
       version: 'v1',
-      type: 'cookie',
+      type: pdvDataType,
       name: cookie.name,
       value: cookie.value,
       host_only: cookie.hostOnly,
