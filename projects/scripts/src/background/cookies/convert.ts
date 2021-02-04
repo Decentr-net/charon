@@ -13,7 +13,6 @@ export const convertCookiesToPDV = (cookies: Cookie[], domain: string, path: str
     data: cookies.map((cookie) => ({
       domain: pdvDomain,
       path: path,
-      version: 'v1',
       type: pdvDataType,
       name: cookie.name,
       value: cookie.value,

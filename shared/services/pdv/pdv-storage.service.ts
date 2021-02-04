@@ -5,7 +5,7 @@ import { PDV, Wallet } from 'decentr-js';
 import { uuid } from '../../utils/uuid';
 import { BrowserLocalStorage, BrowserStorage } from '../browser-storage';
 
-interface PDVBlock {
+export interface PDVBlock {
   id: string;
   pDVs: PDV[];
 }
@@ -47,6 +47,12 @@ export class PDVStorageService {
 
   public getUserReadyBlocks(walletAddress: Wallet['address']): Promise<PDVBlock[]> {
     return this.getUserPDVStorage(walletAddress).get('readyBlocks');
+  }
+
+  public getUserReadyBlock(walletAddress: Wallet['address'], id: PDVBlock['id']): Promise<PDVBlock> {
+    return this.getUserReadyBlocks(walletAddress).then((blocks) => {
+      return blocks.find((block) => block.id === id);
+    });
   }
 
   public getUserReadyBlocksChanges(walletAddress: Wallet['address']): Observable<PDVBlock[]> {
