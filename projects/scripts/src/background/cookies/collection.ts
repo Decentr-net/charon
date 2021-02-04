@@ -154,7 +154,7 @@ const initSendPDVBlocks = (): Observable<void> => {
           return throwError(error);
         }),
         retryWhen((errors) => errors.pipe(
-          delay(ONE_SECOND * 1000),
+          delay(ONE_SECOND * 10),
         )),
         mapTo(block.id),
       )),
