@@ -36,7 +36,6 @@ export class PDVService {
     private stateChangesService: StateChangesService,
     private microValuePipe: MicroValuePipe,
   ) {
-    this.getEstimatedBalance().subscribe(console.log);
     this.stateChangesService.getWalletAndNetworkApiChanges().pipe(
       untilDestroyed(this),
     ).subscribe(({ wallet, networkApi }) => {
