@@ -23,6 +23,7 @@ export class HubPageComponent implements OnInit {
   public avatar$: Observable<string>;
   public balance: BalanceValueDynamic;
   public coinRate$: Observable<CoinRateFor24Hours>;
+  public estimatedBalance$: Observable<string>;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -33,6 +34,7 @@ export class HubPageComponent implements OnInit {
   public ngOnInit(): void {
     this.avatar$ = this.hubPageService.getAvatar();
     this.coinRate$ = this.hubPageService.getCoinRateWithMargin();
+    this.estimatedBalance$ = this.hubPageService.getEstimatedBalance();
 
     this.hubPageService.getBalanceWithMargin().pipe(
       untilDestroyed(this),

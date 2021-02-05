@@ -23,11 +23,11 @@ export class UserDetailsPageService {
   constructor(
     private authService: AuthService,
     private bankService: BankService,
-    private pdvService: PDVService,
     private currencyService: CurrencyService,
     private matDialog: MatDialog,
     private mediaService: MediaService,
     private notificationService: NotificationService,
+    private pdvService: PDVService,
     private spinnerService: SpinnerService,
   ) {
   }
@@ -45,6 +45,10 @@ export class UserDetailsPageService {
 
   public getCoinRate(): Observable<number> {
     return this.currencyService.getDecentrCoinRateForUsd();
+  }
+
+  public getEstimatedBalance(): Observable<string> {
+    return this.pdvService.getEstimatedBalance();
   }
 
   public getPDVDetails(address: PDVListItem): Observable<PDVDetails> {

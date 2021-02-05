@@ -16,6 +16,7 @@ export interface HubPDVStatistics {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubPdvStatisticsComponent {
+  @Input() public estimatedBalance: string;
   @Input() public statistics: HubPDVStatistics;
 
   @HostBinding('class.mod-negative')

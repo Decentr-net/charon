@@ -37,6 +37,7 @@ export class UserDetailsPageComponent implements OnInit {
   public canLoadMoreActivity$: Observable<boolean>;
   public isLoadingActivity$: Observable<boolean>;
   public chartPoints$: Observable<ChartPoint[]>;
+  public estimatedBalance$: Observable<string>;
   public selectedTabIndex$: BehaviorSubject<number> = new BehaviorSubject(0);
   public showBankBalance$: Observable<boolean>;
 
@@ -87,6 +88,8 @@ export class UserDetailsPageComponent implements OnInit {
     this.isLoadingActivity$ = this.userDetailsPageActivityService.isLoading$;
 
     this.chartPoints$ = this.userDetailsPageService.getPDVChartPoints();
+
+    this.estimatedBalance$ = this.userDetailsPageService.getEstimatedBalance();
 
     this.showBankBalance$ = this.selectedTabIndex$.pipe(
       map((index) => this.tabs[index] === UserDetailsPageTab.Assets),

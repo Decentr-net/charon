@@ -36,6 +36,10 @@ export class HubPageService {
     return this.currencyService.getDecentrCoinRateForUsd24hours();
   }
 
+  public getEstimatedBalance(): Observable<string> {
+    return this.pdvService.getEstimatedBalance();
+  }
+
   public getPDVChartPoints(): Observable<ChartPoint[]> {
     return this.pdvService.getPDVStatChartPoints();
   }

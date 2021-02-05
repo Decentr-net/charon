@@ -30,6 +30,7 @@ import { PostWithAuthor } from '../../models/post';
 export class OverviewPageComponent {
   public headerContentSlotName = HUB_HEADER_CONTENT_SLOT;
 
+  public estimatedBalance$: Observable<string>;
   public pdvStatistics: HubPDVStatistics;
   public rateStatistics$: Observable<HubCurrencyStatistics>;
 
@@ -57,6 +58,8 @@ export class OverviewPageComponent {
       this.pdvStatistics = statistics;
       this.changeDetectorRef.detectChanges();
     });
+
+    this.estimatedBalance$ = this.overviewPageService.getEstimatedBalance();
 
     this.rateStatistics$ = this.overviewPageService.getCoinRateStatistics();
 
