@@ -1,13 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PDVData } from 'decentr-js';
+import { PDV } from 'decentr-js';
 
 export interface PDVDetailsDialogData {
   date: Date;
-  domain: string;
-  ip: string;
-  userAgent: string;
-  pdvData: PDVData[];
+  pdv: PDV[];
 }
 
 @Component({

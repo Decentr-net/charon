@@ -1,13 +1,10 @@
 import { combineLatest, from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
-  BroadcastResponse,
-  KeyPair,
   PDV,
   PDVDetails,
   PDVListItem,
   PDVListPaginationOptions,
-  PDVType,
   Wallet,
 } from 'decentr-js';
 
@@ -30,10 +27,10 @@ export class PDVService {
 
   public getPDVDetails(
     api: string,
-    address: PDVListItem['address'],
-    keyPair: KeyPair,
+    address: PDVListItem,
+    wallet: Wallet,
   ): Observable<PDVDetails> {
-    return from(this.pdvApiService.getPDVDetails(api, address, keyPair));
+    return from(this.pdvApiService.getPDVDetails(api, address, wallet));
   }
 
   public getPDVList(
@@ -76,7 +73,7 @@ export class PDVService {
       )
   }
 
-  public sendPDV(api: string, wallet: Wallet, pdvType: PDVType, pdv: PDV): Promise<BroadcastResponse> {
-    return this.pdvApiService.sendPDV(api, wallet, pdvType, pdv);
+  public sendPDV(api: string, wallet: Wallet, pdv: PDV[]): Promise<void> {
+    return this.pdvApiService.sendPDV(api, wallet, pdv);
   }
 }

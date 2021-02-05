@@ -23,11 +23,11 @@ export class UserDetailsPageService {
   constructor(
     private authService: AuthService,
     private bankService: BankService,
-    private pdvService: PDVService,
     private currencyService: CurrencyService,
     private matDialog: MatDialog,
     private mediaService: MediaService,
     private notificationService: NotificationService,
+    private pdvService: PDVService,
     private spinnerService: SpinnerService,
   ) {
   }
@@ -47,7 +47,11 @@ export class UserDetailsPageService {
     return this.currencyService.getDecentrCoinRateForUsd();
   }
 
-  public getPDVDetails(address: PDVListItem['address']): Observable<PDVDetails> {
+  public getEstimatedBalance(): Observable<string> {
+    return this.pdvService.getEstimatedBalance();
+  }
+
+  public getPDVDetails(address: PDVListItem): Observable<PDVDetails> {
     return this.pdvService.getPDVDetails(address);
   }
 
@@ -58,7 +62,7 @@ export class UserDetailsPageService {
   public openPDVDetails(pdvItem: PDVActivityListItem): void {
     this.spinnerService.showSpinner();
 
-    this.getPDVDetails(pdvItem.address).pipe(
+    this.getPDVDetails(pdvItem.id).pipe(
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
     ).subscribe(details => {
@@ -72,15 +76,12 @@ export class UserDetailsPageService {
     const config: MatDialogConfig<PDVDetailsDialogData> = {
       width: '940px',
       maxWidth: '100%',
-      height: this.mediaService.isSmall() ? '100%' : '500px',
-      maxHeight: this.mediaService.isSmall() ? '100vh' : '100%',
-      panelClass: 'popup-no-padding',
+      height: this.mediaService.isSmall() ? '100%' : '75vh',
+      maxHeight: this.mediaService.isSmall() ? '100%' : '100%',
+      panelClass: ['popup-no-padding', 'popup-flex-column'],
       data: {
         date,
-        domain: details.user_data.pdv.domain,
-        ip: details.calculated_data.ip,
-        pdvData: details.user_data.pdv.data,
-        userAgent: details.user_data.pdv.user_agent,
+        pdv: details.pdv,
       },
     };
 

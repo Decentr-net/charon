@@ -20,7 +20,12 @@
               width: '200px'
             }"
           ></ngx-skeleton-loader>
-          <ng-container *ngIf="balance">{{ balance.value | pdvValue }} PDV</ng-container>
+          <span
+            *ngIf="balance"
+            [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async })"
+          >
+            {{ balance.value | pdvValue }} PDV
+          </span>
         </span>
 
         <app-pdv-rate-margin-icon

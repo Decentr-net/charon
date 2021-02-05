@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
 import { defer, Observable } from 'rxjs';
+import { PDVDataType } from 'decentr-js';
 
 import { Environment } from '../../../environments/environment.definitions';
 
 export interface Config {
+  cerberus: {
+    minPDVCount: number;
+    maxPDVCount: number;
+    rewards: Record<PDVDataType, number>;
+  };
   network: {
     rest: string[];
-  },
+  };
   minVersion: string;
 }
 

@@ -14,6 +14,7 @@
       [color]="'green'"
       [dayMargin]="balance.dayMargin"
       [dayMarginDigitsInfo]="'1.0-5'"
+      [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async })"
     >
       <strong>{{ translate('pdv') }}</strong>
       <span class="hub-page__header-meta-label-value">{{ balance.value | pdvValue }}</span>

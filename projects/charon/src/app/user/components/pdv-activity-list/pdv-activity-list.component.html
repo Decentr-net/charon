@@ -5,16 +5,8 @@
       *ngFor="let activityItem of items; let i = index; trackBy: trackByAddress"
       (click)="onItemClick(activityItem)"
     >
-      <div class="activity-item__type">
-        <svg-icon
-          *ngIf="activityItem.type === pdvType.LoginCookie"
-          class="activity-item__type-icon"
-          key="lock"
-          [matTooltip]="translate('login_cookie')"
-        ></svg-icon>
-      </div>
       <div class="activity-item__name">
-        {{activityItem.address}}
+        {{activityItem.id}}
       </div>
       <div class="activity-item__date">
         {{activityItem.date | date : 'dd.MM.yyyy HH:mm'}}
