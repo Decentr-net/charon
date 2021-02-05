@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, EMPTY, Observable } from 'rxjs';
-import { catchError, share, startWith, switchMap } from 'rxjs/operators';
+import { combineLatest, EMPTY, from, Observable } from 'rxjs';
+import { catchError, map, share, startWith, switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PDVDetails, PDVListItem, PDVListPaginationOptions, Wallet } from 'decentr-js';
 
@@ -9,11 +9,14 @@ import {
   BalanceValueDynamic,
   PDVService as NativePDVService,
   PDVStatChartPoint,
+  PDVStorageService,
   PDVUpdateNotifier,
 } from '@shared/services/pdv';
 import { whileDocumentVisible } from '@shared/utils/document';
 import { StateChangesService } from '../state';
 import { Network } from '@core/services';
+import { ConfigService } from '@shared/services/configuration';
+import { MicroValuePipe } from '@shared/pipes/micro-value';
 
 @UntilDestroy()
 @Injectable()
@@ -25,11 +28,15 @@ export class PDVService {
   private balanceWithMargin$: Observable<BalanceValueDynamic>;
   private pDVStatChartPoints$: Observable<PDVStatChartPoint[]>;
   private nativePdvService: NativePDVService = new NativePDVService(this.environment.chainId);
+  private pdvStorageService: PDVStorageService = new PDVStorageService();
 
   constructor(
     private environment: Environment,
+    private configService: ConfigService,
     private stateChangesService: StateChangesService,
+    private microValuePipe: MicroValuePipe,
   ) {
+    this.getEstimatedBalance().subscribe(console.log);
     this.stateChangesService.getWalletAndNetworkApiChanges().pipe(
       untilDestroyed(this),
     ).subscribe(({ wallet, networkApi }) => {
@@ -46,6 +53,19 @@ export class PDVService {
     }
 
     return this.balance$;
+  }
+
+  public getEstimatedBalance(): Observable<string> {
+    return this.stateChangesService.getWalletAndNetworkApiChanges().pipe(
+      switchMap(({ wallet }) => combineLatest([
+        this.configService.getRewards(),
+        from(this.pdvStorageService.getUserAccumulatedPDV(wallet.address)).pipe(
+          map((pDVs) => pDVs.reduce((acc, pdv) => [...acc, ...pdv.data], [])),
+        ),
+      ])),
+      map(([rewards, pdvData]) => pdvData.reduce((acc, item) => acc + rewards[item.type] || 0, 0)),
+      map((estimatedBalance) => this.microValuePipe.transform(estimatedBalance)),
+    );
   }
 
   public getPDVList(
