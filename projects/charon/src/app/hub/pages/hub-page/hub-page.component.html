@@ -7,27 +7,39 @@
     *appSlot="headerMetaSlotName"
     class="hub-page__header-meta-container"
   >
-    <app-color-value-dynamic
-      class="hub-page__header-meta-label"
+    <div
       *ngIf="balance"
       [dayMargin]="balance.dayMargin"
       [dayMarginDigitsInfo]="'1.0-5'"
       [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async })"
+      class="hub-page__header-meta-label"
     >
       {{ translate('pdv') }}:
-      <span class="hub-page__header-meta-label-value">{{ balance.value | pdvValue }}</span>
-    </app-color-value-dynamic>
+      <span class="hub-page__header-meta-label-value">
+        {{ balance.value | pdvValue }}
+      </span>
 
-    <app-color-value-dynamic
-      class="hub-page__header-meta-label"
+      <app-color-margin-label
+        class="hub-page__header-meta-margin-label"
+        [dayMargin]="balance.dayMargin"
+        [digitsInfo]="'1.0-5'"
+      ></app-color-margin-label>
+    </div>
+
+    <div
       *ngIf="coinRate$ | async as coinRate"
-      [dayMargin]="coinRate.dayMargin"
+      class="hub-page__header-meta-label"
     >
       {{ translate('dec') }}:
       <span class="hub-page__header-meta-label-value">
         {{ coinRate.value | currency : 'USD' : 'symbol' : '1.4' }}
       </span>
-    </app-color-value-dynamic>
+
+      <app-color-margin-label
+        class="hub-page__header-meta-margin-label"
+        [dayMargin]="coinRate.dayMargin"
+      ></app-color-margin-label>
+    </div>
 
     <div
       class="hub-page__header-meta-details"

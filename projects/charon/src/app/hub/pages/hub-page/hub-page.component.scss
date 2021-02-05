@@ -26,6 +26,7 @@ $hub-page--details--background-color-hover: #f0f0f1;
 }
 
 .hub-page__header-meta-label {
+  display: inline-flex;
   font-size: 14px;
 
   & {
@@ -39,13 +40,12 @@ $hub-page--details--background-color-hover: #f0f0f1;
 }
 
 .hub-page__header-meta-details {
-  border-left: 1px solid $hub-page--border-color;
+  box-shadow: 0 0 0 1px $hub-page--border-color;
   color: $hub-page--details--color;
   display: inline-block;
   font-size: 14px;
   min-width: 132px;
   padding: 11.5px 16px;
-  position: relative;
   text-align: right;
   transition: background .3s ease;
   user-select: none;
@@ -78,6 +78,10 @@ $hub-page--details--background-color-hover: #f0f0f1;
 
 .hub-page__header-meta-label-value {
   font-weight: 500;
+  margin-left: 6px;
+}
+
+.hub-page__header-meta-margin-label {
   margin-left: 6px;
 }
 

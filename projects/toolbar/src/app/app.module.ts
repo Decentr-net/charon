@@ -7,15 +7,15 @@ import { AppComponent } from './app.component';
 import { AppService } from './app.service';
 import { AvatarModule } from '@shared/components/avatar';
 import { AuthBrowserStorageService } from '@shared/services/auth';
-import { LockBrowserStorageService } from '@shared/services/lock';
-import { ColorValueDynamicModule } from '@shared/components/color-value-dynamic';
+import { ColorMarginLabelModule } from '@shared/components/color-margin-label';
 import { CurrencyModule } from '@shared/services/currency';
 import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
+import { LockBrowserStorageService } from '@shared/services/lock';
 import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { PDVService } from '@shared/services/pdv';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
-import { svgClose, svgLogo, svgNotification } from '@shared/svg-icons';
+import { svgClose, svgLogo } from '@shared/svg-icons';
 import { TranslocoRootModule } from './transloco';
 import { TOOLBAR_SERVICES } from './services';
 
@@ -26,7 +26,7 @@ import { TOOLBAR_SERVICES } from './services';
   imports: [
     AvatarModule,
     BrowserModule,
-    ColorValueDynamicModule,
+    ColorMarginLabelModule,
     CurrencyModule.forRoot({
       api: environment.currencyApi,
     }),
@@ -36,7 +36,6 @@ import { TOOLBAR_SERVICES } from './services';
       icons: [
         svgClose,
         svgLogo,
-        svgNotification,
       ],
     }),
     TranslocoRootModule,

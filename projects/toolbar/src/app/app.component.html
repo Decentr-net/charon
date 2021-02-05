@@ -10,26 +10,36 @@
   <div class="app__section app__middle-container">
     <div class="app__middle-container-section">
       <div class="app__middle-container-section-dynamic">
-        <app-color-value-dynamic
-          class="app__meta-label"
+        <div
           *ngIf="!isLocked && balance"
-          [dayMargin]="balance.dayMargin"
-          [dayMarginDigitsInfo]="'1.0-5'"
+          class="app__meta-label"
         >
           {{ translate('pdv') }}:
-          <span class="app__meta-label-value">{{ balance.value | pdvValue }}</span>
-        </app-color-value-dynamic>
+          <span class="app__meta-label-value">
+            {{ balance.value | pdvValue }}
+          </span>
 
-        <app-color-value-dynamic
-          class="app__meta-label"
+          <app-color-margin-label
+            class="app__meta-margin-label"
+            [dayMargin]="balance.dayMargin"
+            [digitsInfo]="'1.0-5'"
+          ></app-color-margin-label>
+        </div>
+
+        <div
           *ngIf="coinRate"
-          [dayMargin]="coinRate.dayMargin"
+          class="app__meta-label"
         >
           {{ translate('dec') }}:
           <span class="app__meta-label-value">
-          {{ coinRate.value | currency : 'USD' : 'symbol' : '1.4' }}
-        </span>
-        </app-color-value-dynamic>
+            {{ coinRate.value | currency : 'USD' : 'symbol' : '1.4' }}
+          </span>
+
+          <app-color-margin-label
+            class="app__meta-margin-label"
+            [dayMargin]="coinRate.dayMargin"
+          ></app-color-margin-label>
+        </div>
       </div>
     </div>
 

@@ -18,7 +18,7 @@ import { HUB_PAGES } from './pages';
 import { HUB_SERVICES } from './services';
 import { AvatarModule } from '@shared/components/avatar';
 import { ColorCircleLabelModule } from '@shared/components/color-circle-label';
-import { ColorValueDynamicModule } from '@shared/components/color-value-dynamic';
+import { ColorMarginLabelModule } from '@shared/components/color-margin-label';
 import { ColoredDistributionLineModule } from '@shared/components/colored-distribution-line';
 import { DateAgoModule } from '@shared/pipes/date-ago';
 import { FormErrorModule } from '@shared/components/form-error';
@@ -44,7 +44,7 @@ import { TextClampModule } from '@shared/directives/text-clamp';
   imports: [
     AvatarModule,
     ColorCircleLabelModule,
-    ColorValueDynamicModule,
+    ColorMarginLabelModule,
     ColoredDistributionLineModule,
     CommonModule,
     CutHtmlImagesModule,
