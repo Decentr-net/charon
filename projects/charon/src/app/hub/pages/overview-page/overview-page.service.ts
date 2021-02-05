@@ -33,6 +33,10 @@ export class OverviewPageService extends HubPostsService implements OnDestroy {
     this.dispose();
   }
 
+  public getEstimatedBalance(): Observable<string> {
+    return this.hubPageService.getEstimatedBalance();
+  }
+
   private getUserRegisteredAt(): Observable<string> {
     const user = this.authService.getActiveUserInstant();
 

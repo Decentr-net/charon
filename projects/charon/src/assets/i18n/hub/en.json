@@ -66,12 +66,14 @@
   },
   "hub_page": {
     "header": {
+      "estimated_balance": "In progress: {{estimatedBalance}} PDV",
       "pdv": "My PDV",
       "dec": "DEC"
     }
   },
   "hub_pdv_statistics": {
     "activity_from": "Activity from {{date}}",
+    "estimated_balance": "In progress: {{estimatedBalance}} PDV",
     "no_chart_data": "You have no PDV Rate data",
     "not_enough_chart_data": "Not enough data PDV for the chart",
     "my_pdv": "My PDV",

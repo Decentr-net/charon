@@ -11,7 +11,10 @@
       {{ translate('activity_from', { date: statistics.fromDate | date }) }}
     </ng-container>
 
-    <div class="hub-pdv-statistics__pdv">
+    <div
+      class="hub-pdv-statistics__pdv"
+      [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance })"
+    >
       {{ statistics.pdv | pdvValue }}
     </div>
 
