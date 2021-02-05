@@ -5,8 +5,8 @@
 import { Environment } from './environment.definitions';
 
 export const environment: Environment = {
-  awsStorage: 'https://tf-decentr-public-testnet2.s3.eu-central-1.amazonaws.com',
-  chainId: 'testnet2',
+  awsStorage: 'https://tf-decentr-public-testnet.s3.us-east-2.amazonaws.com',
+  chainId: 'testnet',
   currencyApi: 'https://api.coingecko.com/api/v3',
   image: {
     api: 'https://api.imgbb.com/1/upload',
