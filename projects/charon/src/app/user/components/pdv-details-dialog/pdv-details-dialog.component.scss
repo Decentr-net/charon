@@ -1,5 +1,7 @@
 @import 'variables';
 
+$POPUP_HEADER_HEIGHT: 60px;
+
 :host {
   display: block;
   overflow: hidden;
@@ -10,7 +12,7 @@
   display: flex;
   justify-content: space-between;
   padding: 15px;
-  min-height: 50px;
+  height: $POPUP_HEADER_HEIGHT;
   border-bottom: 1px solid $grey-border-color;
 }
 
@@ -27,6 +29,8 @@
 }
 
 .popup-body {
+  margin: 0;
+  max-height: calc(100% - #{$POPUP_HEADER_HEIGHT});
   overflow: auto;
   padding: 15px;
 }

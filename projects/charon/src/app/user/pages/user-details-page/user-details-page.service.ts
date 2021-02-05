@@ -72,9 +72,9 @@ export class UserDetailsPageService {
     const config: MatDialogConfig<PDVDetailsDialogData> = {
       width: '940px',
       maxWidth: '100%',
-      height: this.mediaService.isSmall() ? '100%' : '500px',
-      maxHeight: this.mediaService.isSmall() ? '100vh' : '100%',
-      panelClass: 'popup-no-padding',
+      height: this.mediaService.isSmall() ? '100%' : '75vh',
+      maxHeight: this.mediaService.isSmall() ? '100%' : '100%',
+      panelClass: ['popup-no-padding', 'popup-flex-column'],
       data: {
         date,
         pdv: details.pdv,
