@@ -22,7 +22,7 @@
           ></ngx-skeleton-loader>
           <span
             *ngIf="balance"
-            [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ })"
+            [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async })"
           >
             {{ balance.value | pdvValue }} PDV
           </span>
