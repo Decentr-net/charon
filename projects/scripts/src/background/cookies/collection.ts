@@ -40,9 +40,7 @@ const mergePDVData = (left: PDVData[], right: PDVData[]): PDVData[] => {
 };
 
 const isSamePDVs = (left: PDV, right: PDV): boolean => {
-  return left.domain === right.domain
-    && left.path === right.path
-    && left.user_agent === right.user_agent;
+  return left.domain === right.domain && left.path === right.path;
 }
 
 const mergePDVs = (target: PDV[], source: PDV[]): PDV[] => {
@@ -170,9 +168,9 @@ const initSendPDVBlocks = (): Observable<void> => {
 export const initCookiesCollection = (): Observable<void> => {
   return new Observable<void>((subscriber) => {
     const subscriptions = [
-      collectPDVIntoStorage().subscribe(),
-      collectPDVItemsReadyBlocks().subscribe(),
       initSendPDVBlocks().subscribe(() => subscriber.next()),
+      collectPDVItemsReadyBlocks().subscribe(),
+      collectPDVIntoStorage().subscribe(),
     ];
 
     return () => subscriptions.map((sub) => sub.unsubscribe());

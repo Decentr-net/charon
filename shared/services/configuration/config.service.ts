@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { filter, map } from 'rxjs/operators';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
+import { Observable, ReplaySubject } from 'rxjs';
 
 import { Config, ConfigApiService } from './config-api.service';
 import { Environment } from '../../../environments/environment.definitions';
 
 @Injectable()
 export class ConfigService {
-  private config$: BehaviorSubject<Config> = new BehaviorSubject(void 0);
-  private pendingConfig: boolean;
+  private config$: ReplaySubject<Config> = new ReplaySubject(1);
+  private pendingConfig: boolean = true;
 
   private readonly configApiService: ConfigApiService = new ConfigApiService(this.environment);
 
@@ -26,6 +26,7 @@ export class ConfigService {
 
     return this.config$.pipe(
       filter((config) => !!config),
+      take(1),
     );
   }
 
