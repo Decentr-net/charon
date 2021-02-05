@@ -2,6 +2,7 @@ import { EMPTY, from, merge, Observable, of, throwError, timer } from 'rxjs';
 import {
   catchError,
   concatMap,
+  debounceTime,
   delay,
   distinctUntilChanged,
   filter,
@@ -106,6 +107,7 @@ const collectPDVItemsReadyBlocks = (): Observable<void> => {
     return pdvStorageService.getUserAccumulatedPDVChanges(user.wallet.address).pipe(
       filter(pDVs => pDVs?.length > 0),
       distinctUntilChanged((prev, curr) => prev.length === curr.length),
+      debounceTime(ONE_SECOND),
       concatMap((pDVs) => configService.getPDVCountToSend().pipe(
         mergeMap(({ minPDVCount, maxPDVCount }) => {
           return pDVs.length >= minPDVCount
@@ -140,7 +142,7 @@ const initSendPDVBlocks = (): Observable<void> => {
       filter((blocksToProcess) => blocksToProcess.length > 0),
       tap((blocksToProcess) => blocksToProcess.forEach(({ id }) => processedBlocks.add(id))),
       mergeMap((blocksToProcess) => from(blocksToProcess)),
-      mergeMap((block) => sendPDV(user.wallet, block.pDVs).pipe(
+      mergeMap((block) => from(sendPDV(user.wallet, block.pDVs)).pipe(
         catchError((error) => {
           if (error?.response?.status === 400) {
             configService.forceUpdate();
@@ -152,7 +154,7 @@ const initSendPDVBlocks = (): Observable<void> => {
           return throwError(error);
         }),
         retryWhen((errors) => errors.pipe(
-          delay(ONE_SECOND * 10),
+          delay(ONE_SECOND * 20),
         )),
         mapTo(block.id),
       )),
@@ -176,3 +178,7 @@ export const initCookiesCollection = (): Observable<void> => {
     return () => subscriptions.map((sub) => sub.unsubscribe());
   });
 }
+
+// 0tPx532Dfx2000000R0sD4I0::163308369:4b99c07-0-5378c49-4464dd5:CAASEMqoG2K71ICvZt_rmY2HLBsacIej_TnxPRq7-LyUJwI_eFXpjLe4kGPVDzsmJlL9cVgXkf8rUvrt4h_dj0JVyRIzhwLh5V6kIsSVAISYQjO9IMss0vegq8Zj3EP89s2aZIydh0sSWjW__D9RulOzT3C_Zx6THQu99S85OGCjO16I9Lk
+// AJi4QfEwZVWR9eo3_kqiwZoGvllurXihJNeHZbFqcCsl6nqZi3eG2rG05CEQuuiA2LgugNAjrDw
+// {"version":"v1","pdv":[{"data":[{"domain":"skillbox.ru","expiration_date":1675606829,"host_only":false,"name":"_ga","path":"/","same_site":"unspecified","secure":false,"type":"cookie","value":"GA1.2.401316326.1612526492"}],"domain":"skillbox.ru","path":"/"}]}

@@ -1,7 +1,6 @@
 import { combineLatest, from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
-  KeyPair,
   PDV,
   PDVDetails,
   PDVListItem,
@@ -74,7 +73,7 @@ export class PDVService {
       )
   }
 
-  public sendPDV(api: string, keys: KeyPair, pdv: PDV[]): Promise<string> {
-    return this.pdvApiService.sendPDV(api, keys, pdv);
+  public sendPDV(api: string, wallet: Wallet, pdv: PDV[]): Promise<void> {
+    return this.pdvApiService.sendPDV(api, wallet, pdv);
   }
 }

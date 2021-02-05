@@ -1,6 +1,5 @@
 import {
   Decentr,
-  KeyPair,
   PDV,
   PDVDetails,
   PDVListItem,
@@ -13,10 +12,12 @@ export class PDVApiService {
   constructor(private chainId: string) {
   }
 
-  public sendPDV(api: string, keys: KeyPair, pdv: PDV[]): Promise<string> {
+  public sendPDV(api: string, wallet: Wallet, pdv: PDV[]): Promise<void> {
     const decentr = this.createDecentrConnector(api);
 
-    return decentr.sendPDV(pdv, keys);
+    return decentr.sendPDV(pdv, wallet, {
+      broadcast: true,
+    }).then(() => void 0);
   }
 
   public getBalance(api: string, walletAddress: Wallet['address']): Promise<number> {
