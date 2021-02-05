@@ -178,7 +178,3 @@ export const initCookiesCollection = (): Observable<void> => {
     return () => subscriptions.map((sub) => sub.unsubscribe());
   });
 }
-
-// 0tPx532Dfx2000000R0sD4I0::163308369:4b99c07-0-5378c49-4464dd5:CAASEMqoG2K71ICvZt_rmY2HLBsacIej_TnxPRq7-LyUJwI_eFXpjLe4kGPVDzsmJlL9cVgXkf8rUvrt4h_dj0JVyRIzhwLh5V6kIsSVAISYQjO9IMss0vegq8Zj3EP89s2aZIydh0sSWjW__D9RulOzT3C_Zx6THQu99S85OGCjO16I9Lk
-// AJi4QfEwZVWR9eo3_kqiwZoGvllurXihJNeHZbFqcCsl6nqZi3eG2rG05CEQuuiA2LgugNAjrDw
-// {"version":"v1","pdv":[{"data":[{"domain":"skillbox.ru","expiration_date":1675606829,"host_only":false,"name":"_ga","path":"/","same_site":"unspecified","secure":false,"type":"cookie","value":"GA1.2.401316326.1612526492"}],"domain":"skillbox.ru","path":"/"}]}
