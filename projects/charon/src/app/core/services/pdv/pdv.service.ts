@@ -58,7 +58,7 @@ export class PDVService {
     return this.stateChangesService.getWalletAndNetworkApiChanges().pipe(
       switchMap(({ wallet }) => combineLatest([
         this.configService.getRewards(),
-        from(this.pdvStorageService.getUserAccumulatedPDV(wallet.address)).pipe(
+        from(this.pdvStorageService.getUserAccumulatedPDVChanges(wallet.address)).pipe(
           map((pDVs) => pDVs.reduce((acc, pdv) => [...acc, ...pdv.data], [])),
         ),
       ])),
