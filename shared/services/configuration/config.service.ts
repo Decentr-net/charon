@@ -8,7 +8,7 @@ import { Environment } from '../../../environments/environment.definitions';
 @Injectable()
 export class ConfigService {
   private config$: ReplaySubject<Config> = new ReplaySubject(1);
-  private pendingConfig: boolean = true;
+  private pendingConfig: boolean;
 
   private readonly configApiService: ConfigApiService = new ConfigApiService(this.environment);
 
