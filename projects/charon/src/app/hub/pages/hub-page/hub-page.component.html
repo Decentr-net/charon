@@ -9,10 +9,8 @@
   >
     <div
       *ngIf="balance"
-      [dayMargin]="balance.dayMargin"
-      [dayMarginDigitsInfo]="'1.0-5'"
-      [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async })"
       class="hub-page__header-meta-label"
+      [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async })"
     >
       {{ translate('pdv') }}:
       <span class="hub-page__header-meta-label-value">

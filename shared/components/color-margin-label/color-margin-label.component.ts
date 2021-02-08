@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgMarginNegative, svgMarginNeutral, svgMarginPositive } from '../../svg-icons';
+import { svgChartArrowDown, svgChartArrowFlat, svgChartArrowUp } from '../../svg-icons';
 
 @Component({
   selector: 'app-color-margin-label',
@@ -9,7 +9,7 @@ import { svgMarginNegative, svgMarginNeutral, svgMarginPositive } from '../../sv
   styleUrls: ['./color-margin-label.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ColorMarginLabelComponent {
+export class ColorMarginLabelComponent implements OnChanges {
   @Input() public dayMargin: number;
   @Input() public digitsInfo: string;
 
@@ -28,19 +28,19 @@ export class ColorMarginLabelComponent {
     return this.dayMargin > 0;
   }
 
-  public marginIcon: 'margin-negative' | 'margin-positive' | 'margin-neutral';
+  public marginIcon: 'chart-arrow-down' | 'chart-arrow-flat' | 'chart-arrow-up';
 
   constructor(svgIconRegistry: SvgIconRegistry) {
     svgIconRegistry.register([
-      svgMarginNegative,
-      svgMarginNeutral,
-      svgMarginPositive,
+      svgChartArrowDown,
+      svgChartArrowFlat,
+      svgChartArrowUp,
     ]);
   }
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
     this.marginIcon = this.isNegative
-      ? 'margin-negative' : this.isPositive
-        ? 'margin-positive' : 'margin-neutral';
+      ? 'chart-arrow-down' : this.isPositive
+        ? 'chart-arrow-up' : 'chart-arrow-flat';
   }
 }

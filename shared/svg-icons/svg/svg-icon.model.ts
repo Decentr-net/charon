@@ -2,6 +2,9 @@
 
 export type SvgIconName =
   | 'add-image'
+  | 'chart-arrow-down'
+  | 'chart-arrow-flat'
+  | 'chart-arrow-up'
   | 'check'
   | 'close'
   | 'decentr-hub'
@@ -13,9 +16,6 @@ export type SvgIconName =
   | 'lock'
   | 'logo-icon'
   | 'logo'
-  | 'margin-negative'
-  | 'margin-neutral'
-  | 'margin-positive'
   | 'pdv-rate-icon'
   | 'plus-small'
   | 'plus'

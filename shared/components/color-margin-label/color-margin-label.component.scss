@@ -1,6 +1,6 @@
-$color-margin-label--positive-color: #82C43C;
 $color-margin-label--negative-color: #FC5A5A;
 $color-margin-label--neutral-color: #92929D;
+$color-margin-label--positive-color: #82C43C;
 
 :host {
   align-items: center;
@@ -8,19 +8,37 @@ $color-margin-label--neutral-color: #92929D;
 
   &.mod-negative {
     color: $color-margin-label--negative-color;
+
+    ::ng-deep {
+      svg * {
+        fill: $color-margin-label--negative-color;
+      }
+    }
   }
 
   &.mod-neutral {
     color: $color-margin-label--neutral-color;
+
+    ::ng-deep {
+      svg * {
+        fill: $color-margin-label--neutral-color;
+      }
+    }
   }
 
   &.mod-positive {
     color: $color-margin-label--positive-color;
+
+    ::ng-deep {
+      svg * {
+        fill: $color-margin-label--positive-color;
+      }
+    }
   }
 
   .color-margin-label-icon {
     display: inline-flex;
-    font-size: .7em;
-    margin-left: 3px;
+    font-size: 1.142857143em;
+    margin-left: 4px;
   }
 }
