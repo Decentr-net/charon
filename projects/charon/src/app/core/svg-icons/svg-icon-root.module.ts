@@ -3,14 +3,14 @@ import { SvgIconsModule } from '@ngneat/svg-icon';
 
 import {
   svgClose,
-  svgPlusSmall,
+  svgEdit,
 } from '@shared/svg-icons';
 
 @NgModule({
   imports: [SvgIconsModule.forRoot({
     icons: [
       svgClose,
-      svgPlusSmall,
+      svgEdit,
     ],
   })],
 })

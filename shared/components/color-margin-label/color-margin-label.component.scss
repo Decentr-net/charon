@@ -1,6 +1,6 @@
-$color-margin-label--negative-color: #FC5A5A;
-$color-margin-label--neutral-color: #92929D;
-$color-margin-label--positive-color: #82C43C;
+$color-margin-label--negative-color: #FA5454;
+$color-margin-label--neutral-color: #929297;
+$color-margin-label--positive-color: #03B15E;
 
 :host {
   align-items: center;
@@ -39,6 +39,5 @@ $color-margin-label--positive-color: #82C43C;
   .color-margin-label-icon {
     display: inline-flex;
     font-size: 1.142857143em;
-    margin-left: 4px;
   }
 }

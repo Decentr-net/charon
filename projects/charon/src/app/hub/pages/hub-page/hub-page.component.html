@@ -44,7 +44,10 @@
       [class.hub-page__header-meta-details-isOpen]="isDashboardVisible"
       (click)="isDashboardVisible = !isDashboardVisible"
     >
-      {{ translate(isDashboardVisible ? 'short_view' : 'show_details') }}
+      <div class="hub-page__header-meta-details-title">
+        {{ translate(isDashboardVisible ? 'short_view' : 'show_details') }}
+      </div>
+      <svg-icon class="hub-page__header-meta-details-icon" key="expand-more"></svg-icon>
     </div>
   </div>
 </app-hub-header>

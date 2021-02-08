@@ -6,6 +6,9 @@ import { CoinRateFor24Hours } from '@shared/services/currency';
 import { BalanceValueDynamic } from '@shared/services/pdv';
 import { HUB_HEADER_META_SLOT } from '../../components/hub-header';
 import { HubPageService } from './hub-page.service';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
+
+import { svgExpandMore } from '@shared/svg-icons';
 
 @UntilDestroy()
 @Component({
@@ -29,7 +32,11 @@ export class HubPageComponent implements OnInit {
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private hubPageService: HubPageService,
+    svgIconRegistry: SvgIconRegistry,
   ) {
+    svgIconRegistry.register([
+      svgExpandMore,
+    ]);
   }
 
   public ngOnInit(): void {
