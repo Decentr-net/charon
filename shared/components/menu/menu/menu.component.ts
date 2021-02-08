@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 
 import { MenuService } from '../menu.service';
-import { MenuLink, MenuTranslations, MenuUserLink } from '../menu.definitions';
+import { MenuLink, MenuTranslations, MenuUserLink, MenuUserProfile } from '../menu.definitions';
 
 @Component({
   selector: 'app-menu',
@@ -12,7 +12,7 @@ import { MenuLink, MenuTranslations, MenuUserLink } from '../menu.definitions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent implements OnInit {
-  public avatarUrl$: Observable<string>;
+  public userProfile$: Observable<MenuUserProfile>;
 
   public translations$: Observable<MenuTranslations>;
 
@@ -27,7 +27,7 @@ export class MenuComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.avatarUrl$ = this.menuService.getAvatarUrl().pipe(
+    this.userProfile$ = this.menuService.getUserProfile().pipe(
       shareReplay(1),
     );
 

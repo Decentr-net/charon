@@ -1,9 +1,19 @@
 <ng-container *ngIf="translations$ | async as translations">
-  <app-avatar
-    class="profile-image"
-    [avatarUrl]="avatarUrl$ | async"
+  <div
+    *ngIf="userProfile$ | async as userProfile"
+    class="menu-button"
     [matMenuTriggerFor]="menuTemplate"
-  ></app-avatar>
+  >
+    <app-avatar
+      class="profile-image"
+      [avatarUrl]="userProfile.avatar"
+    ></app-avatar>
+    <div
+      class="profile-username"
+    >
+      {{ userProfile.firstName }} {{ userProfile.lastName }}
+    </div>
+  </div>
 
   <mat-menu
     #menuTemplate
@@ -22,7 +32,7 @@
         >
           <app-avatar
             class="profile-image"
-            [avatarUrl]="avatarUrl$ | async"
+            [avatarUrl]="(userProfile$ | async).avatar"
           ></app-avatar>
           <div>
             <div class="name">{{ user.title }}</div>

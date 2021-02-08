@@ -5,6 +5,12 @@ export interface MenuTranslations {
   pdv: string;
 }
 
+export interface MenuUserProfile {
+  avatar: string;
+  firstName: string;
+  lastName: string;
+}
+
 interface MenuLinkBase {
   link?: string;
   title: string;
