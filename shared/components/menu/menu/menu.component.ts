@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 
@@ -12,6 +12,8 @@ import { MenuLink, MenuTranslations, MenuUserLink, MenuUserProfile } from '../me
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent implements OnInit {
+  @Input() hideUsername: boolean;
+
   public userProfile$: Observable<MenuUserProfile>;
 
   public translations$: Observable<MenuTranslations>;

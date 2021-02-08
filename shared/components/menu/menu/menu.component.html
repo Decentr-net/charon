@@ -9,6 +9,7 @@
       [avatarUrl]="userProfile.avatar"
     ></app-avatar>
     <div
+      *ngIf="!hideUsername"
       class="profile-username"
     >
       {{ userProfile.firstName }} {{ userProfile.lastName }}
