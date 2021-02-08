@@ -1,11 +1,10 @@
 $hub-navigation--background-color: #FFFFFF;
-$hub-navigation--height: 72px;
+$hub-navigation--height: 48px;
 
 :host {
   align-items: center;
   background-color: $hub-navigation--background-color;
   display: flex;
-  justify-content: flex-end;
   height: $hub-navigation--height;
   padding: 0 30px;
 }
