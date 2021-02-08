@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { MenuService } from '../menu.service';
 import { MenuLink, MenuTranslations, MenuUserLink, MenuUserProfile } from '../menu.definitions';
+import { svgDropdownExpand } from '../../../svg-icons';
 
 @Component({
   selector: 'app-menu',
@@ -25,7 +27,11 @@ export class MenuComponent implements OnInit {
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private menuService: MenuService,
+    svgIconRegistry: SvgIconRegistry,
   ) {
+    svgIconRegistry.register([
+      svgDropdownExpand,
+    ]);
   }
 
   public ngOnInit(): void {
