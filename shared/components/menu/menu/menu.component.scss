@@ -14,6 +14,12 @@
   align-items: center;
   cursor: pointer;
   display: flex;
+
+  &:hover {
+    .profile-username__icon {
+      color: #494A52;
+    }
+  }
 }
 
 .profile-image {
@@ -27,29 +33,14 @@
   font-size: 16px;
   margin-left: 8px;
   user-select: none;
-
-  &:hover {
-    .profile-username__icon {
-      ::ng-deep {
-        svg * {
-          fill: #494A52;
-        }
-      }
-    }
-  }
 }
 
 .profile-username__icon {
+  color: #929297;
   display: inline-flex;
   font-size: 24px;
   margin-left: 8px;
-
-  ::ng-deep {
-    svg * {
-      fill: #929297;
-      transition: fill .3s ease;
-    }
-  }
+  transition: color .3s ease;
 }
 
 .menu__header {

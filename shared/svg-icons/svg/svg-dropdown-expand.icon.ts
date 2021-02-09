@@ -4,5 +4,5 @@ export const svgDropdownExpand: {
   data: string;
 } = {
   name: 'dropdown-expand',
-  data: `<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z" fill="#929297"/></svg>`
+  data: `<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z" fill="currentColor"/></svg>`
 };

@@ -8,32 +8,14 @@ $color-margin-label--positive-color: #03B15E;
 
   &.mod-negative {
     color: $color-margin-label--negative-color;
-
-    ::ng-deep {
-      svg * {
-        fill: $color-margin-label--negative-color;
-      }
-    }
   }
 
   &.mod-neutral {
     color: $color-margin-label--neutral-color;
-
-    ::ng-deep {
-      svg * {
-        fill: $color-margin-label--neutral-color;
-      }
-    }
   }
 
   &.mod-positive {
     color: $color-margin-label--positive-color;
-
-    ::ng-deep {
-      svg * {
-        fill: $color-margin-label--positive-color;
-      }
-    }
   }
 
   .color-margin-label-icon {

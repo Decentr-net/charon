@@ -66,14 +66,6 @@ $hub-page--meta--details--background-color-hover: #EDEDEE;
     background-color: $hub-page--meta--details--background-color-hover;
     color: $hub-page--meta--details--color-hover;
     cursor: pointer;
-
-    .hub-page__header-meta-details-icon {
-      ::ng-deep {
-        svg * {
-          fill: $hub-page--meta--details--color-hover;
-        }
-      }
-    }
   }
 }
 
@@ -86,12 +78,6 @@ $hub-page--meta--details--background-color-hover: #EDEDEE;
   display: inline-flex;
   margin-left: 4px;
   transition: transform .3s ease;
-
-  ::ng-deep {
-    svg * {
-      fill: $hub-page--meta--details--color;
-    }
-  }
 }
 
 .hub-page__header-meta-label-value {
