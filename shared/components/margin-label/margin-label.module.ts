@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 
-import { ColorMarginLabelComponent } from './color-margin-label.component';
+import { MarginLabelComponent } from './margin-label.component';
 import { PositiveNumberModule } from '../../pipes/positiveNumber';
 
 @NgModule({
@@ -12,11 +12,11 @@ import { PositiveNumberModule } from '../../pipes/positiveNumber';
     SvgIconsModule,
   ],
   declarations: [
-    ColorMarginLabelComponent,
+    MarginLabelComponent,
   ],
   exports: [
-    ColorMarginLabelComponent,
+    MarginLabelComponent,
   ],
 })
-export class ColorMarginLabelModule {
+export class MarginLabelModule {
 }

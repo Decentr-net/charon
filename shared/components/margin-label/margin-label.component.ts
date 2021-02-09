@@ -4,12 +4,12 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { svgChartArrowDown, svgChartArrowFlat, svgChartArrowUp } from '../../svg-icons';
 
 @Component({
-  selector: 'app-color-margin-label',
-  templateUrl: './color-margin-label.component.html',
-  styleUrls: ['./color-margin-label.component.scss'],
+  selector: 'app-margin-label',
+  templateUrl: './margin-label.component.html',
+  styleUrls: ['./margin-label.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ColorMarginLabelComponent implements OnChanges {
+export class MarginLabelComponent implements OnChanges {
   @Input() public dayMargin: number;
   @Input() public digitsInfo: string;
 
