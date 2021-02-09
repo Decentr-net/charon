@@ -17,11 +17,11 @@
         {{ balance.value | pdvValue }}
       </span>
 
-      <app-color-margin-label
+      <app-margin-label
         class="hub-page__header-meta-margin-label"
         [dayMargin]="balance.dayMargin"
         [digitsInfo]="'1.0-5'"
-      ></app-color-margin-label>
+      ></app-margin-label>
     </div>
 
     <div
@@ -33,10 +33,10 @@
         {{ coinRate.value | currency : 'USD' : 'symbol' : '1.4' }}
       </span>
 
-      <app-color-margin-label
+      <app-margin-label
         class="hub-page__header-meta-margin-label"
         [dayMargin]="coinRate.dayMargin"
-      ></app-color-margin-label>
+      ></app-margin-label>
     </div>
 
     <div
