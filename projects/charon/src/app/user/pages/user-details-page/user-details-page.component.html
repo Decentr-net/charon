@@ -6,23 +6,58 @@
 
     <app-user-bank-balance
       *ngIf="showBankBalance$ | async; else userPDVBalance"
-      [bankBalance]="bankBalance$ | async"
+      [bankBalance]="bankBalance"
     ></app-user-bank-balance>
 
     <ng-template #userPDVBalance>
-      <ng-container *ngIf="balance">
-        <div class="pdv-rate">
-          <span class="pdv-rate-value">{{ balance.value | pdvValue }} PDV</span>
+      <div class="pdv-rate">
+        <span class="pdv-rate-value">
+          <ngx-skeleton-loader
+            *ngIf="!balance"
+            [theme]="{
+              height: '26px',
+              marginBottom: '0',
+              width: '200px'
+            }"
+          ></ngx-skeleton-loader>
+          <span
+            *ngIf="balance"
+            [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async })"
+          >
+            {{ balance.value | pdvValue }} PDV
+          </span>
+        </span>
 
-          <app-pdv-rate-margin-icon
-            class="pdv-rate-margin"
-            [rateMargin]="balance.dayMargin"
-          ></app-pdv-rate-margin-icon>
-        </div>
-      </ng-container>
+        <app-pdv-rate-margin-icon
+          *ngIf="balance"
+          class="pdv-rate-margin"
+          [rateMargin]="balance.dayMargin"
+        ></app-pdv-rate-margin-icon>
 
-      <div class="pdv-exchange-rate" *ngIf="coinRate$ | async as coinRate">
-        {{ translate('exchange_rate', { rate: coinRate | number:'1.0-4' }) }}
+        <ngx-skeleton-loader
+          *ngIf="!balance"
+          class="pdv-rate-margin"
+          [theme]="{
+            height: '15px',
+            marginBottom: '0',
+            width: '73px'
+          }"
+        ></ngx-skeleton-loader>
+      </div>
+
+      <div class="pdv-exchange-rate">
+        <ng-container *ngIf="coinRate">
+          {{ translate('exchange_rate', { rate: coinRate | number:'1.0-4' }) }}
+        </ng-container>
+
+        <ngx-skeleton-loader
+          *ngIf="!coinRate"
+          [theme]="{
+            height: '18px',
+            marginBottom: '0',
+            width: '155px'
+          }"
+        ></ngx-skeleton-loader>
       </div>
     </ng-template>
   </div>
@@ -31,38 +66,55 @@
     <mat-tab-group
       mat-stretch-tabs
       mat-align-tabs="center"
-      animationDuration="0ms"
       [selectedIndex]="selectedTabIndex$ | async"
       (selectedTabChange)="onTabChange($event.index)"
     >
-      <mat-tab [label]="translate('tabs.pdv_rate')">
-        <div class="tab-container">
-          <app-chart
-            *ngIf="chartPoints$ | async as points"
-            [data]="points"
-          ></app-chart>
-        </div>
-      </mat-tab>
+      <ng-container *ngFor="let tab of tabs" [ngSwitch]="tab">
+        <mat-tab
+          *ngSwitchCase="tabsEnum.PDVRate"
+          [label]="translate('tabs.pdv_rate')"
+        >
+          <div class="tab-container user-page__pdv-rate__container">
+            <app-activity-chart
+              *ngIf="(chartPoints$ | async) as points; else loadingChart"
+              [data]="points"
+            ></app-activity-chart>
 
-      <mat-tab [label]="translate('tabs.activity')">
-        <div class="tab-container">
-          <app-activity-list
-            [items]="pdvList$ | async"
-            (details)="openPDVDetails($event)"
-          ></app-activity-list>
+            <ng-template #loadingChart>
+              <app-spinner class="user-page__pdv-rate__spinner"></app-spinner>
+            </ng-template>
+          </div>
+        </mat-tab>
 
-          <ng-template [ngTemplateOutlet]="activityLoading"></ng-template>
-        </div>
-      </mat-tab>
+        <mat-tab
+          *ngSwitchCase="tabsEnum.Activity"
+          [label]="translate('tabs.activity')"
+        >
+          <div class="tab-container">
+            <ng-container *ngIf="pdvList$ | async as pdvList">
+              <app-activity-list
+                *ngIf="pdvList.length || (isLoadingActivity$ | async) === false"
+                [items]="pdvList"
+                (details)="openPDVDetails($event)"
+              ></app-activity-list>
+            </ng-container>
 
-      <mat-tab [label]="translate('tabs.assets')">
-        <div class="tab-container">
-          <app-assets-list
-            [balance]="bankBalance$ | async"
-            (selected)="showTransferHistory()"
-          ></app-assets-list>
-        </div>
-      </mat-tab>
+            <ng-template [ngTemplateOutlet]="activityLoading"></ng-template>
+          </div>
+        </mat-tab>
+
+        <mat-tab
+          *ngSwitchCase="tabsEnum.Assets"
+          [label]="translate('tabs.assets')"
+        >
+          <div class="tab-container">
+            <app-assets-list
+              [balance]="bankBalance"
+              (selected)="showTransferHistory()"
+            ></app-assets-list>
+          </div>
+        </mat-tab>
+      </ng-container>
     </mat-tab-group>
   </div>
 

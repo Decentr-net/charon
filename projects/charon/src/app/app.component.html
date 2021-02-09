@@ -1,1 +1,16 @@
+<ng-container *transloco="let translate; read: 'loading'">
+  <div
+    *ngIf="isInitLoading"
+    class="app-init-loading"
+  >
+    <svg-icon
+      class="app-init-loading__icon"
+      key="logo-icon"
+    ></svg-icon>
+    <span class="app-init-loading__message">
+      {{ translate('message') }}
+    </span>
+  </div>
+</ng-container>
+
 <router-outlet></router-outlet>

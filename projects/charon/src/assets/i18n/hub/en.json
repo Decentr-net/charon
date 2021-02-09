@@ -1,5 +1,6 @@
 {
   "feed_page": {
+    "no_posts": "There is no activity last 24 hours",
     "top_feed": "TOP 24 hours"
   },
   "hub_activity_distribution": {
@@ -23,6 +24,7 @@
         "placeholder": "Share what's new with Decentr community",
         "errors": {
           "maxBytes": "The text limit reached",
+          "maxImages": "The maximum count of images is {{max}}",
           "minHtmlTextLength": "The minimum length of the text is {{min}} characters",
           "required": "Post text is requred"
         }
@@ -53,17 +55,25 @@
   "hub_navigation": {
     "overview": "Overview"
   },
+  "hub_image_uploader": {
+    "errors": {
+      "not_allowed_type": "Allowed types: .jpg, .png",
+      "max_size": "The image size cannot exceed 32 megabytes"
+    }
+  },
   "hub_infinite_posts_container": {
     "load_more_posts": "Load more posts"
   },
   "hub_page": {
     "header": {
+      "estimated_balance": "In progress: {{estimatedBalance}} PDV",
       "pdv": "My PDV",
       "dec": "DEC"
     }
   },
   "hub_pdv_statistics": {
     "activity_from": "Activity from {{date}}",
+    "estimated_balance": "In progress: {{estimatedBalance}} PDV",
     "no_chart_data": "You have no PDV Rate data",
     "not_enough_chart_data": "Not enough data PDV for the chart",
     "my_pdv": "My PDV",

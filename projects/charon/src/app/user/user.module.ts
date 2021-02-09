@@ -10,15 +10,17 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
-import { CopyWalletAddressModule } from '@shared/directives/copy-wallet-address';
+import { CopyWalletAddressModule } from './directives/copy-wallet-address';
 import { FormErrorModule } from '@shared/components/form-error';
 import { SlotModule } from '@shared/components/slot';
 import { SpinnerModule } from '@shared/components/spinner';
+import { LineChartModule } from '@shared/components/line-chart';
 import { MatDividerModule } from '@angular/material/divider';
 import { MicroValueModule } from '@shared/pipes/micro-value';
 import { NavigationModule } from '@core/navigation';
@@ -41,6 +43,7 @@ import { UserRoutingModule } from './user-routing.module';
     InlineSVGModule,
     IntersectionModule,
     LayoutHeaderModule,
+    LineChartModule,
     MatExpansionModule,
     MatButtonModule,
     MatDialogModule,
@@ -52,6 +55,7 @@ import { UserRoutingModule } from './user-routing.module';
     MatTooltipModule,
     MicroValueModule,
     NavigationModule,
+    NgxSkeletonLoaderModule,
     PdvRateMarginIconModule,
     PdvValueModule,
     ProfileFormModule,

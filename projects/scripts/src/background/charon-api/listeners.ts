@@ -80,7 +80,10 @@ export const initCharonAPIListeners = () => {
         message.body.transferData,
         message.body.privateKey
       ),
-      message.sendResponse,
+      (response) => {
+        messageBus.sendMessage(MessageCode.CoinTransferred);
+        message.sendResponse(response);
+      },
     );
   });
 };

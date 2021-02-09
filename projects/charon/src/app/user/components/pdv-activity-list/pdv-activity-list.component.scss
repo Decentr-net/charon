@@ -15,7 +15,7 @@
   padding: .6rem;
   color: rgba(68, 119, 228, 0.8);
   display: grid;
-  grid-template-columns: 20px 1fr .2fr;
+  grid-template-columns: 1fr .1fr;
   grid-gap: 10px;
   cursor: pointer;
   transition: background .15s ease;
@@ -34,14 +34,6 @@
 
     @media (max-width: 768px) {
       max-width: 13rem;
-    }
-  }
-
-  .activity-item__type {
-    min-width: 20px;
-
-    &-icon {
-      display: inline-flex;
     }
   }
 

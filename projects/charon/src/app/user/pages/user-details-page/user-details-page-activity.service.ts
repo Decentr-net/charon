@@ -74,10 +74,9 @@ export class UserDetailsPageActivityService {
     paginationOptions: PDVListPaginationOptions
   ): Observable<PDVActivityListItem[]> {
     return this.pdvService.getPDVList(networkApi, walletAddress, paginationOptions).pipe(
-      map((list) => list.map(({ address, timestamp, type }) => ({
-        address,
-        date: new Date(coerceTimestamp(timestamp)),
-        type: Number(type)
+      map((list) => list.map((item) => ({
+        id: item,
+        date: new Date(coerceTimestamp(item)),
       })),
     ));
   }

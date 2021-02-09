@@ -3,6 +3,7 @@ $hub-pdv-statistics--pdv-change-color: #9EA0A5;
 $hub-pdv-statistics--pdv-direction-negative: #C87794;
 $hub-pdv-statistics--pdv-direction-positive: #4DABAF;
 $hub-pdv-statistics--no-data-color: #9EA0A5;
+$hub-pdv-statistics--tooltip--date-color: #838B94;
 
 :host {
   display: block;
@@ -29,6 +30,18 @@ $hub-pdv-statistics--no-data-color: #9EA0A5;
   height: 80px;
 }
 
+.hub-pdv-statistics__tooltip {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  padding: 5px;
+
+  &-date {
+    color: #838B94;
+    font-size: 8px;
+  }
+}
+
 .hub-pdv-statistics__loader-container {
   align-items: center;
   display: flex;
@@ -45,6 +58,7 @@ $hub-pdv-statistics--no-data-color: #9EA0A5;
 
 .hub-pdv-statistics__pdv {
   color: $hub-pdv-statistics--pdv-color;
+  display: inline-flex;
   font-size: 40px;
   font-weight: 500;
   line-height: 47px;

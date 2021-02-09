@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { SvgIconsModule } from '@ngneat/svg-icon';
+import { QuillModule } from 'ngx-quill';
 import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 import { InlineSVGModule } from 'ng-inline-svg';
 
@@ -63,6 +64,7 @@ import { TextClampModule } from '@shared/directives/text-clamp';
     PdvValueModule,
     PermissionsModule,
     PositiveNumberModule,
+    QuillModule,
     ReactiveFormsModule,
     SlotModule,
     SpinnerModule,

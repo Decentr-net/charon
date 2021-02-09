@@ -11,7 +11,10 @@
       {{ translate('activity_from', { date: statistics.fromDate | date }) }}
     </ng-container>
 
-    <div class="hub-pdv-statistics__pdv">
+    <div
+      class="hub-pdv-statistics__pdv"
+      [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance })"
+    >
       {{ statistics.pdv | pdvValue }}
     </div>
 
@@ -32,11 +35,24 @@
     </div>
 
     <app-line-chart
-      class="hub-pdv-statistics__chart"
       *ngIf="statistics.points.length > 1; else noData"
-      [data]="statistics.points"
+      class="hub-pdv-statistics__chart"
       color="#3796A4"
-    ></app-line-chart>
+      [data]="statistics.points"
+      [showArea]="true"
+      [showHoverLine]="true"
+      [showTooltip]="true"
+    >
+      <div
+        *appLineChartTooltip="let chartPoint"
+        class="hub-pdv-statistics__tooltip"
+      >
+        {{ chartPoint.value | pdvValue }} PDV
+        <div class="hub-pdv-statistics__tooltip-date">
+          {{ chartPoint.date | date }}
+        </div>
+      </div>
+    </app-line-chart>
 
     <ng-template #noData>
       <div class="hub-pdv-statistics__no-data">

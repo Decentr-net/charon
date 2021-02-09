@@ -4,6 +4,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
+import { MicroValuePipe } from '@shared/pipes/micro-value';
 import { CurrencyModule } from '@shared/services/currency';
 import { MenuModule } from '@shared/components/menu';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
@@ -20,6 +21,7 @@ import { PermissionsModule } from '@shared/permissions';
 import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES, MenuService, NetworkService } from './services';
+import { QuillRootModule } from './quill';
 
 export function initAuthFactory(authService: AuthService): () => void {
   return () => authService.init();
@@ -58,6 +60,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     }),
     OverlayModule,
     PermissionsModule.forRoot(),
+    QuillRootModule,
     SlotModule.forRoot(),
     SvgIconRootModule,
     ToastrModule.forRoot({
@@ -68,6 +71,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     TranslocoRootModule,
   ],
   providers: [
+    MicroValuePipe,
     CORE_GUARDS,
     CORE_SERVICES,
     {

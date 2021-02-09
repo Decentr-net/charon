@@ -1,9 +1,9 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Directive, HostListener, Input } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { Wallet } from 'decentr-js';
 
-import { copyContent } from '../../utils/copy-content';
-import { NotificationService } from '../../services/notification';
+import { NotificationService } from '@shared/services/notification';
 
 @Directive({
   selector: '[appCopyWalletAddress]'
@@ -12,6 +12,7 @@ export class CopyWalletAddressDirective {
   @Input('appCopyWalletAddress') public value: Wallet['address'];
 
   constructor(
+    private clipboard: Clipboard,
     private notificationService: NotificationService,
     private translocoService: TranslocoService,
   ) {
@@ -19,7 +20,7 @@ export class CopyWalletAddressDirective {
 
   @HostListener('click')
   public onClick(): void {
-    copyContent(this.value);
+    this.clipboard.copy(this.value);
 
     this.notificationService.success(
       this.translocoService.translate('user_page.copy_wallet_address_success', null, 'user'),
