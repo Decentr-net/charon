@@ -1,9 +1,12 @@
+@import 'variables';
+
 $hub-navigation--background-color: #FFFFFF;
 $hub-navigation--height: 48px;
 
 :host {
   align-items: center;
   background-color: $hub-navigation--background-color;
+  border-bottom: 1px solid $color-outlines;
   display: flex;
   height: $hub-navigation--height;
   padding: 0 30px;
