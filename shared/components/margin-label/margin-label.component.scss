@@ -1,21 +1,19 @@
-$color-margin-label--negative-color: #FA5454;
-$color-margin-label--neutral-color: #929297;
-$color-margin-label--positive-color: #03B15E;
+@import '../../styles/variables';
 
 :host {
   align-items: center;
   display: inline-flex;
 
   &.mod-negative {
-    color: $color-margin-label--negative-color;
+    color: $color-red;
   }
 
   &.mod-neutral {
-    color: $color-margin-label--neutral-color;
+    color: $color-grey;
   }
 
   &.mod-positive {
-    color: $color-margin-label--positive-color;
+    color: $color-green;
   }
 
   .color-margin-label-icon {

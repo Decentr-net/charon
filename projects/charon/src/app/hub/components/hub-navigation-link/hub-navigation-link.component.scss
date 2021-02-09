@@ -24,10 +24,34 @@
     color: $color-font-base;
     font-weight: 700;
 
+    .hub-navigation-link__dot {
+      display: none;
+    }
+
     .hub-navigation-link__border {
       display: block;
     }
   }
+}
+
+@for $i from 1 through length($color-post-categories) {
+  .hub-navigation-link[data-id='#{$i}'] {
+    .hub-navigation-link__dot {
+      background: nth($color-post-categories, $i);
+    }
+
+    .hub-navigation-link__border {
+      background: nth($color-post-categories, $i);
+    }
+  }
+}
+
+.hub-navigation-link__dot {
+  border-radius: 50%;
+  height: 4px;
+  left: -8px;
+  position: absolute;
+  width: 4px;
 }
 
 .hub-navigation-link__title {

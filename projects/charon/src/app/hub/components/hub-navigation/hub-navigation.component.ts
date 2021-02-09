@@ -6,7 +6,7 @@ import { POST_CATEGORIES, POST_CATEGORY_TRANSLATION_MAP } from '../../models/pos
 import { HubRoute } from '../../hub-route';
 
 interface PostsLinkConfig {
-  link: PostCategory;
+  id: PostCategory;
   i18nKey: string;
 }
 
@@ -21,9 +21,9 @@ export class HubNavigationComponent {
   public readonly hubRoute: typeof HubRoute = HubRoute;
 
   public readonly postsLinksConfig: PostsLinkConfig[] = POST_CATEGORIES.map((category) => ({
-    link: category,
+    id: category,
     i18nKey: POST_CATEGORY_TRANSLATION_MAP[category]
   }));
 
-  public readonly trackByLink: TrackByFunction<PostsLinkConfig> = ({}, { link }) => link;
+  public readonly trackByLink: TrackByFunction<PostsLinkConfig> = ({}, { id }) => id;
 }

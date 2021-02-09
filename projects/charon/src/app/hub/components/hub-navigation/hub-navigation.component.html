@@ -10,7 +10,8 @@
       <app-hub-navigation-link
         class="hub-navigation__link"
         *ngFor="let linkConfig of postsLinksConfig; trackBy: trackByLink"
-        [link]="['/', appRoute.Hub, hubRoute.Posts, linkConfig.link]"
+        [id]="linkConfig.id"
+        [link]="['/', appRoute.Hub, hubRoute.Posts, linkConfig.id]"
         [title]="translate(linkConfig.i18nKey)"
       ></app-hub-navigation-link>
     </ng-container>

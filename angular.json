@@ -33,7 +33,8 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/charon/src/styles"
+                "projects/charon/src/styles",
+                "shared/styles"
               ]
             },
             "scripts": [],
