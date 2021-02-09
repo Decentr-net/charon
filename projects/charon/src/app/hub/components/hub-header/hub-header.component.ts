@@ -4,7 +4,7 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { AppRoute } from '../../../app-route';
 import { UserRoute } from '../../../user';
 import { HubRoute, HubFeedRoute } from '../../hub-route';
-import { svgLogo } from '@shared/svg-icons';
+import { svgEdit, svgLogo } from '@shared/svg-icons';
 
 export const HUB_HEADER_META_SLOT = Symbol('HUB_HEADER_META_SLOT');
 export const HUB_HEADER_CONTENT_SLOT = Symbol('HUB_HEADER_CONTENT_SLOT');
@@ -30,6 +30,7 @@ export class HubHeaderComponent {
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register([
+      svgEdit,
       svgLogo,
     ]);
   }
