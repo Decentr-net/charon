@@ -1,8 +1,6 @@
 @import 'variables';
 
 $hub-header--bar--background-color: #FFFFFF;
-$hub-header--bar-button--background-color: #4F80FF;
-$hub-header--bar-button--background-color-hover: #3063E6;
 $hub-header--bar-button--color: #FFFFFF;
 
 :host {
@@ -26,7 +24,7 @@ $hub-header--bar-button--color: #FFFFFF;
 
 .hub-header__bar-button {
   align-items: center;
-  background: $hub-header--bar-button--background-color;
+  background: $color-primary;
   border-radius: $border-radius;
   color: $hub-header--bar-button--color;
   column-gap: 8px;
@@ -37,7 +35,7 @@ $hub-header--bar-button--color: #FFFFFF;
   transition: background .3s ease;
 
   &:hover {
-    background: $hub-header--bar-button--background-color-hover;
+    background: $color-blue-hover;
   }
 }
 
