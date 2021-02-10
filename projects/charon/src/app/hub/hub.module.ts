@@ -20,11 +20,13 @@ import { AvatarModule } from '@shared/components/avatar';
 import { ColorCircleLabelModule } from '@shared/components/color-circle-label';
 import { ColoredDistributionLineModule } from '@shared/components/colored-distribution-line';
 import { DateAgoModule } from '@shared/pipes/date-ago';
+import { DragScrollModule } from '@shared/directives/drag-scroll';
 import { FormErrorModule } from '@shared/components/form-error';
 import { HubRoutingModule } from './hub-routing.module';
 import { LineChartModule } from '@shared/components/line-chart';
 import { MarginLabelModule } from '@shared/components/margin-label';
 import { MenuModule } from '@shared/components/menu';
+import { MouseWheelHorizontalScrollModule } from '@shared/directives/mouse-wheel-horizontal-scroll';
 import { CutHtmlImagesModule } from '@shared/pipes/cut-html-images';
 import { FirstParagraphModule } from '@shared/pipes/first-paragraph';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
@@ -48,6 +50,7 @@ import { TextClampModule } from '@shared/directives/text-clamp';
     CommonModule,
     CutHtmlImagesModule,
     DateAgoModule,
+    DragScrollModule,
     FirstParagraphModule,
     FormErrorModule,
     HubRoutingModule,
@@ -60,6 +63,7 @@ import { TextClampModule } from '@shared/directives/text-clamp';
     MatInputModule,
     MatTooltipModule,
     MenuModule,
+    MouseWheelHorizontalScrollModule,
     NgxTrimDirectiveModule,
     PdvValueModule,
     PermissionsModule,

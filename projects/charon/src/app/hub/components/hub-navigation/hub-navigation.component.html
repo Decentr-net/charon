@@ -1,5 +1,9 @@
 <ng-container *transloco="let translate">
-  <div class="hub-navigation__section">
+  <div
+    appDragScroll
+    appMouseWheelScroll
+    class="hub-navigation__section"
+  >
     <app-hub-navigation-link
       class="hub-navigation__link hub-navigation__link-latest"
       [link]="['/', appRoute.Hub, hubRoute.Overview]"
