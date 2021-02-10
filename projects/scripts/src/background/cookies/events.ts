@@ -14,11 +14,13 @@ import {
 import { getBrowserCookies } from './browser';
 
 export const listenLoginCookies = (loginIdentifiers: string[]): Observable<Cookie[]> => {
+  const notEmptyStrings = loginIdentifiers.filter((str) => !!str);
+
   return merge(
     listenRequestsOnCompletedWithBody({}, 'POST'),
     listenRequestsBeforeRedirectWithBody({}, 'POST'),
   ).pipe(
-    filter(request => requestBodyContains(request.requestBody, loginIdentifiers)),
+    filter(request => requestBodyContains(request.requestBody, notEmptyStrings)),
     debounceTime(ONE_SECOND),
     switchMap(request => getBrowserCookies(new URL(request.url))),
   );

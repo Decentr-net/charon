@@ -59,12 +59,13 @@ export class PDVService {
       switchMap(({ wallet }) => combineLatest([
         this.configService.getRewards(),
         from(this.pdvStorageService.getUserAccumulatedPDVChanges(wallet.address)).pipe(
-          map((pDVs) => pDVs.reduce((acc, pdv) => [...acc, ...pdv.data], [])),
+          map((pDVs) => (pDVs || []).reduce((acc, pdv) => [...acc, ...pdv.data], [])),
         ),
       ])),
       map(([rewards, pdvData]) => pdvData.reduce((acc, item) => acc + rewards[item.type] || 0, 0)),
       map((estimatedBalance) => this.microValuePipe.transform(estimatedBalance)),
       map((balance) => balance || '0'),
+      startWith('0'),
     );
   }
 
