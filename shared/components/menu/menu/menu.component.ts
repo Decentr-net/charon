@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { MenuService } from '../menu.service';
-import { MenuLink, MenuTranslations, MenuUserLink } from '../menu.definitions';
+import { MenuLink, MenuTranslations, MenuUserLink, MenuUserProfile } from '../menu.definitions';
+import { svgDropdownExpand } from '../../../svg-icons';
 
 @Component({
   selector: 'app-menu',
@@ -12,7 +14,9 @@ import { MenuLink, MenuTranslations, MenuUserLink } from '../menu.definitions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent implements OnInit {
-  public avatarUrl$: Observable<string>;
+  @Input() hideUsername: boolean;
+
+  public userProfile$: Observable<MenuUserProfile>;
 
   public translations$: Observable<MenuTranslations>;
 
@@ -23,11 +27,15 @@ export class MenuComponent implements OnInit {
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private menuService: MenuService,
+    svgIconRegistry: SvgIconRegistry,
   ) {
+    svgIconRegistry.register([
+      svgDropdownExpand,
+    ]);
   }
 
   public ngOnInit(): void {
-    this.avatarUrl$ = this.menuService.getAvatarUrl().pipe(
+    this.userProfile$ = this.menuService.getUserProfile().pipe(
       shareReplay(1),
     );
 

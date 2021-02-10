@@ -1,7 +1,8 @@
 @import 'mixins';
 
-@include font-face("Montserrat", "../assets/fonts/montserratlight", 400, 'normal');
-@include font-face("Montserrat", "../assets/fonts/montserrat", 500, 'normal');
+@include font-face("Inter", "../assets/fonts/Inter-Regular", 400, 'normal');
+@include font-face("Inter", "../assets/fonts/Inter-Medium", 500, 'normal');
+@include font-face("Inter", "../assets/fonts/Inter-Bold", 700, 'bold');
 @include font-face("Material Icons", "../assets/fonts/MaterialIcons-Regular", 400, 'normal');
 
 .material-icons {

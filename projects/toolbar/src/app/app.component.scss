@@ -43,12 +43,16 @@ $app--section--background-color: #F8FAFD;
 }
 
 .app__middle-container-section-dynamic {
+  display: inline-flex;
+
   @media (max-width: 768px) {
     display: none;
   }
 }
 
 .app__meta-label {
+  align-items: center;
+  display: inline-flex;
   font-size: 11px;
 
   & + & {
@@ -57,6 +61,11 @@ $app--section--background-color: #F8FAFD;
 }
 
 .app__meta-label-value {
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.app__meta-margin-label {
   margin-left: 4px;
 }
 

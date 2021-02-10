@@ -7,6 +7,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubNavigationLinkComponent {
+  @Input() public id: number;
   @Input() public link: string | string[];
+  @Input() public showDot: boolean = true;
   @Input() public title: string;
 }

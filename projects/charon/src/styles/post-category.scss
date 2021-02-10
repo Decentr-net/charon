@@ -1,0 +1,9 @@
+@import 'variables';
+
+$color-post-categories: $color-blue $color-green $color-red $color-orange $color-yellow $color-light-blue $color-violet $color-pink $color-mint;
+
+@for $i from 1 through length($color-post-categories) {
+  .post-category-#{$i} {
+    color: nth($color-post-categories, $i);
+  }
+}

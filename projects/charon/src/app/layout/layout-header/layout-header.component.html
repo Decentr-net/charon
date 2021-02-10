@@ -15,7 +15,11 @@
 
       <app-network-selector *ngIf="selectNetwork"></app-network-selector>
 
-      <app-menu class="profile-selector" *ngIf="userProfile"></app-menu>
+      <app-menu
+        *ngIf="userProfile"
+        class="profile-selector"
+        [hideUsername]="mediaService.isSmall()"
+      ></app-menu>
     </div>
   </div>
 </mat-toolbar>

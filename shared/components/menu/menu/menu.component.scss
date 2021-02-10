@@ -1,5 +1,6 @@
 :host {
-  display: flex;
+  align-items: center;
+  display: inline-flex;
 }
 
 ::ng-deep .cdk-overlay-container .profile-selector__menu {
@@ -9,10 +10,38 @@
   min-width: 330px;
 }
 
+.menu-button {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+
+  &:hover {
+    .profile-username__icon {
+      color: #494A52;
+    }
+  }
+}
+
 .profile-image {
   width: 40px;
   height: 40px;
-  cursor: pointer;
+}
+
+.profile-username {
+  align-items: center;
+  display: inline-flex;
+  font-weight: 500;
+  font-size: 16px;
+  margin-left: 8px;
+  user-select: none;
+}
+
+.profile-username__icon {
+  color: #929297;
+  display: inline-flex;
+  font-size: 24px;
+  margin-left: 8px;
+  transition: color .3s ease;
 }
 
 .menu__header {

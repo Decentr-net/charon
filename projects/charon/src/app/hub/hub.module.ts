@@ -18,12 +18,12 @@ import { HUB_PAGES } from './pages';
 import { HUB_SERVICES } from './services';
 import { AvatarModule } from '@shared/components/avatar';
 import { ColorCircleLabelModule } from '@shared/components/color-circle-label';
-import { ColorValueDynamicModule } from '@shared/components/color-value-dynamic';
 import { ColoredDistributionLineModule } from '@shared/components/colored-distribution-line';
 import { DateAgoModule } from '@shared/pipes/date-ago';
 import { FormErrorModule } from '@shared/components/form-error';
 import { HubRoutingModule } from './hub-routing.module';
 import { LineChartModule } from '@shared/components/line-chart';
+import { MarginLabelModule } from '@shared/components/margin-label';
 import { MenuModule } from '@shared/components/menu';
 import { CutHtmlImagesModule } from '@shared/pipes/cut-html-images';
 import { FirstParagraphModule } from '@shared/pipes/first-paragraph';
@@ -44,7 +44,6 @@ import { TextClampModule } from '@shared/directives/text-clamp';
   imports: [
     AvatarModule,
     ColorCircleLabelModule,
-    ColorValueDynamicModule,
     ColoredDistributionLineModule,
     CommonModule,
     CutHtmlImagesModule,
@@ -54,6 +53,7 @@ import { TextClampModule } from '@shared/directives/text-clamp';
     HubRoutingModule,
     InlineSVGModule,
     LineChartModule,
+    MarginLabelModule,
     MatDialogModule,
     MatDividerModule,
     MatFormFieldModule,

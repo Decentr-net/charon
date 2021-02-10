@@ -1,0 +1,23 @@
+@import '../../styles/variables';
+
+:host {
+  align-items: center;
+  display: inline-flex;
+
+  &.mod-negative {
+    color: $color-red;
+  }
+
+  &.mod-neutral {
+    color: $color-grey;
+  }
+
+  &.mod-positive {
+    color: $color-green;
+  }
+
+  .color-margin-label-icon {
+    display: inline-flex;
+    font-size: 1.142857143em;
+  }
+}
