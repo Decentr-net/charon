@@ -1,13 +1,20 @@
+@import 'variables';
+
 $hub-navigation--background-color: #FFFFFF;
-$hub-navigation--height: 72px;
+$hub-navigation--height: 48px;
 
 :host {
   align-items: center;
   background-color: $hub-navigation--background-color;
+  border-bottom: 1px solid $color-outlines;
   display: flex;
-  justify-content: flex-end;
   height: $hub-navigation--height;
+  overflow-x: auto;
   padding: 0 30px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .hub-navigation__section {
@@ -16,7 +23,13 @@ $hub-navigation--height: 72px;
 }
 
 .hub-navigation__link {
-  &:not(:last-child) {
-    margin-right: 24px;
+  margin: 0 $grid-step * 2;
+
+  &:first-child {
+    margin-left: 0;
   }
+}
+
+.hub-navigation__link-latest {
+  color: $color-primary;
 }

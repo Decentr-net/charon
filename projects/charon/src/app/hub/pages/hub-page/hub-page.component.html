@@ -7,31 +7,48 @@
     *appSlot="headerMetaSlotName"
     class="hub-page__header-meta-container"
   >
-    <app-color-value-dynamic
-      class="hub-page__header-meta-label"
+    <div
       *ngIf="balance"
-      [circleType]="'hole'"
-      [color]="'green'"
-      [dayMargin]="balance.dayMargin"
-      [dayMarginDigitsInfo]="'1.0-5'"
+      class="hub-page__header-meta-label"
       [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async })"
     >
-      <strong>{{ translate('pdv') }}</strong>
-      <span class="hub-page__header-meta-label-value">{{ balance.value | pdvValue }}</span>
-    </app-color-value-dynamic>
+      {{ translate('pdv') }}:
+      <span class="hub-page__header-meta-label-value">
+        {{ balance.value | pdvValue }}
+      </span>
 
-    <app-color-value-dynamic
-      class="hub-page__header-meta-label"
+      <app-margin-label
+        class="hub-page__header-meta-margin-label"
+        [dayMargin]="balance.dayMargin"
+        [digitsInfo]="'1.0-5'"
+      ></app-margin-label>
+    </div>
+
+    <div
       *ngIf="coinRate$ | async as coinRate"
-      [circleType]="'hole'"
-      [color]="'yellow'"
-      [dayMargin]="coinRate.dayMargin"
+      class="hub-page__header-meta-label"
     >
-      <strong>{{ translate('dec') }}</strong>
+      {{ translate('dec') }}:
       <span class="hub-page__header-meta-label-value">
         {{ coinRate.value | currency : 'USD' : 'symbol' : '1.4' }}
       </span>
-    </app-color-value-dynamic>
+
+      <app-margin-label
+        class="hub-page__header-meta-margin-label"
+        [dayMargin]="coinRate.dayMargin"
+      ></app-margin-label>
+    </div>
+
+    <div
+      class="hub-page__header-meta-details"
+      [class.hub-page__header-meta-details-isOpen]="isDashboardVisible"
+      (click)="isDashboardVisible = !isDashboardVisible"
+    >
+      <div class="hub-page__header-meta-details-title">
+        {{ translate(isDashboardVisible ? 'short_view' : 'show_details') }}
+      </div>
+      <svg-icon class="hub-page__header-meta-details-icon" key="expand-more"></svg-icon>
+    </div>
   </div>
 </app-hub-header>
 
