@@ -1,10 +1,7 @@
 <ng-container *transloco="let translate; read: 'hub.hub_post_pdv'">
-  <svg-icon
-    class="hub-post-pdv__icon"
-    key="signal"
-  ></svg-icon>
-
-  <span class="hub-post-pdv__label">{{ translate('label') }}</span>
+  <span class="hub-post-pdv__label" appTypeface="caption">
+    {{ translate('label') }}
+  </span>
 
   <app-hub-post-pdv-diagram [pdv]="pdv"></app-hub-post-pdv-diagram>
 </ng-container>

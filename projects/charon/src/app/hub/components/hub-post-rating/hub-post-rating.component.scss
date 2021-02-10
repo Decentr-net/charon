@@ -1,19 +1,10 @@
-$hub-post-rating--color: #6B6C6F;
-$hub-post-rating--liked--color: #338374;
-$hub-post-rating--disliked--color: #F0376B;
-$hub-post-rating--disabled--color: #9EA0A5;
-
-@mixin likeIconColor($color) {
-  ::ng-deep rect {
-    fill: $color;
-  }
-}
+@import 'colors';
+@import 'variables';
 
 :host {
   align-items: center;
-  color: $hub-post-rating--color;
+  color: $color-grey;
   display: flex;
-  font-size: 14px;
   line-height: 100%;
 }
 
@@ -23,13 +14,11 @@ $hub-post-rating--disabled--color: #9EA0A5;
   cursor: pointer;
 
   & + & {
-    margin-left: 12px;
+    margin-left: $grid-step * 2;
   }
 
   &.is-disabled {
-    pointer-events: none;
-
-    @include likeIconColor($hub-post-rating--disabled--color);
+    cursor: wait;
   }
 }
 
@@ -43,10 +32,10 @@ $hub-post-rating--disabled--color: #9EA0A5;
   }
 
   &.mod-liked {
-    @include likeIconColor($hub-post-rating--liked--color);
+    color: $color-positive;
   }
 
   &.mod-disliked {
-    @include likeIconColor($hub-post-rating--disliked--color);
+    color: $color-negative;
   }
 }

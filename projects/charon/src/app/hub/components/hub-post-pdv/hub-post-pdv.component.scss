@@ -1,13 +1,11 @@
+@import 'variables';
+
 :host {
   align-items: center;
   display: inline-flex;
 }
 
-.hub-post-pdv__icon {
-  display: inline-flex;
-}
-
 .hub-post-pdv__label {
-  font-weight: 500;
-  margin: 0 24px 0 16px;
+  font-weight: 700;
+  margin-right: $grid-step / 2;
 }

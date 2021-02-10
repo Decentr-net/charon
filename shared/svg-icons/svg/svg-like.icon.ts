@@ -4,5 +4,5 @@ export const svgLike: {
   data: string;
 } = {
   name: 'like',
-  data: `<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><rect width="14" height="14" rx="7" fill="url(#paint0_linear)"/><path fill-rule="evenodd" clip-rule="evenodd" d="M4 9c0 .709.224 1 1 1V6c-.776 0-1 .305-1 1v2zm6 0c0 .875-.914 1-1 1H6V5c0-1 .935-1 1.031-1C8 4 8 5.156 8 5v1h1c1 0 1 1 1 1v2z" fill="#fff"/><defs><linearGradient id="paint0_linear" x1="-.43" y1="14.215" x2="14.43" y2="14.215" gradientUnits="userSpaceOnUse"><stop stop-color="#74C5EE"/><stop offset=".32" stop-color="#73C2EF"/><stop offset=".53" stop-color="#6EB9F1"/><stop offset=".72" stop-color="#66AAF5"/><stop offset=".88" stop-color="#5A95FA"/><stop offset="1" stop-color="#4F80FF"/></linearGradient></defs></svg>`
+  data: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 13"><path d="M8.747.373L5.053 4.067a1.332 1.332 0 00-.386.94v6.66C4.667 12.4 5.267 13 6 13h6c.533 0 1.013-.32 1.227-.807L15.4 7.12c.56-1.32-.407-2.787-1.84-2.787H9.793l.634-3.053a1.005 1.005 0 00-.274-.913.992.992 0 00-1.406.006zM2 13c.733 0 1.333-.6 1.333-1.333V6.333C3.333 5.6 2.733 5 2 5S.667 5.6.667 6.333v5.334C.667 12.4 1.267 13 2 13z"/></svg>`
 };

@@ -6,6 +6,9 @@
 .posts-page__posts-grid-container {
   gap: 20px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  justify-content: center;
+  //grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.posts-page__post {
+  height: 364px;
 }

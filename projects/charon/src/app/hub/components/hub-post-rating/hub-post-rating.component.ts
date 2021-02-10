@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit } from '@angular/core';
+import { fromEvent, Observable } from 'rxjs';
+import { map, share, take } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { UntilDestroy } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LikeWeight } from 'decentr-js';
 
 import { svgLike } from '@shared/svg-icons';
@@ -26,36 +26,43 @@ export class HubPostRatingComponent implements OnInit {
 
   public readonly likeWeight: typeof LikeWeight = LikeWeight;
 
-  public isDisabled$: Observable<boolean>;
+  public isDisabled: boolean = true;
 
   constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+    private elementRef: ElementRef<HTMLElement>,
     private hubLikesService: HubLikesService,
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register(svgLike);
   }
 
-  @HostListener('click', ['$event'])
-  public onClick(event: Event): void
-  {
-    event.stopPropagation();
-  }
-
   public ngOnInit(): void {
+    fromEvent(this.elementRef.nativeElement, 'click').pipe(
+      untilDestroyed(this),
+    ).subscribe((event) => event.stopPropagation());
+
     this.post$ = this.hubLikesService.getPostChanges(this.postId);
 
-    this.isDisabled$ = this.hubLikesService.canLikePost(this.postId).pipe(
+    this.hubLikesService.canLikePost(this.postId).pipe(
       map((canLike) => !canLike),
-      shareReplay(1),
-    );
+      untilDestroyed(this),
+    ).subscribe((isDisabled) => {
+      this.isDisabled = isDisabled;
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   public onLike(post: PostWithAuthor): void {
-    this.changeLikeWeight(post, LikeWeight.Up);
+    if (!this.isDisabled) {
+      this.changeLikeWeight(post, LikeWeight.Up);
+    }
   }
 
   public onDislike(post: PostWithAuthor): void {
-    this.changeLikeWeight(post, LikeWeight.Down);
+    if (!this.isDisabled) {
+      this.changeLikeWeight(post, LikeWeight.Down);
+    }
   }
 
   private changeLikeWeight(post: PostWithAuthor, newLikeWeight: LikeWeight): void {
@@ -66,6 +73,8 @@ export class HubPostRatingComponent implements OnInit {
       post.likeWeight === newLikeWeight
         ? LikeWeight.Zero
         : newLikeWeight
+    ).pipe(
+      take(1),
     ).subscribe();
   }
 }

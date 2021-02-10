@@ -1,29 +1,44 @@
 <ng-container *transloco="let translate">
-  <div class="hub-post-card__image-container" *ngIf="hasPreviewImage">
-    <img class="hub-post-card__image" [src]="post.previewImage" [alt]="post.previewImage">
-  </div>
-
-  <div class="hub-post-card__meta">
-    <span [appHubPostCategoryColor]="post.category">
-      {{ translate('hub.hub_post_category.' + post.category) }}
-    </span>
-
-    <span class="hub-post-card__meta-separator"></span>
-
-    <app-hub-post-time [time]="post.createdAt"></app-hub-post-time>
-  </div>
-
-  <div class="hub-post-card__title">{{ post.title }}</div>
-
   <div
-    class="hub-post-preview-card__content"
-    [innerHTML]="post.text | appCutHtmlImages"
-    appTextClamp
+    class="hub-post-card__image"
+    *ngIf="post.previewImage"
+    [style.background-image]="'url(' + post.previewImage + ')'"
   ></div>
 
-  <div class="hub-post-card__footer">
-    <app-hub-post-rating [postId]="post.uuid"></app-hub-post-rating>
+  <div class="hub-post-card__container">
+    <div class="hub-post-card__meta">
+      <ng-container *ngIf="!disableCategory">
+        <span
+          class="hub-post-card__category"
+          [appHubPostCategoryColor]="post.category"
+          appTypeface="caption"
+        >
+          {{ translate('hub.hub_post_category.' + post.category) }}
+        </span>
 
-    <app-hub-post-pdv [pdv]="post.pdv"></app-hub-post-pdv>
+        <span class="hub-post-card__meta-separator"></span>
+      </ng-container>
+
+      <span class="hub-post-card__time" appTypeface="caption">
+        {{ post.createdAt | appCoerceTimestamp | dateAgo | async }}
+      </span>
+    </div>
+
+    <div class="hub-post-card__title" appTypeface="paragraph">
+      {{ post.title }}
+    </div>
+
+    <div
+      class="hub-post-card__content"
+      [innerHTML]="post.text | appCutHtmlImages"
+      appTextClamp
+      appTypeface="paragraph"
+    ></div>
+
+    <div class="hub-post-card__footer">
+      <app-hub-post-rating [postId]="post.uuid"></app-hub-post-rating>
+
+      <app-hub-post-pdv [pdv]="post.pdv"></app-hub-post-pdv>
+    </div>
   </div>
 </ng-container>

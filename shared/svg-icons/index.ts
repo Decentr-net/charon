@@ -27,6 +27,5 @@ export * from './svg/svg-plus.icon';
 export * from './svg/svg-receive-coin.icon';
 export * from './svg/svg-send-coin.icon';
 export * from './svg/svg-settings.icon';
-export * from './svg/svg-signal.icon';
 export * from './svg/svg-trash.icon';
 export * from './svg/svg-icon.model';

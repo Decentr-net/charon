@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostBinding,
   Input,
   OnChanges,
   Renderer2,
@@ -10,6 +9,8 @@ import {
 } from '@angular/core';
 
 import { PostWithLike } from '../../models/post';
+
+const DEFAULT_ORIENTATION = 'vertical';
 
 @Component({
   selector: 'app-hub-post-card',
@@ -20,24 +21,23 @@ import { PostWithLike } from '../../models/post';
 export class HubPostCardComponent implements OnChanges {
   @Input() public post: PostWithLike;
 
-  @Input() public orientation: 'horizontal' | 'vertical' = 'vertical';
+  @Input() public orientation: 'horizontal' | 'vertical';
+
+  @Input() public disableCategory: boolean = false
 
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef,
   ) {
-    this.renderer.addClass(this.elementRef, `mod-${this.orientation}`);
-  }
-
-  @HostBinding('class.mod-has-preview-image')
-  public get hasPreviewImage(): boolean {
-    return this.post && !!this.post.previewImage;
+    this.renderer.addClass(this.elementRef.nativeElement, `mod-${DEFAULT_ORIENTATION}`);
   }
 
   public ngOnChanges({ orientation }: SimpleChanges): void {
     if (orientation) {
-      this.renderer.removeClass(this.elementRef, `mod-${orientation.previousValue}`);
-      this.renderer.addClass(this.elementRef, `mod-${orientation.currentValue}`);
+      orientation.firstChange && this.renderer.removeClass(this.elementRef.nativeElement, `mod-${DEFAULT_ORIENTATION}`);
+
+      this.renderer.removeClass(this.elementRef.nativeElement, `mod-${orientation.previousValue}`);
+      this.renderer.addClass(this.elementRef.nativeElement, `mod-${orientation.currentValue}`);
     }
   }
 }

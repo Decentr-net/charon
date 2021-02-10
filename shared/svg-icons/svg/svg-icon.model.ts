@@ -24,7 +24,6 @@ export type SvgIconName =
   | 'receive-coin'
   | 'send-coin'
   | 'settings'
-  | 'signal'
   | 'trash';
 export interface SvgIcon {
   name: SvgIconName;

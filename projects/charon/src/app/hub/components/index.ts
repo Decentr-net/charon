@@ -9,9 +9,9 @@ import { HubLoadMoreButtonComponent } from './hub-load-more-button';
 import { HubNavigationComponent } from './hub-navigation';
 import { HubNavigationLinkComponent } from './hub-navigation-link';
 import { HubPdvStatisticsComponent } from './hub-pdv-statistics';
-import { HubPostAnalyticsCardComponent } from './hub-post-analytics-card';
-import { HubPostDialogComponent } from './hub-post-dialog';
+import { HubPostCardComponent } from './hub-post-card';
 import { HubPostContentComponent } from './hub-post-content';
+import { HubPostDialogComponent } from './hub-post-dialog';
 import { HubPostPdvComponent } from './hub-post-pdv';
 import { HubPostPdvDiagramComponent } from './hub-post-pdv-diagram';
 import { HubPostPreviewCardComponent } from './hub-post-preview-card';
@@ -38,7 +38,7 @@ export const HUB_COMPONENTS = [
   HubNavigationComponent,
   HubNavigationLinkComponent,
   HubPdvStatisticsComponent,
-  HubPostAnalyticsCardComponent,
+  HubPostCardComponent,
   HubPostDialogComponent,
   HubPostContentComponent,
   HubPostPdvComponent,

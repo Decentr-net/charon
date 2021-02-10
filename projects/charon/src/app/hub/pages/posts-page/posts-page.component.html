@@ -8,11 +8,14 @@
   (loadMore)="loadMore()"
 >
   <div class="posts-page__posts-grid-container">
-    <app-hub-post-analytics-card
+    <app-hub-post-card
       class="posts-page__post"
-      *ngFor="let post of posts$ | async; trackBy: trackByPostId"
+      [class.a]="index === 1"
+      *ngFor="let post of posts$ | async; let index=index; trackBy: trackByPostId"
       [post]="post"
+      [disableCategory]="true"
+      orientation="horizontal"
       [appHubPostDialog]="post.uuid"
-    ></app-hub-post-analytics-card>
+    ></app-hub-post-card>
   </div>
 </app-hub-infinite-posts-container>
