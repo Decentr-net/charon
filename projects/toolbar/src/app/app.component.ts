@@ -59,15 +59,11 @@ export class AppComponent implements OnInit {
     this.navigationService.closeApp();
   }
 
-  public openCharonHubMyWall(): void {
-    this.navigationService.openCharonHubMyWall();
+  public openCharonHubFeed(): void {
+    this.navigationService.openCharonHubFeed();
   }
 
   public openCharonHubOverview(): void {
     this.navigationService.openCharonHubOverview();
-  }
-
-  public openCharonHubRecentNews(): void {
-    this.navigationService.openCharonHubRecentNews();
   }
 }

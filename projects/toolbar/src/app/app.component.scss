@@ -1,3 +1,5 @@
+@import 'variables';
+
 $app--background-color: #FFFFFF;
 $app--section--background-color: #F8FAFD;
 
@@ -33,7 +35,7 @@ $app--section--background-color: #F8FAFD;
   padding: 0 10px 0 20px;
 
   .app__icon {
-    margin: 0 8px;
+    margin: 0 $grid-step;
     max-width: 20px;
   }
 }
@@ -43,12 +45,16 @@ $app--section--background-color: #F8FAFD;
 }
 
 .app__middle-container-section-dynamic {
+  display: inline-flex;
+
   @media (max-width: 768px) {
     display: none;
   }
 }
 
 .app__meta-label {
+  align-items: center;
+  display: inline-flex;
   font-size: 11px;
 
   & + & {
@@ -57,7 +63,12 @@ $app--section--background-color: #F8FAFD;
 }
 
 .app__meta-label-value {
-  margin-left: 4px;
+  font-weight: 500;
+  margin-left: $grid-step / 2;
+}
+
+.app__meta-margin-label {
+  margin-left: $grid-step / 2;
 }
 
 .app__link-icon {

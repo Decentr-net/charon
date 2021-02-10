@@ -1,9 +1,10 @@
-<div class="hub-header__bar">
+<div class="hub-header__bar" *transloco="let translate; read: 'hub.hub_page.header'">
   <a
-    class="hub-header__bar-icon-logo"
-    [inlineSVG]="'assets/images/logo-icon.svg'"
+    class="hub-header__bar-logo"
     [routerLink]="['./']"
-  ></a>
+  >
+    <svg-icon class="hub-header__bar-logo-icon" key="logo"></svg-icon>
+  </a>
 
   <div class="hub-header__bar-meta-container">
     <ng-content select="meta"></ng-content>
@@ -12,17 +13,11 @@
 
   <div class="hub-header__bar-actions-container">
     <a
-      class="hub-header__bar-icon-button"
-      [routerLink]="[hubRoute.Feed, hubFeedRoute.Recent]"
-    >
-      <svg-icon class="hub-header__bar-icon" key="notification"></svg-icon>
-    </a>
-
-    <a
-      class="hub-header__bar-icon-button"
+      class="hub-header__bar-button"
       appHubCreatePostDialog
     >
-      <svg-icon class="hub-header__bar-icon" key="plus"></svg-icon>
+      <svg-icon class="hub-header__bar-button-icon" key="edit"></svg-icon>
+      {{ translate('new_post') }}
     </a>
 
     <app-menu></app-menu>
