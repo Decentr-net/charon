@@ -10,7 +10,7 @@ export class MouseWheelHorizontalScrollDirective implements OnInit {
   private mouseWheelHorizontalScrollElement: HTMLElement;
 
   constructor(
-    elementRef: ElementRef,
+    elementRef: ElementRef<HTMLElement>,
   ) {
     this.mouseWheelHorizontalScrollElement = elementRef.nativeElement;
   }

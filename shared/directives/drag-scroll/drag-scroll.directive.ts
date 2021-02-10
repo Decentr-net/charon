@@ -7,12 +7,12 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   selector: '[appDragScroll]',
 })
 export class DragScrollDirective implements OnInit {
+  private dragScrollElement: HTMLElement;
   private isMovable: boolean;
   private lastEvent: MouseEvent;
-  private dragScrollElement: HTMLElement;
 
   constructor(
-    private elementRef: ElementRef,
+    private elementRef: ElementRef<HTMLElement>,
   ) {
     this.dragScrollElement = elementRef.nativeElement;
   }
@@ -50,12 +50,12 @@ export class DragScrollDirective implements OnInit {
     });
   }
 
-  public onMouseDown(event: MouseEvent): void {
+  private onMouseDown(event: MouseEvent): void {
     this.isMovable = true;
     this.lastEvent = event;
   }
 
-  public onMouseMove(event: MouseEvent): void {
+  private onMouseMove(event: MouseEvent): void {
     if (this.isMovable) {
       this.dragScrollElement.scrollLeft = this.dragScrollElement.scrollLeft + this.lastEvent.clientX - event.clientX;
       this.lastEvent = event;
