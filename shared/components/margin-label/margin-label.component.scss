@@ -5,15 +5,15 @@
   display: inline-flex;
 
   &.mod-negative {
-    color: $color-red;
+    color: $color-negative;
   }
 
   &.mod-neutral {
-    color: $color-grey;
+    color: $color-neutral;
   }
 
   &.mod-positive {
-    color: $color-green;
+    color: $color-positive;
   }
 
   .color-margin-label-icon {

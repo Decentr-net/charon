@@ -37,7 +37,7 @@ $hub-page--meta--details--background-color-hover: #EDEDEE;
     align-items: center;
     border-left: 0;
     min-height: 24px;
-    padding: 0 16px;
+    padding: 0 $grid-step;
   }
 
   & + & {
@@ -52,7 +52,7 @@ $hub-page--meta--details--background-color-hover: #EDEDEE;
   display: flex;
   font-size: 14px;
   height: 100%;
-  padding: 0 16px;
+  padding: 0 $grid-step;
   transition: background .3s ease;
   user-select: none;
 
@@ -76,7 +76,7 @@ $hub-page--meta--details--background-color-hover: #EDEDEE;
 .hub-page__header-meta-details-icon {
   align-items: center;
   display: inline-flex;
-  margin-left: 4px;
+  margin-left: $grid-step / 2;
   transition: transform .3s ease;
 }
 

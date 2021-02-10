@@ -1,3 +1,5 @@
+@import 'variables';
+
 $app--background-color: #FFFFFF;
 $app--section--background-color: #F8FAFD;
 
@@ -33,7 +35,7 @@ $app--section--background-color: #F8FAFD;
   padding: 0 10px 0 20px;
 
   .app__icon {
-    margin: 0 8px;
+    margin: 0 $grid-step;
     max-width: 20px;
   }
 }
@@ -62,11 +64,11 @@ $app--section--background-color: #F8FAFD;
 
 .app__meta-label-value {
   font-weight: 500;
-  margin-left: 4px;
+  margin-left: $grid-step / 2;
 }
 
 .app__meta-margin-label {
-  margin-left: 4px;
+  margin-left: $grid-step / 2;
 }
 
 .app__link-icon {

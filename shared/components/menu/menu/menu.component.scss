@@ -1,3 +1,5 @@
+@import '../../../styles/variables';
+
 :host {
   align-items: center;
   display: inline-flex;
@@ -31,8 +33,7 @@
   align-items: center;
   display: inline-flex;
   font-weight: 500;
-  font-size: 16px;
-  margin-left: 8px;
+  margin-left: $grid-step;
   user-select: none;
 }
 
@@ -40,7 +41,7 @@
   color: #929297;
   display: inline-flex;
   font-size: 24px;
-  margin-left: 8px;
+  margin-left: $grid-step;
   transition: color .3s ease;
 }
 

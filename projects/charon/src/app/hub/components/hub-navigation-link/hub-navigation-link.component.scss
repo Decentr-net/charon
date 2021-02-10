@@ -42,7 +42,7 @@
   background: currentColor;
   border-radius: 50%;
   height: 4px;
-  left: -8px;
+  left: -$grid-step;
   position: absolute;
   width: 4px;
 }

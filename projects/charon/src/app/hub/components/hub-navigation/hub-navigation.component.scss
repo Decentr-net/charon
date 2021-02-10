@@ -23,8 +23,7 @@ $hub-navigation--height: 48px;
 }
 
 .hub-navigation__link {
-  margin-left: 16px;
-  margin-right: 16px;
+  margin: 0 $grid-step * 2;
 
   &:first-child {
     margin-left: 0;
