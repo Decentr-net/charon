@@ -74,8 +74,6 @@
       "short_view": "short view"
     }
   },
-  "hub_post_card": {
-  },
   "hub_pdv_statistics": {
     "activity_from": "Activity from {{date}}",
     "estimated_balance": "In progress: {{estimatedBalance}} PDV",
