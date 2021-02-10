@@ -9,7 +9,12 @@ $hub-navigation--height: 48px;
   border-bottom: 1px solid $color-outlines;
   display: flex;
   height: $hub-navigation--height;
+  overflow-x: auto;
   padding: 0 30px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .hub-navigation__section {
@@ -18,7 +23,14 @@ $hub-navigation--height: 48px;
 }
 
 .hub-navigation__link {
-  &:not(:last-child) {
-    margin-right: 32px;
+  margin-left: 16px;
+  margin-right: 16px;
+
+  &:first-child {
+    margin-left: 0;
   }
+}
+
+.hub-navigation__link-latest {
+  color: $color-primary;
 }

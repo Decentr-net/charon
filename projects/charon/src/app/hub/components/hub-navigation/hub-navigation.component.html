@@ -1,8 +1,9 @@
 <ng-container *transloco="let translate">
   <div class="hub-navigation__section">
     <app-hub-navigation-link
-      class="hub-navigation__link"
+      class="hub-navigation__link hub-navigation__link-latest"
       [link]="['/', appRoute.Hub, hubRoute.Overview]"
+      [showDot]="false"
       [title]="translate('hub.hub_navigation.latest_posts')"
     ></app-hub-navigation-link>
 
@@ -10,7 +11,7 @@
       <app-hub-navigation-link
         class="hub-navigation__link"
         *ngFor="let linkConfig of postsLinksConfig; trackBy: trackByLink"
-        [id]="linkConfig.id"
+        [appHubPostCategoryColor]="linkConfig.id"
         [link]="['/', appRoute.Hub, hubRoute.Posts, linkConfig.id]"
         [title]="translate(linkConfig.i18nKey)"
       ></app-hub-navigation-link>

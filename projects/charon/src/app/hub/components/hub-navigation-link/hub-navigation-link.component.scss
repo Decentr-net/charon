@@ -7,8 +7,7 @@
 
 .hub-navigation-link {
   align-items: center;
-  color: $color-grey;
-  font-weight: 500;
+  color: currentColor;
   display: flex;
   height: 100%;
   justify-content: center;
@@ -17,12 +16,16 @@
   white-space: nowrap;
 
   &:hover {
-    color: $color-dark-grey;
+    .hub-navigation-link__title {
+      color: $color-dark-grey;
+    }
   }
 
   &.is-active {
-    color: $color-font-base;
-    font-weight: 700;
+    .hub-navigation-link__title {
+      color: $color-font-base;
+      font-weight: 700;
+    }
 
     .hub-navigation-link__dot {
       display: none;
@@ -34,19 +37,9 @@
   }
 }
 
-@for $i from 1 through length($color-post-categories) {
-  .hub-navigation-link[data-id='#{$i}'] {
-    .hub-navigation-link__dot {
-      background: nth($color-post-categories, $i);
-    }
-
-    .hub-navigation-link__border {
-      background: nth($color-post-categories, $i);
-    }
-  }
-}
 
 .hub-navigation-link__dot {
+  background: currentColor;
   border-radius: 50%;
   height: 4px;
   left: -8px;
@@ -55,6 +48,9 @@
 }
 
 .hub-navigation-link__title {
+  color: $color-grey;
+  font-weight: 500;
+
   &:after {
     display: block;
     content: attr(data-title);
@@ -66,7 +62,7 @@
 }
 
 .hub-navigation-link__border {
-  background: $color-primary;
+  background: currentColor;
   bottom: 0;
   display: none;
   height: 4px;

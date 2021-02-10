@@ -1,10 +1,9 @@
 <a
   class="hub-navigation-link"
-  [attr.data-id]="id"
   [routerLink]="link"
   routerLinkActive="is-active"
 >
-  <span class="hub-navigation-link__dot"></span>
+  <span *ngIf="showDot" class="hub-navigation-link__dot"></span>
 
   <span
     class="hub-navigation-link__title"
