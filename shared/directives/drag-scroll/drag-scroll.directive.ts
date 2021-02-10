@@ -21,7 +21,9 @@ export class DragScrollDirective implements OnInit {
     fromEvent(this.dragScrollElement, 'mouseover').pipe(
       untilDestroyed(this),
     ).subscribe(() => {
-      this.dragScrollElement.style.cursor = 'grabbing';
+      if (this.dragScrollElement.scrollWidth > window.innerWidth) {
+        this.dragScrollElement.style.cursor = 'grabbing';
+      }
     });
 
     fromEvent(this.dragScrollElement, 'mouseleave').pipe(
