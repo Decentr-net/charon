@@ -14,7 +14,6 @@ import { HubPostContentComponent } from './hub-post-content';
 import { HubPostDialogComponent } from './hub-post-dialog';
 import { HubPostPdvComponent } from './hub-post-pdv';
 import { HubPostPdvDiagramComponent } from './hub-post-pdv-diagram';
-import { HubPostPreviewCardComponent } from './hub-post-preview-card';
 import { HubPostRatingComponent } from './hub-post-rating';
 import { HubPostTimeComponent } from './hub-post-time';
 import { HubPostTitleComponent } from './hub-post-title';
@@ -43,7 +42,6 @@ export const HUB_COMPONENTS = [
   HubPostContentComponent,
   HubPostPdvComponent,
   HubPostPdvDiagramComponent,
-  HubPostPreviewCardComponent,
   HubPostRatingComponent,
   HubPostTimeComponent,
   HubPostTitleComponent,

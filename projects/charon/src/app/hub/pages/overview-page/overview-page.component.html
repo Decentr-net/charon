@@ -28,7 +28,6 @@
   >
     <div class="overview-page__posts-container">
       <app-hub-post-card
-        class="overview-page__post"
         *ngFor="let post of posts$ | async; trackBy: trackByPostId"
         [post]="post"
         [appHubPostDialog]="post.uuid"

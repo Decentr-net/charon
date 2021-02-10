@@ -2,17 +2,18 @@
 @import 'variables';
 
 $hub-post-card--padding: $grid-step * 2;
-$hub-post-card--vertical--image-height: 48%;
+$hub-post-card--vertical--image-height: 44%;
+$hub-post-card--horizontal--image-width: 31%;
 
 :host {
   background: $color-white;
-  padding: $hub-post-card--padding;
+  display: flex;
 
   &.mod-vertical {
     border: 1px solid $color-outlines;
     border-radius: $border-radius;
-    display: flex;
     flex-direction: column;
+    height: 364px;
 
     .hub-post-card__image {
       height: $hub-post-card--vertical--image-height;
@@ -20,19 +21,28 @@ $hub-post-card--vertical--image-height: 48%;
 
     .hub-post-card__container {
       height: 100% - $hub-post-card--vertical--image-height;
+      padding: $hub-post-card--padding;
     }
   }
 
   &.mod-horizontal {
     column-gap: $grid-step * 2;
-    display: grid;
-    grid-template-columns: 31fr 69fr;
+    height: 220px;
+    overflow: hidden;
+    padding: $hub-post-card--padding 0;
+
+    .hub-post-card__image {
+      width: $hub-post-card--horizontal--image-width;
+    }
+
+    .hub-post-card__container {
+      width: 100% - $hub-post-card--horizontal--image-width;
+    }
   }
 }
 
 .hub-post-card__image {
   background-size: 100%;
-  margin: (-$hub-post-card--padding) (-$hub-post-card--padding) $grid-step * 1.5;
   flex-shrink: 0;
   overflow: hidden;
 }
