@@ -4,7 +4,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Directive({
-  selector: '[appMouseWheelScroll]',
+  selector: '[appMouseWheelHorizontalScroll]',
 })
 export class MouseWheelHorizontalScrollDirective implements OnInit {
   private mouseWheelHorizontalScrollElement: HTMLElement;

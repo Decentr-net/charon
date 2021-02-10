@@ -1,5 +1,6 @@
 import { Directive, ElementRef, OnInit } from '@angular/core';
 import { fromEvent } from 'rxjs';
+import { map, pairwise, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
@@ -7,21 +8,22 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   selector: '[appDragScroll]',
 })
 export class DragScrollDirective implements OnInit {
+  private defaultCursor: string;
   private dragScrollElement: HTMLElement;
-  private isMovable: boolean;
-  private lastEvent: MouseEvent;
 
   constructor(
-    private elementRef: ElementRef<HTMLElement>,
+    elementRef: ElementRef<HTMLElement>,
   ) {
     this.dragScrollElement = elementRef.nativeElement;
   }
 
   ngOnInit(): void {
+    this.defaultCursor = this.dragScrollElement.style.cursor;
+
     fromEvent(this.dragScrollElement, 'mouseover').pipe(
       untilDestroyed(this),
     ).subscribe(() => {
-      if (this.dragScrollElement.scrollWidth > window.innerWidth) {
+      if (this.dragScrollElement.scrollWidth > this.dragScrollElement.offsetWidth) {
         this.dragScrollElement.style.cursor = 'grabbing';
       }
     });
@@ -29,38 +31,20 @@ export class DragScrollDirective implements OnInit {
     fromEvent(this.dragScrollElement, 'mouseleave').pipe(
       untilDestroyed(this),
     ).subscribe(() => {
-      this.isMovable = false;
-      this.dragScrollElement.style.cursor = 'default';
-    });
-
-    fromEvent(this.dragScrollElement, 'mouseup').pipe(
-      untilDestroyed(this),
-    ).subscribe(() => {
-      this.isMovable = false;
+      this.dragScrollElement.style.cursor = this.defaultCursor;
     });
 
     fromEvent(this.dragScrollElement, 'mousedown').pipe(
+      switchMap((event: MouseEvent) => fromEvent<MouseEvent>(this.dragScrollElement, 'mousemove').pipe(
+        startWith(event),
+        map(({ clientX }) => clientX),
+        pairwise(),
+        takeUntil(fromEvent(this.dragScrollElement, 'mouseup')),
+        takeUntil(fromEvent(this.dragScrollElement, 'mouseleave')),
+      )),
       untilDestroyed(this),
-    ).subscribe((event: MouseEvent) => {
-      this.onMouseDown(event);
+    ).subscribe(([prevX, currX]) => {
+      this.dragScrollElement.scrollLeft = this.dragScrollElement.scrollLeft + prevX - currX;
     });
-
-    fromEvent(this.dragScrollElement, 'mousemove').pipe(
-      untilDestroyed(this),
-    ).subscribe((event: MouseEvent) => {
-      this.onMouseMove(event);
-    });
-  }
-
-  private onMouseDown(event: MouseEvent): void {
-    this.isMovable = true;
-    this.lastEvent = event;
-  }
-
-  private onMouseMove(event: MouseEvent): void {
-    if (this.isMovable) {
-      this.dragScrollElement.scrollLeft = this.dragScrollElement.scrollLeft + this.lastEvent.clientX - event.clientX;
-      this.lastEvent = event;
-    }
   }
 }
