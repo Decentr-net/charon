@@ -32,6 +32,7 @@ import { FirstParagraphModule } from '@shared/pipes/first-paragraph';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { PositiveNumberModule } from '@shared/pipes/positiveNumber';
 import { PermissionsModule } from '@shared/permissions';
+import { RouterLinkScrollAnchorModule } from '@shared/directives/router-link-scroll-anchor';
 import { SlotModule } from '@shared/components/slot';
 import { SpinnerModule } from '@shared/components/spinner';
 import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
@@ -70,6 +71,7 @@ import { TextClampModule } from '@shared/directives/text-clamp';
     PositiveNumberModule,
     QuillModule,
     ReactiveFormsModule,
+    RouterLinkScrollAnchorModule,
     SlotModule,
     SpinnerModule,
     SvgIconsModule,
