@@ -27,11 +27,11 @@
     (loadMore)="loadMore()"
   >
     <div class="overview-page__posts-container">
-      <app-hub-post-analytics-card
+      <app-hub-post-card
         *ngFor="let post of posts$ | async; trackBy: trackByPostId"
         [post]="post"
         [appHubPostDialog]="post.uuid"
-      ></app-hub-post-analytics-card>
+      ></app-hub-post-card>
     </div>
   </app-hub-infinite-posts-container>
 </ng-container>
