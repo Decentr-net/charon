@@ -1,0 +1,10 @@
+.hub-top-posts__post {
+  &:first-child {
+    border-radius: 0;
+  }
+
+  &:last-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}

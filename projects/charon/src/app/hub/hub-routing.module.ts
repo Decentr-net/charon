@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PostCategory } from 'decentr-js';
 
 import {
   FeedPageComponent,
   HubPageComponent,
   MyWallPageComponent,
   PostsPageComponent,
-  OverviewPageComponent,
   RecentPageComponent,
 } from './pages';
 import { HubRoute, HubFeedRoute, HubCategoryRouteParam } from './hub-route';
@@ -34,12 +32,8 @@ const ROUTES: Routes = [
     children: [
       {
         path: '',
-        redirectTo: HubRoute.Overview,
+        redirectTo: HubRoute.Posts,
         pathMatch: 'full',
-      },
-      {
-        path: HubRoute.Overview,
-        component: OverviewPageComponent,
       },
       {
         path: HubRoute.Feed,
@@ -50,12 +44,17 @@ const ROUTES: Routes = [
         path: HubRoute.Posts,
         children: [
           {
+            path: '',
+            component: PostsPageComponent,
+            pathMatch: 'full',
+          },
+          {
             path: `:${HubCategoryRouteParam}`,
             component: PostsPageComponent,
           },
           {
             path: '**',
-            redirectTo: PostCategory.WorldNews.toString(),
+            redirectTo: '',
           },
         ],
       },

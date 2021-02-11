@@ -32,6 +32,7 @@ $hub-post-card--horizontal--image-width: 31%;
     padding: $hub-post-card--padding 0;
 
     .hub-post-card__image {
+      border-radius: $border-radius;
       width: $hub-post-card--horizontal--image-width;
     }
 

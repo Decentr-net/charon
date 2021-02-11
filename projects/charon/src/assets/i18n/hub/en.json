@@ -97,6 +97,9 @@
   "hub_post_pdv": {
     "label": "PDV"
   },
+  "hub_posts_page": {
+    "top_posts": "Top posts"
+  },
   "hub_overview_page": {
     "highest_pdv_analytics": "Highest PDV Analytics"
   },
