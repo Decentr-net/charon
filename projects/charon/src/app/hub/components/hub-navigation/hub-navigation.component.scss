@@ -9,17 +9,17 @@ $hub-navigation--height: 48px;
   border-bottom: 1px solid $color-outlines;
   display: flex;
   height: $hub-navigation--height;
-  overflow-x: auto;
   padding: 0 30px;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
 
 .hub-navigation__section {
   display: flex;
   height: 100%;
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .hub-navigation__link {

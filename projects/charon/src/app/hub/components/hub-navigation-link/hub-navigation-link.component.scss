@@ -13,6 +13,8 @@
   justify-content: center;
   position: relative;
   text-decoration: none;
+  user-select: none;
+  -webkit-user-drag: none;
   white-space: nowrap;
 
   &:hover {
