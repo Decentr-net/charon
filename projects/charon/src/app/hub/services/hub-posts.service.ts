@@ -251,7 +251,6 @@ export abstract class HubPostsService<T extends PostWithLike = PostWithAuthor> {
   public updatePostsWithAuthors<T extends Post>(
     posts: T[],
   ): Observable<(T & { author: PublicProfile })[]> {
-    // return of(posts) as any;
     if (!posts.length) {
       return of([]);
     }
