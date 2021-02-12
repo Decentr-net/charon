@@ -24,6 +24,7 @@
       *ngIf="posts.length > 0"
       [canLoadMore]="canLoadMore$ | async"
       [isLoading]="isLoading$ | async"
+      [useIntersection]="true"
       (loadMore)="loadMore()"
     >
       <app-hub-post-card

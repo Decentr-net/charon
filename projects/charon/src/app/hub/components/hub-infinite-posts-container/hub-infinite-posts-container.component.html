@@ -2,18 +2,26 @@
   <ng-content></ng-content>
 
   <div class="hub-infinite-posts-container__loading-container">
-    <ng-template [ngIf]="isLoading" [ngIfElse]="loadMoreButton">
+    <ng-template [ngIf]="isLoading" [ngIfElse]="loadMoreSource">
       <app-spinner></app-spinner>
     </ng-template>
   </div>
 
-  <ng-template #loadMoreButton>
-    <button
-      app-hub-load-more-button
-      *ngIf="canLoadMore"
-      (click)="onLoadMoreClick()"
-    >
-      {{ translate('load_more_posts') }}
-    </button>
+  <ng-template #loadMoreSource>
+    <ng-template [ngIf]="canLoadMore">
+      <div
+        *ngIf="useIntersection"
+        appIntersectionTarget
+        (intersect)="onLoadMoreClick()"
+      ></div>
+
+      <button
+        app-hub-load-more-button
+        *ngIf="!useIntersection"
+        (click)="onLoadMoreClick()"
+      >
+        {{ translate('load_more_posts') }}
+      </button>
+    </ng-template>
   </ng-template>
 </ng-container>

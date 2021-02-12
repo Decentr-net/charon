@@ -39,6 +39,7 @@ import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
 import { TextClampModule } from '@shared/directives/text-clamp';
 import { CoerceTimestampModule } from '@shared/pipes/coerce-timestamp';
 import { TypefaceModule } from '@shared/directives/typeface';
+import { IntersectionModule } from '@shared/directives/intersection';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { TypefaceModule } from '@shared/directives/typeface';
     FormErrorModule,
     HubRoutingModule,
     InlineSVGModule,
+    IntersectionModule,
     LineChartModule,
     MarginLabelModule,
     MatDialogModule,
