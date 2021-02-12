@@ -3,13 +3,6 @@
 .hub-top-posts__post {
   border-radius: 0;
 
-  &::ng-deep {
-    .hub-post-card__image {
-      border-radius: $border-radius;
-      margin: ($grid-step * 2) ($grid-step * 2) 0;
-    }
-  }
-
   &:last-child {
     border-bottom-left-radius: $border-radius;
     border-bottom-right-radius: $border-radius;

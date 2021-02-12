@@ -15,8 +15,17 @@ $hub-post-card--horizontal--image-width: 31%;
     flex-direction: column;
     height: 364px;
 
-    .hub-post-card__image {
-      height: $hub-post-card--vertical--image-height;
+    .hub-post-card__image-container {
+      max-height: $hub-post-card--vertical--image-height;
+
+      &.mod-vertical-padding {
+        border-radius: $border-radius;
+        margin: ($grid-step * 2) ($grid-step * 2) 0;
+
+        .hub-post-card__image {
+          border-radius: $border-radius;
+        }
+      }
     }
 
     .hub-post-card__container {
@@ -31,9 +40,13 @@ $hub-post-card--horizontal--image-width: 31%;
     overflow: hidden;
     padding: $hub-post-card--padding 0;
 
-    .hub-post-card__image {
+    .hub-post-card__image-container {
       border-radius: $border-radius;
       width: $hub-post-card--horizontal--image-width;
+    }
+
+    .hub-post-card__image {
+      border-radius: $border-radius;
     }
 
     .hub-post-card__container {
@@ -42,10 +55,12 @@ $hub-post-card--horizontal--image-width: 31%;
   }
 }
 
-.hub-post-card__image {
-  background-size: 100%;
-  flex-shrink: 0;
+.hub-post-card__image-container {
   overflow: hidden;
+}
+
+.hub-post-card__image {
+  width: 100%;
 }
 
 .hub-post-card__container {

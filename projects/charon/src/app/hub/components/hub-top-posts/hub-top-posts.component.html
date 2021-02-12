@@ -8,6 +8,7 @@
     *ngFor="let post of posts$ | async; trackBy: trackByPostId"
     [post]="post"
     [disableCategory]="!!(category$ | async)"
+    [includeVerticalImagePadding]="true"
     [appHubPostDialog]="post.uuid"
   ></app-hub-post-card>
 </app-hub-infinite-posts-container>
