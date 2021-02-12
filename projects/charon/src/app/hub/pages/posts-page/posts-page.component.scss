@@ -5,12 +5,21 @@ $hub-posts-page--gap: $grid-step * 3;
 $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
 
 :host {
+  display: flex;
+  justify-content: center;
+  padding: $grid-step * 4;
+}
+
+.posts-page__spinner {
+  margin: auto;
+}
+
+.posts-page__container {
   display: grid;
   gap: $hub-posts-page--gap;
   grid-template-areas: 'top  top  top  top'
                        'left left left right';
   grid-template-columns: $hub-posts-page--columns;
-  padding: $grid-step * 4;
 }
 
 .posts-page__section-top {
@@ -37,12 +46,36 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
 }
 
 .posts-page__top-posts__header {
+  $border-width: 1px;
   background: $color-white;
-  border: 1px solid $color-outlines;
-  border-top-left-radius: $border-radius;
-  border-top-right-radius: $border-radius;
+  border: $border-width solid $color-outlines;
   font-weight: 700;
   padding: $grid-step * 2;
   position: sticky;
   top: $grid-step;
+  z-index: 1;
+
+  &:before {
+    background: $color-white;
+    content: '';
+    height: $grid-step * 2;
+    left: -$border-width;
+    position: absolute;
+    top: -$grid-step - $border-width;
+    width: calc(100% + #{$border-width} * 2);
+  }
+
+  &:after {
+    background: $color-white;
+    border: $border-width solid $color-outlines;
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+    border-bottom: 0;
+    content: '';
+    height: $grid-step + $border-width;
+    left: -$border-width;
+    position: absolute;
+    top: 0;
+    width: calc(100% + #{$border-width} * 2);
+  }
 }

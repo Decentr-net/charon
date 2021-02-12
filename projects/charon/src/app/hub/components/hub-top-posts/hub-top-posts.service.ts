@@ -6,11 +6,13 @@ import { Post, PostCategory } from 'decentr-js';
 import { NetworkService } from '@core/services';
 import { PostsApiService } from '@core/services/api';
 import { HubPostsService } from '../../services';
+import { PostWithLike } from '../../models/post';
 
 @Injectable()
-export class HubTopPostsService extends HubPostsService implements OnDestroy {
+export class HubTopPostsService extends HubPostsService<PostWithLike> implements OnDestroy {
   protected loadingInitialCount: number = 4;
   protected loadingMoreCount: number = 4;
+  protected includeProfile: boolean = false;
 
   protected postsCategory: PostCategory;
 

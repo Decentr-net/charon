@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, TrackByFunction } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, TrackByFunction } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Post, PostCategory } from 'decentr-js';
 import { Observable } from 'rxjs';
@@ -28,19 +28,25 @@ export class PostsPageComponent {
   public headerContentSlotName = HUB_HEADER_CONTENT_SLOT;
 
   public isLoading$: Observable<boolean>;
-  public posts$: Observable<PostWithLike[]>;
   public canLoadMore$: Observable<boolean>;
+  public posts: PostWithLike[];
 
   public postsCategory: PostCategory;
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private changeDetectorRef: ChangeDetectorRef,
     private postsPageService: HubPostsService,
   ) {
   }
 
   public ngOnInit() {
-    this.posts$ = this.postsPageService.posts$;
+    this.postsPageService.posts$.pipe(
+      untilDestroyed(this),
+    ).subscribe((posts) => {
+      this.posts = posts;
+      this.changeDetectorRef.markForCheck();
+    });
 
     this.isLoading$ = this.postsPageService.isLoading$.pipe(
       share()

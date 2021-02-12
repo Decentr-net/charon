@@ -45,7 +45,6 @@ export class HubTopPostsComponent implements OnInit {
     this.category$.pipe(
       untilDestroyed(this)
     ).subscribe((category) => {
-      console.log(category);
       this.hubTopPostsService.setCategory(category);
     });
   }
