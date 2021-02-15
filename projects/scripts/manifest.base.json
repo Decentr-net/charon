@@ -18,7 +18,6 @@
     "default_title": "Charon extension"
   },
   "permissions": [
-    "activeTab",
     "clipboardWrite",
     "cookies",
     "storage",
