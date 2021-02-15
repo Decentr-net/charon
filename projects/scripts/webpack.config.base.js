@@ -36,7 +36,8 @@ module.exports = {
           to: join(__dirname, '../../dist/manifest.json'),
           transform(content) {
             const specificRules = require(`./${process.env.BROWSER}/manifest.json`);
-            return extendManifest(content, specificRules);
+            const version = require(`../../package.json`).version;
+            return extendManifest(content, { ...specificRules, version });
           },
         },
         {
