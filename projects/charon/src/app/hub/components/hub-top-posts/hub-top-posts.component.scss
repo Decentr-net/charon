@@ -3,7 +3,7 @@
 .hub-top-posts__post {
   border-radius: 0;
 
-  &:last-child {
+  &:last-of-type {
     border-bottom-left-radius: $border-radius;
     border-bottom-right-radius: $border-radius;
   }
