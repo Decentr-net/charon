@@ -8,6 +8,7 @@ $hub-post-card--horizontal--image-width: 31%;
 :host {
   background: $color-white;
   display: flex;
+  overflow: hidden;
 
   &.mod-vertical {
     border: 1px solid $color-outlines;
