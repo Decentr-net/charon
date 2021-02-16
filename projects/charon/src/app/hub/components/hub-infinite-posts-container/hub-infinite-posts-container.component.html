@@ -3,7 +3,14 @@
 
   <div class="hub-infinite-posts-container__loading-container">
     <ng-template [ngIf]="isLoading" [ngIfElse]="loadMoreSource">
-      <app-spinner></app-spinner>
+      <app-spinner class="hub-infinite-posts-container__loading-container-spinner"></app-spinner>
+
+      <span
+        appTypeface="paragraph"
+        class="hub-infinite-posts-container__loading-container-text"
+      >
+        {{ translate('loading_more_posts') }}
+      </span>
     </ng-template>
   </div>
 
