@@ -23,6 +23,8 @@ export class HubPostCardComponent implements OnChanges {
 
   @Input() public orientation: 'horizontal' | 'vertical';
 
+  @Input() public includeVerticalImagePadding: boolean = false;
+
   @Input() public disableCategory: boolean = false
 
   constructor(

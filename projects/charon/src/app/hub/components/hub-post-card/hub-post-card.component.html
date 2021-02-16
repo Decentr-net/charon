@@ -1,9 +1,15 @@
 <ng-container *transloco="let translate">
   <div
-    class="hub-post-card__image"
+    class="hub-post-card__image-container"
     *ngIf="post.previewImage"
-    [style.background-image]="'url(' + post.previewImage + ')'"
-  ></div>
+    [class.mod-vertical-padding]="includeVerticalImagePadding"
+  >
+    <img
+      class="hub-post-card__image"
+      [src]="post.previewImage"
+      [alt]="post.previewImage"
+    >
+  </div>
 
   <div class="hub-post-card__container">
     <div class="hub-post-card__meta">

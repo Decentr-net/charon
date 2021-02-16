@@ -3,6 +3,7 @@
   class="hub-navigation-link"
   [routerLink]="link"
   routerLinkActive="is-active"
+  [routerLinkActiveOptions]="{ exact: true }"
 >
   <span *ngIf="showDot" class="hub-navigation-link__dot"></span>
 

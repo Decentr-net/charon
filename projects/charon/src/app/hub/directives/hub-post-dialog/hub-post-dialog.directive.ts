@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Post } from 'decentr-js';
 
 import { HubPostDialogComponent } from '../../components/hub-post-dialog';
@@ -45,7 +46,7 @@ export class HubPostDialogDirective implements OnInit, OnDestroy {
       height: '80vh',
       maxHeight: '100%',
       panelClass: 'popup-no-padding',
-      data: this.hubPostsService.getPostChanges(this.postId),
+      data: this.getPostWithAuthorChanges(this.postId),
       viewContainerRef: this.viewContainerRef,
     };
 
@@ -56,5 +57,13 @@ export class HubPostDialogDirective implements OnInit, OnDestroy {
     if (this.dialogRef) {
       this.dialogRef.close();
     }
+  }
+
+  private getPostWithAuthorChanges(postId: Post['uuid']): Observable<PostWithAuthor> {
+    return this.hubPostsService.getPostChanges(postId).pipe(
+      switchMap((post) => this.hubPostsService.getPublicProfile(post.owner).pipe(
+        map((author) => ({ ...post, author })),
+      )),
+    );
   }
 }

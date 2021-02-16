@@ -1,6 +1,6 @@
+@import 'colors';
 @import 'variables';
 
-$hub-page--background-color: #F2F2F2;
 $hub-page--meta--background-color: #F6F6F7;
 $hub-page--meta--border-color: #FFFFFF;
 $hub-page--meta--details--color: #929297;
@@ -8,7 +8,7 @@ $hub-page--meta--details--color-hover: #494A52;
 $hub-page--meta--details--background-color-hover: #EDEDEE;
 
 :host {
-  background: $hub-page--background-color;
+  background: $color-white;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -91,5 +91,4 @@ $hub-page--meta--details--background-color-hover: #EDEDEE;
 
 .hub-page__content-container {
   overflow: auto;
-  padding: 30px 30px 0;
 }

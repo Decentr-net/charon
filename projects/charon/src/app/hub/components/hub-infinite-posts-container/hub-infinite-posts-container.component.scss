@@ -1,12 +1,27 @@
+@import 'variables';
+
 :host {
   display: block;
 }
 
 .hub-infinite-posts-container__loading-container {
+  align-items: center;
   display: flex;
   justify-content: center;
+  min-height: 50px;
 
   &:not(:empty) {
-    margin-top: 40px;
+    margin-top: $grid-step * 1.5;
   }
+}
+
+.hub-infinite-posts-container__loading-container-spinner {
+  border-width: 2px;
+  height: 24px;
+  width: 24px;
+}
+
+.hub-infinite-posts-container__loading-container-text {
+  color: $color-light-grey;
+  margin-left: $grid-step;
 }
