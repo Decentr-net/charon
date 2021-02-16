@@ -1,0 +1,54 @@
+<ng-container *transloco="let translate; read: 'hub.hub_header_stats_meta'">
+  <div
+    *ngIf="balance"
+    class="hub-header-stats-meta__label"
+    [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async })"
+    matTooltipClass="hub-header-stats-meta__tooltip"
+    appTypeface="caption"
+  >
+    {{ translate('pdv') }}:
+    <span class="hub-header-stats-meta__label-value">
+      {{ balance.value | pdvValue }}
+    </span>
+
+    <app-margin-label
+      class="hub-header-stats-meta__margin-label"
+      [dayMargin]="balance.dayMargin"
+      [digitsInfo]="'1.0-5'"
+    ></app-margin-label>
+  </div>
+
+  <div
+    *ngIf="coinRate$ | async as coinRate"
+    class="hub-header-stats-meta__label"
+    appTypeface="caption"
+  >
+    {{ translate('dec') }}:
+    <span class="hub-header-stats-meta__label-value">
+      {{ coinRate.value | currency : 'USD' : 'symbol' : '1.4' }}
+    </span>
+
+    <app-margin-label
+      class="hub-header-stats-meta__margin-label"
+      [dayMargin]="coinRate.dayMargin"
+    ></app-margin-label>
+  </div>
+
+  <div
+    class="hub-header-stats-meta__details"
+    [class.is-open]="isDetailsOpened"
+    appTypeface="caption"
+  >
+    <div class="hub-header-stats-meta__details-title">
+      {{ translate(isDetailsOpened ? 'short_view' : 'show_details') }}
+    </div>
+
+    <svg-icon class="hub-header-stats-meta__details-icon" key="expand-more"></svg-icon>
+  </div>
+</ng-container>
+
+<ng-template #detailsTemplate>
+  <!--insert details-->
+
+  <div class="hub-header-stats-meta__backdrop overlay-backdrop" (click)="hideDetails()"></div>
+</ng-template>

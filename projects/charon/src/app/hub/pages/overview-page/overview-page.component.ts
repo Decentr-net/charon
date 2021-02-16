@@ -9,7 +9,6 @@ import { HubActivityStatistics, HubDataValueSource } from '../../components/hub-
 import { OverviewPageService } from './overview-page.service';
 import { HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
 import { HubPostsService } from '../../services';
-import { HubPageService } from '../hub-page/hub-page.service';
 import { PostWithAuthor } from '../../models/post';
 
 @UntilDestroy()
@@ -19,7 +18,6 @@ import { PostWithAuthor } from '../../models/post';
   styleUrls: ['./overview-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    HubPageService,
     OverviewPageService,
     {
       provide: HubPostsService,

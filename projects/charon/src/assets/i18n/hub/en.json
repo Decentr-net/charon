@@ -52,6 +52,16 @@
     },
     "no_chart_data": "No DEC Rate data"
   },
+  "hub_header": {
+    "new_post": "New post"
+  },
+  "hub_header_stats_meta": {
+    "dec": "DEC",
+    "estimated_balance": "In progress: {{estimatedBalance}} PDV",
+    "pdv": "My PDV",
+    "short_view": "short view",
+    "show_details": "show details"
+  },
   "hub_navigation": {
     "latest_posts": "Latest posts"
   },
@@ -63,16 +73,6 @@
   },
   "hub_infinite_posts_container": {
     "load_more_posts": "Load more posts"
-  },
-  "hub_page": {
-    "header": {
-      "estimated_balance": "In progress: {{estimatedBalance}} PDV",
-      "new_post": "New post",
-      "pdv": "My PDV",
-      "dec": "DEC",
-      "show_details": "show details",
-      "short_view": "short view"
-    }
   },
   "hub_pdv_statistics": {
     "activity_from": "Activity from {{date}}",
