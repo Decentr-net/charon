@@ -4,6 +4,7 @@ import { HubCreatePostDialogComponent } from './hub-create-post-dialog';
 import { HubCurrencyStatisticsComponent } from './hub-currency-statistics';
 import { HubDeletePostDialogComponent } from './hub-delete-post-dialog';
 import { HubHeaderComponent } from './hub-header';
+import { HubHeaderStatsMetaComponent } from './hub-header-stats-meta';
 import { HubInfinitePostsContainerComponent } from './hub-infinite-posts-container';
 import { HubLoadMoreButtonComponent } from './hub-load-more-button';
 import { HubNavigationComponent } from './hub-navigation';
@@ -33,6 +34,7 @@ export const HUB_COMPONENTS = [
   HubCurrencyStatisticsComponent,
   HubDeletePostDialogComponent,
   HubHeaderComponent,
+  HubHeaderStatsMetaComponent,
   HubInfinitePostsContainerComponent,
   HubLoadMoreButtonComponent,
   HubNavigationComponent,

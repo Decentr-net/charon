@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -71,6 +72,7 @@ import { IntersectionModule } from '@shared/directives/intersection';
     MenuModule,
     MouseWheelHorizontalScrollModule,
     NgxTrimDirectiveModule,
+    OverlayModule,
     PdvValueModule,
     PermissionsModule,
     PositiveNumberModule,
