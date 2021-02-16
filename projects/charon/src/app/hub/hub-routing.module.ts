@@ -61,7 +61,6 @@ const ROUTES: Routes = [
           {
             path: '',
             component: PostsPageComponent,
-            pathMatch: 'full',
             children: POSTS_PAGE_CHILDREN_ROUTES,
           },
           {

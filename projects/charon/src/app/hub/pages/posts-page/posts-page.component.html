@@ -33,7 +33,7 @@
           *ngFor="let post of posts | slice : 8; trackBy: trackByPostId"
           [post]="post"
           [disableCategory]="!!postsCategory"
-          [appHubPostDialog]="post.uuid"
+          [routerLink]="[hubRoute.Post, post.owner, post.uuid]"
           [orientation]="'horizontal'"
         ></app-hub-post-card>
       </app-hub-infinite-posts-container>

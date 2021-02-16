@@ -1,8 +1,14 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, TrackByFunction } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  TrackByFunction,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Post, PostCategory } from 'decentr-js';
-import { Observable } from 'rxjs';
-import { pluck, share } from 'rxjs/operators';
+import { fromEvent, Observable, timer } from 'rxjs';
+import { filter, pluck, share } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
@@ -37,9 +43,12 @@ export class PostsPageComponent {
 
   public isPostOutletActivated: boolean;
 
+  private scrollPosition: number;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private changeDetectorRef: ChangeDetectorRef,
+    private elementRef: ElementRef<HTMLElement>,
     private postsPageService: HubPostsService,
   ) {
   }
@@ -65,6 +74,11 @@ export class PostsPageComponent {
       this.postsCategory = category;
       this.postsPageService.reload();
     });
+
+    fromEvent(this.elementRef.nativeElement, 'scroll').pipe(
+      filter(() => !this.isPostOutletActivated),
+      untilDestroyed(this),
+    ).subscribe(() => this.scrollPosition = this.elementRef.nativeElement.scrollTop);
   }
 
   public loadMore(): void {
@@ -77,6 +91,10 @@ export class PostsPageComponent {
 
   public onPostOutletDeactivate(): void {
     this.isPostOutletActivated = false;
+
+    timer(0).pipe(
+      untilDestroyed(this),
+    ).subscribe(() => this.elementRef.nativeElement.scrollTop = this.scrollPosition || 0);
   }
 
   public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;

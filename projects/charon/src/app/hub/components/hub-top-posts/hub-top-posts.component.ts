@@ -6,6 +6,7 @@ import { Post, PostCategory } from 'decentr-js';
 import { HubPostsService } from '../../services';
 import { HubTopPostsService } from './hub-top-posts.service';
 import { PostWithLike } from '../../models/post';
+import { HubRoute } from '../../hub-route';
 
 @UntilDestroy()
 @Component({
@@ -25,6 +26,8 @@ export class HubTopPostsComponent implements OnInit {
   @Input() public set category(value: PostCategory) {
     this.category$.next(value);
   }
+
+  public hubRoute: typeof HubRoute = HubRoute;
 
   public isLoading$: Observable<boolean>;
   public posts$: Observable<PostWithLike[]>;
