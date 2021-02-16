@@ -5,10 +5,17 @@ import {
   FeedPageComponent,
   HubPageComponent,
   MyWallPageComponent,
+  PostPageComponent,
   PostsPageComponent,
   RecentPageComponent,
 } from './pages';
-import { HubRoute, HubFeedRoute, HubCategoryRouteParam } from './hub-route';
+import {
+  HubRoute,
+  HubFeedRoute,
+  HubCategoryRouteParam,
+  HubPostIdRouteParam,
+  HubPostOwnerRouteParam
+} from './hub-route';
 
 const FEED_PAGE_CHILDREN_ROUTES: Routes = [
   {
@@ -22,6 +29,14 @@ const FEED_PAGE_CHILDREN_ROUTES: Routes = [
   {
     path: HubFeedRoute.MyWall,
     component: MyWallPageComponent,
+  },
+];
+
+const POSTS_PAGE_CHILDREN_ROUTES: Routes = [
+  {
+    path: `${HubRoute.Post}/:${HubPostOwnerRouteParam}/:${HubPostIdRouteParam}`,
+    component: PostPageComponent,
+    pathMatch: 'full',
   },
 ];
 
@@ -47,10 +62,12 @@ const ROUTES: Routes = [
             path: '',
             component: PostsPageComponent,
             pathMatch: 'full',
+            children: POSTS_PAGE_CHILDREN_ROUTES,
           },
           {
             path: `:${HubCategoryRouteParam}`,
             component: PostsPageComponent,
+            children: POSTS_PAGE_CHILDREN_ROUTES,
           },
           {
             path: '**',

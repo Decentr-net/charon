@@ -1,54 +1,61 @@
-<ng-container *appSlot="headerContentSlotName">
-  <app-hub-navigation></app-hub-navigation>
-</ng-container>
+<ng-template [ngIf]="!isPostOutletActivated">
+  <ng-container *appSlot="headerContentSlotName">
+    <app-hub-navigation></app-hub-navigation>
+  </ng-container>
 
-<app-spinner
-  class="posts-page__spinner"
-  *ngIf="!posts.length"
-></app-spinner>
+  <app-spinner
+    class="posts-page__spinner"
+    *ngIf="!posts.length"
+  ></app-spinner>
 
-<div class="posts-page__container">
-  <div class="posts-page__section-top">
-    <div class="posts-page__posts-grid-container">
-      <app-hub-post-card
-        *ngFor="let post of posts | slice : 0 : 8; trackBy: trackByPostId"
-        [post]="post"
-        [disableCategory]="!!postsCategory"
-        [appHubPostDialog]="post.uuid"
-      ></app-hub-post-card>
+  <div class="posts-page__container">
+    <div class="posts-page__section-top">
+      <div class="posts-page__posts-grid-container">
+        <app-hub-post-card
+          *ngFor="let post of posts | slice : 0 : 8; trackBy: trackByPostId"
+          [post]="post"
+          [disableCategory]="!!postsCategory"
+          [routerLink]="[hubRoute.Post, post.owner, post.uuid]"
+        ></app-hub-post-card>
+      </div>
+    </div>
+
+    <div class="posts-page__section-left">
+      <app-hub-infinite-posts-container
+        *ngIf="posts.length > 0"
+        [canLoadMore]="canLoadMore$ | async"
+        [isLoading]="isLoading$ | async"
+        [useIntersection]="true"
+        (loadMore)="loadMore()"
+      >
+        <app-hub-post-card
+          class="posts-page__horizontal-post"
+          *ngFor="let post of posts | slice : 8; trackBy: trackByPostId"
+          [post]="post"
+          [disableCategory]="!!postsCategory"
+          [appHubPostDialog]="post.uuid"
+          [orientation]="'horizontal'"
+        ></app-hub-post-card>
+      </app-hub-infinite-posts-container>
+    </div>
+
+    <div class="posts-page__section-right">
+      <ng-container *ngIf="posts?.length > 0">
+        <div
+          class="posts-page__top-posts__header"
+          *transloco="let translate; read: 'hub.hub_posts_page'"
+          appTypeface="subheader"
+        >
+          {{ translate('top_posts') }}
+        </div>
+
+        <app-hub-top-posts [category]="postsCategory"></app-hub-top-posts>
+      </ng-container>
     </div>
   </div>
+</ng-template>
 
-  <div class="posts-page__section-left">
-    <app-hub-infinite-posts-container
-      *ngIf="posts.length > 0"
-      [canLoadMore]="canLoadMore$ | async"
-      [isLoading]="isLoading$ | async"
-      [useIntersection]="true"
-      (loadMore)="loadMore()"
-    >
-      <app-hub-post-card
-        class="posts-page__horizontal-post"
-        *ngFor="let post of posts | slice : 8; trackBy: trackByPostId"
-        [post]="post"
-        [disableCategory]="!!postsCategory"
-        [appHubPostDialog]="post.uuid"
-        [orientation]="'horizontal'"
-      ></app-hub-post-card>
-    </app-hub-infinite-posts-container>
-  </div>
-
-  <div class="posts-page__section-right">
-    <ng-container *ngIf="posts?.length > 0">
-      <div
-        class="posts-page__top-posts__header"
-        *transloco="let translate; read: 'hub.hub_posts_page'"
-        appTypeface="subheader"
-      >
-        {{ translate('top_posts') }}
-      </div>
-
-    <app-hub-top-posts [category]="postsCategory"></app-hub-top-posts>
-  </ng-container>
-</div>
-</div>
+<router-outlet
+  (activate)="onPostOutletActivate()"
+  (deactivate)="onPostOutletDeactivate()"
+></router-outlet>

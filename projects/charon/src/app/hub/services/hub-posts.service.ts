@@ -265,7 +265,7 @@ export abstract class HubPostsService<T extends PostWithLike = PostWithAuthor> {
     );
   }
 
-  private updatePostsWithLikes<T extends Post>(
+  public updatePostsWithLikes<T extends Post>(
     posts: T[],
   ): Observable<(T & { likeWeight: LikeWeight })[]> {
     if (!posts.length) {

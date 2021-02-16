@@ -7,7 +7,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
 import { PostsPageService } from './posts-page.service';
-import { HubCategoryRouteParam } from '../../hub-route';
+import { HubCategoryRouteParam, HubRoute } from '../../hub-route';
 import { HubPostsService } from '../../services';
 import { PostWithLike } from '../../models/post';
 
@@ -27,11 +27,15 @@ import { PostWithLike } from '../../models/post';
 export class PostsPageComponent {
   public headerContentSlotName = HUB_HEADER_CONTENT_SLOT;
 
+  public hubRoute: typeof HubRoute = HubRoute;
+
   public isLoading$: Observable<boolean>;
   public canLoadMore$: Observable<boolean>;
   public posts: PostWithLike[];
 
   public postsCategory: PostCategory;
+
+  public isPostOutletActivated: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -65,6 +69,14 @@ export class PostsPageComponent {
 
   public loadMore(): void {
     this.postsPageService.loadMorePosts();
+  }
+
+  public onPostOutletActivate(): void {
+    this.isPostOutletActivated = true;
+  }
+
+  public onPostOutletDeactivate(): void {
+    this.isPostOutletActivated = false;
   }
 
   public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;
