@@ -55,6 +55,9 @@
   "hub_header": {
     "new_post": "New post"
   },
+  "hub_dashboard": {
+    "your_dashboard": "Your dashboard"
+  },
   "hub_header_stats_meta": {
     "dec": "DEC",
     "estimated_balance": "In progress: {{estimatedBalance}} PDV",

@@ -1,0 +1,17 @@
+@import 'variables';
+
+:host {
+  background: $color-white;
+  padding: $grid-step * 3;
+  width: 100%;
+}
+
+.hub-dashboard__title {
+  font-weight: 700;
+}
+
+.hub-dashboard__statistics-container {
+  display: grid;
+  gap: $grid-step * 3;
+  grid-template-columns: 1fr 1fr 2fr;
+}
