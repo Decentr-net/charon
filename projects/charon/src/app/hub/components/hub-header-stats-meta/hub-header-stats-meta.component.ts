@@ -86,7 +86,10 @@ export class HubHeaderStatsMetaComponent implements OnInit {
   }
 
   public hideDetails(): void {
-    this.overlayRef.detach();
+    if (!this.overlayRef) {
+      return;
+    }
+
     this.overlayRef.dispose();
     this.overlayRef = undefined;
   }
