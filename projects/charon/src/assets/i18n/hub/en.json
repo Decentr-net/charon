@@ -62,7 +62,8 @@
     }
   },
   "hub_infinite_posts_container": {
-    "load_more_posts": "Load more posts"
+    "load_more_posts": "Load more posts",
+    "loading_more_posts": "Loading more posts"
   },
   "hub_page": {
     "header": {
