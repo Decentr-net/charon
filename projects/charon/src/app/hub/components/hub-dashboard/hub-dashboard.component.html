@@ -9,6 +9,22 @@
   <div class="hub-dashboard__statistics-container">
     <app-hub-pdv-statistics [estimatedBalance]="estimatedBalance$ | async" [statistics]="pdvStatistics"></app-hub-pdv-statistics>
     <app-hub-currency-statistics [statistics]="rateStatistics$ | async"></app-hub-currency-statistics>
-    <app-hub-activity-statistics></app-hub-activity-statistics>
+
+    <div class="hub-dashboard__additional-statistics">
+      <span
+        class="hub-dashboard__additional-statistics-coming-soon"
+        appTypeface="header-4"
+      >
+        {{ translate('more_stats_coming_soon') }}
+      </span>
+
+      <div
+        *ngFor="let additionalStatistic of additionalStatistics"
+        class="hub-dashboard__additional-statistics-item"
+        appTypeface="subheader"
+      >
+        {{ additionalStatistic }}
+      </div>
+    </div>
   </div>
 </ng-container>
