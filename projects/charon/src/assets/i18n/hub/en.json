@@ -3,6 +3,9 @@
     "no_posts": "There is no activity last 24 hours",
     "top_feed": "TOP 24 hours"
   },
+  "hub_additional_statistics": {
+    "more_stats_coming_soon": "More stats coming soon!"
+  },
   "hub_activity_distribution": {
     "coming_soon": "(coming soon)",
     "data_value": "Data Value",
@@ -56,7 +59,6 @@
     "new_post": "New post"
   },
   "hub_dashboard": {
-    "more_stats_coming_soon": "More stats coming soon!",
     "your_dashboard": "Your dashboard"
   },
   "hub_header_stats_meta": {

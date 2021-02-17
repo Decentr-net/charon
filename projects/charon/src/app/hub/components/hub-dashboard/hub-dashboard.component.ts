@@ -18,13 +18,6 @@ export class HubDashboardComponent implements OnInit {
   public pdvStatistics: HubPDVStatistics;
   public rateStatistics$: Observable<HubCurrencyStatistics>;
 
-  public additionalStatistics: string[] = [
-    'My PDV',
-    'ADV',
-    'DDV',
-    'DEC',
-  ];
-
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private dashboardService: HubDashboardService,
