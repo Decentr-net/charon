@@ -16,7 +16,11 @@
 
 .hub-page__content-container {
   height: 100%;
-  margin: 0 auto;
   overflow: auto;
+  width: 100%;
+}
+
+.hub-page__content {
+  margin: 0 auto;
   width: $page-width;
 }
