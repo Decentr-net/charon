@@ -8,13 +8,18 @@
       class="profile-image"
       [avatarUrl]="userProfile.avatar"
     ></app-avatar>
-    <div
-      *ngIf="!hideUsername"
-      class="profile-username"
-    >
-      {{ userProfile.firstName }} {{ userProfile.lastName }}
+
+    <ng-container *ngIf="!hideUsername">
+      <span
+        class="profile-username"
+        appTextEllipsis
+        appTypeface="paragraph"
+      >
+        {{ userProfile.firstName }} {{ userProfile.lastName }}
+      </span>
+
       <svg-icon class="profile-username__icon" key="dropdown-expand"></svg-icon>
-    </div>
+    </ng-container>
   </div>
 
   <mat-menu

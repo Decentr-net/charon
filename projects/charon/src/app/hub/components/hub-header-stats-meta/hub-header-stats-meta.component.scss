@@ -16,6 +16,7 @@
   min-height: 32px;
   overflow: hidden;
   transition: background .3s ease;
+  white-space: nowrap;
 
   &:hover {
     background-color: $color-outlines;
