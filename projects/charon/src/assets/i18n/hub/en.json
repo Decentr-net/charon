@@ -47,12 +47,10 @@
   "hub_currency_statistics": {
     "dec_rate": "DEC Rate",
     "dec_rate_change": {
-      "dec": "DEC",
-      "increased": "increased by {{ percent }}%",
-      "decreased": "decreased by {{ percent }}%",
       "last_hours": "in the last 24-hours",
-      "not_changed": "has no change"
+      "no_change": "No change"
     },
+    "decentr_to_usd": "Decentr to US Dollar",
     "no_chart_data": "No DEC Rate data"
   },
   "hub_header": {

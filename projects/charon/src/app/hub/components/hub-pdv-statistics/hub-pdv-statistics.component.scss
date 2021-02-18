@@ -20,8 +20,7 @@ $hub-pdv-statistic--background-color: linear-gradient(0deg, $hub-pdv-statistic--
 }
 
 .hub-pdv-statistics__tooltip {
-  border-radius: $border-radius;
-  color: #838B94;
+  color: $color-black;
   display: flex;
   flex-direction: column;
   font-size: 13px;
