@@ -6,8 +6,14 @@
   width: 100%;
 }
 
+.hub-dashboard__container {
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
 .hub-dashboard__title {
   font-weight: 700;
+  margin-bottom: $grid-step * 2;
 }
 
 .hub-dashboard__statistics-container {

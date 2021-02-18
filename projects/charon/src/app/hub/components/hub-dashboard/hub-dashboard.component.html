@@ -1,4 +1,7 @@
-<ng-container *transloco="let translate; read: 'hub.hub_dashboard'">
+<div
+  *transloco="let translate; read: 'hub.hub_dashboard'"
+  class="hub-dashboard__container"
+>
   <div
     class="hub-dashboard__title"
     appTypeface="header-4"
@@ -11,4 +14,4 @@
     <app-hub-currency-statistics [statistics]="rateStatistics$ | async"></app-hub-currency-statistics>
     <app-hub-additional-statistics></app-hub-additional-statistics>
   </div>
-</ng-container>
+</div>
