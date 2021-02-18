@@ -1,17 +1,18 @@
 @import 'variables';
 
 :host {
+  border-radius: $border-radius;
   color: $color-white;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   position: relative;
 }
 
 .hub-statistics-card__float-container {
-  left: 0;
-  padding: $grid-step * 2;
+  left: $grid-step * 2;
   position: absolute;
-  top: 0;
+  top: $grid-step * 2;
   z-index: 1;
 }
 
@@ -20,14 +21,13 @@
 }
 
 .hub-statistics-card__subtitle {
-  margin-top: 7px;
 }
 
 .hub-statistics-card__rate {
   align-items: baseline;
   display: inline-flex;
   font-weight: 700;
-  margin-top: 14px;
+  margin-top: $grid-step * 1.5;
 }
 
 .hub-statistics-card__changed {

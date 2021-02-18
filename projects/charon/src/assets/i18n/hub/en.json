@@ -45,7 +45,7 @@
     "title": "Create Post"
   },
   "hub_currency_statistics": {
-    "dec_rate": "DEC Rate",
+    "dec_rate": "DEC rate",
     "dec_rate_change": {
       "last_hours": "in the last 24-hours",
       "no_change": "No change"

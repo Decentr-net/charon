@@ -1,16 +1,13 @@
 @import 'variables';
 
-$hub-pdv-statistic--background-color-first: #E87CC9;
-$hub-pdv-statistic--background-color-second: #A954A0;
-$hub-pdv-statistic--background-color: linear-gradient(0deg, $hub-pdv-statistic--background-color-first 0%, $hub-pdv-statistic--background-color-second 100%);
+$hub-pdv-statistic--background-color: linear-gradient(0deg, $color-pink 0%, $color-purple 100%);
 
 :host {
-  background: $hub-pdv-statistic--background-color;
-  border-radius: $border-radius;
   display: block;
 }
 
 .hub-pdv-statistics__card {
+  background: $hub-pdv-statistic--background-color;
   height: 100%;
 }
 
@@ -24,7 +21,7 @@ $hub-pdv-statistic--background-color: linear-gradient(0deg, $hub-pdv-statistic--
   display: flex;
   flex-direction: column;
   font-size: 13px;
-  padding: 5px;
+  padding: $grid-step / 2;
 
   &-date {
     font-size: 8px;
@@ -43,9 +40,6 @@ $hub-pdv-statistic--background-color: linear-gradient(0deg, $hub-pdv-statistic--
 }
 
 .hub-pdv-statistics__no-data {
-  font-size: 14px;
-  text-align: center;
-  margin-top: 28px;
 }
 
 .hub-pdv-statistics__pdv-change {

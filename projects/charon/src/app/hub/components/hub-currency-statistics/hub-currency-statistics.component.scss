@@ -1,16 +1,13 @@
 @import 'variables';
 
-$hub-currency-statistic--background-color-first: #73D0F9;
-$hub-currency-statistic--background-color-second: #4F80FF;
-$hub-currency-statistic--background-color: linear-gradient(0deg, $hub-currency-statistic--background-color-first 0%, $hub-currency-statistic--background-color-second 100%);
+$hub-currency-statistic--background-color: linear-gradient(0deg, $color-light-blue 0%, $color-blue 100%);
 
 :host {
-  background: $hub-currency-statistic--background-color;
-  border-radius: $border-radius;
   display: block;
 }
 
 .hub-currency-statistics__card {
+  background: $hub-currency-statistic--background-color;
   height: 100%;
 }
 
@@ -24,7 +21,7 @@ $hub-currency-statistic--background-color: linear-gradient(0deg, $hub-currency-s
   display: flex;
   flex-direction: column;
   font-size: 13px;
-  padding: 5px;
+  padding: $grid-step / 2;
 
   &-date {
     font-size: 8px;
@@ -43,9 +40,6 @@ $hub-currency-statistic--background-color: linear-gradient(0deg, $hub-currency-s
 }
 
 .hub-currency-statistics__no-data {
-  font-size: 14px;
-  text-align: center;
-  margin-top: 28px;
 }
 
 .hub-currency-statistics__rate-change {

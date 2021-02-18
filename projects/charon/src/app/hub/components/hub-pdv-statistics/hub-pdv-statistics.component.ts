@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { ChartPoint } from '@shared/components/line-chart';
 
@@ -19,12 +19,10 @@ export class HubPdvStatisticsComponent {
   @Input() public estimatedBalance: string;
   @Input() public statistics: HubPDVStatistics;
 
-  @HostBinding('class.mod-negative')
-  public get isNegative(): boolean {
-    return this.statistics?.pdvChangedIn24HoursPercent < 0;
+  public get isNeutral(): boolean {
+    return this.statistics?.pdvChangedIn24HoursPercent === 0;
   }
 
-  @HostBinding('class.mod-positive')
   public get isPositive(): boolean {
     return this.statistics?.pdvChangedIn24HoursPercent > 0;
   }

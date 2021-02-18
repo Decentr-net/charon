@@ -7,8 +7,10 @@
 }
 
 .hub-dashboard__container {
+  border-top: 1px solid $color-outlines;
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: $container-max-width;
+  padding-top: $grid-step * 3;
 }
 
 .hub-dashboard__title {

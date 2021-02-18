@@ -12,13 +12,13 @@
 
   <ng-container *ngIf="statistics" ngProjectAs="rate">
     <span appTypeface="subheader">$</span>
-    <div appTypeface="header-4">{{ statistics.rate | number : '1.4' }}</div>
+    {{ statistics.rate | number : '1.4' }}
   </ng-container>
 
   <ng-container *ngIf="statistics" ngProjectAs="changed">
     <div class="hub-currency-statistics__rate-change" appTypeface="caption">
       <span class="hub-currency-statistics__rate-direction">
-        <ng-container *ngIf="isPositive || isNegative else notChangedRate">
+        <ng-container *ngIf="!isNeutral else notChangedRate">
           {{ isPositive ? '+' : '' }}{{ statistics.rateChangedIn24HoursPercent | number : '1.0-2'}}%
         </ng-container>
         <ng-template #notChangedRate>
@@ -53,7 +53,7 @@
     </app-line-chart>
 
     <ng-template #noData>
-      <div class="hub-currency-statistics__no-data">
+      <div class="hub-currency-statistics__no-data" appTypeface="caption">
         {{ translate('no_chart_data') }}
       </div>
     </ng-template>

@@ -16,7 +16,9 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { CoinRateFor24Hours } from '@shared/services/currency';
 import { BalanceValueDynamic } from '@shared/services/pdv';
+import { HubCurrencyStatistics } from '../hub-currency-statistics';
 import { HubHeaderStatsMetaService } from './hub-header-stats-meta.service';
+import { HubPDVStatistics } from '../hub-pdv-statistics';
 import { take } from 'rxjs/operators';
 
 @UntilDestroy()
@@ -38,6 +40,9 @@ export class HubHeaderStatsMetaComponent implements OnInit {
   public coinRate$: Observable<CoinRateFor24Hours>;
   public estimatedBalance$: Observable<string>;
 
+  public pdvStatistics: HubPDVStatistics;
+  public rateStatistics: HubCurrencyStatistics;
+
   private overlayRef: OverlayRef;
 
   constructor(
@@ -57,6 +62,20 @@ export class HubHeaderStatsMetaComponent implements OnInit {
     ).subscribe((balance) => {
       this.balance = balance;
       this.changeDetectorRef.detectChanges();
+    });
+
+    this.hubHeaderStatsMetaService.getPdvStatistics().pipe(
+      untilDestroyed(this),
+    ).subscribe((statistics) => {
+      this.pdvStatistics = statistics;
+      this.changeDetectorRef.detectChanges();
+    });
+
+    this.hubHeaderStatsMetaService.getCoinRateStatistics().pipe(
+      untilDestroyed(this),
+    ).subscribe((statistics) => {
+      this.rateStatistics = statistics;
+      this.changeDetectorRef.markForCheck();
     });
   }
 
