@@ -18,6 +18,7 @@ $hub-navigation--height: 48px;
   display: flex;
   height: 100%;
   overflow-x: auto;
+  scrollbar-width: none;
 
   &::-webkit-scrollbar {
     display: none;

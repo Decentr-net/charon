@@ -16,10 +16,10 @@ export class MouseWheelHorizontalScrollDirective implements OnInit {
   }
 
   ngOnInit(): void {
-    fromEvent(this.mouseWheelHorizontalScrollElement, 'mousewheel').pipe(
+    fromEvent(this.mouseWheelHorizontalScrollElement, 'wheel').pipe(
       untilDestroyed(this),
     ).subscribe((event: WheelEvent) => {
-      this.mouseWheelHorizontalScrollElement.scrollLeft = this.mouseWheelHorizontalScrollElement.scrollLeft + event.deltaY;
+      this.mouseWheelHorizontalScrollElement.scrollLeft = this.mouseWheelHorizontalScrollElement.scrollLeft + event.deltaY * (event.deltaMode ? 30 : 1);
     })
   }
 }
