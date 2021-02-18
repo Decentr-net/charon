@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { AppRoute } from '../../../app-route';
@@ -27,11 +27,16 @@ export class HubHeaderComponent {
   public readonly userRoute: typeof UserRoute = UserRoute;
 
   constructor(
+    public elementRef: ElementRef<HTMLElement>,
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register([
       svgEdit,
       svgLogo,
     ]);
+  }
+
+  public get nativeElement(): HTMLElement {
+    return this.elementRef.nativeElement;
   }
 }

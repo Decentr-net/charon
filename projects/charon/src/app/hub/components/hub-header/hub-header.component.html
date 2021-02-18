@@ -1,5 +1,4 @@
 <div
-  #headerBar
   class="hub-header__bar"
   *transloco="let translate; read: 'hub.hub_header'"
 >
@@ -12,7 +11,7 @@
 
   <div class="hub-header__bar-meta-container">
     <ng-content select="meta"></ng-content>
-    <ng-container *appSlotContainer="metaSlotName; rootElement: headerBar"></ng-container>
+    <ng-container *appSlotContainer="metaSlotName; rootElement: nativeElement"></ng-container>
   </div>
 
   <div class="hub-header__bar-actions-container">
