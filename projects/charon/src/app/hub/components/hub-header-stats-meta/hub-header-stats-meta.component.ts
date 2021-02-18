@@ -22,7 +22,6 @@ import { HubCurrencyStatistics } from '../hub-currency-statistics';
 import { HubHeaderStatsMetaService } from './hub-header-stats-meta.service';
 import { HubPDVStatistics } from '../hub-pdv-statistics';
 
-
 @UntilDestroy()
 @Component({
   selector: 'app-hub-header-stats-meta',
