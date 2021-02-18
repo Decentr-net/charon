@@ -3,6 +3,7 @@
 :host {
   align-items: center;
   display: inline-flex;
+  overflow: hidden;
 }
 
 ::ng-deep .cdk-overlay-container .profile-selector__menu {
@@ -16,6 +17,7 @@
   align-items: center;
   cursor: pointer;
   display: flex;
+  width: 100%;
 
   &:hover {
     .profile-username__icon {
@@ -25,13 +27,15 @@
 }
 
 .profile-image {
-  width: 40px;
-  height: 40px;
+  $profile-image-size: 40px;
+
+  height: $profile-image-size;
+  min-height: $profile-image-size;
+  min-width: $profile-image-size;
+  width: $profile-image-size;
 }
 
 .profile-username {
-  align-items: center;
-  display: inline-flex;
   font-weight: 500;
   margin-left: $grid-step;
   user-select: none;
@@ -42,6 +46,7 @@
   display: inline-flex;
   font-size: 24px;
   margin-left: $grid-step;
+  min-width: 1em;
   transition: color .3s ease;
 }
 
