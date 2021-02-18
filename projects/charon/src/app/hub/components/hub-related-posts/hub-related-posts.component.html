@@ -1,0 +1,4 @@
+<app-hub-post-card
+  *ngFor="let post of posts$ | async; trackBy: trackByPostId"
+  [post]="post"
+></app-hub-post-card>

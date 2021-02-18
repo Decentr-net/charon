@@ -9,7 +9,7 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
   height: 100%;
   justify-content: center;
   overflow: auto;
-  padding: $grid-step * 4;
+  width: 100%;
 }
 
 .posts-page__spinner {
@@ -22,6 +22,7 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
   grid-template-areas: 'top  top  top  top'
                        'left left left right';
   grid-template-columns: $hub-posts-page--columns;
+  padding: $grid-step * 4;
 }
 
 .posts-page__section-top {

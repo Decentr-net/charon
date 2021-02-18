@@ -1,0 +1,33 @@
+@import 'variables';
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.post-page__category {
+  align-items: center;
+  display: inline-flex;
+}
+
+.post-page__category-dot {
+  background: currentColor;
+  border-radius: 50%;
+  height: 4px;
+  margin-right: $grid-step;
+  width: 4px;
+}
+
+.post-page__sidebar {
+  margin-top: -$grid-step * 21;
+}
+
+.post-page__footer-title {
+  font-weight: 700;
+}
+
+.post-page__related-posts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: $grid-step * 2;
+}

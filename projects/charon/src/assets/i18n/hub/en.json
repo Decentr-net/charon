@@ -98,6 +98,9 @@
   "hub_post_pdv": {
     "label": "PDV"
   },
+  "hub_post_page": {
+    "interesting_posts": "You may be interested in"
+  },
   "hub_posts_page": {
     "top_posts": "Top posts"
   },

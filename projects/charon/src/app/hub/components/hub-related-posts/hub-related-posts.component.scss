@@ -1,0 +1,6 @@
+@import 'variables';
+
+:host {
+  gap: $grid-step * 3;
+  display: flex;
+}

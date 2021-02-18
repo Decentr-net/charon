@@ -1,4 +1,4 @@
-import { Injector } from '@angular/core';
+import { Injector, TrackByFunction } from '@angular/core';
 import { BehaviorSubject, forkJoin, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
@@ -189,6 +189,8 @@ export abstract class HubPostsService<T extends PostWithLike = PostWithAuthor> {
 
     return this.profileMap.get(walletAddress);
   }
+
+  public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;
 
   protected abstract loadPosts(fromPost: Post | undefined, count: number): Observable<Post[]>;
 

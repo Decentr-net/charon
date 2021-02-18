@@ -1,0 +1,31 @@
+<ng-container *transloco="let translate">
+  <app-hub-post-layout
+    *ngIf="post$ | async as post"
+    [headerBackgroundImage]="'url(' + post.previewImage + ')'"
+  >
+    <div class="post-page__category" ngProjectAs="[category]" appTypeface="paragraph">
+      <span class="post-page__category-dot" [appHubPostCategoryColor]="post.category"></span>
+      <span class="post-page__category-label">{{ translate('hub.hub_post_category.' + post.category) }}</span>
+    </div>
+
+    <ng-container ngProjectAs="[title]">{{ post.title }}</ng-container>
+
+    <div [innerHTML]="post.text" ngProjectAs="[content]"></div>
+
+    <div class="post-page__sidebar" ngProjectAs="[sidebar]">
+      <app-hub-profile-card [profile]="authorProfile"></app-hub-profile-card>
+    </div>
+
+    <ng-container ngProjectAs="[footer]">
+      <span class="post-page__footer-title" appTypeface="subheader">
+        {{ translate('hub.hub_post_page.interesting_posts') }}
+      </span>
+
+      <app-hub-related-posts
+        class="post-page__related-posts"
+        [category]="post.category"
+        [displayCount]="4"
+      ></app-hub-related-posts>
+    </ng-container>
+  </app-hub-post-layout>
+</ng-container>
