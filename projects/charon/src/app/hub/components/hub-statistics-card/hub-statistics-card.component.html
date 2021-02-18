@@ -1,19 +1,21 @@
-<div class="hub-statistics-card__title">
-  <ng-content select="title"></ng-content>
-</div>
+<div class="hub-statistics-card__float-container">
+  <div class="hub-statistics-card__title" appTypeface="paragraph">
+    <ng-content select="title"></ng-content>
+  </div>
 
-<div class="hub-statistics-card__subtitle">
-  <ng-content select="subtitle"></ng-content>
+  <div class="hub-statistics-card__subtitle" appTypeface="caption">
+    <ng-content select="subtitle"></ng-content>
+  </div>
+
+  <div class="hub-statistics-card__rate" appTypeface="header-4">
+    <ng-content select="rate"></ng-content>
+  </div>
+
+  <div class="hub-statistics-card__changed">
+    <ng-content select="changed"></ng-content>
+  </div>
 </div>
 
 <div class="hub-statistics-card__content-container">
   <ng-content></ng-content>
-</div>
-
-<mat-divider
-  class="hub-statistics-card__divider"
-  *ngIf="footer.children.length || footer.innerText"
-></mat-divider>
-<div class="hub-statistics-card__footer" #footer>
-  <ng-content select="footer"></ng-content>
 </div>

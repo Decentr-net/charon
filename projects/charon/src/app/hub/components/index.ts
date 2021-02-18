@@ -1,7 +1,9 @@
 import { HubActivityStatisticsComponent } from './hub-activity-statistics';
+import { HubAdditionalStatisticsComponent } from './hub-additional-statistics';
 import { HubCategorySelectComponent } from './hub-category-select';
 import { HubCreatePostDialogComponent } from './hub-create-post-dialog';
 import { HubCurrencyStatisticsComponent } from './hub-currency-statistics';
+import { HubDashboardComponent } from './hub-dashboard/hub-dashboard.component';
 import { HubDeletePostDialogComponent } from './hub-delete-post-dialog';
 import { HubHeaderComponent } from './hub-header';
 import { HubHeaderStatsMetaComponent } from './hub-header-stats-meta';
@@ -29,9 +31,11 @@ import { HubWallPostsComponent } from './hub-wall-posts';
 
 export const HUB_COMPONENTS = [
   HubActivityStatisticsComponent,
+  HubAdditionalStatisticsComponent,
   HubCategorySelectComponent,
   HubCreatePostDialogComponent,
   HubCurrencyStatisticsComponent,
+  HubDashboardComponent,
   HubDeletePostDialogComponent,
   HubHeaderComponent,
   HubHeaderStatsMetaComponent,

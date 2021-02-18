@@ -1,0 +1,16 @@
+<ng-container *transloco="let translate; read: 'hub.hub_additional_statistics'">
+  <span
+    class="hub-dashboard__additional-statistics-coming-soon"
+    appTypeface="header-4"
+  >
+    {{ translate('more_stats_coming_soon') }}
+  </span>
+
+  <div
+    *ngFor="let additionalStatistic of additionalStatistics"
+    class="hub-dashboard__additional-statistics-item"
+    appTypeface="subheader"
+  >
+    {{ additionalStatistic }}
+  </div>
+</ng-container>
