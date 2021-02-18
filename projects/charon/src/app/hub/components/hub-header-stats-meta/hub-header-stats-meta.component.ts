@@ -10,8 +10,10 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { filter, take } from 'rxjs/operators';
+import { NavigationStart, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { CoinRateFor24Hours } from '@shared/services/currency';
@@ -19,7 +21,7 @@ import { BalanceValueDynamic } from '@shared/services/pdv';
 import { HubCurrencyStatistics } from '../hub-currency-statistics';
 import { HubHeaderStatsMetaService } from './hub-header-stats-meta.service';
 import { HubPDVStatistics } from '../hub-pdv-statistics';
-import { take } from 'rxjs/operators';
+
 
 @UntilDestroy()
 @Component({
@@ -50,8 +52,14 @@ export class HubHeaderStatsMetaComponent implements OnInit {
     private elementRef: ElementRef,
     private changeDetectorRef: ChangeDetectorRef,
     private overlay: Overlay,
+    private router: Router,
     private viewContainerRef: ViewContainerRef,
-  ) { }
+  ) {
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationStart && this.isDetailsOpened),
+      untilDestroyed(this),
+    ).subscribe(() => this.hideDetails());
+  }
 
   public ngOnInit(): void {
     this.coinRate$ = this.hubHeaderStatsMetaService.getCoinRate();
