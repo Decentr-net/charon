@@ -41,6 +41,7 @@ import { TextClampModule } from '@shared/directives/text-clamp';
 import { CoerceTimestampModule } from '@shared/pipes/coerce-timestamp';
 import { TypefaceModule } from '@shared/directives/typeface';
 import { IntersectionModule } from '@shared/directives/intersection';
+import { NavigationModule } from '@core/navigation';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { IntersectionModule } from '@shared/directives/intersection';
     MatTooltipModule,
     MenuModule,
     MouseWheelHorizontalScrollModule,
+    NavigationModule,
     NgxTrimDirectiveModule,
     OverlayModule,
     PdvValueModule,

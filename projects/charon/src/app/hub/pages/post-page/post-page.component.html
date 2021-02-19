@@ -3,9 +3,15 @@
     *ngIf="post"
     [headerBackgroundImage]="'url(' + post.previewImage + ')'"
   >
-    <div class="post-page__category" ngProjectAs="[category]" appTypeface="paragraph">
-      <span class="post-page__category-dot" [appHubPostCategoryColor]="post.category"></span>
-      <span class="post-page__category-label">{{ translate('hub.hub_post_category.' + post.category) }}</span>
+    <div class="post-page__header" ngProjectAs="[category]">
+      <a class="post-page__navigation-back-button" [appNavigateBack]="['../../../']">
+        <svg-icon class="post-page__navigation-back-button-icon" key="arrow-left"></svg-icon>
+      </a>
+
+      <div class="post-page__category"  appTypeface="paragraph">
+        <span class="post-page__category-dot" [appHubPostCategoryColor]="post.category"></span>
+        <span class="post-page__category-label">{{ translate('hub.hub_post_category.' + post.category) }}</span>
+      </div>
     </div>
 
     <ng-container ngProjectAs="[title]">{{ post.title }}</ng-container>

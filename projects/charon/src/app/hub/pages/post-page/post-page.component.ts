@@ -7,13 +7,15 @@ import {
   TrackByFunction
 } from '@angular/core';
 import { distinctUntilChanged, filter, pluck, share } from 'rxjs/operators';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Post } from 'decentr-js';
 
+import { svgArrowLeft } from '@shared/svg-icons';
 import { PostWithAuthor } from '../../models/post';
-import { PostPageService } from './post-page.service';
 import { HubLikesService } from '../../services';
 import { HubProfile } from '../../components/hub-profile-card';
+import { PostPageService } from './post-page.service';
 import { PostPageLikeService } from './post-page-like.service';
 
 @UntilDestroy()
@@ -43,7 +45,9 @@ export class PostPageComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private elementRef: ElementRef<HTMLElement>,
     private postPageService: PostPageService,
+    svgIconRegistry: SvgIconRegistry,
   ) {
+    svgIconRegistry.register(svgArrowLeft);
   }
 
   public ngOnInit(): void {
