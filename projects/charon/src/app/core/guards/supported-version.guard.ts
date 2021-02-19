@@ -7,7 +7,7 @@ import { ConfigService } from '@shared/services/configuration';
 import { compareSemver } from '@shared/utils/number';
 import { AppRoute } from '../../app-route';
 
-const manifest =  require('../../../../../scripts/manifest.base.json');
+const version =  require('../../../../../../package.json').version;
 
 @Injectable()
 export class SupportedVersionGuard implements CanActivate, CanLoad {
@@ -19,7 +19,7 @@ export class SupportedVersionGuard implements CanActivate, CanLoad {
 
   public canActivate(): Observable<boolean | UrlTree> {
     return this.configService.getAppMinVersionRequired().pipe(
-      map((minVersion) => compareSemver(manifest.version, minVersion)),
+      map((minVersion) => compareSemver(version, minVersion)),
       map((diff) => diff >= 0 || this.router.createUrlTree(['/', AppRoute.Update])),
     );
   }
