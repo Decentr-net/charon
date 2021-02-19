@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LikeWeight, Post } from 'decentr-js';
 
+import { NotificationService } from '@shared/services/notification';
 import { PostsService } from '@core/services';
 import { HubPostIdRouteParam, HubPostOwnerRouteParam } from '../../hub-route';
 import { HubPostsService } from '../../services';
@@ -17,6 +18,7 @@ export class PostPageService {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private notificationService: NotificationService,
     private postsService: PostsService,
     private hubPostsService: HubPostsService,
   ) {
@@ -41,13 +43,23 @@ export class PostPageService {
     }
 
     const post = this.post$.value;
-    const update = HubPostsService.getPostLikesCountUpdate(this.post$.value, likeWeight);
-    this.post$.next({
-      ...post,
+
+    const update = HubPostsService.getPostLikesCountUpdate(post, likeWeight);
+    this.updatePost({
+      likeWeight,
       ...update,
     });
 
-    return EMPTY;
+    return this.postsService.likePost(this.post$.value, likeWeight).pipe(
+      catchError((error) => {
+        this.notificationService.error(error);
+
+        return of(void 0);
+      }),
+      mergeMap(() => this.getPostLive(post.owner, post.uuid)),
+      tap((post) => this.updatePost(post)),
+      mapTo(void 0),
+    );
   }
 
   private getPostWithAuthorChanges(owner: Post['owner'], postId: Post['uuid']): Observable<PostWithAuthor> {
@@ -64,5 +76,12 @@ export class PostPageService {
       mergeMap((post) => this.hubPostsService.updatePostsWithLikes([post])),
       map(([post]) => post),
     );
+  }
+
+  private updatePost(update: Partial<PostWithLike>): void {
+    this.post$.next({
+      ...this.post$.value,
+      ...update,
+    });
   }
 }

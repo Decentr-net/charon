@@ -8,7 +8,7 @@
         <svg-icon class="post-page__navigation-back-button-icon" key="arrow-left"></svg-icon>
       </a>
 
-      <div class="post-page__category"  appTypeface="paragraph">
+      <div class="post-page__category" appTypeface="paragraph" [routerLink]="['../../../']">
         <span class="post-page__category-dot" [appHubPostCategoryColor]="post.category"></span>
         <span class="post-page__category-label">{{ translate('hub.hub_post_category.' + post.category) }}</span>
       </div>

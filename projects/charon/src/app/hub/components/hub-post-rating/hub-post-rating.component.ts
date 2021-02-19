@@ -9,8 +9,8 @@ import {
   Optional,
   SkipSelf
 } from '@angular/core';
-import { fromEvent, Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { fromEvent, Observable, ReplaySubject } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LikeWeight } from 'decentr-js';
@@ -30,7 +30,9 @@ import { PostWithLike } from '../../models/post';
   ],
 })
 export class HubPostRatingComponent implements OnInit {
-  @Input() public postId: PostWithLike['uuid'];
+  @Input() public set postId(value: PostWithLike['uuid']) {
+    this.postId$.next(value);
+  }
 
   @Input() @HostBinding('class.mod-filled') public filled: boolean = false;
 
@@ -41,6 +43,8 @@ export class HubPostRatingComponent implements OnInit {
   public isDisabled: boolean = true;
 
   private hubLikesService: HubLikesService;
+
+  private postId$: ReplaySubject<PostWithLike['uuid']> = new ReplaySubject(1);
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -59,9 +63,12 @@ export class HubPostRatingComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe((event) => event.stopPropagation());
 
-    this.post$ = this.hubLikesService.getPostChanges(this.postId);
+    this.post$ = this.postId$.pipe(
+      switchMap((postId) => this.hubLikesService.getPostChanges(postId))
+    );
 
-    this.hubLikesService.canLikePost(this.postId).pipe(
+    this.postId$.pipe(
+      switchMap((postId) => this.hubLikesService.canLikePost(postId)),
       map((canLike) => !canLike),
       untilDestroyed(this),
     ).subscribe((isDisabled) => {
@@ -86,7 +93,7 @@ export class HubPostRatingComponent implements OnInit {
     // this subscription has no unsubscribe logic
     // to ensure the post was updated after some dialog (for ex) closed
     this.hubLikesService.likePost(
-      this.postId,
+      post.uuid,
       post.likeWeight === newLikeWeight
         ? LikeWeight.Zero
         : newLikeWeight
