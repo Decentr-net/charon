@@ -12,10 +12,11 @@
     <div class="posts-page__section-top">
       <div class="posts-page__posts-grid-container">
         <app-hub-post-card
+          class="posts-page__post-card"
           *ngFor="let post of posts | slice : 0 : 8; trackBy: trackByPostId"
           [post]="post"
           [disableCategory]="!!postsCategory"
-          [routerLink]="[hubRoute.Post, post.owner, post.uuid]"
+          [routerLink]="postLinkFn(post)"
         ></app-hub-post-card>
       </div>
     </div>
@@ -29,11 +30,11 @@
         (loadMore)="loadMore()"
       >
         <app-hub-post-card
-          class="posts-page__horizontal-post"
+          class="posts-page__post-card posts-page__horizontal-post"
           *ngFor="let post of posts | slice : 8; trackBy: trackByPostId"
           [post]="post"
           [disableCategory]="!!postsCategory"
-          [routerLink]="[hubRoute.Post, post.owner, post.uuid]"
+          [routerLink]="postLinkFn(post)"
           [orientation]="'horizontal'"
         ></app-hub-post-card>
       </app-hub-infinite-posts-container>
@@ -49,7 +50,10 @@
           {{ translate('top_posts') }}
         </div>
 
-        <app-hub-top-posts [category]="postsCategory"></app-hub-top-posts>
+        <app-hub-top-posts
+          [category]="postsCategory"
+          [routerLinkFn]="postLinkFn"
+        ></app-hub-top-posts>
       </ng-container>
     </div>
   </div>

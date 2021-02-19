@@ -9,5 +9,6 @@
     [post]="post"
     [disableCategory]="!!(category$ | async)"
     [includeVerticalImagePadding]="true"
+    [routerLink]="routerLinkFn(post)"
   ></app-hub-post-card>
 </app-hub-infinite-posts-container>

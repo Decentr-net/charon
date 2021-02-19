@@ -25,6 +25,7 @@
         class="post-page__related-posts"
         [category]="post.category"
         [displayCount]="4"
+        [routerLinkFn]="postLinkFn"
       ></app-hub-related-posts>
     </ng-container>
   </app-hub-post-layout>

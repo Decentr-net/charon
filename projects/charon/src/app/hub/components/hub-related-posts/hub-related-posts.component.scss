@@ -4,3 +4,7 @@
   gap: $grid-step * 3;
   display: flex;
 }
+
+.hub-related-posts__post-card {
+  cursor: pointer;
+}

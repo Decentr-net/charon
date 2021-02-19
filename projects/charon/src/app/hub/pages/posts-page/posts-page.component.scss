@@ -43,6 +43,10 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
   grid-template-columns: $hub-posts-page--columns;
 }
 
+.posts-page__post-card {
+  cursor: pointer;
+}
+
 .posts-page__horizontal-post {
   border-top: 1px solid $color-outlines;
   padding: ($grid-step * 2) 0;

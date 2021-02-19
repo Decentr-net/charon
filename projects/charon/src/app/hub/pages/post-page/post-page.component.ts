@@ -1,6 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TrackByFunction } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  TrackByFunction
+} from '@angular/core';
 import { Observable } from 'rxjs';
-import { pluck, share } from 'rxjs/operators';
+import { distinctUntilChanged, pluck, share } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Post } from 'decentr-js';
 
@@ -34,8 +41,11 @@ export class PostPageComponent implements OnInit {
 
   public trackByPostId: TrackByFunction<Post> = this.postPageRelatedService.trackByPostId;
 
+  public postLinkFn: (post: Post) => string[] = (post) => ['../../', post.owner, post.uuid];
+
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
+    private elementRef: ElementRef<HTMLElement>,
     private postPageService: PostPageService,
     private postPageRelatedService: PostPageRelatedService,
   ) {
@@ -50,6 +60,12 @@ export class PostPageComponent implements OnInit {
       pluck('category'),
       untilDestroyed(this),
     ).subscribe((category) => this.postPageRelatedService.setCategory(category));
+
+    this.post$.pipe(
+      pluck('uuid'),
+      distinctUntilChanged(),
+      untilDestroyed(this),
+    ).subscribe(() => this.elementRef.nativeElement.scrollTop = 0);
 
     this.relatedPosts$ = this.postPageRelatedService.posts$;
 

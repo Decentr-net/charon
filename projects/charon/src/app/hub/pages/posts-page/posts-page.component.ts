@@ -43,6 +43,9 @@ export class PostsPageComponent {
 
   public isPostOutletActivated: boolean;
 
+  public postLinkFn: (post: Post) => string[] = (post) => [HubRoute.Post, post.owner, post.uuid];
+  public trackByPostId: TrackByFunction<Post> = this.postsPageService.trackByPostId;
+
   private scrollPosition: number;
 
   constructor(
@@ -96,6 +99,4 @@ export class PostsPageComponent {
       untilDestroyed(this),
     ).subscribe(() => this.elementRef.nativeElement.scrollTop = this.scrollPosition || 0);
   }
-
-  public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;
 }

@@ -54,7 +54,7 @@ $hub-post-layout--grid-columns: minmax(0, #{$hub-post-layout--main-column-width}
   margin-top: $grid-step * 3;
   padding-bottom: $grid-step * 5;
 
-  ::ng-deep {
+  .hub-post-layout__content__main-column ::ng-deep {
     img {
       margin: auto;
       max-height: 900px;

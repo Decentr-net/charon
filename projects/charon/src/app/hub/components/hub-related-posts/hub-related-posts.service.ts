@@ -27,12 +27,10 @@ export class HubRelatedPostsService extends HubPostsService implements OnDestroy
 
   public setCategory(category: PostCategory): void {
     this.postsCategory = category;
-    this.reload();
   }
 
   public setLoadingCount(count: number): void {
     this.loadingInitialCount = count;
-    this.reload();
   }
 
   protected loadPosts(fromPost: Post | undefined, count: number): Observable<Post[]> {

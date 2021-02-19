@@ -2,6 +2,8 @@
 
 :host {
   display: block;
+  height: 100%;
+  overflow: auto;
   width: 100%;
 }
 
@@ -13,9 +15,9 @@
 .post-page__category-dot {
   background: currentColor;
   border-radius: 50%;
-  height: 4px;
+  height: 8px;
   margin-right: $grid-step;
-  width: 4px;
+  width: 8px;
 }
 
 .post-page__sidebar {
