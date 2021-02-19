@@ -39,6 +39,7 @@ $hub-post-layout--grid-columns: minmax(0, #{$hub-post-layout--main-column-width}
   display: grid;
   grid-template-columns: $hub-post-layout--grid-columns;
   margin: auto;
+  padding: 0 $page-side-padding;
   position: relative;
   width: $page-width;
 }
@@ -68,10 +69,11 @@ $hub-post-layout--grid-columns: minmax(0, #{$hub-post-layout--main-column-width}
 
   .hub-post-layout__footer-content {
     margin: auto;
+    padding: 0 $page-side-padding;
     width: $page-width;
 
     &:not(:empty) {
-      padding: $grid-step * 2 0 $grid-step * 3;
+      padding: $grid-step * 2 $page-side-padding $grid-step * 3;
     }
   }
 }
