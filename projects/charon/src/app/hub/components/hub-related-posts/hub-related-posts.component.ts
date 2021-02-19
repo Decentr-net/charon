@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, TrackByFunction } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Post, PostCategory } from 'decentr-js';
 
 import { HubPostsService } from '../../services';
@@ -25,8 +26,13 @@ export class HubRelatedPostsComponent implements OnInit {
   }
 
   @Input() public set displayCount(value: number) {
-    this.hubRelatedPostsService.setLoadingCount(value);
+    this.hubRelatedPostsService.setLoadingCount(value + 1);
+    this.postsCount = value;
   };
+
+  @Input() public set excludeID(value: Post['uuid']) {
+    this.excludeID$.next(value);
+  }
 
   @Input() public routerLinkFn: (post: Post) => string[] = () => ['./'];
 
@@ -35,14 +41,24 @@ export class HubRelatedPostsComponent implements OnInit {
 
   public trackByPostId: TrackByFunction<Post> = this.hubRelatedPostsService.trackByPostId;
 
+  private postsCount: number = 4;
+
+  private excludeID$: BehaviorSubject<Post['uuid']> = new BehaviorSubject(void 0);
+
   constructor(private hubRelatedPostsService: HubRelatedPostsService) {
   }
 
   public ngOnInit(): void {
-    this.posts$ = this.hubRelatedPostsService.posts$;
+    this.posts$ = this.excludeID$.pipe(
+      switchMap((excludeId) => this.hubRelatedPostsService.posts$.pipe(
+      map((posts) => {
+        return posts.filter(({ uuid }) => uuid !== excludeId)
+          .slice(0, this.postsCount);
+      }),
+    )));
 
     this.isLoading$ = this.hubRelatedPostsService.isLoading$;
 
-    this.hubRelatedPostsService.loadMorePosts();
+    this.hubRelatedPostsService.loadInitialPosts();
   }
 }

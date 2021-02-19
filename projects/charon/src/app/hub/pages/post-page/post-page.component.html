@@ -38,6 +38,7 @@
         class="post-page__related-posts"
         [category]="post.category"
         [displayCount]="4"
+        [excludeID]="post.uuid"
         [routerLinkFn]="postLinkFn"
       ></app-hub-related-posts>
     </ng-container>
