@@ -6,16 +6,15 @@ import {
   OnInit,
   TrackByFunction
 } from '@angular/core';
-import { Observable } from 'rxjs';
-import { distinctUntilChanged, pluck, share } from 'rxjs/operators';
+import { distinctUntilChanged, filter, pluck, share } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Post } from 'decentr-js';
 
-import { PostWithAuthor, PostWithLike } from '../../models/post';
+import { PostWithAuthor } from '../../models/post';
 import { PostPageService } from './post-page.service';
-import { PostPageRelatedService } from './post-page-related.service';
 import { HubLikesService } from '../../services';
 import { HubProfile } from '../../components/hub-profile-card';
+import { PostPageLikeService } from './post-page-like.service';
 
 @UntilDestroy()
 @Component({
@@ -27,9 +26,8 @@ import { HubProfile } from '../../components/hub-profile-card';
     PostPageService,
     {
       provide: HubLikesService,
-      useExisting: PostPageRelatedService,
+      useClass: PostPageLikeService,
     },
-    PostPageRelatedService,
   ],
 })
 export class PostPageComponent implements OnInit {
@@ -37,9 +35,7 @@ export class PostPageComponent implements OnInit {
 
   public authorProfile: HubProfile;
 
-  public relatedPosts$: Observable<PostWithLike[]>;
-
-  public trackByPostId: TrackByFunction<Post> = this.postPageRelatedService.trackByPostId;
+  public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;
 
   public postLinkFn: (post: Post) => string[] = (post) => ['../../', post.owner, post.uuid];
 
@@ -47,16 +43,18 @@ export class PostPageComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private elementRef: ElementRef<HTMLElement>,
     private postPageService: PostPageService,
-    private postPageRelatedService: PostPageRelatedService,
   ) {
   }
 
   public ngOnInit(): void {
     const post$ = this.postPageService.getPost().pipe(
+      filter(post => !!post),
       share(),
     );
 
-    post$.subscribe((post) => {
+    post$.pipe(
+      untilDestroyed(this),
+    ).subscribe((post) => {
       this.post = post;
 
       this.authorProfile = {
@@ -68,16 +66,9 @@ export class PostPageComponent implements OnInit {
     });
 
     post$.pipe(
-      pluck('category'),
-      untilDestroyed(this),
-    ).subscribe((category) => this.postPageRelatedService.setCategory(category));
-
-    post$.pipe(
       pluck('uuid'),
       distinctUntilChanged(),
       untilDestroyed(this),
     ).subscribe(() => this.elementRef.nativeElement.scrollTop = 0);
-
-    this.relatedPosts$ = this.postPageRelatedService.posts$;
   }
 }

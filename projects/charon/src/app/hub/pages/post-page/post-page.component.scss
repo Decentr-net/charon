@@ -24,6 +24,11 @@
   margin-top: -$grid-step * 21;
 }
 
+.post-page__rating {
+  height: 56px;
+  margin-top: $grid-step * 3;
+}
+
 .post-page__footer-title {
   font-weight: 700;
 }

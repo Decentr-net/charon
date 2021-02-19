@@ -1,13 +1,23 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  OnInit,
+  Optional,
+  SkipSelf
+} from '@angular/core';
 import { fromEvent, Observable } from 'rxjs';
-import { map, share, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LikeWeight } from 'decentr-js';
 
 import { svgLike } from '@shared/svg-icons';
-import { PostWithAuthor } from '../../models/post';
 import { HubLikesService } from '../../services';
+import { PostWithLike } from '../../models/post';
 
 @UntilDestroy()
 @Component({
@@ -20,21 +30,28 @@ import { HubLikesService } from '../../services';
   ],
 })
 export class HubPostRatingComponent implements OnInit {
-  @Input() public postId: PostWithAuthor['uuid'];
+  @Input() public postId: PostWithLike['uuid'];
 
-  public post$: Observable<PostWithAuthor>;
+  @Input() @HostBinding('class.mod-filled') public filled: boolean = false;
+
+  public post$: Observable<PostWithLike>;
 
   public readonly likeWeight: typeof LikeWeight = LikeWeight;
 
   public isDisabled: boolean = true;
 
+  private hubLikesService: HubLikesService;
+
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private elementRef: ElementRef<HTMLElement>,
-    private hubLikesService: HubLikesService,
+    private nativeHubLikesService: HubLikesService,
+    @SkipSelf() @Optional() private customHubLikesService: HubLikesService,
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register(svgLike);
+
+    this.hubLikesService = this.customHubLikesService || this.nativeHubLikesService;
   }
 
   public ngOnInit(): void {
@@ -53,19 +70,19 @@ export class HubPostRatingComponent implements OnInit {
     });
   }
 
-  public onLike(post: PostWithAuthor): void {
+  public onLike(post: PostWithLike): void {
     if (!this.isDisabled) {
       this.changeLikeWeight(post, LikeWeight.Up);
     }
   }
 
-  public onDislike(post: PostWithAuthor): void {
+  public onDislike(post: PostWithLike): void {
     if (!this.isDisabled) {
       this.changeLikeWeight(post, LikeWeight.Down);
     }
   }
 
-  private changeLikeWeight(post: PostWithAuthor, newLikeWeight: LikeWeight): void {
+  private changeLikeWeight(post: PostWithLike, newLikeWeight: LikeWeight): void {
     // this subscription has no unsubscribe logic
     // to ensure the post was updated after some dialog (for ex) closed
     this.hubLikesService.likePost(

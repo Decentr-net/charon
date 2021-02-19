@@ -1,30 +1,53 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { map, mergeMap, switchMap } from 'rxjs/operators';
-import { Post } from 'decentr-js';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { LikeWeight, Post } from 'decentr-js';
 
 import { PostsService } from '@core/services';
 import { HubPostIdRouteParam, HubPostOwnerRouteParam } from '../../hub-route';
 import { HubPostsService } from '../../services';
 import { PostWithAuthor, PostWithLike } from '../../models/post';
 
+@UntilDestroy()
 @Injectable()
 export class PostPageService {
+  private readonly post$: BehaviorSubject<PostWithAuthor> = new BehaviorSubject(void 0);
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private postsService: PostsService,
     private hubPostsService: HubPostsService,
   ) {
-  }
-
-  public getPost(): Observable<PostWithAuthor> {
-    return this.activatedRoute.params.pipe(
+    this.activatedRoute.params.pipe(
       mergeMap((params) => this.getPostWithAuthorChanges(
         params[HubPostOwnerRouteParam],
         params[HubPostIdRouteParam]),
       ),
-    );
+      untilDestroyed(this),
+    ).subscribe(this.post$);
+  }
+
+  public getPost(): Observable<PostWithAuthor> {
+    return this.post$;
+  }
+
+  public likePost(postId: Post['uuid'], likeWeight: LikeWeight): Observable<void> {
+    const targetPost = this.hubPostsService.getPost(postId);
+
+    if (targetPost) {
+      return this.hubPostsService.likePost(postId, likeWeight);
+    }
+
+    const post = this.post$.value;
+    const update = HubPostsService.getPostLikesCountUpdate(this.post$.value, likeWeight);
+    this.post$.next({
+      ...post,
+      ...update,
+    });
+
+    return EMPTY;
   }
 
   private getPostWithAuthorChanges(owner: Post['owner'], postId: Post['uuid']): Observable<PostWithAuthor> {

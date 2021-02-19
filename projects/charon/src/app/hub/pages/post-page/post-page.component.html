@@ -14,6 +14,13 @@
 
     <div class="post-page__sidebar" ngProjectAs="[sidebar]">
       <app-hub-profile-card [profile]="authorProfile"></app-hub-profile-card>
+
+      <app-hub-post-rating
+        class="post-page__rating"
+        [postId]="post.uuid"
+        [filled]="true"
+        appTypeface="paragraph"
+      ></app-hub-post-rating>
     </div>
 
     <ng-container ngProjectAs="[footer]">

@@ -147,7 +147,7 @@ export abstract class HubPostsService<T extends PostWithLike = PostWithAuthor> {
     const post = this.getPost(postId);
 
     const update: Partial<Pick<PostWithAuthor, 'likeWeight' | 'likesCount' | 'dislikesCount'>> = {
-      ...this.getPostLikesCountUpdate(post, likeWeight),
+      ...HubPostsService.getPostLikesCountUpdate(post, likeWeight),
       likeWeight,
     };
 
@@ -298,7 +298,7 @@ export abstract class HubPostsService<T extends PostWithLike = PostWithAuthor> {
     );
   }
 
-  private getPostLikesCountUpdate(
+  public static getPostLikesCountUpdate<T extends PostWithLike>(
     post: T,
     newLikeWeight: LikeWeight,
   ): Partial<Pick<T, 'likesCount' | 'dislikesCount'>> {
