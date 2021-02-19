@@ -12,14 +12,16 @@ $hub-header--bar-button--color: #FFFFFF;
   background-color: $hub-header--bar--background-color;
   display: flex;
   height: 76px;
+  margin: auto;
   padding: 10px 30px;
+  width: $page-width;
 }
 
 .hub-header__bar-actions-container {
   align-items: center;
   column-gap: $grid-step * 3;
-  display: grid;
-  grid-template-columns: repeat(2, max-content);
+  display: flex;
+  overflow: hidden;
 }
 
 .hub-header__bar-button {
@@ -33,6 +35,7 @@ $hub-header--bar-button--color: #FFFFFF;
   font-weight: 500;
   padding: $grid-step * 1.5 $grid-step * 3 $grid-step * 1.5 $grid-step * 2;
   transition: background .3s ease;
+  white-space: nowrap;
 
   &:hover {
     background: $color-blue-hover;

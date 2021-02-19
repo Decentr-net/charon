@@ -4,6 +4,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 
+import { TextEllipsisModule } from '../../directives/text-ellipsis';
+import { TypefaceModule } from '../../directives/typeface';
 import { PdvValueModule } from '../../pipes/pdv-value';
 import { SanitizeModule } from '../../pipes/sanitize';
 import { AvatarModule } from '../avatar';
@@ -23,6 +25,8 @@ export interface MenuModuleConfig {
     SvgIconsModule,
     RouterModule,
     SanitizeModule,
+    TextEllipsisModule,
+    TypefaceModule,
   ],
   declarations: [
     MenuComponent

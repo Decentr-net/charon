@@ -3,6 +3,9 @@
     "no_posts": "There is no activity last 24 hours",
     "top_feed": "TOP 24 hours"
   },
+  "hub_additional_statistics": {
+    "more_stats_coming_soon": "More stats coming soon!"
+  },
   "hub_activity_distribution": {
     "coming_soon": "(coming soon)",
     "data_value": "Data Value",
@@ -42,18 +45,19 @@
     "title": "Create Post"
   },
   "hub_currency_statistics": {
-    "dec_rate": "DEC Rate",
+    "dec_rate": "DEC rate",
     "dec_rate_change": {
-      "dec": "DEC",
-      "increased": "increased by {{ percent }}%",
-      "decreased": "decreased by {{ percent }}%",
       "last_hours": "in the last 24-hours",
-      "not_changed": "has no change"
+      "no_change": "No change"
     },
+    "decentr_to_usd": "Decentr to US Dollar",
     "no_chart_data": "No DEC Rate data"
   },
   "hub_header": {
     "new_post": "New post"
+  },
+  "hub_dashboard": {
+    "your_dashboard": "Your dashboard"
   },
   "hub_header_stats_meta": {
     "dec": "DEC",
@@ -82,11 +86,8 @@
     "not_enough_chart_data": "Not enough data PDV for the chart",
     "my_pdv": "My PDV",
     "pdv_change": {
-      "decreased": "decreased by {{ percent }}%",
-      "increased": "increased by {{ percent }}%",
       "last_hours": "in the last 24-hours",
-      "not_changed": "has no change",
-      "your_pdv": "Your PDV"
+      "no_change": "No change"
     }
   },
   "hub_post_dialog": {

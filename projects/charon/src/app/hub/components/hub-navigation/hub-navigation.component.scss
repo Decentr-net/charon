@@ -9,13 +9,16 @@ $hub-navigation--height: 48px;
   border-bottom: 1px solid $color-outlines;
   display: flex;
   height: $hub-navigation--height;
+  margin: auto;
   padding: 0 30px;
+  width: $page-width;
 }
 
 .hub-navigation__section {
   display: flex;
   height: 100%;
   overflow-x: auto;
+  scrollbar-width: none;
 
   &::-webkit-scrollbar {
     display: none;
