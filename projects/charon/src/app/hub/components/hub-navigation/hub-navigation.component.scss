@@ -10,7 +10,7 @@ $hub-navigation--height: 48px;
   display: flex;
   height: $hub-navigation--height;
   margin: auto;
-  padding: 0 30px;
+  padding: 0 $page-side-padding;
   width: $page-width;
 }
 

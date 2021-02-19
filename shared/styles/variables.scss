@@ -5,9 +5,10 @@ $main-font-family: #{'Inter, Arial, sans-serif'};
 
 $border-radius: 12px;
 
-$page-width: 1200px;
-
 $grid-step: 8px;
+
+$page-width: 1200px;
+$page-side-padding: $grid-step * 4;
 
 $color-font-base: $color-black;
 $color-primary: $color-blue;
