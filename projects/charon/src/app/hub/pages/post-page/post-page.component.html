@@ -1,6 +1,6 @@
 <ng-container *transloco="let translate">
   <app-hub-post-layout
-    *ngIf="post$ | async as post"
+    *ngIf="post"
     [headerBackgroundImage]="'url(' + post.previewImage + ')'"
   >
     <div class="post-page__category" ngProjectAs="[category]" appTypeface="paragraph">

@@ -33,7 +33,7 @@ import { HubProfile } from '../../components/hub-profile-card';
   ],
 })
 export class PostPageComponent implements OnInit {
-  public post$: Observable<PostWithAuthor>;
+  public post: PostWithAuthor;
 
   public authorProfile: HubProfile;
 
@@ -52,26 +52,13 @@ export class PostPageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.post$ = this.postPageService.getPost().pipe(
+    const post$ = this.postPageService.getPost().pipe(
       share(),
     );
 
-    this.post$.pipe(
-      pluck('category'),
-      untilDestroyed(this),
-    ).subscribe((category) => this.postPageRelatedService.setCategory(category));
+    post$.subscribe((post) => {
+      this.post = post;
 
-    this.post$.pipe(
-      pluck('uuid'),
-      distinctUntilChanged(),
-      untilDestroyed(this),
-    ).subscribe(() => this.elementRef.nativeElement.scrollTop = 0);
-
-    this.relatedPosts$ = this.postPageRelatedService.posts$;
-
-    this.post$.pipe(
-      untilDestroyed(this),
-    ).subscribe((post) => {
       this.authorProfile = {
         ...post.author,
         walletAddress: post.owner,
@@ -79,5 +66,18 @@ export class PostPageComponent implements OnInit {
 
       this.changeDetectorRef.markForCheck();
     });
+
+    post$.pipe(
+      pluck('category'),
+      untilDestroyed(this),
+    ).subscribe((category) => this.postPageRelatedService.setCategory(category));
+
+    post$.pipe(
+      pluck('uuid'),
+      distinctUntilChanged(),
+      untilDestroyed(this),
+    ).subscribe(() => this.elementRef.nativeElement.scrollTop = 0);
+
+    this.relatedPosts$ = this.postPageRelatedService.posts$;
   }
 }
