@@ -1,10 +1,12 @@
+@import 'variables';
+
 $feed-page--top-feed-header--background-color: #FFFFFF;
 $feed-page--top-feed--no-posts--color: #9EA0A5;
 
 :host {
   background: #F2F2F2;
   display: flex;
-  padding: 30px 30px 0;
+  padding: 30px $page-side-padding 0;
   height: 100%;
 }
 
