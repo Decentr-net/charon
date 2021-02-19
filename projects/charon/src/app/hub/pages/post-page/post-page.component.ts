@@ -13,7 +13,6 @@ import { Post } from 'decentr-js';
 
 import { svgArrowLeft } from '@shared/svg-icons';
 import { PostWithAuthor } from '../../models/post';
-import { HubLikesService } from '../../services';
 import { HubProfile } from '../../components/hub-profile-card';
 import { PostPageService } from './post-page.service';
 import { PostPageLikeService } from './post-page-like.service';
@@ -26,10 +25,7 @@ import { PostPageLikeService } from './post-page-like.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     PostPageService,
-    {
-      provide: HubLikesService,
-      useClass: PostPageLikeService,
-    },
+    PostPageLikeService,
   ],
 })
 export class PostPageComponent implements OnInit {
@@ -45,6 +41,7 @@ export class PostPageComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private elementRef: ElementRef<HTMLElement>,
     private postPageService: PostPageService,
+    public postPageLikeService: PostPageLikeService,
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register(svgArrowLeft);

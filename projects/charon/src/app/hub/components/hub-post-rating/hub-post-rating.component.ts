@@ -6,8 +6,6 @@ import {
   HostBinding,
   Input,
   OnInit,
-  Optional,
-  SkipSelf
 } from '@angular/core';
 import { fromEvent, Observable, ReplaySubject } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
@@ -36,6 +34,8 @@ export class HubPostRatingComponent implements OnInit {
 
   @Input() @HostBinding('class.mod-filled') public filled: boolean = false;
 
+  @Input() private customHubLikesService: HubLikesService;
+
   public post$: Observable<PostWithLike>;
 
   public readonly likeWeight: typeof LikeWeight = LikeWeight;
@@ -50,15 +50,14 @@ export class HubPostRatingComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private elementRef: ElementRef<HTMLElement>,
     private nativeHubLikesService: HubLikesService,
-    @SkipSelf() @Optional() private customHubLikesService: HubLikesService,
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register(svgLike);
-
-    this.hubLikesService = this.customHubLikesService || this.nativeHubLikesService;
   }
 
   public ngOnInit(): void {
+    this.hubLikesService = this.customHubLikesService || this.nativeHubLikesService;
+
     fromEvent(this.elementRef.nativeElement, 'click').pipe(
       untilDestroyed(this),
     ).subscribe((event) => event.stopPropagation());
