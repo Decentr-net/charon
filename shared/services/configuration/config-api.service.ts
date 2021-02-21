@@ -9,7 +9,9 @@ export interface Config {
     minPDVCount: number;
     maxPDVCount: number;
     rewards: Record<PDVDataType, number>;
+    url: string;
   };
+  chainId: string;
   network: {
     rest: string[];
   };

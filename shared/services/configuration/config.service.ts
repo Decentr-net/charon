@@ -42,6 +42,18 @@ export class ConfigService {
     );
   }
 
+  public getCerberusUrl(): Observable<string> {
+    return this.getConfig().pipe(
+      map((config) => config.cerberus.url),
+    );
+  }
+
+  public getChainId(): Observable<string> {
+    return this.getConfig().pipe(
+      map(({ chainId }) => chainId),
+    );
+  }
+
   public getRestNodes(): Observable<string[]> {
     return this.getConfig().pipe(
       map(({ network }) => network.rest),
