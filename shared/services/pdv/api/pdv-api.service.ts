@@ -9,15 +9,16 @@ import {
 } from 'decentr-js';
 
 export class PDVApiService {
-  constructor(private chainId: string) {
+  constructor(
+    private cerberusUrl: string,
+    private chainId: string,
+  ) {
   }
 
   public sendPDV(api: string, wallet: Wallet, pdv: PDV[]): Promise<void> {
     const decentr = this.createDecentrConnector(api);
 
-    return decentr.sendPDV(pdv, wallet, {
-      broadcast: true,
-    }).then(() => void 0);
+    return decentr.sendPDV(this.cerberusUrl, pdv, wallet).then(() => void 0);
   }
 
   public getBalance(api: string, walletAddress: Wallet['address']): Promise<number> {
@@ -33,7 +34,7 @@ export class PDVApiService {
   ): Promise<PDVListItem[]> {
     const decentr = this.createDecentrConnector(api);
 
-    return decentr.getPDVList(walletAddress, paginationOptions);
+    return decentr.getPDVList(this.cerberusUrl, walletAddress, paginationOptions);
   }
 
   public getPDVDetails(
@@ -43,7 +44,7 @@ export class PDVApiService {
   ): Promise<PDVDetails> {
     const decentr = this.createDecentrConnector(api);
 
-    return decentr.getPDVDetails(address, wallet);
+    return decentr.getPDVDetails(this.cerberusUrl, address, wallet);
   }
 
   public getPDVStats(api: string, walletAddress: Wallet['address']): Promise<PDVStatItem[]> {

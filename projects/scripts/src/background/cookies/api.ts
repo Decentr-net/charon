@@ -6,7 +6,7 @@ import { NetworkBrowserStorageService } from '../../../../../shared/services/net
 import { PDVService } from '../../../../../shared/services/pdv';
 import QUEUE, { QueuePriority } from '../queue';
 
-const pdvService = new PDVService(environment.chainId);
+const pdvService = new PDVService(environment.chainId, environment.cerberusUrl);
 const networkStorage = new NetworkBrowserStorageService();
 
 export const sendPDV = (wallet: Wallet, pDVs: PDV[]): Observable<void> => {

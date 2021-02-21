@@ -15,8 +15,11 @@ import { BalanceValueDynamic, PDVStatChartPoint } from './pdv.definitions';
 export class PDVService {
   private pdvApiService: PDVApiService;
 
-  constructor(private chainId: string) {
-    this.pdvApiService = new PDVApiService(chainId);
+  constructor(
+    private cerberusUrl: string,
+    private chainId: string,
+  ) {
+    this.pdvApiService = new PDVApiService(chainId, cerberusUrl);
   }
 
   public getBalance(api: string, walletAddress: string): Observable<string> {
