@@ -1,0 +1,69 @@
+@import 'variables';
+
+:host {
+  display: block;
+  height: 100%;
+  overflow: auto;
+  width: 100%;
+}
+
+.post-page__header {
+  align-items: center;
+  column-gap: $grid-step * 2;
+  display: flex;
+}
+
+.post-page__navigation-back-button {
+  align-items: center;
+  background-color: $color-background;
+  border-radius: $border-radius;
+  color: $color-grey;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  padding: 8px;
+
+  &:hover {
+    .post-page__navigation-back-button-icon {
+      color: $color-dark-grey;
+    }
+  }
+}
+
+.post-page__navigation-back-button-icon {
+  display: inline-flex;
+  font-size: 24px;
+}
+
+.post-page__category {
+  align-items: center;
+  cursor: pointer;
+  display: inline-flex;
+}
+
+.post-page__category-dot {
+  background: currentColor;
+  border-radius: 50%;
+  height: 8px;
+  margin-right: $grid-step;
+  width: 8px;
+}
+
+.post-page__sidebar {
+  margin-top: -$grid-step * 21;
+}
+
+.post-page__rating {
+  height: 56px;
+  margin-top: $grid-step * 3;
+}
+
+.post-page__footer-title {
+  font-weight: 700;
+}
+
+.post-page__related-posts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: $grid-step * 2;
+}

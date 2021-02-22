@@ -6,8 +6,10 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
 
 :host {
   display: flex;
+  height: 100%;
   justify-content: center;
-  padding: $grid-step * 4;
+  overflow: auto;
+  width: 100%;
 }
 
 .posts-page__spinner {
@@ -20,6 +22,7 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
   grid-template-areas: 'top  top  top  top'
                        'left left left right';
   grid-template-columns: $hub-posts-page--columns;
+  padding: $grid-step * 4;
 }
 
 .posts-page__section-top {
@@ -38,6 +41,10 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
   gap: $hub-posts-page--gap;
   display: grid;
   grid-template-columns: $hub-posts-page--columns;
+}
+
+.posts-page__post-card {
+  cursor: pointer;
 }
 
 .posts-page__horizontal-post {

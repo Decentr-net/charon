@@ -14,18 +14,20 @@ import { HubNavigationLinkComponent } from './hub-navigation-link';
 import { HubPdvStatisticsComponent } from './hub-pdv-statistics';
 import { HubPostCardComponent } from './hub-post-card';
 import { HubPostContentComponent } from './hub-post-content';
+import { HubPostLayoutComponent } from './hub-post-layout';
 import { HubPostDialogComponent } from './hub-post-dialog';
 import { HubPostPdvComponent } from './hub-post-pdv';
 import { HubPostPdvDiagramComponent } from './hub-post-pdv-diagram';
 import { HubPostRatingComponent } from './hub-post-rating';
 import { HubPostTimeComponent } from './hub-post-time';
 import { HubPostTitleComponent } from './hub-post-title';
+import { HubProfileCardComponent } from './hub-profile-card';
+import { HubRelatedPostsComponent } from './hub-related-posts';
 import { HubSimpleTextEditorComponent } from './hub-simple-text-editor';
 import { HubShortPostComponent } from './hub-short-post';
 import { HubStatisticsCardComponent } from './hub-statistics-card';
 import { HubFeedNavigationComponent } from './hub-feed-navigation';
 import { HubFeedPostComponent } from './hub-feed-post';
-import { HubTextEditorComponent } from './hub-text-editor';
 import { HubTopPostsComponent } from './hub-top-posts';
 import { HubWallPostsComponent } from './hub-wall-posts';
 
@@ -47,17 +49,19 @@ export const HUB_COMPONENTS = [
   HubPostCardComponent,
   HubPostDialogComponent,
   HubPostContentComponent,
+  HubPostLayoutComponent,
   HubPostPdvComponent,
   HubPostPdvDiagramComponent,
   HubPostRatingComponent,
   HubPostTimeComponent,
   HubPostTitleComponent,
+  HubProfileCardComponent,
+  HubRelatedPostsComponent,
   HubSimpleTextEditorComponent,
   HubShortPostComponent,
   HubStatisticsCardComponent,
   HubFeedNavigationComponent,
   HubFeedPostComponent,
-  HubTextEditorComponent,
   HubTopPostsComponent,
   HubWallPostsComponent,
 ];

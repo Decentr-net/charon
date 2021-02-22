@@ -1,4 +1,4 @@
-import { Injector } from '@angular/core';
+import { Injector, TrackByFunction } from '@angular/core';
 import { BehaviorSubject, forkJoin, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
@@ -147,7 +147,7 @@ export abstract class HubPostsService<T extends PostWithLike = PostWithAuthor> {
     const post = this.getPost(postId);
 
     const update: Partial<Pick<PostWithAuthor, 'likeWeight' | 'likesCount' | 'dislikesCount'>> = {
-      ...this.getPostLikesCountUpdate(post, likeWeight),
+      ...HubPostsService.getPostLikesCountUpdate(post, likeWeight),
       likeWeight,
     };
 
@@ -189,6 +189,8 @@ export abstract class HubPostsService<T extends PostWithLike = PostWithAuthor> {
 
     return this.profileMap.get(walletAddress);
   }
+
+  public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;
 
   protected abstract loadPosts(fromPost: Post | undefined, count: number): Observable<Post[]>;
 
@@ -265,7 +267,7 @@ export abstract class HubPostsService<T extends PostWithLike = PostWithAuthor> {
     );
   }
 
-  private updatePostsWithLikes<T extends Post>(
+  public updatePostsWithLikes<T extends Post>(
     posts: T[],
   ): Observable<(T & { likeWeight: LikeWeight })[]> {
     if (!posts.length) {
@@ -296,7 +298,7 @@ export abstract class HubPostsService<T extends PostWithLike = PostWithAuthor> {
     );
   }
 
-  private getPostLikesCountUpdate(
+  public static getPostLikesCountUpdate<T extends PostWithLike>(
     post: T,
     newLikeWeight: LikeWeight,
   ): Partial<Pick<T, 'likesCount' | 'dislikesCount'>> {

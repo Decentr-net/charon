@@ -5,6 +5,7 @@ import { SvgIcon } from './svg/svg-icon.model';
 export type IconNameSubset<T extends Readonly<SvgIcon[]>> = T[number]['name'];
 
 export * from './svg/svg-add-image.icon';
+export * from './svg/svg-arrow-left.icon';
 export * from './svg/svg-chart-arrow-down.icon';
 export * from './svg/svg-chart-arrow-flat.icon';
 export * from './svg/svg-chart-arrow-up.icon';

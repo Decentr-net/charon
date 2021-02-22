@@ -3,8 +3,8 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { LikeWeight, Post } from 'decentr-js';
 
-import { AuthService } from '../../core/auth';
-import { PostWithAuthor } from '../models/post';
+import { AuthService } from '@core/auth';
+import { PostWithLike } from '../models/post';
 import { HubPostsService } from './hub-posts.service';
 
 @Injectable()
@@ -12,8 +12,8 @@ export class HubLikesService {
   public static isLikeUpdating: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
-    private authService: AuthService,
-    private hubPostsService: HubPostsService,
+    protected authService: AuthService,
+    protected hubPostsService: HubPostsService,
   ) {
   }
 
@@ -30,7 +30,7 @@ export class HubLikesService {
     );
   }
 
-  public getPostChanges(postId: Post['uuid']): Observable<PostWithAuthor> {
+  public getPostChanges(postId: Post['uuid']): Observable<PostWithLike> {
     return this.hubPostsService.getPostChanges(postId);
   }
 

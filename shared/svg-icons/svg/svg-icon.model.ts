@@ -2,6 +2,7 @@
 
 export type SvgIconName =
   | 'add-image'
+  | 'arrow-left'
   | 'chart-arrow-down'
   | 'chart-arrow-flat'
   | 'chart-arrow-up'

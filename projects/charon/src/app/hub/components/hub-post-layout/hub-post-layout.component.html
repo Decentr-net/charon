@@ -1,0 +1,35 @@
+<div
+  class="hub-post-layout__header"
+  [class.mod-overlay]="!!headerBackgroundImage"
+  [style.background-image]="headerBackgroundImage"
+>
+  <div class="hub-post-layout__header-content">
+    <div>
+      <div appTypeface="paragraph">
+        <ng-content select="[category]"></ng-content>
+      </div>
+
+      <div class="hub-post-layout__title" appTypeface="header-3">
+        <ng-content select="[title]"></ng-content>
+      </div>
+
+      <ng-content select="[headerContent]"></ng-content>
+    </div>
+  </div>
+</div>
+
+<div class="hub-post-layout__content" appTypeface="paragraph">
+  <div class="hub-post-layout__content__main-column">
+    <ng-content select="[content]"></ng-content>
+  </div>
+
+  <div>
+    <ng-content select="[sidebar]"></ng-content>
+  </div>
+</div>
+
+<div class="hub-post-layout__footer">
+  <div class="hub-post-layout__footer-content">
+    <ng-content select="[footer]"></ng-content>
+  </div>
+</div>

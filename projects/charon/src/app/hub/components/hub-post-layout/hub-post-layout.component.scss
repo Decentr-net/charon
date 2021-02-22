@@ -1,0 +1,80 @@
+@import 'variables';
+@import 'mixins';
+
+$hub-post-layout--column-gap: $grid-step * 3;
+$hub-post-layout--column-count: 12;
+$hub-post-layout--main-column-width: 9;
+$hub-post-layout--side-column-width: $hub-post-layout--column-count - $hub-post-layout--main-column-width;
+$hub-post-layout--grid-columns: minmax(0, #{$hub-post-layout--main-column-width}fr) minmax(0, #{$hub-post-layout--side-column-width}fr);
+
+:host {
+  display: block;
+}
+
+.hub-post-layout__header {
+  background-color: $color-background;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: $color-white;
+  height: 480px;
+  padding-top: $grid-step * 4;
+  position: relative;
+  width: 100%;
+
+  &.mod-overlay:before {
+    background-color: $color-black;
+    bottom: 0;
+    content: '';
+    left: 0;
+    opacity: .24;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+.hub-post-layout__header-content,
+.hub-post-layout__content {
+  column-gap: $hub-post-layout--column-gap;
+  display: grid;
+  grid-template-columns: $hub-post-layout--grid-columns;
+  margin: auto;
+  padding: 0 $page-side-padding;
+  position: relative;
+  width: $page-width;
+}
+
+.hub-post-layout__title {
+  @include clamp(4);
+
+  font-weight: 700;
+  margin-top: $grid-step * 2;
+}
+
+.hub-post-layout__content {
+  margin-top: $grid-step * 3;
+  padding-bottom: $grid-step * 5;
+
+  .hub-post-layout__content__main-column ::ng-deep {
+    img {
+      display: block;
+      margin: $grid-step * 3 auto;
+      max-height: 900px;
+    }
+  }
+}
+
+.hub-post-layout__footer {
+  background-color: $color-background;
+  width: 100%;
+
+  .hub-post-layout__footer-content {
+    margin: auto;
+    padding: 0 $page-side-padding;
+    width: $page-width;
+
+    &:not(:empty) {
+      padding: $grid-step * 2 $page-side-padding $grid-step * 3;
+    }
+  }
+}
