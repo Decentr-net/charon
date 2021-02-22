@@ -18,7 +18,7 @@
     <div class="hub-header__bar-actions-container">
       <a
         class="hub-header__bar-button"
-        appHubCreatePostDialog
+        [routerLink]="[hubRoute.PostCreate]"
       >
         <svg-icon class="hub-header__bar-button-icon" key="edit"></svg-icon>
         {{ translate('new_post') }}

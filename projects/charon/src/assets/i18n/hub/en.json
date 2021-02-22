@@ -21,6 +21,9 @@
       "platform": "Platform"
     }
   },
+  "hub_category_select": {
+    "placeholder": "Choose post topic"
+  },
   "hub_create_post_dialog": {
     "form": {
       "text": {
@@ -78,6 +81,25 @@
   "hub_infinite_posts_container": {
     "load_more_posts": "Load more posts",
     "loading_more_posts": "Loading more posts"
+  },
+  "hub_post_editor": {
+    "image_uploader": {
+      "empty": {
+        "subtitle": "You can create a post without title image.",
+        "title": "Upload title image"
+      },
+      "filled": {
+        "subtitle": {
+          "to_another": "to another one",
+          "change": "change it",
+          "or": "or"
+        },
+        "title": "Clear title image"
+      }
+    },
+    "title": {
+      "placeholder": "Title"
+    }
   },
   "hub_pdv_statistics": {
     "activity_from": "Activity from {{date}}",

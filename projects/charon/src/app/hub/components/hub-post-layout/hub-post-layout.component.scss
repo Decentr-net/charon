@@ -17,7 +17,7 @@ $hub-post-layout--grid-columns: minmax(0, #{$hub-post-layout--main-column-width}
   background-size: cover;
   color: $color-white;
   height: 480px;
-  padding-top: $grid-step * 4;
+  padding: $grid-step * 4 0 $grid-step * 2;
   position: relative;
   width: 100%;
 
@@ -33,6 +33,10 @@ $hub-post-layout--grid-columns: minmax(0, #{$hub-post-layout--main-column-width}
   }
 }
 
+.hub-post-layout__header-content {
+  height: 100%;
+}
+
 .hub-post-layout__header-content,
 .hub-post-layout__content {
   column-gap: $hub-post-layout--column-gap;
@@ -44,9 +48,15 @@ $hub-post-layout--grid-columns: minmax(0, #{$hub-post-layout--main-column-width}
   width: $page-width;
 }
 
+.hub-post-layout__header-content__main-column {
+  display: flex;
+  flex-direction: column;
+}
+
 .hub-post-layout__title {
   @include clamp(4);
 
+  flex-grow: 1;
   font-weight: 700;
   margin-top: $grid-step * 2;
 }

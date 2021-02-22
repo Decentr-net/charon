@@ -16,6 +16,7 @@ import {
   HubPostIdRouteParam,
   HubPostOwnerRouteParam
 } from './hub-route';
+import { PostCreatePageComponent } from './pages/post-create-page';
 
 const FEED_PAGE_CHILDREN_ROUTES: Routes = [
   {
@@ -54,6 +55,10 @@ const ROUTES: Routes = [
         path: HubRoute.Feed,
         component: FeedPageComponent,
         children: FEED_PAGE_CHILDREN_ROUTES,
+      },
+      {
+        path: HubRoute.PostCreate,
+        component: PostCreatePageComponent,
       },
       {
         path: HubRoute.Posts,

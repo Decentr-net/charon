@@ -1,11 +1,38 @@
-<ng-container *transloco="let translate">
-  <button
-    class="hub-category-select__button"
-    type="button"
-    *ngFor="let category of categories"
-    [class.mod-active]="category === value"
-    (click)="onCategorySelect(category)"
+<mat-form-field
+  *transloco="let translate"
+  floatLabel="never"
+  appearance="none"
+  color="none"
+>
+  <mat-select
+    [ngModel]="value"
+    (ngModelChange)="onCategorySelect($event)"
+    [placeholder]="translate('hub.hub_category_select.placeholder')"
   >
-    {{ translate(translationMap[category]) }}
-  </button>
-</ng-container>
+    <mat-select-trigger>
+      <ng-template
+        [ngTemplateOutlet]="option"
+        [ngTemplateOutletContext]="{ $implicit: value }"
+      ></ng-template>
+    </mat-select-trigger>
+
+    <mat-option
+      *ngFor="let category of categories"
+      [value]="category"
+    >
+      <ng-template
+        [ngTemplateOutlet]="option"
+        [ngTemplateOutletContext]="{ $implicit: category }"
+      ></ng-template>
+    </mat-option>
+  </mat-select>
+
+  <ng-template #option let-category>
+    <span
+      class="hub-category-select__category-dot"
+      [appHubPostCategoryColor]="category"
+    ></span>
+
+    <span appTypeface="paragraph">{{ translate(translationMap[category]) }}</span>
+  </ng-template>
+</mat-form-field>
