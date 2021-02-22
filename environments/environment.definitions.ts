@@ -1,7 +1,5 @@
 export abstract class Environment {
   abstract awsStorage: string;
-  abstract cerberusUrl: string;
-  abstract chainId: string;
   abstract currencyApi: string;
   abstract image: {
     api: string;

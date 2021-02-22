@@ -45,14 +45,10 @@ import { TOOLBAR_SERVICES } from './services';
     AppService,
     AuthBrowserStorageService,
     NetworkBrowserStorageService,
+    PDVService,
     {
       provide: Environment,
       useValue: environment,
-    },
-    {
-      provide: PDVService,
-      useFactory: (environment: Environment) => new PDVService(environment.chainId, environment.cerberusUrl),
-      deps: [Environment],
     },
     {
       provide: LockBrowserStorageService,

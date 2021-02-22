@@ -50,7 +50,7 @@ export class ConfigService {
 
   public getChainId(): Observable<string> {
     return this.getConfig().pipe(
-      map(({ chainId }) => chainId),
+      map(({ network }) => network.chainId),
     );
   }
 

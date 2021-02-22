@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { defer, from, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Account, Decentr, PublicProfile, Wallet } from 'decentr-js';
 
 import { Environment } from '@environments/environment.definitions';
 import { UserPrivate } from '@shared/services/auth';
+import { map, mergeMap } from 'rxjs/operators';
+import { ConfigService } from '@shared/services/configuration';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserApiService {
   constructor(
-    private http: HttpClient,
+    private configService: ConfigService,
     private environment: Environment,
+    private http: HttpClient,
   ) {
   }
 
@@ -31,14 +34,15 @@ export class UserApiService {
   }
 
   public getAccount(api: string, walletAddress: Wallet['address']): Observable<Account> {
-    const decentr = this.createDecentrConnector(api);
-    return defer(() => decentr.getAccount(walletAddress));
+    return this.createDecentrConnector(api).pipe(
+      mergeMap((decentr) => decentr.getAccount(walletAddress)),
+    );
   }
 
   public getModeratorAddresses(api: string) {
-    const decentr = this.createDecentrConnector(api);
-
-    return defer(() => decentr.getModeratorAddresses());
+    return this.createDecentrConnector(api).pipe(
+      mergeMap((decentr) => decentr.getModeratorAddresses()),
+    );
   }
 
   public getPrivateProfile(
@@ -46,18 +50,20 @@ export class UserApiService {
     walletAddress: Wallet['address'],
     privateKey: Wallet['privateKey'],
   ): Observable<UserPrivate> {
-    const decentr = this.createDecentrConnector(api);
-
-    return from(decentr.getPrivateProfile<UserPrivate>(walletAddress, privateKey));
+    return this.createDecentrConnector(api).pipe(
+      mergeMap((decentr) => decentr.getPrivateProfile<UserPrivate>(walletAddress, privateKey)),
+    );
   }
 
   public getPublicProfile(api: string, walletAddress: Wallet['address']): Observable<PublicProfile> {
-    const decentr = this.createDecentrConnector(api);
-
-    return from(decentr.getPublicProfile(walletAddress));
+    return this.createDecentrConnector(api).pipe(
+      mergeMap((decentr) => decentr.getPublicProfile(walletAddress)),
+    );
   }
 
-  private createDecentrConnector(api: string): Decentr {
-    return new Decentr(api, this.environment.chainId);
+  private createDecentrConnector(api: string): Observable<Decentr> {
+    return this.configService.getChainId().pipe(
+      map((chainId) => new Decentr(api, chainId)),
+    );
   }
 }
