@@ -15,7 +15,7 @@ import { environment } from '@environments/environment';
 import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { PDVService } from '@shared/services/pdv';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
-import { svgClose, svgLogo, svgNotification } from '@shared/svg-icons';
+import { svgClose, svgLogo } from '@shared/svg-icons';
 import { TranslocoRootModule } from './transloco';
 import { TOOLBAR_SERVICES } from './services';
 
@@ -36,7 +36,6 @@ import { TOOLBAR_SERVICES } from './services';
       icons: [
         svgClose,
         svgLogo,
-        svgNotification,
       ],
     }),
     TranslocoRootModule,
@@ -46,14 +45,10 @@ import { TOOLBAR_SERVICES } from './services';
     AppService,
     AuthBrowserStorageService,
     NetworkBrowserStorageService,
+    PDVService,
     {
       provide: Environment,
       useValue: environment,
-    },
-    {
-      provide: PDVService,
-      useFactory: (environment: Environment) => new PDVService(environment.chainId),
-      deps: [Environment],
     },
     {
       provide: LockBrowserStorageService,

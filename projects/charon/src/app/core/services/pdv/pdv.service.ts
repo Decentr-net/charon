@@ -27,7 +27,7 @@ export class PDVService {
   private balance$: Observable<string>;
   private balanceWithMargin$: Observable<BalanceValueDynamic>;
   private pDVStatChartPoints$: Observable<PDVStatChartPoint[]>;
-  private nativePdvService: NativePDVService = new NativePDVService(this.environment.chainId);
+  private nativePdvService: NativePDVService = new NativePDVService();
   private pdvStorageService: PDVStorageService = new PDVStorageService();
 
   constructor(

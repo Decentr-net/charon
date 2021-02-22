@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { from, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   Decentr,
   PopularPostsPeriod,
@@ -10,19 +10,22 @@ import {
   Wallet,
 } from 'decentr-js';
 
-import { Environment } from '@environments/environment.definitions';
+import { ConfigService } from '@shared/services/configuration';
+import { map, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class PostsApiService {
-  constructor(private environment: Environment) {
+  constructor(
+    private configService: ConfigService,
+  ) {
   }
 
   public getPost(
     api: string,
     postIdentificationParameters: PostIdentificationParameters,
   ): Observable<Post> {
-    return from(
-      this.createDecentrConnector(api).getPost(postIdentificationParameters)
+    return this.createDecentrConnector(api).pipe(
+      mergeMap((decentr) => decentr.getPost(postIdentificationParameters)),
     );
   }
 
@@ -30,9 +33,8 @@ export class PostsApiService {
     api: string,
     filterOptions?: PostsFilterOptions,
   ): Observable<Post[]> {
-    return from(
-      this.createDecentrConnector(api)
-        .getLatestPosts(filterOptions),
+    return this.createDecentrConnector(api).pipe(
+      mergeMap((decentr) => decentr.getLatestPosts(filterOptions)),
     );
   }
 
@@ -41,9 +43,8 @@ export class PostsApiService {
     period: PopularPostsPeriod,
     filterOptions?: PostsFilterOptions,
   ): Observable<Post[]> {
-    return from(
-      this.createDecentrConnector(api)
-        .getPopularPosts(period, filterOptions)
+    return this.createDecentrConnector(api).pipe(
+      mergeMap((decentr) => decentr.getPopularPosts(period, filterOptions)),
     );
   }
 
@@ -52,9 +53,8 @@ export class PostsApiService {
     walletAddress: Wallet['address'],
     filterOptions?: UserPostsFilterOptions,
   ): Observable<Post[]> {
-    return from(
-      this.createDecentrConnector(api)
-      .getUserPosts(walletAddress, filterOptions),
+    return this.createDecentrConnector(api).pipe(
+      mergeMap((decentr) => decentr.getUserPosts(walletAddress, filterOptions)),
     );
   }
 
@@ -62,12 +62,14 @@ export class PostsApiService {
     api: string,
     walletAddress: Wallet['address'],
   ): Observable<any> {
-    return from(
-      this.createDecentrConnector(api).getLikedPosts(walletAddress),
+    return this.createDecentrConnector(api).pipe(
+      mergeMap((decentr) => decentr.getLikedPosts(walletAddress)),
     );
   }
 
-  private createDecentrConnector(api: string): Decentr {
-    return new Decentr(api, this.environment.chainId);
+  private createDecentrConnector(api: string): Observable<Decentr> {
+    return this.configService.getChainId().pipe(
+      map((chainId) => new Decentr(api, chainId)),
+    );
   }
 }

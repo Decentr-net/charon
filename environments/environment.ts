@@ -6,7 +6,6 @@ import { Environment } from './environment.definitions';
 
 export const environment: Environment = {
   awsStorage: 'https://tf-decentr-public-testnet.s3.us-east-2.amazonaws.com',
-  chainId: 'testnet',
   currencyApi: 'https://api.coingecko.com/api/v3',
   image: {
     api: 'https://api.imgbb.com/1/upload',
@@ -16,7 +15,6 @@ export const environment: Environment = {
   rest: {
     local: 'http://localhost:1317',
   },
-  vulcanApi: 'https://vulcan.testnet.decentr.xyz/v1',
 };
 
 /*
