@@ -9,5 +9,4 @@ export abstract class Environment {
   abstract rest: {
     local: string;
   };
-  abstract vulcanApi: string;
 }

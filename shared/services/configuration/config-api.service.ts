@@ -16,6 +16,9 @@ export interface Config {
     rest: string[];
   };
   minVersion: string;
+  vulcan: {
+    url: string;
+  };
 }
 
 @Injectable()

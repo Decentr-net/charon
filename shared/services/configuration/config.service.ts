@@ -71,4 +71,10 @@ export class ConfigService {
       map((config) => config.cerberus.rewards),
     );
   }
+
+  public getVulcanUrl(): Observable<string> {
+    return this.getConfig().pipe(
+      map(({ vulcan }) => vulcan.url),
+    );
+  }
 }

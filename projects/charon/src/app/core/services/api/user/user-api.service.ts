@@ -20,17 +20,23 @@ export class UserApiService {
   }
 
   public createUser(email: string, walletAddress: Wallet['address']): Observable<void> {
-    return this.http.post<void>(`${this.environment.vulcanApi}/register`, {
-      address: walletAddress,
-      email,
-    });
+    return this.configService.getVulcanUrl().pipe(
+      mergeMap((vulcanUrl) => this.http.post<void>(`${vulcanUrl}/v1/register`, {
+          address: walletAddress,
+          email,
+        })
+      ),
+    );
   }
 
   public confirmUser(code: string, email: string): Observable<void> {
-    return this.http.post<void>(`${this.environment.vulcanApi}/confirm`, {
-      code,
-      email,
-    });
+    return this.configService.getVulcanUrl().pipe(
+      mergeMap((vulcanUrl) => this.http.post<void>(`${vulcanUrl}/v1/confirm`, {
+          code,
+          email,
+        })
+      ),
+    );
   }
 
   public getAccount(api: string, walletAddress: Wallet['address']): Observable<Account> {
