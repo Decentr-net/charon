@@ -101,6 +101,9 @@
       "placeholder": "Title"
     }
   },
+  "hub_post_text_editor": {
+    "placeholder": "Start your post with..."
+  },
   "hub_pdv_statistics": {
     "activity_from": "Activity from {{date}}",
     "estimated_balance": "In progress: {{estimatedBalance}} PDV",

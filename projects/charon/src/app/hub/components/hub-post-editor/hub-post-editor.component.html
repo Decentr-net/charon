@@ -17,7 +17,10 @@
       <ng-template [ngTemplateOutlet]="previewImage ? imageUploaderFilled : imageUploaderEmpty"></ng-template>
     </div>
 
-    <div ngProjectAs="[content]"></div>
+    <app-hub-post-text-editor
+      ngProjectAs="[content]"
+      formControlName="text"
+    ></app-hub-post-text-editor>
   </app-hub-post-layout>
 
   <ng-template #imageUploaderEmpty>

@@ -1,0 +1,8 @@
+<quill-editor
+  class="hub-post-text-editor__quill"
+  *transloco="let translate"
+  [formControl]="quillControl"
+  (onEditorCreated)="onEditorCreated($event)"
+  (onSelectionChanged)="onSelectionChanged($event)"
+  [placeholder]="translate('hub.hub_post_text_editor.placeholder')"
+></quill-editor>
