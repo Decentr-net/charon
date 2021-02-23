@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { from, interval, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { FormControl } from '@ngneat/reactive-forms';
@@ -8,6 +9,8 @@ import { PostCreate } from 'decentr-js';
 
 import { ONE_SECOND } from '@shared/utils/date';
 import { svgPublish } from '@shared/svg-icons';
+import { AppRoute } from '../../../app-route';
+import { HubRoute } from '../../hub-route';
 import { HUB_HEADER_ACTIONS_SLOT } from '../../components/hub-header';
 import { PostCreatePageService } from './post-create-page.service';
 
@@ -30,6 +33,7 @@ export class PostCreatePageComponent implements OnInit {
 
   constructor(
     private postCreatePageService: PostCreatePageService,
+    private router: Router,
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register(svgPublish);
@@ -50,9 +54,11 @@ export class PostCreatePageComponent implements OnInit {
   }
 
   public createPost(): void {
-    this.postCreatePageService.createPost(this.postControl.value).pipe(
+    const post = this.postControl.value;
+
+    this.postCreatePageService.createPost(post).pipe(
       untilDestroyed(this),
-    ).subscribe();
+    ).subscribe(() => this.router.navigate([AppRoute.Hub, HubRoute.Posts, post.category]));
   }
 
   private createAutoSaveObservable(): Observable<void> {
