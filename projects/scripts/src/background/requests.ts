@@ -1,6 +1,6 @@
-import { Observable, Subject } from 'rxjs';
+import { interval, Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil, tap } from 'rxjs/operators';
-import { browser, WebRequest } from 'webextension-polyfill-ts';
+import { browser, Events, WebRequest } from 'webextension-polyfill-ts';
 
 import OnBeforeRequestDetailsType = WebRequest.OnBeforeRequestDetailsType;
 import OnBeforeRequestDetailsTypeRequestBodyType = WebRequest.OnBeforeRequestDetailsTypeRequestBodyType;
@@ -8,122 +8,122 @@ import OnBeforeRedirectDetailsType = WebRequest.OnBeforeRedirectDetailsType;
 import OnCompletedDetailsType = WebRequest.OnCompletedDetailsType;
 import RequestFilter = WebRequest.RequestFilter;
 import { objectContains } from '../helpers/object';
+import { ONE_SECOND } from '../../../../shared/utils/date';
 
 const BASE_REQUEST_FILTER: RequestFilter = {
   urls: ['<all_urls>'],
   types: ['main_frame', 'xmlhttprequest'],
 };
 
-export const listenRequestsOnBeforeSend = (
+type RequestDetails = OnBeforeRequestDetailsType | OnBeforeRedirectDetailsType | OnCompletedDetailsType;
+
+type RequestDetailsStreamFn<T extends RequestDetails> = (
+  requestFilter: Partial<RequestFilter>,
+  httpMethod?: string,
+) => Observable<T>;
+
+const listenRequestsDetails = <T extends RequestDetails>(
+  event: Events.Event<(details: T) => void>,
   requestFilter: Partial<RequestFilter> = {},
   httpMethod?: string,
-): Observable<OnBeforeRequestDetailsType> => {
-  return new Observable<OnBeforeRequestDetailsType>((subscriber) => {
-    const listener = (requestDetails: OnBeforeRequestDetailsType) => subscriber.next(requestDetails);
+  listenerExtraParams?: any[],
+): Observable<T> => {
+  return new Observable<T>((subscriber) => {
+    const listener = (requestDetails: T) => {
+      if (!httpMethod || (requestDetails.method === httpMethod)) {
+        subscriber.next(requestDetails);
+      }
+    };
 
-    browser.webRequest.onBeforeRequest.addListener(
+    event.addListener(
       listener,
       {
         ...BASE_REQUEST_FILTER,
         ...requestFilter,
       },
-      ['requestBody'],
+      listenerExtraParams,
     );
 
-    return () => browser.webRequest.onBeforeRequest.removeListener(listener);
-  }).pipe(
-    filter((details) => !httpMethod || (details.method === httpMethod)),
+    return () => event.removeListener(listener);
+  });
+}
+
+const listenRequestsOnBeforeSend: RequestDetailsStreamFn<OnBeforeRequestDetailsType> = (
+  requestFilter: Partial<RequestFilter> = {},
+  httpMethod?: string,
+): Observable<OnBeforeRequestDetailsType> => {
+  return listenRequestsDetails(
+    browser.webRequest.onBeforeRequest,
+    requestFilter,
+    httpMethod,
+    ['requestBody'],
   );
 };
 
-export const listenRequestsOnBeforeRedirect = (
+const listenRequestsOnBeforeRedirect: RequestDetailsStreamFn<OnBeforeRequestDetailsType> = (
   requestFilter: Partial<RequestFilter> = {},
   httpMethod?: string,
 ): Observable<OnBeforeRedirectDetailsType> => {
-  return new Observable<OnBeforeRedirectDetailsType>((subscriber) => {
-    const listener = (requestDetails: OnBeforeRedirectDetailsType) => subscriber.next(requestDetails);
-
-    browser.webRequest.onBeforeRedirect.addListener(
-      listener,
-      {
-        ...BASE_REQUEST_FILTER,
-        ...requestFilter,
-      },
-    );
-
-    return () => browser.webRequest.onBeforeRedirect.removeListener(listener);
-  }).pipe(
-    filter((details) => !httpMethod || (details.method === httpMethod))
-  );
+  return listenRequestsDetails(browser.webRequest.onBeforeRedirect, requestFilter, httpMethod);
 };
 
-export const listenRequestsBeforeRedirectWithBody = (
+const listenRequestsOnCompleted: RequestDetailsStreamFn<OnCompletedDetailsType> = (
+  requestFilter: Partial<RequestFilter> = {},
+  httpMethod?: string,
+): Observable<OnCompletedDetailsType> => {
+  return listenRequestsDetails(browser.webRequest.onCompleted, requestFilter, httpMethod);
+};
+
+const listenRequestsWithBody = <T extends RequestDetails>(
+  requestEndStreamFn: RequestDetailsStreamFn<T>,
   requestFilter: Partial<RequestFilter> = {},
   httpMethod?: string,
 ): Observable<OnBeforeRequestDetailsType> => {
   return new Observable<OnBeforeRequestDetailsType>((subscriber) => {
-    const requestsStore = new Map<string, OnBeforeRequestDetailsType>();
+    const requestsStore = new Map<string, { timestamp: number, details: OnBeforeRequestDetailsType }>();
     const unsubscribe$: Subject<void> = new Subject();
 
     listenRequestsOnBeforeSend(requestFilter, httpMethod).pipe(
       filter((details) => !!details.requestBody),
       takeUntil(unsubscribe$),
-    ).subscribe(details => requestsStore.set(details.requestId, details));
+    ).subscribe(details => requestsStore.set(details.requestId, { timestamp: Date.now(), details }));
 
-    listenRequestsOnBeforeRedirect(requestFilter, httpMethod).pipe(
+    requestEndStreamFn(requestFilter, httpMethod).pipe(
       filter((details) => requestsStore.has(details.requestId)),
-      map((details) => requestsStore.get(details.requestId)),
+      map((details) => requestsStore.get(details.requestId).details),
       tap((details) => requestsStore.delete(details.requestId)),
       takeUntil(unsubscribe$),
     ).subscribe((details) => subscriber.next(details));
 
+    interval(ONE_SECOND * 30).pipe(
+      takeUntil(unsubscribe$),
+    ).subscribe(() => {
+      const keysToRemove = [];
+      requestsStore.forEach((value, key) => {
+        if (value.timestamp < Date.now() - ONE_SECOND * 30) {
+          keysToRemove.push(key);
+        }
+      });
+
+      keysToRemove.forEach((key) => requestsStore.delete(key));
+    });
+
     return () => unsubscribe$.next();
   });
-};
+}
 
-export const listenRequestsOnCompleted = (
+export const listenRequestsBeforeRedirectWithBody = (
   requestFilter: Partial<RequestFilter> = {},
   httpMethod?: string,
-): Observable<OnCompletedDetailsType> => {
-  return new Observable<OnCompletedDetailsType>((subscriber) => {
-    const listener = (requestDetails: OnCompletedDetailsType) => subscriber.next(requestDetails);
-
-    browser.webRequest.onBeforeRequest.addListener(
-      listener,
-      {
-        ...BASE_REQUEST_FILTER,
-        ...requestFilter,
-      },
-    );
-
-    return () => browser.webRequest.onCompleted.removeListener(listener);
-  }).pipe(
-    filter((details) => !httpMethod || (details.method === httpMethod))
-  );
+): Observable<OnBeforeRequestDetailsType> => {
+  return listenRequestsWithBody(listenRequestsOnBeforeRedirect, requestFilter, httpMethod);
 };
 
 export const listenRequestsOnCompletedWithBody = (
   requestFilter: Partial<RequestFilter> = {},
   httpMethod?: string,
 ): Observable<OnBeforeRequestDetailsType> => {
-  return new Observable<OnBeforeRequestDetailsType>((subscriber) => {
-    const requestsStore = new Map<string, OnBeforeRequestDetailsType>();
-    const unsubscribe$: Subject<void> = new Subject();
-
-    listenRequestsOnBeforeSend(requestFilter, httpMethod).pipe(
-      filter((details) => !!details.requestBody),
-      takeUntil(unsubscribe$),
-    ).subscribe(details => requestsStore.set(details.requestId, details));
-
-    listenRequestsOnCompleted(requestFilter, httpMethod).pipe(
-      filter((details) => requestsStore.has(details.requestId)),
-      map((details) => requestsStore.get(details.requestId)),
-      tap((details) => requestsStore.delete(details.requestId)),
-      takeUntil(unsubscribe$),
-    ).subscribe((details) => subscriber.next(details));
-
-    return () => unsubscribe$.next();
-  });
+  return listenRequestsWithBody(listenRequestsOnCompleted, requestFilter, httpMethod);
 };
 
 export const requestBodyContains = (
