@@ -50,7 +50,10 @@ $hub-post-layout--grid-columns: ($hub-post-layout--column-width * $hub-post-layo
   display: grid;
   grid-template-columns: $hub-post-layout--grid-columns;
   margin: auto;
-  padding: 0 $page-side-padding;
+  position: relative;
+}
+
+.hub-post-layout__content__side-column {
   position: relative;
 }
 

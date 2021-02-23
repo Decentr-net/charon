@@ -1,10 +1,19 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output, ViewChild,
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { fromEvent, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { fromEvent, merge, Observable } from 'rxjs';
+import { distinctUntilChanged, filter, map, switchMapTo, takeUntil } from 'rxjs/operators';
 import { ControlValueAccessor, FormControl } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Range, SelectionChange } from 'ngx-quill';
+import { QuillEditorComponent, Range as QuillRange, SelectionChange } from 'ngx-quill';
 
 @UntilDestroy()
 @Component({
@@ -24,16 +33,20 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
   @Input() public imageSource: Observable<string>;
   @Input() public ignoreSelectionReset: HTMLElement[];
 
+  @Output() public readonly cursorPositionTopChange: EventEmitter<number> = new EventEmitter();
+
+  @ViewChild(QuillEditorComponent) public quillEditorComponent: QuillEditorComponent;
+
   public quillControl: FormControl<string> = new FormControl('');
 
   private quillEditorElement: HTMLElement;
   private quillEditorInstance: any;
 
-  private selectionRange: Range;
+  private selectionRange: QuillRange;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    private elementRef: ElementRef,
+    private elementRef: ElementRef<HTMLElement>,
   ) {
     super();
   }
@@ -42,7 +55,7 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
     fromEvent(document, 'click').pipe(
       filter((event) => {
         return ![this.elementRef.nativeElement, ...this.ignoreSelectionReset || []]
-          .some(element => element.contains(event.target));
+          .some(element => element.contains(event.target as Node));
       }),
       untilDestroyed(this),
     ).subscribe(() => this.selectionRange = undefined);
@@ -52,6 +65,10 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
         untilDestroyed(this),
       ).subscribe((imageSrc) => this.addImage(imageSrc));
     }
+
+    this.quillControl.value$.pipe(
+      untilDestroyed(this),
+    ).subscribe((value) => this.onChange(value));
   }
 
   public onEditorCreated(quill: any): void {
@@ -59,6 +76,7 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
     this.quillEditorInstance = quill.editor;
 
     this.disableImagesPaste(quill.root);
+    this.initCursorPositionTopTracker(quill.root);
     this.removeFormattingOnPaste(quill);
   }
 
@@ -73,17 +91,13 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
   }
 
   private addImage(imageSrc: string): void {
-    if (this.selectionRange) {
-      this.quillEditorInstance.deleteText(this.selectionRange.index, this.selectionRange.length);
-      this.quillEditorInstance.insertEmbed(this.selectionRange.index, 'image', imageSrc);
-      this.quillControl.setValue(this.quillEditorElement.innerHTML);
-    } else {
-      const img = document.createElement('img');
-      img.src = imageSrc;
-      this.quillControl.setValue((this.quillControl.value || '') + img.outerHTML);
-    }
+    const insertIndex = this.selectionRange?.index || this.quillEditorComponent.quillEditor.getLength();
 
-    this.onChange(this.quillControl.value);
+    this.quillEditorInstance.deleteText(insertIndex, this.selectionRange?.length || 0);
+    this.quillEditorInstance.insertEmbed(insertIndex, 'image', imageSrc);
+    // this.quillControl.setValue(this.quillEditorElement.innerHTML);
+
+    this.quillEditorComponent.quillEditor.setSelection(insertIndex + 1);
   }
 
   private disableImagesPaste(element: HTMLElement): void {
@@ -103,6 +117,29 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
         }
       }
     });
+  }
+
+  private initCursorPositionTopTracker(quillElement: HTMLElement): void {
+    merge(
+      fromEvent(quillElement, 'selectstart'),
+      fromEvent(quillElement, 'keydown'),
+    ).pipe(
+      switchMapTo(fromEvent(document, 'selectionchange').pipe(
+        takeUntil(fromEvent(quillElement, 'blur')),
+      )),
+      map(() => document.getSelection().getRangeAt(0)),
+      filter(Boolean),
+      map((range: Range) => {
+        const selectionRect = range.getBoundingClientRect();
+        const quillElementRect = this.quillEditorElement.getBoundingClientRect();
+
+        return selectionRect.bottom > 0
+          ? selectionRect.top - quillElementRect.top
+          : quillElementRect.height - parseInt(getComputedStyle(this.quillEditorElement).lineHeight);
+      }),
+      distinctUntilChanged(),
+      untilDestroyed(this),
+    ).subscribe((y) => this.cursorPositionTopChange.emit(y));
   }
 
   private removeFormattingOnPaste(quill: any): void {

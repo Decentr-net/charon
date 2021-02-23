@@ -21,7 +21,29 @@
       <ng-template [ngTemplateOutlet]="previewImage ? imageUploaderFilled : imageUploaderEmpty"></ng-template>
     </div>
 
+    <div
+      class="hub-post-editor__text-image-uploader"
+      [class.mod-moved]="textImagePositionTop > 0"
+      [class.mod-limit-reached]="imageLimitReached$ | async"
+      [style.top.px]="textImagePositionTop"
+      ngProjectAs="[contentLeftColumn]"
+    >
+      <div
+        #textImageUploaderElement
+        class="hub-post-editor__text-image-icon-container"
+        appHubImageUploader
+        #textImageUploader="appHubImageUploader"
+      >
+        <svg-icon class="hub-post-editor__text-image-icon" key="add-image"></svg-icon>
+      </div>
+
+      <div appTypeface="caption">{{ imagesCount$ | async }} / {{ maxImagesCount }}</div>
+    </div>
+
     <app-hub-post-text-editor
+      [imageSource]="textImageUploader.uploaded"
+      [ignoreSelectionReset]="[textImageUploaderElement]"
+      (cursorPositionTopChange)="onTextCursorPositionChange($event)"
       ngProjectAs="[contentMainColumn]"
       formControlName="text"
     ></app-hub-post-text-editor>

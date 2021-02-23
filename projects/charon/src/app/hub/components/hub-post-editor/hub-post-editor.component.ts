@@ -6,8 +6,9 @@ import { PostCreate } from 'decentr-js';
 
 import { svgAddImage, svgClose } from '@shared/svg-icons';
 import { BaseValidationUtil } from '@shared/utils/validation';
-
-const MAX_IMAGES_COUNT: number = 5;
+import { Observable } from 'rxjs';
+import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
+import { getHTMLImagesCount } from '../../../../../../../shared/utils/html';
 
 @Component({
   selector: 'app-hub-post-editor',
@@ -25,6 +26,12 @@ const MAX_IMAGES_COUNT: number = 5;
 export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> {
   public form: FormGroup<PostCreate>;
 
+  public imagesCount$: Observable<number>;
+  public readonly maxImagesCount = 5;
+  public imageLimitReached$: Observable<boolean>;
+
+  public textImagePositionTop: number = 0;
+
   constructor(
     private formBuilder: FormBuilder,
     svgIconRegistry: SvgIconRegistry,
@@ -37,6 +44,16 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> {
     ]);
 
     this.form = this.createForm();
+
+    this.imagesCount$ = this.form.get('text').valueChanges.pipe(
+      startWith(this.form.get('text').value),
+      distinctUntilChanged((prev, curr) => Math.abs(prev.length - curr.length) < '<img>'.length),
+      map(getHTMLImagesCount),
+    );
+
+    this.imageLimitReached$ = this.imagesCount$.pipe(
+      map((imagesCount) => imagesCount >= this.maxImagesCount),
+    );
   }
 
   @HostBinding('class.mod-has-preview-image')
@@ -48,6 +65,11 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> {
     this.form.patchValue({
       previewImage: null,
     });
+  }
+
+  public onTextCursorPositionChange(positionTop: number): void {
+    const lineHeight = 24;
+    this.textImagePositionTop = positionTop >= lineHeight ? positionTop : 0;
   }
 
   public onTitleImageUpload(imageSrc: string): void {
@@ -78,7 +100,7 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> {
         [
           Validators.required,
           BaseValidationUtil.minHtmlTextLength(15),
-          BaseValidationUtil.maxHTMLImages(MAX_IMAGES_COUNT),
+          BaseValidationUtil.maxHTMLImages(this.maxImagesCount),
           BaseValidationUtil.maxStringBytes(64000),
         ],
       ],
