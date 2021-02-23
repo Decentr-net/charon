@@ -17,11 +17,13 @@
 
 .hub-page__content-container {
   height: 100%;
+  min-width: $page-width;
   overflow: auto;
-  width: 100%;
 }
 
 .hub-page__content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
-  width: $page-width;
 }

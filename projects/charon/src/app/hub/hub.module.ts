@@ -19,6 +19,7 @@ import { HUB_DIRECTIVES } from './directives';
 import { HUB_PAGES } from './pages';
 import { HUB_SERVICES } from './services';
 import { AvatarModule } from '@shared/components/avatar';
+import { AutoFocusModule } from '@shared/directives/auto-focus';
 import { ColorCircleLabelModule } from '@shared/components/color-circle-label';
 import { ColoredDistributionLineModule } from '@shared/components/colored-distribution-line';
 import { DateAgoModule } from '@shared/pipes/date-ago';
@@ -52,6 +53,7 @@ import { NavigationModule } from '@core/navigation';
   ],
   imports: [
     AvatarModule,
+    AutoFocusModule,
     CoerceTimestampModule,
     ColorCircleLabelModule,
     ColoredDistributionLineModule,

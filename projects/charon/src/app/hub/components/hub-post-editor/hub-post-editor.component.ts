@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { ControlValueAccessor, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
@@ -22,7 +22,7 @@ const MAX_IMAGES_COUNT: number = 5;
     },
   ],
 })
-export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> implements OnInit {
+export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> {
   public form: FormGroup<PostCreate>;
 
   constructor(
@@ -37,9 +37,6 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
     ]);
 
     this.form = this.createForm();
-  }
-
-  public ngOnInit() {
   }
 
   @HostBinding('class.mod-has-preview-image')
@@ -57,6 +54,10 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
     this.form.patchValue({
       previewImage: imageSrc,
     });
+  }
+
+  public preventEvent(event: Event): void {
+    event.preventDefault();
   }
 
   public writeValue(value: PostCreate): void {

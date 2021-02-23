@@ -1,5 +1,6 @@
 <ng-container *transloco="let translate">
   <app-hub-post-layout
+    class="post-page__post-layout"
     *ngIf="post"
     [headerBackgroundImage]="'url(' + post.previewImage + ')'"
   >
@@ -16,9 +17,9 @@
 
     <ng-container ngProjectAs="[title]">{{ post.title }}</ng-container>
 
-    <div [innerHTML]="post.text" ngProjectAs="[content]"></div>
+    <div [innerHTML]="post.text" ngProjectAs="[contentMainColumn]"></div>
 
-    <div class="post-page__sidebar" ngProjectAs="[sidebar]">
+    <div class="post-page__sidebar" ngProjectAs="[contentSecondaryColumn]">
       <app-hub-profile-card [profile]="authorProfile"></app-hub-profile-card>
 
       <app-hub-post-rating

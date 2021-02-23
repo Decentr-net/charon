@@ -15,16 +15,21 @@
 
       <ng-content select="[headerContent]"></ng-content>
     </div>
+    <div></div>
   </div>
 </div>
 
 <div class="hub-post-layout__content" appTypeface="paragraph">
+  <div>
+    <ng-content select="[contentLeftColumn]"></ng-content>
+  </div>
+
   <div class="hub-post-layout__content__main-column">
-    <ng-content select="[content]"></ng-content>
+    <ng-content select="[contentMainColumn]"></ng-content>
   </div>
 
   <div>
-    <ng-content select="[sidebar]"></ng-content>
+    <ng-content select="[contentSecondaryColumn]"></ng-content>
   </div>
 </div>
 

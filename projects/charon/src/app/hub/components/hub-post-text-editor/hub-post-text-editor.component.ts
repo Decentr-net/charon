@@ -41,7 +41,7 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
   public ngOnInit(): void {
     fromEvent(document, 'click').pipe(
       filter((event) => {
-        return ![this.elementRef.nativeElement, ...this.ignoreSelectionReset]
+        return ![this.elementRef.nativeElement, ...this.ignoreSelectionReset || []]
           .some(element => element.contains(event.target));
       }),
       untilDestroyed(this),
@@ -52,8 +52,6 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
         untilDestroyed(this),
       ).subscribe((imageSrc) => this.addImage(imageSrc));
     }
-
-    this.quillControl.value$.subscribe(console.log);
   }
 
   public onEditorCreated(quill: any): void {

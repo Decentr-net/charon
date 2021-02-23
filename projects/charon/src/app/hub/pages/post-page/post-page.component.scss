@@ -7,6 +7,10 @@
   width: 100%;
 }
 
+.post-page__post-layout {
+  margin: auto;
+}
+
 .post-page__header {
   align-items: center;
   column-gap: $grid-step * 2;

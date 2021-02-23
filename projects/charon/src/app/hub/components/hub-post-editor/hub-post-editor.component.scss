@@ -29,6 +29,7 @@
                        'empty subtitle';
   grid-template-columns: min-content max-content;
   row-gap: $grid-step / 2;
+  width: max-content;
 
   &.mod-empty {
     color: $color-grey;
