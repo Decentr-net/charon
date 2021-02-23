@@ -20,8 +20,7 @@ import { Cookies } from 'webextension-polyfill-ts';
 import Cookie = Cookies.Cookie;
 import { PDV, PDVData, PDVDataType, Wallet } from 'decentr-js';
 
-import { environment } from '../../../../../environments/environment';
-import { ConfigService } from '../../../../../shared/services/configuration';
+import CONFIG_SERVICE from '../config';
 import { PDVBlock, PDVStorageService } from '../../../../../shared/services/pdv';
 import { ONE_SECOND } from '../../../../../shared/utils/date';
 import { whileUserActive } from '../auth/while-user-active';
@@ -31,7 +30,7 @@ import { listenCookiesSet, listenLoginCookies } from './events';
 import { groupCookiesByDomainAndPath } from './grouping';
 import { PDVDataUniqueStore } from './pdv-data-unique-store';
 
-const configService = new ConfigService(environment);
+const configService = CONFIG_SERVICE;
 const pdvStorageService = new PDVStorageService();
 
 const mergePDVData = (left: PDVData[], right: PDVData[]): PDVData[] => {
