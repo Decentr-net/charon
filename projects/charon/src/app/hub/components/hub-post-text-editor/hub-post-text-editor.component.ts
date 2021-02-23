@@ -68,7 +68,7 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
 
     this.quillControl.value$.pipe(
       untilDestroyed(this),
-    ).subscribe((value) => this.onChange(value));
+    ).subscribe((value) => this.onChange(value || ''));
   }
 
   public onEditorCreated(quill: any): void {

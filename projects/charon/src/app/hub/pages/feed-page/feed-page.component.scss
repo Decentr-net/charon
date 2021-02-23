@@ -6,6 +6,7 @@ $feed-page--top-feed--no-posts--color: #9EA0A5;
 :host {
   background: #F2F2F2;
   display: flex;
+  width: $page-width;
   padding: 30px $page-side-padding 0;
 }
 

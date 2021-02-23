@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { from, Observable } from 'rxjs';
+import { defer, from, Observable } from 'rxjs';
 import { LikeWeight, Post, PostCreate, PostIdentificationParameters } from 'decentr-js'
 
 import { MessageBus } from '@shared/message-bus';
@@ -33,7 +33,7 @@ export class PostsService {
   public createPost(post: PostCreate): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return from(new MessageBus<CharonAPIMessageBusMap>()
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.PostCreate, {
         walletAddress: wallet.address,
         post: post,

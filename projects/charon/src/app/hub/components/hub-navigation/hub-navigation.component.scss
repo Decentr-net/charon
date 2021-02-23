@@ -11,7 +11,7 @@ $hub-navigation--height: 48px;
   height: $hub-navigation--height;
   margin: auto;
   padding: 0 $page-side-padding;
-  width: $page-width;
+  width: $page-width + $page-side-padding * 2;
 }
 
 .hub-navigation__section {

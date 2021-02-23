@@ -14,7 +14,7 @@ $hub-header--bar-button--color: #FFFFFF;
   height: 76px;
   margin: auto;
   padding: $grid-step * 1.5 $page-side-padding;
-  width: $page-width;
+  width: $page-width + $page-side-padding * 2;
 }
 
 .hub-header__bar-actions-container {
@@ -22,29 +22,6 @@ $hub-header--bar-button--color: #FFFFFF;
   column-gap: $grid-step * 3;
   display: flex;
   overflow: hidden;
-}
-
-.hub-header__bar-button {
-  align-items: center;
-  background: $color-primary;
-  border-radius: $border-radius;
-  color: $hub-header--bar-button--color;
-  column-gap: $grid-step;
-  cursor: pointer;
-  display: inline-flex;
-  font-weight: 500;
-  padding: $grid-step * 1.5 $grid-step * 3 $grid-step * 1.5 $grid-step * 2;
-  transition: background .3s ease;
-  white-space: nowrap;
-
-  &:hover {
-    background: $color-blue-hover;
-  }
-}
-
-.hub-header__bar-button-icon {
-  display: inline-flex;
-  font-size: 1.5em;
 }
 
 .hub-header__bar-logo {

@@ -23,7 +23,7 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
                        'left left left right';
   grid-template-columns: $hub-posts-page--columns;
   padding: $page-side-padding;
-  width: $page-width;
+  width: $page-width + $page-side-padding * 2;
 }
 
 .posts-page__section-top {

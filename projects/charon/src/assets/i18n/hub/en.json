@@ -56,9 +56,6 @@
     "decentr_to_usd": "Decentr to US Dollar",
     "no_chart_data": "No DEC Rate data"
   },
-  "hub_header": {
-    "new_post": "New post"
-  },
   "hub_dashboard": {
     "your_dashboard": "Your dashboard"
   },
@@ -163,5 +160,9 @@
       "success": "Post has been removed successfully"
     },
     "not_exists": "Current post is no longer available, because it breaks Decentr policy"
+  },
+  "posts": {
+    "new": "New post",
+    "publish": "Publish post"
   }
 }

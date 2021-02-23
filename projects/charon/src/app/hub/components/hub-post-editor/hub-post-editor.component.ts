@@ -1,15 +1,17 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
 import { ControlValueAccessor, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PostCreate } from 'decentr-js';
 
 import { svgAddImage, svgClose } from '@shared/svg-icons';
 import { BaseValidationUtil } from '@shared/utils/validation';
-import { Observable } from 'rxjs';
-import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
-import { getHTMLImagesCount } from '../../../../../../../shared/utils/html';
+import { getHTMLImagesCount } from '@shared/utils/html';
 
+@UntilDestroy()
 @Component({
   selector: 'app-hub-post-editor',
   templateUrl: './hub-post-editor.component.html',
@@ -54,6 +56,10 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> {
     this.imageLimitReached$ = this.imagesCount$.pipe(
       map((imagesCount) => imagesCount >= this.maxImagesCount),
     );
+
+    this.form.value$.pipe(
+      untilDestroyed(this),
+    ).subscribe((value) => this.onChange(value));
   }
 
   @HostBinding('class.mod-has-preview-image')
@@ -83,6 +89,10 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> {
   }
 
   public writeValue(value: PostCreate): void {
+    if (!value) {
+      return this.form.reset();
+    }
+
     this.form.setValue(value);
   }
 
