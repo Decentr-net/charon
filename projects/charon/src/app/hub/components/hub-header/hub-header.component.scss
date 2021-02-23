@@ -1,15 +1,15 @@
 @import 'variables';
 
-$hub-header--bar--background-color: #FFFFFF;
-$hub-header--bar-button--color: #FFFFFF;
-
 :host {
   display: block;
 }
 
+.hub-header__bar-container {
+  background-color: $color-white;
+}
+
 .hub-header__bar {
   align-items: center;
-  background-color: $hub-header--bar--background-color;
   display: flex;
   height: 76px;
   margin: auto;

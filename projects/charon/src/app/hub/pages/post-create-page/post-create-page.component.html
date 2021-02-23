@@ -2,7 +2,7 @@
   <button
     app-hub-header-action-button
     *transloco="let translate"
-    [disabled]="postControl.invalid"
+    [disabled]="invalid$ | async"
     [icon]="'publish'"
     (click)="createPost()"
   >
