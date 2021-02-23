@@ -9,8 +9,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Post, PostCategory } from 'decentr-js';
 import { fromEvent, Observable, timer } from 'rxjs';
 import { filter, pluck, share } from 'rxjs/operators';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+import { svgEdit } from '@shared/svg-icons';
 import { AppRoute } from '../../../app-route';
 import { HUB_HEADER_ACTIONS_SLOT, HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
 import { PostsPageService } from './posts-page.service';
@@ -56,7 +58,9 @@ export class PostsPageComponent {
     private changeDetectorRef: ChangeDetectorRef,
     private elementRef: ElementRef<HTMLElement>,
     private postsPageService: HubPostsService,
+    svgIconRegistry: SvgIconRegistry,
   ) {
+    svgIconRegistry.register(svgEdit);
   }
 
   public ngOnInit() {
