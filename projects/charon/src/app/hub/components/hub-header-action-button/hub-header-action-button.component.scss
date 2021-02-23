@@ -13,8 +13,14 @@
   transition: background .3s ease;
   white-space: nowrap;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: $color-blue-hover;
+  }
+
+  &:disabled {
+    color: $color-grey;
+    background-color: $color-background;
+    pointer-events: none;
   }
 }
 

@@ -1,11 +1,13 @@
 <ng-template [appSlot]="headerActionsSlotName">
-  <app-hub-header-action-button
+  <button
+    app-hub-header-action-button
     *transloco="let translate"
+    [disabled]="postControl.invalid"
     [icon]="'publish'"
     (click)="createPost()"
   >
     {{ translate('hub.posts.publish') }}
-  </app-hub-header-action-button>
+  </button>
 </ng-template>
 
 <app-hub-post-editor [formControl]="postControl"></app-hub-post-editor>
