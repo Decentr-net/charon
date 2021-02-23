@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
-import { ControlValueAccessor, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { AbstractControl, ControlValueAccessor, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PostCreate } from 'decentr-js';
@@ -23,9 +23,14 @@ import { getHTMLImagesCount } from '@shared/utils/html';
       useExisting: HubPostEditorComponent,
       multi: true,
     },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: HubPostEditorComponent,
+      multi: true,
+    },
   ],
 })
-export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> {
+export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> implements Validator {
   public form: FormGroup<PostCreate>;
 
   public imagesCount$: Observable<number>;
@@ -86,6 +91,10 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> {
 
   public preventEvent(event: Event): void {
     event.preventDefault();
+  }
+
+  public validate(control: AbstractControl<PostCreate>): ValidationErrors | null {
+    return this.form.valid ? null : { invalid: {} };
   }
 
   public writeValue(value: PostCreate): void {

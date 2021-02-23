@@ -95,7 +95,6 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
 
     this.quillEditorInstance.deleteText(insertIndex, this.selectionRange?.length || 0);
     this.quillEditorInstance.insertEmbed(insertIndex, 'image', imageSrc);
-    // this.quillControl.setValue(this.quillEditorElement.innerHTML);
 
     this.quillEditorComponent.quillEditor.setSelection(insertIndex + 1);
   }
