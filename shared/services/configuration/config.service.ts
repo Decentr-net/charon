@@ -54,6 +54,12 @@ export class ConfigService {
     );
   }
 
+  public getMaintenanceStatus(): Observable<boolean> {
+    return this.getConfig().pipe(
+      map(({maintenance}) => maintenance),
+    );
+  }
+
   public getRestNodes(): Observable<string[]> {
     return this.getConfig().pipe(
       map(({ network }) => network.rest),

@@ -1,4 +1,5 @@
 import { APP_INITIALIZER, NgModule, Optional, SkipSelf } from '@angular/core';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -16,6 +17,7 @@ import { SignUpRoute } from '../sign-up';
 import { AuthModule, AuthService } from './auth';
 import { LockModule } from './lock';
 import { CORE_GUARDS } from './guards';
+import { MaintenanceInterceptor } from '@core/interceptors';
 import { NavigationModule } from './navigation';
 import { PermissionsModule } from '@shared/permissions';
 import { SvgIconRootModule } from './svg-icons';
@@ -88,6 +90,11 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       provide: APP_INITIALIZER,
       useFactory: initNetworkFactory,
       deps: [NetworkService],
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MaintenanceInterceptor,
       multi: true,
     },
   ],

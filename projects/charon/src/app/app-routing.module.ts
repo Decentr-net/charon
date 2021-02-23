@@ -75,10 +75,20 @@ const ROUTES: Routes = [
   },
   {
     path: AppRoute.Update,
-    loadChildren: () => import('./update/update.module').then(m => m.UpdateModule),
+    loadChildren: () => import('./technical/technical.module').then(m => m.TechnicalModule),
     canActivate: [
       UpdateGuard,
     ],
+    data: {
+      i18nPageKey: 'update_page',
+    },
+  },
+  {
+    path: AppRoute.Maintenance,
+    loadChildren: () => import('./technical/technical.module').then(m => m.TechnicalModule),
+    data: {
+      i18nPageKey: 'maintenance_page',
+    },
   },
 ];
 

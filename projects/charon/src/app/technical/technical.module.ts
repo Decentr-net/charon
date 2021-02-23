@@ -2,24 +2,24 @@ import { NgModule } from '@angular/core';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
-import { UPDATE_PAGES } from './pages';
-import { UpdateRoutingModule } from './update-routing.module';
+import { TECHNICAL_PAGES } from './pages';
+import { TechnicalRoutingModule } from './technical-routing.module';
 
 @NgModule({
   imports: [
     SvgIconsModule,
     TranslocoModule,
-    UpdateRoutingModule,
+    TechnicalRoutingModule,
   ],
   declarations: [
-    UPDATE_PAGES,
+    TECHNICAL_PAGES,
   ],
   providers: [
     {
       provide: TRANSLOCO_SCOPE,
-      useValue: 'update',
+      useValue: 'technical',
     },
   ],
 })
-export class UpdateModule {
+export class TechnicalModule {
 }
