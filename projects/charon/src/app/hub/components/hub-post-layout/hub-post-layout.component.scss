@@ -42,6 +42,7 @@ $hub-post-layout--grid-columns: ($hub-post-layout--column-width * $hub-post-layo
 
 .hub-post-layout__header-content {
   height: 100%;
+  margin: 0 auto;
 }
 
 .hub-post-layout__header-content,
@@ -60,6 +61,10 @@ $hub-post-layout--grid-columns: ($hub-post-layout--column-width * $hub-post-layo
 .hub-post-layout__header-content__main-column {
   display: flex;
   flex-direction: column;
+}
+
+.hub-post-layout__header-content__main-column,
+.hub-post-layout__content__main-column {
   grid-column: 2;
 }
 
@@ -77,8 +82,6 @@ $hub-post-layout--grid-columns: ($hub-post-layout--column-width * $hub-post-layo
 }
 
 .hub-post-layout__content__main-column {
-  grid-column: 2;
-
   &::ng-deep {
     img {
       display: block;

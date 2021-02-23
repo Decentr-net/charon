@@ -15,7 +15,7 @@
 
   <app-spinner
     class="posts-page__spinner"
-    *ngIf="!posts.length"
+    *ngIf="!posts?.length"
   ></app-spinner>
 
   <div class="posts-page__container">
@@ -33,7 +33,7 @@
 
     <div class="posts-page__section-left">
       <app-hub-infinite-posts-container
-        *ngIf="posts.length > 0"
+        *ngIf="posts?.length > 0"
         [canLoadMore]="canLoadMore$ | async"
         [isLoading]="isLoading$ | async"
         [useIntersection]="true"

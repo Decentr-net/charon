@@ -1,4 +1,4 @@
-<form *transloco="let translate; read: 'hub.hub_post_editor'" [formGroup]="form">
+<div *transloco="let translate; read: 'hub.hub_post_editor'" [formGroup]="form">
   <app-hub-post-layout [headerBackgroundImage]="previewImage && 'url(' + previewImage + ')'">
     <app-hub-category-select
       class="hub-post-editor__category-select"
@@ -101,4 +101,4 @@
       </div>
     </div>
   </ng-template>
-</form>
+</div>

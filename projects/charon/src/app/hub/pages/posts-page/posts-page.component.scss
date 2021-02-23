@@ -5,14 +5,12 @@ $hub-posts-page--gap: $grid-step * 3;
 $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
 
 :host {
-  align-items: center;
-  display: flex;
+  display: block;
   height: 100%;
-  flex-direction: column;
-  overflow: auto;
 }
 
 .posts-page__spinner {
+  display: block;
   margin: $page-side-padding auto;
 }
 
@@ -22,6 +20,7 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
   grid-template-areas: 'top  top  top  top'
                        'left left left right';
   grid-template-columns: $hub-posts-page--columns;
+  margin: 0 auto;
   padding: $page-side-padding;
   width: $page-width + $page-side-padding * 2;
 }
