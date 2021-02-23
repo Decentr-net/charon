@@ -15,6 +15,7 @@ $hub-post-layout--grid-columns: ($hub-post-layout--column-width * $hub-post-layo
 
 :host {
   display: block;
+  margin: auto;
   width: $page-width + ($hub-post-layout--column-width + $hub-post-layout--column-gap) * 2;
 }
 
