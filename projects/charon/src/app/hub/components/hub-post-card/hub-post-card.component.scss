@@ -17,6 +17,7 @@ $hub-post-card--horizontal--image-width: 31%;
     height: 364px;
 
     .hub-post-card__image-container {
+      height: $hub-post-card--vertical--image-height;
       max-height: $hub-post-card--vertical--image-height;
 
       &.mod-vertical-padding {
