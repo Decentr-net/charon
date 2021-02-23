@@ -1,13 +1,13 @@
 import { Observable, of, throwError } from 'rxjs';
 import { delay, first, map, mergeMap, retryWhen } from 'rxjs/operators';
 
+import CONFIG_SERVICE from '../config';
 import { environment } from '../../../../../environments/environment';
-import { ConfigService } from '../../../../../shared/services/configuration';
 import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
 import { PingService } from '../../../../../shared/services/ping';
 import { ONE_SECOND } from '../../../../../shared/utils/date';
 
-const configService = new ConfigService(environment);
+const configService = CONFIG_SERVICE;
 const pingService = new PingService();
 
 export const getRandomRest = (): Observable<string> => {

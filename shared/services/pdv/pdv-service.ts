@@ -11,12 +11,17 @@ import {
 import { calculateDifferencePercentage, exponentialToFixed } from '../../utils/number';
 import { PDVApiService } from './api';
 import { BalanceValueDynamic, PDVStatChartPoint } from './pdv.definitions';
+import { ConfigService } from '../configuration';
+import { environment } from '../../../environments/environment';
 
 export class PDVService {
+  private configService: ConfigService;
   private pdvApiService: PDVApiService;
 
-  constructor(private chainId: string) {
-    this.pdvApiService = new PDVApiService(chainId);
+  constructor(
+  ) {
+    this.configService = new ConfigService(environment);
+    this.pdvApiService = new PDVApiService(this.configService);
   }
 
   public getBalance(api: string, walletAddress: string): Observable<string> {
