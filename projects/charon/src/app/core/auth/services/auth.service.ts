@@ -88,6 +88,8 @@ export class AuthService {
   }
 
   public changeUser(userId: AuthUser['id']): Promise<void> {
+    this.permissionsService.clearPermissions();
+
     return this.authStorage.setActiveUserId(userId);
   }
 

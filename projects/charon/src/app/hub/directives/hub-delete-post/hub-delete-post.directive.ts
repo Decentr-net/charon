@@ -1,9 +1,9 @@
 import { Directive, HostListener, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Post } from 'decentr-js';
 
 import { HubDeletePostDialogComponent } from '../../components/hub-delete-post-dialog';
 import { HubPostsService } from '../../services';
-import { MatDialog } from '@angular/material/dialog';
 
 @Directive({
   selector: '[appHubDeletePost]'
@@ -17,8 +17,11 @@ export class HubDeletePostDirective {
   ) {
   }
 
-  @HostListener('click')
-  public onClick(): void {
+  @HostListener('click', ['$event'])
+  public onClick(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+
     const dialogRef = this.dialog.open(HubDeletePostDialogComponent);
 
     dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {

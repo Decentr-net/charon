@@ -21,14 +21,13 @@
 
     <div class="hub-post-dialog__title">
       <app-hub-post-title>{{ post.title }}</app-hub-post-title>
-      <ng-container *appHasPermission="permissions.DELETE_POST">
-        <svg-icon
-          [appHubDeletePost]="post"
-          class="hub-post-dialog__title-remove"
-          key="trash"
-          title="{{ translate('remove_post') }}"
-        ></svg-icon>
-      </ng-container>
+
+      <svg-icon
+        *appHubDeletePost="post"
+        class="hub-post-dialog__title-remove"
+        key="trash"
+        title="{{ translate('remove_post') }}"
+      ></svg-icon>
     </div>
 
     <mat-dialog-content class="hub-post-dialog__content">

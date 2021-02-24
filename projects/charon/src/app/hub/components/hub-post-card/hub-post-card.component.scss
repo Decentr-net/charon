@@ -94,6 +94,13 @@ $hub-post-card--horizontal--image-width: 31%;
   color: $color-grey;
 }
 
+.hub-post-card__remove-icon {
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 20px;
+  margin-left: $grid-step;
+}
+
 .hub-post-card__title {
   font-weight: 700;
   margin-top: $grid-step;
