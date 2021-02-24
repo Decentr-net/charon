@@ -28,14 +28,6 @@
       <span class="hub-post-card__time" appTypeface="caption">
         {{ post.createdAt | appCoerceTimestamp | dateAgo | async }}
       </span>
-
-      <svg-icon
-        *appHubCanDeletePost="post.owner"
-        [appHubDeletePost]="post"
-        class="hub-post-card__remove-icon"
-        key="trash"
-        [title]="translate('hub.hub_post_card.remove_post')"
-      ></svg-icon>
     </div>
 
     <div class="hub-post-card__title" appTypeface="paragraph">

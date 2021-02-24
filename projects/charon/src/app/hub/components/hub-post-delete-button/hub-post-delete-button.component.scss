@@ -1,0 +1,58 @@
+@import 'variables';
+
+:host {
+  align-items: center;
+  background: $color-white;
+  border-radius: $border-radius;
+  color: $color-font-base;
+  display: inline-flex;
+  padding: $grid-step;
+  user-select: none;
+
+  &.mod-is-collapsed {
+    cursor: pointer;
+
+    .hub-post-delete-button__text-container {
+      margin-right: $grid-step / 2;
+    }
+  }
+
+  &.mod-is-expanded {
+    background: $color-dark-grey;
+    color: $color-white;
+  }
+}
+
+.hub-post-delete-button__delete-icon {
+  align-self: start;
+  display: inline-flex;
+  font-size: 16px;
+  margin-right: $grid-step / 2;
+}
+
+.hub-post-delete-button__text-container {
+  align-items: center;
+  display: flex;
+  margin-right: $grid-step / 2;
+}
+
+.hub-post-delete-button__text {
+  max-width: 200px;
+}
+
+.hub-post-delete-button__button {
+  border-radius: $border-radius;
+  cursor: pointer;
+  padding: $grid-step $grid-step * 1.5;
+}
+
+.hub-post-delete-button__button-cancel {
+  background: $color-background;
+  color: $color-font-base;
+  margin-left: $grid-step * 2;
+}
+
+.hub-post-delete-button__button-delete {
+  background: $color-red;
+  margin-left: $grid-step;
+}

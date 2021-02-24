@@ -72,4 +72,8 @@ export class PostPageComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe(() => this.elementRef.nativeElement.scrollTop = 0);
   }
+
+  public onPostDelete(): void {
+    this.postPageService.deletePost(this.post);
+  }
 }
