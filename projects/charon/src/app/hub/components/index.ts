@@ -6,6 +6,7 @@ import { HubCurrencyStatisticsComponent } from './hub-currency-statistics';
 import { HubDashboardComponent } from './hub-dashboard/hub-dashboard.component';
 import { HubPostDeleteButtonComponent } from './hub-post-delete-button';
 import { HubDeletePostDialogComponent } from './hub-delete-post-dialog';
+import { HubHeaderActionButtonComponent } from './hub-header-action-button';
 import { HubHeaderComponent } from './hub-header';
 import { HubHeaderStatsMetaComponent } from './hub-header-stats-meta';
 import { HubInfinitePostsContainerComponent } from './hub-infinite-posts-container';
@@ -17,9 +18,12 @@ import { HubPostCardComponent } from './hub-post-card';
 import { HubPostContentComponent } from './hub-post-content';
 import { HubPostLayoutComponent } from './hub-post-layout';
 import { HubPostDialogComponent } from './hub-post-dialog';
+import { HubPostEditorComponent } from './hub-post-editor';
+import { HubPostEditorErrorComponent } from './hub-post-editor-error';
 import { HubPostPdvComponent } from './hub-post-pdv';
 import { HubPostPdvDiagramComponent } from './hub-post-pdv-diagram';
 import { HubPostRatingComponent } from './hub-post-rating';
+import { HubPostTextEditorComponent } from './hub-post-text-editor';
 import { HubPostTimeComponent } from './hub-post-time';
 import { HubPostTitleComponent } from './hub-post-title';
 import { HubProfileCardComponent } from './hub-profile-card';
@@ -41,6 +45,7 @@ export const HUB_COMPONENTS = [
   HubDashboardComponent,
   HubPostDeleteButtonComponent,
   HubDeletePostDialogComponent,
+  HubHeaderActionButtonComponent,
   HubHeaderComponent,
   HubHeaderStatsMetaComponent,
   HubInfinitePostsContainerComponent,
@@ -51,10 +56,13 @@ export const HUB_COMPONENTS = [
   HubPostCardComponent,
   HubPostDialogComponent,
   HubPostContentComponent,
+  HubPostEditorComponent,
+  HubPostEditorErrorComponent,
   HubPostLayoutComponent,
   HubPostPdvComponent,
   HubPostPdvDiagramComponent,
   HubPostRatingComponent,
+  HubPostTextEditorComponent,
   HubPostTimeComponent,
   HubPostTitleComponent,
   HubProfileCardComponent,

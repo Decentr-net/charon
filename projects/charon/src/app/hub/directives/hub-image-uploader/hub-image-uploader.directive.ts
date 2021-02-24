@@ -16,6 +16,7 @@ const IMAGE_ACCEPT_FORMATS = '.jpg,.jpeg,.png';
 @UntilDestroy()
 @Directive({
   selector: '[appHubImageUploader]',
+  exportAs: 'appHubImageUploader',
 })
 export class HubImageUploaderDirective implements OnInit {
   @Output('appHubImageUploader') public uploaded: EventEmitter<string> = new EventEmitter();

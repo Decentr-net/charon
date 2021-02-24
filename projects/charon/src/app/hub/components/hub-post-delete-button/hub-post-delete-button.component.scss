@@ -6,6 +6,7 @@
   border-radius: $border-radius;
   color: $color-font-base;
   display: inline-flex;
+  max-width: max-content;
   padding: $grid-step;
   user-select: none;
 

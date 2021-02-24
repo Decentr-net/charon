@@ -1,5 +1,6 @@
 <ng-container *transloco="let translate">
   <app-hub-post-layout
+    class="post-page__post-layout"
     *ngIf="post"
     [headerBackgroundImage]="'url(' + post.previewImage + ')'"
   >
@@ -10,21 +11,21 @@
 
       <div class="post-page__category" appTypeface="paragraph" [routerLink]="['../../../']">
         <span class="post-page__category-dot" [appHubPostCategoryColor]="post.category"></span>
-        <span class="post-page__category-label">{{ translate('hub.hub_post_category.' + post.category) }}</span>
+        <span>{{ translate('hub.hub_post_category.' + post.category) }}</span>
       </div>
     </div>
 
     <ng-container ngProjectAs="[title]">{{ post.title }}</ng-container>
 
-    <app-hub-delete-button
+    <app-hub-post-delete-button
       *appHubCanDeletePost="post.owner"
       (delete)="onPostDelete()"
       ngProjectAs="[headerContent]"
-    ></app-hub-delete-button>
+    ></app-hub-post-delete-button>
 
-    <div [innerHTML]="post.text" ngProjectAs="[content]"></div>
+    <div [innerHTML]="post.text" ngProjectAs="[contentMainColumn]"></div>
 
-    <div class="post-page__sidebar" ngProjectAs="[sidebar]">
+    <div class="post-page__sidebar" ngProjectAs="[contentSecondaryColumn]">
       <app-hub-profile-card [profile]="authorProfile"></app-hub-profile-card>
 
       <app-hub-post-rating

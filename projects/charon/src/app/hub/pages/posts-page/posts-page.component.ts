@@ -9,9 +9,12 @@ import { ActivatedRoute } from '@angular/router';
 import { Post, PostCategory } from 'decentr-js';
 import { fromEvent, Observable, timer } from 'rxjs';
 import { filter, pluck, share } from 'rxjs/operators';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
+import { svgEdit } from '@shared/svg-icons';
+import { AppRoute } from '../../../app-route';
+import { HUB_HEADER_ACTIONS_SLOT, HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
 import { PostsPageService } from './posts-page.service';
 import { HubCategoryRouteParam, HubRoute } from '../../hub-route';
 import { HubPostsService } from '../../services';
@@ -31,8 +34,10 @@ import { PostWithLike } from '../../models/post';
   ],
 })
 export class PostsPageComponent {
+  public headerActionsSlotName = HUB_HEADER_ACTIONS_SLOT;
   public headerContentSlotName = HUB_HEADER_CONTENT_SLOT;
 
+  public appRoute: typeof AppRoute = AppRoute;
   public hubRoute: typeof HubRoute = HubRoute;
 
   public isLoading$: Observable<boolean>;
@@ -53,7 +58,9 @@ export class PostsPageComponent {
     private changeDetectorRef: ChangeDetectorRef,
     private elementRef: ElementRef<HTMLElement>,
     private postsPageService: HubPostsService,
+    svgIconRegistry: SvgIconRegistry,
   ) {
+    svgIconRegistry.register(svgEdit);
   }
 
   public ngOnInit() {

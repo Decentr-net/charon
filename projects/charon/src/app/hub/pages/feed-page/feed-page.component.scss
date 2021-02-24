@@ -6,8 +6,9 @@ $feed-page--top-feed--no-posts--color: #9EA0A5;
 :host {
   background: #F2F2F2;
   display: flex;
+  margin: 0 auto;
+  width: $page-width;
   padding: 30px $page-side-padding 0;
-  height: 100%;
 }
 
 .feed-page__wall,
@@ -37,7 +38,6 @@ $feed-page--top-feed--no-posts--color: #9EA0A5;
 
 .feed-page__top-feed__posts-container {
   height: 100%;
-  overflow: auto;
   padding-bottom: 30px;
 }
 

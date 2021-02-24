@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { SvgIconsModule } from '@ngneat/svg-icon';
@@ -18,6 +19,7 @@ import { HUB_DIRECTIVES } from './directives';
 import { HUB_PAGES } from './pages';
 import { HUB_SERVICES } from './services';
 import { AvatarModule } from '@shared/components/avatar';
+import { AutoFocusModule } from '@shared/directives/auto-focus';
 import { ColorCircleLabelModule } from '@shared/components/color-circle-label';
 import { ColoredDistributionLineModule } from '@shared/components/colored-distribution-line';
 import { DateAgoModule } from '@shared/pipes/date-ago';
@@ -51,6 +53,7 @@ import { NavigationModule } from '@core/navigation';
   ],
   imports: [
     AvatarModule,
+    AutoFocusModule,
     CoerceTimestampModule,
     ColorCircleLabelModule,
     ColoredDistributionLineModule,
@@ -60,6 +63,7 @@ import { NavigationModule } from '@core/navigation';
     DragScrollModule,
     FirstParagraphModule,
     FormErrorModule,
+    FormsModule,
     HubRoutingModule,
     InlineSVGModule,
     IntersectionModule,
@@ -69,6 +73,7 @@ import { NavigationModule } from '@core/navigation';
     MatDividerModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
     MatTooltipModule,
     MenuModule,
     MouseWheelHorizontalScrollModule,

@@ -21,6 +21,9 @@
       "platform": "Platform"
     }
   },
+  "hub_category_select": {
+    "placeholder": "Choose post topic"
+  },
   "hub_create_post_dialog": {
     "form": {
       "text": {
@@ -53,9 +56,6 @@
     "decentr_to_usd": "Decentr to US Dollar",
     "no_chart_data": "No DEC Rate data"
   },
-  "hub_header": {
-    "new_post": "New post"
-  },
   "hub_dashboard": {
     "your_dashboard": "Your dashboard"
   },
@@ -78,6 +78,41 @@
   "hub_infinite_posts_container": {
     "load_more_posts": "Load more posts",
     "loading_more_posts": "Loading more posts"
+  },
+  "hub_post_editor": {
+    "image_uploader": {
+      "empty": {
+        "subtitle": "You can create a post without title image.",
+        "title": "Upload title image"
+      },
+      "filled": {
+        "subtitle": {
+          "to_another": "to another one",
+          "change": "change it",
+          "or": "or"
+        },
+        "title": "Clear title image"
+      }
+    },
+    "text": {
+      "errors": {
+        "maxBytes": "The text limit reached",
+        "maxImages": "The maximum count of images is {{max}}",
+        "minHtmlTextLength": "The text is too short, please, enter at least {{min}} characters",
+        "required": "Text is required"
+      }
+    },
+    "title": {
+      "errors": {
+        "minlength": "The title is too short, please, enter at least {{requiredLength}} characters",
+        "maxlength": "The maximum length of title is {{requiredLength}} characters",
+        "required": "Title is required"
+      },
+      "placeholder": "Title"
+    }
+  },
+  "hub_post_text_editor": {
+    "placeholder": "Start your post with..."
   },
   "hub_pdv_statistics": {
     "activity_from": "Activity from {{date}}",
@@ -148,5 +183,9 @@
       "success": "Post has been removed successfully"
     },
     "not_exists": "Current post is no longer available, because it breaks Decentr policy"
+  },
+  "posts": {
+    "new": "New post",
+    "publish": "Publish post"
   }
 }

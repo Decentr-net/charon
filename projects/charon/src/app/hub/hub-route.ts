@@ -5,6 +5,7 @@ export const HubPostIdRouteParam = 'postId';
 export const HubPostOwnerRouteParam = 'postOwner';
 
 export enum HubRoute {
+  PostCreate = 'post-create',
   Feed = 'feed',
   Posts = 'posts',
   Post = 'post',

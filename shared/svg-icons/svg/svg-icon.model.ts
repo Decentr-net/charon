@@ -23,6 +23,7 @@ export type SvgIconName =
   | 'logo'
   | 'pdv-rate-icon'
   | 'plus'
+  | 'publish'
   | 'receive-coin'
   | 'reload'
   | 'send-coin'

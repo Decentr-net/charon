@@ -6,7 +6,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 100%;
+  margin: auto;
+  width: max-content;
 }
 
 .hub-page__header {
@@ -16,12 +17,8 @@
 }
 
 .hub-page__content-container {
-  height: 100%;
-  overflow: auto;
-  width: 100%;
-}
-
-.hub-page__content {
   margin: 0 auto;
-  width: $page-width;
+  min-width: 100vw;
+  overflow-y: auto;
+  width: max-content;
 }

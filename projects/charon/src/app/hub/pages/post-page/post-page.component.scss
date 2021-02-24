@@ -3,8 +3,11 @@
 :host {
   display: block;
   height: 100%;
-  overflow: auto;
   width: 100%;
+}
+
+.post-page__post-layout {
+  margin: auto;
 }
 
 .post-page__header {
@@ -39,6 +42,7 @@
   align-items: center;
   cursor: pointer;
   display: inline-flex;
+  font-weight: 700;
 }
 
 .post-page__category-dot {

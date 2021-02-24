@@ -1,3 +1,13 @@
+<ng-template [appSlot]="headerActionsSlotName">
+  <app-hub-header-action-button
+    *transloco="let translate"
+    [icon]="'edit'"
+    [routerLink]="['/', appRoute.Hub, hubRoute.PostCreate]"
+  >
+    {{ translate('hub.posts.new') }}
+  </app-hub-header-action-button>
+</ng-template>
+
 <ng-template [ngIf]="!isPostOutletActivated">
   <ng-container *appSlot="headerContentSlotName">
     <app-hub-navigation></app-hub-navigation>
@@ -5,7 +15,7 @@
 
   <app-spinner
     class="posts-page__spinner"
-    *ngIf="!posts.length"
+    *ngIf="!posts?.length"
   ></app-spinner>
 
   <div class="posts-page__container">
@@ -23,7 +33,7 @@
 
     <div class="posts-page__section-left">
       <app-hub-infinite-posts-container
-        *ngIf="posts.length > 0"
+        *ngIf="posts?.length > 0"
         [canLoadMore]="canLoadMore$ | async"
         [isLoading]="isLoading$ | async"
         [useIntersection]="true"

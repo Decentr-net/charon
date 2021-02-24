@@ -1,14 +1,22 @@
 @import 'variables';
 @import 'mixins';
 
-$hub-post-layout--column-gap: $grid-step * 3;
-$hub-post-layout--column-count: 12;
-$hub-post-layout--main-column-width: 9;
-$hub-post-layout--side-column-width: $hub-post-layout--column-count - $hub-post-layout--main-column-width;
-$hub-post-layout--grid-columns: minmax(0, #{$hub-post-layout--main-column-width}fr) minmax(0, #{$hub-post-layout--side-column-width}fr);
+$hub-post-layout--column-gap: $page-side-padding;
+$hub-post-layout--content-column-count: 12;
+$hub-post-layout--column-width: ($page-width - ($hub-post-layout--content-column-count - 1) * $hub-post-layout--column-gap) / $hub-post-layout--content-column-count;
+$hub-post-layout--side-column-count: 1;
+$hub-post-layout--main-column-count: 9;
+$hub-post-layout--secondary-column-count: $hub-post-layout--content-column-count - $hub-post-layout--main-column-count;
+
+$hub-post-layout--grid-columns: ($hub-post-layout--column-width * $hub-post-layout--side-column-count)
+                                (($hub-post-layout--column-width + $hub-post-layout--column-gap) * $hub-post-layout--main-column-count - $hub-post-layout--column-gap)
+                                (($hub-post-layout--column-width + $hub-post-layout--column-gap) * $hub-post-layout--secondary-column-count - $hub-post-layout--column-gap)
+                                ($hub-post-layout--column-width * $hub-post-layout--side-column-count);
 
 :host {
   display: block;
+  margin: auto;
+  width: $page-width + ($hub-post-layout--column-width + $hub-post-layout--column-gap) * 2;
 }
 
 .hub-post-layout__header {
@@ -17,7 +25,7 @@ $hub-post-layout--grid-columns: minmax(0, #{$hub-post-layout--main-column-width}
   background-size: cover;
   color: $color-white;
   height: 480px;
-  padding-top: $grid-step * 4;
+  padding: $grid-step * 4 0 $grid-step * 2;
   position: relative;
   width: 100%;
 
@@ -33,20 +41,38 @@ $hub-post-layout--grid-columns: minmax(0, #{$hub-post-layout--main-column-width}
   }
 }
 
+.hub-post-layout__header-content {
+  height: 100%;
+  margin: 0 auto;
+}
+
 .hub-post-layout__header-content,
 .hub-post-layout__content {
   column-gap: $hub-post-layout--column-gap;
   display: grid;
   grid-template-columns: $hub-post-layout--grid-columns;
   margin: auto;
-  padding: 0 $page-side-padding;
   position: relative;
-  width: $page-width;
+}
+
+.hub-post-layout__content__side-column {
+  position: relative;
+}
+
+.hub-post-layout__header-content__main-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.hub-post-layout__header-content__main-column,
+.hub-post-layout__content__main-column {
+  grid-column: 2;
 }
 
 .hub-post-layout__title {
   @include clamp(4);
 
+  flex-grow: 1;
   font-weight: 700;
   margin-top: $grid-step * 2;
 }
@@ -54,8 +80,10 @@ $hub-post-layout--grid-columns: minmax(0, #{$hub-post-layout--main-column-width}
 .hub-post-layout__content {
   margin-top: $grid-step * 3;
   padding-bottom: $grid-step * 5;
+}
 
-  .hub-post-layout__content__main-column ::ng-deep {
+.hub-post-layout__content__main-column {
+  &::ng-deep {
     img {
       display: block;
       margin: $grid-step * 3 auto;

@@ -1,6 +1,7 @@
 import { FeedPageComponent } from './feed-page';
 import { HubPageComponent } from './hub-page';
 import { MyWallPageComponent } from './my-wall-page';
+import { PostCreatePageComponent } from './post-create-page';
 import { PostPageComponent } from './post-page';
 import { PostsPageComponent } from './posts-page';
 import { RecentPageComponent } from './recent-page';
@@ -16,6 +17,7 @@ export const HUB_PAGES = [
   FeedPageComponent,
   HubPageComponent,
   MyWallPageComponent,
+  PostCreatePageComponent,
   PostPageComponent,
   PostsPageComponent,
   RecentPageComponent,

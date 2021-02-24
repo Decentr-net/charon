@@ -18,10 +18,8 @@ import { createSharedOneValueObservable } from '@shared/utils/observable';
 import { TranslatedError } from '@core/notifications';
 import { PostsService, SpinnerService, UserService } from '../../core/services';
 import { PostWithAuthor, PostWithLike } from '../models/post';
-import { HubCreatePostService } from './hub-create-post.service';
 
 export abstract class HubPostsService<T extends PostWithLike = PostWithAuthor> {
-  protected readonly createPostService: HubCreatePostService;
   protected readonly notificationService: NotificationService;
   protected readonly postsService: PostsService;
   protected readonly spinnerService: SpinnerService;
@@ -48,7 +46,6 @@ export abstract class HubPostsService<T extends PostWithLike = PostWithAuthor> {
   protected constructor(
     injector: Injector,
   ) {
-    this.createPostService = injector.get(HubCreatePostService);
     this.notificationService = injector.get(NotificationService);
     this.postsService = injector.get(PostsService);
     this.spinnerService = injector.get(SpinnerService);
@@ -65,12 +62,6 @@ export abstract class HubPostsService<T extends PostWithLike = PostWithAuthor> {
       takeUntil(this.dispose$),
     ).subscribe((posts) => {
       this.pushPosts(posts);
-    });
-
-    this.createPostService.postCreated$.pipe(
-      takeUntil(this.dispose$),
-    ).subscribe(() => {
-      HubPostsService.reloadNotifier$.next();
     });
 
     HubPostsService.reloadNotifier$.pipe(
