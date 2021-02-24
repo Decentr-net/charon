@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { catchError, filter, map, take } from 'rxjs/operators';
-import { Observable, ReplaySubject, throwError } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
+import { Observable, ReplaySubject } from 'rxjs';
 import { PDVDataType } from 'decentr-js';
 
 import { Config, ConfigApiService } from './config-api.service';
@@ -37,13 +37,6 @@ export class ConfigService {
   public forceUpdate(): void {
     this.config$.next(void 0);
     this.pendingConfig = false;
-  }
-
-  public isConfigAvailable(): Promise<boolean> {
-    return this.getConfig().pipe(
-      map((config) => !!config),
-      catchError((error) => throwError(error))
-    ).toPromise();
   }
 
   public getAppMinVersionRequired(): Observable<string> {

@@ -32,9 +32,9 @@ export function initAuthFactory(authService: AuthService): () => void {
 
 export function isMaintenanceFactory(configService: ConfigService, navigationService: NavigationService): () => void {
   return () => {
-    configService.isConfigAvailable().then((isAvailable) => {
-      if (!isAvailable) {
-        navigationService.redirectToMaintenancePage();
+    configService.getMaintenanceStatus().pipe().toPromise().then((isMaintenance) => {
+      if (isMaintenance) {
+        throw true;
       }
     }).catch(() => {
       navigationService.redirectToMaintenancePage();

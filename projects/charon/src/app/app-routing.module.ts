@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { BrowserTabGuard, SupportedVersionGuard, UpdateGuard } from '@core/guards';
+import { BrowserTabGuard, MaintenanceGuard, SupportedVersionGuard, UpdateGuard } from '@core/guards';
 import {
   AuthCompletedRegistrationGuard,
   UnauthGuard,
@@ -86,6 +86,9 @@ const ROUTES: Routes = [
   {
     path: AppRoute.Maintenance,
     loadChildren: () => import('./technical/technical.module').then(m => m.TechnicalModule),
+    canActivate: [
+      MaintenanceGuard,
+    ],
     data: {
       i18nPageKey: 'maintenance_page',
     },
