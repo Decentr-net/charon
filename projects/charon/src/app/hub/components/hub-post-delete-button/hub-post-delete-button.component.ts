@@ -4,7 +4,7 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { svgDelete } from '@shared/svg-icons';
 
 @Component({
-  selector: 'app-post-hub-delete-button',
+  selector: 'app-hub-post-delete-button',
   templateUrl: './hub-post-delete-button.component.html',
   styleUrls: ['./hub-post-delete-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -17,11 +17,11 @@
 
     <ng-container ngProjectAs="[title]">{{ post.title }}</ng-container>
 
-    <app-hub-delete-button
+    <app-hub-post-delete-button
       *appHubCanDeletePost="post.owner"
       (delete)="onPostDelete()"
       ngProjectAs="[headerContent]"
-    ></app-hub-delete-button>
+    ></app-hub-post-delete-button>
 
     <div [innerHTML]="post.text" ngProjectAs="[contentMainColumn]"></div>
 
