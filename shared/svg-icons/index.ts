@@ -12,6 +12,7 @@ export * from './svg/svg-chart-arrow-up.icon';
 export * from './svg/svg-check.icon';
 export * from './svg/svg-close.icon';
 export * from './svg/svg-decentr-hub.icon';
+export * from './svg/svg-delete.icon';
 export * from './svg/svg-dropdown-expand.icon';
 export * from './svg/svg-dynamics-negative.icon';
 export * from './svg/svg-dynamics-positive.icon';

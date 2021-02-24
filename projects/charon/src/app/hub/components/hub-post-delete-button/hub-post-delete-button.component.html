@@ -1,0 +1,27 @@
+<ng-container *transloco="let translate; read: 'hub.hub_post_delete_button'">
+  <svg-icon
+    class="hub-post-delete-button__delete-icon"
+    key="delete"
+    [title]="translate('remove_post_title')"
+  ></svg-icon>
+
+  <div class="hub-post-delete-button__text-container" appTypeface="caption">
+    <ng-container *ngIf="getIsCollapsed; else expanded">
+      {{ translate('delete_post') }}
+    </ng-container>
+
+    <ng-template #expanded>
+      <span class="hub-post-delete-button__text">
+        {{ translate('will_be_deleted') }}
+      </span>
+
+      <div class="hub-post-delete-button__button hub-post-delete-button__button-cancel" (click)="toggleButton($event)">
+        {{ translate('cancel') }}
+      </div>
+
+      <div class="hub-post-delete-button__button hub-post-delete-button__button-delete" (click)="onClickDelete()">
+        {{ translate('delete') }}
+      </div>
+    </ng-template>
+  </div>
+</ng-container>

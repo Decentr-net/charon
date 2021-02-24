@@ -125,6 +125,13 @@
       "no_change": "No change"
     }
   },
+  "hub_post_delete_button": {
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "delete_post": "Delete post",
+    "remove_post_title": "Remove post",
+    "will_be_deleted": "Post will be deleted permanently and you won’t be able to recover it."
+  },
   "hub_post_card": {
     "remove_post": "Remove post"
   },

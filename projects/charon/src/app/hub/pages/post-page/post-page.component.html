@@ -17,6 +17,12 @@
 
     <ng-container ngProjectAs="[title]">{{ post.title }}</ng-container>
 
+    <app-hub-delete-button
+      *appHubCanDeletePost="post.owner"
+      (delete)="onPostDelete()"
+      ngProjectAs="[headerContent]"
+    ></app-hub-delete-button>
+
     <div [innerHTML]="post.text" ngProjectAs="[contentMainColumn]"></div>
 
     <div class="post-page__sidebar" ngProjectAs="[contentSecondaryColumn]">
