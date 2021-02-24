@@ -5,12 +5,14 @@ import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
 import { AbstractControl, ControlValueAccessor, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { PostCreate } from 'decentr-js';
+import { PostCategory, PostCreate } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { svgAddImage, svgClose } from '@shared/svg-icons';
 import { BaseValidationUtil } from '@shared/utils/validation';
 import { getHTMLImagesCount } from '@shared/utils/html';
+
+const DEFAULT_POST_CATEGORY = PostCategory.WorldNews;
 
 @UntilDestroy()
 @Component({
@@ -106,16 +108,21 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
 
   public writeValue(value: PostCreate): void {
     if (!value) {
-      return this.form.reset();
+      return this.form.reset({
+        category: DEFAULT_POST_CATEGORY,
+      });
     }
 
-    this.form.setValue(value);
+    this.form.setValue({
+      category: DEFAULT_POST_CATEGORY,
+      ...value,
+    });
   }
 
   private createForm(): FormGroup<PostCreate> {
     return this.formBuilder.group({
       category: [
-        null,
+        DEFAULT_POST_CATEGORY,
         Validators.required,
       ],
       previewImage: [
