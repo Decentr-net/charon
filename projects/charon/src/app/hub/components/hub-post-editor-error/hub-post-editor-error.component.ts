@@ -56,8 +56,6 @@ export class HubPostEditorErrorComponent implements OnInit {
       distinctUntilChanged(),
     );
 
-    this.formGroup.ngSubmit.subscribe(() => console.log('submit'));
-
     this.display$ = combineLatest([hasError$, isSubmitted$]).pipe(
       map((conditions) => conditions.every(Boolean)),
       distinctUntilChanged(),
