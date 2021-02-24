@@ -9,6 +9,7 @@ export type SvgIconName =
   | 'check'
   | 'close'
   | 'decentr-hub'
+  | 'delete'
   | 'dropdown-expand'
   | 'dynamics-negative'
   | 'dynamics-positive'
