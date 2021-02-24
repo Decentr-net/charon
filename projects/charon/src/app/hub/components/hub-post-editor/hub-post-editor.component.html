@@ -1,7 +1,11 @@
-<ng-container *transloco="let translate; read: 'hub.hub_post_editor'">
+<form
+  *transloco="let translate; read: 'hub.hub_post_editor'"
+  [formGroup]="form"
+  [id]="formId"
+>
   <app-hub-post-layout
+    class="hub-post-editor__post-layout"
     [headerBackgroundImage]="previewImage && 'url(' + previewImage + ')'"
-    [formGroup]="form"
   >
     <app-hub-category-select
       class="hub-post-editor__category-select"
@@ -9,16 +13,23 @@
       formControlName="category"
     ></app-hub-category-select>
 
-    <textarea
-      class="hub-post-editor__title-control"
-      ngProjectAs="[title]"
-      formControlName="title"
-      maxlength="150"
-      [placeholder]="translate('title.placeholder')"
-      trim="blur"
-      appAutoFocus
-      (keydown.enter)="preventEvent($event)"
-    ></textarea>
+    <ng-container ngProjectAs="[title]">
+      <textarea
+        #titleElement
+        class="hub-post-editor__title-control"
+        formControlName="title"
+        maxlength="150"
+        [placeholder]="translate('title.placeholder')"
+        trim="blur"
+        appAutoFocus
+        (keydown.enter)="preventEvent($event)"
+      ></textarea>
+
+      <app-hub-post-editor-error
+        [anchorElement]="titleElement"
+        [controlName]="'title'"
+      ></app-hub-post-editor-error>
+    </ng-container>
 
     <div ngProjectAs="[headerContent]">
       <ng-template [ngTemplateOutlet]="previewImage ? imageUploaderFilled : imageUploaderEmpty"></ng-template>
@@ -43,13 +54,21 @@
       <div appTypeface="caption">{{ imagesCount$ | async }} / {{ maxImagesCount }}</div>
     </div>
 
-    <app-hub-post-text-editor
-      [imageSource]="textImageUploader.uploaded"
-      [ignoreSelectionReset]="[textImageUploaderElement]"
-      (cursorPositionTopChange)="onTextCursorPositionChange($event)"
-      ngProjectAs="[contentMainColumn]"
-      formControlName="text"
-    ></app-hub-post-text-editor>
+    <ng-container ngProjectAs="[contentMainColumn]">
+      <div #textEditorContainerElement>
+        <app-hub-post-text-editor
+          [imageSource]="textImageUploader.uploaded"
+          [ignoreSelectionReset]="[textImageUploaderElement]"
+          (cursorPositionTopChange)="onTextCursorPositionChange($event)"
+          formControlName="text"
+        ></app-hub-post-text-editor>
+      </div>
+
+      <app-hub-post-editor-error
+        [anchorElement]="textEditorContainerElement"
+        [controlName]="'text'"
+      ></app-hub-post-editor-error>
+    </ng-container>
   </app-hub-post-layout>
 
   <ng-template #imageUploaderEmpty>
@@ -104,4 +123,4 @@
       </div>
     </div>
   </ng-template>
-</ng-container>
+</form>

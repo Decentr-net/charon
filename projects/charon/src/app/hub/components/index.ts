@@ -18,6 +18,7 @@ import { HubPostContentComponent } from './hub-post-content';
 import { HubPostLayoutComponent } from './hub-post-layout';
 import { HubPostDialogComponent } from './hub-post-dialog';
 import { HubPostEditorComponent } from './hub-post-editor';
+import { HubPostEditorErrorComponent } from './hub-post-editor-error';
 import { HubPostPdvComponent } from './hub-post-pdv';
 import { HubPostPdvDiagramComponent } from './hub-post-pdv-diagram';
 import { HubPostRatingComponent } from './hub-post-rating';
@@ -54,6 +55,7 @@ export const HUB_COMPONENTS = [
   HubPostDialogComponent,
   HubPostContentComponent,
   HubPostEditorComponent,
+  HubPostEditorErrorComponent,
   HubPostLayoutComponent,
   HubPostPdvComponent,
   HubPostPdvDiagramComponent,

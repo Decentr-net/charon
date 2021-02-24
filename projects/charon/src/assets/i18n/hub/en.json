@@ -94,7 +94,20 @@
         "title": "Clear title image"
       }
     },
+    "text": {
+      "errors": {
+        "maxBytes": "The text limit reached",
+        "maxImages": "The maximum count of images is {{max}}",
+        "minHtmlTextLength": "The text is too short, please, enter at least {{min}} characters",
+        "required": "Text is required"
+      }
+    },
     "title": {
+      "errors": {
+        "minlength": "The title is too short, please, enter at least {{requiredLength}} characters",
+        "maxlength": "The maximum length of title is {{requiredLength}} characters",
+        "required": "Title is required"
+      },
       "placeholder": "Title"
     }
   },

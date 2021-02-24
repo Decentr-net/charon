@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
@@ -7,6 +7,7 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PostCreate } from 'decentr-js';
 
+import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { svgAddImage, svgClose } from '@shared/svg-icons';
 import { BaseValidationUtil } from '@shared/utils/validation';
 import { getHTMLImagesCount } from '@shared/utils/html';
@@ -28,9 +29,15 @@ import { getHTMLImagesCount } from '@shared/utils/html';
       useExisting: HubPostEditorComponent,
       multi: true,
     },
+    {
+      provide: FORM_ERROR_TRANSLOCO_READ,
+      useValue: 'hub.hub_post_editor',
+    },
   ],
 })
 export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> implements Validator {
+  @Input() public formId: string;
+
   public form: FormGroup<PostCreate>;
 
   public imagesCount$: Observable<number>;
@@ -127,6 +134,7 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
         '',
         [
           Validators.required,
+          Validators.minLength(3),
           Validators.maxLength(150),
         ],
       ],

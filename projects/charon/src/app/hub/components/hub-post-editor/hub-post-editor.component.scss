@@ -19,6 +19,10 @@ $hub-post-editor--text-image-uploader-icon-container-size: 44px;
   }
 }
 
+.hub-post-editor__post-layout {
+  position: relative;
+}
+
 .hub-post-editor__title-control {
   background: transparent;
   height: 100%;

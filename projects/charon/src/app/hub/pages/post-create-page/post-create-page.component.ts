@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { from, interval, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { FormControl } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -27,6 +27,8 @@ import { PostCreatePageService } from './post-create-page.service';
 export class PostCreatePageComponent implements OnInit {
   public readonly headerActionsSlotName = HUB_HEADER_ACTIONS_SLOT;
 
+  public formId: string = 'POST_CREATE_FORM';
+
   public postControl: FormControl<PostCreate> = new FormControl();
 
   public invalid$: Observable<boolean>;
@@ -47,13 +49,13 @@ export class PostCreatePageComponent implements OnInit {
     this.createAutoSaveObservable().pipe(
       untilDestroyed(this),
     ).subscribe();
-
-    this.invalid$ = this.postControl.status$.pipe(
-      map(() => this.postControl.invalid),
-    );
   }
 
   public createPost(): void {
+    if (this.postControl.invalid) {
+      return;
+    }
+
     const post = this.postControl.value;
 
     this.postCreatePageService.createPost(post).pipe(

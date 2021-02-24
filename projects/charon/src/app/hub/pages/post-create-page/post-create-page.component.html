@@ -2,12 +2,15 @@
   <button
     app-hub-header-action-button
     *transloco="let translate"
-    [disabled]="invalid$ | async"
     [icon]="'publish'"
     (click)="createPost()"
+    [attr.form]="formId"
   >
     {{ translate('hub.posts.publish') }}
   </button>
 </ng-template>
 
-<app-hub-post-editor [formControl]="postControl"></app-hub-post-editor>
+<app-hub-post-editor
+  [formId]="formId"
+  [formControl]="postControl"
+></app-hub-post-editor>
