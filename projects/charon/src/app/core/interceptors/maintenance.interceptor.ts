@@ -13,6 +13,8 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AppRoute } from '../../app-route';
 
+export const SKIP_MAINTENANCE_INTERCEPTOR_HEADER = 'skip-maintenance_interceptor';
+
 @Injectable()
 export class MaintenanceInterceptor implements HttpInterceptor {
   constructor(
@@ -22,6 +24,11 @@ export class MaintenanceInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (req.headers.has(SKIP_MAINTENANCE_INTERCEPTOR_HEADER)) {
+      const newRequest = req.clone({ headers: req.headers.delete('SKIP_MAINTENANCE_INTERCEPTOR_HEADER') });
+      return next.handle(newRequest);
+    }
+
     return this.configService.getMaintenanceStatus().pipe(
       mergeMap((isMaintenance) => next.handle(req).pipe(
         map((event: HttpEvent<any>) => {
