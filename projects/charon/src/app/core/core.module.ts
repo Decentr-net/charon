@@ -16,9 +16,10 @@ import { AppRoute } from '../app-route';
 import { SignUpRoute } from '../sign-up';
 import { AuthModule, AuthService } from './auth';
 import { LockModule } from './lock';
+import { ConfigService } from '@shared/services/configuration';
 import { CORE_GUARDS } from './guards';
 import { MaintenanceInterceptor } from '@core/interceptors';
-import { NavigationModule } from './navigation';
+import { NavigationModule, NavigationService } from './navigation';
 import { PermissionsModule } from '@shared/permissions';
 import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
@@ -27,6 +28,18 @@ import { QuillRootModule } from './quill';
 
 export function initAuthFactory(authService: AuthService): () => void {
   return () => authService.init();
+}
+
+export function isMaintenanceFactory(configService: ConfigService, navigationService: NavigationService): () => void {
+  return () => {
+    configService.isConfigAvailable().then((isAvailable) => {
+      if (!isAvailable) {
+        navigationService.redirectToMaintenancePage();
+      }
+    }).catch(() => {
+      navigationService.redirectToMaintenancePage();
+    });
+  };
 }
 
 export function initNetworkFactory(networkService: NetworkService): () => void {
@@ -82,6 +95,17 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     },
     {
       provide: APP_INITIALIZER,
+      useFactory: isMaintenanceFactory,
+      deps: [ConfigService, NavigationService],
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MaintenanceInterceptor,
+      multi: true,
+    },
+    {
+      provide: APP_INITIALIZER,
       useFactory: initAuthFactory,
       deps: [AuthService],
       multi: true,
@@ -90,11 +114,6 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       provide: APP_INITIALIZER,
       useFactory: initNetworkFactory,
       deps: [NetworkService],
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MaintenanceInterceptor,
       multi: true,
     },
   ],

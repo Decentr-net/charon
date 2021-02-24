@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, from, Observable, of } from 'rxjs';
-import { filter, first, map, mergeMap } from 'rxjs/operators';
+import { catchError, filter, first, map, mergeMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 
@@ -40,6 +40,7 @@ export class NetworkService extends NetworkSelectorService {
         return this.networkStorage.setActiveNetwork(translatedActiveNetwork)
       }),
       first(),
+      catchError(() => of(undefined)),
     ).toPromise();
   }
 

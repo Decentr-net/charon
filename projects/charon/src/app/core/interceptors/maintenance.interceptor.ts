@@ -10,16 +10,15 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { ConfigService } from '@shared/services/configuration';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { AppRoute } from '../../app-route';
+import { NavigationService } from '@core/navigation';
 
-export const SKIP_MAINTENANCE_INTERCEPTOR_HEADER = 'skip-maintenance_interceptor';
+export const SKIP_MAINTENANCE_INTERCEPTOR_HEADER = 'skip_maintenance_interceptor';
 
 @Injectable()
 export class MaintenanceInterceptor implements HttpInterceptor {
   constructor(
     private configService: ConfigService,
-    private router: Router,
+    private navigationService: NavigationService,
   ) {
   }
 
@@ -33,12 +32,16 @@ export class MaintenanceInterceptor implements HttpInterceptor {
       mergeMap((isMaintenance) => next.handle(req).pipe(
         map((event: HttpEvent<any>) => {
           if (event instanceof HttpResponse && isMaintenance) {
-            this.router.navigate([AppRoute.Maintenance]);
+            this.navigationService.redirectToMaintenancePage();
           }
 
           return event;
         }),
-        catchError((error: HttpErrorResponse) => throwError(error)),
+        catchError((error: HttpErrorResponse) => {
+          this.navigationService.redirectToMaintenancePage();
+
+          return throwError(error);
+        }),
       )),
     );
   }
