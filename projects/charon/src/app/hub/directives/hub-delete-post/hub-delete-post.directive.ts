@@ -1,5 +1,6 @@
 import { Directive, HostListener, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { filter, mergeMap } from 'rxjs/operators';
 import { Post } from 'decentr-js';
 
 import { HubDeletePostDialogComponent } from '../../components/hub-delete-post-dialog';
@@ -24,10 +25,9 @@ export class HubDeletePostDirective {
 
     const dialogRef = this.dialog.open(HubDeletePostDialogComponent);
 
-    dialogRef.afterClosed().subscribe((isConfirmed: boolean) => {
-      if (isConfirmed) {
-        this.hubPostsService.deletePost(this.post);
-      }
-    });
+    dialogRef.afterClosed().pipe(
+      filter((isConfirmed) => isConfirmed),
+      mergeMap(() => this.hubPostsService.deletePost(this.post)),
+    ).subscribe();
   }
 }

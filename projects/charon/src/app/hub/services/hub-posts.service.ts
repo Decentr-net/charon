@@ -1,5 +1,5 @@
 import { Injector, TrackByFunction } from '@angular/core';
-import { BehaviorSubject, forkJoin, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, forkJoin, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -116,27 +116,24 @@ export abstract class HubPostsService<T extends PostWithLike = PostWithAuthor> {
     );
   }
 
-  public deletePost(
-    post: Post,
-  ) {
+  public deletePost(post: Post): Observable<void> {
     this.spinnerService.showSpinner();
 
-    this.postsService.deletePost({
+    return this.postsService.deletePost({
       author: post.owner,
       postId: post.uuid,
     }).pipe(
-      takeUntil(this.dispose$),
-      finalize(() => {
-        this.spinnerService.hideSpinner();
-
-        HubPostsService.reloadNotifier$.next();
-      })
-    ).subscribe(
-      () => {
+      tap(() => {
         this.notificationService.success(this.translocoService.translate('hub.notifications.delete.success'));
-    }, (error) => {
+        HubPostsService.reloadNotifier$.next();
+      }),
+      catchError((error) => {
         this.notificationService.error(error);
-      });
+        return EMPTY;
+      }),
+      takeUntil(this.dispose$),
+      finalize(() => this.spinnerService.hideSpinner()),
+    );
   };
 
   public getPost(postId: Post['uuid']): T {
