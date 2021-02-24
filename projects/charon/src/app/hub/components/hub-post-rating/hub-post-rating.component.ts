@@ -8,13 +8,13 @@ import {
   OnInit,
 } from '@angular/core';
 import { fromEvent, Observable, ReplaySubject } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LikeWeight } from 'decentr-js';
 
 import { svgLike } from '@shared/svg-icons';
-import { HubLikesService } from '../../services';
+import { CanLikeState, HubLikesService } from '../../services';
 import { PostWithLike } from '../../models/post';
 
 @UntilDestroy()
@@ -40,7 +40,7 @@ export class HubPostRatingComponent implements OnInit {
 
   public readonly likeWeight: typeof LikeWeight = LikeWeight;
 
-  public isDisabled: boolean = true;
+  public canLikeState: CanLikeState = 'enabled';
 
   private hubLikesService: HubLikesService;
 
@@ -68,22 +68,31 @@ export class HubPostRatingComponent implements OnInit {
 
     this.postId$.pipe(
       switchMap((postId) => this.hubLikesService.canLikePost(postId)),
-      map((canLike) => !canLike),
       untilDestroyed(this),
-    ).subscribe((isDisabled) => {
-      this.isDisabled = isDisabled;
+    ).subscribe((canLikeState) => {
+      this.canLikeState = canLikeState;
       this.changeDetectorRef.markForCheck();
     });
   }
 
+  @HostBinding('class.is-disabled')
+  public get isDisabled(): boolean {
+    return this.canLikeState === 'disabled';
+  }
+
+  @HostBinding('class.is-updating')
+  public get isUpdating(): boolean {
+    return this.canLikeState === 'updating';
+  }
+
   public onLike(post: PostWithLike): void {
-    if (!this.isDisabled) {
+    if (this.canLikeState === 'enabled') {
       this.changeLikeWeight(post, LikeWeight.Up);
     }
   }
 
   public onDislike(post: PostWithLike): void {
-    if (!this.isDisabled) {
+    if (this.canLikeState === 'enabled') {
       this.changeLikeWeight(post, LikeWeight.Down);
     }
   }

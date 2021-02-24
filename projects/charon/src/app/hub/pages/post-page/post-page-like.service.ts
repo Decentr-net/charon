@@ -4,7 +4,7 @@ import { finalize, map, switchMap } from 'rxjs/operators';
 import { LikeWeight, Post } from 'decentr-js';
 
 import { AuthService } from '@core/auth';
-import { HubLikesService, HubPostsService } from '../../services';
+import { CanLikeState, HubLikesService, HubPostsService } from '../../services';
 import { PostWithLike } from '../../models/post';
 import { PostPageService } from './post-page.service';
 
@@ -20,18 +20,18 @@ export class PostPageLikeService extends HubLikesService {
     super(authService, hubPostsService);
   }
 
-  public canLikePost(): Observable<boolean> {
+  public canLikePost(): Observable<CanLikeState> {
     const walletAddress = this.authService.getActiveUserInstant().wallet.address;
 
     return this.postPageService.getPost().pipe(
       switchMap((post) => {
         return post.owner === walletAddress
-          ? of(false)
+          ? of('disabled')
           : PostPageLikeService.isLikeUpdating.pipe(
-            map((isUpdating) => !isUpdating),
+            map((isUpdating) => isUpdating ? 'updating' : 'enabled'),
           );
       }),
-    )
+    ) as Observable<CanLikeState>;
   }
 
   public getPostChanges(): Observable<PostWithLike> {

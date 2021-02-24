@@ -19,6 +19,18 @@
       background-color: $color-background;
     }
   }
+
+  &.is-disabled {
+    .hub-post-rating__section {
+      cursor: not-allowed;
+    }
+  }
+
+  &.is-updating {
+    .hub-post-rating__section {
+      cursor: wait;
+    }
+  }
 }
 
 .hub-post-rating__section {
@@ -28,10 +40,6 @@
   flex-grow: 1;
   height: 100%;
   justify-content: center;
-
-  &.is-disabled {
-    cursor: wait;
-  }
 
   &:hover {
     color: $color-dark-grey;
