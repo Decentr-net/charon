@@ -11,6 +11,7 @@ export interface Config {
     rewards: Record<PDVDataType, number>;
     url: string;
   };
+  maintenance: boolean;
   network: {
     chainId: string;
     rest: string[];

@@ -22,7 +22,10 @@ export class ConfigService {
     if (!this.pendingConfig) {
       this.pendingConfig = true;
 
-      this.configApiService.getConfig().subscribe(this.config$);
+      this.configApiService.getConfig().subscribe(
+        (config) => this.config$.next(config),
+        (error) => this.config$.error(error),
+      );
     }
 
     return this.config$.pipe(
@@ -51,6 +54,12 @@ export class ConfigService {
   public getChainId(): Observable<string> {
     return this.getConfig().pipe(
       map(({ network }) => network.chainId),
+    );
+  }
+
+  public getMaintenanceStatus(): Observable<boolean> {
+    return this.getConfig().pipe(
+      map(({maintenance}) => maintenance),
     );
   }
 

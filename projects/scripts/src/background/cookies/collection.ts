@@ -9,15 +9,12 @@ import {
   map,
   mapTo,
   mergeMap,
+  reduce,
   repeat,
   retryWhen,
-  scan,
-  takeLast,
   takeUntil,
   tap,
 } from 'rxjs/operators';
-import { Cookies } from 'webextension-polyfill-ts';
-import Cookie = Cookies.Cookie;
 import { PDV, PDVData, PDVDataType, Wallet } from 'decentr-js';
 
 import CONFIG_SERVICE from '../config';
@@ -25,9 +22,8 @@ import { PDVBlock, PDVStorageService } from '../../../../../shared/services/pdv'
 import { ONE_SECOND } from '../../../../../shared/utils/date';
 import { whileUserActive } from '../auth/while-user-active';
 import { sendPDV } from './api';
-import { convertCookiesToPDV } from './convert';
+import { convertCookiesToPDVs } from './convert';
 import { listenCookiesSet, listenLoginCookies } from './events';
-import { groupCookiesByDomainAndPath } from './grouping';
 import { PDVDataUniqueStore } from './pdv-data-unique-store';
 
 const configService = CONFIG_SERVICE;
@@ -55,12 +51,6 @@ const mergePDVs = (target: PDV[], source: PDV[]): PDV[] => {
     return [...acc, pdv];
   }, [...target]);
 };
-
-const convertCookiesToPDVs = (cookies: Cookie[], pdvDataType: PDVDataType): PDV[] => {
-  return groupCookiesByDomainAndPath(cookies).map((group) => {
-    return convertCookiesToPDV(group.cookies, group.domain, group.path, pdvDataType);
-  });
-}
 
 const mergePDVsIntoAccumulated = (walletAddress: Wallet['address'], pDVs: PDV[], revertOrder = false): Promise<void> => {
   return pdvStorageService.getUserAccumulatedPDV(walletAddress)
@@ -90,12 +80,11 @@ const collectPDVIntoStorage = (): Observable<void> => {
       map((cookie) => ({ cookies: [cookie], pdvDataType: PDVDataType.Cookie })),
     ),
   ).pipe(
-    scan((acc, { cookies, pdvDataType }) => [
+    takeUntil(timer(ONE_SECOND * 10)),
+    reduce((acc, { cookies, pdvDataType }) => [
       ...acc,
       ...convertCookiesToPDVs(cookies, pdvDataType),
     ], []),
-    takeUntil(timer(ONE_SECOND * 5)),
-    takeLast(1),
     concatMap((newPDVs) => mergePDVsIntoAccumulated(user.wallet.address, newPDVs)),
     repeat(),
   ));
@@ -139,9 +128,9 @@ const initSendPDVBlocks = (): Observable<void> => {
     return pdvStorageService.getUserReadyBlocksChanges(user.wallet.address).pipe(
       map((blocks) => (blocks || []).filter((block) => !processedBlocks.has(block.id))),
       filter((blocksToProcess) => blocksToProcess.length > 0),
-      tap((blocksToProcess) => blocksToProcess.forEach(({ id }) => processedBlocks.add(id))),
       mergeMap((blocksToProcess) => from(blocksToProcess)),
-      mergeMap((block) => from(sendPDV(user.wallet, block.pDVs)).pipe(
+      tap((block) => processedBlocks.add(block.id)),
+      mergeMap((block) => sendPDV(user.wallet, block.pDVs).pipe(
         catchError((error) => {
           if (error?.response?.status === 400) {
             configService.forceUpdate();

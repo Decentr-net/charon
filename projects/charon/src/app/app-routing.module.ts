@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { BrowserTabGuard, SupportedVersionGuard, UpdateGuard } from '@core/guards';
+import { BrowserTabGuard, MaintenanceGuard, SupportedVersionGuard, UpdateGuard } from '@core/guards';
 import {
   AuthCompletedRegistrationGuard,
   UnauthGuard,
@@ -75,10 +75,23 @@ const ROUTES: Routes = [
   },
   {
     path: AppRoute.Update,
-    loadChildren: () => import('./update/update.module').then(m => m.UpdateModule),
+    loadChildren: () => import('./technical/technical.module').then(m => m.TechnicalModule),
     canActivate: [
       UpdateGuard,
     ],
+    data: {
+      i18nPageKey: 'update_page',
+    },
+  },
+  {
+    path: AppRoute.Maintenance,
+    loadChildren: () => import('./technical/technical.module').then(m => m.TechnicalModule),
+    canActivate: [
+      MaintenanceGuard,
+    ],
+    data: {
+      i18nPageKey: 'maintenance_page',
+    },
   },
 ];
 

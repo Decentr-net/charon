@@ -1,4 +1,5 @@
 import { APP_INITIALIZER, NgModule, Optional, SkipSelf } from '@angular/core';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -15,8 +16,10 @@ import { AppRoute } from '../app-route';
 import { SignUpRoute } from '../sign-up';
 import { AuthModule, AuthService } from './auth';
 import { LockModule } from './lock';
+import { ConfigService } from '@shared/services/configuration';
 import { CORE_GUARDS } from './guards';
-import { NavigationModule } from './navigation';
+import { MaintenanceInterceptor } from '@core/interceptors';
+import { NavigationModule, NavigationService } from './navigation';
 import { PermissionsModule } from '@shared/permissions';
 import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
@@ -25,6 +28,18 @@ import { QuillRootModule } from './quill';
 
 export function initAuthFactory(authService: AuthService): () => void {
   return () => authService.init();
+}
+
+export function isMaintenanceFactory(configService: ConfigService, navigationService: NavigationService): () => void {
+  return () => {
+    configService.getMaintenanceStatus().pipe().toPromise().then((isMaintenance) => {
+      if (isMaintenance) {
+        throw true;
+      }
+    }).catch(() => {
+      navigationService.redirectToMaintenancePage();
+    });
+  };
 }
 
 export function initNetworkFactory(networkService: NetworkService): () => void {
@@ -77,6 +92,17 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     {
       provide: Environment,
       useValue: environment,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: isMaintenanceFactory,
+      deps: [ConfigService, NavigationService],
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MaintenanceInterceptor,
+      multi: true,
     },
     {
       provide: APP_INITIALIZER,
