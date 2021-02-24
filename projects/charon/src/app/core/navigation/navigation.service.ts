@@ -7,6 +7,8 @@ import { openExtensionInNewTab } from '@core/browser';
 import { Tabs } from 'webextension-polyfill-ts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+import { AppRoute } from '../../app-route';
+
 @UntilDestroy()
 @Injectable({
   providedIn: 'root',
@@ -42,5 +44,9 @@ export class NavigationService {
   public openInNewTab(url: string): Promise<Tabs.Tab> {
     const externalLink = this.location.prepareExternalUrl(url);
     return openExtensionInNewTab(externalLink).then();
+  }
+
+  public redirectToMaintenancePage(): void {
+    this.router.navigate(['./', AppRoute.Maintenance]);
   }
 }

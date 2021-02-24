@@ -1,0 +1,8 @@
+{
+  "maintenance_page": {
+    "title": "Extension is temporarily unavailable due to maintenance downtime.\nPlease, try again later."
+  },
+  "update_page": {
+    "title": "This version is no longer supported.\nPlease, update the extension."
+  }
+}
