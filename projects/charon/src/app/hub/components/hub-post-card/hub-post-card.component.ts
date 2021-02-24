@@ -7,7 +7,9 @@ import {
   Renderer2,
   SimpleChanges,
 } from '@angular/core';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 
+import { svgTrash } from '@shared/svg-icons';
 import { PostWithLike } from '../../models/post';
 
 const DEFAULT_ORIENTATION = 'vertical';
@@ -30,8 +32,11 @@ export class HubPostCardComponent implements OnChanges {
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef,
+    svgIconRegistry: SvgIconRegistry,
   ) {
     this.renderer.addClass(this.elementRef.nativeElement, `mod-${DEFAULT_ORIENTATION}`);
+
+    svgIconRegistry.register(svgTrash);
   }
 
   public ngOnChanges({ orientation }: SimpleChanges): void {

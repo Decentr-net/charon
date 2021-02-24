@@ -112,6 +112,9 @@
       "no_change": "No change"
     }
   },
+  "hub_post_card": {
+    "remove_post": "Remove post"
+  },
   "hub_post_dialog": {
     "remove_post": "Remove post"
   },

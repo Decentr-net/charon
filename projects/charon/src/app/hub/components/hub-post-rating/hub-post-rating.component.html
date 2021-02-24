@@ -1,7 +1,6 @@
 <ng-container *ngIf="post$ | async as post">
   <div
     class="hub-post-rating__section"
-    [class.is-disabled]="isDisabled"
     (click)="onLike(post)"
   >
     <svg-icon
@@ -15,7 +14,6 @@
 
   <div
     class="hub-post-rating__section"
-    [class.is-disabled]="isDisabled"
     (click)="onDislike(post)"
   >
     <svg-icon

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -21,6 +21,7 @@ export class PostPageService {
     private notificationService: NotificationService,
     private postsService: PostsService,
     private hubPostsService: HubPostsService,
+    private router: Router,
   ) {
     this.activatedRoute.params.pipe(
       mergeMap((params) => this.getPostWithAuthorChanges(
@@ -33,6 +34,12 @@ export class PostPageService {
 
   public getPost(): Observable<PostWithAuthor> {
     return this.post$;
+  }
+
+  public deletePost(post: Post): void {
+    this.hubPostsService.deletePost(post).pipe(
+      untilDestroyed(this),
+    ).subscribe(() => this.router.navigate(['../../../']));
   }
 
   public likePost(postId: Post['uuid'], likeWeight: LikeWeight): Observable<void> {
