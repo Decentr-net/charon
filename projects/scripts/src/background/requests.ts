@@ -22,6 +22,8 @@ type RequestDetailsStreamFn<T extends RequestDetails> = (
   httpMethod?: string,
 ) => Observable<T>;
 
+type RequestBodyFilterFn = (body: OnBeforeRequestDetailsTypeRequestBodyType) => boolean;
+
 const listenRequestsDetails = <T extends RequestDetails>(
   event: Events.Event<(details: T) => void>,
   requestFilter: Partial<RequestFilter> = {},
@@ -78,6 +80,7 @@ const listenRequestsWithBody = <T extends RequestDetails>(
   requestEndStreamFn: RequestDetailsStreamFn<T>,
   requestFilter: Partial<RequestFilter> = {},
   httpMethod?: string,
+  bodyFilterFn?: RequestBodyFilterFn,
 ): Observable<OnBeforeRequestDetailsType> => {
   return new Observable<OnBeforeRequestDetailsType>((subscriber) => {
     const requestsStore = new Map<string, { timestamp: number, details: OnBeforeRequestDetailsType }>();
@@ -85,6 +88,7 @@ const listenRequestsWithBody = <T extends RequestDetails>(
 
     listenRequestsOnBeforeSend(requestFilter, httpMethod).pipe(
       filter((details) => !!details.requestBody),
+      filter((details) => !bodyFilterFn || bodyFilterFn(details.requestBody)),
       takeUntil(unsubscribe$),
     ).subscribe(details => requestsStore.set(details.requestId, { timestamp: Date.now(), details }));
 
@@ -115,15 +119,17 @@ const listenRequestsWithBody = <T extends RequestDetails>(
 export const listenRequestsBeforeRedirectWithBody = (
   requestFilter: Partial<RequestFilter> = {},
   httpMethod?: string,
+  bodyFilterFn?: RequestBodyFilterFn,
 ): Observable<OnBeforeRequestDetailsType> => {
-  return listenRequestsWithBody(listenRequestsOnBeforeRedirect, requestFilter, httpMethod);
+  return listenRequestsWithBody(listenRequestsOnBeforeRedirect, requestFilter, httpMethod, bodyFilterFn);
 };
 
 export const listenRequestsOnCompletedWithBody = (
   requestFilter: Partial<RequestFilter> = {},
   httpMethod?: string,
+  bodyFilterFn?: RequestBodyFilterFn,
 ): Observable<OnBeforeRequestDetailsType> => {
-  return listenRequestsWithBody(listenRequestsOnCompleted, requestFilter, httpMethod);
+  return listenRequestsWithBody(listenRequestsOnCompleted, requestFilter, httpMethod, bodyFilterFn);
 };
 
 export const requestBodyContains = (
