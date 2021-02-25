@@ -19,9 +19,12 @@
 
 .hub-header__bar-actions-container {
   align-items: center;
-  column-gap: $grid-step * 3;
   display: flex;
   overflow: hidden;
+}
+
+.hub-header__bar-actions-menu {
+  margin-left: $grid-step * 3;
 }
 
 .hub-header__bar-logo {
