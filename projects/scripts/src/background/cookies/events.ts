@@ -1,5 +1,5 @@
 import { merge, Observable } from 'rxjs';
-import { debounceTime, filter, switchMap } from 'rxjs/operators';
+import { debounceTime, switchMap } from 'rxjs/operators';
 import { browser, Cookies } from 'webextension-polyfill-ts';
 import Cookie = Cookies.Cookie;
 import OnChangedChangeInfoType = Cookies.OnChangedChangeInfoType;
@@ -17,10 +17,17 @@ export const listenLoginCookies = (loginIdentifiers: string[]): Observable<Cooki
   const notEmptyStrings = loginIdentifiers.filter((str) => !!str);
 
   return merge(
-    listenRequestsOnCompletedWithBody({}, 'POST'),
-    listenRequestsBeforeRedirectWithBody({}, 'POST'),
+    listenRequestsOnCompletedWithBody(
+      {},
+      'POST',
+      (requestBody) => requestBodyContains(requestBody, notEmptyStrings),
+    ),
+    listenRequestsBeforeRedirectWithBody(
+      {},
+      'POST',
+      (requestBody) => requestBodyContains(requestBody, notEmptyStrings),
+      ),
   ).pipe(
-    filter(request => requestBodyContains(request.requestBody, notEmptyStrings)),
     debounceTime(ONE_SECOND),
     switchMap(request => getBrowserCookies(new URL(request.url))),
   );
