@@ -41,13 +41,13 @@ export class UserApiService {
 
   public getAccount(api: string, walletAddress: Wallet['address']): Observable<Account> {
     return this.createDecentrConnector(api).pipe(
-      mergeMap((decentr) => decentr.getAccount(walletAddress)),
+      mergeMap((decentr) => decentr.profile.getAccount(walletAddress)),
     );
   }
 
-  public getModeratorAddresses(api: string) {
+  public getModeratorAddresses(api: string): Observable<string[]> {
     return this.createDecentrConnector(api).pipe(
-      mergeMap((decentr) => decentr.getModeratorAddresses()),
+      mergeMap((decentr) => decentr.community.getModeratorAddresses()),
     );
   }
 
@@ -57,13 +57,13 @@ export class UserApiService {
     privateKey: Wallet['privateKey'],
   ): Observable<UserPrivate> {
     return this.createDecentrConnector(api).pipe(
-      mergeMap((decentr) => decentr.getPrivateProfile<UserPrivate>(walletAddress, privateKey)),
+      mergeMap((decentr) => decentr.profile.getPrivateProfile<UserPrivate>(walletAddress, privateKey)),
     );
   }
 
   public getPublicProfile(api: string, walletAddress: Wallet['address']): Observable<PublicProfile> {
     return this.createDecentrConnector(api).pipe(
-      mergeMap((decentr) => decentr.getPublicProfile(walletAddress)),
+      mergeMap((decentr) => decentr.profile.getPublicProfile(walletAddress)),
     );
   }
 
