@@ -1,6 +1,6 @@
 {
   "name": "charon",
-  "version": "1.1.4",
+  "version": "1.1.7",
   "scripts": {
     "ng": "ng",
     "build:chrome": "npm run clean && npm run build:charon && npm run build:scripts:chrome && cross-env BROWSER=chrome npm run build:toolbar",
