@@ -1,0 +1,20 @@
+@import 'variables';
+
+:host {
+  align-items: center;
+  background: $color-white;
+  border: 1px solid $color-outlines;
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: $grid-step;
+  padding: $grid-step * 3 $grid-step $grid-step;
+}
+
+.hub-profile-card__avatar {
+  $avatar-size: 88px;
+
+  height: $avatar-size;
+  margin-bottom: $grid-step;
+  width: $avatar-size;
+}

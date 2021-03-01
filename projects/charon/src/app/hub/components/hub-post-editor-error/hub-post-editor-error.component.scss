@@ -1,0 +1,14 @@
+@import 'variables';
+
+:host {
+  color: $color-white;
+  display: inline-flex;
+  font-weight: 400;
+  position: absolute;
+}
+
+.hub-post-editor-error {
+  background-color: $color-red;
+  border-radius: $border-radius;
+  padding: $grid-step $grid-step * 1.5;
+}

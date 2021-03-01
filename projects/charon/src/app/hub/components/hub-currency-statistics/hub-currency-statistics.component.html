@@ -6,36 +6,37 @@
     {{ translate('dec_rate') }}
   </ng-container>
 
-  <ng-container *ngIf="statistics; else loader">
-    <ng-container ngProjectAs="subtitle">
-      &nbsp;
-    </ng-container>
+  <ng-container *ngIf="statistics" ngProjectAs="subtitle">
+    {{ translate('decentr_to_usd') }}
+  </ng-container>
 
-    <div class="hub-currency-statistics__rate">
-      {{ statistics.rate | currency : 'USD' :'symbol' :'1.4' }}
-    </div>
+  <ng-container *ngIf="statistics" ngProjectAs="rate">
+    <span appTypeface="subheader">$</span>
+    {{ statistics.rate | number : '1.4' }}
+  </ng-container>
 
-    <div class="hub-currency-statistics__rate-change">
-      {{ translate('dec_rate_change.dec') }}
-      <ng-container *ngIf="isPositive || isNegative else notChangedRate">
-        <span class="hub-currency-statistics__rate-direction">
-          {{ translate(
-            'dec_rate_change.' + (isPositive ? 'increased' : 'decreased'),
-            { percent: statistics.rateChangedIn24HoursPercent | positiveNumber | number : '1.0-2' }
-          ) }}
-        </span>
-      </ng-container>
-      <ng-template #notChangedRate>
-        {{ translate('dec_rate_change.not_changed') }}
-      </ng-template>
+  <ng-container *ngIf="statistics" ngProjectAs="changed">
+    <div class="hub-currency-statistics__rate-change" appTypeface="caption">
+      <span class="hub-currency-statistics__rate-direction">
+        <ng-container *ngIf="!isNeutral else notChangedRate">
+          {{ isPositive ? '+' : '' }}{{ statistics.rateChangedIn24HoursPercent | number : '1.0-2'}}%
+        </ng-container>
+        <ng-template #notChangedRate>
+          {{ translate('dec_rate_change.no_change') }}
+        </ng-template>
+      </span>
+
       {{ translate('dec_rate_change.last_hours') }}
     </div>
+  </ng-container>
 
+  <ng-container *ngIf="statistics; else loader">
     <app-line-chart
       *ngIf="statistics.points.length > 0; else noData"
       class="hub-currency-statistics__chart"
-      color="#FDC900"
+      color="#4F80FF"
       [data]="statistics.points"
+      [lineWidth]="4"
       [showArea]="true"
       [showHoverLine]="true"
       [showTooltip]="true"
@@ -52,7 +53,7 @@
     </app-line-chart>
 
     <ng-template #noData>
-      <div class="hub-currency-statistics__no-data">
+      <div class="hub-currency-statistics__no-data" appTypeface="caption">
         {{ translate('no_chart_data') }}
       </div>
     </ng-template>

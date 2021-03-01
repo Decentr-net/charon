@@ -1,9 +1,14 @@
 export const HubCategoryRouteParam = 'category';
 
+export const HubPostIdRouteParam = 'postId';
+
+export const HubPostOwnerRouteParam = 'postOwner';
+
 export enum HubRoute {
+  PostCreate = 'post-create',
   Feed = 'feed',
   Posts = 'posts',
-  Overview = 'overview',
+  Post = 'post',
 }
 
 export enum HubFeedRoute {

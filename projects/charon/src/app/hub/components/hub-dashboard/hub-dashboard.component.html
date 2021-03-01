@@ -1,0 +1,17 @@
+<div
+  *transloco="let translate; read: 'hub.hub_dashboard'"
+  class="hub-dashboard__container"
+>
+  <div
+    class="hub-dashboard__title"
+    appTypeface="header-4"
+  >
+    {{ translate('your_dashboard') }}
+  </div>
+
+  <div class="hub-dashboard__statistics-container">
+    <app-hub-pdv-statistics [estimatedBalance]="estimatedBalance" [statistics]="pdvStatistics"></app-hub-pdv-statistics>
+    <app-hub-currency-statistics [statistics]="rateStatistics"></app-hub-currency-statistics>
+    <app-hub-additional-statistics></app-hub-additional-statistics>
+  </div>
+</div>

@@ -8,6 +8,7 @@ import { SlotService } from './slot.service';
 })
 export class SlotContainerDirective implements OnInit {
   @Input('appSlotContainer') public forSlot: symbol;
+  @Input('appSlotContainerRootElement') public rootElement: HTMLElement;
 
   constructor(
     private slotService: SlotService,
@@ -25,7 +26,7 @@ export class SlotContainerDirective implements OnInit {
           return;
         }
 
-        this.viewContainerRef.createEmbeddedView(template)
+        this.viewContainerRef.createEmbeddedView(template, { rootElement: this.rootElement })
           .detectChanges();
       });
   }

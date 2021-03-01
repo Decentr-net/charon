@@ -30,12 +30,7 @@ $overview-page--analytics-divider-color: #9EA0A5;
 }
 
 .overview-page__posts-container {
-  justify-content: center;
   display: grid;
   gap: 30px;
-  grid-template-columns: repeat(4, 1fr);
-
-  @media (max-width: 1119px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }

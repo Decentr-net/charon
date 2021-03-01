@@ -1,9 +1,14 @@
+@import 'variables';
+
 $feed-page--top-feed-header--background-color: #FFFFFF;
 $feed-page--top-feed--no-posts--color: #9EA0A5;
 
 :host {
+  background: #F2F2F2;
   display: flex;
-  height: 100%;
+  margin: 0 auto;
+  width: $page-width;
+  padding: 30px $page-side-padding 0;
 }
 
 .feed-page__wall,
@@ -33,7 +38,6 @@ $feed-page--top-feed--no-posts--color: #9EA0A5;
 
 .feed-page__top-feed__posts-container {
   height: 100%;
-  overflow: auto;
   padding-bottom: 30px;
 }
 

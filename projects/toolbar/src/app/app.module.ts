@@ -7,11 +7,11 @@ import { AppComponent } from './app.component';
 import { AppService } from './app.service';
 import { AvatarModule } from '@shared/components/avatar';
 import { AuthBrowserStorageService } from '@shared/services/auth';
-import { LockBrowserStorageService } from '@shared/services/lock';
-import { ColorValueDynamicModule } from '@shared/components/color-value-dynamic';
 import { CurrencyModule } from '@shared/services/currency';
 import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
+import { LockBrowserStorageService } from '@shared/services/lock';
+import { MarginLabelModule } from '@shared/components/margin-label';
 import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { PDVService } from '@shared/services/pdv';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
@@ -26,11 +26,11 @@ import { TOOLBAR_SERVICES } from './services';
   imports: [
     AvatarModule,
     BrowserModule,
-    ColorValueDynamicModule,
     CurrencyModule.forRoot({
       api: environment.currencyApi,
     }),
     HttpClientModule,
+    MarginLabelModule,
     PdvValueModule,
     SvgIconsModule.forRoot({
       icons: [

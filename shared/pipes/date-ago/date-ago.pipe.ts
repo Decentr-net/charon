@@ -34,6 +34,7 @@ export class DateAgoPipe implements PipeTransform, OnDestroy {
       value?: number;
     };
 
+    this.removeTimer();
     this.ngZone$ = this.ngZone.runOutsideAngular(() => this.ngZone$ = timer(timeToUpdate)
       .pipe(
         map(() => this.ngZone.run(() => this.changeDetectorRef.markForCheck())),

@@ -1,22 +1,38 @@
+@import 'variables';
+
 $hub-navigation--background-color: #FFFFFF;
-$hub-navigation--height: 72px;
+$hub-navigation--height: 48px;
 
 :host {
   align-items: center;
   background-color: $hub-navigation--background-color;
+  border-bottom: 1px solid $color-outlines;
   display: flex;
-  justify-content: flex-end;
   height: $hub-navigation--height;
-  padding: 0 30px;
+  margin: auto;
+  padding: 0 $page-side-padding;
+  width: $page-width + $page-side-padding * 2;
 }
 
 .hub-navigation__section {
   display: flex;
   height: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .hub-navigation__link {
-  &:not(:last-child) {
-    margin-right: 24px;
+  margin: 0 $grid-step * 2;
+
+  &:first-child {
+    margin-left: 0;
   }
+}
+
+.hub-navigation__link-latest {
+  color: $color-primary;
 }

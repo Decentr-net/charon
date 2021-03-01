@@ -3,34 +3,36 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { LikeWeight, Post } from 'decentr-js';
 
-import { AuthService } from '../../core/auth';
-import { PostWithAuthor } from '../models/post';
+import { AuthService } from '@core/auth';
+import { PostWithLike } from '../models/post';
 import { HubPostsService } from './hub-posts.service';
+
+export type CanLikeState = 'updating' | 'disabled' | 'enabled';
 
 @Injectable()
 export class HubLikesService {
   public static isLikeUpdating: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
-    private authService: AuthService,
-    private hubPostsService: HubPostsService,
+    protected authService: AuthService,
+    protected hubPostsService: HubPostsService,
   ) {
   }
 
-  public canLikePost(postId: Post['uuid']): Observable<boolean> {
+  public canLikePost(postId: Post['uuid']): Observable<CanLikeState> {
     const post = this.hubPostsService.getPost(postId);
     const walletAddress = this.authService.getActiveUserInstant().wallet.address;
 
     if (post.owner === walletAddress) {
-      return of(false);
+      return of('disabled');
     }
 
     return HubLikesService.isLikeUpdating.pipe(
-      map((isUpdating) => !isUpdating),
+      map((isUpdating) => isUpdating ? 'updating' : 'enabled'),
     );
   }
 
-  public getPostChanges(postId: Post['uuid']): Observable<PostWithAuthor> {
+  public getPostChanges(postId: Post['uuid']): Observable<PostWithLike> {
     return this.hubPostsService.getPostChanges(postId);
   }
 

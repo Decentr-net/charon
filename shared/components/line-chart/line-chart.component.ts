@@ -53,7 +53,7 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
     bottom: 5,
     left: 5,
     right: 5,
-    top: 5
+    top: 5,
   };
   private width: number;
 
@@ -117,10 +117,31 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
     this.height = Math.max(this.containerHeight - this.margin.top - this.margin.bottom, 0);
   }
 
+  private addGradient(): void {
+    const svgDefs = this.svg.append('defs');
+
+    const whiteChartGradient = svgDefs.append('linearGradient')
+      .attr("x1", "0%")
+      .attr("x2", "0%")
+      .attr("y1", "0%")
+      .attr("y2", "100%")
+      .attr('id', 'whiteChartGradient');
+
+    whiteChartGradient.append('stop')
+      .attr('stop-color', 'rgba(255, 255, 255, 0.4)')
+      .attr('offset', '0');
+
+    whiteChartGradient.append('stop')
+      .attr('class', 'stop-right')
+      .attr('stop-color', 'rgba(255, 255, 255, 0)')
+      .attr('offset', '1');
+  }
+
   private createSvg(): void {
     this.svg = d3.select(this.chartRef.nativeElement)
       .append('svg');
 
+    this.addGradient();
     this.updateSvgDimensions();
 
     this.svg
@@ -191,6 +212,7 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
       +coerceTimestamp(rightPoint.date) - +coerceTimestamp(invertedX)
     ) ? rightPoint : leftPoint;
     const hoverPointX = Math.round(this.x(new Date(hoverPoint.date)));
+    const hoverPointY = Math.round(this.y(hoverPoint.value));
 
     this.chartPointHovered.emit(hoverPoint);
     this.chartPointActive = hoverPoint;
@@ -200,8 +222,12 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
         ? hoverPointX + this.margin.left * 2
         : hoverPointX - this.tooltip.node().clientWidth - this.margin.left;
 
+      const hoverPointYOffset = (hoverPointY < this.svg.node().clientHeight / 2)
+        ? hoverPointY + this.tooltip.node().clientHeight / 2 - this.margin.top
+        : hoverPointY - this.tooltip.node().clientHeight / 2 + this.margin.top;
+
       this.tooltip
-        .style('top', `${this.y(hoverPoint.value) + this.margin.top}px`)
+        .style('top', `${hoverPointYOffset}px`)
         .style('left', `${hoverPointXOffset}px`);
     }
 
@@ -265,8 +291,7 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
     this.chartContainer.append('path')
       .datum(this.data)
       .attr('class', 'area')
-      .attr('fill', this.color)
-      .attr('opacity', '0.105')
+      .attr('fill', 'url(#whiteChartGradient)')
       .attr('stroke', 'none')
       .attr('d', this.area);
   }

@@ -1,5 +1,5 @@
-import { Injector } from '@angular/core';
-import { BehaviorSubject, forkJoin, Observable, of, Subject } from 'rxjs';
+import { Injector, TrackByFunction } from '@angular/core';
+import { BehaviorSubject, EMPTY, forkJoin, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -17,11 +17,9 @@ import { NotificationService } from '@shared/services/notification';
 import { createSharedOneValueObservable } from '@shared/utils/observable';
 import { TranslatedError } from '@core/notifications';
 import { PostsService, SpinnerService, UserService } from '../../core/services';
-import { PostWithAuthor } from '../models/post';
-import { HubCreatePostService } from './hub-create-post.service';
+import { PostWithAuthor, PostWithLike } from '../models/post';
 
-export abstract class HubPostsService {
-  protected readonly createPostService: HubCreatePostService;
+export abstract class HubPostsService<T extends PostWithLike = PostWithAuthor> {
   protected readonly notificationService: NotificationService;
   protected readonly postsService: PostsService;
   protected readonly spinnerService: SpinnerService;
@@ -30,8 +28,9 @@ export abstract class HubPostsService {
 
   protected loadingMoreCount: number = 4;
   protected loadingInitialCount: number = 4;
+  protected includeProfile: boolean = true;
 
-  private posts: BehaviorSubject<PostWithAuthor[]> = new BehaviorSubject([]);
+  private posts: BehaviorSubject<T[]> = new BehaviorSubject([]);
   private isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private loadMore: Subject<number> = new Subject();
   private canLoadMore: BehaviorSubject<boolean> = new BehaviorSubject(true);
@@ -47,7 +46,6 @@ export abstract class HubPostsService {
   protected constructor(
     injector: Injector,
   ) {
-    this.createPostService = injector.get(HubCreatePostService);
     this.notificationService = injector.get(NotificationService);
     this.postsService = injector.get(PostsService);
     this.spinnerService = injector.get(SpinnerService);
@@ -66,12 +64,6 @@ export abstract class HubPostsService {
       this.pushPosts(posts);
     });
 
-    this.createPostService.postCreated$.pipe(
-      takeUntil(this.dispose$),
-    ).subscribe(() => {
-      HubPostsService.reloadNotifier$.next();
-    });
-
     HubPostsService.reloadNotifier$.pipe(
       takeUntil(this.dispose$),
     ).subscribe(() => {
@@ -85,7 +77,7 @@ export abstract class HubPostsService {
     });
   }
 
-  public get posts$(): Observable<PostWithAuthor[]> {
+  public get posts$(): Observable<T[]> {
     return this.posts.asObservable();
   }
 
@@ -109,36 +101,33 @@ export abstract class HubPostsService {
     this.loadMorePosts(count);
   }
 
-  public getPostChanges(postId: Post['uuid']): Observable<PostWithAuthor> {
+  public getPostChanges(postId: Post['uuid']): Observable<T> {
     return this.posts$.pipe(
       map(() => this.getPost(postId)),
     );
   }
 
-  public deletePost(
-    post: Post,
-  ) {
+  public deletePost(post: Post): Observable<void> {
     this.spinnerService.showSpinner();
 
-    this.postsService.deletePost({
+    return this.postsService.deletePost({
       author: post.owner,
       postId: post.uuid,
     }).pipe(
-      takeUntil(this.dispose$),
-      finalize(() => {
-        this.spinnerService.hideSpinner();
-
-        HubPostsService.reloadNotifier$.next();
-      })
-    ).subscribe(
-      () => {
+      tap(() => {
         this.notificationService.success(this.translocoService.translate('hub.notifications.delete.success'));
-    }, (error) => {
+        HubPostsService.reloadNotifier$.next();
+      }),
+      catchError((error) => {
         this.notificationService.error(error);
-      });
+        return EMPTY;
+      }),
+      takeUntil(this.dispose$),
+      finalize(() => this.spinnerService.hideSpinner()),
+    );
   };
 
-  public getPost(postId: Post['uuid']): PostWithAuthor {
+  public getPost(postId: Post['uuid']): T {
     return this.posts.value.find((post) => post.uuid === postId);
   }
 
@@ -146,7 +135,7 @@ export abstract class HubPostsService {
     const post = this.getPost(postId);
 
     const update: Partial<Pick<PostWithAuthor, 'likeWeight' | 'likesCount' | 'dislikesCount'>> = {
-      ...this.getPostLikesCountUpdate(post, likeWeight),
+      ...HubPostsService.getPostLikesCountUpdate(post, likeWeight),
       likeWeight,
     };
 
@@ -178,9 +167,22 @@ export abstract class HubPostsService {
     this.dispose$.complete();
   }
 
+  public getPublicProfile(walletAddress: Post['owner']): Observable<PublicProfile> {
+    if (!this.profileMap.has(walletAddress)) {
+      this.profileMap.set(
+        walletAddress,
+        createSharedOneValueObservable(this.userService.getPublicProfile(walletAddress)),
+      );
+    }
+
+    return this.profileMap.get(walletAddress);
+  }
+
+  public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;
+
   protected abstract loadPosts(fromPost: Post | undefined, count: number): Observable<Post[]>;
 
-  private getLastPost(): PostWithAuthor | undefined {
+  private getLastPost(): T | undefined {
     return this.posts.value[this.posts.value.length - 1];
   }
 
@@ -206,25 +208,14 @@ export abstract class HubPostsService {
     );
   }
 
-  private pushPosts(posts: PostWithAuthor[]): void {
+  private pushPosts(posts: T[]): void {
     const currentPosts = this.posts.value;
     this.posts.next([...currentPosts, ...posts]);
   }
 
-  private getPublicProfile(walletAddress: Post['owner']): Observable<PublicProfile> {
-    if (!this.profileMap.has(walletAddress)) {
-      this.profileMap.set(
-        walletAddress,
-        createSharedOneValueObservable(this.userService.getPublicProfile(walletAddress)),
-      );
-    }
-
-    return this.profileMap.get(walletAddress);
-  }
-
   private replacePost(
     postId: Post['uuid'],
-    updateFn: (post: PostWithAuthor) => PostWithAuthor | undefined,
+    updateFn: (post: T) => T | undefined,
   ) {
     const postIndex = this.posts.value.findIndex((post) => post.uuid === postId);
     const post = this.posts.value[postIndex];
@@ -247,7 +238,7 @@ export abstract class HubPostsService {
     }));
   }
 
-  private updatePostsWithAuthors<T extends Post>(
+  public updatePostsWithAuthors<T extends Post>(
     posts: T[],
   ): Observable<(T & { author: PublicProfile })[]> {
     if (!posts.length) {
@@ -264,7 +255,7 @@ export abstract class HubPostsService {
     );
   }
 
-  private updatePostsWithLikes<T extends Post>(
+  public updatePostsWithLikes<T extends Post>(
     posts: T[],
   ): Observable<(T & { likeWeight: LikeWeight })[]> {
     if (!posts.length) {
@@ -283,22 +274,22 @@ export abstract class HubPostsService {
     );
   }
 
-  private loadFullPosts(fromPost: Post, count: number): Observable<PostWithAuthor[]> {
+  private loadFullPosts(fromPost: Post, count: number): Observable<T[]> {
     return this.loadPosts(fromPost, count).pipe(
       map((posts) => {
         return posts
           .filter((post) => !!+post.createdAt)
           .sort((left, right) => right.pdv - left.pdv || right.createdAt - left.createdAt);
       }),
-      mergeMap((posts) => this.updatePostsWithAuthors(posts)),
-      mergeMap((posts) => this.updatePostsWithLikes(posts)),
+      mergeMap((posts: Post[]) => this.includeProfile ? this.updatePostsWithAuthors(posts) : of(posts)),
+      mergeMap((posts: T[]) => this.updatePostsWithLikes(posts)),
     );
   }
 
-  private getPostLikesCountUpdate(
-    post: PostWithAuthor,
+  public static getPostLikesCountUpdate<T extends PostWithLike>(
+    post: T,
     newLikeWeight: LikeWeight,
-  ): Partial<Pick<PostWithAuthor, 'likesCount' | 'dislikesCount'>> {
+  ): Partial<Pick<T, 'likesCount' | 'dislikesCount'>> {
     switch (post.likeWeight) {
       case LikeWeight.Up:
         switch (newLikeWeight) {

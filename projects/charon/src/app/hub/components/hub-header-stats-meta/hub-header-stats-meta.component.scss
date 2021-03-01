@@ -1,0 +1,83 @@
+@import 'variables';
+@import 'typeface';
+
+::ng-deep {
+  .hub-header-stats-meta__tooltip {
+    @extend .typeface-caption;
+  }
+}
+
+:host {
+  align-items: center;
+  background: $color-background;
+  border-radius: $border-radius;
+  cursor: pointer;
+  display: inline-flex;
+  min-height: 32px;
+  overflow: hidden;
+  transition: background .3s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: $color-outlines;
+
+    .hub-header-stats-meta__details {
+      color: $color-dark-grey;
+    }
+  }
+}
+
+.hub-header-stats-meta__label {
+  align-items: center;
+  border-left: 0;
+  display: inline-flex;
+  min-height: 24px;
+  padding: 0 $grid-step * 2;
+
+  & + & {
+    border-left: 1px solid $color-white;
+  }
+}
+
+.hub-header-stats-meta__details {
+  align-items: center;
+  box-shadow: inset 1px 0 0 0 $color-white;
+  color: $color-grey;
+  display: flex;
+  height: 100%;
+  padding: 0 $grid-step * 2;
+  user-select: none;
+
+  &.is-open {
+    .hub-header-stats-meta__details-icon {
+      transform: rotate(-180deg);
+    }
+  }
+}
+
+.hub-header-stats-meta__details-title {
+  min-width: 75px;
+}
+
+.hub-header-stats-meta__details-icon {
+  align-items: center;
+  display: inline-flex;
+  margin-left: $grid-step / 2;
+  transition: transform .3s ease;
+}
+
+.hub-header-stats-meta__label-value {
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.hub-header-stats-meta__margin-label {
+  margin-left: 6px;
+}
+
+.hub-header-stats-meta__backdrop {
+  height: 100vh;
+  position: absolute;
+  width: 100%;
+  z-index: -1;
+}

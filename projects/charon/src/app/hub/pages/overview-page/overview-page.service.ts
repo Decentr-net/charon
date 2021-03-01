@@ -7,11 +7,16 @@ import { AuthService } from '@core/auth/services';
 import { coerceTimestamp } from '@shared/utils/date';
 import { HubCurrencyStatistics } from '../../components/hub-currency-statistics';
 import { HubPDVStatistics } from '../../components/hub-pdv-statistics';
-import { HubPageService } from '../hub-page/hub-page.service';
 import { HubPostsService } from '../../services';
-import { NetworkService } from '@core/services';
+import { NetworkService, PDVService } from '@core/services';
 import { PostsApiService } from '@core/services/api';
 import { NotificationService } from '@shared/services/notification';
+import { CurrencyService } from '@shared/services/currency';
+
+interface CoinRateHistory {
+  date: number,
+  value: number,
+}
 
 @Injectable()
 export class OverviewPageService extends HubPostsService implements OnDestroy {
@@ -20,8 +25,9 @@ export class OverviewPageService extends HubPostsService implements OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private hubPageService: HubPageService,
+    private currencyService: CurrencyService,
     private networkService: NetworkService,
+    private pdvService: PDVService,
     private postsApiService: PostsApiService,
     protected notificationService: NotificationService,
     injector: Injector,
@@ -34,7 +40,7 @@ export class OverviewPageService extends HubPostsService implements OnDestroy {
   }
 
   public getEstimatedBalance(): Observable<string> {
-    return this.hubPageService.getEstimatedBalance();
+    return this.pdvService.getEstimatedBalance();
   }
 
   private getUserRegisteredAt(): Observable<string> {
@@ -47,8 +53,8 @@ export class OverviewPageService extends HubPostsService implements OnDestroy {
 
   public getPdvStatistics(): Observable<HubPDVStatistics> {
     return combineLatest([
-      this.hubPageService.getBalanceWithMargin(),
-      this.hubPageService.getPDVChartPoints(),
+      this.pdvService.getBalanceWithMargin(),
+      this.pdvService.getPDVStatChartPoints(),
       this.getUserRegisteredAt(),
     ])
       .pipe(
@@ -66,8 +72,8 @@ export class OverviewPageService extends HubPostsService implements OnDestroy {
 
   public getCoinRateStatistics(): Observable<HubCurrencyStatistics> {
     return combineLatest([
-      this.hubPageService.getCoinRateWithMargin(),
-      this.hubPageService.getDecentCoinRateHistory(365),
+      this.currencyService.getDecentrCoinRateForUsd24hours(),
+      this.getDecentCoinRateHistory(365),
     ])
       .pipe(
         map(([rateWithMargin, rateStatistic]) => ({
@@ -91,6 +97,15 @@ export class OverviewPageService extends HubPostsService implements OnDestroy {
         this.notificationService.error(error);
         return EMPTY;
       }),
+    );
+  }
+
+  private getDecentCoinRateHistory(days: number): Observable<CoinRateHistory[]> {
+    return this.currencyService.getDecentCoinRateHistory(days).pipe(
+      map((historyElements) => historyElements.map((historyElement) => ({
+        date: historyElement[0],
+        value: historyElement[1],
+      })))
     );
   }
 }

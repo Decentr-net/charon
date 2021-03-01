@@ -1,54 +1,45 @@
-$hub-header--bar--background-color: #FFFFFF;
-$hub-header--bar-meta-container--background-color: #F8FAFD;
-$hub-header--bar-icon-button--hover-background-color: #F8FAFD;
+@import 'variables';
 
 :host {
   display: block;
 }
 
+.hub-header__bar-container {
+  background-color: $color-white;
+}
+
 .hub-header__bar {
   align-items: center;
-  background-color: $hub-header--bar--background-color;
   display: flex;
-  height: 82px;
-  padding: 10px 30px;
+  height: 76px;
+  margin: auto;
+  padding: $grid-step * 1.5 $page-side-padding;
+  width: $page-width + $page-side-padding * 2;
 }
 
 .hub-header__bar-actions-container {
   align-items: center;
-  column-gap: 16px;
-  display: grid;
-  grid-template-columns: repeat(3, min-content);
+  display: flex;
+  overflow: hidden;
 }
 
-.hub-header__bar-icon-button {
-  background: transparent;
-  border-radius: 100%;
-  box-sizing: content-box;
-  cursor: pointer;
-  display: inline-block;
-  padding: 8px;
-
-  &:hover {
-    background-color: $hub-header--bar-icon-button--hover-background-color;
-  }
+.hub-header__bar-actions-menu {
+  margin-left: $grid-step * 3;
 }
 
-.hub-header__bar-icon-logo {
-  height: 30px;
-  width: 30px;
+.hub-header__bar-logo {
+  display: inline-flex;
 }
 
-.hub-header__bar-icon {
-  height: 24px;
-  width: 24px;
+.hub-header__bar-logo-icon {
+  display: inline-flex;
+  height: 40px;
+  width: 115px;
 }
 
 .hub-header__bar-meta-container {
-  background-color: $hub-header--bar-meta-container--background-color;
-  border-radius: 8px;
+  border-radius: $border-radius;
+  display: flex;
   flex-grow: 1;
-  margin: 0 30px;
-  height: 100%;
-  padding: 0 28px;
+  margin: 0 40px;
 }

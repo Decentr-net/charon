@@ -29,15 +29,24 @@
     .header {
       &__logo {
         img {
-          width: 150px;
+          height: 40px;
+          width: 115px;
         }
       }
     }
   }
 
   .header {
-    &__logo {
+    &__logo-container {
       display: flex;
+    }
+
+    &__logo {
+      display: inline-flex;
+    }
+
+    &__logo-link {
+      cursor: pointer;
     }
   }
 }
@@ -50,7 +59,7 @@
 
   &__extended {
     .header {
-      &__logo {
+      &__logo-container {
         flex: 1 0 0;
       }
     }

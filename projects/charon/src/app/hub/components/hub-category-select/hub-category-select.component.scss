@@ -1,24 +1,32 @@
-$hub-category-select--button--color: #9EA0A5;
-$hub-category-select--button--active-color: #00AAFF;
+@import 'variables';
 
 :host {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  display: inline-flex;
+
+  ::ng-deep {
+    .mat-form-field-wrapper {
+      padding-bottom: 0;
+    }
+
+    .mat-select-arrow,
+    .mat-select-placeholder,
+    .mat-select-value {
+      color: currentColor;
+    }
+
+    .mat-select-value {
+      font-weight: 700;
+      max-width: 100%;
+    }
+  }
 }
 
-.hub-category-select__button {
-  background: transparent;
-  border: 2px solid currentColor;
-  color: $hub-category-select--button--color;
-  cursor: pointer;
-  font-size: 14px;
-  padding: 4px 8px;
-  white-space: nowrap;
-
-  &:hover,
-  &.mod-active {
-    border-color: currentColor;
-    color: $hub-category-select--button--active-color;
-  }
+.hub-category-select__category-dot {
+  background-color: currentColor;
+  border-radius: 100%;
+  display: inline-flex;
+  height: $grid-step;
+  margin-right: $grid-step;
+  vertical-align: middle;
+  width: $grid-step;
 }

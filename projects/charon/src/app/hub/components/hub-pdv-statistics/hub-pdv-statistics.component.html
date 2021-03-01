@@ -6,39 +6,39 @@
     {{ translate('my_pdv') }}
   </ng-container>
 
-  <ng-container *ngIf="statistics; else loader">
-    <ng-container ngProjectAs="subtitle">
-      {{ translate('activity_from', { date: statistics.fromDate | date }) }}
-    </ng-container>
+  <ng-container *ngIf="statistics" ngProjectAs="subtitle">
+    {{ translate('activity_from', { date: statistics.fromDate | date }) }}
+  </ng-container>
 
-    <div
-      class="hub-pdv-statistics__pdv"
-      [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance })"
-    >
+  <ng-container *ngIf="statistics" ngProjectAs="rate">
+    <div [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance })">
       {{ statistics.pdv | pdvValue }}
     </div>
+  </ng-container>
 
-    <div class="hub-pdv-statistics__pdv-change">
-      {{ translate('pdv_change.your_pdv') }}
-      <ng-container *ngIf="isPositive || isNegative else notChangedPDV">
-        <span class="hub-pdv-statistics__pdv-direction">
-          {{ translate(
-            'pdv_change.' + (isPositive ? 'increased' : 'decreased'),
-            { percent: statistics.pdvChangedIn24HoursPercent | positiveNumber | number : '1.0-5' }
-          ) }}
-        </span>
-      </ng-container>
-      <ng-template #notChangedPDV>
-        {{ translate('pdv_change.not_changed') }}
-      </ng-template>
+  <ng-container *ngIf="statistics" ngProjectAs="changed">
+    <div class="hub-pdv-statistics__pdv-change" appTypeface="caption">
+      <span class="hub-pdv-statistics__pdv-direction">
+        <ng-container *ngIf="!isNeutral else notChangedPDV">
+          {{ isPositive ? '+' : '' }}{{ statistics.pdvChangedIn24HoursPercent | number : '1.0-5' }}%
+        </ng-container>
+
+        <ng-template #notChangedPDV>
+          {{ translate('pdv_change.no_change') }}
+        </ng-template>
+      </span>
+
       {{ translate('pdv_change.last_hours') }}
     </div>
+  </ng-container>
 
+  <ng-container *ngIf="statistics; else loader">
     <app-line-chart
       *ngIf="statistics.points.length > 1; else noData"
       class="hub-pdv-statistics__chart"
-      color="#3796A4"
+      color="#A954A0"
       [data]="statistics.points"
+      [lineWidth]="4"
       [showArea]="true"
       [showHoverLine]="true"
       [showTooltip]="true"
@@ -55,7 +55,7 @@
     </app-line-chart>
 
     <ng-template #noData>
-      <div class="hub-pdv-statistics__no-data">
+      <div class="hub-pdv-statistics__no-data" appTypeface="caption">
         <ng-container *ngIf="statistics.points.length === 1">{{ translate('not_enough_chart_data') }}</ng-container>
         <ng-container *ngIf="statistics.points.length < 1">{{ translate('no_chart_data') }}</ng-container>
       </div>

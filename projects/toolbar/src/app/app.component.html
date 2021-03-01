@@ -10,44 +10,44 @@
   <div class="app__section app__middle-container">
     <div class="app__middle-container-section">
       <div class="app__middle-container-section-dynamic">
-        <app-color-value-dynamic
-                class="app__meta-label"
-                *ngIf="!isLocked && balance"
-                [circleType]="'hole'"
-                [color]="'green'"
-                [dayMargin]="balance.dayMargin"
-                [dayMarginDigitsInfo]="'1.0-5'"
+        <div
+          *ngIf="!isLocked && balance"
+          class="app__meta-label"
         >
-          <strong>{{ translate('pdv') }}</strong>
-          <span class="app__meta-label-value">{{ balance.value | pdvValue }}</span>
-        </app-color-value-dynamic>
-
-        <app-color-value-dynamic
-                class="app__meta-label"
-                *ngIf="coinRate"
-                [circleType]="'hole'"
-                [color]="'yellow'"
-                [dayMargin]="coinRate.dayMargin"
-        >
-          <strong>{{ translate('dec') }}</strong>
+          {{ translate('pdv') }}:
           <span class="app__meta-label-value">
-          {{ coinRate.value | currency : 'USD' : 'symbol' : '1.4' }}
-        </span>
-        </app-color-value-dynamic>
+            {{ balance.value | pdvValue }}
+          </span>
+
+          <app-margin-label
+            class="app__meta-margin-label"
+            [dayMargin]="balance.dayMargin"
+            [digitsInfo]="'1.0-5'"
+          ></app-margin-label>
+        </div>
+
+        <div
+          *ngIf="coinRate"
+          class="app__meta-label"
+        >
+          {{ translate('dec') }}:
+          <span class="app__meta-label-value">
+            {{ coinRate.value | currency : 'USD' : 'symbol' : '1.4' }}
+          </span>
+
+          <app-margin-label
+            class="app__meta-margin-label"
+            [dayMargin]="coinRate.dayMargin"
+          ></app-margin-label>
+        </div>
       </div>
     </div>
 
     <div class="app__middle-container-section">
-      <svg-icon
-        class="app__icon"
-        key="notification"
-        (click)="openCharonHubRecentNews()"
-      ></svg-icon>
-
       <app-avatar
         class="app__icon"
         [avatarUrl]="avatar$ | async"
-        (click)="openCharonHubMyWall()"
+        (click)="openCharonHubFeed()"
       ></app-avatar>
     </div>
   </div>

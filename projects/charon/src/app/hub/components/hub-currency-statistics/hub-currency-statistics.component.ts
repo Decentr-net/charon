@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+
 import { ChartPoint } from '@shared/components/line-chart';
 
 export interface HubCurrencyStatistics {
@@ -16,12 +17,10 @@ export interface HubCurrencyStatistics {
 export class HubCurrencyStatisticsComponent {
   @Input() public statistics: HubCurrencyStatistics;
 
-  @HostBinding('class.mod-negative')
-  public get isNegative(): boolean {
-    return this.statistics?.rateChangedIn24HoursPercent < 0;
+  public get isNeutral(): boolean {
+    return this.statistics?.rateChangedIn24HoursPercent === 0;
   }
 
-  @HostBinding('class.mod-positive')
   public get isPositive(): boolean {
     return this.statistics?.rateChangedIn24HoursPercent > 0;
   }

@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs';
 
-import { MenuLink, MenuTranslations, MenuUserLink } from './menu.definitions';
+import { MenuLink, MenuTranslations, MenuUserLink, MenuUserProfile } from './menu.definitions';
 
 export abstract class MenuService {
-  public abstract getAvatarUrl(): Observable<string>;
+  public abstract getUserProfile(): Observable<MenuUserProfile>;
 
   public abstract getLinks(): Observable<MenuLink[]>;
 

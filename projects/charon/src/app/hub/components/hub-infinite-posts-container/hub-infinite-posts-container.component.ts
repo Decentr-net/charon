@@ -11,6 +11,8 @@ export class HubInfinitePostsContainerComponent {
 
   @Input() public canLoadMore: boolean = true;
 
+  @Input() public useIntersection: boolean = false;
+
   @Output() public readonly loadMore: EventEmitter<void> = new EventEmitter();
 
   public onLoadMoreClick(): void {

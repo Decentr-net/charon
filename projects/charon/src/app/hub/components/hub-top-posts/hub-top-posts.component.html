@@ -1,0 +1,14 @@
+<app-hub-infinite-posts-container
+  [canLoadMore]="canLoadMore$ | async"
+  [isLoading]="isLoading$ | async"
+  (loadMore)="loadMore()"
+>
+  <app-hub-post-card
+    class="hub-top-posts__post"
+    *ngFor="let post of posts$ | async; trackBy: trackByPostId"
+    [post]="post"
+    [disableCategory]="!!(category$ | async)"
+    [includeVerticalImagePadding]="true"
+    [routerLink]="routerLinkFn(post)"
+  ></app-hub-post-card>
+</app-hub-infinite-posts-container>
