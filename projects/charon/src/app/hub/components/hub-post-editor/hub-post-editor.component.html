@@ -7,11 +7,19 @@
     class="hub-post-editor__post-layout"
     [headerBackgroundImage]="previewImage && 'url(' + previewImage + ')'"
   >
-    <app-hub-category-select
-      class="hub-post-editor__category-select"
-      ngProjectAs="[category]"
-      formControlName="category"
-    ></app-hub-category-select>
+    <ng-container ngProjectAs="[category]">
+      <div #categorySelectElementContainer>
+        <app-hub-category-select
+          class="hub-post-editor__category-select"
+          formControlName="category"
+        ></app-hub-category-select>
+      </div>
+
+      <app-hub-post-editor-error
+        [anchorElement]="categorySelectElementContainer"
+        [controlName]="'category'"
+      ></app-hub-post-editor-error>
+    </ng-container>
 
     <ng-container ngProjectAs="[title]">
       <textarea
