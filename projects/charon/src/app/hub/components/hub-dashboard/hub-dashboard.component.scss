@@ -1,0 +1,26 @@
+@import 'variables';
+
+:host {
+  background: $color-white;
+  padding: $grid-step * 3;
+  width: 100%;
+}
+
+.hub-dashboard__container {
+  border-top: 1px solid $color-outlines;
+  margin: 0 auto;
+  max-width: $page-width;
+  padding-top: $grid-step * 3;
+}
+
+.hub-dashboard__title {
+  font-weight: 700;
+  margin-bottom: $grid-step * 2;
+}
+
+.hub-dashboard__statistics-container {
+  display: grid;
+  gap: $grid-step * 3;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(0, 2fr);
+  min-height: 360px;
+}

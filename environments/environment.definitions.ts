@@ -1,6 +1,5 @@
 export abstract class Environment {
   abstract awsStorage: string;
-  abstract chainId: string;
   abstract currencyApi: string;
   abstract image: {
     api: string;
@@ -10,5 +9,4 @@ export abstract class Environment {
   abstract rest: {
     local: string;
   };
-  abstract vulcanApi: string;
 }

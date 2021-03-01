@@ -34,6 +34,10 @@ export class PermissionsService<T = string | number> {
     );
   }
 
+  public clearPermissions(): void {
+    this.permissions$.next([]);
+  }
+
   public hasPermissions(permissions: T | T[]): Observable<boolean> {
     return this.getPermissions().pipe(
       map(() => this.hasPermissionsInstant(permissions)),

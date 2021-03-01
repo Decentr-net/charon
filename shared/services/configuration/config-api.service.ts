@@ -9,11 +9,17 @@ export interface Config {
     minPDVCount: number;
     maxPDVCount: number;
     rewards: Record<PDVDataType, number>;
+    url: string;
   };
+  maintenance: boolean;
   network: {
+    chainId: string;
     rest: string[];
   };
   minVersion: string;
+  vulcan: {
+    url: string;
+  };
 }
 
 @Injectable()

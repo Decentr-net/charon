@@ -22,7 +22,10 @@ export class ConfigService {
     if (!this.pendingConfig) {
       this.pendingConfig = true;
 
-      this.configApiService.getConfig().subscribe(this.config$);
+      this.configApiService.getConfig().subscribe(
+        (config) => this.config$.next(config),
+        (error) => this.config$.error(error),
+      );
     }
 
     return this.config$.pipe(
@@ -42,6 +45,24 @@ export class ConfigService {
     );
   }
 
+  public getCerberusUrl(): Observable<string> {
+    return this.getConfig().pipe(
+      map((config) => config.cerberus.url),
+    );
+  }
+
+  public getChainId(): Observable<string> {
+    return this.getConfig().pipe(
+      map(({ network }) => network.chainId),
+    );
+  }
+
+  public getMaintenanceStatus(): Observable<boolean> {
+    return this.getConfig().pipe(
+      map(({maintenance}) => maintenance),
+    );
+  }
+
   public getRestNodes(): Observable<string[]> {
     return this.getConfig().pipe(
       map(({ network }) => network.rest),
@@ -57,6 +78,12 @@ export class ConfigService {
   public getRewards(): Observable<Record<PDVDataType, number>> {
     return this.getConfig().pipe(
       map((config) => config.cerberus.rewards),
+    );
+  }
+
+  public getVulcanUrl(): Observable<string> {
+    return this.getConfig().pipe(
+      map(({ vulcan }) => vulcan.url),
     );
   }
 }

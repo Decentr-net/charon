@@ -1,0 +1,24 @@
+@import 'colors';
+
+$main-font-size: 16px;
+$main-font-family: #{'Inter, Arial, sans-serif'};
+
+$border-radius: 12px;
+
+$grid-step: 8px;
+
+$page-width: 1200px;
+$page-side-padding: $grid-step * 3;
+
+$color-font-base: $color-black;
+$color-primary: $color-blue;
+$color-negative: $color-red;
+$color-neutral: $color-grey;
+$color-positive: $color-green;
+
+$color-accent: #66c9c7;
+$color-font-grey: #626262;
+
+$grey-border-color: #dcdcdc;
+
+$color-link-accent: #66C9C7;

@@ -1,14 +1,16 @@
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of, ReplaySubject, throwError } from 'rxjs';
 import { delay, first, map, mergeMap, retryWhen } from 'rxjs/operators';
 
+import CONFIG_SERVICE from '../config';
 import { environment } from '../../../../../environments/environment';
-import { ConfigService } from '../../../../../shared/services/configuration';
 import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
 import { PingService } from '../../../../../shared/services/ping';
 import { ONE_SECOND } from '../../../../../shared/utils/date';
 
-const configService = new ConfigService(environment);
+const configService = CONFIG_SERVICE;
 const pingService = new PingService();
+
+export const NETWORK_READY_SUBJECT = new ReplaySubject<boolean>();
 
 export const getRandomRest = (): Observable<string> => {
   return configService.getRestNodes().pipe(
@@ -33,7 +35,7 @@ export const setRandomNetwork = async (): Promise<void> => {
     first(),
   ).toPromise();
 
-  networkStorage.clear();
+  await networkStorage.clear();
 
   const defaultNetwork = await getRandomRest().pipe(
     first(),
@@ -46,5 +48,7 @@ export const setRandomNetwork = async (): Promise<void> => {
     return;
   }
 
-  return networkStorage.setActiveNetwork(defaultNetwork);
+  await networkStorage.setActiveNetwork(defaultNetwork);
+
+  NETWORK_READY_SUBJECT.next();
 };

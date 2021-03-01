@@ -1,13 +1,21 @@
-import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  OnInit,
+} from '@angular/core';
+import { fromEvent, Observable, ReplaySubject } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { UntilDestroy } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LikeWeight } from 'decentr-js';
 
 import { svgLike } from '@shared/svg-icons';
-import { PostWithAuthor } from '../../models/post';
-import { HubLikesService } from '../../services';
+import { CanLikeState, HubLikesService } from '../../services';
+import { PostWithLike } from '../../models/post';
 
 @UntilDestroy()
 @Component({
@@ -20,52 +28,85 @@ import { HubLikesService } from '../../services';
   ],
 })
 export class HubPostRatingComponent implements OnInit {
-  @Input() public postId: PostWithAuthor['uuid'];
+  @Input() public set postId(value: PostWithLike['uuid']) {
+    this.postId$.next(value);
+  }
 
-  public post$: Observable<PostWithAuthor>;
+  @Input() @HostBinding('class.mod-filled') public filled: boolean = false;
+
+  @Input() private customHubLikesService: HubLikesService;
+
+  public post$: Observable<PostWithLike>;
 
   public readonly likeWeight: typeof LikeWeight = LikeWeight;
 
-  public isDisabled$: Observable<boolean>;
+  public canLikeState: CanLikeState = 'enabled';
+
+  private hubLikesService: HubLikesService;
+
+  private postId$: ReplaySubject<PostWithLike['uuid']> = new ReplaySubject(1);
 
   constructor(
-    private hubLikesService: HubLikesService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private elementRef: ElementRef<HTMLElement>,
+    private nativeHubLikesService: HubLikesService,
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register(svgLike);
   }
 
-  @HostListener('click', ['$event'])
-  public onClick(event: Event): void
-  {
-    event.stopPropagation();
-  }
-
   public ngOnInit(): void {
-    this.post$ = this.hubLikesService.getPostChanges(this.postId);
+    this.hubLikesService = this.customHubLikesService || this.nativeHubLikesService;
 
-    this.isDisabled$ = this.hubLikesService.canLikePost(this.postId).pipe(
-      map((canLike) => !canLike),
-      shareReplay(1),
+    fromEvent(this.elementRef.nativeElement, 'click').pipe(
+      untilDestroyed(this),
+    ).subscribe((event) => event.stopPropagation());
+
+    this.post$ = this.postId$.pipe(
+      switchMap((postId) => this.hubLikesService.getPostChanges(postId))
     );
+
+    this.postId$.pipe(
+      switchMap((postId) => this.hubLikesService.canLikePost(postId)),
+      untilDestroyed(this),
+    ).subscribe((canLikeState) => {
+      this.canLikeState = canLikeState;
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
-  public onLike(post: PostWithAuthor): void {
-    this.changeLikeWeight(post, LikeWeight.Up);
+  @HostBinding('class.is-disabled')
+  public get isDisabled(): boolean {
+    return this.canLikeState === 'disabled';
   }
 
-  public onDislike(post: PostWithAuthor): void {
-    this.changeLikeWeight(post, LikeWeight.Down);
+  @HostBinding('class.is-updating')
+  public get isUpdating(): boolean {
+    return this.canLikeState === 'updating';
   }
 
-  private changeLikeWeight(post: PostWithAuthor, newLikeWeight: LikeWeight): void {
+  public onLike(post: PostWithLike): void {
+    if (this.canLikeState === 'enabled') {
+      this.changeLikeWeight(post, LikeWeight.Up);
+    }
+  }
+
+  public onDislike(post: PostWithLike): void {
+    if (this.canLikeState === 'enabled') {
+      this.changeLikeWeight(post, LikeWeight.Down);
+    }
+  }
+
+  private changeLikeWeight(post: PostWithLike, newLikeWeight: LikeWeight): void {
     // this subscription has no unsubscribe logic
     // to ensure the post was updated after some dialog (for ex) closed
     this.hubLikesService.likePost(
-      this.postId,
+      post.uuid,
       post.likeWeight === newLikeWeight
         ? LikeWeight.Zero
         : newLikeWeight
+    ).pipe(
+      take(1),
     ).subscribe();
   }
 }

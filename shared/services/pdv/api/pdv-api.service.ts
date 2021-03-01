@@ -1,29 +1,26 @@
-import {
-  Decentr,
-  PDV,
-  PDVDetails,
-  PDVListItem,
-  PDVListPaginationOptions,
-  PDVStatItem,
-  Wallet
-} from 'decentr-js';
+import { Decentr, PDV, PDVDetails, PDVListItem, PDVListPaginationOptions, PDVStatItem, Wallet } from 'decentr-js';
+import { map, mergeMap } from 'rxjs/operators';
+import { ConfigService } from '../../configuration';
+import { Observable } from 'rxjs';
 
 export class PDVApiService {
-  constructor(private chainId: string) {
+  constructor(
+    private configService: ConfigService,
+  ) {
   }
 
   public sendPDV(api: string, wallet: Wallet, pdv: PDV[]): Promise<void> {
-    const decentr = this.createDecentrConnector(api);
-
-    return decentr.sendPDV(pdv, wallet, {
-      broadcast: true,
-    }).then(() => void 0);
+    return this.configService.getCerberusUrl().pipe(
+      mergeMap((cerberusUrl) => this.createDecentrConnector(api).pipe(
+        mergeMap((decentr) => decentr.sendPDV(cerberusUrl, pdv, wallet)),
+      )),
+    ).toPromise().then(() => void 0);
   }
 
   public getBalance(api: string, walletAddress: Wallet['address']): Promise<number> {
-    const decentr = this.createDecentrConnector(api);
-
-    return decentr.getTokenBalance(walletAddress);
+    return this.createDecentrConnector(api).pipe(
+      mergeMap((decentr) => decentr.getTokenBalance(walletAddress)),
+    ).toPromise();
   }
 
   public getPDVList(
@@ -31,9 +28,11 @@ export class PDVApiService {
     walletAddress: Wallet['address'],
     paginationOptions?: PDVListPaginationOptions,
   ): Promise<PDVListItem[]> {
-    const decentr = this.createDecentrConnector(api);
-
-    return decentr.getPDVList(walletAddress, paginationOptions);
+    return this.configService.getCerberusUrl().pipe(
+      mergeMap((cerberusUrl) => this.createDecentrConnector(api).pipe(
+        mergeMap((decentr) => decentr.getPDVList(cerberusUrl, walletAddress, paginationOptions)),
+      )),
+    ).toPromise();
   }
 
   public getPDVDetails(
@@ -41,18 +40,22 @@ export class PDVApiService {
     address: PDVListItem,
     wallet: Wallet,
   ): Promise<PDVDetails> {
-    const decentr = this.createDecentrConnector(api);
-
-    return decentr.getPDVDetails(address, wallet);
+    return this.configService.getCerberusUrl().pipe(
+      mergeMap((cerberusUrl) => this.createDecentrConnector(api).pipe(
+        mergeMap((decentr) => decentr.getPDVDetails(cerberusUrl, address, wallet)),
+      )),
+    ).toPromise();
   }
 
   public getPDVStats(api: string, walletAddress: Wallet['address']): Promise<PDVStatItem[]> {
-    const decentr = this.createDecentrConnector(api);
-
-    return decentr.getPDVStats(walletAddress);
+    return this.createDecentrConnector(api).pipe(
+      mergeMap((decentr) => decentr.getPDVStats(walletAddress)),
+    ).toPromise();
   }
 
-  private createDecentrConnector(api: string): Decentr {
-    return new Decentr(api, this.chainId);
+  private createDecentrConnector(api: string): Observable<Decentr> {
+    return this.configService.getChainId().pipe(
+      map((chainId) => new Decentr(api, chainId)),
+    );
   }
 }

@@ -1,0 +1,128 @@
+<form
+  *transloco="let translate; read: 'hub.hub_post_editor'"
+  [formGroup]="form"
+  [id]="formId"
+>
+  <app-hub-post-layout
+    class="hub-post-editor__post-layout"
+    [headerBackgroundImage]="previewImage && 'url(' + previewImage + ')'"
+  >
+    <app-hub-category-select
+      class="hub-post-editor__category-select"
+      ngProjectAs="[category]"
+      formControlName="category"
+    ></app-hub-category-select>
+
+    <ng-container ngProjectAs="[title]">
+      <textarea
+        #titleElement
+        cdkTextareaAutosize
+        class="hub-post-editor__title-control"
+        formControlName="title"
+        maxlength="150"
+        [placeholder]="translate('title.placeholder')"
+        rows="1"
+        trim="blur"
+        appAutoFocus
+        (keydown.enter)="preventEvent($event)"
+      ></textarea>
+
+      <app-hub-post-editor-error
+        [anchorElement]="titleElement"
+        [controlName]="'title'"
+      ></app-hub-post-editor-error>
+    </ng-container>
+
+    <div ngProjectAs="[headerContent]">
+      <ng-template [ngTemplateOutlet]="previewImage ? imageUploaderFilled : imageUploaderEmpty"></ng-template>
+    </div>
+
+    <div
+      class="hub-post-editor__text-image-uploader"
+      [class.mod-moved]="textImagePositionTop > 0"
+      [class.mod-limit-reached]="imageLimitReached$ | async"
+      [style.top.px]="textImagePositionTop"
+      ngProjectAs="[contentLeftColumn]"
+    >
+      <div
+        #textImageUploaderElement
+        class="hub-post-editor__text-image-icon-container"
+        appHubImageUploader
+        #textImageUploader="appHubImageUploader"
+      >
+        <svg-icon class="hub-post-editor__text-image-icon" key="add-image"></svg-icon>
+      </div>
+
+      <div appTypeface="caption">{{ imagesCount$ | async }} / {{ maxImagesCount }}</div>
+    </div>
+
+    <ng-container ngProjectAs="[contentMainColumn]">
+      <div #textEditorContainerElement>
+        <app-hub-post-text-editor
+          [imageSource]="textImageUploader.uploaded"
+          [ignoreSelectionReset]="[textImageUploaderElement]"
+          (cursorPositionTopChange)="onTextCursorPositionChange($event)"
+          formControlName="text"
+        ></app-hub-post-text-editor>
+      </div>
+
+      <app-hub-post-editor-error
+        [anchorElement]="textEditorContainerElement"
+        [controlName]="'text'"
+      ></app-hub-post-editor-error>
+    </ng-container>
+  </app-hub-post-layout>
+
+  <ng-template #imageUploaderEmpty>
+    <div class="hub-post-editor__preview-image-uploader mod-empty">
+      <div
+        class="hub-post-editor__preview-image-uploader__icon-container"
+        (appHubImageUploader)="onTitleImageUpload($event)"
+      >
+        <svg-icon class="hub-post-editor__preview-image-uploader__icon" key="add-image"></svg-icon>
+      </div>
+
+      <div
+        class="hub-post-editor__preview-image-uploader__title"
+        appTypeface="paragraph"
+        (appHubImageUploader)="onTitleImageUpload($event)"
+      >
+        {{ translate('image_uploader.empty.title') }}
+      </div>
+
+      <div class="hub-post-editor__preview-image-uploader__subtitle" appTypeface="caption">
+        {{ translate('image_uploader.empty.subtitle') }}
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #imageUploaderFilled>
+    <div class="hub-post-editor__preview-image-uploader mod-filled">
+      <div
+        class="hub-post-editor__preview-image-uploader__icon-container"
+        (click)="clearPreviewImage()"
+      >
+        <svg-icon class="hub-post-editor__preview-image-uploader__icon" key="close"></svg-icon>
+      </div>
+
+      <div
+        class="hub-post-editor__preview-image-uploader__title"
+        appTypeface="paragraph"
+        (click)="clearPreviewImage()"
+      >
+        {{ translate('image_uploader.filled.title') }}
+      </div>
+
+      <div class="hub-post-editor__preview-image-uploader__subtitle" appTypeface="caption">
+        {{ translate('image_uploader.filled.subtitle.or') }}
+        <span
+          class="hub-post-editor__preview-image-uploader__subtitle-clickable"
+          (appHubImageUploader)="onTitleImageUpload($event)"
+        >
+          {{ translate('image_uploader.filled.subtitle.change') }}
+        </span>
+        {{ translate('image_uploader.filled.subtitle.to_another') }}
+      </div>
+    </div>
+  </ng-template>
+</form>

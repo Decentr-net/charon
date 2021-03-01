@@ -14,6 +14,6 @@ export class PDVDataUniqueStore {
   }
 
   private static getPDVDataHash(data: PDVData): string {
-    return `${data.domain}-${data.name}-${data.secure}-${data.host_only}-${data.same_site}`;
+    return `${data.domain}-${data.name}-${data.secure}-${data.host_only}-${data.same_site}-${data.type}`;
   }
 }

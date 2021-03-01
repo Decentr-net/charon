@@ -1,18 +1,21 @@
-<ng-container *transloco="let translate">
-  <div class="hub-navigation__section">
-    <app-hub-navigation-link
-      class="hub-navigation__link"
-      [link]="['/', appRoute.Hub, hubRoute.Overview]"
-      [title]="translate('hub.hub_navigation.overview')"
-    ></app-hub-navigation-link>
+<div
+  class="hub-navigation__section"
+  *transloco="let translate"
+  appDragScroll
+  appMouseWheelHorizontalScroll
+>
+  <app-hub-navigation-link
+    class="hub-navigation__link hub-navigation__link-latest"
+    [link]="['/', appRoute.Hub, hubRoute.Posts]"
+    [showDot]="false"
+    [title]="translate('hub.hub_navigation.latest_posts')"
+  ></app-hub-navigation-link>
 
-    <ng-container *transloco="let translate;">
-      <app-hub-navigation-link
-        class="hub-navigation__link"
-        *ngFor="let linkConfig of postsLinksConfig; trackBy: trackByLink"
-        [link]="['/', appRoute.Hub, hubRoute.Posts, linkConfig.link]"
-        [title]="translate(linkConfig.i18nKey)"
-      ></app-hub-navigation-link>
-    </ng-container>
-  </div>
-</ng-container>
+  <app-hub-navigation-link
+    class="hub-navigation__link"
+    *ngFor="let linkConfig of postsLinksConfig; trackBy: trackByLink"
+    [appHubPostCategoryColor]="linkConfig.id"
+    [link]="['/', appRoute.Hub, hubRoute.Posts, linkConfig.id]"
+    [title]="translate(linkConfig.i18nKey)"
+  ></app-hub-navigation-link>
+</div>

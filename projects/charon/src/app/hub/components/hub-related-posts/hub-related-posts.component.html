@@ -1,0 +1,6 @@
+<app-hub-post-card
+  class="hub-related-posts__post-card"
+  *ngFor="let post of posts$ | async; trackBy: trackByPostId"
+  [post]="post"
+  [routerLink]="routerLinkFn(post)"
+></app-hub-post-card>

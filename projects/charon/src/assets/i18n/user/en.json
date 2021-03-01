@@ -116,7 +116,7 @@
       "amount": {
         "label": "Amount",
         "errors": {
-          "insufficient": "Insifficient funds",
+          "insufficient": "Insufficient funds",
           "min": "Minimum value is {{ min }}",
           "pattern": "Incorrect amount format",
           "required": "Amount is required"

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, from, Observable, of } from 'rxjs';
-import { filter, first, map, mergeMap } from 'rxjs/operators';
+import { catchError, filter, first, map, mergeMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 
@@ -12,6 +12,8 @@ import {
 } from '@shared/components/network-selector';
 import { Network as NetworkWithApi, NetworkBrowserStorageService, } from '@shared/services/network-storage';
 import { PingService } from '@shared/services/ping';
+import { MessageBus } from '@shared/message-bus';
+import { MessageCode } from '@scripts/messages';
 
 export type Network = NetworkWithApi & NetworkSelectorNetwork;
 
@@ -40,6 +42,7 @@ export class NetworkService extends NetworkSelectorService {
         return this.networkStorage.setActiveNetwork(translatedActiveNetwork)
       }),
       first(),
+      catchError(() => of(undefined)),
     ).toPromise();
   }
 
@@ -56,12 +59,13 @@ export class NetworkService extends NetworkSelectorService {
   }
 
   public getNetworks(checkAvailable: boolean = true): Observable<Network[]> {
-    return from(this.networkStorage.getDefaultNetwork()).pipe(
+    return from(new MessageBus().sendMessage(MessageCode.NetworkReady)).pipe(
+      mergeMap(() => this.networkStorage.getDefaultNetwork()),
       first(),
       mergeMap(({ api: remoteApi }) => combineLatest(
         [
           { key: 'remote', api: remoteApi },
-          { key: 'local', api: this.environment.rest['local'] },
+          { key: 'local', api: this.environment.rest.local },
         ].map(({ key, api }) => {
           return combineLatest([
             this.translocoService
@@ -80,7 +84,8 @@ export class NetworkService extends NetworkSelectorService {
   }
 
   public isNetworksEqual(left: Network, right: Network): boolean {
-    return left?.api === right?.api;
+    return [left.api, right.api].every((api) => api === this.environment.rest.local)
+      || [left.api, right.api].every((api) => api !== this.environment.rest.local);
   }
 
   public getTranslations(): Observable<NetworkSelectorTranslations> {

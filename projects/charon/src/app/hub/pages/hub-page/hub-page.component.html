@@ -1,40 +1,15 @@
 <app-hub-header
-  *transloco="let translate; read: 'hub.hub_page.header'"
   class="hub-page__header"
   [avatarIcon]="avatar$ | async"
 >
-  <div
-    *appSlot="headerMetaSlotName"
-    class="hub-page__header-meta-container"
-  >
-    <app-color-value-dynamic
-      class="hub-page__header-meta-label"
-      *ngIf="balance"
-      [circleType]="'hole'"
-      [color]="'green'"
-      [dayMargin]="balance.dayMargin"
-      [dayMarginDigitsInfo]="'1.0-5'"
-      [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async })"
-    >
-      <strong>{{ translate('pdv') }}</strong>
-      <span class="hub-page__header-meta-label-value">{{ balance.value | pdvValue }}</span>
-    </app-color-value-dynamic>
-
-    <app-color-value-dynamic
-      class="hub-page__header-meta-label"
-      *ngIf="coinRate$ | async as coinRate"
-      [circleType]="'hole'"
-      [color]="'yellow'"
-      [dayMargin]="coinRate.dayMargin"
-    >
-      <strong>{{ translate('dec') }}</strong>
-      <span class="hub-page__header-meta-label-value">
-        {{ coinRate.value | currency : 'USD' : 'symbol' : '1.4' }}
-      </span>
-    </app-color-value-dynamic>
-  </div>
+  <app-hub-header-stats-meta
+    *appSlot="headerMetaSlotName; let root = rootElement"
+    [detailsAnchorElement]="root"
+  ></app-hub-header-stats-meta>
 </app-hub-header>
 
 <div class="hub-page__content-container">
-  <router-outlet></router-outlet>
+<!--  <div class="hub-page__content">-->
+    <router-outlet></router-outlet>
+<!--  </div>-->
 </div>

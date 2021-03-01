@@ -5,7 +5,7 @@ import {
 } from '@angular/forms';
 import { ValidatorFn } from '@ngneat/reactive-forms';
 
-import { createFragmentWrappedContainer } from '../../html';
+import { getHTMLImagesCount } from '../../html';
 
 export class BaseValidationUtil {
 
@@ -99,9 +99,7 @@ export class BaseValidationUtil {
         return null;
       }
 
-      const container = createFragmentWrappedContainer();
-      container.innerHTML = control.value;
-      const imagesCount = container.querySelectorAll('img').length;
+      const imagesCount = getHTMLImagesCount(control.value);
 
       return imagesCount > maxImages
         ? {

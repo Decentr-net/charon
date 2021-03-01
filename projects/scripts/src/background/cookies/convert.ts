@@ -2,7 +2,9 @@ import { PDV, PDVDataType } from 'decentr-js';
 import { Cookies } from 'webextension-polyfill-ts';
 import Cookie = Cookies.Cookie;
 
-export const convertCookiesToPDV = (cookies: Cookie[], domain: string, path: string, pdvDataType: PDVDataType): PDV => {
+import { groupCookiesByDomainAndPath } from './grouping';
+
+const convertCookiesToPDV = (cookies: Cookie[], domain: string, path: string, pdvDataType: PDVDataType): PDV => {
   const pdvDomainMatch = domain.match(/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*$/);
   const pdvDomain = pdvDomainMatch && pdvDomainMatch[0] || domain;
 
@@ -22,3 +24,9 @@ export const convertCookiesToPDV = (cookies: Cookie[], domain: string, path: str
     })),
   };
 };
+
+export const convertCookiesToPDVs = (cookies: Cookie[], pdvDataType: PDVDataType): PDV[] => {
+  return groupCookiesByDomainAndPath(cookies).map((group) => {
+    return convertCookiesToPDV(group.cookies, group.domain, group.path, pdvDataType);
+  });
+}

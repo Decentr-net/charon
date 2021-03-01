@@ -1,4 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
+
+import { svgReload } from '@shared/svg-icons';
 
 @Component({
   selector: 'button[app-hub-load-more-button]',
@@ -7,4 +10,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubLoadMoreButtonComponent {
+  constructor(svgIconRegistry: SvgIconRegistry) {
+    svgIconRegistry.register(svgReload);
+  }
 }

@@ -4,7 +4,13 @@ import { map } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { MenuLink, MenuService as MenuBaseService, MenuTranslations, MenuUserLink } from '@shared/components/menu';
+import {
+  MenuLink,
+  MenuService as MenuBaseService,
+  MenuTranslations,
+  MenuUserLink,
+  MenuUserProfile
+} from '@shared/components/menu';
 import { getCharonPageUrl } from '@shared/utils/navigation';
 import { svgDecentrHub, svgImport, svgInformation } from '@shared/svg-icons';
 import { AppRoute } from '../../../app-route';
@@ -33,9 +39,13 @@ export class MenuService extends MenuBaseService {
     ]);
   }
 
-  public getAvatarUrl(): Observable<string> {
+  public getUserProfile(): Observable<MenuUserProfile> {
     return this.authService.getActiveUser().pipe(
-      map((user) => user.avatar),
+      map((user) => ({
+        avatar: user.avatar,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      })),
     )
   }
 

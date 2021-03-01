@@ -33,7 +33,8 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/charon/src/styles"
+                "projects/charon/src/styles",
+                "shared/styles"
               ]
             },
             "scripts": [],
@@ -149,6 +150,11 @@
             "styles": [
               "projects/toolbar/src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "shared/styles"
+              ]
+            },
             "scripts": []
           },
           "configurations": {

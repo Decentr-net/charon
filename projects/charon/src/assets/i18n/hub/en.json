@@ -3,6 +3,9 @@
     "no_posts": "There is no activity last 24 hours",
     "top_feed": "TOP 24 hours"
   },
+  "hub_additional_statistics": {
+    "more_stats_coming_soon": "More stats coming soon!"
+  },
   "hub_activity_distribution": {
     "coming_soon": "(coming soon)",
     "data_value": "Data Value",
@@ -18,6 +21,9 @@
       "platform": "Platform"
     }
   },
+  "hub_category_select": {
+    "placeholder": "Choose post topic"
+  },
   "hub_create_post_dialog": {
     "form": {
       "text": {
@@ -26,7 +32,7 @@
           "maxBytes": "The text limit reached",
           "maxImages": "The maximum count of images is {{max}}",
           "minHtmlTextLength": "The minimum length of the text is {{min}} characters",
-          "required": "Post text is requred"
+          "required": "Post text is required"
         }
       },
       "title": {
@@ -42,18 +48,26 @@
     "title": "Create Post"
   },
   "hub_currency_statistics": {
-    "dec_rate": "DEC Rate",
+    "dec_rate": "DEC rate",
     "dec_rate_change": {
-      "dec": "DEC",
-      "increased": "increased by {{ percent }}%",
-      "decreased": "decreased by {{ percent }}%",
       "last_hours": "in the last 24-hours",
-      "not_changed": "has no change"
+      "no_change": "No change"
     },
+    "decentr_to_usd": "Decentr to US Dollar",
     "no_chart_data": "No DEC Rate data"
   },
+  "hub_dashboard": {
+    "your_dashboard": "Your dashboard"
+  },
+  "hub_header_stats_meta": {
+    "dec": "DEC",
+    "estimated_balance": "In progress: {{estimatedBalance}} PDV",
+    "pdv": "My PDV",
+    "short_view": "short view",
+    "show_details": "show details"
+  },
   "hub_navigation": {
-    "overview": "Overview"
+    "latest_posts": "Latest Posts"
   },
   "hub_image_uploader": {
     "errors": {
@@ -62,14 +76,43 @@
     }
   },
   "hub_infinite_posts_container": {
-    "load_more_posts": "Load more posts"
+    "load_more_posts": "Load more posts",
+    "loading_more_posts": "Loading more posts"
   },
-  "hub_page": {
-    "header": {
-      "estimated_balance": "In progress: {{estimatedBalance}} PDV",
-      "pdv": "My PDV",
-      "dec": "DEC"
+  "hub_post_editor": {
+    "image_uploader": {
+      "empty": {
+        "subtitle": "You can create a post without title image.",
+        "title": "Upload title image"
+      },
+      "filled": {
+        "subtitle": {
+          "to_another": "to another one",
+          "change": "change it",
+          "or": "or"
+        },
+        "title": "Clear title image"
+      }
+    },
+    "text": {
+      "errors": {
+        "maxBytes": "The text limit reached",
+        "maxImages": "The maximum count of images is {{max}}",
+        "minHtmlTextLength": "The text is too short, please, enter at least {{min}} characters",
+        "required": "Text is required"
+      }
+    },
+    "title": {
+      "errors": {
+        "minlength": "The title is too short, please, enter at least {{requiredLength}} characters",
+        "maxlength": "The maximum length of title is {{requiredLength}} characters",
+        "required": "Title is required"
+      },
+      "placeholder": "Title"
     }
+  },
+  "hub_post_text_editor": {
+    "placeholder": "Start your post with..."
   },
   "hub_pdv_statistics": {
     "activity_from": "Activity from {{date}}",
@@ -78,12 +121,19 @@
     "not_enough_chart_data": "Not enough data PDV for the chart",
     "my_pdv": "My PDV",
     "pdv_change": {
-      "decreased": "decreased by {{ percent }}%",
-      "increased": "increased by {{ percent }}%",
       "last_hours": "in the last 24-hours",
-      "not_changed": "has no change",
-      "your_pdv": "Your PDV"
+      "no_change": "No change"
     }
+  },
+  "hub_post_delete_button": {
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "delete_post": "Delete post",
+    "remove_post_title": "Remove post",
+    "will_be_deleted": "Post will be deleted permanently and you won’t be able to recover it."
+  },
+  "hub_post_card": {
+    "remove_post": "Remove post"
   },
   "hub_post_dialog": {
     "remove_post": "Remove post"
@@ -93,6 +143,12 @@
   },
   "hub_post_pdv": {
     "label": "PDV"
+  },
+  "hub_post_page": {
+    "interesting_posts": "You may be interested in"
+  },
+  "hub_posts_page": {
+    "top_posts": "Top posts"
   },
   "hub_overview_page": {
     "highest_pdv_analytics": "Highest PDV Analytics"
@@ -127,5 +183,9 @@
       "success": "Post has been removed successfully"
     },
     "not_exists": "Current post is no longer available, because it breaks Decentr policy"
+  },
+  "posts": {
+    "new": "New post",
+    "publish": "Publish post"
   }
 }

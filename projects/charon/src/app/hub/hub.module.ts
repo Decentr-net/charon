@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { SvgIconsModule } from '@ngneat/svg-icon';
@@ -17,23 +19,31 @@ import { HUB_DIRECTIVES } from './directives';
 import { HUB_PAGES } from './pages';
 import { HUB_SERVICES } from './services';
 import { AvatarModule } from '@shared/components/avatar';
+import { AutoFocusModule } from '@shared/directives/auto-focus';
 import { ColorCircleLabelModule } from '@shared/components/color-circle-label';
-import { ColorValueDynamicModule } from '@shared/components/color-value-dynamic';
 import { ColoredDistributionLineModule } from '@shared/components/colored-distribution-line';
 import { DateAgoModule } from '@shared/pipes/date-ago';
+import { DragScrollModule } from '@shared/directives/drag-scroll';
 import { FormErrorModule } from '@shared/components/form-error';
 import { HubRoutingModule } from './hub-routing.module';
 import { LineChartModule } from '@shared/components/line-chart';
+import { MarginLabelModule } from '@shared/components/margin-label';
 import { MenuModule } from '@shared/components/menu';
+import { MouseWheelHorizontalScrollModule } from '@shared/directives/mouse-wheel-horizontal-scroll';
 import { CutHtmlImagesModule } from '@shared/pipes/cut-html-images';
 import { FirstParagraphModule } from '@shared/pipes/first-paragraph';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { PositiveNumberModule } from '@shared/pipes/positiveNumber';
 import { PermissionsModule } from '@shared/permissions';
+import { RouterLinkScrollAnchorModule } from '@shared/directives/router-link-scroll-anchor';
 import { SlotModule } from '@shared/components/slot';
 import { SpinnerModule } from '@shared/components/spinner';
 import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
 import { TextClampModule } from '@shared/directives/text-clamp';
+import { CoerceTimestampModule } from '@shared/pipes/coerce-timestamp';
+import { TypefaceModule } from '@shared/directives/typeface';
+import { IntersectionModule } from '@shared/directives/intersection';
+import { NavigationModule } from '@core/navigation';
 
 @NgModule({
   declarations: [
@@ -43,35 +53,46 @@ import { TextClampModule } from '@shared/directives/text-clamp';
   ],
   imports: [
     AvatarModule,
+    AutoFocusModule,
+    CoerceTimestampModule,
     ColorCircleLabelModule,
-    ColorValueDynamicModule,
     ColoredDistributionLineModule,
     CommonModule,
     CutHtmlImagesModule,
     DateAgoModule,
+    DragScrollModule,
     FirstParagraphModule,
     FormErrorModule,
+    FormsModule,
     HubRoutingModule,
     InlineSVGModule,
+    IntersectionModule,
     LineChartModule,
+    MarginLabelModule,
     MatDialogModule,
     MatDividerModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
     MatTooltipModule,
     MenuModule,
+    MouseWheelHorizontalScrollModule,
+    NavigationModule,
     NgxTrimDirectiveModule,
+    OverlayModule,
     PdvValueModule,
     PermissionsModule,
     PositiveNumberModule,
     QuillModule,
     ReactiveFormsModule,
+    RouterLinkScrollAnchorModule,
     SlotModule,
     SpinnerModule,
     SvgIconsModule,
     TextClampModule,
     TextEllipsisModule,
     TranslocoModule,
+    TypefaceModule,
   ],
   providers: [
     HUB_SERVICES,

@@ -9,10 +9,12 @@ import {
   Wallet
 } from 'decentr-js';
 
-import { environment } from '../../../../../environments/environment';
+import CONFIG_SERVICE from '../config';
+import { mergeMap } from 'rxjs/operators';
 import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
 import { UserPrivate } from '../../../../../shared/services/auth';
 
+const configService = CONFIG_SERVICE;
 const networkStorage = new NetworkBrowserStorageService();
 
 const getApi = () => networkStorage.getActiveNetworkInstant().api;
@@ -22,14 +24,16 @@ export const createPost = (
   post: PostCreate,
   privateKey: Wallet['privateKey'],
 ): Promise<BroadcastResponse> => {
-  return new Decentr(getApi(), environment.chainId).createPost(
-    walletAddress,
-    post,
-    {
-      broadcast: true,
-      privateKey,
-    },
-  );
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).createPost(
+      walletAddress,
+      post,
+      {
+        broadcast: true,
+        privateKey,
+      },
+    )),
+  ).toPromise();
 };
 
 export const deletePost = (
@@ -37,14 +41,16 @@ export const deletePost = (
   postIdentificationParameters: PostIdentificationParameters,
   privateKey: Wallet['privateKey'],
 ): Promise<BroadcastResponse> => {
-  return new Decentr(getApi(), environment.chainId).deletePost(
-    walletAddress,
-    postIdentificationParameters,
-    {
-      broadcast: true,
-      privateKey,
-    },
-  );
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).deletePost(
+      walletAddress,
+      postIdentificationParameters,
+      {
+        broadcast: true,
+        privateKey,
+      },
+    )),
+  ).toPromise();
 };
 
 export const likePost = (
@@ -53,15 +59,17 @@ export const likePost = (
   likeWeight: LikeWeight,
   privateKey: Wallet['privateKey'],
 ): Promise<BroadcastResponse> => {
-  return new Decentr(getApi(), environment.chainId).likePost(
-    walletAddress,
-    postIdentificationParameters,
-    likeWeight,
-    {
-      broadcast: true,
-      privateKey,
-    },
-  );
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).likePost(
+      walletAddress,
+      postIdentificationParameters,
+      likeWeight,
+      {
+        broadcast: true,
+        privateKey,
+      },
+    )),
+  ).toPromise();
 };
 
 export const setPublicProfile = (
@@ -69,14 +77,16 @@ export const setPublicProfile = (
   publicProfile: PublicProfile,
   privateKey: Wallet['privateKey'],
 ): Promise<BroadcastResponse> => {
-  return new Decentr(getApi(), environment.chainId).setPublicProfile(
-    walletAddress,
-    publicProfile,
-    {
-      broadcast: true,
-      privateKey,
-    },
-  );
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).setPublicProfile(
+      walletAddress,
+      publicProfile,
+      {
+        broadcast: true,
+        privateKey,
+      },
+    )),
+  ).toPromise();
 };
 
 export const setPrivateProfile = (
@@ -84,25 +94,29 @@ export const setPrivateProfile = (
   privateProfile: UserPrivate,
   privateKey: Wallet['privateKey'],
 ): Promise<BroadcastResponse> => {
-  return new Decentr(getApi(), environment.chainId).setPrivateProfile(
-    walletAddress,
-    privateProfile,
-    privateKey,
-    {
-      broadcast: true,
-    },
-  );
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).setPrivateProfile(
+      walletAddress,
+      privateProfile,
+      privateKey,
+      {
+        broadcast: true,
+      },
+    )),
+  ).toPromise();
 };
 
 export const transferCoins = (
   transferData: TransferData,
   privateKey: Wallet['privateKey'],
 ): Promise<BroadcastResponse> => {
-  return new Decentr(getApi(), environment.chainId).sendCoin(
-    transferData,
-    {
-      broadcast: true,
-      privateKey,
-    },
-  );
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).sendCoin(
+      transferData,
+      {
+        broadcast: true,
+        privateKey,
+      },
+    )),
+  ).toPromise();
 };
