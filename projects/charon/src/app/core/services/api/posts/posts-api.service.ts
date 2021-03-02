@@ -1,67 +1,44 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {
-  Decentr,
-  PopularPostsPeriod,
-  Post,
-  PostIdentificationParameters,
-  PostsFilterOptions,
-  UserPostsFilterOptions,
-  Wallet,
-} from 'decentr-js';
+import { map, mergeMap } from 'rxjs/operators';
+import { Decentr, LikeWeight, Post, Wallet } from 'decentr-js';
 
 import { ConfigService } from '@shared/services/configuration';
-import { map, mergeMap } from 'rxjs/operators';
+import { PostsListFilterOptions, PostsListResponse } from './posts-api.definitions';
+import { removeEmptyValues } from '@shared/utils/object';
+import { PostsListItem } from '@core/services';
 
 @Injectable()
 export class PostsApiService {
   constructor(
     private configService: ConfigService,
+    private httpClient: HttpClient,
   ) {
   }
 
-  public getPost(
-    api: string,
-    postIdentificationParameters: PostIdentificationParameters,
-  ): Observable<Post> {
-    return this.createDecentrConnector(api).pipe(
-      mergeMap((decentr) => decentr.community.getPost(postIdentificationParameters)),
+  public getPost(params: Pick<Post, 'owner' | 'uuid'>): Observable<PostsListItem> {
+    return this.configService.getTheseusUrl().pipe(
+      mergeMap((theseusApi) => {
+        return this.httpClient.get<PostsListItem>(`${theseusApi}/v1/posts/${params.owner}/${params.uuid}`);
+      }),
     );
   }
 
-  public getLatestPosts(
-    api: string,
-    filterOptions?: PostsFilterOptions,
-  ): Observable<Post[]> {
-    return this.createDecentrConnector(api).pipe(
-      mergeMap((decentr) => decentr.community.getLatestPosts(filterOptions)),
-    );
-  }
-
-  public getPopularPosts(
-    api: string,
-    period: PopularPostsPeriod,
-    filterOptions?: PostsFilterOptions,
-  ): Observable<Post[]> {
-    return this.createDecentrConnector(api).pipe(
-      mergeMap((decentr) => decentr.community.getPopularPosts(period, filterOptions)),
-    );
-  }
-
-  public getUserPosts(
-    api: string,
-    walletAddress: Wallet['address'],
-    filterOptions?: UserPostsFilterOptions,
-  ): Observable<Post[]> {
-    return this.createDecentrConnector(api).pipe(
-      mergeMap((decentr) => decentr.community.getUserPosts(walletAddress, filterOptions)),
+  public getPosts(filterOptions?: PostsListFilterOptions): Observable<PostsListResponse> {
+    return this.configService.getTheseusUrl().pipe(
+      mergeMap((theseusApi) => {
+        return this.httpClient.get<PostsListResponse>(`${theseusApi}/v1/posts`, {
+          params: removeEmptyValues(filterOptions) as Record<string, string>,
+        });
+      }),
     );
   }
 
   public getLikedPosts(
     api: string,
     walletAddress: Wallet['address'],
-  ): Observable<any> {
+  ): Observable<Record<Post['uuid'], LikeWeight.Down | LikeWeight.Up>> {
     return this.createDecentrConnector(api).pipe(
       mergeMap((decentr) => decentr.community.getLikedPosts(walletAddress)),
     );

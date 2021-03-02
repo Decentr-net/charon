@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { defer, from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { LikeWeight, Post, PostCreate, PostIdentificationParameters } from 'decentr-js'
 
 import { MessageBus } from '@shared/message-bus';
 import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
-import { PostsApiService } from '../api';
+import { PostsApiService, PostsListFilterOptions, PostsListResponse } from '../api';
 import { AuthService } from '../../auth';
 import { NetworkService } from '../network';
+import { PostsListItem } from './posts.definitions';
 
 @Injectable()
 export class PostsService {
@@ -18,15 +20,13 @@ export class PostsService {
   ) {
   }
 
-  public getPost(
-    postIdentificationParameters: Pick<Post, 'owner' | 'uuid'>,
-  ): Observable<Post> {
-    return this.postsApiService.getPost(
-      this.networkService.getActiveNetworkInstant().api,
-      {
-        author: postIdentificationParameters.owner,
-        postId: postIdentificationParameters.uuid,
-      },
+  public getPost(postIdentificationParameters: Pick<Post, 'owner' | 'uuid'>): Observable<PostsListItem> {
+    return this.postsApiService.getPost(postIdentificationParameters);
+  }
+
+  public getPosts(filterOptions?: PostsListFilterOptions): Observable<PostsListItem[]> {
+    return this.postsApiService.getPosts(filterOptions).pipe(
+      map(this.mapPostsResponseToList),
     );
   }
 
@@ -66,7 +66,7 @@ export class PostsService {
       }));
   }
 
-  public getLikedPosts(): Observable<any> {
+  public getLikedPosts(): Observable<Record<Post['uuid'], LikeWeight.Down | LikeWeight.Up>> {
     return this.postsApiService.getLikedPosts(
       this.networkService.getActiveNetworkInstant().api,
       this.authService.getActiveUserInstant().wallet.address,
@@ -92,5 +92,26 @@ export class PostsService {
           throw response.error;
         }
       }));
+  }
+
+  private mapPostsResponseToList(postsListResponse: PostsListResponse): PostsListItem[] {
+    return postsListResponse.posts.map((post) => {
+      const profile = postsListResponse.profiles[post.owner];
+
+      return {
+        ...post,
+        createdAt: post.created_at,
+        dislikesCount: post.dislikes,
+        likesCount: post.likes,
+        likeWeight: 0,
+        previewImage: post.preview_image,
+        author: {
+          ...profile,
+          firstName: profile.first_name,
+          lastName: profile.last_name,
+        },
+        stats: postsListResponse.stats[`${post.owner}/${post.uuid}`],
+      };
+    });
   }
 }
