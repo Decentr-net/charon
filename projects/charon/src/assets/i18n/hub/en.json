@@ -6,46 +6,8 @@
   "hub_additional_statistics": {
     "more_stats_coming_soon": "More stats coming soon!"
   },
-  "hub_activity_distribution": {
-    "coming_soon": "(coming soon)",
-    "data_value": "Data Value",
-    "last_24_hours": "Last 24 hours",
-    "params": {
-      "adv": "ADV",
-      "dec": "DEC",
-      "ddv": "DDV",
-      "pdv": "My PDV"
-    },
-    "sources": {
-      "activity": "Activity",
-      "platform": "Platform"
-    }
-  },
   "hub_category_select": {
     "placeholder": "Choose post topic"
-  },
-  "hub_create_post_dialog": {
-    "form": {
-      "text": {
-        "placeholder": "Share what's new with Decentr community",
-        "errors": {
-          "maxBytes": "The text limit reached",
-          "maxImages": "The maximum count of images is {{max}}",
-          "minHtmlTextLength": "The minimum length of the text is {{min}} characters",
-          "required": "Post text is required"
-        }
-      },
-      "title": {
-        "placeholder": "Post title",
-        "errors": {
-          "maxlength": "The maximum length of title is {{requiredLength}} characters",
-          "required": "Title is required"
-        }
-      }
-    },
-    "post": "Post",
-    "success": "Post successfully created",
-    "title": "Create Post"
   },
   "hub_currency_statistics": {
     "dec_rate": "DEC rate",
@@ -133,9 +95,6 @@
     "will_be_deleted": "Post will be deleted permanently and you won’t be able to recover it."
   },
   "hub_post_card": {
-    "remove_post": "Remove post"
-  },
-  "hub_post_dialog": {
     "remove_post": "Remove post"
   },
   "hub_feed_post": {
