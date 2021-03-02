@@ -27,7 +27,6 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
 
   protected loadingMoreCount: number = 4;
   protected loadingInitialCount: number = 4;
-  protected includeProfile: boolean = true;
 
   private posts: BehaviorSubject<T[]> = new BehaviorSubject([]);
   private isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -42,7 +41,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
   private static deleteNotifier$: Subject<Post['uuid']> = new Subject();
   private static reloadNotifier$: Subject<void> = new Subject();
 
-  public constructor(
+  protected constructor(
     injector: Injector,
   ) {
     this.notificationService = injector.get(NotificationService);
@@ -103,6 +102,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
   public getPostChanges(postId: T['uuid']): Observable<T> {
     return this.posts$.pipe(
       map(() => this.getPost(postId)),
+      distinctUntilChanged((prev, curr) => !prev && !curr),
     );
   }
 
@@ -138,7 +138,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
       likeWeight,
     };
 
-    this.updatePost(postId, update);
+    this.updatePost(postId, update as T);
 
     return this.postsService.likePost(post, likeWeight).pipe(
       catchError((error) => {
@@ -199,7 +199,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
             return undefined;
         }
 
-        this.updatePost(postId, post);
+        this.updatePost(postId, post as T);
 
         // return this.updatePostsWithLikes([post]).pipe(
         //   map((posts) => posts[0]),
@@ -239,23 +239,6 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
     }));
   }
 
-  // public updatePostsWithAuthors(
-  //   posts: T[],
-  // ): Observable<(T & { author: PublicProfile })[]> {
-  //   if (!posts.length) {
-  //     return of([]);
-  //   }
-  //
-  //   return forkJoin(
-  //     posts.map((post) => this.getPublicProfile(post.owner).pipe(
-  //       map((publicProfile) => ({
-  //         ...post,
-  //         author: publicProfile,
-  //       })),
-  //     )),
-  //   );
-  // }
-
   // public updatePostsWithLikes<T extends Post>(
   //   posts: T[],
   // ): Observable<(T & { likeWeight: LikeWeight })[]> {
@@ -279,9 +262,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
     return this.loadPosts(fromPost, count).pipe(
       map((posts) => {
         return posts.filter((post) => !!+post.createdAt);
-          // .sort((left, right) => right.pdv - left.pdv || right.createdAt - left.createdAt);
       }),
-      // mergeMap((posts: Post[]) => this.includeProfile ? this.updatePostsWithAuthors(posts) : of(posts)),
       // mergeMap((posts: T[]) => this.updatePostsWithLikes(posts)),
     );
   }

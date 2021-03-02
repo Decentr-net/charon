@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { PostCategory } from 'decentr-js';
@@ -13,6 +13,10 @@ export class HubTopPostsService extends HubPostsService implements OnDestroy {
   protected includeProfile: boolean = false;
 
   protected postsCategory: PostCategory;
+
+  constructor(injector: Injector) {
+    super(injector);
+  }
 
   public ngOnDestroy() {
     this.dispose();

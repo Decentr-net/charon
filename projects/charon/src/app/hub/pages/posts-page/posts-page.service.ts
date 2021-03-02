@@ -10,7 +10,6 @@ import { HubCategoryRouteParam } from '../../hub-route';
 export class PostsPageService extends HubPostsService implements OnDestroy {
   protected loadingInitialCount: number = 20;
   protected loadingMoreCount: number = 20;
-  protected includeProfile: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,

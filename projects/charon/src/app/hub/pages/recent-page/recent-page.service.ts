@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PostsListItem } from '@core/services';
@@ -6,6 +6,10 @@ import { HubPostsService } from '../../services';
 
 @Injectable()
 export class RecentPageService extends HubPostsService implements OnDestroy {
+  constructor(injector: Injector) {
+    super(injector);
+  }
+
   public ngOnDestroy() {
     this.dispose();
   }

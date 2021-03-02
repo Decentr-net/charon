@@ -23,7 +23,7 @@ export class PostPageService {
     private router: Router,
   ) {
     this.activatedRoute.params.pipe(
-      mergeMap((params) => this.getPostWithAuthorChanges(
+      switchMap((params) => this.getPostChanges(
         params[HubPostOwnerRouteParam],
         params[HubPostIdRouteParam]),
       ),
@@ -68,23 +68,17 @@ export class PostPageService {
     );
   }
 
-  private getPostWithAuthorChanges(
+  private getPostChanges(
     owner: PostsListItem['owner'],
     postId: PostsListItem['uuid'],
   ): Observable<PostsListItem> {
     return this.hubPostsService.getPostChanges(postId).pipe(
       switchMap((post) => post ? of(post) : this.getPostLive(owner, postId)),
-      // switchMap((post) => this.hubPostsService.getPublicProfile(post.owner).pipe(
-      //   map((author) => ({ ...post, author })),
-      // )),
     );
   }
 
   private getPostLive(owner: PostsListItem['owner'], postId: PostsListItem['uuid']): Observable<PostsListItem> {
-    return this.postsService.getPost({ owner, uuid: postId }).pipe(
-      // mergeMap((post) => this.hubPostsService.updatePostsWithLikes([post])),
-      // map(([post]) => post),
-    );
+    return this.postsService.getPost({ owner, uuid: postId });
   }
 
   private updatePost(update: Partial<PostsListItem>): void {
