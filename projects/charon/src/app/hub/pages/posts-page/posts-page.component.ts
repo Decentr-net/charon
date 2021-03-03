@@ -97,13 +97,19 @@ export class PostsPageComponent {
 
   public onPostOutletActivate(): void {
     this.isPostOutletActivated = true;
+
+    this.setScrollTop(0);
   }
 
   public onPostOutletDeactivate(): void {
     this.isPostOutletActivated = false;
 
+    this.setScrollTop(this.scrollPosition);
+  }
+
+  private setScrollTop(value: number): void {
     timer(0).pipe(
       untilDestroyed(this),
-    ).subscribe(() => this.elementRef.nativeElement.scrollTop = this.scrollPosition || 0);
+    ).subscribe(() => this.elementRef.nativeElement.scrollTop = value || 0);
   }
 }
