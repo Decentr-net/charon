@@ -78,13 +78,6 @@ export class PostsService {
       }));
   }
 
-  public getLikedPosts(): Observable<Record<Post['uuid'], LikeWeight.Down | LikeWeight.Up>> {
-    return this.postsApiService.getLikedPosts(
-      this.networkService.getActiveNetworkInstant().api,
-      this.authService.getActiveUserInstant().wallet.address,
-    );
-  }
-
   public deletePost(
     post: PostIdentificationParameters,
   ): Observable<void> {
