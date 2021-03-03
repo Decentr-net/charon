@@ -40,9 +40,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
   private static deleteNotifier$: Subject<Post['uuid']> = new Subject();
   private static reloadNotifier$: Subject<void> = new Subject();
 
-  protected constructor(
-    injector: Injector,
-  ) {
+  protected constructor(injector: Injector) {
     this.notificationService = injector.get(NotificationService);
     this.postsService = injector.get(PostsService);
     this.spinnerService = injector.get(SpinnerService);
@@ -51,7 +49,8 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
 
     this.loadMore.pipe(
       tap(() => this.isLoading.next(true)),
-      switchMap((count) => this.loadFullPosts(this.getLastPost(), count).pipe(
+      switchMap((count) => this.loadPosts(this.getLastPost(), count).pipe(
+        map((posts) => posts.filter((post) => !!+post.createdAt)),
         tap((posts) => (posts.length < count) && this.canLoadMore.next(false)),
         takeUntil(this.stopLoading$),
         finalize(() => this.isLoading.next(false)),
@@ -198,11 +197,6 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
         }
 
         this.updatePost(postId, post as T);
-
-        // return this.updatePostsWithLikes([post]).pipe(
-        //   map((posts) => posts[0]),
-        //   tap((post) => this.updatePost(postId, post)),
-        // );
       }),
     );
   }
@@ -235,34 +229,6 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
       ...post,
       ...update,
     }));
-  }
-
-  // public updatePostsWithLikes<T extends Post>(
-  //   posts: T[],
-  // ): Observable<(T & { likeWeight: LikeWeight })[]> {
-  //   if (!posts.length) {
-  //     return of([]);
-  //   }
-  //
-  //   return this.postsService.getLikedPosts().pipe(
-  //     map((likedPosts) => posts.map((post) => {
-  //       const likeWeight = likedPosts[`${post.owner}/${post.uuid}`] || 0;
-  //
-  //       return {
-  //         ...post,
-  //         likeWeight,
-  //       };
-  //     })),
-  //   );
-  // }
-
-  private loadFullPosts(fromPost: T, count: number): Observable<T[]> {
-    return this.loadPosts(fromPost, count).pipe(
-      map((posts) => {
-        return posts.filter((post) => !!+post.createdAt);
-      }),
-      // mergeMap((posts: T[]) => this.updatePostsWithLikes(posts)),
-    );
   }
 
   public static getPostLikesCountUpdate<T extends PostsListItem>(
