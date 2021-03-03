@@ -31,7 +31,7 @@ export class HubRelatedPostsService extends HubPostsService implements OnDestroy
       after: fromPost && `${fromPost.owner}/${fromPost.uuid}`,
       category: this.postsCategory,
       limit: count,
-      sort_by: 'pdv'
+      sortBy: 'pdv'
     }).pipe(
       catchError((error) => {
         this.notificationService.error(error);

@@ -5,9 +5,8 @@ import { map, mergeMap } from 'rxjs/operators';
 import { Decentr, LikeWeight, Post, Wallet } from 'decentr-js';
 
 import { ConfigService } from '@shared/services/configuration';
-import { PostsListFilterOptions, PostsListResponse } from './posts-api.definitions';
+import { PostResponse, PostsListFilterOptions, PostsListResponse } from './posts-api.definitions';
 import { removeEmptyValues } from '@shared/utils/object';
-import { PostsListItem } from '@core/services';
 
 @Injectable()
 export class PostsApiService {
@@ -17,10 +16,12 @@ export class PostsApiService {
   ) {
   }
 
-  public getPost(params: Pick<Post, 'owner' | 'uuid'>): Observable<PostsListItem> {
+  public getPost(params: Pick<Post, 'owner' | 'uuid'>, requestedBy: Wallet['address']): Observable<PostResponse> {
     return this.configService.getTheseusUrl().pipe(
       mergeMap((theseusApi) => {
-        return this.httpClient.get<PostsListItem>(`${theseusApi}/v1/posts/${params.owner}/${params.uuid}`);
+        return this.httpClient.get<PostResponse>(`${theseusApi}/v1/posts/${params.owner}/${params.uuid}`, {
+          params: { requestedBy },
+        });
       }),
     );
   }
@@ -29,7 +30,7 @@ export class PostsApiService {
     return this.configService.getTheseusUrl().pipe(
       mergeMap((theseusApi) => {
         return this.httpClient.get<PostsListResponse>(`${theseusApi}/v1/posts`, {
-          params: removeEmptyValues(filterOptions) as Record<string, string>,
+          params: removeEmptyValues(filterOptions) as unknown as Record<string, string>,
         });
       }),
     );

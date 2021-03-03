@@ -1,11 +1,10 @@
 import { Injector, TrackByFunction } from '@angular/core';
-import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
   finalize,
   map,
-  mergeMap,
   switchMap,
   takeUntil,
   tap,
@@ -144,9 +143,8 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
       catchError((error) => {
         this.notificationService.error(error);
 
-        return of(void 0);
+        return this.updatePostLive(postId);
       }),
-      mergeMap(() => this.updatePostLive(postId)),
     );
   }
 

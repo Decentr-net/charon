@@ -21,11 +21,23 @@ export class PostsService {
   }
 
   public getPost(postIdentificationParameters: Pick<Post, 'owner' | 'uuid'>): Observable<PostsListItem> {
-    return this.postsApiService.getPost(postIdentificationParameters);
+    return this.postsApiService.getPost(
+      postIdentificationParameters,
+      this.authService.getActiveUserInstant().wallet.address,
+    ).pipe(
+      map((response) => ({
+        ...response.post,
+        author: response.profile,
+        stats: response.stats,
+      }))
+    );
   }
 
   public getPosts(filterOptions?: PostsListFilterOptions): Observable<PostsListItem[]> {
-    return this.postsApiService.getPosts(filterOptions).pipe(
+    return this.postsApiService.getPosts({
+      requestedBy: this.authService.getActiveUserInstant().wallet.address,
+      ...filterOptions,
+    }).pipe(
       map(this.mapPostsResponseToList),
     );
   }
@@ -100,16 +112,7 @@ export class PostsService {
 
       return {
         ...post,
-        createdAt: post.created_at,
-        dislikesCount: post.dislikes,
-        likesCount: post.likes,
-        likeWeight: 0,
-        previewImage: post.preview_image,
-        author: {
-          ...profile,
-          firstName: profile.first_name,
-          lastName: profile.last_name,
-        },
+        author: profile,
         stats: postsListResponse.stats[`${post.owner}/${post.uuid}`],
       };
     });

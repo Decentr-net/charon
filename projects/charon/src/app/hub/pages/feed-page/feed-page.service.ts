@@ -20,7 +20,7 @@ export class FeedPageService extends HubPostsService implements OnDestroy {
     return this.postsService.getPosts({
       after: fromPost && `${fromPost.owner}/${fromPost.uuid}`,
       limit: count,
-      sort_by: 'pdv',
+      sortBy: 'pdv',
     });
   }
 }

@@ -24,7 +24,7 @@ export class MyWallPageService extends HubPostsService implements OnDestroy {
     return this.postsService.getPosts({
       after: fromPost && `${fromPost.owner}/${fromPost.uuid}`,
       limit: count,
-      owner: address
+      owner: address,
     });
   }
 }
