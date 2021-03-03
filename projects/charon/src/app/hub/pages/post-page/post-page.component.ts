@@ -9,13 +9,12 @@ import {
 import { distinctUntilChanged, filter, pluck, share } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Post } from 'decentr-js';
 
 import { svgArrowLeft } from '@shared/svg-icons';
-import { PostWithAuthor } from '../../models/post';
 import { HubProfile } from '../../components/hub-profile-card';
 import { PostPageService } from './post-page.service';
 import { PostPageLikeService } from './post-page-like.service';
+import { PostsListItem } from '../../../core/services';
 
 @UntilDestroy()
 @Component({
@@ -29,13 +28,13 @@ import { PostPageLikeService } from './post-page-like.service';
   ],
 })
 export class PostPageComponent implements OnInit {
-  public post: PostWithAuthor;
+  public post: PostsListItem;
 
   public authorProfile: HubProfile;
 
-  public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;
+  public trackByPostId: TrackByFunction<PostsListItem> = ({}, { uuid }) => uuid;
 
-  public postLinkFn: (post: Post) => string[] = (post) => ['../../', post.owner, post.uuid];
+  public postLinkFn: (post: PostsListItem) => string[] = (post) => ['../../', post.owner, post.uuid];
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,

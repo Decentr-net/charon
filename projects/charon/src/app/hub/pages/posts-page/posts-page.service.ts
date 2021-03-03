@@ -1,24 +1,18 @@
 import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Post } from 'decentr-js';
 import { Observable } from 'rxjs';
 
-import { PostsApiService } from '@core/services/api';
-import { NetworkService } from '@core/services';
+import { PostsListItem } from '@core/services';
 import { HubPostsService } from '../../services';
 import { HubCategoryRouteParam } from '../../hub-route';
-import { PostWithLike } from '../../models/post';
 
 @Injectable()
-export class PostsPageService extends HubPostsService<PostWithLike> implements OnDestroy {
+export class PostsPageService extends HubPostsService implements OnDestroy {
   protected loadingInitialCount: number = 20;
   protected loadingMoreCount: number = 20;
-  protected includeProfile: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private networkService: NetworkService,
-    private postsApiService: PostsApiService,
     injector: Injector,
   ) {
     super(injector);
@@ -28,15 +22,11 @@ export class PostsPageService extends HubPostsService<PostWithLike> implements O
     this.dispose();
   }
 
-  protected loadPosts(fromPost: Post | undefined, count: number): Observable<Post[]> {
-    return this.postsApiService.getLatestPosts(
-      this.networkService.getActiveNetworkInstant().api,
-      {
-        category: this.activatedRoute.snapshot.params[HubCategoryRouteParam],
-        fromOwner: fromPost && fromPost.owner,
-        fromUUID: fromPost && fromPost.uuid,
-        limit: count,
-      },
-    );
+  protected loadPosts(fromPost: PostsListItem | undefined, count: number): Observable<PostsListItem[]> {
+    return this.postsService.getPosts({
+      after: fromPost && `${fromPost.owner}/${fromPost.uuid}`,
+      category: this.activatedRoute.snapshot.params[HubCategoryRouteParam],
+      limit: count,
+    });
   }
 }

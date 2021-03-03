@@ -1,18 +1,14 @@
 import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Post } from 'decentr-js';
 
 import { AuthService } from '@core/auth';
-import { NetworkService } from '@core/services';
-import { PostsApiService } from '@core/services/api';
 import { HubPostsService } from '../../services';
+import { PostsListItem } from '../../../core/services';
 
 @Injectable()
 export class MyWallPageService extends HubPostsService implements OnDestroy {
   constructor(
     private authService: AuthService,
-    private networkService: NetworkService,
-    private postsApiService: PostsApiService,
     injector: Injector,
   ) {
     super(injector);
@@ -22,14 +18,13 @@ export class MyWallPageService extends HubPostsService implements OnDestroy {
     this.dispose();
   }
 
-  protected loadPosts(fromPost: Post | undefined, count: number): Observable<Post[]> {
+  protected loadPosts(fromPost: PostsListItem | undefined, count: number): Observable<PostsListItem[]> {
     const { wallet: { address } } = this.authService.getActiveUserInstant();
 
-    const api = this.networkService.getActiveNetworkInstant().api;
-
-    return this.postsApiService.getUserPosts(api, address, {
+    return this.postsService.getPosts({
+      after: fromPost && `${fromPost.owner}/${fromPost.uuid}`,
       limit: count,
-      from: fromPost && fromPost.uuid,
+      owner: address,
     });
   }
 }

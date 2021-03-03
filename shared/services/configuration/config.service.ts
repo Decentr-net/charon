@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, map, pluck, take } from 'rxjs/operators';
 import { Observable, ReplaySubject } from 'rxjs';
 import { PDVDataType } from 'decentr-js';
 
@@ -84,6 +84,12 @@ export class ConfigService {
   public getVulcanUrl(): Observable<string> {
     return this.getConfig().pipe(
       map(({ vulcan }) => vulcan.url),
+    );
+  }
+
+  public getTheseusUrl(): Observable<string> {
+    return this.getConfig().pipe(
+      pluck('theseus', 'url'),
     );
   }
 }

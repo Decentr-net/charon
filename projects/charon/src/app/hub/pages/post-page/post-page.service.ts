@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { catchError, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { LikeWeight, Post } from 'decentr-js';
+import { LikeWeight } from 'decentr-js';
 
 import { NotificationService } from '@shared/services/notification';
-import { PostsService } from '@core/services';
+import { PostsListItem, PostsService } from '@core/services';
 import { HubPostIdRouteParam, HubPostOwnerRouteParam } from '../../hub-route';
 import { HubPostsService } from '../../services';
-import { PostWithAuthor, PostWithLike } from '../../models/post';
 
 @UntilDestroy()
 @Injectable()
 export class PostPageService {
-  private readonly post$: BehaviorSubject<PostWithAuthor> = new BehaviorSubject(void 0);
+  private readonly post$: BehaviorSubject<PostsListItem> = new BehaviorSubject(void 0);
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -24,7 +23,7 @@ export class PostPageService {
     private router: Router,
   ) {
     this.activatedRoute.params.pipe(
-      mergeMap((params) => this.getPostWithAuthorChanges(
+      switchMap((params) => this.getPostChanges(
         params[HubPostOwnerRouteParam],
         params[HubPostIdRouteParam]),
       ),
@@ -32,17 +31,17 @@ export class PostPageService {
     ).subscribe(this.post$);
   }
 
-  public getPost(): Observable<PostWithAuthor> {
+  public getPost(): Observable<PostsListItem> {
     return this.post$;
   }
 
-  public deletePost(post: Post): void {
+  public deletePost(post: PostsListItem): void {
     this.hubPostsService.deletePost(post).pipe(
       untilDestroyed(this),
     ).subscribe(() => this.router.navigate(['../../../']));
   }
 
-  public likePost(postId: Post['uuid'], likeWeight: LikeWeight): Observable<void> {
+  public likePost(postId: PostsListItem['uuid'], likeWeight: LikeWeight): Observable<void> {
     const targetPost = this.hubPostsService.getPost(postId);
 
     if (targetPost) {
@@ -69,23 +68,20 @@ export class PostPageService {
     );
   }
 
-  private getPostWithAuthorChanges(owner: Post['owner'], postId: Post['uuid']): Observable<PostWithAuthor> {
+  private getPostChanges(
+    owner: PostsListItem['owner'],
+    postId: PostsListItem['uuid'],
+  ): Observable<PostsListItem> {
     return this.hubPostsService.getPostChanges(postId).pipe(
       switchMap((post) => post ? of(post) : this.getPostLive(owner, postId)),
-      switchMap((post) => this.hubPostsService.getPublicProfile(post.owner).pipe(
-        map((author) => ({ ...post, author })),
-      )),
     );
   }
 
-  private getPostLive(owner: Post['owner'], postId: Post['uuid']): Observable<PostWithLike> {
-    return this.postsService.getPost({ owner, uuid: postId }).pipe(
-      mergeMap((post) => this.hubPostsService.updatePostsWithLikes([post])),
-      map(([post]) => post),
-    );
+  private getPostLive(owner: PostsListItem['owner'], postId: PostsListItem['uuid']): Observable<PostsListItem> {
+    return this.postsService.getPost({ owner, uuid: postId });
   }
 
-  private updatePost(update: Partial<PostWithLike>): void {
+  private updatePost(update: Partial<PostsListItem>): void {
     this.post$.next({
       ...this.post$.value,
       ...update,
