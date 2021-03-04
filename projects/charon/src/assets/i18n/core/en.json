@@ -14,15 +14,14 @@
   },
   "menu": {
     "coming_soon": "coming soon",
-    "links": {
+    "items": {
       "decentr_feed": "dFeed",
       "decentr_hub": "dHub",
       "decentr_portal": "dPortal",
-      "import_account": "Import Account",
-      "info_and_help": "Info & Help"
+      "import_account": "Import account",
+      "info_and_help": "Info & Help",
+      "lock": "Lock account"
     },
-    "lock": "Lock",
-    "my_accounts": "My Accounts",
     "pdv": "PDV"
   },
   "network_selector": {

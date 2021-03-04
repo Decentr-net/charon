@@ -1,0 +1,42 @@
+@import 'variables';
+
+body .menu-popup {
+  background: rgba($color-black, .92);
+  backdrop-filter: blur(12px);
+  border-radius: $border-radius;
+  color: $color-white;
+  padding: $grid-step * 2;
+}
+
+.menu-popup-items-section {
+  background: $color-black;
+  border-radius: $border-radius;
+  overflow: hidden;
+
+  & + & {
+    margin-top: $grid-step * 2;
+  }
+}
+
+.menu-popup-item {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  padding: $grid-step * 1.5 $grid-step * 2;
+  white-space: nowrap;
+
+  &.is-disabled {
+    color: $color-dark-grey;
+    pointer-events: none;
+  }
+}
+
+.menu-popup-item-title {
+  font-weight: 500;
+}
+
+.menu-popup-items-divider {
+  border-bottom: 1px solid $color-dark-grey;
+  display: block;
+  width: 100%;
+}

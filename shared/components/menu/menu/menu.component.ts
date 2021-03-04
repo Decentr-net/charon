@@ -4,7 +4,7 @@ import { shareReplay } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { MenuService } from '../menu.service';
-import { MenuLink, MenuTranslations, MenuUserLink, MenuUserProfile } from '../menu.definitions';
+import { MenuItem, MenuTranslations, MenuUserItem, MenuUserProfile } from '../menu.definitions';
 import { svgDropdownExpand } from '../../../svg-icons';
 
 @Component({
@@ -20,9 +20,9 @@ export class MenuComponent implements OnInit {
 
   public translations$: Observable<MenuTranslations>;
 
-  public links$: Observable<MenuLink[]>;
+  public items$: Observable<MenuItem[][]>;
 
-  public userLink$: Observable<MenuUserLink>;
+  public userItem$: Observable<MenuUserItem>;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -43,12 +43,8 @@ export class MenuComponent implements OnInit {
       shareReplay(1),
     );
 
-    this.links$ = this.menuService.getLinks();
+    this.items$ = this.menuService.getItems();
 
-    this.userLink$ = this.menuService.getUserLink();
-  }
-
-  public lock(): void {
-    this.menuService.lock();
+    this.userItem$ = this.menuService.getUserItem();
   }
 }
