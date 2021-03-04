@@ -1,5 +1,15 @@
 @import 'variables';
 
+.cdk-overlay-container {
+  .menu-popup {
+    max-width: none;
+
+    .mat-menu-content {
+      padding: 0;
+    }
+  }
+}
+
 body .menu-popup {
   background: rgba($color-black, .92);
   backdrop-filter: blur(12px);

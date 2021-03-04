@@ -9,13 +9,8 @@ $menu--user-avatar--size: 40px;
 }
 
 ::ng-deep .cdk-overlay-container {
-  .mat-menu-content:not(:empty) {
-    padding: 0;
-  }
-
   .menu-popup {
     margin-top: -$menu--user-avatar--size;
-    max-width: none;
   }
 }
 
