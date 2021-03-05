@@ -1,7 +1,5 @@
 export interface MenuTranslations {
   comingSoon: string;
-  lock: string;
-  myAccounts: string;
   pdv: string;
 }
 
@@ -11,16 +9,15 @@ export interface MenuUserProfile {
   lastName: string;
 }
 
-interface MenuLinkBase {
-  link?: string;
+interface MenuItemBase {
+  action?: () => void;
   title: string;
 }
 
-export interface MenuUserLink extends Required<MenuLinkBase> {
+export interface MenuUserItem extends MenuItemBase {
   pdvValue: string;
 }
 
-export interface MenuLink extends MenuLinkBase {
-  blank?: boolean;
+export interface MenuItem extends MenuItemBase {
   iconKey: string;
 }
