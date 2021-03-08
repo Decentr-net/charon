@@ -1,8 +1,14 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { PublicProfile, Wallet } from 'decentr-js';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { PublicProfile } from 'decentr-js';
+
+import { svgFollow } from '@shared/svg-icons';
 
 export interface HubProfile extends Pick<PublicProfile, 'avatar' | 'firstName' | 'lastName'> {
-  walletAddress: Wallet['address'];
+  isFollowing: boolean;
+  isFollowingUpdating: boolean;
+  isUserProfile: boolean;
+  postsCount: number;
 }
 
 @Component({
@@ -12,5 +18,23 @@ export interface HubProfile extends Pick<PublicProfile, 'avatar' | 'firstName' |
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubProfileCardComponent {
-  @Input() profile: HubProfile;
+  @Input() public profile: HubProfile;
+
+  @Output() public readonly follow: EventEmitter<boolean> = new EventEmitter();
+
+  @Output() public readonly topup: EventEmitter<void> = new EventEmitter();
+
+  constructor(svgIconRegistry: SvgIconRegistry) {
+    svgIconRegistry.register([
+      svgFollow,
+    ]);
+  }
+
+  public onFollow(): void {
+    if (this.profile.isFollowingUpdating) {
+      return;
+    }
+
+    this.follow.emit(!this.profile.isFollowing);
+  }
 }

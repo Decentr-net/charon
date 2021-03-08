@@ -17,9 +17,13 @@ export interface PostsListResponsePost extends Post {
   likeWeight: LikeWeight;
 }
 
+export interface PostOwnerProfile extends PublicProfile {
+  postsCount: number;
+}
+
 export interface PostResponse {
   post: PostsListResponsePost;
-  profile: PublicProfile;
+  profile: PostOwnerProfile;
   stats: Record<string, PostsListResponseStat>;
 }
 
@@ -27,6 +31,6 @@ type PostsListResponseStat = Record<string, number>;
 
 export interface PostsListResponse {
   posts: PostsListResponsePost[];
-  profiles: Record<Post['owner'], PublicProfile>;
+  profiles: Record<Post['owner'], PostOwnerProfile>;
   stats: Record<string, PostsListResponseStat>; // [`owner/uuid`]: PostsListResponseStat
 }

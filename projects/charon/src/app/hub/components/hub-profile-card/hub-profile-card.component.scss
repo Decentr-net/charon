@@ -18,3 +18,48 @@
   margin-bottom: $grid-step;
   width: $avatar-size;
 }
+
+.hub-profile-card__posts-count {
+  font-weight: 700;
+  margin: $grid-step 0 $grid-step * 2;
+}
+
+.hub-profile-card__button {
+  background-color: $color-background;
+  border-radius: $border-radius;
+  color: $color-black;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 16px 1fr 16px;
+  padding: $grid-step $grid-step * 1.5;
+  width: 100%;
+
+  & + & {
+    margin-top: $grid-step;
+  }
+
+  &:hover {
+    background-color: $color-outlines;
+  }
+
+  &.is-active {
+    background-color: $color-positive;
+    color: $color-white;
+
+    .hub-profile-card__button-icon {
+      color: $color-white;
+    }
+  }
+
+  &.is-updating {
+    cursor: wait;
+  }
+}
+
+.hub-profile-card__button-icon {
+  display: inline-flex;
+  font-size: 16px;
+}
+
+.hub-profile-card__button-label {
+}

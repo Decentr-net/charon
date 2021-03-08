@@ -1,6 +1,15 @@
 import { MessageBus } from '../../../../../shared/message-bus';
 import { MessageCode } from '../../messages';
-import { createPost, deletePost, likePost, setPrivateProfile, setPublicProfile, transferCoins } from './api';
+import {
+  createPost,
+  deletePost,
+  follow,
+  likePost,
+  setPrivateProfile,
+  setPublicProfile,
+  transferCoins,
+  unfollow,
+} from './api';
 import QUEUE, { QueuePriority } from '../queue';
 import { CharonAPIMessageBusMap } from './message-bus-map';
 
@@ -82,6 +91,32 @@ export const initCharonAPIListeners = () => {
       ),
       (response) => {
         messageBus.sendMessage(MessageCode.CoinTransferred);
+        message.sendResponse(response);
+      },
+    );
+  });
+
+  messageBus.onMessage(MessageCode.Follow).subscribe((message) => {
+    sendRequest(
+      () => follow(
+        message.body.follower,
+        message.body.whom,
+        message.body.privateKey,
+      ),
+      (response) => {
+        message.sendResponse(response);
+      },
+    );
+  });
+
+  messageBus.onMessage(MessageCode.Unfollow).subscribe((message) => {
+    sendRequest(
+      () => unfollow(
+        message.body.follower,
+        message.body.whom,
+        message.body.privateKey,
+      ),
+      (response) => {
         message.sendResponse(response);
       },
     );

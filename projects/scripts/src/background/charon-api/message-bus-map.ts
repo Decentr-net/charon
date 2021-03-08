@@ -70,5 +70,27 @@ export interface CharonAPIMessageBusMap extends MessageMap {
       success: boolean;
       error?: any;
     };
+  };
+  [MessageCode.Follow]: {
+    body: {
+      follower: Wallet['address'];
+      whom: Wallet['address'];
+      privateKey: Wallet['address'];
+    };
+    response: {
+      success: boolean;
+      error?: any;
+    };
+  };
+  [MessageCode.Unfollow]: {
+    body: {
+      follower: Wallet['address'];
+      whom: Wallet['address'];
+      privateKey: Wallet['address'];
+    };
+    response: {
+      success: boolean;
+      error?: any;
+    };
   }
 }

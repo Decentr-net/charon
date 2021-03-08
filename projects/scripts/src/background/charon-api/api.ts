@@ -120,3 +120,37 @@ export const transferCoins = (
     )),
   ).toPromise();
 };
+
+export const follow = (
+  follower: Wallet['address'],
+  whom: Wallet['address'],
+  privateKey: Wallet['privateKey'],
+): Promise<BroadcastResponse> => {
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).community.follow(
+      follower,
+      whom,
+      {
+        broadcast: true,
+        privateKey,
+      },
+    )),
+  ).toPromise();
+}
+
+export const unfollow = (
+  follower: Wallet['address'],
+  whom: Wallet['address'],
+  privateKey: Wallet['privateKey'],
+): Promise<BroadcastResponse> => {
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).community.unfollow(
+      follower,
+      whom,
+      {
+        broadcast: true,
+        privateKey,
+      },
+    )),
+  ).toPromise();
+}

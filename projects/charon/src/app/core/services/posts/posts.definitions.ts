@@ -1,7 +1,9 @@
-import { LikeWeight, Post, PublicProfile } from 'decentr-js';
+import { LikeWeight, Post } from 'decentr-js';
+
+import { PostOwnerProfile } from '../api';
 
 export interface PostsListItem extends Post {
-  author: PublicProfile;
+  author: PostOwnerProfile;
   likeWeight: LikeWeight;
   stats: any;
 }

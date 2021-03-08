@@ -97,6 +97,11 @@
   "hub_post_card": {
     "remove_post": "Remove post"
   },
+  "hub_profile_card": {
+    "follow": "Follow on Decentr",
+    "following": "Following",
+    "posts": "Posts"
+  },
   "hub_feed_post": {
     "posted": "dposted"
   },

@@ -15,6 +15,7 @@ export type SvgIconName =
   | 'dynamics-positive'
   | 'edit'
   | 'expand-more'
+  | 'follow'
   | 'import-account'
   | 'import'
   | 'information'
