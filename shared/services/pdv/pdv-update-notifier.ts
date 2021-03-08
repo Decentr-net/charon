@@ -13,7 +13,7 @@ export class PDVUpdateNotifier {
   private timerSubscription: Subscription;
 
   public static listen(): Observable<void> {
-    return PDVUpdateNotifier.messageBus.onMessage(messageCode)
+    return PDVUpdateNotifier.messageBus.onMessageSync(messageCode)
       .pipe(
         debounceTime(1000),
         mapTo(void 0),

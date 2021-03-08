@@ -14,9 +14,12 @@ interface MessageSent<T extends MessageMap, MessageCode extends keyof T> {
   code: MessageCode;
 }
 
-export interface MessageGot<T extends MessageMap, MessageCode extends keyof T> {
+export interface MessageGotSync<T extends MessageMap, MessageCode extends keyof T> {
   body: T[MessageCode]['body'];
   sender: Runtime.MessageSender;
+}
+
+export interface MessageGot<T extends MessageMap, MessageCode extends keyof T> extends MessageGotSync<T, MessageCode> {
   sendResponse: (response: T[MessageCode]['response']) => void;
 }
 
@@ -77,6 +80,29 @@ export class MessageBus<T extends MessageMap> {
           body: message.body,
           sendResponse: resolve,
         })));
+      }
+
+      browser.runtime.onMessage.addListener(listener);
+
+      return () => browser.runtime.onMessage.removeListener(listener);
+    });
+  }
+
+  public onMessageSync<MessageCode extends keyof T>(messageCode: MessageCode): Observable<MessageGotSync<T, MessageCode>> {
+    return new Observable((subscriber) => {
+      const listener: (
+        message: MessageSent<T, MessageCode>,
+        sender: Runtime.MessageSender,
+      ) => Promise<T[MessageCode]['response']> | void = (message, sender) => {
+
+        if (message.code !== messageCode) {
+          return;
+        }
+
+        subscriber.next({
+          sender,
+          body: message.body,
+        });
       }
 
       browser.runtime.onMessage.addListener(listener);

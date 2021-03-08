@@ -33,7 +33,7 @@ export class UserDetailsPageService {
   }
 
   public getBankBalance(): Observable<BankCoin['amount']> {
-    return this.messageBus.onMessage(MessageCode.CoinTransferred).pipe(
+    return this.messageBus.onMessageSync(MessageCode.CoinTransferred).pipe(
       startWith(void 0),
       switchMap(() => this.bankService.getDECBalance(this.authService.getActiveUserInstant().wallet.address)),
     );
