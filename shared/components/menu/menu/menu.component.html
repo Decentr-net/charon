@@ -56,17 +56,27 @@
           [class.is-disabled]="!item.action"
           (click)="item.action && item.action()"
         >
-          <svg-icon class="menu__item-icon" [key]="item.iconKey"></svg-icon>
+          <svg-icon class="menu-popup-item-icon menu__item-icon" [key]="item.iconKey"></svg-icon>
 
-          <span class="menu-popup-item-title">{{ item.title }}</span>
+          <span class="menu-popup-item-title">
+            <span>{{ item.title }}</span>
 
-          <span
-            class="menu__item-coming-soon"
-            *ngIf="!item.action"
+            <span
+              class="menu__item-coming-soon"
+              *ngIf="!item.action"
+              appTypeface="caption"
+            >
+              {{ translations.comingSoon }}
+            </span>
+          </span>
+
+          <div
+            class="menu-popup-item-description menu__item-description"
+            *ngIf="item.description"
             appTypeface="caption"
           >
-            {{ translations.comingSoon }}
-          </span>
+            {{ item.description }}
+          </div>
         </div>
 
         <div class="menu-popup-items-divider" *ngIf="!last"></div>

@@ -2,7 +2,7 @@
 
 .cdk-overlay-container {
   .menu-popup {
-    max-width: none;
+    max-width: 320px;
 
     .mat-menu-content {
       padding: 0;
@@ -31,18 +31,36 @@ body .menu-popup {
 .menu-popup-item {
   align-items: center;
   cursor: pointer;
-  display: flex;
+  display: grid;
+  grid-template-areas: "icon title"
+                       "empty description";
+  grid-template-columns: min-content 1fr;
   padding: $grid-step * 1.5 $grid-step * 2;
   white-space: nowrap;
 
   &.is-disabled {
     color: $color-dark-grey;
     pointer-events: none;
+
+    .menu-popup-item-description {
+      color: $color-dark-grey;
+    }
   }
+}
+
+.menu-popup-item-icon {
+  grid-area: icon;
 }
 
 .menu-popup-item-title {
   font-weight: 500;
+  grid-area: title;
+}
+
+.menu-popup-item-description {
+  color: $color-grey;
+  grid-area: description;
+  white-space: normal;
 }
 
 .menu-popup-items-divider {

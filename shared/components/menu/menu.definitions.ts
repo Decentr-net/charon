@@ -19,5 +19,6 @@ export interface MenuUserItem extends MenuItemBase {
 }
 
 export interface MenuItem extends MenuItemBase {
+  description?: string;
   iconKey: string;
 }
