@@ -73,20 +73,23 @@ export class MenuService extends MenuBaseService {
           [
             {
               action: () => this.router.navigate(['/', AppRoute.Hub]),
+              description: itemsTranslationsObject['decentr_hub']['description'],
               iconKey: svgDecentrHub.name,
-              title: itemsTranslationsObject['decentr_hub'],
+              title: itemsTranslationsObject['decentr_hub']['title'],
             },
             {
               action: () => this.router.navigate(['/', AppRoute.Hub, HubRoute.Feed, HubFeedRoute.MyWall]),
+              description: itemsTranslationsObject['decentr_feed']['description'],
               iconKey: svgDecentrHub.name,
-              title: itemsTranslationsObject['decentr_feed'],
+              title: itemsTranslationsObject['decentr_feed']['title'],
             },
             {
               action: () => isOpenedInTab()
                 ? this.router.navigate(['/', AppRoute.User])
                 : this.navigationService.openInNewTab(`/${AppRoute.User}`),
+              description: itemsTranslationsObject['decentr_portal']['description'],
               iconKey: svgDecentrHub.name,
-              title: itemsTranslationsObject['decentr_portal'],
+              title: itemsTranslationsObject['decentr_portal']['title'],
             },
           ],
           [
