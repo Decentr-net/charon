@@ -6,7 +6,10 @@ import { HubPostsService } from '../../services';
 import { PostsListItem } from '../../../core/services';
 
 @Injectable()
-export class MyWallPageService extends HubPostsService implements OnDestroy {
+export class MyPostsPageService extends HubPostsService implements OnDestroy {
+  protected loadingInitialCount: number = 20;
+  protected loadingMoreCount: number = 20;
+
   constructor(
     private authService: AuthService,
     injector: Injector,
