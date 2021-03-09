@@ -6,6 +6,7 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { Post } from 'decentr-js';
 
 import { svgEdit } from '@shared/svg-icons';
+import { PostsListItem } from '@core/services';
 import { HubPostsService } from '../../services';
 import { FeedPageService } from './feed-page.service';
 import { PostWithAuthor } from '../../models/post';
@@ -63,6 +64,10 @@ export class FeedPageComponent implements OnInit {
 
   public loadMore(): void {
     this.feedPageService.loadMorePosts();
+  }
+
+  public postLinkFn: (post: PostsListItem) => unknown[] = (post) => {
+    return ['./', { outlets: { primary: null, post: [HubRoute.Post, post.owner, post.uuid] } }];
   }
 
   public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;

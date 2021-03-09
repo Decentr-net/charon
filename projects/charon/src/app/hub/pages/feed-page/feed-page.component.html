@@ -28,7 +28,10 @@
       {{ translate('top_posts') }}
     </div>
 
-    <app-hub-top-posts [category]="undefined"></app-hub-top-posts>
+    <app-hub-top-posts
+      [category]="undefined"
+      [routerLinkFn]="postLinkFn"
+    ></app-hub-top-posts>
   </div>
 </div>
 
