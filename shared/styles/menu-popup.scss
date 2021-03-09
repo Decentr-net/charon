@@ -53,6 +53,7 @@ body .menu-popup {
 }
 
 .menu-popup-item-title {
+  display: flex;
   font-weight: 500;
   grid-area: title;
 }

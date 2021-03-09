@@ -31,6 +31,7 @@ export type SvgIconName =
   | 'reload'
   | 'send-coin'
   | 'settings'
+  | 'signal'
   | 'trash';
 export interface SvgIcon {
   name: SvgIconName;

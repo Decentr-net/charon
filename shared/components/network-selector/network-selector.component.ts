@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TrackByFunction } from '@angular/core';
 import { Observable } from 'rxjs';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { Network, NetworkSelectorTranslations } from './network-selector.definitions';
 import { NetworkSelectorService } from './network-selector.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { svgCheck, svgSignal } from '../../svg-icons';
 
 @UntilDestroy()
 @Component({
@@ -22,7 +24,12 @@ export class NetworkSelectorComponent implements OnInit {
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private networkSelectorService: NetworkSelectorService,
+    private svgIconRegistry: SvgIconRegistry,
   ) {
+    svgIconRegistry.register([
+      svgCheck,
+      svgSignal,
+    ]);
   }
 
   public ngOnInit(): void {
