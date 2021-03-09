@@ -1,20 +1,22 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
-  TrackByFunction
+  TrackByFunction,
 } from '@angular/core';
-import { distinctUntilChanged, filter, pluck, share } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { distinctUntilChanged, filter, map, pluck, switchMap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Wallet } from 'decentr-js';
 
 import { svgArrowLeft } from '@shared/svg-icons';
+import { AuthService } from '@core/auth';
+import { FollowingService, PostsListItem } from '@core/services';
 import { HubProfile } from '../../components/hub-profile-card';
 import { PostPageService } from './post-page.service';
 import { PostPageLikeService } from './post-page-like.service';
-import { PostsListItem } from '../../../core/services';
 
 @UntilDestroy()
 @Component({
@@ -28,17 +30,20 @@ import { PostsListItem } from '../../../core/services';
   ],
 })
 export class PostPageComponent implements OnInit {
-  public post: PostsListItem;
+  public post$: Observable<PostsListItem>;
 
-  public authorProfile: HubProfile;
+  public authorProfile$: Observable<HubProfile>;
 
   public trackByPostId: TrackByFunction<PostsListItem> = ({}, { uuid }) => uuid;
 
   public postLinkFn: (post: PostsListItem) => string[] = (post) => ['../../', post.owner, post.uuid];
 
+  private isFollowingAuthor: boolean;
+
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
+    private authService: AuthService,
     private elementRef: ElementRef<HTMLElement>,
+    private followingService: FollowingService,
     private postPageService: PostPageService,
     public postPageLikeService: PostPageLikeService,
     svgIconRegistry: SvgIconRegistry,
@@ -47,32 +52,57 @@ export class PostPageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const post$ = this.postPageService.getPost().pipe(
+    this.post$ = this.postPageService.getPost().pipe(
       filter(post => !!post),
-      share(),
     );
 
-    post$.pipe(
+    this.post$.pipe(
       untilDestroyed(this),
-    ).subscribe((post) => {
-      this.post = post;
-
-      this.authorProfile = {
-        ...post.author,
-        walletAddress: post.owner,
-      };
-
-      this.changeDetectorRef.markForCheck();
+    ).subscribe(() => {
+      this.isFollowingAuthor = undefined;
     });
 
-    post$.pipe(
+    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
+
+    this.authorProfile$ = combineLatest([
+      this.post$,
+      this.post$.pipe(
+        switchMap(() => this.followingService.getFollowees(walletAddress)),
+      ),
+      FollowingService.isFollowingUpdating$,
+    ]).pipe(
+      map(([post, followees, isFollowingUpdating]) => {
+        return {
+          ...post.author,
+          isUserProfile: post.owner === walletAddress,
+          isFollowing: this.isFollowingAuthor !== undefined
+            ? this.isFollowingAuthor
+            : (followees || []).includes(post.owner),
+          isFollowingUpdating,
+        };
+      }),
+    );
+
+    this.post$.pipe(
       pluck('uuid'),
       distinctUntilChanged(),
       untilDestroyed(this),
     ).subscribe(() => this.elementRef.nativeElement.scrollTop = 0);
   }
 
-  public onPostDelete(): void {
-    this.postPageService.deletePost(this.post);
+  public onPostDelete(post: PostsListItem): void {
+    this.postPageService.deletePost(post);
+  }
+
+  public onFollowAuthor(follow: boolean, author: Wallet['address']): void {
+    this.isFollowingAuthor = follow;
+
+    const func = follow
+      ? this.followingService.follow(author)
+      : this.followingService.unfollow(author);
+
+    func.pipe(
+      untilDestroyed(this),
+    ).subscribe();
   }
 }

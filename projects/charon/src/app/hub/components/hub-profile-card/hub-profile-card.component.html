@@ -4,3 +4,28 @@
 >
 
 <span appTypeface="subheader">{{ profile.firstName }} {{ profile.lastName }}</span>
+
+<ng-container *transloco="let translate; read: 'hub.hub_profile_card'">
+  <span
+    class="hub-profile-card__posts-count"
+    appTypeface="caption"
+  >
+    {{ profile.postsCount }} {{ translate('posts') }}
+  </span>
+
+  <ng-template [ngIf]="!profile.isUserProfile">
+    <button
+      class="hub-profile-card__button"
+      [class.is-active]="profile.isFollowing"
+      [class.is-updating]="profile.isFollowingUpdating"
+      appTypeface="caption"
+      (click)="onFollow()"
+    >
+      <svg-icon class="hub-profile-card__button-icon" key="follow"></svg-icon>
+
+      <span class="hub-profile-card__button-label">
+        {{ translate(profile.isFollowing ? 'following' : 'follow') }}
+      </span>
+    </button>
+  </ng-template>
+</ng-container>

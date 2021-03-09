@@ -18,6 +18,7 @@ export * from './svg/svg-dynamics-negative.icon';
 export * from './svg/svg-dynamics-positive.icon';
 export * from './svg/svg-edit.icon';
 export * from './svg/svg-expand-more.icon';
+export * from './svg/svg-follow.icon';
 export * from './svg/svg-import-account.icon';
 export * from './svg/svg-import.icon';
 export * from './svg/svg-information.icon';
