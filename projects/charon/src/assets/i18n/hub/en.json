@@ -143,6 +143,9 @@
     "9": "Sports"
   },
   "notifications": {
+    "create": {
+      "success": "Post has been created successfully"
+    },
     "delete": {
       "success": "Post has been removed successfully"
     },
