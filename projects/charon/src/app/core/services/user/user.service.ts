@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { from, Observable } from 'rxjs';
-import { delay, repeat, retryWhen, skipWhile, take } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { catchError, delay, repeat, retryWhen, skipWhile, take } from 'rxjs/operators';
 import { Account, ModeratorAddressesResponse, PublicProfile } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
@@ -38,6 +38,8 @@ export class UserService {
   public getModeratorAddresses(): Observable<ModeratorAddressesResponse> {
     return this.userApiService.getModeratorAddresses(
       this.networkService.getActiveNetworkInstant().api,
+    ).pipe(
+      catchError(() => of([])),
     );
   }
 
