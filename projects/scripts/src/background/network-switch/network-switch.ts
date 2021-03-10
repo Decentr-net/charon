@@ -19,7 +19,7 @@ export const getRandomRest = (): Observable<string> => {
       const node = nodes[random];
 
       return blockchainNodeService.getNodeAvailability(node).pipe(
-        mergeMap(isAvailable => !isAvailable ? throwError('error') : of(node)),
+        mergeMap(isAvailable => isAvailable !== NodeAvailability.Available  ? throwError('error') : of(node)),
       );
     }),
     retryWhen((errors) => errors.pipe(
