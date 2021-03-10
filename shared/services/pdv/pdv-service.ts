@@ -46,8 +46,8 @@ export class PDVService {
     return from(this.pdvApiService.getPDVList(api, walletAddress, paginationOptions));
   }
 
-  public getPDVStatChartPoints(api: string, walletAddress: string): Observable<PDVStatChartPoint[]> {
-    return from(this.pdvApiService.getPDVStats(api, walletAddress)).pipe(
+  public getPDVStatChartPoints(walletAddress: string): Observable<PDVStatChartPoint[]> {
+    return from(this.pdvApiService.getPDVStats(walletAddress)).pipe(
       map((stats) => stats
         .map(({ date, value }) => ({
           date: new Date(date).valueOf(),
@@ -61,7 +61,7 @@ export class PDVService {
   public getBalanceWithMargin(api: string, walletAddress: string): Observable<BalanceValueDynamic> {
     return combineLatest([
       this.getBalance(api, walletAddress),
-      this.getPDVStatChartPoints(api, walletAddress),
+      this.getPDVStatChartPoints(walletAddress),
     ])
       .pipe(
         map(([pdvRate, pdvRateHistory]) => {

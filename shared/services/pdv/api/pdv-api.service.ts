@@ -47,10 +47,11 @@ export class PDVApiService {
     ).toPromise();
   }
 
-  public getPDVStats(api: string, walletAddress: Wallet['address']): Promise<PDVStatItem[]> {
-    return this.createDecentrConnector(api).pipe(
-      mergeMap((decentr) => decentr.pdv.getPDVStats(walletAddress)),
-    ).toPromise();
+  public getPDVStats(walletAddress: Wallet['address']): Observable<PDVStatItem[]> {
+    return this.configService.getTheseusUrl().pipe(
+      mergeMap((theseusUrl) => fetch(`${theseusUrl}/v1/profiles/${walletAddress}/stats`)),
+      mergeMap((response) => response.json()),
+    );
   }
 
   private createDecentrConnector(api: string): Observable<Decentr> {
