@@ -5,11 +5,15 @@
     [headerBackgroundImage]="'url(' + post.previewImage + ')'"
   >
     <div class="post-page__header" ngProjectAs="[category]">
-      <a class="post-page__navigation-back-button" [appNavigateBack]="['../../../']">
+      <a class="post-page__navigation-back-button" [appNavigateBack]="['/', appRoute.Hub]">
         <svg-icon class="post-page__navigation-back-button-icon" key="arrow-left"></svg-icon>
       </a>
 
-      <div class="post-page__category" appTypeface="paragraph" [routerLink]="['../../../']">
+      <div
+        class="post-page__category"
+        appTypeface="paragraph"
+        [routerLink]="['/', appRoute.Hub, hubRoute.Posts, post.category]"
+      >
         <span class="post-page__category-dot" [appHubPostCategoryColor]="post.category"></span>
         <span>{{ translate('hub.hub_post_category.' + post.category) }}</span>
       </div>

@@ -4,6 +4,8 @@ export const HubPostIdRouteParam = 'postId';
 
 export const HubPostOwnerRouteParam = 'postOwner';
 
+export const HubPostOutletName = 'post';
+
 export enum HubRoute {
   PostCreate = 'post-create',
   Feed = 'feed',
@@ -12,6 +14,6 @@ export enum HubRoute {
 }
 
 export enum HubFeedRoute {
-  Recent = 'recent',
-  MyWall = 'my-wall',
+  Following = 'following',
+  MyPosts = 'my-posts',
 }

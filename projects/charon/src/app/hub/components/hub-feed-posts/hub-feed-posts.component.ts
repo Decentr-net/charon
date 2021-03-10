@@ -2,26 +2,28 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChild,
+  Input,
   OnInit,
   TemplateRef,
   TrackByFunction,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
-import { Post } from 'decentr-js';
 
+import { PostsListItem } from '@core/services';
 import { HubPostsService } from '../../services';
-import { PostWithAuthor } from '../../models/post';
 
 @Component({
   selector: 'app-hub-wall-posts',
-  templateUrl: './hub-wall-posts.component.html',
-  styleUrls: ['./hub-wall-posts.component.scss'],
+  templateUrl: './hub-feed-posts.component.html',
+  styleUrls: ['./hub-feed-posts.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HubWallPostsComponent implements OnInit {
+export class HubFeedPostsComponent implements OnInit {
+  @Input() public postLinkFn: (post: PostsListItem) => unknown[];
+
   public isLoading$: Observable<boolean>;
-  public posts$: Observable<PostWithAuthor[]>;
+  public posts$: Observable<PostsListItem[]>;
   public canLoadMore$: Observable<boolean>;
 
   @ContentChild('noPosts') public noPostsTemplate: TemplateRef<void>;
@@ -47,5 +49,5 @@ export class HubWallPostsComponent implements OnInit {
     this.hubPostsService.loadMorePosts();
   }
 
-  public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;
+  public trackByPostId: TrackByFunction<PostsListItem> = ({}, { uuid }) => uuid;
 }

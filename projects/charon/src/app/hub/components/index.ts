@@ -3,6 +3,7 @@ import { HubCategorySelectComponent } from './hub-category-select';
 import { HubCurrencyStatisticsComponent } from './hub-currency-statistics';
 import { HubDashboardComponent } from './hub-dashboard/hub-dashboard.component';
 import { HubPostDeleteButtonComponent } from './hub-post-delete-button';
+import { HubFeedPostsComponent } from './hub-feed-posts';
 import { HubHeaderActionButtonComponent } from './hub-header-action-button';
 import { HubHeaderComponent } from './hub-header';
 import { HubHeaderStatsMetaComponent } from './hub-header-stats-meta';
@@ -24,12 +25,9 @@ import { HubPostTimeComponent } from './hub-post-time';
 import { HubPostTitleComponent } from './hub-post-title';
 import { HubProfileCardComponent } from './hub-profile-card';
 import { HubRelatedPostsComponent } from './hub-related-posts';
-import { HubShortPostComponent } from './hub-short-post';
 import { HubStatisticsCardComponent } from './hub-statistics-card';
 import { HubFeedNavigationComponent } from './hub-feed-navigation';
-import { HubFeedPostComponent } from './hub-feed-post';
 import { HubTopPostsComponent } from './hub-top-posts';
-import { HubWallPostsComponent } from './hub-wall-posts';
 
 export const HUB_COMPONENTS = [
   HubAdditionalStatisticsComponent,
@@ -37,6 +35,7 @@ export const HUB_COMPONENTS = [
   HubCurrencyStatisticsComponent,
   HubDashboardComponent,
   HubPostDeleteButtonComponent,
+  HubFeedPostsComponent,
   HubHeaderActionButtonComponent,
   HubHeaderComponent,
   HubHeaderStatsMetaComponent,
@@ -58,10 +57,7 @@ export const HUB_COMPONENTS = [
   HubPostTitleComponent,
   HubProfileCardComponent,
   HubRelatedPostsComponent,
-  HubShortPostComponent,
   HubStatisticsCardComponent,
   HubFeedNavigationComponent,
-  HubFeedPostComponent,
   HubTopPostsComponent,
-  HubWallPostsComponent,
 ];

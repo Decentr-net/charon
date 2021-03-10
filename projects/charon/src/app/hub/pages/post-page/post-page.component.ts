@@ -14,6 +14,8 @@ import { Wallet } from 'decentr-js';
 import { svgArrowLeft } from '@shared/svg-icons';
 import { AuthService } from '@core/auth';
 import { FollowingService, PostsListItem } from '@core/services';
+import { AppRoute } from '../../../app-route';
+import { HubRoute } from '../../hub-route';
 import { HubProfile } from '../../components/hub-profile-card';
 import { PostPageService } from './post-page.service';
 import { PostPageLikeService } from './post-page-like.service';
@@ -30,6 +32,9 @@ import { PostPageLikeService } from './post-page-like.service';
   ],
 })
 export class PostPageComponent implements OnInit {
+  public readonly appRoute: typeof AppRoute = AppRoute;
+  public readonly hubRoute: typeof HubRoute = HubRoute;
+
   public post$: Observable<PostsListItem>;
 
   public authorProfile$: Observable<HubProfile>;

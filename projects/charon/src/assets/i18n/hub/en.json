@@ -1,7 +1,7 @@
 {
   "feed_page": {
     "no_posts": "There is no activity last 24 hours",
-    "top_feed": "TOP 24 hours"
+    "top_posts": "Top posts"
   },
   "hub_additional_statistics": {
     "more_stats_coming_soon": "More stats coming soon!"
@@ -121,8 +121,8 @@
     "image_limit_reached": "Image limit reached"
   },
   "hub_feed_navigation": {
-    "my_wall": "My Wall",
-    "recent": "Recent"
+    "following": "Following",
+    "my_posts": "My posts"
   },
   "hub_delete_posts": {
     "dialog": {

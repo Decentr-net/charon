@@ -1,0 +1,11 @@
+@import 'variables';
+
+:host {
+  display: block;
+}
+
+.hub-wall-posts__post-card {
+  border-top: 1px solid $color-outlines;
+  cursor: pointer;
+  padding: ($grid-step * 2) 0;
+}

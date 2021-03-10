@@ -3,12 +3,13 @@
   [isLoading]="isLoading$ | async"
   (loadMore)="loadMore()"
 >
-  <app-hub-feed-post
-    class="hub-wall-posts__post"
+  <app-hub-post-card
+    class="hub-wall-posts__post-card"
     *ngFor="let post of posts$ | async; trackBy: trackByPostId"
     [post]="post"
-    [appHubPostDialog]="post.uuid"
-  ></app-hub-feed-post>
+    [routerLink]="postLinkFn(post)"
+    [orientation]="'horizontal'"
+  ></app-hub-post-card>
 </app-hub-infinite-posts-container>
 
 <ng-template [ngIf]="(isLoading$ | async) === false && (posts$ | async)?.length === 0">

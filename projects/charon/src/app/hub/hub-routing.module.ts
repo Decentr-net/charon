@@ -1,44 +1,51 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Route, RouterModule, Routes } from '@angular/router';
 
 import {
   FeedPageComponent,
   HubPageComponent,
-  MyWallPageComponent,
+  MyPostsPageComponent,
   PostPageComponent,
   PostsPageComponent,
-  RecentPageComponent,
+  FollowingPageComponent,
 } from './pages';
 import {
   HubRoute,
   HubFeedRoute,
   HubCategoryRouteParam,
   HubPostIdRouteParam,
-  HubPostOwnerRouteParam
+  HubPostOwnerRouteParam,
+  HubPostOutletName,
 } from './hub-route';
 import { PostCreatePageComponent } from './pages/post-create-page';
+
+const POST_ROUTE: Route = {
+  path: `${HubRoute.Post}/:${HubPostOwnerRouteParam}/:${HubPostIdRouteParam}`,
+  component: PostPageComponent,
+  pathMatch: 'full',
+};
 
 const FEED_PAGE_CHILDREN_ROUTES: Routes = [
   {
     path: '',
-    redirectTo: HubFeedRoute.Recent,
+    redirectTo: HubFeedRoute.Following,
   },
   {
-    path: HubFeedRoute.Recent,
-    component: RecentPageComponent,
+    path: HubFeedRoute.Following,
+    component: FollowingPageComponent,
   },
   {
-    path: HubFeedRoute.MyWall,
-    component: MyWallPageComponent,
+    path: HubFeedRoute.MyPosts,
+    component: MyPostsPageComponent,
+  },
+  {
+    ...POST_ROUTE,
+    outlet: HubPostOutletName,
   },
 ];
 
 const POSTS_PAGE_CHILDREN_ROUTES: Routes = [
-  {
-    path: `${HubRoute.Post}/:${HubPostOwnerRouteParam}/:${HubPostIdRouteParam}`,
-    component: PostPageComponent,
-    pathMatch: 'full',
-  },
+  POST_ROUTE,
 ];
 
 const ROUTES: Routes = [

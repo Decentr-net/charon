@@ -14,7 +14,7 @@ import {
 } from '@shared/components/menu';
 import { svgDecentrHub, svgImportAccount, svgInformation, svgLockAccount } from '@shared/svg-icons';
 import { AppRoute } from '../../../app-route';
-import { HubFeedRoute, HubRoute } from '../../../hub';
+import { HubRoute } from '../../../hub';
 import { UserRoute } from '../../../user';
 import { LockService } from '../../lock';
 import { NavigationService } from '../../navigation';
@@ -78,7 +78,7 @@ export class MenuService extends MenuBaseService {
               title: itemsTranslationsObject['decentr_hub']['title'],
             },
             {
-              action: () => this.router.navigate(['/', AppRoute.Hub, HubRoute.Feed, HubFeedRoute.MyWall]),
+              action: () => this.router.navigate(['/', AppRoute.Hub, HubRoute.Feed]),
               description: itemsTranslationsObject['decentr_feed']['description'],
               iconKey: svgDecentrHub.name,
               title: itemsTranslationsObject['decentr_feed']['title'],

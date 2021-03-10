@@ -3,6 +3,7 @@ import { LikeWeight, Post, PostCategory, PublicProfile, Wallet } from 'decentr-j
 export interface PostsListFilterOptions {
   after?: string;  // `Post['owner']/Post['uuid']`
   category?: PostCategory;
+  followedBy?: Post['owner'];
   from?: Post['createdAt'];
   likedBy?: Post['owner'];
   limit?: number;
