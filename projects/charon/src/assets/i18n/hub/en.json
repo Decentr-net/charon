@@ -28,6 +28,9 @@
     "short_view": "short view",
     "show_details": "show details"
   },
+  "hub_my_posts_page": {
+    "no_posts": "You have no posts created"
+  },
   "hub_navigation": {
     "latest_posts": "Latest Posts"
   },
@@ -104,6 +107,9 @@
   },
   "hub_feed_post": {
     "posted": "dposted"
+  },
+  "hub_following_page": {
+    "no_posts": "You didn't follow anyone or those you follow didn't create posts"
   },
   "hub_post_pdv": {
     "label": "PDV"

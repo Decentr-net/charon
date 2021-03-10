@@ -1,15 +1,12 @@
+@import 'variables';
 $my-wall-page--no-posts--color: #9EA0A5;
 
 :host {
   display: block;
-  height: 100%;
-  overflow: auto;
-  padding-bottom: 30px;
+  padding-bottom: $grid-step * 3;
 }
 
 .my-posts-page__no-posts {
-  color: $my-wall-page--no-posts--color;
-  display: flex;
-  justify-content: center;
-  margin-top: 16px;
+  color: $color-grey;
+  text-align: center;
 }

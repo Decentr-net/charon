@@ -1,4 +1,11 @@
+@import 'variables';
+
 :host {
   display: block;
-  padding-bottom: 30px;
+  padding-bottom: $grid-step * 3;
+}
+
+.my-posts-page__no-posts {
+  color: $color-grey;
+  text-align: center;
 }
