@@ -3,12 +3,14 @@
     <app-hub-navigation-link
       class="hub-feed-navigation__link"
       [link]="feedRoute.Following"
+      [showDot]="false"
       [title]="translate('following')"
     ></app-hub-navigation-link>
 
     <app-hub-navigation-link
       class="hub-feed-navigation__link"
       [link]="feedRoute.MyPosts"
+      [showDot]="false"
       [title]="translate('my_posts')"
     ></app-hub-navigation-link>
   </div>
