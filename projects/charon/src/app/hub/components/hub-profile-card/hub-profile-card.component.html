@@ -3,7 +3,12 @@
   [src]="profile.avatar"
 >
 
-<span appTypeface="subheader">{{ profile.firstName }} {{ profile.lastName }}</span>
+<span
+  class="hub-profile-card__name"
+  appTypeface="subheader"
+>
+  {{ profile.firstName }} {{ profile.lastName }}
+</span>
 
 <ng-container *transloco="let translate; read: 'hub.hub_profile_card'">
   <span

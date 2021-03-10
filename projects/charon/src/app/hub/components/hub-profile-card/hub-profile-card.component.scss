@@ -19,6 +19,10 @@
   width: $avatar-size;
 }
 
+.hub-profile-card__name {
+  text-align: center;
+}
+
 .hub-profile-card__posts-count {
   font-weight: 700;
   margin: $grid-step 0 $grid-step * 2;
