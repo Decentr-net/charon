@@ -25,7 +25,7 @@ export const createPost = (
   privateKey: Wallet['privateKey'],
 ): Promise<BroadcastResponse> => {
   return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).createPost(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).community.createPost(
       walletAddress,
       post,
       {
@@ -42,7 +42,7 @@ export const deletePost = (
   privateKey: Wallet['privateKey'],
 ): Promise<BroadcastResponse> => {
   return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).deletePost(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).community.deletePost(
       walletAddress,
       postIdentificationParameters,
       {
@@ -60,7 +60,7 @@ export const likePost = (
   privateKey: Wallet['privateKey'],
 ): Promise<BroadcastResponse> => {
   return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).likePost(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).community.likePost(
       walletAddress,
       postIdentificationParameters,
       likeWeight,
@@ -78,7 +78,7 @@ export const setPublicProfile = (
   privateKey: Wallet['privateKey'],
 ): Promise<BroadcastResponse> => {
   return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).setPublicProfile(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).profile.setPublicProfile(
       walletAddress,
       publicProfile,
       {
@@ -95,7 +95,7 @@ export const setPrivateProfile = (
   privateKey: Wallet['privateKey'],
 ): Promise<BroadcastResponse> => {
   return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).setPrivateProfile(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).profile.setPrivateProfile(
       walletAddress,
       privateProfile,
       privateKey,
@@ -111,7 +111,7 @@ export const transferCoins = (
   privateKey: Wallet['privateKey'],
 ): Promise<BroadcastResponse> => {
   return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).sendCoin(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).bank.sendCoin(
       transferData,
       {
         broadcast: true,
@@ -120,3 +120,37 @@ export const transferCoins = (
     )),
   ).toPromise();
 };
+
+export const follow = (
+  follower: Wallet['address'],
+  whom: Wallet['address'],
+  privateKey: Wallet['privateKey'],
+): Promise<BroadcastResponse> => {
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).community.follow(
+      follower,
+      whom,
+      {
+        broadcast: true,
+        privateKey,
+      },
+    )),
+  ).toPromise();
+}
+
+export const unfollow = (
+  follower: Wallet['address'],
+  whom: Wallet['address'],
+  privateKey: Wallet['privateKey'],
+): Promise<BroadcastResponse> => {
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).community.unfollow(
+      follower,
+      whom,
+      {
+        broadcast: true,
+        privateKey,
+      },
+    )),
+  ).toPromise();
+}

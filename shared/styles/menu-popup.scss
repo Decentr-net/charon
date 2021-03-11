@@ -1,0 +1,71 @@
+@import 'variables';
+
+.cdk-overlay-container {
+  .menu-popup {
+    max-width: 320px;
+
+    .mat-menu-content {
+      padding: 0;
+    }
+  }
+}
+
+body .menu-popup {
+  background: rgba($color-black, .92);
+  backdrop-filter: blur(12px);
+  border-radius: $border-radius;
+  color: $color-white;
+  padding: $grid-step * 2;
+}
+
+.menu-popup-items-section {
+  background: $color-black;
+  border-radius: $border-radius;
+  overflow: hidden;
+
+  & + & {
+    margin-top: $grid-step * 2;
+  }
+}
+
+.menu-popup-item {
+  align-items: center;
+  cursor: pointer;
+  display: grid;
+  grid-template-areas: "icon title"
+                       "empty description";
+  grid-template-columns: min-content 1fr;
+  padding: $grid-step * 1.5 $grid-step * 2;
+  white-space: nowrap;
+
+  &.is-disabled {
+    color: $color-dark-grey;
+    pointer-events: none;
+
+    .menu-popup-item-description {
+      color: $color-dark-grey;
+    }
+  }
+}
+
+.menu-popup-item-icon {
+  grid-area: icon;
+}
+
+.menu-popup-item-title {
+  display: flex;
+  font-weight: 500;
+  grid-area: title;
+}
+
+.menu-popup-item-description {
+  color: $color-grey;
+  grid-area: description;
+  white-space: normal;
+}
+
+.menu-popup-items-divider {
+  border-bottom: 1px solid $color-dark-grey;
+  display: block;
+  width: 100%;
+}

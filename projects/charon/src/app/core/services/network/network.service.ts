@@ -11,7 +11,7 @@ import {
   NetworkSelectorTranslations,
 } from '@shared/components/network-selector';
 import { Network as NetworkWithApi, NetworkBrowserStorageService, } from '@shared/services/network-storage';
-import { PingService } from '@shared/services/ping';
+import { BlockchainNodeService, NodeAvailability } from '@shared/services/blockchain-node';
 import { MessageBus } from '@shared/message-bus';
 import { MessageCode } from '@scripts/messages';
 
@@ -24,7 +24,7 @@ export class NetworkService extends NetworkSelectorService {
 
   constructor(
     private environment: Environment,
-    private pingService: PingService,
+    private blockchainNodeService: BlockchainNodeService,
     private translocoService: TranslocoService,
   ) {
     super();
@@ -70,12 +70,12 @@ export class NetworkService extends NetworkSelectorService {
           return combineLatest([
             this.translocoService
               .selectTranslate(`network_selector.network.${key}`, null, 'core'),
-            checkAvailable ? this.pingService.isServerAvailable(api) : of(true),
+            checkAvailable ? this.blockchainNodeService.getNodeAvailability(api, true) : of(NodeAvailability.Available),
           ]).pipe(
             map(([name, available]) => ({
               name,
               api,
-              disabled: !available,
+              disabled: available !== NodeAvailability.Available,
             })),
           );
         }),

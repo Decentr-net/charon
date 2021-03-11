@@ -1,9 +1,0 @@
-:host {
-  display: block;
-}
-
-.hub-wall-posts__post {
-  & + & {
-    margin-top: 20px;
-  }
-}

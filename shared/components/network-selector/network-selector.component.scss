@@ -1,11 +1,8 @@
-$network-indicator-colors: #6bbfa6 #7497C5 #8E00FF #F6CC2A;
+@import '../../styles/variables';
 
 ::ng-deep .cdk-overlay-container {
   .network-selector__menu {
-    user-select: none;
-    background: #2A2A2A;
-    color: #ffffff;
-    min-width: 330px;
+    width: 320px;
   }
 
   .network-selector__loader {
@@ -16,88 +13,12 @@ $network-indicator-colors: #6bbfa6 #7497C5 #8E00FF #F6CC2A;
   }
 }
 
-.menu-wrapper {
-  user-select: none;
-  background: #2A2A2A;
-  color: #ffffff;
-  min-width: 330px;
-}
-
-.menu-title {
-  font-size: 18px;
-  text-align: center;
-  padding: 10px 0 15px;
-  border-bottom: 1px solid #5D5D5D;
-}
-
-.menu-description {
-  font-size: 13px;
-  color: #AEAEAE;
-  padding: 15px 40px 15px 60px;
-}
-
-.menu-items {
-  .menu-item {
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 15px 40px 15px 60px;
-    cursor: pointer;
-
-    &.is-disabled {
-      color: #838B94;
-      pointer-events: none;
-    }
-
-    &__name {
-      max-width: 220px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-
-    @for $i from 1 through length($network-indicator-colors) {
-      &:nth-child(#{$i}) {
-        .network-indicator {
-          background: nth($network-indicator-colors, $i);
-        }
-      }
-    }
-
-    &:hover {
-      background: #373737;
-    }
-
-    &__active {
-      &:before {
-        content: "";
-        width: 50px;
-        position: absolute;
-        left: 0;
-        height: 2px;
-        background: white;
-        top: 50%;
-        transform: translateY(-50%);
-      }
-    }
-
-    .network-indicator {
-      pointer-events: none;
-      width: 12px;
-      height: 10px;
-      background: #6bbfa6;
-      border-bottom-left-radius: 9px;
-      border-top-left-radius: 9px;
-      margin-right: 8px;
-    }
-  }
-}
-
-.header__select-network {
+.network-selector__trigger {
   display: flex;
   align-items: center;
   border: 1px solid #bbc0c4;
   border-radius: 30px;
+  column-gap: $grid-step;
   padding: 0 10px;
   min-height: 30px;
   cursor: pointer;
@@ -106,44 +27,77 @@ $network-indicator-colors: #6bbfa6 #7497C5 #8E00FF #F6CC2A;
   &:hover {
     background: #eaeaea;
   }
+}
 
-  .network-item {
-    display: flex;
-    align-items: center;
+.network-selector__trigger__icon-signal {
+  color: $color-mint;
+  display: inline-flex;
+  font-size: 16px;
+}
+
+.network-selector__trigger__network-name {
+  color: #59595D;
+  font-size: 12px;
+  line-height: 1rem;
+  font-weight: 500;
+  letter-spacing: .5px;
+  user-select: none;
+
+  max-width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.network-selector__trigger__arrow {
+  margin-right: 5px;
+  box-sizing: border-box;
+  height: 8px;
+  width: 8px;
+  border-style: solid;
+  border-color: #59595D;
+  border-width: 0 1px 1px 0;
+  transform: rotate(45deg) translateY(-3px);
+  transition: border-width 150ms ease-in-out;
+}
+
+.network-selector__menu__title {
+  font-weight: 700;
+}
+
+.network-selector__menu__subtitle {
+  color: $color-light-grey;
+  margin: $grid-step * 1.5 0 $grid-step * 2;
+}
+
+.network-selector__menu__item {
+  color: $color-grey;
+  column-gap: $grid-step * 1.5;
+
+  &.is-active,
+  &:hover {
+    color: $color-white;
   }
 
-  .network-indicator {
-    width: 12px;
-    height: 10px;
-    background: #6bbfa6;
-    border-bottom-left-radius: 9px;
-    border-top-left-radius: 9px;
-    margin-right: 8px;
-  }
+  &.is-active {
+    .network-selector__menu__item-icon-signal {
+      color: $color-mint;
+    }
 
-  .network-name {
-    color: #59595D;
-    font-size: 12px;
-    line-height: 1rem;
-    font-weight: 500;
-    letter-spacing: .5px;
-    user-select: none;
-
-    max-width: 150px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    .network-selector__menu__item-icon-check {
+      display: inline-flex;
+    }
   }
+}
 
-  .select-arrow {
-    margin: 0 5px;
-    box-sizing: border-box;
-    height: 8px;
-    width: 8px;
-    border-style: solid;
-    border-color: #59595D;
-    border-width: 0 1px 1px 0;
-    transform: rotate(45deg) translateY(-3px);
-    transition: border-width 150ms ease-in-out;
-  }
+.network-selector__menu__item-icon-signal {
+  display: inline-flex;
+  font-size: 24px;
+}
+
+.network-selector__menu__item-icon-check {
+  color: $color-white;
+  display: none;
+  font-size: 24px;
+  margin-left: auto;
 }

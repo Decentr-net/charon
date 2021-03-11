@@ -4,11 +4,11 @@ import { delay, first, map, mergeMap, retryWhen } from 'rxjs/operators';
 import CONFIG_SERVICE from '../config';
 import { environment } from '../../../../../environments/environment';
 import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
-import { PingService } from '../../../../../shared/services/ping';
+import { BlockchainNodeService, NodeAvailability } from '../../../../../shared/services/blockchain-node';
 import { ONE_SECOND } from '../../../../../shared/utils/date';
 
 const configService = CONFIG_SERVICE;
-const pingService = new PingService();
+const blockchainNodeService = new BlockchainNodeService(configService);
 
 export const NETWORK_READY_SUBJECT = new ReplaySubject<boolean>();
 
@@ -18,8 +18,8 @@ export const getRandomRest = (): Observable<string> => {
       const random = Math.floor(Math.random() * nodes.length);
       const node = nodes[random];
 
-      return pingService.isServerAvailable(node).pipe(
-        mergeMap(isAvailable => !isAvailable ? throwError('error') : of(node)),
+      return blockchainNodeService.getNodeAvailability(node).pipe(
+        mergeMap(isAvailable => isAvailable !== NodeAvailability.Available  ? throwError('error') : of(node)),
       );
     }),
     retryWhen((errors) => errors.pipe(
@@ -45,7 +45,11 @@ export const setRandomNetwork = async (): Promise<void> => {
   await networkStorage.setDefaultNetwork(defaultNetwork);
 
   if (activeNetwork?.api === environment.rest.local) {
-    return;
+    const localNodeAvailability = await blockchainNodeService.getNodeAvailability(environment.rest.local, true).toPromise();
+
+    if (localNodeAvailability === NodeAvailability.Available) {
+      return;
+    }
   }
 
   await networkStorage.setActiveNetwork(defaultNetwork);

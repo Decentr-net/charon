@@ -12,14 +12,14 @@ export class PDVApiService {
   public sendPDV(api: string, wallet: Wallet, pdv: PDV[]): Promise<void> {
     return this.configService.getCerberusUrl().pipe(
       mergeMap((cerberusUrl) => this.createDecentrConnector(api).pipe(
-        mergeMap((decentr) => decentr.sendPDV(cerberusUrl, pdv, wallet)),
+        mergeMap((decentr) => decentr.pdv.sendPDV(cerberusUrl, pdv, wallet)),
       )),
     ).toPromise().then(() => void 0);
   }
 
   public getBalance(api: string, walletAddress: Wallet['address']): Promise<number> {
     return this.createDecentrConnector(api).pipe(
-      mergeMap((decentr) => decentr.getTokenBalance(walletAddress)),
+      mergeMap((decentr) => decentr.pdv.getTokenBalance(walletAddress)),
     ).toPromise();
   }
 
@@ -30,7 +30,7 @@ export class PDVApiService {
   ): Promise<PDVListItem[]> {
     return this.configService.getCerberusUrl().pipe(
       mergeMap((cerberusUrl) => this.createDecentrConnector(api).pipe(
-        mergeMap((decentr) => decentr.getPDVList(cerberusUrl, walletAddress, paginationOptions)),
+        mergeMap((decentr) => decentr.pdv.getPDVList(cerberusUrl, walletAddress, paginationOptions)),
       )),
     ).toPromise();
   }
@@ -42,15 +42,16 @@ export class PDVApiService {
   ): Promise<PDVDetails> {
     return this.configService.getCerberusUrl().pipe(
       mergeMap((cerberusUrl) => this.createDecentrConnector(api).pipe(
-        mergeMap((decentr) => decentr.getPDVDetails(cerberusUrl, address, wallet)),
+        mergeMap((decentr) => decentr.pdv.getPDVDetails(cerberusUrl, address, wallet)),
       )),
     ).toPromise();
   }
 
-  public getPDVStats(api: string, walletAddress: Wallet['address']): Promise<PDVStatItem[]> {
-    return this.createDecentrConnector(api).pipe(
-      mergeMap((decentr) => decentr.getPDVStats(walletAddress)),
-    ).toPromise();
+  public getPDVStats(walletAddress: Wallet['address']): Observable<PDVStatItem[]> {
+    return this.configService.getTheseusUrl().pipe(
+      mergeMap((theseusUrl) => fetch(`${theseusUrl}/v1/profiles/${walletAddress}/stats`)),
+      mergeMap((response) => response.json()),
+    );
   }
 
   private createDecentrConnector(api: string): Observable<Decentr> {

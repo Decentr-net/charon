@@ -55,7 +55,7 @@ export class PostCreatePageService {
       mergeMap(() => this.removeDraft()),
       tap(() => {
         this.notificationService.success(
-          this.translocoService.translate('hub_create_post_dialog.success', null, 'hub')
+          this.translocoService.translate('notifications.create.success', null, 'hub')
         );
       }),
       catchError((error) => {

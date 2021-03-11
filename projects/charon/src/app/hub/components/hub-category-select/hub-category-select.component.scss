@@ -4,6 +4,10 @@
   display: inline-flex;
 
   ::ng-deep {
+    .mat-form-field-wrapper {
+      padding-bottom: 0;
+    }
+
     .mat-select-arrow,
     .mat-select-placeholder,
     .mat-select-value {

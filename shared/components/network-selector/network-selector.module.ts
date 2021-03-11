@@ -1,10 +1,12 @@
 import { ModuleWithProviders, NgModule, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
+import { SvgIconsModule } from '@ngneat/svg-icon';
 
+import { SpinnerModule } from '../spinner';
+import { TypefaceModule } from '../../directives/typeface';
 import { NetworkSelectorComponent } from './network-selector.component';
 import { NetworkSelectorService } from './network-selector.service';
-import { SpinnerModule } from '../spinner';
 
 export interface NetworkSelectorModuleConfig {
   service: Type<NetworkSelectorService>;
@@ -15,6 +17,8 @@ export interface NetworkSelectorModuleConfig {
     CommonModule,
     MatMenuModule,
     SpinnerModule,
+    SvgIconsModule,
+    TypefaceModule,
   ],
   declarations: [
     NetworkSelectorComponent,

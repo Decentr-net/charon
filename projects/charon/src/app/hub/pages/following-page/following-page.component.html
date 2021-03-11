@@ -1,0 +1,8 @@
+<app-hub-wall-posts
+  *transloco="let translate; read: 'hub.hub_following_page'"
+  [postLinkFn]="postLinkFn"
+>
+  <ng-template #noPosts>
+    <div class="my-posts-page__no-posts">{{ translate('no_posts') }}</div>
+  </ng-template>
+</app-hub-wall-posts>

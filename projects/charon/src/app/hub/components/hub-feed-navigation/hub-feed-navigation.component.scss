@@ -1,7 +1,14 @@
-$hub-feed-navigation--height: 54px;
+@import 'variables';
+
+$hub-feed-navigation--height: 48px;
 
 :host {
+  background-color: $color-white;
   display: block;
+  margin: auto;
+  overflow-x: auto;
+  padding: 0 $page-side-padding;
+  width: $page-width + $page-side-padding * 2;
 }
 
 .hub-feed-navigation__links-container {

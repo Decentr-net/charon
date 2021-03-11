@@ -13,12 +13,12 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { svgEdit } from '@shared/svg-icons';
+import { PostsListItem } from '@core/services';
 import { AppRoute } from '../../../app-route';
 import { HUB_HEADER_ACTIONS_SLOT, HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
 import { PostsPageService } from './posts-page.service';
 import { HubCategoryRouteParam, HubRoute } from '../../hub-route';
 import { HubPostsService } from '../../services';
-import { PostWithLike } from '../../models/post';
 
 @UntilDestroy()
 @Component({
@@ -42,7 +42,7 @@ export class PostsPageComponent {
 
   public isLoading$: Observable<boolean>;
   public canLoadMore$: Observable<boolean>;
-  public posts: PostWithLike[];
+  public posts: PostsListItem[];
 
   public postsCategory: PostCategory;
 
@@ -97,13 +97,19 @@ export class PostsPageComponent {
 
   public onPostOutletActivate(): void {
     this.isPostOutletActivated = true;
+
+    this.setScrollTop(0);
   }
 
   public onPostOutletDeactivate(): void {
     this.isPostOutletActivated = false;
 
+    this.setScrollTop(this.scrollPosition);
+  }
+
+  private setScrollTop(value: number): void {
     timer(0).pipe(
       untilDestroyed(this),
-    ).subscribe(() => this.elementRef.nativeElement.scrollTop = this.scrollPosition || 0);
+    ).subscribe(() => this.elementRef.nativeElement.scrollTop = value || 0);
   }
 }

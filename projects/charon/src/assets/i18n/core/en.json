@@ -14,15 +14,23 @@
   },
   "menu": {
     "coming_soon": "coming soon",
-    "links": {
-      "decentr_feed": "dFeed",
-      "decentr_hub": "dHub",
-      "decentr_portal": "dPortal",
-      "import_account": "Import Account",
-      "info_and_help": "Info & Help"
+    "items": {
+      "decentr_feed": {
+        "description": "Recent activity of people you follow and some actual notifications for you",
+        "title": "dFeed"
+      },
+      "decentr_hub": {
+        "description": "Personalized feed with posts of people you follow and trending posts you may be interested in  ",
+        "title": "dHub"
+      },
+      "decentr_portal": {
+        "description": "Your personal dashboard with detailed assets & activity info",
+        "title": "dPortal"
+      },
+      "import_account": "Import account",
+      "info_and_help": "Info & Help",
+      "lock": "Lock account"
     },
-    "lock": "Lock",
-    "my_accounts": "My Accounts",
     "pdv": "PDV"
   },
   "network_selector": {

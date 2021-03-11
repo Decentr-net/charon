@@ -1,0 +1,18 @@
+<app-hub-infinite-posts-container
+  [canLoadMore]="canLoadMore$ | async"
+  [isLoading]="isLoading$ | async"
+  [useIntersection]="true"
+  (loadMore)="loadMore()"
+>
+  <app-hub-post-card
+    class="hub-wall-posts__post-card"
+    *ngFor="let post of posts$ | async; trackBy: trackByPostId"
+    [post]="post"
+    [routerLink]="postLinkFn(post)"
+    [orientation]="'horizontal'"
+  ></app-hub-post-card>
+</app-hub-infinite-posts-container>
+
+<ng-template [ngIf]="(isLoading$ | async) === false && (posts$ | async)?.length === 0">
+  <ng-template [ngIf]="noPostsTemplate" [ngTemplateOutlet]="noPostsTemplate"></ng-template>
+</ng-template>

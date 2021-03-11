@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { defer, from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { LikeWeight, Post, PostCreate, PostIdentificationParameters } from 'decentr-js'
 
 import { MessageBus } from '@shared/message-bus';
 import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
-import { PostsApiService } from '../api';
+import { PostsApiService, PostsListFilterOptions, PostsListResponse } from '../api';
 import { AuthService } from '../../auth';
 import { NetworkService } from '../network';
+import { PostsListItem } from './posts.definitions';
 
 @Injectable()
 export class PostsService {
@@ -18,15 +20,25 @@ export class PostsService {
   ) {
   }
 
-  public getPost(
-    postIdentificationParameters: Pick<Post, 'owner' | 'uuid'>,
-  ): Observable<Post> {
+  public getPost(postIdentificationParameters: Pick<Post, 'owner' | 'uuid'>): Observable<PostsListItem> {
     return this.postsApiService.getPost(
-      this.networkService.getActiveNetworkInstant().api,
-      {
-        author: postIdentificationParameters.owner,
-        postId: postIdentificationParameters.uuid,
-      },
+      postIdentificationParameters,
+      this.authService.getActiveUserInstant().wallet.address,
+    ).pipe(
+      map((response) => ({
+        ...response.post,
+        author: response.profile,
+        stats: response.stats,
+      }))
+    );
+  }
+
+  public getPosts(filterOptions?: PostsListFilterOptions): Observable<PostsListItem[]> {
+    return this.postsApiService.getPosts({
+      requestedBy: this.authService.getActiveUserInstant().wallet.address,
+      ...filterOptions,
+    }).pipe(
+      map(this.mapPostsResponseToList),
     );
   }
 
@@ -66,13 +78,6 @@ export class PostsService {
       }));
   }
 
-  public getLikedPosts(): Observable<any> {
-    return this.postsApiService.getLikedPosts(
-      this.networkService.getActiveNetworkInstant().api,
-      this.authService.getActiveUserInstant().wallet.address,
-    );
-  }
-
   public deletePost(
     post: PostIdentificationParameters,
   ): Observable<void> {
@@ -92,5 +97,17 @@ export class PostsService {
           throw response.error;
         }
       }));
+  }
+
+  private mapPostsResponseToList(postsListResponse: PostsListResponse): PostsListItem[] {
+    return postsListResponse.posts.map((post) => {
+      const profile = postsListResponse.profiles[post.owner];
+
+      return {
+        ...post,
+        author: profile,
+        stats: postsListResponse.stats[`${post.owner}/${post.uuid}`],
+      };
+    });
   }
 }

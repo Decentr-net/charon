@@ -1,51 +1,13 @@
 {
   "feed_page": {
     "no_posts": "There is no activity last 24 hours",
-    "top_feed": "TOP 24 hours"
+    "top_posts": "Top posts"
   },
   "hub_additional_statistics": {
     "more_stats_coming_soon": "More stats coming soon!"
   },
-  "hub_activity_distribution": {
-    "coming_soon": "(coming soon)",
-    "data_value": "Data Value",
-    "last_24_hours": "Last 24 hours",
-    "params": {
-      "adv": "ADV",
-      "dec": "DEC",
-      "ddv": "DDV",
-      "pdv": "My PDV"
-    },
-    "sources": {
-      "activity": "Activity",
-      "platform": "Platform"
-    }
-  },
   "hub_category_select": {
     "placeholder": "Choose post topic"
-  },
-  "hub_create_post_dialog": {
-    "form": {
-      "text": {
-        "placeholder": "Share what's new with Decentr community",
-        "errors": {
-          "maxBytes": "The text limit reached",
-          "maxImages": "The maximum count of images is {{max}}",
-          "minHtmlTextLength": "The minimum length of the text is {{min}} characters",
-          "required": "Post text is required"
-        }
-      },
-      "title": {
-        "placeholder": "Post title",
-        "errors": {
-          "maxlength": "The maximum length of title is {{requiredLength}} characters",
-          "required": "Title is required"
-        }
-      }
-    },
-    "post": "Post",
-    "success": "Post successfully created",
-    "title": "Create Post"
   },
   "hub_currency_statistics": {
     "dec_rate": "DEC rate",
@@ -65,6 +27,9 @@
     "pdv": "My PDV",
     "short_view": "short view",
     "show_details": "show details"
+  },
+  "hub_my_posts_page": {
+    "no_posts": "You have no posts created"
   },
   "hub_navigation": {
     "latest_posts": "Latest Posts"
@@ -135,11 +100,16 @@
   "hub_post_card": {
     "remove_post": "Remove post"
   },
-  "hub_post_dialog": {
-    "remove_post": "Remove post"
+  "hub_profile_card": {
+    "follow": "Follow on Decentr",
+    "following": "Following",
+    "posts": "Posts"
   },
   "hub_feed_post": {
     "posted": "dposted"
+  },
+  "hub_following_page": {
+    "no_posts": "You didn't follow anyone or those you follow didn't create posts"
   },
   "hub_post_pdv": {
     "label": "PDV"
@@ -157,8 +127,8 @@
     "image_limit_reached": "Image limit reached"
   },
   "hub_feed_navigation": {
-    "my_wall": "My Wall",
-    "recent": "Recent"
+    "following": "Following",
+    "my_posts": "My posts"
   },
   "hub_delete_posts": {
     "dialog": {
@@ -179,6 +149,9 @@
     "9": "Sports"
   },
   "notifications": {
+    "create": {
+      "success": "Post has been created successfully"
+    },
     "delete": {
       "success": "Post has been removed successfully"
     },

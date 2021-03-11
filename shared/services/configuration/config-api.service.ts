@@ -12,11 +12,14 @@ export interface Config {
     url: string;
   };
   maintenance: boolean;
+  minVersion: string;
   network: {
     chainId: string;
     rest: string[];
   };
-  minVersion: string;
+  theseus: {
+    url: string;
+  };
   vulcan: {
     url: string;
   };

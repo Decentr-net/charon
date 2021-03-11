@@ -1,18 +1,21 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
-  TrackByFunction
+  TrackByFunction,
 } from '@angular/core';
-import { distinctUntilChanged, filter, pluck, share } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { distinctUntilChanged, filter, map, pluck, switchMap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Post } from 'decentr-js';
+import { Wallet } from 'decentr-js';
 
 import { svgArrowLeft } from '@shared/svg-icons';
-import { PostWithAuthor } from '../../models/post';
+import { AuthService } from '@core/auth';
+import { FollowingService, PostsListItem } from '@core/services';
+import { AppRoute } from '../../../app-route';
+import { HubRoute } from '../../hub-route';
 import { HubProfile } from '../../components/hub-profile-card';
 import { PostPageService } from './post-page.service';
 import { PostPageLikeService } from './post-page-like.service';
@@ -29,17 +32,23 @@ import { PostPageLikeService } from './post-page-like.service';
   ],
 })
 export class PostPageComponent implements OnInit {
-  public post: PostWithAuthor;
+  public readonly appRoute: typeof AppRoute = AppRoute;
+  public readonly hubRoute: typeof HubRoute = HubRoute;
 
-  public authorProfile: HubProfile;
+  public post$: Observable<PostsListItem>;
 
-  public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;
+  public authorProfile$: Observable<HubProfile>;
 
-  public postLinkFn: (post: Post) => string[] = (post) => ['../../', post.owner, post.uuid];
+  public trackByPostId: TrackByFunction<PostsListItem> = ({}, { uuid }) => uuid;
+
+  public postLinkFn: (post: PostsListItem) => string[] = (post) => ['../../', post.owner, post.uuid];
+
+  private isFollowingAuthor: boolean;
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
+    private authService: AuthService,
     private elementRef: ElementRef<HTMLElement>,
+    private followingService: FollowingService,
     private postPageService: PostPageService,
     public postPageLikeService: PostPageLikeService,
     svgIconRegistry: SvgIconRegistry,
@@ -48,32 +57,57 @@ export class PostPageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const post$ = this.postPageService.getPost().pipe(
+    this.post$ = this.postPageService.getPost().pipe(
       filter(post => !!post),
-      share(),
     );
 
-    post$.pipe(
+    this.post$.pipe(
       untilDestroyed(this),
-    ).subscribe((post) => {
-      this.post = post;
-
-      this.authorProfile = {
-        ...post.author,
-        walletAddress: post.owner,
-      };
-
-      this.changeDetectorRef.markForCheck();
+    ).subscribe(() => {
+      this.isFollowingAuthor = undefined;
     });
 
-    post$.pipe(
+    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
+
+    this.authorProfile$ = combineLatest([
+      this.post$,
+      this.post$.pipe(
+        switchMap(() => this.followingService.getFollowees(walletAddress)),
+      ),
+      FollowingService.isFollowingUpdating$,
+    ]).pipe(
+      map(([post, followees, isFollowingUpdating]) => {
+        return {
+          ...post.author,
+          isUserProfile: post.owner === walletAddress,
+          isFollowing: this.isFollowingAuthor !== undefined
+            ? this.isFollowingAuthor
+            : (followees || []).includes(post.owner),
+          isFollowingUpdating,
+        };
+      }),
+    );
+
+    this.post$.pipe(
       pluck('uuid'),
       distinctUntilChanged(),
       untilDestroyed(this),
     ).subscribe(() => this.elementRef.nativeElement.scrollTop = 0);
   }
 
-  public onPostDelete(): void {
-    this.postPageService.deletePost(this.post);
+  public onPostDelete(post: PostsListItem): void {
+    this.postPageService.deletePost(post);
+  }
+
+  public onFollowAuthor(follow: boolean, author: Wallet['address']): void {
+    this.isFollowingAuthor = follow;
+
+    const func = follow
+      ? this.followingService.follow(author)
+      : this.followingService.unfollow(author);
+
+    func.pipe(
+      untilDestroyed(this),
+    ).subscribe();
   }
 }

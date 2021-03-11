@@ -52,7 +52,7 @@ export class AuthService {
   public getActiveUser(): Observable<AuthUser | undefined> {
     return this.activeUser$.asObservable().pipe(
       tap((user) => {
-        if (user.isModerator) {
+        if (user?.isModerator) {
           this.permissionsService.setPermissions(UserPermissions.DELETE_POST);
         }
       })

@@ -1,15 +1,13 @@
 import { Observable } from 'rxjs';
 
-import { MenuLink, MenuTranslations, MenuUserLink, MenuUserProfile } from './menu.definitions';
+import { MenuItem, MenuTranslations, MenuUserItem, MenuUserProfile } from './menu.definitions';
 
 export abstract class MenuService {
   public abstract getUserProfile(): Observable<MenuUserProfile>;
 
-  public abstract getLinks(): Observable<MenuLink[]>;
+  public abstract getItems(): Observable<MenuItem[][]>;
 
-  public abstract getUserLink(): Observable<MenuUserLink>;
+  public abstract getUserItem(): Observable<MenuUserItem>;
 
   public abstract getTranslations(): Observable<MenuTranslations>;
-
-  public abstract lock(): void;
 }

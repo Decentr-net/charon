@@ -27,7 +27,7 @@ if (!isToolbarClosed() && isTopWindow(window.self)) {
     startWith(false)
   );
 
-  const manualClose$ = new MessageBus().onMessage(MessageCode.ToolbarClose).pipe(
+  const manualClose$ = new MessageBus().onMessageSync(MessageCode.ToolbarClose).pipe(
     take(1),
   );
 

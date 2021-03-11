@@ -1,98 +1,86 @@
 <ng-container *ngIf="translations$ | async as translations">
   <div
     *ngIf="userProfile$ | async as userProfile"
-    class="menu-button"
+    class="menu__trigger"
     [matMenuTriggerFor]="menuTemplate"
   >
     <app-avatar
-      class="profile-image"
+      class="menu__user-avatar"
       [avatarUrl]="userProfile.avatar"
     ></app-avatar>
 
     <ng-container *ngIf="!hideUsername">
       <span
-        class="profile-username"
+        class="menu-popup-item-title"
         appTextEllipsis
         appTypeface="paragraph"
       >
         {{ userProfile.firstName }} {{ userProfile.lastName }}
       </span>
 
-      <svg-icon class="profile-username__icon" key="dropdown-expand"></svg-icon>
+      <svg-icon class="menu__trigger-icon" key="dropdown-expand"></svg-icon>
     </ng-container>
   </div>
 
   <mat-menu
     #menuTemplate
-    class="profile-selector__menu"
+    class="menu-popup"
+    appTypeface="paragraph"
   >
-    <div class="menu-wrapper">
-      <div class="menu__header">
-        <div class="menu-title">{{ translations.myAccounts }}</div>
-        <button class="button-lock" (click)="lock()">{{ translations.lock }}</button>
-      </div>
+    <div
+      class="menu-popup-items-section menu-popup-item menu__item menu__user-item"
+      *ngIf="userItem$ | async as userItem"
+      (click)="userItem.action && userItem.action()"
+    >
+      <app-avatar
+        class="menu__user-avatar"
+        [avatarUrl]="(userProfile$ | async).avatar"
+      ></app-avatar>
 
-      <div class="menu__items">
-        <div class="menu-item menu-item__active"
-          *ngIf="userLink$ | async as user"
-          [routerLink]="user.link"
-        >
-          <app-avatar
-            class="profile-image"
-            [avatarUrl]="(userProfile$ | async).avatar"
-          ></app-avatar>
-          <div>
-            <div class="name">{{ user.title }}</div>
-            <div class="rate">{{ user.pdvValue | pdvValue }} PDV</div>
-          </div>
+      <div>
+        <div class="menu-popup-item-title" appTypeface="paragraph">{{ userItem.title }}</div>
+
+        <div class="menu__user-item__pdv" appTypeface="caption">
+          {{ userItem.pdvValue | pdvValue }} {{ translations.pdv }}
         </div>
       </div>
+    </div>
 
-      <div class="menu__footer">
-        <ng-container *ngFor="let link of links$ | async">
-          <ng-template
-            [ngTemplateOutlet]="link.blank ? externalLink : localLink"
-            [ngTemplateOutletContext]="{ $implicit: link }"
-          ></ng-template>
-        </ng-container>
-      </div>
+    <div
+      class="menu-popup-items-section"
+      *ngFor="let section of items$ | async"
+    >
+      <ng-container *ngFor="let item of section; let last = last">
+        <div
+          class="menu-popup-item menu__item"
+          [class.is-disabled]="!item.action"
+          (click)="item.action && item.action()"
+        >
+          <svg-icon class="menu-popup-item-icon menu__item-icon" [key]="item.iconKey"></svg-icon>
+
+          <span class="menu-popup-item-title">
+            <span>{{ item.title }}</span>
+
+            <span
+              class="menu__item-coming-soon"
+              *ngIf="!item.action"
+              appTypeface="caption"
+            >
+              {{ translations.comingSoon }}
+            </span>
+          </span>
+
+          <div
+            class="menu-popup-item-description menu__item-description"
+            *ngIf="item.description"
+            appTypeface="caption"
+          >
+            {{ item.description }}
+          </div>
+        </div>
+
+        <div class="menu-popup-items-divider" *ngIf="!last"></div>
+      </ng-container>
     </div>
   </mat-menu>
 </ng-container>
-
-<ng-template #localLink let-link>
-  <a
-    class="menu-item"
-    [routerLink]="[link.link]"
-    [class.menu-item__disabled]="!link.link"
-  >
-    <ng-template
-      [ngTemplateOutlet]="linkContent"
-      [ngTemplateOutletContext]="{ $implicit: link }"
-    ></ng-template>
-  </a>
-</ng-template>
-
-<ng-template #externalLink let-link>
-  <a
-    class="menu-item"
-    target="_blank"
-    [href]="link.link | appSanitize : 'url'"
-    [class.menu-item__disabled]="!link.link"
-  >
-    <ng-template
-      [ngTemplateOutlet]="linkContent"
-      [ngTemplateOutletContext]="{ $implicit: link }"
-    ></ng-template>
-  </a>
-</ng-template>
-
-<ng-template #linkContent let-link>
-  <svg-icon
-    class="icon icon__white"
-    [key]="link.iconKey"
-  ></svg-icon>
-
-  {{ link.title }}
-  <span *ngIf="!link.link">({{ (translations$ | async).comingSoon }})</span>
-</ng-template>

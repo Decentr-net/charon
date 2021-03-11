@@ -15,9 +15,12 @@ export type SvgIconName =
   | 'dynamics-positive'
   | 'edit'
   | 'expand-more'
+  | 'follow'
+  | 'import-account'
   | 'import'
   | 'information'
   | 'like'
+  | 'lock-account'
   | 'lock'
   | 'logo-icon'
   | 'logo'
@@ -28,6 +31,7 @@ export type SvgIconName =
   | 'reload'
   | 'send-coin'
   | 'settings'
+  | 'signal'
   | 'trash';
 export interface SvgIcon {
   name: SvgIconName;

@@ -27,7 +27,7 @@ export class HubTopPostsComponent implements OnInit {
     this.category$.next(value);
   }
 
-  @Input() public routerLinkFn: (post: Post) => string[] = () => ['./'];
+  @Input() public routerLinkFn: (post: Post) => unknown[] = () => ['./'];
 
   public hubRoute: typeof HubRoute = HubRoute;
 

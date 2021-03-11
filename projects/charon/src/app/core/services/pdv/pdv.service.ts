@@ -141,8 +141,8 @@ export class PDVService {
           startWith(void 0),
         ),
       ]).pipe(
-        switchMap(([{ wallet, networkApi }]) => {
-          return this.nativePdvService.getPDVStatChartPoints(networkApi, wallet.address);
+        switchMap(([{ wallet }]) => {
+          return this.nativePdvService.getPDVStatChartPoints(wallet.address);
         }),
         catchError(() => EMPTY),
       ),
