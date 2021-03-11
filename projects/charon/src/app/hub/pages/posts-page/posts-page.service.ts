@@ -5,11 +5,13 @@ import { Observable } from 'rxjs';
 import { PostsListItem } from '@core/services';
 import { HubPostsService } from '../../services';
 import { HubCategoryRouteParam } from '../../hub-route';
+import { PostWithLike } from '../../models/post';
 
 @Injectable()
-export class PostsPageService extends HubPostsService implements OnDestroy {
+export class PostsPageService extends HubPostsService<PostWithLike> implements OnDestroy {
   protected loadingInitialCount: number = 20;
   protected loadingMoreCount: number = 20;
+  protected includeProfile: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
