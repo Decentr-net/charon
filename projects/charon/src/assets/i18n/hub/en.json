@@ -45,6 +45,11 @@
     "loading_more_posts": "Loading more posts"
   },
   "hub_post_editor": {
+    "category": {
+      "errors": {
+        "required": "Post topic is required"
+      }
+    },
     "image_uploader": {
       "empty": {
         "subtitle": "You can create a post without title image.",
