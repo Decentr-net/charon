@@ -29,6 +29,6 @@ export const getMimeTypeByHeader = (header: string): MimeType => {
     case 'ffd8ffe8':
       return 'image/jpeg';
     default:
-      return 'unknown'; // Or you can use the blob.type as fallback
+      return 'unknown';
   }
 };
