@@ -5,13 +5,14 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { NotificationService } from '@shared/services/notification';
-import { MEGABYTE } from '@shared/utils/file';
+import { getRealMimeType, MEGABYTE, MimeType } from '@shared/utils/file';
 import { TranslatedError } from '@core/notifications';
 import { ImageUploaderService, SpinnerService } from '@core/services';
 
 const MAX_IMAGE_SIZE = 32 * MEGABYTE;
 const IMAGE_PATTERN = /(image)*\/(?:jpg|jpeg|png)/;
 const IMAGE_ACCEPT_FORMATS = '.jpg,.jpeg,.png';
+const ALLOWED_MIME_TYPES: MimeType[] = ['image/jpeg', 'image/png'];
 
 @UntilDestroy()
 @Directive({
@@ -38,7 +39,8 @@ export class HubImageUploaderDirective implements OnInit {
       map(() => this.imageInput.files[0]),
       filter((image) => !!image),
       tap(() => this.imageInput.value = ''),
-      mergeMap((image) => {
+      mergeMap((image) => getRealMimeType(image).then((realMimeType) => ({ image, realMimeType }))),
+      mergeMap(({ image, realMimeType }) => {
         let errorKey = '';
 
         if (image.size > MAX_IMAGE_SIZE) {
@@ -47,6 +49,10 @@ export class HubImageUploaderDirective implements OnInit {
 
         if (!image.type.match(IMAGE_PATTERN)) {
           errorKey = 'not_allowed_type';
+        }
+
+        if (!ALLOWED_MIME_TYPES.includes(realMimeType)) {
+          errorKey = 'incorrect_mime_type';
         }
 
         return errorKey
