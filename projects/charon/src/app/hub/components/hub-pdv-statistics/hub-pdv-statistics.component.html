@@ -3,11 +3,11 @@
   *transloco="let translate; read: 'hub.hub_pdv_statistics'"
 >
   <ng-container ngProjectAs="title">
-    {{ translate('my_pdv') }}
+    {{ translations?.pdv || translate('my_pdv') }}
   </ng-container>
 
   <ng-container *ngIf="statistics" ngProjectAs="subtitle">
-    {{ translate('activity_from', { date: statistics.fromDate | date }) }}
+    {{ translations?.from || translate('activity_from') }} {{ statistics.fromDate | date }}
   </ng-container>
 
   <ng-container *ngIf="statistics" ngProjectAs="rate">

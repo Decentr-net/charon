@@ -22,8 +22,10 @@ import { PostPageService } from './post-page.service';
 import { PostPageLikeService } from './post-page-like.service';
 import { UserRoute } from '../../../user';
 import { RECEIVER_WALLET_PARAM } from '../../../user/pages';
-import { HubPDVStatistics } from '../../components/hub-pdv-statistics';
+import { HubPDVStatistics, PDVStatisticsTranslations } from '../../components/hub-pdv-statistics';
 import { calculateDifferencePercentage } from '../../../../../../../shared/utils/number';
+import { TranslocoService } from '@ngneat/transloco';
+import { coerceTimestamp } from '../../../../../../../shared/utils/date';
 
 @UntilDestroy()
 @Component({
@@ -46,6 +48,8 @@ export class PostPageComponent implements OnInit {
 
   public postStatistics$: Observable<HubPDVStatistics>;
 
+  public postStatisticsTranslations$: Observable<PDVStatisticsTranslations>;
+
   public trackByPostId: TrackByFunction<PostsListItem> = ({}, { uuid }) => uuid;
 
   public postLinkFn: (post: PostsListItem) => string[] = (post) => ['../../', post.owner, post.uuid];
@@ -58,6 +62,7 @@ export class PostPageComponent implements OnInit {
     private followingService: FollowingService,
     private postPageService: PostPageService,
     private router: Router,
+    private translocoService: TranslocoService,
     public postPageLikeService: PostPageLikeService,
     svgIconRegistry: SvgIconRegistry,
   ) {
@@ -111,7 +116,7 @@ export class PostPageComponent implements OnInit {
 
         return {
           pdvChangedIn24HoursPercent: dayMargin,
-          fromDate: post.createdAt,
+          fromDate: coerceTimestamp(post.createdAt),
           pdv: post.pdv,
           points: (post.stats || [])
             .map(({ date, value }) => ({
@@ -122,6 +127,9 @@ export class PostPageComponent implements OnInit {
         };
       }),
     );
+
+    this.postStatisticsTranslations$ = this.translocoService
+      .selectTranslateObject('hub_post_page.post_statistics', null, 'hub');
   }
 
   public onPostDelete(post: PostsListItem): void {

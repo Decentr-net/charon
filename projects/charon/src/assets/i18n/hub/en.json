@@ -86,7 +86,7 @@
     "placeholder": "Start your post with..."
   },
   "hub_pdv_statistics": {
-    "activity_from": "Activity from {{date}}",
+    "activity_from": "Activity from",
     "estimated_balance": "In progress: {{estimatedBalance}} PDV",
     "no_chart_data": "You have no PDV Rate data",
     "not_enough_chart_data": "Not enough data PDV for the chart",
@@ -122,7 +122,11 @@
     "label": "PDV"
   },
   "hub_post_page": {
-    "interesting_posts": "You may be interested in"
+    "interesting_posts": "You may be interested in",
+    "post_statistics": {
+      "from": "from",
+      "pdv": "Post PDV"
+    }
   },
   "hub_posts_page": {
     "top_posts": "Top posts"

@@ -41,6 +41,7 @@
         class="post-page__pdv-statistics"
         *ngIf="postStatistics$ | async as postStatistics"
         [statistics]="postStatistics"
+        [translations]="postStatisticsTranslations$ | async"
       ></app-hub-pdv-statistics>
 
       <app-hub-post-rating
