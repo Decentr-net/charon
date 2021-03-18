@@ -25,6 +25,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MicroValueModule } from '@shared/pipes/micro-value';
 import { NavigationModule } from '@core/navigation';
 import { ProfileFormModule } from '@shared/components/profile-form';
+import { AutoFocusModule } from '@shared/directives/auto-focus';
+import { BindQueryParamsModule } from '@shared/directives/bind-query-params';
 import { IntersectionModule } from '@shared/directives/intersection';
 import { ToolbarStateService } from '@shared/services/toolbar-state';
 import { LayoutHeaderModule } from '../layout/layout-header';
@@ -36,6 +38,8 @@ import { UserRoutingModule } from './user-routing.module';
 
 @NgModule({
   imports: [
+    AutoFocusModule,
+    BindQueryParamsModule,
     CommonModule,
     CopyWalletAddressModule,
     FormErrorModule,

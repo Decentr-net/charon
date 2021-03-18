@@ -32,5 +32,17 @@
         {{ translate(profile.isFollowing ? 'following' : 'follow') }}
       </span>
     </button>
+
+    <button
+      class="hub-profile-card__button"
+      appTypeface="caption"
+      (click)="onTopUp()"
+    >
+      <svg-icon class="hub-profile-card__button-icon" key="topup"></svg-icon>
+
+      <span class="hub-profile-card__button-label">
+        {{ translate('topup') }}
+      </span>
+    </button>
   </ng-template>
 </ng-container>

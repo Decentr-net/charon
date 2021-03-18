@@ -35,5 +35,6 @@ export * from './svg/svg-reload.icon';
 export * from './svg/svg-send-coin.icon';
 export * from './svg/svg-settings.icon';
 export * from './svg/svg-signal.icon';
+export * from './svg/svg-topup.icon';
 export * from './svg/svg-trash.icon';
 export * from './svg/svg-icon.model';
