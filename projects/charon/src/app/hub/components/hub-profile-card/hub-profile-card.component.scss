@@ -23,6 +23,11 @@
   text-align: center;
 }
 
+.hub-profile-card__bio {
+  color: $color-grey;
+  text-align: center;
+}
+
 .hub-profile-card__posts-count {
   font-weight: 700;
   margin: $grid-step 0 $grid-step * 2;
