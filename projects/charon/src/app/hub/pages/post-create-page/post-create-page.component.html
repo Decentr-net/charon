@@ -10,6 +10,10 @@
   </button>
 </ng-template>
 
+<ng-template [appSlot]="headerLogoSlotName">
+  <svg-icon class="post-create-page__header-logo-icon" key="logo"></svg-icon>
+</ng-template>
+
 <app-hub-post-editor
   [formId]="formId"
   [formControl]="postControl"

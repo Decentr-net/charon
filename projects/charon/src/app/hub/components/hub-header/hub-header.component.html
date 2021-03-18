@@ -7,7 +7,7 @@
       class="hub-header__bar-logo"
       [routerLink]="['./']"
     >
-      <svg-icon class="hub-header__bar-logo-icon" key="logo"></svg-icon>
+      <ng-container *appSlotContainer="logoSlotName" ></ng-container>
     </a>
 
     <div class="hub-header__bar-meta-container">
