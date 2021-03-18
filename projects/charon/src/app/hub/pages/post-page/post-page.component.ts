@@ -109,11 +109,6 @@ export class PostPageComponent implements OnInit {
         const historyPdvRate = (post.stats || []).find(el => new Date(el.date).valueOf() === historyDate)?.value;
         const dayMargin = calculateDifferencePercentage(Number(post.pdv), historyPdvRate);
 
-        console.log((post.stats || []).map(({ date, value }) => ({
-          date: new Date(date).valueOf(),
-          value,
-        })));
-
         return {
           pdvChangedIn24HoursPercent: dayMargin,
           fromDate: post.createdAt,
