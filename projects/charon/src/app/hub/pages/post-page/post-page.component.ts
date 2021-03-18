@@ -113,10 +113,12 @@ export class PostPageComponent implements OnInit {
           pdvChangedIn24HoursPercent: dayMargin,
           fromDate: post.createdAt,
           pdv: post.pdv,
-          points: (post.stats || []).map(({ date, value }) => ({
-            date: new Date(date).valueOf(),
-            value,
-          })),
+          points: (post.stats || [])
+            .map(({ date, value }) => ({
+              date: new Date(date).valueOf(),
+              value,
+            }))
+            .sort((left, right) => left.date - right.date),
         };
       }),
     );
