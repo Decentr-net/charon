@@ -22,6 +22,8 @@ import { PostPageService } from './post-page.service';
 import { PostPageLikeService } from './post-page-like.service';
 import { UserRoute } from '../../../user';
 import { RECEIVER_WALLET_PARAM } from '../../../user/pages';
+import { HubPDVStatistics } from '../../components/hub-pdv-statistics';
+import { calculateDifferencePercentage } from '../../../../../../../shared/utils/number';
 
 @UntilDestroy()
 @Component({
@@ -41,6 +43,8 @@ export class PostPageComponent implements OnInit {
   public post$: Observable<PostsListItem>;
 
   public authorProfile$: Observable<HubProfile>;
+
+  public postStatistics$: Observable<HubPDVStatistics>;
 
   public trackByPostId: TrackByFunction<PostsListItem> = ({}, { uuid }) => uuid;
 
@@ -97,6 +101,30 @@ export class PostPageComponent implements OnInit {
       distinctUntilChanged(),
       untilDestroyed(this),
     ).subscribe(() => this.elementRef.nativeElement.scrollTop = 0);
+
+    this.postStatistics$ = this.post$.pipe(
+      map((post) => {
+        const now = new Date();
+        const historyDate = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+        const historyPdvRate = (post.stats || []).find(el => new Date(el.date).valueOf() === historyDate)?.value;
+        const dayMargin = calculateDifferencePercentage(Number(post.pdv), historyPdvRate);
+
+        console.log((post.stats || []).map(({ date, value }) => ({
+          date: new Date(date).valueOf(),
+          value,
+        })));
+
+        return {
+          pdvChangedIn24HoursPercent: dayMargin,
+          fromDate: post.createdAt,
+          pdv: post.pdv,
+          points: (post.stats || []).map(({ date, value }) => ({
+            date: new Date(date).valueOf(),
+            value,
+          })),
+        };
+      }),
+    );
   }
 
   public onPostDelete(post: PostsListItem): void {

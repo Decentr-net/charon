@@ -11,9 +11,16 @@
   </ng-container>
 
   <ng-container *ngIf="statistics" ngProjectAs="rate">
-    <div [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance })">
-      {{ statistics.pdv | pdvValue }}
+    <div
+      *ngIf="estimatedBalance; else pdvValue"
+      [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance })"
+    >
+      <ng-template [ngTemplateOutlet]="pdvValue"></ng-template>
     </div>
+
+    <ng-template #pdvValue>
+      {{ statistics.pdv | pdvValue }}
+    </ng-template>
   </ng-container>
 
   <ng-container *ngIf="statistics" ngProjectAs="changed">

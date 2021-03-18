@@ -25,13 +25,16 @@ export interface PostOwnerProfile extends PublicProfile {
 export interface PostResponse {
   post: PostsListResponsePost;
   profile: PostOwnerProfile;
-  stats: Record<string, PostsListResponseStat>;
+  stats: PostsListResponseStat[];
 }
 
-type PostsListResponseStat = Record<string, number>;
+export interface PostsListResponseStat {
+  date: string;
+  value: Post['pdv'];
+}
 
 export interface PostsListResponse {
   posts: PostsListResponsePost[];
   profiles: Record<Post['owner'], PostOwnerProfile>;
-  stats: Record<string, PostsListResponseStat>; // [`owner/uuid`]: PostsListResponseStat
+  stats: Record<string, PostsListResponseStat[]>; // [`owner/uuid`]: PostsListResponseStat
 }
