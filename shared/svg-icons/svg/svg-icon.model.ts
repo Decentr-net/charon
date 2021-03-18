@@ -25,6 +25,7 @@ export type SvgIconName =
   | 'logo-icon-orange'
   | 'logo-icon-pink'
   | 'logo-icon'
+  | 'logo-pink'
   | 'logo'
   | 'pdv-rate-icon'
   | 'plus'

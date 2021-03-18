@@ -28,6 +28,7 @@ export * from './svg/svg-lock.icon';
 export * from './svg/svg-logo-icon-orange.icon';
 export * from './svg/svg-logo-icon-pink.icon';
 export * from './svg/svg-logo-icon.icon';
+export * from './svg/svg-logo-pink.icon';
 export * from './svg/svg-logo.icon';
 export * from './svg/svg-pdv-rate-icon.icon';
 export * from './svg/svg-plus.icon';
