@@ -67,6 +67,7 @@ export class EditProfilePageService {
     return this.userService.setPublicProfile(
       {
         avatar: update.avatar,
+        bio: update.bio,
         birthday: '1911-11-11',
         firstName: update.firstName,
         gender: update.gender,

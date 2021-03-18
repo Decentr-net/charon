@@ -25,6 +25,12 @@
       "avatar": {
         "label": "Profile Picture"
       },
+      "bio": {
+        "errors": {
+          "maxlength": "The maximum length of biography is {{requiredLength}} characters"
+        },
+        "label": "Biography"
+      },
       "birthday": {
         "errors": {
           "exists": "Invalid date",

@@ -21,6 +21,7 @@
         <input
           matInput
           [formControlName]="controlName.FirstName"
+          maxlength="64"
           trim="blur"
         >
 
@@ -40,6 +41,7 @@
         <input
           matInput
           [formControlName]="controlName.LastName"
+          maxlength="64"
           trim="blur"
         >
 
@@ -69,6 +71,25 @@
     </div>
 
     <!-- TODO: temporary solution to disable birthday -->
+
+    <div class="input-container col-xs-12">
+      <div class="input-label">{{ translate('bio.label') }}</div>
+
+      <mat-form-field
+        class="input-control"
+        appearance="outline"
+      >
+        <input
+          matInput
+          [formControlName]="controlName.Bio"
+          trim="blur"
+        >
+
+        <mat-error>
+          <app-form-error [controlName]="controlName.Bio"></app-form-error>
+        </mat-error>
+      </mat-form-field>
+    </div>
 
     <ng-container
       [ngTemplateOutlet]="emailControl"
