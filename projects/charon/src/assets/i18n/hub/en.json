@@ -36,6 +36,7 @@
   },
   "hub_image_uploader": {
     "errors": {
+      "incorrect_mime_type": "Uploaded file is not an image",
       "not_allowed_type": "Allowed types: .jpg, .png",
       "max_size": "The image size cannot exceed 32 megabytes"
     }
