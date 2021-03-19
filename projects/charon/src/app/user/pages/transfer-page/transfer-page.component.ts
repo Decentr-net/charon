@@ -16,11 +16,12 @@ import { TransferPageService } from './transfer-page.service';
 import { NavigationService } from '@core/navigation';
 import { SpinnerService } from '@core/services/spinner';
 import { TranslocoService } from '@ngneat/transloco';
-import { UserRoute } from '../../user.route';
+
+export const RECEIVER_WALLET_PARAM = 'receiver';
 
 interface TransferForm {
   amount: number;
-  receiver: Wallet['address'];
+  [RECEIVER_WALLET_PARAM]: Wallet['address'];
 }
 
 @UntilDestroy()
@@ -39,7 +40,6 @@ interface TransferForm {
 })
 export class TransferPageComponent implements OnInit {
   public appRoute: typeof AppRoute = AppRoute;
-  public userRoute: typeof UserRoute = UserRoute;
 
   public form: FormGroup<TransferForm>;
 
@@ -86,7 +86,7 @@ export class TransferPageComponent implements OnInit {
           this.transferPageService.createAsyncAmountValidator(),
         ],
       ],
-      receiver: [
+      [RECEIVER_WALLET_PARAM]: [
         '',
         [
           Validators.required,

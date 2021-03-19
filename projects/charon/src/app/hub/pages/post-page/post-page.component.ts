@@ -5,6 +5,7 @@ import {
   OnInit,
   TrackByFunction,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, pluck, switchMap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
@@ -19,6 +20,8 @@ import { HubRoute } from '../../hub-route';
 import { HubProfile } from '../../components/hub-profile-card';
 import { PostPageService } from './post-page.service';
 import { PostPageLikeService } from './post-page-like.service';
+import { UserRoute } from '../../../user';
+import { RECEIVER_WALLET_PARAM } from '../../../user/pages';
 
 @UntilDestroy()
 @Component({
@@ -50,6 +53,7 @@ export class PostPageComponent implements OnInit {
     private elementRef: ElementRef<HTMLElement>,
     private followingService: FollowingService,
     private postPageService: PostPageService,
+    private router: Router,
     public postPageLikeService: PostPageLikeService,
     svgIconRegistry: SvgIconRegistry,
   ) {
@@ -109,5 +113,13 @@ export class PostPageComponent implements OnInit {
     func.pipe(
       untilDestroyed(this),
     ).subscribe();
+  }
+
+  public onTopUpAuthor(author: Wallet['address']): void {
+    this.router.navigate(['/', AppRoute.User, UserRoute.Transfer], {
+      queryParams: {
+        [RECEIVER_WALLET_PARAM]: author,
+      },
+    });
   }
 }

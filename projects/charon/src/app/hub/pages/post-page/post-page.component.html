@@ -34,6 +34,7 @@
         *ngIf="authorProfile$ | async as authorProfile"
         [profile]="authorProfile"
         (follow)="onFollowAuthor($event, post.owner)"
+        (topUp)="onTopUpAuthor(post.owner)"
       ></app-hub-profile-card>
 
       <app-hub-post-rating

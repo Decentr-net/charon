@@ -108,7 +108,8 @@
   "hub_profile_card": {
     "follow": "Follow on Decentr",
     "following": "Following",
-    "posts": "Posts"
+    "posts": "Posts",
+    "topup": "Top-up author’s wallet"
   },
   "hub_feed_post": {
     "posted": "dposted"
