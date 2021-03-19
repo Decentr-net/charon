@@ -31,6 +31,12 @@
   display: inline-flex;
 }
 
+.hub-header__bar-logo-icon {
+  display: inline-flex;
+  height: 40px;
+  width: 115px;
+}
+
 .hub-header__bar-meta-container {
   border-radius: $border-radius;
   display: flex;

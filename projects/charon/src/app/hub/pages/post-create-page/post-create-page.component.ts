@@ -11,7 +11,7 @@ import { ONE_SECOND } from '@shared/utils/date';
 import { svgPublish } from '@shared/svg-icons';
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../hub-route';
-import { HUB_HEADER_ACTIONS_SLOT, HUB_HEADER_LOGO_SLOT } from '../../components/hub-header';
+import { HUB_HEADER_ACTIONS_SLOT } from '../../components/hub-header';
 import { PostCreatePageService } from './post-create-page.service';
 
 @UntilDestroy()
@@ -26,7 +26,6 @@ import { PostCreatePageService } from './post-create-page.service';
 })
 export class PostCreatePageComponent implements OnInit {
   public readonly headerActionsSlotName = HUB_HEADER_ACTIONS_SLOT;
-  public readonly headerLogoSlotName = HUB_HEADER_LOGO_SLOT;
 
   public formId: string = 'POST_CREATE_FORM';
 

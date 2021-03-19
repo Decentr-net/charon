@@ -10,12 +10,6 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
   overflow-y: auto;
 }
 
-.posts-page__header-logo-icon {
-  display: inline-flex;
-  height: 40px;
-  width: 115px;
-}
-
 .posts-page__spinner {
   display: block;
   margin: $page-side-padding auto;

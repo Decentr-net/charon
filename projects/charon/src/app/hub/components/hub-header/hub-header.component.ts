@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgLogo, svgLogoPink } from '@shared/svg-icons';
+import { svgLogo } from '@shared/svg-icons';
 
 export const HUB_HEADER_LOGO_SLOT = Symbol('HUB_HEADER_LOGO_SLOT');
 export const HUB_HEADER_META_SLOT = Symbol('HUB_HEADER_META_SLOT');
@@ -27,7 +27,6 @@ export class HubHeaderComponent {
   ) {
     svgIconRegistry.register([
       svgLogo,
-      svgLogoPink,
     ]);
   }
 }
