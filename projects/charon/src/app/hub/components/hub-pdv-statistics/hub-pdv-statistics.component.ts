@@ -9,6 +9,11 @@ export interface HubPDVStatistics {
   points: ChartPoint[];
 }
 
+export interface PDVStatisticsTranslations {
+  from: string;
+  pdv: string;
+}
+
 @Component({
   selector: 'app-hub-pdv-statistics',
   templateUrl: './hub-pdv-statistics.component.html',
@@ -18,6 +23,7 @@ export interface HubPDVStatistics {
 export class HubPdvStatisticsComponent {
   @Input() public estimatedBalance: string;
   @Input() public statistics: HubPDVStatistics;
+  @Input() public translations: PDVStatisticsTranslations;
 
   public get isNeutral(): boolean {
     return this.statistics?.pdvChangedIn24HoursPercent === 0;
