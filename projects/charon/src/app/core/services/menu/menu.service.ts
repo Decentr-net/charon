@@ -12,7 +12,14 @@ import {
   MenuUserItem,
   MenuUserProfile
 } from '@shared/components/menu';
-import { svgDecentrHub, svgImportAccount, svgInformation, svgLockAccount } from '@shared/svg-icons';
+import {
+  svgDecentrHub,
+  svgImportAccount,
+  svgInformation,
+  svgLockAccount,
+  svgLogoIconOrange,
+  svgLogoIconPink
+} from '@shared/svg-icons';
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../../hub';
 import { UserRoute } from '../../../user';
@@ -42,6 +49,8 @@ export class MenuService extends MenuBaseService {
       svgImportAccount,
       svgInformation,
       svgLockAccount,
+      svgLogoIconOrange,
+      svgLogoIconPink,
     ]);
   }
 
@@ -80,7 +89,7 @@ export class MenuService extends MenuBaseService {
             {
               action: () => this.router.navigate(['/', AppRoute.Hub, HubRoute.Feed]),
               description: itemsTranslationsObject['decentr_feed']['description'],
-              iconKey: svgDecentrHub.name,
+              iconKey: svgLogoIconPink.name,
               title: itemsTranslationsObject['decentr_feed']['title'],
             },
             {
@@ -88,7 +97,7 @@ export class MenuService extends MenuBaseService {
                 ? this.router.navigate(['/', AppRoute.User])
                 : this.navigationService.openInNewTab(`/${AppRoute.User}`),
               description: itemsTranslationsObject['decentr_portal']['description'],
-              iconKey: svgDecentrHub.name,
+              iconKey: svgLogoIconOrange.name,
               title: itemsTranslationsObject['decentr_portal']['title'],
             },
           ],
