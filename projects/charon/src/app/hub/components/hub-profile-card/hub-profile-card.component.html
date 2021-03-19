@@ -10,6 +10,13 @@
   {{ profile.firstName }} {{ profile.lastName }}
 </span>
 
+<span
+  class="hub-profile-card__bio"
+  appTypeface="caption"
+>
+  {{ profile.bio }}
+</span>
+
 <ng-container *transloco="let translate; read: 'hub.hub_profile_card'">
   <span
     class="hub-profile-card__posts-count"

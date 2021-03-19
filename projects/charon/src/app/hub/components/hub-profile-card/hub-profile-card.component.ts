@@ -4,7 +4,7 @@ import { PublicProfile } from 'decentr-js';
 
 import { svgFollow, svgTopup } from '@shared/svg-icons';
 
-export interface HubProfile extends Pick<PublicProfile, 'avatar' | 'firstName' | 'lastName'> {
+export interface HubProfile extends PublicProfile {
   isFollowing: boolean;
   isFollowingUpdating: boolean;
   isUserProfile: boolean;

@@ -3,6 +3,7 @@ import { PublicProfile } from 'decentr-js';
 
 export enum ProfileFormControlName {
   Avatar = 'avatar',
+  Bio = 'bio',
   Birthday = 'birthday',
   Emails = 'emails',
   EmailValue = 'value',
