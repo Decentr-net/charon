@@ -9,23 +9,23 @@ import { Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, pluck, switchMap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Wallet } from 'decentr-js';
 
 import { svgArrowLeft } from '@shared/svg-icons';
+import { coerceTimestamp } from '@shared/utils/date';
+import { calculateDifferencePercentage } from '@shared/utils/number';
 import { AuthService } from '@core/auth';
 import { FollowingService, PostsListItem } from '@core/services';
 import { AppRoute } from '../../../app-route';
+import { UserRoute } from '../../../user';
+import { RECEIVER_WALLET_PARAM } from '../../../user/pages';
 import { HubRoute } from '../../hub-route';
+import { HubPDVStatistics, PDVStatisticsTranslations } from '../../components/hub-pdv-statistics';
 import { HubProfile } from '../../components/hub-profile-card';
 import { PostPageService } from './post-page.service';
 import { PostPageLikeService } from './post-page-like.service';
-import { UserRoute } from '../../../user';
-import { RECEIVER_WALLET_PARAM } from '../../../user/pages';
-import { HubPDVStatistics, PDVStatisticsTranslations } from '../../components/hub-pdv-statistics';
-import { calculateDifferencePercentage } from '../../../../../../../shared/utils/number';
-import { TranslocoService } from '@ngneat/transloco';
-import { coerceTimestamp } from '../../../../../../../shared/utils/date';
 
 @UntilDestroy()
 @Component({
