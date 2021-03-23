@@ -14,7 +14,7 @@ import { LikeWeight } from 'decentr-js';
 
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { NotificationService } from '@shared/services/notification';
-import { PostsListItem, PostsService, SpinnerService, UserService } from '@core/services';
+import { PostsListItem, PostsService, SpinnerService } from '@core/services';
 import { HubLikesService, LikeMap } from './hub-likes.service';
 
 export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
@@ -23,7 +23,6 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
   protected readonly postsService: PostsService;
   protected readonly spinnerService: SpinnerService;
   protected readonly translocoService: TranslocoService;
-  protected readonly userService: UserService;
 
   protected loadingMoreCount: number = 4;
   protected loadingInitialCount: number = 4;
@@ -44,7 +43,6 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
     this.postsService = injector.get(PostsService);
     this.spinnerService = injector.get(SpinnerService);
     this.translocoService = injector.get(TranslocoService);
-    this.userService = injector.get(UserService);
 
     this.loadMore.pipe(
       tap(() => this.isLoading.next(true)),
