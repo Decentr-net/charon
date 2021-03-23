@@ -8,6 +8,10 @@
   </app-hub-header-action-button>
 </ng-template>
 
+<ng-template [appSlot]="headerLogoSlotName">
+  <svg-icon class="feed-page__header-logo-icon" key="logo-pink"></svg-icon>
+</ng-template>
+
 <ng-template [ngIf]="!isPostOutletActivated">
   <app-hub-feed-navigation
     *appSlot="headerContentSlotName"

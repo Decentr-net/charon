@@ -9,7 +9,7 @@ export class SlotDirective implements OnInit, OnChanges, OnDestroy {
 
   constructor(
     private slotService: SlotService,
-    private templateRef: TemplateRef<{}>,
+    private templateRef: TemplateRef<{ rootElement: HTMLElement }>,
   ) {
   }
 
