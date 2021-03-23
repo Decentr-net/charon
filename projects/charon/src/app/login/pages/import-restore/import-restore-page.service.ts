@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
-import { mapTo, mergeMap, mergeMapTo } from 'rxjs/operators';
+import { delay, mapTo, mergeMap, mergeMapTo } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { createWalletFromMnemonic } from 'decentr-js';
 
@@ -9,6 +9,7 @@ import { UserService } from '@core/services';
 import { AuthService } from '@core/auth';
 import { LockService } from '@core/lock';
 import { TranslatedError } from '@core/notifications';
+import { ONE_SECOND } from '../../../../../../../shared/utils/date';
 
 @Injectable()
 export class ImportRestorePageService {
@@ -48,7 +49,6 @@ export class ImportRestorePageService {
           emailConfirmed: true,
         })),
       mergeMap((id) => this.authService.changeUser(id)),
-      // hack for restore - active user is locked during restore process
       mapTo(void 0),
     );
   }
@@ -57,6 +57,7 @@ export class ImportRestorePageService {
     const activeUser = this.authService.getActiveUserInstant();
 
     return this.importUser(seedPhrase, password).pipe(
+      delay(ONE_SECOND / 2), // hack for mozilla
       mergeMap(() => {
         const userId = activeUser && activeUser.id;
         return userId
