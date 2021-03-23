@@ -25,7 +25,6 @@ import { HubRoute } from '../../hub-route';
 import { HubPDVStatistics, PDVStatisticsTranslations } from '../../components/hub-pdv-statistics';
 import { HubProfile } from '../../components/hub-profile-card';
 import { PostPageService } from './post-page.service';
-import { PostPageLikeService } from './post-page-like.service';
 
 @UntilDestroy()
 @Component({
@@ -35,7 +34,6 @@ import { PostPageLikeService } from './post-page-like.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     PostPageService,
-    PostPageLikeService,
   ],
 })
 export class PostPageComponent implements OnInit {
@@ -63,7 +61,6 @@ export class PostPageComponent implements OnInit {
     private postPageService: PostPageService,
     private router: Router,
     private translocoService: TranslocoService,
-    public postPageLikeService: PostPageLikeService,
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register(svgArrowLeft);

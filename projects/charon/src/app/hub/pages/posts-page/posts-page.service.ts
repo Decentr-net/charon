@@ -27,6 +27,7 @@ export class PostsPageService extends HubPostsService implements OnDestroy {
       after: fromPost && `${fromPost.owner}/${fromPost.uuid}`,
       category: this.activatedRoute.snapshot.params[HubCategoryRouteParam],
       limit: count,
+      sortBy: 'pdv',
     });
   }
 }

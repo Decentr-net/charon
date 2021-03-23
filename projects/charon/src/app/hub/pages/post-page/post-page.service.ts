@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, mapTo, switchMap, tap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { LikeWeight } from 'decentr-js';
 
 import { NotificationService } from '@shared/services/notification';
 import { PostsListItem, PostsService } from '@core/services';
@@ -41,33 +40,6 @@ export class PostPageService {
     ).subscribe(() => this.router.navigate(['../../../']));
   }
 
-  public likePost(postId: PostsListItem['uuid'], likeWeight: LikeWeight): Observable<void> {
-    const targetPost = this.hubPostsService.getPost(postId);
-
-    if (targetPost) {
-      return this.hubPostsService.likePost(postId, likeWeight);
-    }
-
-    const post = this.post$.value;
-
-    const update = HubPostsService.getPostUpdateAfterLike(post, likeWeight);
-    this.updatePost({
-      likeWeight,
-      ...update,
-    });
-
-    return this.postsService.likePost(this.post$.value, likeWeight).pipe(
-      catchError((error) => {
-        this.notificationService.error(error);
-
-        return this.getPostLive(post.owner, post.uuid).pipe(
-          tap((post) => this.updatePost(post))
-        )
-      }),
-      mapTo(void 0),
-    );
-  }
-
   private getPostChanges(
     owner: PostsListItem['owner'],
     postId: PostsListItem['uuid'],
@@ -79,21 +51,5 @@ export class PostPageService {
 
   private getPostLive(owner: PostsListItem['owner'], postId: PostsListItem['uuid']): Observable<PostsListItem> {
     return this.postsService.getPost({ owner, uuid: postId });
-  }
-
-  private updatePost(update: Partial<PostsListItem>): void {
-    const postId = this.post$.value.uuid;
-
-    this.hubPostsService.updatePost(postId, update);
-    const servicePost = this.hubPostsService.getPost(postId);
-
-    if (servicePost) {
-      return;
-    }
-
-    this.post$.next({
-      ...this.post$.value,
-      ...update,
-    });
   }
 }

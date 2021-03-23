@@ -50,9 +50,8 @@
 
       <app-hub-post-rating
         class="post-page__rating"
-        [postId]="post.uuid"
+        [post]="post"
         [filled]="true"
-        [customHubLikesService]="postPageLikeService"
         appTypeface="paragraph"
       ></app-hub-post-rating>
     </div>

@@ -10,7 +10,7 @@ import {
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgTrash } from '@shared/svg-icons';
-import { PostWithLike } from '../../models/post';
+import { PostsListItem } from '@core/services';
 
 const DEFAULT_ORIENTATION = 'vertical';
 
@@ -21,7 +21,7 @@ const DEFAULT_ORIENTATION = 'vertical';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubPostCardComponent implements OnChanges {
-  @Input() public post: PostWithLike;
+  @Input() public post: PostsListItem;
 
   @Input() public orientation: 'horizontal' | 'vertical';
 
