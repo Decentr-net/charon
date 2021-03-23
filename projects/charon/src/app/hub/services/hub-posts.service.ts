@@ -12,6 +12,7 @@ import {
 import { TranslocoService } from '@ngneat/transloco';
 import { LikeWeight, Post, PublicProfile } from 'decentr-js';
 
+import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { NotificationService } from '@shared/services/notification';
 import { createSharedOneValueObservable } from '@shared/utils/observable';
 import { TranslatedError } from '@core/notifications';
@@ -39,6 +40,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
 
   private static deleteNotifier$: Subject<Post['uuid']> = new Subject();
   private static reloadNotifier$: Subject<void> = new Subject();
+  private static postUpdateNotifier$: Subject<Partial<PostsListItem> & Pick<PostsListItem, 'uuid'>> = new Subject();
 
   protected constructor(injector: Injector) {
     this.notificationService = injector.get(NotificationService);
@@ -70,6 +72,12 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
       takeUntil(this.dispose$),
     ).subscribe((postId) => {
       this.replacePost(postId, () => undefined);
+    });
+
+    HubPostsService.postUpdateNotifier$.pipe(
+      takeUntil(this.dispose$),
+    ).subscribe((update) => {
+      this.replacePost(update.uuid, (post) => ({ ...post, ...update }));
     });
   }
 
@@ -132,7 +140,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
     const post = this.getPost(postId);
 
     const update: Partial<Pick<T, 'likeWeight' | 'likesCount' | 'dislikesCount'>> = {
-      ...HubPostsService.getPostLikesCountUpdate(post, likeWeight),
+      ...HubPostsService.getPostUpdateAfterLike(post, likeWeight),
       likeWeight,
     };
 
@@ -209,8 +217,13 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
   private replacePost(
     postId: T['uuid'],
     updateFn: (post: T) => T | undefined,
-  ) {
+  ): void {
     const postIndex = this.posts.value.findIndex((post) => post.uuid === postId);
+
+    if (postIndex === -1) {
+      return;
+    }
+
     const post = this.posts.value[postIndex];
     const newPost = updateFn(post);
 
@@ -221,20 +234,17 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
     ]);
   }
 
-  private updatePost(
+  public updatePost(
     postId: T['uuid'],
     update: Partial<Omit<T, 'uuid'>>,
   ): void {
-    this.replacePost(postId, (post) => ({
-      ...post,
-      ...update,
-    }));
+    HubPostsService.postUpdateNotifier$.next({ uuid: postId, ...update });
   }
 
-  public static getPostLikesCountUpdate<T extends PostsListItem>(
+  public static getPostUpdateAfterLike<T extends PostsListItem>(
     post: T,
     newLikeWeight: LikeWeight,
-  ): Partial<Pick<T, 'likesCount' | 'dislikesCount'>> {
+  ): Partial<Pick<T, 'likesCount' | 'dislikesCount' | 'pdv' | 'stats'>> {
     switch (post.likeWeight) {
       case LikeWeight.Up:
         switch (newLikeWeight) {
@@ -243,11 +253,13 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
           case LikeWeight.Zero:
             return {
               likesCount: post.likesCount - 1,
+              pdv: post.pdv - 1 / MICRO_PDV_DIVISOR,
             };
           case LikeWeight.Down:
             return {
               likesCount: post.likesCount - 1,
               dislikesCount: post.dislikesCount + 1,
+              pdv: post.pdv - 2 / MICRO_PDV_DIVISOR,
             };
         }
         break;
@@ -257,10 +269,12 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
             return {
               likesCount: post.likesCount + 1,
               dislikesCount: post.dislikesCount - 1,
+              pdv: post.pdv + 2 / MICRO_PDV_DIVISOR,
             };
           case LikeWeight.Zero:
             return {
               dislikesCount: post.dislikesCount - 1,
+              pdv: post.pdv + 1 / MICRO_PDV_DIVISOR,
             };
           case LikeWeight.Down:
             return {};
@@ -271,10 +285,12 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
           case LikeWeight.Up:
             return {
               likesCount: post.likesCount + 1,
+              pdv: post.pdv + 1 / MICRO_PDV_DIVISOR,
             };
           case LikeWeight.Down:
             return {
               dislikesCount: post.dislikesCount + 1,
+              pdv: post.pdv - 1 / MICRO_PDV_DIVISOR,
             };
         }
     }

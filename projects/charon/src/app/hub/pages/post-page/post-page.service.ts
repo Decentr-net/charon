@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, mapTo, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { catchError, mapTo, switchMap, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LikeWeight } from 'decentr-js';
 
@@ -50,7 +50,7 @@ export class PostPageService {
 
     const post = this.post$.value;
 
-    const update = HubPostsService.getPostLikesCountUpdate(post, likeWeight);
+    const update = HubPostsService.getPostUpdateAfterLike(post, likeWeight);
     this.updatePost({
       likeWeight,
       ...update,
@@ -60,10 +60,10 @@ export class PostPageService {
       catchError((error) => {
         this.notificationService.error(error);
 
-        return of(void 0);
+        return this.getPostLive(post.owner, post.uuid).pipe(
+          tap((post) => this.updatePost(post))
+        )
       }),
-      mergeMap(() => this.getPostLive(post.owner, post.uuid)),
-      tap((post) => this.updatePost(post)),
       mapTo(void 0),
     );
   }
@@ -82,6 +82,15 @@ export class PostPageService {
   }
 
   private updatePost(update: Partial<PostsListItem>): void {
+    const postId = this.post$.value.uuid;
+
+    this.hubPostsService.updatePost(postId, update);
+    const servicePost = this.hubPostsService.getPost(postId);
+
+    if (servicePost) {
+      return;
+    }
+
     this.post$.next({
       ...this.post$.value,
       ...update,
