@@ -53,6 +53,16 @@
   width: 8px;
 }
 
+.post-page__text {
+  overflow-wrap: anywhere;
+
+  ::ng-deep {
+    pre {
+      white-space: normal;
+    }
+  }
+}
+
 .post-page__sidebar {
   margin-top: -$grid-step * 21;
 }

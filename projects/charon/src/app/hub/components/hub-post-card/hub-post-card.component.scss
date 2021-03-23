@@ -110,6 +110,7 @@ $hub-post-card--horizontal--image-width: 31%;
   color: $color-grey;
   margin: $grid-step 0;
   overflow: hidden;
+  overflow-wrap: anywhere;
 }
 
 .hub-post-card__footer {
