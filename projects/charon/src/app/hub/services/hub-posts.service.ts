@@ -52,7 +52,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
         takeUntil(this.stopLoading$),
         finalize(() => this.isLoading.next(false)),
       )),
-      map((posts) => this.patchPostsWithLikeMap(posts, this.likesService.likeMap$.value)),
+      map((posts) => HubPostsService.patchPostsWithLikeMap(posts, this.likesService.likeMap$.value)),
       takeUntil(this.dispose$),
     ).subscribe((posts) => {
       this.pushPosts(posts);
@@ -67,7 +67,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
     this.likesService.likeMap$.pipe(
       takeUntil(this.dispose$),
     ).subscribe((likeMap) => {
-      this.posts.next(this.patchPostsWithLikeMap(this.posts.value, likeMap));
+      this.posts.next(HubPostsService.patchPostsWithLikeMap(this.posts.value, likeMap));
     });
   }
 
@@ -175,7 +175,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
     ]);
   }
 
-  private patchPostsWithLikeMap(posts: T[], likeMap: LikeMap): T[] {
+  public static patchPostsWithLikeMap<T extends PostsListItem>(posts: T[], likeMap: LikeMap): T[] {
     return posts.map((post) => {
       if (!likeMap.has(post.uuid)) {
         return post;

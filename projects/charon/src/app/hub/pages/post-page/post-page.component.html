@@ -34,27 +34,45 @@
     ></div>
 
     <div class="post-page__sidebar" ngProjectAs="[contentSecondaryColumn]">
-      <app-hub-profile-card
-        *ngIf="authorProfile$ | async as authorProfile"
-        [profile]="authorProfile"
-        (follow)="onFollowAuthor($event, post.owner)"
-        (topUp)="onTopUpAuthor(post.owner)"
-      ></app-hub-profile-card>
+      <div>
+        <app-hub-profile-card
+          *ngIf="authorProfile$ | async as authorProfile"
+          [profile]="authorProfile"
+          (follow)="onFollowAuthor($event, post.owner)"
+          (topUp)="onTopUpAuthor(post.owner)"
+        ></app-hub-profile-card>
 
-      <app-hub-pdv-statistics
-        class="post-page__pdv-statistics"
-        *ngIf="postStatistics$ | async as postStatistics"
-        [hideNoDataLabels]="true"
-        [statistics]="postStatistics"
-        [translations]="postStatisticsTranslations$ | async"
-      ></app-hub-pdv-statistics>
+        <app-hub-pdv-statistics
+          class="post-page__pdv-statistics"
+          *ngIf="postStatistics$ | async as postStatistics"
+          [hideNoDataLabels]="true"
+          [statistics]="postStatistics"
+          [translations]="postStatisticsTranslations$ | async"
+        ></app-hub-pdv-statistics>
 
-      <app-hub-post-rating
-        class="post-page__rating"
-        [post]="post"
-        [filled]="true"
-        appTypeface="paragraph"
-      ></app-hub-post-rating>
+        <app-hub-post-rating
+          class="post-page__rating"
+          [post]="post"
+          [filled]="true"
+          appTypeface="paragraph"
+        ></app-hub-post-rating>
+      </div>
+
+      <div class="post-page__sidebar-related-post__container">
+        <span
+          class="post-page__sidebar-related-post__title"
+          appTypeface="subheader"
+        >
+          {{ translate('hub.hub_post_page.post_on_theme') }}
+        </span>
+
+        <app-hub-post-card
+          class="post-page__sidebar-related-post__card"
+          *ngFor="let post of relatedPosts$ | async | slice : -1; trackBy: trackByPostId"
+          [post]="post"
+          [routerLink]="postLinkFn(post)"
+        ></app-hub-post-card>
+      </div>
     </div>
 
     <ng-container ngProjectAs="[footer]">
@@ -62,13 +80,14 @@
         {{ translate('hub.hub_post_page.interesting_posts') }}
       </span>
 
-      <app-hub-related-posts
-        class="post-page__related-posts"
-        [category]="post.category"
-        [displayCount]="4"
-        [excludeID]="post.uuid"
-        [routerLinkFn]="postLinkFn"
-      ></app-hub-related-posts>
+      <div class="post-page__related-posts">
+        <app-hub-post-card
+          class="post-page__related-post-card"
+          *ngFor="let post of relatedPosts$ | async | slice : 0 : 4; trackBy: trackByPostId"
+          [post]="post"
+          [routerLink]="postLinkFn(post)"
+        ></app-hub-post-card>
+      </div>
     </ng-container>
   </app-hub-post-layout>
 </ng-container>
