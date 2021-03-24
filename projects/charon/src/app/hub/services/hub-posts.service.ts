@@ -10,20 +10,19 @@ import {
   tap,
 } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
-import { LikeWeight, Post, PublicProfile } from 'decentr-js';
+import { LikeWeight } from 'decentr-js';
 
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { NotificationService } from '@shared/services/notification';
-import { createSharedOneValueObservable } from '@shared/utils/observable';
-import { TranslatedError } from '@core/notifications';
-import { PostsListItem, PostsService, SpinnerService, UserService } from '@core/services';
+import { PostsListItem, PostsService, SpinnerService } from '@core/services';
+import { HubLikesService, LikeMap } from './hub-likes.service';
 
 export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
+  protected readonly likesService: HubLikesService;
   protected readonly notificationService: NotificationService;
   protected readonly postsService: PostsService;
   protected readonly spinnerService: SpinnerService;
   protected readonly translocoService: TranslocoService;
-  protected readonly userService: UserService;
 
   protected loadingMoreCount: number = 4;
   protected loadingInitialCount: number = 4;
@@ -36,18 +35,14 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
   private readonly dispose$: Subject<void> = new Subject();
   private readonly stopLoading$: Subject<void> = new Subject<void>();
 
-  private readonly profileMap: Map<T['owner'], Observable<PublicProfile>> = new Map();
-
-  private static deleteNotifier$: Subject<Post['uuid']> = new Subject();
-  private static reloadNotifier$: Subject<void> = new Subject();
-  private static postUpdateNotifier$: Subject<Partial<PostsListItem> & Pick<PostsListItem, 'uuid'>> = new Subject();
+  private static deleteNotifier$: Subject<PostsListItem['uuid']> = new Subject();
 
   protected constructor(injector: Injector) {
+    this.likesService = injector.get(HubLikesService);
     this.notificationService = injector.get(NotificationService);
     this.postsService = injector.get(PostsService);
     this.spinnerService = injector.get(SpinnerService);
     this.translocoService = injector.get(TranslocoService);
-    this.userService = injector.get(UserService);
 
     this.loadMore.pipe(
       tap(() => this.isLoading.next(true)),
@@ -57,15 +52,10 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
         takeUntil(this.stopLoading$),
         finalize(() => this.isLoading.next(false)),
       )),
+      map((posts) => this.patchPostsWithLikeMap(posts, this.likesService.likeMap$.value)),
       takeUntil(this.dispose$),
     ).subscribe((posts) => {
       this.pushPosts(posts);
-    });
-
-    HubPostsService.reloadNotifier$.pipe(
-      takeUntil(this.dispose$),
-    ).subscribe(() => {
-      this.reload();
     });
 
     HubPostsService.deleteNotifier$.pipe(
@@ -74,10 +64,10 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
       this.replacePost(postId, () => undefined);
     });
 
-    HubPostsService.postUpdateNotifier$.pipe(
+    this.likesService.likeMap$.pipe(
       takeUntil(this.dispose$),
-    ).subscribe((update) => {
-      this.replacePost(update.uuid, (post) => ({ ...post, ...update }));
+    ).subscribe((likeMap) => {
+      this.posts.next(this.patchPostsWithLikeMap(this.posts.value, likeMap));
     });
   }
 
@@ -121,7 +111,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
     }).pipe(
       tap(() => {
         this.notificationService.success(this.translocoService.translate('hub.notifications.delete.success'));
-        HubPostsService.reloadNotifier$.next();
+        HubPostsService.deleteNotifier$.next(post.uuid);
       }),
       catchError((error) => {
         this.notificationService.error(error);
@@ -134,25 +124,6 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
 
   public getPost(postId: T['uuid']): T {
     return this.posts.value.find((post) => post.uuid === postId);
-  }
-
-  public likePost(postId: T['uuid'], likeWeight: LikeWeight): Observable<void> {
-    const post = this.getPost(postId);
-
-    const update: Partial<Pick<T, 'likeWeight' | 'likesCount' | 'dislikesCount'>> = {
-      ...HubPostsService.getPostUpdateAfterLike(post, likeWeight),
-      likeWeight,
-    };
-
-    this.updatePost(postId, update as T);
-
-    return this.postsService.likePost(post, likeWeight).pipe(
-      catchError((error) => {
-        this.notificationService.error(error);
-
-        return this.updatePostLive(postId);
-      }),
-    );
   }
 
   public reload(): void {
@@ -171,42 +142,12 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
     this.dispose$.complete();
   }
 
-  public getPublicProfile(walletAddress: T['owner']): Observable<PublicProfile> {
-    if (!this.profileMap.has(walletAddress)) {
-      this.profileMap.set(
-        walletAddress,
-        createSharedOneValueObservable(this.userService.getPublicProfile(walletAddress)),
-      );
-    }
-
-    return this.profileMap.get(walletAddress);
-  }
-
   public trackByPostId: TrackByFunction<T> = ({}, { uuid }) => uuid;
 
   protected abstract loadPosts(fromPost: T | undefined, count: number): Observable<T[]>;
 
   private getLastPost(): T | undefined {
     return this.posts.value[this.posts.value.length - 1];
-  }
-
-  private updatePostLive(postId: T['uuid']): Observable<void> {
-    const oldPost = this.getPost(postId);
-
-    return this.postsService.getPost(oldPost).pipe(
-      map((post) => {
-        if (!+post.createdAt) {
-            this.notificationService.error(
-              new TranslatedError(this.translocoService.translate('hub.notifications.not_exists')),
-            );
-
-            HubPostsService.deleteNotifier$.next(postId);
-            return undefined;
-        }
-
-        this.updatePost(postId, post as T);
-      }),
-    );
   }
 
   private pushPosts(posts: T[]): void {
@@ -234,11 +175,20 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
     ]);
   }
 
-  public updatePost(
-    postId: T['uuid'],
-    update: Partial<Omit<T, 'uuid'>>,
-  ): void {
-    HubPostsService.postUpdateNotifier$.next({ uuid: postId, ...update });
+  private patchPostsWithLikeMap(posts: T[], likeMap: LikeMap): T[] {
+    return posts.map((post) => {
+      if (!likeMap.has(post.uuid)) {
+        return post;
+      }
+
+      const likeWeight = likeMap.get(post.uuid);
+      const postLikePatch = HubPostsService.getPostUpdateAfterLike(post, likeWeight);
+      return {
+        ...post,
+        likeWeight,
+        ...postLikePatch,
+      };
+    });
   }
 
   public static getPostUpdateAfterLike<T extends PostsListItem>(

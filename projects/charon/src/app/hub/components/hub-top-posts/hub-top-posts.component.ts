@@ -3,9 +3,9 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Post, PostCategory } from 'decentr-js';
 
+import { PostsListItem } from '@core/services';
 import { HubPostsService } from '../../services';
 import { HubTopPostsService } from './hub-top-posts.service';
-import { PostWithLike } from '../../models/post';
 import { HubRoute } from '../../hub-route';
 
 @UntilDestroy()
@@ -32,7 +32,7 @@ export class HubTopPostsComponent implements OnInit {
   public hubRoute: typeof HubRoute = HubRoute;
 
   public isLoading$: Observable<boolean>;
-  public posts$: Observable<PostWithLike[]>;
+  public posts$: Observable<PostsListItem[]>;
   public canLoadMore$: Observable<boolean>;
 
   public category$: ReplaySubject<PostCategory> = new ReplaySubject(1);
