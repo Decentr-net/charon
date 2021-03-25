@@ -21,6 +21,7 @@ $hub-pdv-statistic--background-color: linear-gradient(0deg, $color-pink 0%, $col
   display: flex;
   flex-direction: column;
   font-size: 13px;
+  line-height: normal;
   min-width: max-content;
   padding: $grid-step / 2;
 
