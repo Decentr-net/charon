@@ -3,6 +3,8 @@ import { map, mergeMap } from 'rxjs/operators';
 import { ConfigService } from '../../configuration';
 import { Observable } from 'rxjs';
 
+import { AdvDdvStatistics } from '../pdv.definitions';
+
 export class PDVApiService {
   constructor(
     private configService: ConfigService,
@@ -15,6 +17,13 @@ export class PDVApiService {
         mergeMap((decentr) => decentr.pdv.sendPDV(cerberusUrl, pdv, wallet)),
       )),
     ).toPromise().then(() => void 0);
+  }
+
+  public getAdvDdvStats(): Observable<AdvDdvStatistics> {
+    return this.configService.getTheseusUrl().pipe(
+      mergeMap((theseusUrl) => fetch(`${theseusUrl}/v1/profiles/stats`)),
+      mergeMap((response) => response.json()),
+    );
   }
 
   public getBalance(api: string, walletAddress: Wallet['address']): Promise<number> {

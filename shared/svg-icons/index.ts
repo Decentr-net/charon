@@ -30,6 +30,7 @@ export * from './svg/svg-logo-icon-pink.icon';
 export * from './svg/svg-logo-icon.icon';
 export * from './svg/svg-logo-pink.icon';
 export * from './svg/svg-logo.icon';
+export * from './svg/svg-path.icon';
 export * from './svg/svg-pdv-rate-icon.icon';
 export * from './svg/svg-plus.icon';
 export * from './svg/svg-publish.icon';

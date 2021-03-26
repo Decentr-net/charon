@@ -27,6 +27,7 @@ export type SvgIconName =
   | 'logo-icon'
   | 'logo-pink'
   | 'logo'
+  | 'path'
   | 'pdv-rate-icon'
   | 'plus'
   | 'publish'

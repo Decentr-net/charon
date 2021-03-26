@@ -1,0 +1,27 @@
+<app-hub-statistics-card
+  class="hub-adv-statistics__card"
+  *transloco="let translate; read: 'hub.hub_adv_statistics'"
+>
+  <ng-container ngProjectAs="title">
+    {{ translate('adv') }}
+  </ng-container>
+
+  <ng-container ngProjectAs="subtitle">
+    {{ translate('average_data_value') }}
+  </ng-container>
+
+  <ng-container *ngIf="statistics" ngProjectAs="rate">
+    {{ statistics.adv | number : '1.6' }}
+  </ng-container>
+
+  <ng-container *ngIf="!statistics">
+    <div class="hub-adv-statistics__loader-container">
+      <app-spinner></app-spinner>
+    </div>
+  </ng-container>
+
+  <svg-icon
+    class="hub-adv-statistics__background-icon"
+    key="path"
+  ></svg-icon>
+</app-hub-statistics-card>
