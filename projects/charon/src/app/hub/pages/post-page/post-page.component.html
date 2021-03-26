@@ -44,6 +44,7 @@
       <app-hub-pdv-statistics
         class="post-page__pdv-statistics"
         *ngIf="postStatistics$ | async as postStatistics"
+        [hideNoDataLabels]="true"
         [statistics]="postStatistics"
         [translations]="postStatisticsTranslations$ | async"
       ></app-hub-pdv-statistics>

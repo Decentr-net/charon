@@ -11,6 +11,7 @@
 
 .hub-statistics-card__float-container {
   left: $grid-step * 2;
+  pointer-events: none;
   position: absolute;
   top: $grid-step * 2;
   z-index: 1;
@@ -28,6 +29,7 @@
   display: inline-flex;
   font-weight: 700;
   margin-top: $grid-step * 1.5;
+  pointer-events: all;
 }
 
 .hub-statistics-card__changed {
