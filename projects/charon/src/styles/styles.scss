@@ -152,6 +152,10 @@ body {
 mat-form-field {
   &.input-control {
     width: 350px;
+
+    textarea {
+      box-sizing: content-box;
+    }
   }
 
   @media (max-width: 991px) {

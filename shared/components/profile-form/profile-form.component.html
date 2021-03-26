@@ -79,11 +79,12 @@
         class="input-control"
         appearance="outline"
       >
-        <input
+        <textarea
           matInput
+          cdkTextareaAutosize
           [formControlName]="controlName.Bio"
           trim="blur"
-        >
+        ></textarea>
 
         <mat-error>
           <app-form-error [controlName]="controlName.Bio"></app-form-error>
