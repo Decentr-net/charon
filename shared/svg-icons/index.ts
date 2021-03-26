@@ -25,6 +25,7 @@ export * from './svg/svg-information.icon';
 export * from './svg/svg-like.icon';
 export * from './svg/svg-lock-account.icon';
 export * from './svg/svg-lock.icon';
+export * from './svg/svg-logo-icon-green.icon';
 export * from './svg/svg-logo-icon-orange.icon';
 export * from './svg/svg-logo-icon-pink.icon';
 export * from './svg/svg-logo-icon.icon';

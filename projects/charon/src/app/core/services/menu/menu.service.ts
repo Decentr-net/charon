@@ -17,6 +17,7 @@ import {
   svgImportAccount,
   svgInformation,
   svgLockAccount,
+  svgLogoIconGreen,
   svgLogoIconOrange,
   svgLogoIconPink
 } from '@shared/svg-icons';
@@ -30,6 +31,7 @@ import { isOpenedInTab } from '../../browser';
 import { PDVService } from '../pdv';
 
 const DECENTR_SITE_URL = 'https://decentr.net/';
+const DECENTR_EXPLORER_SITE_URL = 'https://explorer.decentr.net';
 
 @Injectable()
 export class MenuService extends MenuBaseService {
@@ -49,6 +51,7 @@ export class MenuService extends MenuBaseService {
       svgImportAccount,
       svgInformation,
       svgLockAccount,
+      svgLogoIconGreen,
       svgLogoIconOrange,
       svgLogoIconPink,
     ]);
@@ -99,6 +102,12 @@ export class MenuService extends MenuBaseService {
               description: itemsTranslationsObject['decentr_portal']['description'],
               iconKey: svgLogoIconOrange.name,
               title: itemsTranslationsObject['decentr_portal']['title'],
+            },
+            {
+              action: () => window.open(DECENTR_EXPLORER_SITE_URL, '_blank'),
+              description: itemsTranslationsObject['decentr_explorer']['description'],
+              iconKey: svgLogoIconGreen.name,
+              title: itemsTranslationsObject['decentr_explorer']['title'],
             },
           ],
           [
