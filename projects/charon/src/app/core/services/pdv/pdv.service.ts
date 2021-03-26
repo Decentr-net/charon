@@ -6,6 +6,7 @@ import { PDVDetails, PDVListItem, PDVListPaginationOptions, Wallet } from 'decen
 
 import { Environment } from '@environments/environment.definitions';
 import {
+  AdvDdvStatistics,
   BalanceValueDynamic,
   PDVService as NativePDVService,
   PDVStatChartPoint,
@@ -42,6 +43,10 @@ export class PDVService {
       this.wallet = wallet;
       this.networkApi = networkApi;
     });
+  }
+
+  public getAdvDdvStats(): Observable<AdvDdvStatistics> {
+    return this.nativePdvService.getAdvDdvStats();
   }
 
   public getBalance(): Observable<string> {

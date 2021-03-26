@@ -17,3 +17,10 @@ $hub-ddv-statistic--background-color: linear-gradient(0deg, $color-yellow 0%, $c
   height: 100%;
   justify-content: center;
 }
+
+.hub-ddv-statistics__background-icon {
+  position: absolute;
+  display: inline-flex;
+  height: 100%;
+  width: 100%;
+}

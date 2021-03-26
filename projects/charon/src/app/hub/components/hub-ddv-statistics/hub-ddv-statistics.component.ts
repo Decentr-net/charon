@@ -1,4 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
+
+import { AdvDdvStatistics } from '@shared/services/pdv';
+import { svgPath } from '@shared/svg-icons';
 
 @Component({
   selector: 'app-hub-ddv-statistics',
@@ -7,5 +11,13 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubDdvStatisticsComponent {
-  @Input() public statistics: number = 450322.294;
+  @Input() public statistics: AdvDdvStatistics;
+
+  constructor(
+    svgIconRegistry: SvgIconRegistry,
+  ) {
+    svgIconRegistry.register([
+      svgPath,
+    ]);
+  }
 }

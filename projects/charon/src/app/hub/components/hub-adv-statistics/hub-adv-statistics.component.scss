@@ -17,3 +17,10 @@ $hub-adv-statistic--background-color: linear-gradient(0deg, $color-mint 0%, $col
   height: 100%;
   justify-content: center;
 }
+
+.hub-adv-statistics__background-icon {
+  position: absolute;
+  display: inline-flex;
+  height: 100%;
+  width: 100%;
+}

@@ -6,17 +6,22 @@
     {{ translate('ddv') }}
   </ng-container>
 
-  <ng-container *ngIf="statistics" ngProjectAs="subtitle">
+  <ng-container ngProjectAs="subtitle">
     {{ translate('digital_data_value') }}
   </ng-container>
 
   <ng-container *ngIf="statistics" ngProjectAs="rate">
-    {{ statistics | number : '1.4' }}
+    {{ statistics.ddv | number : '1.3' }}
   </ng-container>
 
-  <ng-template #loader>
+  <ng-container *ngIf="!statistics">
     <div class="hub-ddv-statistics__loader-container">
       <app-spinner></app-spinner>
     </div>
-  </ng-template>
+  </ng-container>
+
+  <svg-icon
+    class="hub-ddv-statistics__background-icon"
+    key="path"
+  ></svg-icon>
 </app-hub-statistics-card>

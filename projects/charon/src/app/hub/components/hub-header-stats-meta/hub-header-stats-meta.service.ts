@@ -5,7 +5,7 @@ import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 
 import { AuthService } from '@core/auth/services';
-import { BalanceValueDynamic } from '@shared/services/pdv';
+import { AdvDdvStatistics, BalanceValueDynamic } from '@shared/services/pdv';
 import { coerceTimestamp } from '@shared/utils/date';
 import { CoinRateFor24Hours, CurrencyService } from '@shared/services/currency';
 import { HubCurrencyStatistics } from '../hub-currency-statistics';
@@ -26,6 +26,10 @@ export class HubHeaderStatsMetaService {
     private pdvService: PDVService,
     private userService: UserService,
   ) {
+  }
+
+  public getAdvDdvStats(): Observable<AdvDdvStatistics> {
+    return this.pdvService.getAdvDdvStats();
   }
 
   public getBalance(): Observable<BalanceValueDynamic> {

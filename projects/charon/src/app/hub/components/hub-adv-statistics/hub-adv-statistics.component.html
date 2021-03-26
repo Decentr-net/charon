@@ -6,17 +6,22 @@
     {{ translate('adv') }}
   </ng-container>
 
-  <ng-container *ngIf="statistics" ngProjectAs="subtitle">
+  <ng-container ngProjectAs="subtitle">
     {{ translate('average_data_value') }}
   </ng-container>
 
   <ng-container *ngIf="statistics" ngProjectAs="rate">
-    {{ statistics | number : '1.4' }}
+    {{ statistics.adv | number : '1.6' }}
   </ng-container>
 
-  <ng-template #loader>
-    <div class="hub-ddv-statistics__loader-container">
+  <ng-container *ngIf="!statistics">
+    <div class="hub-adv-statistics__loader-container">
       <app-spinner></app-spinner>
     </div>
-  </ng-template>
+  </ng-container>
+
+  <svg-icon
+    class="hub-adv-statistics__background-icon"
+    key="path"
+  ></svg-icon>
 </app-hub-statistics-card>

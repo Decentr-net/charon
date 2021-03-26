@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+
+import { AdvDdvStatistics } from '@shared/services/pdv';
 
 @Component({
   selector: 'app-hub-additional-statistics',
@@ -7,4 +9,5 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubAdditionalStatisticsComponent {
+  @Input() public advDdvStatistics: AdvDdvStatistics;
 }
