@@ -7,10 +7,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubAdditionalStatisticsComponent {
-  public additionalStatistics: string[] = [
-    'My PDV',
-    'ADV',
-    'DDV',
-    'DEC',
-  ];
 }

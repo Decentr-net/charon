@@ -1,0 +1,22 @@
+<app-hub-statistics-card
+  class="hub-ddv-statistics__card"
+  *transloco="let translate; read: 'hub.hub_ddv_statistics'"
+>
+  <ng-container ngProjectAs="title">
+    {{ translate('ddv') }}
+  </ng-container>
+
+  <ng-container *ngIf="statistics" ngProjectAs="subtitle">
+    {{ translate('digital_data_value') }}
+  </ng-container>
+
+  <ng-container *ngIf="statistics" ngProjectAs="rate">
+    {{ statistics | number : '1.4' }}
+  </ng-container>
+
+  <ng-template #loader>
+    <div class="hub-ddv-statistics__loader-container">
+      <app-spinner></app-spinner>
+    </div>
+  </ng-template>
+</app-hub-statistics-card>

@@ -3,8 +3,9 @@
     "no_posts": "There is no activity last 24 hours",
     "top_posts": "Top posts"
   },
-  "hub_additional_statistics": {
-    "more_stats_coming_soon": "More stats coming soon!"
+  "hub_adv_statistics": {
+    "adv": "ADV",
+    "average_data_value": "Average Data Value"
   },
   "hub_category_select": {
     "placeholder": "Choose post topic"
@@ -20,6 +21,10 @@
   },
   "hub_dashboard": {
     "your_dashboard": "Your dashboard"
+  },
+  "hub_ddv_statistics": {
+    "ddv": "DDV",
+    "digital_data_value": "Digital Data Value"
   },
   "hub_header_stats_meta": {
     "dec": "DEC",
