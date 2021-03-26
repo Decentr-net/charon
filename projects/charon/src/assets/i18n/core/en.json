@@ -27,6 +27,10 @@
         "description": "Your personal dashboard with detailed assets & activity info",
         "title": "dPortal"
       },
+      "decentr_explorer": {
+        "description": "Decentr blockchain explorer",
+        "title": "dExplorer"
+      },
       "import_account": "Import account",
       "info_and_help": "Info & Help",
       "lock": "Lock account"

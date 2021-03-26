@@ -22,6 +22,7 @@ export type SvgIconName =
   | 'like'
   | 'lock-account'
   | 'lock'
+  | 'logo-icon-green'
   | 'logo-icon-orange'
   | 'logo-icon-pink'
   | 'logo-icon'
