@@ -16,7 +16,8 @@ import {
   svgDecentrHub,
   svgImportAccount,
   svgInformation,
-  svgLockAccount, svgLogoIconGreen,
+  svgLockAccount,
+  svgLogoIconGreen,
   svgLogoIconOrange,
   svgLogoIconPink
 } from '@shared/svg-icons';
@@ -30,7 +31,7 @@ import { isOpenedInTab } from '../../browser';
 import { PDVService } from '../pdv';
 
 const DECENTR_SITE_URL = 'https://decentr.net/';
-const DECENTR_EXPLORER_SITE_URL = 'https://explorer.decentr.net'
+const DECENTR_EXPLORER_SITE_URL = 'https://explorer.decentr.net';
 
 @Injectable()
 export class MenuService extends MenuBaseService {
