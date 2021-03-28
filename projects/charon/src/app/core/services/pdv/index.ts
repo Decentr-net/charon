@@ -1,1 +1,0 @@
-export * from './pdv.service';

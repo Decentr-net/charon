@@ -9,6 +9,7 @@ import { MicroValuePipe } from './micro-value.pipe';
   ],
   providers: [
     DecimalPipe,
+    MicroValuePipe,
   ],
   exports: [
     MicroValuePipe,

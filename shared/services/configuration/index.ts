@@ -1,2 +1,3 @@
 export * from './config.service';
-export { Config } from './config-api.service';
+export * from './config.definitions';
+export * from './configuration.module';

@@ -21,6 +21,7 @@ import {
   svgLogoIconOrange,
   svgLogoIconPink
 } from '@shared/svg-icons';
+import { PDVService } from '@shared/services/pdv';
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../../hub';
 import { UserRoute } from '../../../user';
@@ -28,7 +29,6 @@ import { LockService } from '../../lock';
 import { NavigationService } from '../../navigation';
 import { AuthService } from '../../auth';
 import { isOpenedInTab } from '../../browser';
-import { PDVService } from '../pdv';
 
 const DECENTR_SITE_URL = 'https://decentr.net/';
 const DECENTR_EXPLORER_SITE_URL = 'https://explorer.decentr.net';
@@ -124,7 +124,7 @@ export class MenuService extends MenuBaseService {
   public getUserItem(): Observable<MenuUserItem> {
     return combineLatest([
       this.authService.getActiveUser(),
-      this.pdvService.getBalance(),
+      this.pdvService.getBalanceLive(),
     ]).pipe(
       map(([user, pdvValue]) => ({
         pdvValue,

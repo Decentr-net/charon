@@ -3,8 +3,9 @@ import { filter, map, pluck, take } from 'rxjs/operators';
 import { Observable, ReplaySubject } from 'rxjs';
 import { PDVDataType } from 'decentr-js';
 
-import { Config, ConfigApiService } from './config-api.service';
 import { Environment } from '../../../environments/environment.definitions';
+import { ConfigApiService } from './config-api.service';
+import { Config } from './config.definitions';
 
 @Injectable()
 export class ConfigService {

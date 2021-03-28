@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, pluck, startWith, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { pluck} from 'rxjs/operators';
 
 import { AuthBrowserStorageService, User } from '@shared/services/auth';
 import { CoinRateFor24Hours, CurrencyService } from '@shared/services/currency';
 import { LockBrowserStorageService } from '@shared/services/lock';
-import { Network, NetworkBrowserStorageService } from '@shared/services/network-storage';
-import { BalanceValueDynamic, PDVService, PDVUpdateNotifier } from '@shared/services/pdv';
-import { whileDocumentVisible } from '@shared/utils/document';
+import { BalanceValueDynamic, PDVService } from '@shared/services/pdv';
 
 @Injectable()
 export class AppService {
@@ -15,7 +13,6 @@ export class AppService {
     private authStorageService: AuthBrowserStorageService,
     private currencyService: CurrencyService,
     private lockBrowserStorageService: LockBrowserStorageService,
-    private networkStorageService: NetworkBrowserStorageService,
     private pdvService: PDVService,
   ) {
   }
@@ -27,18 +24,7 @@ export class AppService {
   }
 
   public getBalanceWithMargin(): Observable<BalanceValueDynamic> {
-    return whileDocumentVisible(
-      combineLatest([
-        this.getWalletAddressAndNetworkApiChanges(),
-        PDVUpdateNotifier.listen().pipe(
-          startWith(void 0),
-        ),
-      ]).pipe(
-        switchMap(([{ walletAddress, networkApi }]) => {
-          return this.pdvService.getBalanceWithMargin(networkApi, walletAddress);
-        }),
-      ),
-    );
+    return this.pdvService.getBalanceWithMarginLive();
   }
 
   public getCoinRateWithMargin(): Observable<CoinRateFor24Hours> {
@@ -47,21 +33,5 @@ export class AppService {
 
   public getLockedState(): Observable<boolean> {
     return this.lockBrowserStorageService.getLockedChanges();
-  }
-
-  private getWalletAddressAndNetworkApiChanges(): Observable<{
-    walletAddress: User['wallet']['address'];
-    networkApi: Network['api'];
-  }> {
-    return combineLatest([
-      this.authStorageService.getActiveUser().pipe(
-        pluck('wallet', 'address'),
-      ),
-      this.networkStorageService.getActiveNetwork().pipe(
-        pluck('api')
-      ),
-    ]).pipe(
-      map(([walletAddress, networkApi]) => ({ walletAddress, networkApi })),
-    );
   }
 }

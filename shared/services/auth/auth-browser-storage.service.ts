@@ -3,12 +3,14 @@ import { map, mergeMap, startWith } from 'rxjs/operators';
 
 import { BrowserLocalStorage } from '../browser-storage';
 import { User } from './user';
+import { Injectable } from '@angular/core';
 
 interface AuthBrowserStorageData<T extends User> {
   readonly activeUserId: T['id'];
   readonly users: T[];
 }
 
+@Injectable()
 export class AuthBrowserStorageService<T extends User = User> {
   private readonly browserStorage
     = BrowserLocalStorage.getInstance().useSection<AuthBrowserStorageData<T>>('auth');
