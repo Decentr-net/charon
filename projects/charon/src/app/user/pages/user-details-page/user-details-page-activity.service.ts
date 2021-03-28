@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, finalize, map, shareReplay, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { distinctUntilChanged, finalize, map, pluck, shareReplay, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PDVListPaginationOptions } from 'decentr-js';
 
@@ -24,7 +24,8 @@ export class UserDetailsPageActivityService {
     private pdvService: PDVService,
   ) {
     this.authService.getActiveUser().pipe(
-      distinctUntilChanged((prev, curr) => prev.wallet.address === curr.wallet.address),
+      pluck('wallet', 'address'),
+      distinctUntilChanged(),
       untilDestroyed(this),
     ).subscribe(() => {
       this.reload();

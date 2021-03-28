@@ -153,7 +153,6 @@ export class PDVService {
       pluck('address'),
       distinctUntilChanged(),
       switchMap((walletAddress) => this.getBalanceLive().pipe(
-        distinctUntilChanged(),
         mapTo(walletAddress),
       )),
       switchMap((walletAddress) => this.pdvApiService.getPDVStats(walletAddress)),

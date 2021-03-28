@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { defer, Observable } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 import {
   getPDVDetails,
   getPDVList,
@@ -9,8 +12,6 @@ import {
   PDVStatItem,
   Wallet,
 } from 'decentr-js';
-import { defer, Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
 
 import { ConfigService } from '../configuration';
 import { AdvDdvStatistics } from './pdv.definitions';
@@ -19,13 +20,15 @@ import { AdvDdvStatistics } from './pdv.definitions';
 export class PDVApiService {
   constructor(
     private configService: ConfigService,
+    private httpClient: HttpClient,
   ) {
   }
 
   public getAdvDdvStats(): Observable<AdvDdvStatistics> {
     return this.configService.getTheseusUrl().pipe(
-      mergeMap((theseusUrl) => fetch(`${theseusUrl}/v1/profiles/stats`)),
-      mergeMap((response) => response.json()),
+      mergeMap((theseusUrl) => {
+        return this.httpClient.get<AdvDdvStatistics>(`${theseusUrl}/v1/profiles/stats`);
+      }),
     );
   }
 
@@ -53,8 +56,9 @@ export class PDVApiService {
 
   public getPDVStats(walletAddress: Wallet['address']): Observable<PDVStatItem[]> {
     return this.configService.getTheseusUrl().pipe(
-      mergeMap((theseusUrl) => fetch(`${theseusUrl}/v1/profiles/${walletAddress}/stats`)),
-      mergeMap((response) => response.json()),
+      mergeMap((theseusUrl) => {
+        return this.httpClient.get<PDVStatItem[]>(`${theseusUrl}/v1/profiles/${walletAddress}/stats`);
+      }),
     );
   }
 }

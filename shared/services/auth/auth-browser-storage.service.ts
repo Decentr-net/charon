@@ -1,9 +1,9 @@
+import { Injectable } from '@angular/core';
 import { combineLatest, from, Observable } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 
 import { BrowserLocalStorage } from '../browser-storage';
 import { User } from './user';
-import { Injectable } from '@angular/core';
 
 interface AuthBrowserStorageData<T extends User> {
   readonly activeUserId: T['id'];
