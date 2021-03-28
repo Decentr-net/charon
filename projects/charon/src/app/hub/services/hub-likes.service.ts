@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
 import { LikeWeight } from 'decentr-js';
 
+import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { NotificationService } from '@shared/services/notification';
 import { AuthService } from '@core/auth';
 import { PostsListItem, PostsService } from '@core/services';
@@ -64,5 +65,76 @@ export class HubLikesService {
       }),
       finalize(() => HubLikesService.isLikeUpdating.next(false)),
     );
+  }
+
+  public static patchPostsWithLikeMap<T extends PostsListItem>(posts: T[], likeMap: LikeMap): T[] {
+    return posts.map((post) => {
+      if (!likeMap.has(post.uuid)) {
+        return post;
+      }
+
+      const likeWeight = likeMap.get(post.uuid);
+      const postLikePatch = HubLikesService.getPostUpdateAfterLike(post, likeWeight);
+      return {
+        ...post,
+        likeWeight,
+        ...postLikePatch,
+      };
+    });
+  }
+
+  public static getPostUpdateAfterLike<T extends PostsListItem>(
+    post: T,
+    newLikeWeight: LikeWeight,
+  ): Partial<Pick<T, 'likesCount' | 'dislikesCount' | 'pdv' | 'stats'>> {
+    switch (post.likeWeight) {
+      case LikeWeight.Up:
+        switch (newLikeWeight) {
+          case LikeWeight.Up:
+            return {};
+          case LikeWeight.Zero:
+            return {
+              likesCount: post.likesCount - 1,
+              pdv: post.pdv - 1 / MICRO_PDV_DIVISOR,
+            };
+          case LikeWeight.Down:
+            return {
+              likesCount: post.likesCount - 1,
+              dislikesCount: post.dislikesCount + 1,
+              pdv: post.pdv - 2 / MICRO_PDV_DIVISOR,
+            };
+        }
+        break;
+      case LikeWeight.Down:
+        switch (newLikeWeight) {
+          case LikeWeight.Up:
+            return {
+              likesCount: post.likesCount + 1,
+              dislikesCount: post.dislikesCount - 1,
+              pdv: post.pdv + 2 / MICRO_PDV_DIVISOR,
+            };
+          case LikeWeight.Zero:
+            return {
+              dislikesCount: post.dislikesCount - 1,
+              pdv: post.pdv + 1 / MICRO_PDV_DIVISOR,
+            };
+          case LikeWeight.Down:
+            return {};
+        }
+        break;
+      case LikeWeight.Zero:
+        switch (newLikeWeight) {
+          case LikeWeight.Up:
+            return {
+              likesCount: post.likesCount + 1,
+              pdv: post.pdv + 1 / MICRO_PDV_DIVISOR,
+            };
+          case LikeWeight.Down:
+            return {
+              dislikesCount: post.dislikesCount + 1,
+              pdv: post.pdv - 1 / MICRO_PDV_DIVISOR,
+            };
+        }
+    }
   }
 }

@@ -1,37 +1,43 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map, pluck, switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { NotificationService } from '@shared/services/notification';
 import { PostsListItem, PostsService } from '@core/services';
 import { HubPostIdRouteParam, HubPostOwnerRouteParam } from '../../hub-route';
-import { HubPostsService } from '../../services';
+import { HubLikesService, HubPostsService } from '../../services';
 
 @UntilDestroy()
 @Injectable()
 export class PostPageService {
-  private readonly post$: BehaviorSubject<PostsListItem> = new BehaviorSubject(void 0);
+  private readonly post$: Observable<PostsListItem>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private hubLikesService: HubLikesService,
     private notificationService: NotificationService,
     private postsService: PostsService,
     private hubPostsService: HubPostsService,
     private router: Router,
   ) {
-    this.activatedRoute.params.pipe(
+    this.post$ = this.activatedRoute.params.pipe(
       switchMap((params) => this.getPostChanges(
         params[HubPostOwnerRouteParam],
         params[HubPostIdRouteParam]),
       ),
-      untilDestroyed(this),
-    ).subscribe(this.post$);
+    );
   }
 
   public getPost(): Observable<PostsListItem> {
-    return this.post$;
+    return combineLatest([
+      this.post$,
+      this.hubLikesService.likeMap$,
+    ]).pipe(
+      map(([post, likeMap]) => HubLikesService.patchPostsWithLikeMap([post], likeMap)),
+      pluck(0),
+    );
   }
 
   public deletePost(post: PostsListItem): void {
