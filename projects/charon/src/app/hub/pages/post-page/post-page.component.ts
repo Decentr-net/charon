@@ -48,6 +48,8 @@ export class PostPageComponent implements OnInit {
 
   public postStatisticsTranslations$: Observable<PDVStatisticsTranslations>;
 
+  public relatedPosts$: Observable<PostsListItem[]>;
+
   public trackByPostId: TrackByFunction<PostsListItem> = ({}, { uuid }) => uuid;
 
   public postLinkFn: (post: PostsListItem) => string[] = (post) => ['../../', post.owner, post.uuid];
@@ -82,6 +84,7 @@ export class PostPageComponent implements OnInit {
     this.authorProfile$ = combineLatest([
       this.post$,
       this.post$.pipe(
+        distinctUntilChanged((prev, curr) => prev.uuid === curr.uuid),
         switchMap(() => this.followingService.getFollowees(walletAddress)),
       ),
       FollowingService.isFollowingUpdating$,
@@ -127,6 +130,8 @@ export class PostPageComponent implements OnInit {
 
     this.postStatisticsTranslations$ = this.translocoService
       .selectTranslateObject('hub_post_page.post_statistics', null, 'hub');
+
+    this.relatedPosts$ = this.postPageService.getRelatedPosts();
   }
 
   public onPostDelete(post: PostsListItem): void {

@@ -64,7 +64,11 @@
 }
 
 .post-page__sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   margin-top: -$grid-step * 21;
+  row-gap: $grid-step * 3;
 }
 
 .post-page__pdv-statistics {
@@ -76,12 +80,29 @@
   margin-top: $grid-step * 3;
 }
 
+.post-page__sidebar-related-post__container {
+  margin: auto 0;
+}
+
+.post-page__sidebar-related-post__title {
+  font-weight: 700;
+}
+
+.post-page__sidebar-related-post__card {
+  margin-top: $grid-step * 1.5;
+}
+
 .post-page__footer-title {
   font-weight: 700;
 }
 
 .post-page__related-posts {
+  column-gap: $grid-step * 3;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-top: $grid-step * 2;
+}
+
+.post-page__related-post-card {
+  cursor: pointer;
 }

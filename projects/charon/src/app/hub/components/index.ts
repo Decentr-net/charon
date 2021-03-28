@@ -26,7 +26,6 @@ import { HubPostTextEditorComponent } from './hub-post-text-editor';
 import { HubPostTimeComponent } from './hub-post-time';
 import { HubPostTitleComponent } from './hub-post-title';
 import { HubProfileCardComponent } from './hub-profile-card';
-import { HubRelatedPostsComponent } from './hub-related-posts';
 import { HubStatisticsCardComponent } from './hub-statistics-card';
 import { HubFeedNavigationComponent } from './hub-feed-navigation';
 import { HubTopPostsComponent } from './hub-top-posts';
@@ -60,7 +59,6 @@ export const HUB_COMPONENTS = [
   HubPostTimeComponent,
   HubPostTitleComponent,
   HubProfileCardComponent,
-  HubRelatedPostsComponent,
   HubStatisticsCardComponent,
   HubFeedNavigationComponent,
   HubTopPostsComponent,

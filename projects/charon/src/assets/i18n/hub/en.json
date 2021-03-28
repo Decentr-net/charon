@@ -128,6 +128,7 @@
   },
   "hub_post_page": {
     "interesting_posts": "You may be interested in",
+    "post_on_theme": "Post on the theme",
     "post_statistics": {
       "from": "from",
       "pdv": "Post PDV"
