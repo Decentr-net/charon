@@ -10,12 +10,10 @@ import {
   tap,
 } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
-import { LikeWeight } from 'decentr-js';
 
-import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { NotificationService } from '@shared/services/notification';
 import { PostsListItem, PostsService, SpinnerService } from '@core/services';
-import { HubLikesService, LikeMap } from './hub-likes.service';
+import { HubLikesService } from './hub-likes.service';
 
 export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
   protected readonly likesService: HubLikesService;
@@ -52,7 +50,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
         takeUntil(this.stopLoading$),
         finalize(() => this.isLoading.next(false)),
       )),
-      map((posts) => this.patchPostsWithLikeMap(posts, this.likesService.likeMap$.value)),
+      map((posts) => HubLikesService.patchPostsWithLikeMap(posts, this.likesService.likeMap$.value)),
       takeUntil(this.dispose$),
     ).subscribe((posts) => {
       this.pushPosts(posts);
@@ -67,7 +65,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
     this.likesService.likeMap$.pipe(
       takeUntil(this.dispose$),
     ).subscribe((likeMap) => {
-      this.posts.next(this.patchPostsWithLikeMap(this.posts.value, likeMap));
+      this.posts.next(HubLikesService.patchPostsWithLikeMap(this.posts.value, likeMap));
     });
   }
 
@@ -173,76 +171,5 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
       ...newPost ? [newPost] : [],
       ...this.posts.value.slice(postIndex + 1),
     ]);
-  }
-
-  private patchPostsWithLikeMap(posts: T[], likeMap: LikeMap): T[] {
-    return posts.map((post) => {
-      if (!likeMap.has(post.uuid)) {
-        return post;
-      }
-
-      const likeWeight = likeMap.get(post.uuid);
-      const postLikePatch = HubPostsService.getPostUpdateAfterLike(post, likeWeight);
-      return {
-        ...post,
-        likeWeight,
-        ...postLikePatch,
-      };
-    });
-  }
-
-  public static getPostUpdateAfterLike<T extends PostsListItem>(
-    post: T,
-    newLikeWeight: LikeWeight,
-  ): Partial<Pick<T, 'likesCount' | 'dislikesCount' | 'pdv' | 'stats'>> {
-    switch (post.likeWeight) {
-      case LikeWeight.Up:
-        switch (newLikeWeight) {
-          case LikeWeight.Up:
-            return {};
-          case LikeWeight.Zero:
-            return {
-              likesCount: post.likesCount - 1,
-              pdv: post.pdv - 1 / MICRO_PDV_DIVISOR,
-            };
-          case LikeWeight.Down:
-            return {
-              likesCount: post.likesCount - 1,
-              dislikesCount: post.dislikesCount + 1,
-              pdv: post.pdv - 2 / MICRO_PDV_DIVISOR,
-            };
-        }
-        break;
-      case LikeWeight.Down:
-        switch (newLikeWeight) {
-          case LikeWeight.Up:
-            return {
-              likesCount: post.likesCount + 1,
-              dislikesCount: post.dislikesCount - 1,
-              pdv: post.pdv + 2 / MICRO_PDV_DIVISOR,
-            };
-          case LikeWeight.Zero:
-            return {
-              dislikesCount: post.dislikesCount - 1,
-              pdv: post.pdv + 1 / MICRO_PDV_DIVISOR,
-            };
-          case LikeWeight.Down:
-            return {};
-        }
-        break;
-      case LikeWeight.Zero:
-        switch (newLikeWeight) {
-          case LikeWeight.Up:
-            return {
-              likesCount: post.likesCount + 1,
-              pdv: post.pdv + 1 / MICRO_PDV_DIVISOR,
-            };
-          case LikeWeight.Down:
-            return {
-              dislikesCount: post.dislikesCount + 1,
-              pdv: post.pdv - 1 / MICRO_PDV_DIVISOR,
-            };
-        }
-    }
   }
 }
