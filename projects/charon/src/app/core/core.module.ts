@@ -5,18 +5,18 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
-import { MicroValuePipe } from '@shared/pipes/micro-value';
 import { CurrencyModule } from '@shared/services/currency';
 import { MenuModule } from '@shared/components/menu';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
 import { SlotModule } from '@shared/components/slot';
 import { NotificationsModule } from '@shared/services/notification';
+import { PDVModule } from '@shared/services/pdv';
 import { ERROR_PROCESSORS, FallbackErrorProcessor } from '@core/notifications';
 import { AppRoute } from '../app-route';
 import { SignUpRoute } from '../sign-up';
 import { AuthModule, AuthService } from './auth';
 import { LockModule } from './lock';
-import { ConfigService } from '@shared/services/configuration';
+import { ConfigService, ConfigurationModule } from '@shared/services/configuration';
 import { CORE_GUARDS } from './guards';
 import { MaintenanceInterceptor } from '@core/interceptors';
 import { NavigationModule, NavigationService } from './navigation';
@@ -56,6 +56,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       uncompletedRegistrationUrl: `/${AppRoute.SignUp}/${SignUpRoute.CompleteRegistration}`,
       unconfirmedEmailUrl: `/${AppRoute.SignUp}/${SignUpRoute.EmailConfirmation}`,
     }),
+    ConfigurationModule,
     CurrencyModule.forRoot({
       api: environment.currencyApi,
     }),
@@ -74,6 +75,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       fallbackErrorProcessor: FallbackErrorProcessor,
     }),
     OverlayModule,
+    PDVModule,
     PermissionsModule.forRoot(),
     QuillRootModule,
     SlotModule.forRoot(),
@@ -86,7 +88,6 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     TranslocoRootModule,
   ],
   providers: [
-    MicroValuePipe,
     CORE_GUARDS,
     CORE_SERVICES,
     {

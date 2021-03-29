@@ -5,12 +5,12 @@ import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 
 import { AuthService } from '@core/auth/services';
-import { AdvDdvStatistics, BalanceValueDynamic } from '@shared/services/pdv';
+import { AdvDdvStatistics, BalanceValueDynamic, PDVService } from '@shared/services/pdv';
 import { coerceTimestamp } from '@shared/utils/date';
 import { CoinRateFor24Hours, CurrencyService } from '@shared/services/currency';
 import { HubCurrencyStatistics } from '../hub-currency-statistics';
 import { HubPDVStatistics } from '../hub-pdv-statistics';
-import { PDVService, UserService } from '@core/services';
+import { UserService } from '@core/services';
 
 interface CoinRateHistory {
   date: number,
@@ -33,7 +33,7 @@ export class HubHeaderStatsMetaService {
   }
 
   public getBalance(): Observable<BalanceValueDynamic> {
-    return this.pdvService.getBalanceWithMargin();
+    return this.pdvService.getBalanceWithMarginLive();
   }
 
   public getCoinRate(): Observable<CoinRateFor24Hours> {
@@ -54,8 +54,8 @@ export class HubHeaderStatsMetaService {
 
   public getPdvStatistics(): Observable<HubPDVStatistics> {
     return combineLatest([
-      this.pdvService.getBalanceWithMargin(),
-      this.pdvService.getPDVStatChartPoints(),
+      this.pdvService.getBalanceWithMarginLive(),
+      this.pdvService.getPDVStatChartPointsLive(),
       this.getUserRegisteredAt(),
     ]).pipe(
       map(([pdvWithMargin, pdvStatistic, userRegisteredAt]) => ({

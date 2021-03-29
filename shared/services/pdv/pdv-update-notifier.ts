@@ -2,6 +2,7 @@ import { Observable, Subject, Subscription, timer } from 'rxjs';
 import { debounceTime, mapTo, repeat, takeUntil } from 'rxjs/operators';
 
 import { MessageBus } from '../../message-bus';
+import { ONE_MINUTE } from '../../utils/date';
 
 const messageCode = 'CHARON_PDV_UPDATE';
 
@@ -29,7 +30,7 @@ export class PDVUpdateNotifier {
   public start(options?: { interval?: number }): void {
     this.stop();
 
-    const interval = options?.interval || 1000 * 60;
+    const interval = options?.interval || ONE_MINUTE;
 
     this.timerSubscription = timer(interval, interval)
       .pipe(

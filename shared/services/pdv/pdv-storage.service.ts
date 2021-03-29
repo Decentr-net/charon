@@ -4,6 +4,7 @@ import { PDV, Wallet } from 'decentr-js';
 
 import { uuid } from '../../utils/uuid';
 import { BrowserLocalStorage, BrowserStorage } from '../browser-storage';
+import { Injectable } from '@angular/core';
 
 export interface PDVBlock {
   id: string;
@@ -17,6 +18,7 @@ interface PDVStorageUserValue {
 
 type PDVStorageValue = Record<Wallet['address'], PDVStorageUserValue>;
 
+@Injectable()
 export class PDVStorageService {
   private readonly browserStorage
     = BrowserLocalStorage.getInstance().useSection<PDVStorageValue>('pdv');
