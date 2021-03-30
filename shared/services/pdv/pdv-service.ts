@@ -9,7 +9,7 @@ import {
   share,
   startWith,
   switchMap,
-  take,
+  take, tap,
 } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PDVDetails, PDVListItem, PDVListPaginationOptions, Wallet } from 'decentr-js';
@@ -139,7 +139,6 @@ export class PDVService {
     return combineLatest([
       this.wallet$.pipe(
         pluck('address'),
-        distinctUntilChanged(),
       ),
       this.getActiveNetworkApi(),
       PDVUpdateNotifier.listen().pipe(
@@ -155,9 +154,9 @@ export class PDVService {
   }
 
   private createPDVStatChartPointsLiveObservable(): Observable<PDVStatChartPoint[]> {
-    return this.getActiveUserWallet().pipe(
+    return this.wallet$.pipe(
+      tap(console.log),
       pluck('address'),
-      distinctUntilChanged(),
       switchMap((walletAddress) => this.getBalanceLive().pipe(
         mapTo(walletAddress),
       )),
