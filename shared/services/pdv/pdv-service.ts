@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, EMPTY, Observable } from 'rxjs';
+import { combineLatest, EMPTY, Observable, ReplaySubject } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -11,6 +11,7 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PDVDetails, PDVListItem, PDVListPaginationOptions, Wallet } from 'decentr-js';
 
 import { MicroValuePipe } from '../../pipes/micro-value';
@@ -24,10 +25,13 @@ import { PDVApiService } from './pdv-api.service';
 import { PDVStorageService } from './pdv-storage.service';
 import { PDVUpdateNotifier } from './pdv-update-notifier';
 
+@UntilDestroy()
 @Injectable()
 export class PDVService {
   public balance$: Observable<string>;
   public pdvStatsChartPoints$: Observable<PDVStatChartPoint[]>;
+
+  public wallet$: ReplaySubject<Wallet> = new ReplaySubject(1);
 
   constructor(
     private authBrowserStorageService: AuthBrowserStorageService,
@@ -37,6 +41,9 @@ export class PDVService {
     private pdvApiService: PDVApiService,
     private pdvStorageService: PDVStorageService,
   ) {
+    this.getActiveUserWallet().pipe(
+      untilDestroyed(this),
+    ).subscribe(this.wallet$);
   }
 
   public getAdvDdvStats(): Observable<AdvDdvStatistics> {
@@ -55,9 +62,8 @@ export class PDVService {
 
   public getEstimatedBalance(): Observable<string> {
     return combineLatest([
-      this.getActiveUserWallet().pipe(
+      this.wallet$.pipe(
         pluck('address'),
-        distinctUntilChanged(),
         switchMap((walletAddress) => this.pdvStorageService.getUserAccumulatedPDVChanges(walletAddress)),
         map((pDVs) => (pDVs || []).reduce((acc, pdv) => [...acc, ...pdv.data], [])),
       ),
@@ -118,8 +124,8 @@ export class PDVService {
 
   private getActiveUserWallet(): Observable<Wallet> {
     return this.authBrowserStorageService.getActiveUser().pipe(
-      distinctUntilChanged((prev, curr) => prev?.wallet?.address === curr?.wallet?.address),
       pluck('wallet'),
+      distinctUntilChanged((prev, curr) => prev?.address === curr?.address),
     );
   }
 
@@ -131,7 +137,7 @@ export class PDVService {
 
   private createBalanceLiveObservable(): Observable<string> {
     return combineLatest([
-      this.getActiveUserWallet().pipe(
+      this.wallet$.pipe(
         pluck('address'),
         distinctUntilChanged(),
       ),
