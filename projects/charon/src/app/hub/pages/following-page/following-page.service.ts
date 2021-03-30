@@ -1,10 +1,14 @@
 import { Injectable, Injector, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, partition } from 'rxjs';
+import { delay, switchMapTo } from 'rxjs/operators';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AuthService } from '@core/auth';
-import { PostsListItem } from '@core/services';
+import { FollowingService, PostsListItem } from '@core/services';
 import { HubPostsService } from '../../services';
+import { ONE_SECOND } from '../../../../../../../shared/utils/date';
 
+@UntilDestroy()
 @Injectable()
 export class FollowingPageService extends HubPostsService implements OnDestroy {
   protected loadingInitialCount: number = 20;
@@ -15,6 +19,17 @@ export class FollowingPageService extends HubPostsService implements OnDestroy {
     injector: Injector,
   ) {
     super(injector);
+
+    const [followingUpdating$, followingUpdated$] = partition(
+      FollowingService.isFollowingUpdating$,
+      (isUpdating) => isUpdating,
+    );
+
+    followingUpdating$.pipe(
+      switchMapTo(followingUpdated$),
+      delay(ONE_SECOND * 5),
+      untilDestroyed(this),
+    ).subscribe(() => this.reload());
   }
 
   public ngOnDestroy() {
