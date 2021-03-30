@@ -3,13 +3,14 @@ import { combineLatest, EMPTY, Observable, ReplaySubject } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
-  map, mapTo,
+  map,
+  mapTo,
   mergeMap,
   pluck,
   share,
   startWith,
   switchMap,
-  take, tap,
+  take,
 } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PDVDetails, PDVListItem, PDVListPaginationOptions, Wallet } from 'decentr-js';
@@ -155,7 +156,6 @@ export class PDVService {
 
   private createPDVStatChartPointsLiveObservable(): Observable<PDVStatChartPoint[]> {
     return this.wallet$.pipe(
-      tap(console.log),
       pluck('address'),
       switchMap((walletAddress) => this.getBalanceLive().pipe(
         mapTo(walletAddress),
