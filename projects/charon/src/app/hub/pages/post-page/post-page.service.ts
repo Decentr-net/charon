@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, Observable, of } from 'rxjs';
-import { map, pluck, switchMap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map, pluck, share, switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { NotificationService } from '@shared/services/notification';
@@ -22,37 +22,31 @@ export class PostPageService {
     private hubPostsService: HubPostsService,
     private router: Router,
   ) {
-    this.post$ = this.activatedRoute.params.pipe(
-      switchMap((params) => this.getPostChanges(
+    const post$ = this.activatedRoute.params.pipe(
+      switchMap((params) => this.getPostLive(
         params[HubPostOwnerRouteParam],
-        params[HubPostIdRouteParam]),
-      ),
+        params[HubPostIdRouteParam],
+      )),
     );
-  }
 
-  public getPost(): Observable<PostsListItem> {
-    return combineLatest([
-      this.post$,
+    this.post$ = combineLatest([
+      post$,
       this.hubLikesService.likeMap$,
     ]).pipe(
       map(([post, likeMap]) => HubLikesService.patchPostsWithLikeMap([post], likeMap)),
       pluck(0),
+      share(),
     );
+  }
+
+  public getPost(): Observable<PostsListItem> {
+    return this.post$;
   }
 
   public deletePost(post: PostsListItem): void {
     this.hubPostsService.deletePost(post).pipe(
       untilDestroyed(this),
     ).subscribe(() => this.router.navigate(['../../../']));
-  }
-
-  private getPostChanges(
-    owner: PostsListItem['owner'],
-    postId: PostsListItem['uuid'],
-  ): Observable<PostsListItem> {
-    return this.hubPostsService.getPostChanges(postId).pipe(
-      switchMap((post) => post ? of(post) : this.getPostLive(owner, postId)),
-    );
   }
 
   private getPostLive(owner: PostsListItem['owner'], postId: PostsListItem['uuid']): Observable<PostsListItem> {
