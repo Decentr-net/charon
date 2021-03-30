@@ -103,6 +103,8 @@ export class MenuService extends MenuBaseService {
               iconKey: svgLogoIconOrange.name,
               title: itemsTranslationsObject['decentr_portal']['title'],
             },
+          ],
+          [
             {
               action: () => window.open(DECENTR_EXPLORER_SITE_URL, '_blank'),
               description: itemsTranslationsObject['decentr_explorer']['description'],
