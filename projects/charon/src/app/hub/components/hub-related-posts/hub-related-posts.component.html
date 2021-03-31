@@ -1,6 +1,21 @@
-<app-hub-post-card
-  class="hub-related-posts__post-card"
-  *ngFor="let post of posts$ | async; trackBy: trackByPostId"
-  [post]="post"
-  [routerLink]="routerLinkFn(post)"
-></app-hub-post-card>
+<ng-container *ngIf="(posts$ | async) as posts">
+  <ng-container *ngIf="posts.length > 0; else loader">
+    <app-hub-post-card
+      class="hub-related-posts__post-card"
+      *ngFor="let post of posts; trackBy: trackByPostId"
+      [post]="post"
+      [routerLink]="routerLinkFn(post)"
+    ></app-hub-post-card>
+  </ng-container>
+</ng-container>
+
+<ng-template #loader>
+  <ngx-skeleton-loader
+    class="hub-related-posts__post-card--loading"
+    *ngFor="let item of [].constructor(postsCount)"
+    [theme]="{
+      height: '160px',
+      width: '300px'
+    }"
+  ></ngx-skeleton-loader>
+</ng-template>

@@ -41,7 +41,7 @@ export class HubRelatedPostsComponent implements OnInit {
 
   public trackByPostId: TrackByFunction<Post> = this.hubRelatedPostsService.trackByPostId;
 
-  private postsCount: number = 4;
+  public postsCount: number = 4;
 
   private excludeID$: BehaviorSubject<Post['uuid']> = new BehaviorSubject(void 0);
 
