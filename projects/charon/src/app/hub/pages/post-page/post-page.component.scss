@@ -53,8 +53,22 @@
   width: 8px;
 }
 
+.post-page__text {
+  overflow-wrap: anywhere;
+
+  ::ng-deep {
+    pre {
+      white-space: normal;
+    }
+  }
+}
+
 .post-page__sidebar {
   margin-top: -$grid-step * 21;
+}
+
+.post-page__pdv-statistics {
+  height: 160px;
 }
 
 .post-page__rating {

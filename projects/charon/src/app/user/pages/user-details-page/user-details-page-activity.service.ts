@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { finalize, map, shareReplay, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { distinctUntilChanged, finalize, map, pluck, shareReplay, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PDVListPaginationOptions } from 'decentr-js';
 
-import { coerceTimestamp } from '../../../../../../../shared/utils/date';
-import { PDVService, StateChangesService } from '../../../core/services';
+import { PDVService } from '@shared/services/pdv';
+import { coerceTimestamp } from '@shared/utils/date';
+import { AuthService } from '@core/auth';
 import { PDVActivityListItem } from '../../components';
 
 @UntilDestroy()
@@ -19,10 +20,12 @@ export class UserDetailsPageActivityService {
   private readonly stopLoading$: Subject<void> = new Subject<void>();
 
   constructor(
+    private authService: AuthService,
     private pdvService: PDVService,
-    private stateChangesService: StateChangesService
   ) {
-    this.stateChangesService.getWalletAndNetworkApiChanges().pipe(
+    this.authService.getActiveUser().pipe(
+      pluck('wallet', 'address'),
+      distinctUntilChanged(),
       untilDestroyed(this),
     ).subscribe(() => {
       this.reload();
@@ -30,12 +33,7 @@ export class UserDetailsPageActivityService {
 
     this.loadMore.pipe(
       tap(() => this.isLoading.next(true)),
-      switchMap(() => this.stateChangesService.getWalletAndNetworkApiChanges().pipe(
-        take(1),
-      )),
-      switchMap(({ networkApi, wallet }) => this.getPDVActivityList(
-        networkApi,
-        wallet.address, {
+      switchMap(() => this.getPDVActivityList({
         limit: this.loadingCount,
         from: this.getLastPDVUnixTimestamp(),
       }).pipe(
@@ -68,12 +66,8 @@ export class UserDetailsPageActivityService {
     this.loadMore.next();
   }
 
-  private getPDVActivityList(
-    networkApi: string,
-    walletAddress: string,
-    paginationOptions: PDVListPaginationOptions
-  ): Observable<PDVActivityListItem[]> {
-    return this.pdvService.getPDVList(networkApi, walletAddress, paginationOptions).pipe(
+  private getPDVActivityList(paginationOptions: PDVListPaginationOptions): Observable<PDVActivityListItem[]> {
+    return this.pdvService.getPDVList(paginationOptions).pipe(
       map((list) => list.map((item) => ({
         id: item,
         date: new Date(coerceTimestamp(item)),

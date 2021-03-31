@@ -49,6 +49,7 @@
 
 <ng-template #detailsTemplate>
   <app-hub-dashboard
+    [advDdvStatistics]="advDdvStatistics"
     [estimatedBalance]="estimatedBalance$ | async"
     [pdvStatistics]="pdvStatistics"
     [rateStatistics]="rateStatistics"

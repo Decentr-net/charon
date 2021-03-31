@@ -8,3 +8,7 @@
 .hub-related-posts__post-card {
   cursor: pointer;
 }
+
+.hub-related-posts__post-card--loading {
+  display: flex;
+}

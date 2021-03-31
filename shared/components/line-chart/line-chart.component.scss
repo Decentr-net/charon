@@ -10,8 +10,10 @@
 
 .tooltip {
   background: #FFFFFF;
+  border-radius: 4px;
   pointer-events: none;
   position: absolute;
   transform: translateY(-50%);
   visibility: hidden;
+  z-index: 1;
 }

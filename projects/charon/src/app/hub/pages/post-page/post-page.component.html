@@ -27,20 +27,32 @@
       ngProjectAs="[headerContent]"
     ></app-hub-post-delete-button>
 
-    <div [innerHTML]="post.text" ngProjectAs="[contentMainColumn]"></div>
+    <div
+      class="post-page__text"
+      [innerHTML]="post.text"
+      ngProjectAs="[contentMainColumn]"
+    ></div>
 
     <div class="post-page__sidebar" ngProjectAs="[contentSecondaryColumn]">
       <app-hub-profile-card
-        *ngIf="authorProfile$ | async as authorProfile"
+        *ngIf="authorProfile"
         [profile]="authorProfile"
         (follow)="onFollowAuthor($event, post.owner)"
+        (topUp)="onTopUpAuthor(post.owner)"
       ></app-hub-profile-card>
+
+      <app-hub-pdv-statistics
+        class="post-page__pdv-statistics"
+        *ngIf="postStatistics"
+        [hideNoDataLabels]="true"
+        [statistics]="postStatistics"
+        [translations]="postStatisticsTranslations$ | async"
+      ></app-hub-pdv-statistics>
 
       <app-hub-post-rating
         class="post-page__rating"
-        [postId]="post.uuid"
+        [post]="post"
         [filled]="true"
-        [customHubLikesService]="postPageLikeService"
         appTypeface="paragraph"
       ></app-hub-post-rating>
     </div>

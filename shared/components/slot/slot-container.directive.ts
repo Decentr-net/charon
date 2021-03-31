@@ -1,6 +1,7 @@
-import { Directive, Input, OnInit, ViewContainerRef } from '@angular/core';
+import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { SlotService } from './slot.service';
+
+import { SlotService, SlotTemplate } from './slot.service';
 
 @UntilDestroy()
 @Directive({
@@ -12,6 +13,7 @@ export class SlotContainerDirective implements OnInit {
 
   constructor(
     private slotService: SlotService,
+    private templateRef: TemplateRef<{ rootElement: HTMLElement }>,
     private viewContainerRef: ViewContainerRef,
   ) {
   }
@@ -21,13 +23,14 @@ export class SlotContainerDirective implements OnInit {
       .pipe(
         untilDestroyed(this),
       ).subscribe((template) => {
-        if (!template) {
-          this.viewContainerRef.clear();
-          return;
-        }
+        this.viewContainerRef.clear();
 
-        this.viewContainerRef.createEmbeddedView(template, { rootElement: this.rootElement })
-          .detectChanges();
+        this.renderTemplate(template || this.templateRef);
       });
+  }
+
+  private renderTemplate(template: SlotTemplate): void {
+    this.viewContainerRef.createEmbeddedView(template, { rootElement: this.rootElement })
+      .detectChanges();
   }
 }

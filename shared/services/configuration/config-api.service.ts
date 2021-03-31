@@ -1,29 +1,8 @@
 import { Injectable } from '@angular/core';
 import { defer, Observable } from 'rxjs';
-import { PDVDataType } from 'decentr-js';
 
 import { Environment } from '../../../environments/environment.definitions';
-
-export interface Config {
-  cerberus: {
-    minPDVCount: number;
-    maxPDVCount: number;
-    rewards: Record<PDVDataType, number>;
-    url: string;
-  };
-  maintenance: boolean;
-  minVersion: string;
-  network: {
-    chainId: string;
-    rest: string[];
-  };
-  theseus: {
-    url: string;
-  };
-  vulcan: {
-    url: string;
-  };
-}
+import { Config } from './config.definitions';
 
 @Injectable()
 export class ConfigApiService {

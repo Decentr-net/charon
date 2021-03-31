@@ -3,8 +3,9 @@
     "no_posts": "There is no activity last 24 hours",
     "top_posts": "Top posts"
   },
-  "hub_additional_statistics": {
-    "more_stats_coming_soon": "More stats coming soon!"
+  "hub_adv_statistics": {
+    "adv": "ADV",
+    "average_data_value": "Average Data Value"
   },
   "hub_category_select": {
     "placeholder": "Choose post topic"
@@ -21,6 +22,10 @@
   "hub_dashboard": {
     "your_dashboard": "Your dashboard"
   },
+  "hub_ddv_statistics": {
+    "ddv": "DDV",
+    "digital_data_value": "Digital Data Value"
+  },
   "hub_header_stats_meta": {
     "dec": "DEC",
     "estimated_balance": "In progress: {{estimatedBalance}} PDV",
@@ -36,6 +41,7 @@
   },
   "hub_image_uploader": {
     "errors": {
+      "incorrect_mime_type": "Uploaded file is not an image",
       "not_allowed_type": "Allowed types: .jpg, .png",
       "max_size": "The image size cannot exceed 32 megabytes"
     }
@@ -45,6 +51,11 @@
     "loading_more_posts": "Loading more posts"
   },
   "hub_post_editor": {
+    "category": {
+      "errors": {
+        "required": "Post topic is required"
+      }
+    },
     "image_uploader": {
       "empty": {
         "subtitle": "You can create a post without title image.",
@@ -80,7 +91,7 @@
     "placeholder": "Start your post with..."
   },
   "hub_pdv_statistics": {
-    "activity_from": "Activity from {{date}}",
+    "activity_from": "Activity from",
     "estimated_balance": "In progress: {{estimatedBalance}} PDV",
     "no_chart_data": "You have no PDV Rate data",
     "not_enough_chart_data": "Not enough data PDV for the chart",
@@ -103,7 +114,8 @@
   "hub_profile_card": {
     "follow": "Follow on Decentr",
     "following": "Following",
-    "posts": "Posts"
+    "posts": "Posts",
+    "topup": "Top-up author’s wallet"
   },
   "hub_feed_post": {
     "posted": "dposted"
@@ -115,7 +127,11 @@
     "label": "PDV"
   },
   "hub_post_page": {
-    "interesting_posts": "You may be interested in"
+    "interesting_posts": "You may be interested in",
+    "post_statistics": {
+      "from": "from",
+      "pdv": "Post PDV"
+    }
   },
   "hub_posts_page": {
     "top_posts": "Top posts"

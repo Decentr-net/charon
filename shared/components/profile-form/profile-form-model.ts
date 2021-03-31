@@ -61,6 +61,11 @@ export class ProfileFormModel {
       form.addControl(ProfileFormControlName.Avatar, avatarControl);
     }
 
+    const bioControl = this.createBioControl();
+    if (bioControl) {
+      form.addControl(ProfileFormControlName.Bio, bioControl);
+    }
+
     // TODO: temporary solution to disable birthday
 
     const genderControl = this.createGenderControl();
@@ -151,6 +156,15 @@ export class ProfileFormModel {
       [
       Validators.required,
     ]);
+  }
+
+  protected createBioControl(): FormControl<ProfileForm['bio']> | undefined {
+    return new FormControl(
+      null,
+      [
+        Validators.maxLength(70),
+      ],
+    );
   }
 
   protected createBirthdayControl(): FormControl<ProfileForm['birthday']> | undefined {

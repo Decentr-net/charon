@@ -12,7 +12,16 @@ import {
   MenuUserItem,
   MenuUserProfile
 } from '@shared/components/menu';
-import { svgDecentrHub, svgImportAccount, svgInformation, svgLockAccount } from '@shared/svg-icons';
+import {
+  svgDecentrHub,
+  svgImportAccount,
+  svgInformation,
+  svgLockAccount,
+  svgLogoIconGreen,
+  svgLogoIconOrange,
+  svgLogoIconPink
+} from '@shared/svg-icons';
+import { PDVService } from '@shared/services/pdv';
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../../hub';
 import { UserRoute } from '../../../user';
@@ -20,9 +29,9 @@ import { LockService } from '../../lock';
 import { NavigationService } from '../../navigation';
 import { AuthService } from '../../auth';
 import { isOpenedInTab } from '../../browser';
-import { PDVService } from '../pdv';
 
 const DECENTR_SITE_URL = 'https://decentr.net/';
+const DECENTR_EXPLORER_SITE_URL = 'https://explorer.decentr.net';
 
 @Injectable()
 export class MenuService extends MenuBaseService {
@@ -42,6 +51,9 @@ export class MenuService extends MenuBaseService {
       svgImportAccount,
       svgInformation,
       svgLockAccount,
+      svgLogoIconGreen,
+      svgLogoIconOrange,
+      svgLogoIconPink,
     ]);
   }
 
@@ -80,7 +92,7 @@ export class MenuService extends MenuBaseService {
             {
               action: () => this.router.navigate(['/', AppRoute.Hub, HubRoute.Feed]),
               description: itemsTranslationsObject['decentr_feed']['description'],
-              iconKey: svgDecentrHub.name,
+              iconKey: svgLogoIconPink.name,
               title: itemsTranslationsObject['decentr_feed']['title'],
             },
             {
@@ -88,8 +100,16 @@ export class MenuService extends MenuBaseService {
                 ? this.router.navigate(['/', AppRoute.User])
                 : this.navigationService.openInNewTab(`/${AppRoute.User}`),
               description: itemsTranslationsObject['decentr_portal']['description'],
-              iconKey: svgDecentrHub.name,
+              iconKey: svgLogoIconOrange.name,
               title: itemsTranslationsObject['decentr_portal']['title'],
+            },
+          ],
+          [
+            {
+              action: () => window.open(DECENTR_EXPLORER_SITE_URL, '_blank'),
+              description: itemsTranslationsObject['decentr_explorer']['description'],
+              iconKey: svgLogoIconGreen.name,
+              title: itemsTranslationsObject['decentr_explorer']['title'],
             },
           ],
           [
@@ -106,7 +126,7 @@ export class MenuService extends MenuBaseService {
   public getUserItem(): Observable<MenuUserItem> {
     return combineLatest([
       this.authService.getActiveUser(),
-      this.pdvService.getBalance(),
+      this.pdvService.getBalanceLive(),
     ]).pipe(
       map(([user, pdvValue]) => ({
         pdvValue,

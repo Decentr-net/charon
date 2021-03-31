@@ -1,24 +1,30 @@
 import {
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
   TrackByFunction,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, pluck, switchMap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Wallet } from 'decentr-js';
 
 import { svgArrowLeft } from '@shared/svg-icons';
+import { coerceTimestamp } from '@shared/utils/date';
+import { calculateDifferencePercentage } from '@shared/utils/number';
 import { AuthService } from '@core/auth';
 import { FollowingService, PostsListItem } from '@core/services';
 import { AppRoute } from '../../../app-route';
+import { UserRoute } from '../../../user';
+import { RECEIVER_WALLET_PARAM } from '../../../user/pages';
 import { HubRoute } from '../../hub-route';
+import { HubPDVStatistics, PDVStatisticsTranslations } from '../../components/hub-pdv-statistics';
 import { HubProfile } from '../../components/hub-profile-card';
 import { PostPageService } from './post-page.service';
-import { PostPageLikeService } from './post-page-like.service';
 
 @UntilDestroy()
 @Component({
@@ -28,7 +34,6 @@ import { PostPageLikeService } from './post-page-like.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     PostPageService,
-    PostPageLikeService,
   ],
 })
 export class PostPageComponent implements OnInit {
@@ -37,7 +42,11 @@ export class PostPageComponent implements OnInit {
 
   public post$: Observable<PostsListItem>;
 
-  public authorProfile$: Observable<HubProfile>;
+  public authorProfile: HubProfile;
+
+  public postStatistics: HubPDVStatistics;
+
+  public postStatisticsTranslations$: Observable<PDVStatisticsTranslations>;
 
   public trackByPostId: TrackByFunction<PostsListItem> = ({}, { uuid }) => uuid;
 
@@ -47,10 +56,12 @@ export class PostPageComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private changeDetectorRef: ChangeDetectorRef,
     private elementRef: ElementRef<HTMLElement>,
     private followingService: FollowingService,
     private postPageService: PostPageService,
-    public postPageLikeService: PostPageLikeService,
+    private router: Router,
+    private translocoService: TranslocoService,
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register(svgArrowLeft);
@@ -69,7 +80,7 @@ export class PostPageComponent implements OnInit {
 
     const walletAddress = this.authService.getActiveUserInstant().wallet.address;
 
-    this.authorProfile$ = combineLatest([
+    combineLatest([
       this.post$,
       this.post$.pipe(
         switchMap(() => this.followingService.getFollowees(walletAddress)),
@@ -86,13 +97,45 @@ export class PostPageComponent implements OnInit {
           isFollowingUpdating,
         };
       }),
-    );
+      untilDestroyed(this),
+    ).subscribe((authorProfile) => {
+      this.authorProfile = authorProfile;
+      this.changeDetectorRef.detectChanges();
+    });
 
     this.post$.pipe(
       pluck('uuid'),
       distinctUntilChanged(),
       untilDestroyed(this),
     ).subscribe(() => this.elementRef.nativeElement.scrollTop = 0);
+
+    this.post$.pipe(
+      map((post) => {
+        const now = new Date();
+        const historyDate = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+        const historyPdvRate = (post.stats || []).find(el => new Date(el.date).valueOf() === historyDate)?.value;
+        const dayMargin = calculateDifferencePercentage(Number(post.pdv), historyPdvRate);
+
+        return {
+          pdvChangedIn24HoursPercent: dayMargin,
+          fromDate: coerceTimestamp(post.createdAt),
+          pdv: post.pdv,
+          points: (post.stats || [])
+            .map(({ date, value }) => ({
+              date: new Date(date).valueOf(),
+              value,
+            }))
+            .sort((left, right) => left.date - right.date),
+        };
+      }),
+      untilDestroyed(this),
+    ).subscribe((postStatistics) => {
+      this.postStatistics = postStatistics;
+      this.changeDetectorRef.detectChanges();
+    });
+
+    this.postStatisticsTranslations$ = this.translocoService
+      .selectTranslateObject('hub_post_page.post_statistics', null, 'hub');
   }
 
   public onPostDelete(post: PostsListItem): void {
@@ -109,5 +152,13 @@ export class PostPageComponent implements OnInit {
     func.pipe(
       untilDestroyed(this),
     ).subscribe();
+  }
+
+  public onTopUpAuthor(author: Wallet['address']): void {
+    this.router.navigate(['/', AppRoute.User, UserRoute.Transfer], {
+      queryParams: {
+        [RECEIVER_WALLET_PARAM]: author,
+      },
+    });
   }
 }

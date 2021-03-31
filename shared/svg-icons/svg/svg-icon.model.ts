@@ -22,8 +22,13 @@ export type SvgIconName =
   | 'like'
   | 'lock-account'
   | 'lock'
+  | 'logo-icon-green'
+  | 'logo-icon-orange'
+  | 'logo-icon-pink'
   | 'logo-icon'
+  | 'logo-pink'
   | 'logo'
+  | 'path'
   | 'pdv-rate-icon'
   | 'plus'
   | 'publish'
@@ -32,6 +37,7 @@ export type SvgIconName =
   | 'send-coin'
   | 'settings'
   | 'signal'
+  | 'topup'
   | 'trash';
 export interface SvgIcon {
   name: SvgIconName;

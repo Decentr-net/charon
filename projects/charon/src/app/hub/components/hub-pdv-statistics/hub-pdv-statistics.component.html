@@ -3,17 +3,24 @@
   *transloco="let translate; read: 'hub.hub_pdv_statistics'"
 >
   <ng-container ngProjectAs="title">
-    {{ translate('my_pdv') }}
+    {{ translations?.pdv || translate('my_pdv') }}
   </ng-container>
 
   <ng-container *ngIf="statistics" ngProjectAs="subtitle">
-    {{ translate('activity_from', { date: statistics.fromDate | date }) }}
+    {{ translations?.from || translate('activity_from') }} {{ statistics.fromDate | date }}
   </ng-container>
 
   <ng-container *ngIf="statistics" ngProjectAs="rate">
-    <div [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance })">
-      {{ statistics.pdv | pdvValue }}
+    <div
+      *ngIf="estimatedBalance; else pdvValue"
+      [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance })"
+    >
+      <ng-template [ngTemplateOutlet]="pdvValue"></ng-template>
     </div>
+
+    <ng-template #pdvValue>
+      {{ statistics.pdv | pdvValue }}
+    </ng-template>
   </ng-container>
 
   <ng-container *ngIf="statistics" ngProjectAs="changed">
@@ -55,7 +62,7 @@
     </app-line-chart>
 
     <ng-template #noData>
-      <div class="hub-pdv-statistics__no-data" appTypeface="caption">
+      <div *ngIf="!hideNoDataLabels" class="hub-pdv-statistics__no-data" appTypeface="caption">
         <ng-container *ngIf="statistics.points.length === 1">{{ translate('not_enough_chart_data') }}</ng-container>
         <ng-container *ngIf="statistics.points.length < 1">{{ translate('no_chart_data') }}</ng-container>
       </div>

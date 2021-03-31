@@ -9,6 +9,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { QuillModule } from 'ngx-quill';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
 import { HUB_COMPONENTS } from './components';
@@ -66,6 +67,7 @@ import { NavigationModule } from '@core/navigation';
     MenuModule,
     MouseWheelHorizontalScrollModule,
     NavigationModule,
+    NgxSkeletonLoaderModule,
     NgxTrimDirectiveModule,
     OverlayModule,
     PdvValueModule,

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
+import { AdvDdvStatistics } from '@shared/services/pdv';
 import { HubCurrencyStatistics } from '../hub-currency-statistics';
 import { HubPDVStatistics } from '../hub-pdv-statistics';
 
@@ -10,6 +11,7 @@ import { HubPDVStatistics } from '../hub-pdv-statistics';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubDashboardComponent {
+  @Input() public advDdvStatistics: AdvDdvStatistics;
   @Input() public estimatedBalance: string;
   @Input() public pdvStatistics: HubPDVStatistics;
   @Input() public rateStatistics: HubCurrencyStatistics;

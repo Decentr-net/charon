@@ -10,6 +10,13 @@
   {{ profile.firstName }} {{ profile.lastName }}
 </span>
 
+<span
+  class="hub-profile-card__bio"
+  appTypeface="caption"
+>
+  {{ profile.bio }}
+</span>
+
 <ng-container *transloco="let translate; read: 'hub.hub_profile_card'">
   <span
     class="hub-profile-card__posts-count"
@@ -30,6 +37,18 @@
 
       <span class="hub-profile-card__button-label">
         {{ translate(profile.isFollowing ? 'following' : 'follow') }}
+      </span>
+    </button>
+
+    <button
+      class="hub-profile-card__button"
+      appTypeface="caption"
+      (click)="onTopUp()"
+    >
+      <svg-icon class="hub-profile-card__button-icon" key="topup"></svg-icon>
+
+      <span class="hub-profile-card__button-label">
+        {{ translate('topup') }}
       </span>
     </button>
   </ng-template>

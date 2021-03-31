@@ -3,8 +3,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Post, PostCategory } from 'decentr-js';
 
+import { PostsListItem } from '@core/services';
 import { HubPostsService } from '../../services';
-import { PostWithLike } from '../../models/post';
 import { HubRelatedPostsService } from './hub-related-posts.service';
 
 @Component({
@@ -37,11 +37,11 @@ export class HubRelatedPostsComponent implements OnInit {
   @Input() public routerLinkFn: (post: Post) => string[] = () => ['./'];
 
   public isLoading$: Observable<boolean>;
-  public posts$: Observable<PostWithLike[]>;
+  public posts$: Observable<PostsListItem[]>;
 
   public trackByPostId: TrackByFunction<Post> = this.hubRelatedPostsService.trackByPostId;
 
-  private postsCount: number = 4;
+  public postsCount: number = 4;
 
   private excludeID$: BehaviorSubject<Post['uuid']> = new BehaviorSubject(void 0);
 

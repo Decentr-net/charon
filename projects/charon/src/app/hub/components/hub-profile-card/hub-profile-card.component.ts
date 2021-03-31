@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { PublicProfile } from 'decentr-js';
 
-import { svgFollow } from '@shared/svg-icons';
+import { svgFollow, svgTopup } from '@shared/svg-icons';
 
-export interface HubProfile extends Pick<PublicProfile, 'avatar' | 'firstName' | 'lastName'> {
+export interface HubProfile extends PublicProfile {
   isFollowing: boolean;
   isFollowingUpdating: boolean;
   isUserProfile: boolean;
@@ -22,11 +22,12 @@ export class HubProfileCardComponent {
 
   @Output() public readonly follow: EventEmitter<boolean> = new EventEmitter();
 
-  @Output() public readonly topup: EventEmitter<void> = new EventEmitter();
+  @Output() public readonly topUp: EventEmitter<void> = new EventEmitter();
 
   constructor(svgIconRegistry: SvgIconRegistry) {
     svgIconRegistry.register([
       svgFollow,
+      svgTopup,
     ]);
   }
 
@@ -36,5 +37,9 @@ export class HubProfileCardComponent {
     }
 
     this.follow.emit(!this.profile.isFollowing);
+  }
+
+  public onTopUp(): void {
+    this.topUp.emit();
   }
 }

@@ -8,9 +8,9 @@ import { MessageBus } from '@shared/message-bus';
 import { ChartPoint } from '@shared/components/line-chart';
 import { CurrencyService } from '@shared/services/currency';
 import { NotificationService } from '@shared/services/notification';
-import { BalanceValueDynamic } from '@shared/services/pdv';
+import { BalanceValueDynamic, PDVService } from '@shared/services/pdv';
 import { MessageCode } from '@scripts/messages';
-import { BankService, MediaService, PDVService, SpinnerService } from '@core/services';
+import { BankService, MediaService, SpinnerService } from '@core/services';
 import { PDVActivityListItem, PdvDetailsDialogComponent, PDVDetailsDialogData } from '../../components';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { finalize, startWith, switchMap } from 'rxjs/operators';
@@ -40,7 +40,7 @@ export class UserDetailsPageService {
   }
 
   public getBalanceWithMargin(): Observable<BalanceValueDynamic> {
-    return this.pdvService.getBalanceWithMargin();
+    return this.pdvService.getBalanceWithMarginLive();
   }
 
   public getCoinRate(): Observable<number> {
@@ -56,7 +56,7 @@ export class UserDetailsPageService {
   }
 
   public getPDVChartPoints(): Observable<ChartPoint[]> {
-    return this.pdvService.getPDVStatChartPoints();
+    return this.pdvService.getPDVStatChartPointsLive();
   }
 
   public openPDVDetails(pdvItem: PDVActivityListItem): void {

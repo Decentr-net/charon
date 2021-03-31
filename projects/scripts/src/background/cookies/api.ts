@@ -1,17 +1,18 @@
-import { defer, Observable } from 'rxjs';
-import { PDV, Wallet } from 'decentr-js';
+import { defer, Observable, zip } from 'rxjs';
+import { mapTo, mergeMap } from 'rxjs/operators';
+import { PDV, sendPDV as decentrSendPDV, Wallet } from 'decentr-js';
 
-import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
-import { PDVService } from '../../../../../shared/services/pdv';
 import QUEUE, { QueuePriority } from '../queue';
+import CONFIG_SERVICE from '../config';
 
-const pdvService = new PDVService();
-const networkStorage = new NetworkBrowserStorageService();
+const configService = CONFIG_SERVICE;
 
 export const sendPDV = (wallet: Wallet, pDVs: PDV[]): Observable<void> => {
-  return defer(() => QUEUE.add(() => pdvService.sendPDV(
-    networkStorage.getActiveNetworkInstant().api,
-    wallet,
-    pDVs
-  ), { priority: QueuePriority.Cookies }));
+  return defer(() => QUEUE.add(() => zip(
+    configService.getCerberusUrl(),
+    configService.getChainId(),
+  ).pipe(
+    mergeMap(([cerberusUrl, chainId]) => decentrSendPDV(cerberusUrl, chainId, pDVs, wallet)),
+    mapTo(void 0),
+  ).toPromise(), { priority: QueuePriority.Cookies }));
 };

@@ -5,6 +5,7 @@
     [formGroup]="form"
     (ngSubmit)="onSubmit()"
     autocomplete="off"
+    appBindQueryParams
   >
     <mat-form-field
       class="transfer-page__field"
@@ -22,6 +23,7 @@
         #receiverInput
         matInput
         formControlName="receiver"
+        appAutoFocus
       >
 
       <svg-icon

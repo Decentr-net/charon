@@ -17,7 +17,7 @@ import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { CoinRateFor24Hours } from '@shared/services/currency';
-import { BalanceValueDynamic } from '@shared/services/pdv';
+import { AdvDdvStatistics, BalanceValueDynamic } from '@shared/services/pdv';
 import { HubCurrencyStatistics } from '../hub-currency-statistics';
 import { HubHeaderStatsMetaService } from './hub-header-stats-meta.service';
 import { HubPDVStatistics } from '../hub-pdv-statistics';
@@ -41,6 +41,7 @@ export class HubHeaderStatsMetaComponent implements OnInit {
   public coinRate$: Observable<CoinRateFor24Hours>;
   public estimatedBalance$: Observable<string>;
 
+  public advDdvStatistics: AdvDdvStatistics;
   public pdvStatistics: HubPDVStatistics;
   public rateStatistics: HubCurrencyStatistics;
 
@@ -82,6 +83,13 @@ export class HubHeaderStatsMetaComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe((statistics) => {
       this.rateStatistics = statistics;
+      this.changeDetectorRef.markForCheck();
+    });
+
+    this.hubHeaderStatsMetaService.getAdvDdvStats().pipe(
+      untilDestroyed(this),
+    ).subscribe((statistics) => {
+      this.advDdvStatistics = statistics;
       this.changeDetectorRef.markForCheck();
     });
   }
