@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
@@ -42,9 +42,9 @@ export class PostPageComponent implements OnInit {
 
   public post$: Observable<PostsListItem>;
 
-  public authorProfile$: Observable<HubProfile>;
+  public authorProfile: HubProfile;
 
-  public postStatistics$: Observable<HubPDVStatistics>;
+  public postStatistics: HubPDVStatistics;
 
   public postStatisticsTranslations$: Observable<PDVStatisticsTranslations>;
 
@@ -56,6 +56,7 @@ export class PostPageComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private changeDetectorRef: ChangeDetectorRef,
     private elementRef: ElementRef<HTMLElement>,
     private followingService: FollowingService,
     private postPageService: PostPageService,
@@ -79,7 +80,7 @@ export class PostPageComponent implements OnInit {
 
     const walletAddress = this.authService.getActiveUserInstant().wallet.address;
 
-    this.authorProfile$ = combineLatest([
+    combineLatest([
       this.post$,
       this.post$.pipe(
         switchMap(() => this.followingService.getFollowees(walletAddress)),
@@ -96,7 +97,11 @@ export class PostPageComponent implements OnInit {
           isFollowingUpdating,
         };
       }),
-    );
+      untilDestroyed(this),
+    ).subscribe((authorProfile) => {
+      this.authorProfile = authorProfile;
+      this.changeDetectorRef.detectChanges();
+    });
 
     this.post$.pipe(
       pluck('uuid'),
@@ -104,7 +109,7 @@ export class PostPageComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe(() => this.elementRef.nativeElement.scrollTop = 0);
 
-    this.postStatistics$ = this.post$.pipe(
+    this.post$.pipe(
       map((post) => {
         const now = new Date();
         const historyDate = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() - 1);
@@ -123,7 +128,11 @@ export class PostPageComponent implements OnInit {
             .sort((left, right) => left.date - right.date),
         };
       }),
-    );
+      untilDestroyed(this),
+    ).subscribe((postStatistics) => {
+      this.postStatistics = postStatistics;
+      this.changeDetectorRef.detectChanges();
+    });
 
     this.postStatisticsTranslations$ = this.translocoService
       .selectTranslateObject('hub_post_page.post_statistics', null, 'hub');

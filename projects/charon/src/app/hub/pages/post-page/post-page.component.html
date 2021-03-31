@@ -35,7 +35,7 @@
 
     <div class="post-page__sidebar" ngProjectAs="[contentSecondaryColumn]">
       <app-hub-profile-card
-        *ngIf="authorProfile$ | async as authorProfile"
+        *ngIf="authorProfile"
         [profile]="authorProfile"
         (follow)="onFollowAuthor($event, post.owner)"
         (topUp)="onTopUpAuthor(post.owner)"
@@ -43,7 +43,7 @@
 
       <app-hub-pdv-statistics
         class="post-page__pdv-statistics"
-        *ngIf="postStatistics$ | async as postStatistics"
+        *ngIf="postStatistics"
         [hideNoDataLabels]="true"
         [statistics]="postStatistics"
         [translations]="postStatisticsTranslations$ | async"
