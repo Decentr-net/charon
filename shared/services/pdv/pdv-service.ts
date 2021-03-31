@@ -25,6 +25,7 @@ import { AdvDdvStatistics, BalanceValueDynamic, PDVStatChartPoint } from './pdv.
 import { PDVApiService } from './pdv-api.service';
 import { PDVStorageService } from './pdv-storage.service';
 import { PDVUpdateNotifier } from './pdv-update-notifier';
+import { getPDVDayChange, mapPDVStatsToChartPoints } from '../../utils/pdv';
 
 @UntilDestroy()
 @Injectable()
@@ -109,17 +110,10 @@ export class PDVService {
       this.getPDVStatChartPointsLive(),
     ])
       .pipe(
-        map(([pdvRate, pdvRateHistory]) => {
-          const now = new Date;
-          const historyDate = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() - 1);
-          const historyPdvRate = pdvRateHistory.find(el => el.date === historyDate)?.value;
-          const dayMargin = calculateDifferencePercentage(Number(pdvRate), historyPdvRate);
-
-          return {
-            dayMargin,
-            value: pdvRate,
-          };
-        }),
+        map(([pdvRate, pdvRateHistory]) => ({
+          dayMargin: getPDVDayChange(pdvRateHistory, +pdvRate),
+          value: pdvRate,
+        })),
       )
   }
 
@@ -161,13 +155,7 @@ export class PDVService {
         mapTo(walletAddress),
       )),
       switchMap((walletAddress) => this.pdvApiService.getPDVStats(walletAddress)),
-      map((stats) => stats
-        .map(({ date, value }) => ({
-          date: new Date(date).valueOf(),
-          value,
-        }))
-        .sort((a, b) => a.date - b.date)
-      ),
+      map(mapPDVStatsToChartPoints),
     );
   }
 }

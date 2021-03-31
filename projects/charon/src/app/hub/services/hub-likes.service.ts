@@ -95,13 +95,13 @@ export class HubLikesService {
           case LikeWeight.Zero:
             return {
               likesCount: post.likesCount - 1,
-              pdv: post.pdv - 1 / MICRO_PDV_DIVISOR,
+              ...HubLikesService.getPostPDVUpdate(post, -1),
             };
           case LikeWeight.Down:
             return {
               likesCount: post.likesCount - 1,
               dislikesCount: post.dislikesCount + 1,
-              pdv: post.pdv - 2 / MICRO_PDV_DIVISOR,
+              ...HubLikesService.getPostPDVUpdate(post, -2),
             };
         }
         break;
@@ -111,12 +111,12 @@ export class HubLikesService {
             return {
               likesCount: post.likesCount + 1,
               dislikesCount: post.dislikesCount - 1,
-              pdv: post.pdv + 2 / MICRO_PDV_DIVISOR,
+              ...HubLikesService.getPostPDVUpdate(post, 2),
             };
           case LikeWeight.Zero:
             return {
               dislikesCount: post.dislikesCount - 1,
-              pdv: post.pdv + 1 / MICRO_PDV_DIVISOR,
+              ...HubLikesService.getPostPDVUpdate(post, 1),
             };
           case LikeWeight.Down:
             return {};
@@ -127,14 +127,40 @@ export class HubLikesService {
           case LikeWeight.Up:
             return {
               likesCount: post.likesCount + 1,
-              pdv: post.pdv + 1 / MICRO_PDV_DIVISOR,
+              ...HubLikesService.getPostPDVUpdate(post, 1),
             };
           case LikeWeight.Down:
             return {
               dislikesCount: post.dislikesCount + 1,
-              pdv: post.pdv - 1 / MICRO_PDV_DIVISOR,
+              ...HubLikesService.getPostPDVUpdate(post, -1),
             };
         }
     }
+  }
+
+  private static getPostPDVUpdate<T extends PostsListItem>(post: T, pdvChange: number): Pick<T, 'pdv' | 'stats'> {
+    const newPDV = post.pdv + pdvChange / MICRO_PDV_DIVISOR;
+    const now = new Date();
+    const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    const todayStatsIndex = (post.stats || []).findIndex((stat) => new Date(stat.date).valueOf() === today);
+
+    if (todayStatsIndex > -1) {
+      return {
+        pdv: newPDV,
+        stats: [
+          ...post.stats.slice(0, todayStatsIndex),
+          {
+            ...post.stats[todayStatsIndex],
+            value: newPDV,
+          },
+          ...post.stats.slice(todayStatsIndex + 1)
+        ],
+      };
+    }
+
+    return {
+      pdv: newPDV,
+      stats: post.stats,
+    };
   }
 }
