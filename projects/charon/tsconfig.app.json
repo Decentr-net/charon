@@ -10,7 +10,8 @@
       "@environments/*": ["../../environments/*"],
       "@scripts/*": ["../scripts/src/*"],
       "@shared/*": ["../../shared/*"]
-    }
+    },
+    "resolveJsonModule": true
   },
   "files": [
     "src/main.ts",
