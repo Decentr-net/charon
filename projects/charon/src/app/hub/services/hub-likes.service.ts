@@ -153,14 +153,22 @@ export class HubLikesService {
             ...post.stats[todayStatsIndex],
             value: newPDV,
           },
-          ...post.stats.slice(todayStatsIndex + 1)
+          ...post.stats.slice(todayStatsIndex + 1),
         ],
       };
     }
 
+    const todayStatDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
+
     return {
       pdv: newPDV,
-      stats: post.stats,
+      stats: [
+        ...post.stats,
+        {
+          date: todayStatDate,
+          value: newPDV,
+        },
+      ],
     };
   }
 }
