@@ -1,0 +1,9 @@
+<div class="authorized-layout__header-container">
+  <app-authorized-layout-header></app-authorized-layout-header>
+
+  <app-authorized-layout-navigation
+    *ngIf="hasNavigation$ | async"
+  ></app-authorized-layout-navigation>
+</div>
+
+<router-outlet></router-outlet>

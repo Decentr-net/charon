@@ -1,15 +1,16 @@
-<app-hub-header
-  class="hub-page__header"
-  [avatarIcon]="avatar$ | async"
->
-  <app-hub-header-stats-meta
-    *appSlot="headerMetaSlotName; let root = rootElement"
-    [detailsAnchorElement]="root"
-  ></app-hub-header-stats-meta>
-</app-hub-header>
+<app-hub-header-stats-meta
+  *appSlot="headerMetaSlotName; let root = rootElement"
+  [detailsAnchorElement]="root"
+></app-hub-header-stats-meta>
 
-<div class="hub-page__content-container">
-<!--  <div class="hub-page__content">-->
-    <router-outlet></router-outlet>
-<!--  </div>-->
-</div>
+<ng-template [appSlot]="headerActionsSlotName">
+  <app-hub-header-action-button
+    *transloco="let translate"
+    [icon]="'edit'"
+    [routerLink]="['/', appRoute.Hub, hubRoute.PostCreate]"
+  >
+    {{ translate('hub.posts.new') }}
+  </app-hub-header-action-button>
+</ng-template>
+
+<router-outlet></router-outlet>

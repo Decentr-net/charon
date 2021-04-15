@@ -6,6 +6,7 @@ import {
   AuthCompletedRegistrationGuard,
   UnauthGuard,
 } from '@core/auth';
+import { AuthorizedLayoutComponent } from '@core/layout/authorized-layout';
 import { LockGuard } from '@core/lock';
 import { AppRoute } from './app-route';
 
@@ -59,6 +60,7 @@ const ROUTES: Routes = [
   },
   {
     path: AppRoute.Hub,
+    component: AuthorizedLayoutComponent,
     loadChildren: () => import('./hub/hub.module').then(m => m.HubModule),
     canLoad: [
       AuthCompletedRegistrationGuard,

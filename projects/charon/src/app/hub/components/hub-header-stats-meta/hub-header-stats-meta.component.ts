@@ -21,6 +21,8 @@ import { AdvDdvStatistics, BalanceValueDynamic } from '@shared/services/pdv';
 import { HubCurrencyStatistics } from '../hub-currency-statistics';
 import { HubHeaderStatsMetaService } from './hub-header-stats-meta.service';
 import { HubPDVStatistics } from '../hub-pdv-statistics';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { svgExpandMore } from '../../../../../../../shared/svg-icons';
 
 @UntilDestroy()
 @Component({
@@ -53,12 +55,17 @@ export class HubHeaderStatsMetaComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private overlay: Overlay,
     private router: Router,
+    svgIconRegistry: SvgIconRegistry,
     private viewContainerRef: ViewContainerRef,
   ) {
     this.router.events.pipe(
       filter((event) => event instanceof NavigationStart && this.isDetailsOpened),
       untilDestroyed(this),
     ).subscribe(() => this.hideDetails());
+
+    svgIconRegistry.register([
+      svgExpandMore,
+    ]);
   }
 
   public ngOnInit(): void {

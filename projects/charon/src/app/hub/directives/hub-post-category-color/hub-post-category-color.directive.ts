@@ -15,8 +15,19 @@ export class HubPostCategoryColorDirective implements OnChanges {
 
   public ngOnChanges({ category }: SimpleChanges): void {
     if (category) {
-      this.renderer2.removeClass(this.elementRef.nativeElement, `post-category-${category.previousValue}`);
-      this.renderer2.addClass(this.elementRef.nativeElement, `post-category-${category.currentValue}`);
+      this.renderer2.removeClass(
+        this.elementRef.nativeElement,
+        HubPostCategoryColorDirective.getColorClass(category.previousValue),
+      );
+
+      this.renderer2.addClass(
+        this.elementRef.nativeElement,
+        HubPostCategoryColorDirective.getColorClass(category.currentValue),
+      );
     }
+  }
+
+  public static getColorClass(category: PostCategory): string {
+    return `post-category-${category}`;
   }
 }

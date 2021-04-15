@@ -1,0 +1,13 @@
+@import 'variables';
+
+:host {
+  display: block;
+}
+
+.authorized-layout__header-container {
+  background-color: $color-white;
+  border-bottom: 1px solid $color-outlines;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}

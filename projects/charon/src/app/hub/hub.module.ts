@@ -38,6 +38,7 @@ import { CoerceTimestampModule } from '@shared/pipes/coerce-timestamp';
 import { TypefaceModule } from '@shared/directives/typeface';
 import { IntersectionModule } from '@shared/directives/intersection';
 import { NavigationModule } from '@core/navigation';
+import { AuthorizedLayoutModule } from '@core/layout/authorized-layout';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { NavigationModule } from '@core/navigation';
   ],
   imports: [
     AvatarModule,
+    AuthorizedLayoutModule,
     AutoFocusModule,
     CoerceTimestampModule,
     CommonModule,

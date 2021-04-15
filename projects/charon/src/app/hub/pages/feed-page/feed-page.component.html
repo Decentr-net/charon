@@ -1,12 +1,12 @@
-<ng-template [appSlot]="headerActionsSlotName">
-  <app-hub-header-action-button
-    *transloco="let translate"
-    [icon]="'edit'"
-    [routerLink]="['/', appRoute.Hub, hubRoute.PostCreate]"
-  >
-    {{ translate('hub.posts.new') }}
-  </app-hub-header-action-button>
-</ng-template>
+<!--<ng-template [appSlot]="headerActionsSlotName">-->
+<!--  <app-hub-header-action-button-->
+<!--    *transloco="let translate"-->
+<!--    [icon]="'edit'"-->
+<!--    [routerLink]="['/', appRoute.Hub, hubRoute.PostCreate]"-->
+<!--  >-->
+<!--    {{ translate('hub.posts.new') }}-->
+<!--  </app-hub-header-action-button>-->
+<!--</ng-template>-->
 
 <ng-template [ngIf]="!isPostOutletActivated">
   <ng-template [appSlot]="headerLogoSlotName">
@@ -14,11 +14,7 @@
   </ng-template>
 </ng-template>
 
-<ng-template [ngIf]="!isPostOutletActivated">
-  <app-hub-feed-navigation
-    *appSlot="headerContentSlotName"
-  ></app-hub-feed-navigation>
-</ng-template>
+<app-hub-feed-navigation *ngIf="!isPostOutletActivated"></app-hub-feed-navigation>
 
 <div class="feed-page__content-container" [class.mod-hidden]="isPostOutletActivated">
   <div class="feed-page__left-column">

@@ -1,29 +1,36 @@
-import { ChangeDetectionStrategy, Component, TrackByFunction } from '@angular/core';
-import { PostCategory } from 'decentr-js';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { AppRoute } from '../../../app-route';
 import { POST_CATEGORIES, POST_CATEGORY_TRANSLATION_MAP } from '../../models/post-category';
+import { HubPostCategoryColorDirective } from '../../directives/hub-post-category-color';
 import { HubRoute } from '../../hub-route';
 
-interface PostsLinkConfig {
-  id: PostCategory;
+interface LinkDef {
+  colorClass: string;
+  dot: boolean;
+  link: string[];
   i18nKey: string;
 }
 
 @Component({
   selector: 'app-hub-navigation',
   templateUrl: './hub-navigation.component.html',
-  styleUrls: ['./hub-navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubNavigationComponent {
-  public readonly appRoute: typeof AppRoute = AppRoute;
-  public readonly hubRoute: typeof HubRoute = HubRoute;
 
-  public readonly postsLinksConfig: PostsLinkConfig[] = POST_CATEGORIES.map((category) => ({
-    id: category,
-    i18nKey: POST_CATEGORY_TRANSLATION_MAP[category]
-  }));
-
-  public readonly trackByLink: TrackByFunction<PostsLinkConfig> = ({}, { id }) => id;
+  public readonly links: LinkDef[] = [
+    {
+      colorClass: 'color-primary',
+      dot: false,
+      i18nKey: 'hub.hub_navigation.latest_posts',
+      link: ['/', AppRoute.Hub, HubRoute.Posts],
+    },
+    ...POST_CATEGORIES.map((category) => ({
+      colorClass: HubPostCategoryColorDirective.getColorClass(category),
+      dot: true,
+      i18nKey: POST_CATEGORY_TRANSLATION_MAP[category],
+      link: ['/', AppRoute.Hub, HubRoute.Posts, category.toString()],
+    })),
+  ];
 }
