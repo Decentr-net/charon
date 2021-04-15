@@ -1,17 +1,9 @@
-<!--<ng-template [appSlot]="headerActionsSlotName">-->
-<!--  <app-hub-header-action-button-->
-<!--    *transloco="let translate"-->
-<!--    [icon]="'edit'"-->
-<!--    [routerLink]="['/', appRoute.Hub, hubRoute.PostCreate]"-->
-<!--  >-->
-<!--    {{ translate('hub.posts.new') }}-->
-<!--  </app-hub-header-action-button>-->
-<!--</ng-template>-->
-
 <ng-template [ngIf]="!isPostOutletActivated">
-  <ng-template [appSlot]="headerLogoSlotName">
-    <svg-icon class="feed-page__header-logo-icon" key="logo-pink"></svg-icon>
-  </ng-template>
+  <svg-icon
+    class="feed-page__header-logo-icon"
+    *appSlot="headerLogoSlotName"
+    key="logo-pink"
+  ></svg-icon>
 </ng-template>
 
 <app-hub-feed-navigation *ngIf="!isPostOutletActivated"></app-hub-feed-navigation>

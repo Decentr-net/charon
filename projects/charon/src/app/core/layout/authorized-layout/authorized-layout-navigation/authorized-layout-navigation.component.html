@@ -6,7 +6,7 @@
   <a
     class="authorized-layout-navigation__link"
     app-authorized-layout-navigation-link
-    *ngFor="let linkDef of linksDefs$ | async"
+    *ngFor="let linkDef of linksDefs"
     [ngClass]="linkDef.colorClass"
     [routerLink]="linkDef.link"
     routerLinkActive="is-active"

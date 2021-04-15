@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AuthorizedLayoutNavigationService } from './authorized-layout-navigation';
-import { map } from 'rxjs/operators';
 
+@UntilDestroy()
 @Component({
   selector: 'app-authorized-layout',
   templateUrl: './authorized-layout.component.html',
@@ -14,16 +15,21 @@ import { map } from 'rxjs/operators';
   ],
 })
 export class AuthorizedLayoutComponent implements OnInit {
-  public hasNavigation$: Observable<boolean>;
+  public hasNavigation: boolean;
 
   constructor(
     private authorizedLayoutNavigationService: AuthorizedLayoutNavigationService,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {
   }
 
   public ngOnInit(): void {
-    this.hasNavigation$ = this.authorizedLayoutNavigationService.getCurrentNavigation().pipe(
+    this.authorizedLayoutNavigationService.getCurrentNavigation().pipe(
       map(Boolean),
-    );
+      untilDestroyed(this),
+    ).subscribe((hasNavigation) => {
+      this.hasNavigation = hasNavigation;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 }
