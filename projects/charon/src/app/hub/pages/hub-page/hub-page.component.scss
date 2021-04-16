@@ -1,24 +1,8 @@
 @import 'colors';
-@import 'variables';
 
 :host {
   background: $color-white;
-  display: flex;
-  flex-direction: column;
+  display: block;
   height: 100%;
-  margin: auto;
-  width: max-content;
-}
-
-.hub-page__header {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-}
-
-.hub-page__content-container {
   margin: 0 auto;
-  min-width: 100vw;
-  overflow-y: auto;
-  width: max-content;
 }

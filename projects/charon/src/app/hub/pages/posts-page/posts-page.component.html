@@ -1,17 +1,5 @@
-<ng-template [appSlot]="headerActionsSlotName">
-  <app-hub-header-action-button
-    *transloco="let translate"
-    [icon]="'edit'"
-    [routerLink]="['/', appRoute.Hub, hubRoute.PostCreate]"
-  >
-    {{ translate('hub.posts.new') }}
-  </app-hub-header-action-button>
-</ng-template>
-
 <ng-template [ngIf]="!isPostOutletActivated">
-  <ng-container *appSlot="headerContentSlotName">
-    <app-hub-navigation></app-hub-navigation>
-  </ng-container>
+  <app-hub-navigation></app-hub-navigation>
 
   <app-spinner
     class="posts-page__spinner"

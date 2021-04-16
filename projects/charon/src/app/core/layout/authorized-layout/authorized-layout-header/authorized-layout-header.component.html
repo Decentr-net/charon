@@ -1,0 +1,15 @@
+<svg-icon
+  class="authorized-layout-header__logo-icon"
+  key="logo"
+  *appSlotContainer="logoSlotName"
+></svg-icon>
+
+<div class="authorized-layout-header__meta-container">
+  <ng-container *appSlotContainer="metaSlotName; rootElement: elementRef.nativeElement"></ng-container>
+</div>
+
+<div class="authorized-layout-header__actions-container">
+  <ng-template [appSlotContainer]="actionsSlotName"></ng-template>
+</div>
+
+<app-menu></app-menu>

@@ -6,10 +6,10 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { Post } from 'decentr-js';
 
 import { svgEdit, svgLogoPink } from '@shared/svg-icons';
+import { AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT } from '@core/layout/authorized-layout';
 import { PostsListItem } from '@core/services';
 import { HubPostsService } from '../../services';
 import { FeedPageService } from './feed-page.service';
-import { HUB_HEADER_ACTIONS_SLOT, HUB_HEADER_CONTENT_SLOT, HUB_HEADER_LOGO_SLOT } from '../../components/hub-header';
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../hub-route';
 
@@ -27,9 +27,7 @@ import { HubRoute } from '../../hub-route';
   ],
 })
 export class FeedPageComponent implements OnInit {
-  public headerActionsSlotName = HUB_HEADER_ACTIONS_SLOT;
-  public headerContentSlotName = HUB_HEADER_CONTENT_SLOT;
-  public headerLogoSlotName = HUB_HEADER_LOGO_SLOT;
+  public headerLogoSlotName = AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT;
 
   public appRoute: typeof AppRoute = AppRoute;
   public hubRoute: typeof HubRoute = HubRoute;

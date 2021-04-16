@@ -1,0 +1,19 @@
+<div
+  class="authorized-layout-navigation__container"
+  appDragScroll
+  appMouseWheelHorizontalScroll
+>
+  <a
+    class="authorized-layout-navigation__link"
+    app-authorized-layout-navigation-link
+    *ngFor="let linkDef of linksDefs"
+    [ngClass]="linkDef.colorClass"
+    [routerLink]="linkDef.link"
+    routerLinkActive="is-active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    [dot]="linkDef.dot"
+    appRouterLinkScrollAnchor
+  >
+    <ng-template [ngTemplateOutlet]="linkDef.templateRef"></ng-template>
+  </a>
+</div>

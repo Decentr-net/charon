@@ -1,31 +1,19 @@
-<ng-template [appSlot]="headerActionsSlotName">
-  <app-hub-header-action-button
-    *transloco="let translate"
-    [icon]="'edit'"
-    [routerLink]="['/', appRoute.Hub, hubRoute.PostCreate]"
-  >
-    {{ translate('hub.posts.new') }}
-  </app-hub-header-action-button>
+<ng-template [ngIf]="!isPostOutletActivated">
+  <svg-icon
+    class="feed-page__header-logo-icon"
+    *appSlot="headerLogoSlotName"
+    key="logo-pink"
+  ></svg-icon>
 </ng-template>
 
-<ng-template [ngIf]="!isPostOutletActivated">
-  <ng-template [appSlot]="headerLogoSlotName">
-    <svg-icon class="feed-page__header-logo-icon" key="logo-pink"></svg-icon>
-  </ng-template>
-</ng-template>
-
-<ng-template [ngIf]="!isPostOutletActivated">
-  <app-hub-feed-navigation
-    *appSlot="headerContentSlotName"
-  ></app-hub-feed-navigation>
-</ng-template>
+<app-hub-feed-navigation *ngIf="!isPostOutletActivated"></app-hub-feed-navigation>
 
 <div class="feed-page__content-container" [class.mod-hidden]="isPostOutletActivated">
   <div class="feed-page__left-column">
     <router-outlet></router-outlet>
   </div>
 
-  <div>
+  <div class="feed-page__right-column">
     <div
       class="feed-page__top-posts__header"
       *transloco="let translate; read: 'hub.feed_page'"
