@@ -1,0 +1,8 @@
+@import 'variables';
+
+:host {
+  display: block;
+  margin: 0 auto;
+  padding: $grid-step * 2 $page-side-padding;
+  width: $page-width + $page-side-padding * 2;
+}
