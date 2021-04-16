@@ -32,6 +32,10 @@ $feed-page--top-feed--no-posts--color: #9EA0A5;
   grid-column: 1 / 4;
 }
 
+.feed-page__right-column {
+  height: max-content;
+}
+
 .feed-page__top-posts__header {
   $border-width: 1px;
   background: $color-white;

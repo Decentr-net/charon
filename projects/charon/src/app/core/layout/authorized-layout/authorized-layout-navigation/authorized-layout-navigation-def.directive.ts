@@ -40,7 +40,6 @@ export class AuthorizedLayoutNavigationDefDirective {
   }
 
   public unregisterLinkDef(linkDef: AuthorizedLayoutNavigationLinkDefDirective): void {
-
     this.linksDefs.next(this.linksDefs.value.filter((item) => item !== linkDef));
   }
 }
