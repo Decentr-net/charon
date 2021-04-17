@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -40,4 +40,6 @@ export class ActivityPageComponent extends InfiniteLoadingPresenter<ActivityList
   public ngOnInit(): void {
     this.infiniteLoadingService.loadMoreItems();
   }
+
+  public trackBy: TrackByFunction<ActivityListItem> = ({}, item) => item.timestamp;
 }

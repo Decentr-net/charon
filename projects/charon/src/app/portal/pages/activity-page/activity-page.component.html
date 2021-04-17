@@ -4,7 +4,7 @@
   [data]="activityList$ | async"
   appIntersectionArea
 >
-  <ng-container appExpansionListColumnDef>
+  <ng-container appExpansionListColumnDef [appExpansionListColumnDefTrackBy]="trackBy">
     <ng-container *appExpansionListHeaderCellDef>
       {{ translate('dates') }}
     </ng-container>
