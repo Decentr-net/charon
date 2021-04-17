@@ -15,11 +15,7 @@
     <ng-container *appExpansionListLoading="let item;">
       <ngx-skeleton-loader
         [count]="10"
-        [theme]="{
-          height: '48px',
-          marginBottom: '0',
-          width: '100%'
-        }"
+        [theme]="skeletonLoaderTheme"
       ></ngx-skeleton-loader>
     </ng-container>
 
