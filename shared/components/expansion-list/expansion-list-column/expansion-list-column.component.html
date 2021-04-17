@@ -2,7 +2,7 @@
   <ng-container *ngIf="items$ | async as items">
     <div
       class="expansion-list-column__cell"
-      *ngFor="let item of items"
+      *ngFor="let item of items; trackBy: columnDef.trackBy"
       [class.is-active]="item === activeItem"
       appTypeface="paragraph"
       (click)="activateItem(item)"

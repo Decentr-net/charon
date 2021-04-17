@@ -6,6 +6,7 @@ import {
   Optional,
   SkipSelf,
   TemplateRef,
+  TrackByFunction,
 } from '@angular/core';
 import { coerceArray } from '@angular/cdk/coercion';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
@@ -25,6 +26,8 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
   @Input('appExpansionListColumnDef') public pluck: string;
 
   @Input('appExpansionListColumnDefColspan') public colspan: number = 1;
+
+  @Input('appExpansionListColumnDefTrackBy') public trackBy: TrackByFunction<T>;
 
   @ContentChild(ExpansionListCellDefDirective)
   public cellDef: ExpansionListCellDefDirective<T>;
