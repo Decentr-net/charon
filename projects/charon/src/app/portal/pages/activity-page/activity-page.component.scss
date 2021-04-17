@@ -1,0 +1,32 @@
+@import 'variables';
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.activity-page__expansion-list {
+  height: 100%;
+}
+
+.activity-page__expansion-list__header-count {
+  background-color: $color-background;
+  border-radius: $border-radius;
+  font-weight: 400;
+  margin-left: $grid-step;
+  min-width: 36px;
+  padding: $grid-step / 2 $grid-step;
+  text-align: center;
+}
+
+.activity-page__expansion-list__mat-panel {
+  border-radius: 0;
+}
+
+.activity-page__expansion-list__mat-panel-header {
+  font-weight: 700;
+}
+
+.activity-page__skeleton-loader {
+  display: block;
+}
