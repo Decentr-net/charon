@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgAdd } from '@shared/svg-icons';
@@ -21,7 +22,7 @@ export class AssetsPageComponent
   extends InfiniteLoadingPresenter<TokenTransaction>
   implements OnInit
 {
-  public assets$: Observable<Asset[]>;
+  public assetsList$: Observable<Asset[]>;
 
   public readonly skeletonLoaderTheme = {
     height: '48px',
@@ -38,7 +39,12 @@ export class AssetsPageComponent
     svgIconRegistry.register(svgAdd);
   }
 
-  public ngOnInit(): void {
-    this.assets$ = this.assetsPageService.getAssets();
+  public ngOnInit() {
+    this.assetsList$ = combineLatest([
+      this.isLoading$,
+      this.assetsPageService.getAssets(),
+    ]).pipe(
+      map(([isLoading, list]) => !list.length && isLoading ? undefined : list),
+    );
   }
 }

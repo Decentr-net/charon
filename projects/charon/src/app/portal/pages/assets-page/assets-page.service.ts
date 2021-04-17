@@ -25,7 +25,7 @@ export class AssetsPageService
   private readonly receivedList: BehaviorSubject<TokenTransaction[]>
     = new BehaviorSubject([]);
 
-  private loadingCount: number = 2;
+  private loadingCount: number = 100;
 
   constructor(
     private authService: AuthService,
