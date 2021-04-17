@@ -55,7 +55,7 @@ export class ExpansionListColumnComponent<T> implements OnInit {
   }
 
   public activateItem(item: T): void {
-    if (this.isLastColumn && item === this.activeItem) {
+    if (this.isLastColumn || item === this.activeItem) {
       return;
     }
 

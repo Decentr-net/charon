@@ -2,20 +2,20 @@
 
 :host {
   display: block;
-}
-
-.expansion-list-column__cell {
-  cursor: pointer;
-  padding: $grid-step * 1.5 $grid-step * 2;
 
   &:not(.mod-last) {
-    &:hover {
-      background-color: $color-background;
-    }
+    .expansion-list-column__cell {
+      cursor: pointer;
+      padding: $grid-step * 1.5 $grid-step * 2;
 
-    &.is-active {
-      background-color: rgba($color-primary, 0.08);
-      color: $color-primary;
+      &:hover {
+        background-color: $color-background;
+      }
+
+      &.is-active {
+        background-color: rgba($color-primary, 0.08);
+        color: $color-primary;
+      }
     }
   }
 }
