@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgAdd } from '@shared/svg-icons';
@@ -40,11 +39,6 @@ export class AssetsPageComponent
   }
 
   public ngOnInit() {
-    this.assetsList$ = combineLatest([
-      this.isLoading$,
-      this.assetsPageService.getAssets(),
-    ]).pipe(
-      map(([isLoading, list]) => !list.length && isLoading ? undefined : list),
-    );
+    this.assetsList$ = this.assetsPageService.getAssets();
   }
 }

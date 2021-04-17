@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { filter, map, pluck, switchMap, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, pluck, skipWhile, switchMap, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TransferRole } from 'decentr-js';
 
@@ -62,7 +62,15 @@ export class AssetsPageService
         {
           balance,
           token: 'tDEC',
-          transactions: this.list$,
+          transactions: combineLatest([
+            this.isLoading$.pipe(
+              skipWhile((isLoading) => !isLoading),
+            ),
+            this.list$,
+          ]).pipe(
+            map(([isLoading, list]) => !list.length && isLoading ? undefined : list),
+            distinctUntilChanged(),
+          ),
         },
       ])),
     );

@@ -41,14 +41,14 @@
         </ng-container>
       </ng-container>
 
-      <app-token-transactions-table
-        *appExpansionListCellDef="let asset;"
-        [transactions]="asset.transactions | async"
-      ></app-token-transactions-table>
+      <ng-container *appExpansionListCellDef="let asset;">
+        <app-token-transactions-table
+          [transactions]="asset.transactions | async"
+        ></app-token-transactions-table>
 
-      <ng-container *appExpansionListLoading>
         <ngx-skeleton-loader
-          [count]="10"
+          *ngIf="(asset.transactions | async) === undefined"
+          [count]="5"
           [theme]="skeletonLoaderTheme"
         ></ngx-skeleton-loader>
       </ng-container>

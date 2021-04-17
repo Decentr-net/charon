@@ -13,7 +13,7 @@ import { svgReceive, svgSend } from '../../../../../../../shared/svg-icons';
 })
 export class TokenTransactionsTableComponent {
   @Input() public set transactions(value: TokenTransaction[]) {
-    this.groups = groupByDate(value, (item) => item.timestamp);
+    this.groups = groupByDate(value || [], (item) => item.timestamp);
   }
 
   public groups: GroupedByDate<TokenTransaction>;
