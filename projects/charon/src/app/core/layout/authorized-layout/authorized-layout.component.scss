@@ -1,17 +1,14 @@
 @import 'variables';
 
 :host {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: max-content 1fr;
   height: 100%;
 }
 
 .authorized-layout__header-container {
   background-color: $color-white;
   border-bottom: 1px solid $color-outlines;
-  //position: sticky;
-  //top: 0;
-  //z-index: 2;
 }
 
 .authorized-layout__content-container {
