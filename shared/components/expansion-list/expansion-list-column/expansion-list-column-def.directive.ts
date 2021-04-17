@@ -16,7 +16,6 @@ import { coerceObservable } from '../../../utils/observable';
 import { ExpansionListService } from '../expansion-list/expansion-list.service';
 import { ExpansionListCellDefDirective } from '../expansion-list-cell';
 import { ExpansionListHeaderCellDefDirective } from '../expansion-list-header-cell';
-import { ExpansionListLoadingDirective } from '../expansion-list-loading';
 
 @UntilDestroy()
 @Directive({
@@ -36,9 +35,6 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
   @ContentChild(ExpansionListColumnDefDirective)
   public childColumnDef: ExpansionListColumnDefDirective<T[keyof T]>;
 
-  @ContentChild(ExpansionListLoadingDirective, { read: TemplateRef, static: true })
-  public selfLoadingTemplate: TemplateRef<{ $implicit: any }>;
-
   public columnFooterTemplate: TemplateRef<void>;
 
   public loadingTemplate: TemplateRef<{ $implicit: any }>;
@@ -56,7 +52,7 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
   public ngOnInit(): void {
     this.initItemsSource();
 
-    this.loadingTemplate = this.selfLoadingTemplate || this.parentColumnDef?.loadingTemplate;
+    this.loadingTemplate = this.parentColumnDef?.loadingTemplate;
 
     this.items.pipe(
       untilDestroyed(this),
@@ -81,6 +77,10 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
 
   public registerFooterTemplate(template: TemplateRef<void>): void {
     this.columnFooterTemplate = template;
+  }
+
+  public registerLoadingTemplate(template: TemplateRef<{ $implicit: any }>): void {
+    this.loadingTemplate = template;
   }
 
   private initItemsSource(): void {
