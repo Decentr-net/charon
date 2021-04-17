@@ -26,7 +26,6 @@ export class ActivityPageService extends InfiniteLoadingService<ActivityListItem
       from: this.list.value[this.list.value.length - 1]?.timestamp / 1000 || undefined,
       limit: this.loadingCount,
     }).pipe(
-      tap(console.log),
       tap((pdvList) => pdvList.length < this.loadingCount && this.canLoadMore.next(false)),
       map((pdvList) => pdvList.map((pdvListItem) => ({
         timestamp: coerceTimestamp(pdvListItem),
