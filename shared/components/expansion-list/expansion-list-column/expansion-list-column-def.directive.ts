@@ -39,6 +39,8 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
   @ContentChild(ExpansionListLoadingDirective, { read: TemplateRef, static: true })
   public selfLoadingTemplate: TemplateRef<{ $implicit: any }>;
 
+  public columnFooterTemplate: TemplateRef<void>;
+
   public loadingTemplate: TemplateRef<{ $implicit: any }>;
 
   private activeItem: ReplaySubject<T | undefined> = new ReplaySubject(1);
@@ -75,6 +77,10 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
 
   public isLastColumn(): boolean {
     return !this.childColumnDef;
+  }
+
+  public registerFooterTemplate(template: TemplateRef<void>): void {
+    this.columnFooterTemplate = template;
   }
 
   private initItemsSource(): void {

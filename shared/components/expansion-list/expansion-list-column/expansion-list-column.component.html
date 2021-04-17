@@ -11,6 +11,8 @@
       [ngTemplateOutletContext]="{ $implicit: item }"
     ></ng-template>
   </div>
+
+  <ng-template [ngTemplateOutlet]="columnDef.columnFooterTemplate"></ng-template>
 </ng-container>
 
 <ng-template #loadingTemplate>
