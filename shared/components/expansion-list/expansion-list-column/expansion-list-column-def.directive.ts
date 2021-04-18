@@ -9,8 +9,8 @@ import {
   TrackByFunction,
 } from '@angular/core';
 import { coerceArray } from '@angular/cdk/coercion';
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { coerceObservable } from '../../../utils/observable';
@@ -42,7 +42,7 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
 
   public loadingTemplate: TemplateRef<{ $implicit: any }>;
 
-  private activeItem: ReplaySubject<T | undefined> = new ReplaySubject(1);
+  private activeItem: BehaviorSubject<T | undefined> = new BehaviorSubject(undefined);
 
   private items: BehaviorSubject<T[]> = new BehaviorSubject(undefined);
 
@@ -59,7 +59,17 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
 
     this.items.pipe(
       untilDestroyed(this),
-    ).subscribe(() => this.activeItem.next(undefined));
+    ).subscribe((items) => {
+      if (!this.activeItem.value || !this.trackBy) {
+        return this.activeItem.next(undefined);
+      }
+
+      const itemIds = items.map((item, index) => this.trackBy(index, item));
+      const activeItemId = this.trackBy(-1, this.activeItem.value);
+      if (itemIds.includes(activeItemId)) {
+        return;
+      }
+    });
   }
 
   public activateItem(item: T): void {
@@ -67,7 +77,9 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
   }
 
   public getActiveItem(): Observable<T> {
-    return this.activeItem.asObservable();
+    return this.activeItem.pipe(
+      distinctUntilChanged(),
+    );
   }
 
   public getItems(): Observable<T[] | undefined> {
