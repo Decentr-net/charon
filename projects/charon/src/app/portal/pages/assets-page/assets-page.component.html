@@ -30,15 +30,28 @@
       <ng-container *appExpansionListHeaderCellDef="let assets">
         {{ translate('transactions') }}
 
-        <ng-container *ngIf="assets">
-          <span
-            class="assets-page__expansion-list__header-count"
+        <ng-template [ngIf]="assets">
+          <div
+            class="assets-page__transactions-header-cell"
             *ngIf="assets[0].transactions | async as transactions"
-            appTypeface="paragraph"
           >
-            {{ transactions.length }}
-          </span>
-        </ng-container>
+            <span
+              class="assets-page__expansion-list__header-count"
+              appTypeface="paragraph"
+            >
+              {{ transactions.length }}
+            </span>
+
+            <button
+              class="assets-page__send-button"
+              [routerLink]="['./', portalRoute.Transfer]"
+              appTypeface="caption"
+            >
+              <svg-icon key="send" size="md"></svg-icon>
+              {{ translate('send') }}
+            </button>
+          </div>
+        </ng-template>
       </ng-container>
 
       <ng-container *appExpansionListCellDef="let asset;">

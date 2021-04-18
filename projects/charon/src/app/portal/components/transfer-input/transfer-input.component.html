@@ -1,0 +1,24 @@
+<div class="transfer-input__label" appTypeface="paragraph">
+  <ng-content></ng-content>
+</div>
+
+<ng-template [ngIf]="rows > 1" [ngIfThen]="textArea" [ngIfElse]="input"></ng-template>
+
+<ng-template #textArea>
+  <textarea
+    class="transfer-input"
+    [rows]="rows"
+    [ngModel]="value"
+    (ngModelChange)="onValueChange($event)"
+    (blur)="onTouched()"
+  ></textarea>
+</ng-template>
+
+<ng-template #input>
+  <input
+    class="transfer-input"
+    [ngModel]="value"
+    (ngModelChange)="onValueChange($event)"
+    (blur)="onTouched()"
+  >
+</ng-template>

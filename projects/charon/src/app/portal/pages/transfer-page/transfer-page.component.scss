@@ -1,0 +1,128 @@
+@import 'variables';
+
+$transfer-page--border: 2px solid $color-outlines;
+$transfer-page--padding: $grid-step * 2;
+
+:host {
+  border: $transfer-page--border;
+  border-radius: $border-radius;
+  display: block;
+
+  &.is-disabled {
+    color: $color-light-grey;
+    pointer-events: none;
+
+    .transfer-page__back-button {
+      color: $color-light-grey;
+      //pointer-events: none;
+    }
+
+    .transfer-page__balance {
+      background-color: $color-background;
+    }
+  }
+}
+
+.transfer-page__header,
+.transfer-page__form__inputs-container,
+.transfer-page__form__actions-container {
+  padding: $transfer-page--padding;
+}
+
+.transfer-page__header {
+  align-items: center;
+  border-bottom: $transfer-page--border;
+  display: flex;
+  gap: $grid-step * 2;
+}
+
+.transfer-page__back-button {
+  background-color: $color-background;
+  border-radius: $border-radius;
+  color: $color-grey;
+  display: inline-flex;
+  padding: $grid-step;
+
+  &.is-disabled {
+    color: $color-light-grey;
+    pointer-events: none;
+  }
+}
+
+.transfer-page__balance {
+  align-items: center;
+  background-color: rgba($color-primary, 0.08);
+  border-radius: $border-radius;
+  display: inline-flex;
+  padding: $grid-step $grid-step * 2;
+}
+
+.transfer-page__balance-icon {
+  margin-right: $grid-step;
+}
+
+.transfer-page__form__inputs-container {
+  align-items: center;
+  display: grid;
+  column-gap: $grid-step * 2;
+  grid-template-areas: 'amount icon to'
+                       'error-amount empty error-to';
+  grid-template-columns: 1fr max-content 1fr;
+  padding-bottom: $grid-step;
+  row-gap: $grid-step;
+}
+
+.transfer-page__form__control-amount {
+  grid-area: amount;
+}
+
+.transfer-page__form__error-amount {
+  grid-area: error-amount;
+}
+
+.transfer-page__form__control-to {
+  grid-area: to;
+}
+
+.transfer-page__form__error-to {
+  grid-area: error-to;
+}
+
+.transfer-page__form__icon {
+  color: $color-light-grey;
+  font-size: 48px;
+  transform: rotate(180deg);
+}
+
+.transfer-page__form__error {
+  padding: 0 $grid-step * 2;
+}
+
+.transfer-page__form__actions-container {
+  align-items: center;
+  border-top: $transfer-page--border;
+  display: flex;
+  gap: $grid-step * 1.5;
+  justify-content: flex-end;
+}
+
+.transfer-page__form__action-button {
+  align-items: center;
+  background-color: $color-background;
+  border-radius: $border-radius;
+  cursor: pointer;
+  display: inline-flex;
+  height: 48px;
+  justify-content: center;
+  width: 160px;
+
+  &.mod-send:not(:disabled) {
+    background-color: $color-primary;
+    color: $color-white;
+  }
+
+  &:disabled {
+    color: $color-light-grey;
+    pointer-events: none;
+  }
+}

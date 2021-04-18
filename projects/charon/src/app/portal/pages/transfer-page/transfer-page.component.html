@@ -1,0 +1,89 @@
+<ng-container *transloco="let translate; read: 'portal.transfer_page'">
+  <div class="transfer-page__header">
+    <a
+      class="transfer-page__back-button"
+      [routerLink]="['../']"
+    >
+      <svg-icon key="arrow-left" size="lg"></svg-icon>
+    </a>
+
+    <span appTypeface="subheader">
+      {{ translate('send') }}
+    </span>
+
+    <div
+      class="transfer-page__balance"
+      *ngIf="balance$ | async as balance"
+      appTypeface="paragraph"
+    >
+      <svg-icon
+        class="transfer-page__balance-icon"
+        key="decentr-hub"
+        size="lg"
+      ></svg-icon>
+      {{ balance }} tDEC
+    </div>
+  </div>
+
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    autocomplete="off"
+    appBindQueryParams
+  >
+    <div class="transfer-page__form__inputs-container">
+      <app-transfer-input
+        class="transfer-page__form__control-amount"
+        formControlName="amount"
+        appTypeface="header-3"
+      >
+        {{ translate('form.amount.label') }}
+      </app-transfer-input>
+
+      <app-form-error
+        class="transfer-page__form__error transfer-page__form__error-amount"
+        controlName="amount"
+        appTypeface="caption"
+      ></app-form-error>
+
+      <svg-icon class="transfer-page__form__icon" key="arrow-left"></svg-icon>
+
+      <app-transfer-input
+        class="transfer-page__form__control-to"
+        [rows]="2"
+        formControlName="to"
+        appTypeface="subheader"
+      >
+        {{ translate('form.to.label') }}
+      </app-transfer-input>
+
+      <app-form-error
+        class="transfer-page__form__error transfer-page__form__error-to"
+        *ngIf="form.get('to').touched"
+        controlName="to"
+        appTypeface="caption"
+      ></app-form-error>
+    </div>
+
+    <div
+      class="transfer-page__form__actions-container"
+      appTypeface="paragraph"
+    >
+      <button
+        type="button"
+        class="transfer-page__form__action-button"
+        [routerLink]="['../']"
+        [disabled]="isPageDisabled"
+      >
+        {{ translate('cancel') }}
+      </button>
+
+      <button
+        class="transfer-page__form__action-button mod-send"
+        [disabled]="isPageDisabled || (canSend$ | async) === false"
+      >
+        {{ translate(isPageDisabled ? 'sending' : 'send') }}
+      </button>
+    </div>
+  </form>
+</ng-container>
