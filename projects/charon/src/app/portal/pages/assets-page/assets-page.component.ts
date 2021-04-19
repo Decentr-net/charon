@@ -2,11 +2,12 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgAdd } from '@shared/svg-icons';
+import { svgAdd, svgSend } from '@shared/svg-icons';
 import { InfiniteLoadingPresenter } from '@shared/utils/infinite-loading';
 import { TokenTransaction } from '../../components/token-transactions-table';
 import { Asset } from './assets-page.definitions';
 import { AssetsPageService } from './assets-page.service';
+import { PortalRoute } from '../../portal-route';
 
 @Component({
   selector: 'app-assets-page',
@@ -29,13 +30,18 @@ export class AssetsPageComponent
     width: '100%'
   };
 
+  public readonly portalRoute: typeof PortalRoute = PortalRoute;
+
   constructor(
     private assetsPageService: AssetsPageService,
     private svgIconRegistry: SvgIconRegistry,
   ) {
     super(assetsPageService);
 
-    svgIconRegistry.register(svgAdd);
+    svgIconRegistry.register([
+      svgAdd,
+      svgSend,
+    ]);
   }
 
   public ngOnInit() {

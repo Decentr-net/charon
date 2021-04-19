@@ -12,6 +12,8 @@ export class AuthorizedLayoutNavigationLinkDefDirective implements OnInit, OnDes
 
   @Input('appAuthorizedLayoutNavigationLinkDefColorClass') public colorClass: string = '';
 
+  @Input('appAuthorizedLayoutNavigationLinkDefExact') public exact: boolean = true;
+
   constructor(
     private navigationDef: AuthorizedLayoutNavigationDefDirective,
     public templateRef: TemplateRef<void>,

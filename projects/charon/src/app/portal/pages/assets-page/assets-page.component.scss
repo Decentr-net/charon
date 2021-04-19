@@ -41,3 +41,21 @@
   display: flex;
   gap: $grid-step;
 }
+
+.assets-page__transactions-header-cell {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.assets-page__send-button {
+  align-items: center;
+  background-color: $color-primary;
+  border-radius: $border-radius;
+  color: $color-white;
+  cursor: pointer;
+  display: inline-flex;
+  gap: $grid-step;
+  padding: $grid-step $grid-step * 2 $grid-step $grid-step * 1.5;
+}

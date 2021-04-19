@@ -20,5 +20,34 @@
     "receive": "Receive",
     "send": "Send",
     "to": "To"
+  },
+  "transfer_page": {
+    "amount": "Amount",
+    "cancel": "Cancel",
+    "form": {
+      "amount": {
+        "errors": {
+          "insufficient": "Insufficient funds",
+          "min": "Minimum value is {{ min }}",
+          "pattern": "Incorrect amount format",
+          "required": "Amount is required"
+        },
+        "label": "Amount"
+      },
+      "to": {
+        "errors": {
+          "exists": "Enter valid wallet address",
+          "myAddress": "You cannot send to your own account",
+          "required": "Wallet address is required"
+        },
+        "label": "To",
+        "placeholder": "Enter wallet address"
+      }
+    },
+    "notifications": {
+      "success": "Successfully sent"
+    },
+    "send": "Send",
+    "sending": "Sending..."
   }
 }

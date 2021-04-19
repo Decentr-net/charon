@@ -1,0 +1,36 @@
+@import 'variables';
+
+:host {
+  background-color: $color-background;
+  border-color: transparent;
+  border-radius: $border-radius;
+  border-style: solid;
+  border-width: 2px;
+  height: 100%;
+  padding: $grid-step * 2;
+  width: 100%;
+
+  &.is-invalid.is-touched {
+    border-color: currentColor;
+    color: $color-negative;
+  }
+
+  &.is-disabled {
+    .transfer-input__label,
+    .transfer-input {
+      color: $color-light-grey;
+    }
+  }
+}
+
+.transfer-input__label {
+  color: $color-grey;
+}
+
+.transfer-input {
+  background-color: inherit;
+  color: $color-black;
+  font: inherit;
+  resize: none;
+  width: 100%;
+}

@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ActivityPageComponent, AssetsPageComponent, PdvRatePageComponent, PortalPageComponent } from './pages';
+import {
+  ActivityPageComponent,
+  AssetsPageComponent,
+  PdvRatePageComponent,
+  PortalPageComponent,
+  TransferPageComponent,
+} from './pages';
 import { PortalRoute } from './portal-route';
 
 const ROUTES: Routes = [
@@ -23,7 +29,16 @@ const ROUTES: Routes = [
       },
       {
         path: PortalRoute.Assets,
-        component: AssetsPageComponent,
+        children: [
+          {
+            path: '',
+            component: AssetsPageComponent,
+          },
+          {
+            path: PortalRoute.Transfer,
+            component: TransferPageComponent,
+          },
+        ],
       },
       {
         path: '**',
