@@ -1,0 +1,17 @@
+<div
+  class="expansion-list__header-cell"
+  *ngFor="let columnDef of columnsDefs; let index = index"
+  [style.gridColumn]="index + 1"
+  appTypeface="subheader"
+>
+  <ng-template
+    [ngTemplateOutlet]="columnDef.headerCellDef.templateRef"
+    [ngTemplateOutletContext]="{ $implicit: columnDef.getItems() | async }"
+  ></ng-template>
+</div>
+
+<app-expansion-list-column
+  *ngFor="let columnDef of columnsDefs"
+  class="expansion-list__column"
+  [columnDef]="columnDef"
+></app-expansion-list-column>
