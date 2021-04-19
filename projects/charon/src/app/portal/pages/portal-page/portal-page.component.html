@@ -1,3 +1,16 @@
 <app-portal-navigation></app-portal-navigation>
 
+<ng-container *transloco="let translate; read: 'portal.portal_page'">
+  <button
+    class="portal-page__copy-wallet-button"
+    *appSlot="headerActionsSlot"
+    appTypeface="paragraph"
+    [cdkCopyToClipboard]="walletAddress$ | async"
+    (cdkCopyToClipboardCopied)="onWalletAddressCopied()"
+  >
+    <svg-icon key="wallet" size="lg"></svg-icon>
+    {{ translate('copy_wallet_address') }}
+  </button>
+</ng-container>
+
 <router-outlet></router-outlet>
