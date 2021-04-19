@@ -1,0 +1,44 @@
+@import 'variables';
+
+:host {
+  background-color: $color-black;
+  display: block;
+  width: 100%;
+}
+
+.layout-footer__container {
+  align-items: center;
+  color: $color-white;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: $grid-step * 1.5 auto;
+  padding: 0 $page-side-padding;
+  width: $page-width + $page-side-padding * 2;
+}
+
+.layout-footer__logo {
+  color: $color-white;
+  display: inline-flex;
+  gap: $grid-step;
+  font-weight: 700;
+}
+
+.layout-footer__copyright {
+  color: $color-light-grey;
+  text-align: center;
+}
+
+.layout-footer__social-links-container {
+  display: flex;
+  gap: $grid-step * 3;
+  justify-content: flex-end;
+}
+
+.layout-footer__social-link {
+  color: $color-grey;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: $color-white;
+  }
+}

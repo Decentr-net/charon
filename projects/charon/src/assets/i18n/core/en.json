@@ -12,6 +12,18 @@
     "year": "a year ago",
     "years": "years ago"
   },
+  "layout": {
+    "footer": {
+      "copyright": "Copyright {{ year }} Decentr All Rights Reserved",
+      "decentr": "Decentr",
+      "social": {
+        "github": "GitHub",
+        "medium": "Medium",
+        "telegram": "Telegram",
+        "twitter": "Twitter"
+      }
+    }
+  },
   "menu": {
     "coming_soon": "coming soon",
     "items": {

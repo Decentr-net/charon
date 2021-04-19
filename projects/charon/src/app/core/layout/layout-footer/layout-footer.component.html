@@ -1,0 +1,41 @@
+<div
+  class="layout-footer__container"
+  *transloco="let translate; read: 'core.layout.footer'; scope: 'core'"
+>
+  <a
+    class="layout-footer__logo"
+    href="https://decentr.net"
+    target="_blank"
+  >
+    <svg-icon
+      key="logo-icon"
+      size="lg"
+    ></svg-icon>
+
+    <span appTypeface="paragraph">
+      {{ translate('decentr') }}
+    </span>
+  </a>
+
+  <div
+    class="layout-footer__copyright"
+    appTypeface="caption"
+  >
+    &copy; {{ translate('copyright', { year: currentYear }) }}
+  </div>
+
+  <div class="layout-footer__social-links-container">
+    <a
+      class="layout-footer__social-link"
+      *ngFor="let socialLink of socialLinks"
+      [href]="socialLink.url"
+      target="_blank"
+      [title]="socialLink.title"
+    >
+      <svg-icon
+        [key]="socialLink.iconKey"
+        size="lg"
+      ></svg-icon>
+    </a>
+  </div>
+</div>

@@ -17,6 +17,7 @@ export type SvgIconName =
   | 'edit'
   | 'expand-more'
   | 'follow'
+  | 'github'
   | 'import-account'
   | 'import'
   | 'information'
@@ -29,6 +30,7 @@ export type SvgIconName =
   | 'logo-icon'
   | 'logo-pink'
   | 'logo'
+  | 'medium'
   | 'path'
   | 'pdv-rate-icon'
   | 'plus'
@@ -40,8 +42,10 @@ export type SvgIconName =
   | 'send'
   | 'settings'
   | 'signal'
+  | 'telegram'
   | 'topup'
-  | 'trash';
+  | 'trash'
+  | 'twitter';
 export interface SvgIcon {
   name: SvgIconName;
   data: string;

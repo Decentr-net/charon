@@ -8,6 +8,7 @@ import { SlotModule } from '@shared/components/slot';
 import { DragScrollModule } from '@shared/directives/drag-scroll';
 import { MouseWheelHorizontalScrollModule } from '@shared/directives/mouse-wheel-horizontal-scroll';
 import { RouterLinkScrollAnchorModule } from '@shared/directives/router-link-scroll-anchor';
+import { LayoutFooterModule } from '../layout-footer';
 import { AuthorizedLayoutComponent } from './authorized-layout.component';
 import { AuthorizedLayoutHeaderComponent } from './authorized-layout-header';
 import {
@@ -31,6 +32,7 @@ import {
   imports: [
     CommonModule,
     DragScrollModule,
+    LayoutFooterModule,
     MenuModule,
     MouseWheelHorizontalScrollModule,
     RouterModule,
