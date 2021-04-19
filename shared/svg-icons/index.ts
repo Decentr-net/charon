@@ -49,4 +49,5 @@ export * from './svg/svg-telegram.icon';
 export * from './svg/svg-topup.icon';
 export * from './svg/svg-trash.icon';
 export * from './svg/svg-twitter.icon';
+export * from './svg/svg-wallet.icon';
 export * from './svg/svg-icon.model';

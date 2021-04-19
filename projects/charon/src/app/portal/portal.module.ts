@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { SvgIconsModule } from '@ngneat/svg-icon';
@@ -8,6 +9,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 import { ExpansionListModule } from '@shared/components/expansion-list';
 import { FormErrorModule } from '@shared/components/form-error';
+import { SlotModule } from '@shared/components/slot';
 import { BindQueryParamsModule } from '@shared/directives/bind-query-params';
 import { IntersectionModule } from '@shared/directives/intersection';
 import { TypefaceModule } from '@shared/directives/typeface';
@@ -25,6 +27,7 @@ import { PortalRoutingModule } from './portal-routing.module';
   imports: [
     AuthorizedLayoutModule,
     BindQueryParamsModule,
+    ClipboardModule,
     CommonModule,
     FormErrorModule,
     FormsModule,
@@ -35,6 +38,7 @@ import { PortalRoutingModule } from './portal-routing.module';
     NgxSkeletonLoaderModule,
     PortalRoutingModule,
     ReactiveFormsModule,
+    SlotModule,
     SvgIconsModule,
     TranslocoModule,
     TypefaceModule,

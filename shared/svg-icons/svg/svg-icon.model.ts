@@ -45,7 +45,8 @@ export type SvgIconName =
   | 'telegram'
   | 'topup'
   | 'trash'
-  | 'twitter';
+  | 'twitter'
+  | 'wallet';
 export interface SvgIcon {
   name: SvgIconName;
   data: string;

@@ -15,6 +15,10 @@
     "assets": "Assets",
     "pdv_rate": "PDV rate"
   },
+  "portal_page": {
+    "copy_wallet_address": "Copy wallet address",
+    "wallet_address_copied": "The wallet address was copied successfully"
+  },
   "token_transactions_table": {
     "from": "From",
     "receive": "Receive",
