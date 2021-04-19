@@ -1,0 +1,69 @@
+<app-expansion-list
+  class="assets-page__expansion-list"
+  *transloco="let translate; read: 'portal.assets_page'"
+  [data]="assetsList$ | async"
+  appIntersectionArea
+>
+  <ng-container appExpansionListColumnDef>
+    <div
+      class="assets-page__tokens-header-cell"
+      *appExpansionListHeaderCellDef
+    >
+      {{ translate('tokens') }}
+
+      <button class="assets-page__add-token-button" appTypeface="caption">
+        <svg-icon key="add" size="md"></svg-icon>
+        {{ translate('add_token') }}
+      </button>
+    </div>
+
+    <div
+      class="assets-page__token-cell"
+      *appExpansionListCellDef="let asset;"
+    >
+      <svg-icon key="decentr-hub" size="lg"></svg-icon>
+      {{ asset.balance | microValue }}
+      {{ asset.token }}
+    </div>
+
+    <ng-container appExpansionListColumnDef appExpansionListColumnDefColspan="2">
+      <ng-container *appExpansionListHeaderCellDef="let assets">
+        {{ translate('transactions') }}
+
+        <ng-container *ngIf="assets">
+          <span
+            class="assets-page__expansion-list__header-count"
+            *ngIf="assets[0].transactions | async as transactions"
+            appTypeface="paragraph"
+          >
+            {{ transactions.length }}
+          </span>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *appExpansionListCellDef="let asset;">
+        <app-token-transactions-table
+          [transactions]="asset.transactions | async"
+        ></app-token-transactions-table>
+
+        <ngx-skeleton-loader
+          *ngIf="(asset.transactions | async) === undefined"
+          [count]="5"
+          [theme]="skeletonLoaderTheme"
+        ></ngx-skeleton-loader>
+      </ng-container>
+
+      <ng-container *appExpansionListColumnFooterDef>
+        <ng-container *ngIf="(isLoading$ | async) === false">
+          <ngx-skeleton-loader
+            *ngIf="canLoadMore$ | async"
+            [count]="1"
+            [theme]="skeletonLoaderTheme"
+            appIntersectionTarget="0.5"
+            (intersect)="loadMore()"
+          ></ngx-skeleton-loader>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</app-expansion-list>

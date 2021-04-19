@@ -2,6 +2,7 @@
 
 export type SvgIconName =
   | 'add-image'
+  | 'add'
   | 'arrow-left'
   | 'chart-arrow-down'
   | 'chart-arrow-flat'
@@ -33,8 +34,10 @@ export type SvgIconName =
   | 'plus'
   | 'publish'
   | 'receive-coin'
+  | 'receive'
   | 'reload'
   | 'send-coin'
+  | 'send'
   | 'settings'
   | 'signal'
   | 'topup'

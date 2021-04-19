@@ -5,6 +5,7 @@ import { SvgIcon } from './svg/svg-icon.model';
 export type IconNameSubset<T extends Readonly<SvgIcon[]>> = T[number]['name'];
 
 export * from './svg/svg-add-image.icon';
+export * from './svg/svg-add.icon';
 export * from './svg/svg-arrow-left.icon';
 export * from './svg/svg-chart-arrow-down.icon';
 export * from './svg/svg-chart-arrow-flat.icon';
@@ -36,8 +37,10 @@ export * from './svg/svg-pdv-rate-icon.icon';
 export * from './svg/svg-plus.icon';
 export * from './svg/svg-publish.icon';
 export * from './svg/svg-receive-coin.icon';
+export * from './svg/svg-receive.icon';
 export * from './svg/svg-reload.icon';
 export * from './svg/svg-send-coin.icon';
+export * from './svg/svg-send.icon';
 export * from './svg/svg-settings.icon';
 export * from './svg/svg-signal.icon';
 export * from './svg/svg-topup.icon';

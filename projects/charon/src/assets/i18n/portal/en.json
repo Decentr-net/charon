@@ -4,9 +4,21 @@
     "dates": "Dates",
     "website": "Website"
   },
+  "assets_page": {
+    "add_token": "Add token",
+    "send": "Send",
+    "tokens": "Tokens",
+    "transactions": "Transactions"
+  },
   "portal_navigation": {
     "activity": "Activity",
     "assets": "Assets",
     "pdv_rate": "PDV rate"
+  },
+  "token_transactions_table": {
+    "from": "From",
+    "receive": "Receive",
+    "send": "Send",
+    "to": "To"
   }
 }
