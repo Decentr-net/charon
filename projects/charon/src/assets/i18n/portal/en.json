@@ -1,4 +1,9 @@
 {
+  "activity_page": {
+    "address_details": "Address details",
+    "dates": "Dates",
+    "website": "Website"
+  },
   "portal_navigation": {
     "activity": "Activity",
     "assets": "Assets",

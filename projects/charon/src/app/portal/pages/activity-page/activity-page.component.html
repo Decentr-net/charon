@@ -1,0 +1,78 @@
+<app-expansion-list
+  class="activity-page__expansion-list"
+  *transloco="let translate; read: 'portal.activity_page'"
+  [data]="activityList$ | async"
+  appIntersectionArea
+>
+  <ng-container appExpansionListColumnDef [appExpansionListColumnDefTrackBy]="trackBy">
+    <ng-container *appExpansionListHeaderCellDef>
+      {{ translate('dates') }}
+    </ng-container>
+
+    <ng-container *appExpansionListCellDef="let item;">
+      {{ item.timestamp | date : 'd MMM, yyyy' }}
+    </ng-container>
+
+    <ng-container *appExpansionListLoading="let item;">
+      <ngx-skeleton-loader
+        [count]="10"
+        [theme]="skeletonLoaderTheme"
+      ></ngx-skeleton-loader>
+    </ng-container>
+
+    <ng-container *appExpansionListColumnFooterDef>
+      <ng-container *ngIf="(isLoading$ | async) === false">
+        <ngx-skeleton-loader
+          class="activity-page__skeleton-loader"
+          *ngIf="canLoadMore$ | async"
+          [count]="1"
+          [theme]="skeletonLoaderTheme"
+          appIntersectionTarget="0.5"
+          (intersect)="loadMore()"
+        ></ngx-skeleton-loader>
+      </ng-container>
+    </ng-container>
+
+    <ng-container appExpansionListColumnDef="pdvList">
+      <ng-container *appExpansionListHeaderCellDef="let pdvList;">
+        {{ translate('website') }}
+        <span
+          class="activity-page__expansion-list__header-count"
+          *ngIf="pdvList"
+          appTypeface="paragraph"
+        >
+          {{ pdvList?.length }}
+        </span>
+      </ng-container>
+
+      <ng-container *appExpansionListCellDef="let item;">
+        {{ item.domain }}
+      </ng-container>
+
+      <ng-container appExpansionListColumnDef="data">
+        <ng-container *appExpansionListHeaderCellDef="let cookies;">
+          {{ translate('address_details') }}
+          <span
+            class="activity-page__expansion-list__header-count"
+            *ngIf="cookies"
+            appTypeface="paragraph"
+          >
+          {{ cookies?.length }}
+        </span>
+        </ng-container>
+
+        <ng-container *appExpansionListCellDef="let item;">
+          <mat-expansion-panel class="activity-page__expansion-list__mat-panel mat-elevation-z">
+            <mat-expansion-panel-header class="activity-page__expansion-list__mat-panel-header">
+              <mat-panel-title>
+                {{ item.name }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            {{ item | json }}
+          </mat-expansion-panel>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</app-expansion-list>
