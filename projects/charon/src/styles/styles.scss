@@ -447,7 +447,7 @@ div.selectUserMenu {
   }
 }
 
-svg-icon {
+svg-icon[role='img'] {
   align-items: center;
-  display: inline-flex !important;
+  display: inline-flex;
 }
