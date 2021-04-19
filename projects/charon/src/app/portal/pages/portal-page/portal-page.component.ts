@@ -3,7 +3,10 @@ import { Observable } from 'rxjs';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgWallet } from '@shared/svg-icons';
-import { AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT } from '@core/layout/authorized-layout';
+import {
+  AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT,
+  AUTHORIZED_LAYOUT_HEADER_META_SLOT,
+} from '@core/layout/authorized-layout';
 import { PortalPageService } from './portal-page.service';
 
 @Component({
@@ -17,6 +20,7 @@ import { PortalPageService } from './portal-page.service';
 })
 export class PortalPageComponent implements OnInit {
   public readonly headerActionsSlot = AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT;
+  public readonly headerMetaSlot = AUTHORIZED_LAYOUT_HEADER_META_SLOT;
 
   public walletAddress$: Observable<string>;
 

@@ -5,7 +5,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { Network, NetworkSelectorTranslations } from './network-selector.definitions';
 import { NetworkSelectorService } from './network-selector.service';
-import { svgCheck, svgSignal } from '../../svg-icons';
+import { svgCheck, svgExpandMore, svgSignal } from '../../svg-icons';
 
 @UntilDestroy()
 @Component({
@@ -28,6 +28,7 @@ export class NetworkSelectorComponent implements OnInit {
   ) {
     svgIconRegistry.register([
       svgCheck,
+      svgExpandMore,
       svgSignal,
     ]);
   }

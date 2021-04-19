@@ -9,6 +9,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 import { ExpansionListModule } from '@shared/components/expansion-list';
 import { FormErrorModule } from '@shared/components/form-error';
+import { NetworkSelectorModule } from '@shared/components/network-selector';
 import { SlotModule } from '@shared/components/slot';
 import { BindQueryParamsModule } from '@shared/directives/bind-query-params';
 import { IntersectionModule } from '@shared/directives/intersection';
@@ -33,6 +34,7 @@ import { PortalRoutingModule } from './portal-routing.module';
     FormsModule,
     MatExpansionModule,
     MicroValueModule,
+    NetworkSelectorModule,
     ExpansionListModule,
     IntersectionModule,
     NgxSkeletonLoaderModule,
