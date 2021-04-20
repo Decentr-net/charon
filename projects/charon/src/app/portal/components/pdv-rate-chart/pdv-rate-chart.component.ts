@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Compiler, Component, Injector, Input, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Compiler,
+  Component,
+  Injector,
+  Input,
+  OnChanges,
+} from '@angular/core';
 import * as Highcharts from 'highcharts';
 
 import { ComponentFactoryClass } from './utils/component-factory';
@@ -14,7 +22,7 @@ export type PdvChartPoint = Record<number, number>;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class PdvRateChartComponent implements OnInit {
+export class PdvRateChartComponent implements AfterViewInit, OnChanges {
   @Input() data: PdvChartPoint[];
 
   constructor(
@@ -23,7 +31,15 @@ export class PdvRateChartComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
+  public ngAfterViewInit(): void {
+    this.paintChart();
+  }
+
+  public ngOnChanges(): void {
+    this.paintChart();
+  }
+
+  private paintChart(): void {
     Highcharts.chart('chart-container', this.setChartOptions());
   }
 

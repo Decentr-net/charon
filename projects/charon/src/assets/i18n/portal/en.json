@@ -10,6 +10,10 @@
     "tokens": "Tokens",
     "transactions": "Transactions"
   },
+  "pdv_rate": {
+    "no_pdv_rate": "You have no PDV Rate data",
+    "not_enough_pdv_rate": "Not enough data for the chart"
+  },
   "portal_navigation": {
     "activity": "Activity",
     "assets": "Assets",
