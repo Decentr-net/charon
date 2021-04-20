@@ -17,13 +17,13 @@ import { svgArrowLeft } from '@shared/svg-icons';
 import { AuthService } from '@core/auth';
 import { FollowingService, PostsListItem } from '@core/services';
 import { AppRoute } from '../../../app-route';
-import { UserRoute } from '../../../user';
-import { RECEIVER_WALLET_PARAM } from '../../../user/pages';
 import { HubRoute } from '../../hub-route';
 import { HubPDVStatistics, PDVStatisticsTranslations } from '../../components/hub-pdv-statistics';
 import { HubProfile } from '../../components/hub-profile-card';
 import { PostPageService } from './post-page.service';
 import { getHubPDVStats } from '../../utils/pdv';
+import { PortalRoute } from '../../../portal';
+import { RECEIVER_WALLET_PARAM } from '../../../portal/pages';
 
 @UntilDestroy()
 @Component({
@@ -137,7 +137,7 @@ export class PostPageComponent implements OnInit {
   }
 
   public onTopUpAuthor(author: Wallet['address']): void {
-    this.router.navigate(['/', AppRoute.User, UserRoute.Transfer], {
+    this.router.navigate(['/', AppRoute.Portal, PortalRoute.Assets, PortalRoute.Transfer], {
       queryParams: {
         [RECEIVER_WALLET_PARAM]: author,
       },
