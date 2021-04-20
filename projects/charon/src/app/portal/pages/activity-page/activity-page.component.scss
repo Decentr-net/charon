@@ -21,10 +21,27 @@
 
 .activity-page__expansion-list__mat-panel {
   border-radius: 0;
+  word-break: break-word;
 }
 
 .activity-page__expansion-list__mat-panel-header {
   font-weight: 700;
+
+  &:hover {
+    background: $color-background !important;
+  }
+}
+
+.activity-page--cookie-description {
+  column-gap: $grid-step;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  padding-top: $grid-step;
+  row-gap: $grid-step / 2;
+}
+
+.activity-page--cookie-description__key {
+  color: $color-grey;
 }
 
 .activity-page__skeleton-loader {

@@ -61,15 +61,23 @@
         </span>
         </ng-container>
 
-        <ng-container *appExpansionListCellDef="let item;">
+        <ng-container *appExpansionListCellDef="let cookie;">
           <mat-expansion-panel class="activity-page__expansion-list__mat-panel mat-elevation-z">
-            <mat-expansion-panel-header class="activity-page__expansion-list__mat-panel-header">
+            <mat-expansion-panel-header
+              class="activity-page__expansion-list__mat-panel-header"
+              expandedHeight="48px"
+            >
               <mat-panel-title>
-                {{ item.name }}
+                {{ cookie.name }}
               </mat-panel-title>
             </mat-expansion-panel-header>
 
-            {{ item | json }}
+            <div class="activity-page--cookie-description">
+              <ng-container *ngFor="let keyValue of cookie | keyvalue">
+                <span class="activity-page--cookie-description__key">{{ keyValue.key }}:</span>
+                <span>{{ keyValue.value }}</span>
+              </ng-container>
+            </div>
           </mat-expansion-panel>
         </ng-container>
       </ng-container>
