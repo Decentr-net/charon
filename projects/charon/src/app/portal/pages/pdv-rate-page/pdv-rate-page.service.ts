@@ -30,4 +30,8 @@ export class PdvRatePageService {
       }),
     );
   }
+
+  public getEstimatedBalance(): Observable<string> {
+    return this.pdvService.getEstimatedBalance();
+  }
 }

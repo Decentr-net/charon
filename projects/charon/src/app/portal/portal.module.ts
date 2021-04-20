@@ -16,6 +16,7 @@ import { BindQueryParamsModule } from '@shared/directives/bind-query-params';
 import { IntersectionModule } from '@shared/directives/intersection';
 import { TypefaceModule } from '@shared/directives/typeface';
 import { MarginLabelModule } from '@shared/components/margin-label';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MicroValueModule } from '@shared/pipes/micro-value';
 import { AuthorizedLayoutModule } from '@core/layout/authorized-layout';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
@@ -38,6 +39,7 @@ import { PortalRoutingModule } from './portal-routing.module';
     HighchartsChartModule,
     MarginLabelModule,
     MatExpansionModule,
+    MatTooltipModule,
     MicroValueModule,
     NetworkSelectorModule,
     ExpansionListModule,

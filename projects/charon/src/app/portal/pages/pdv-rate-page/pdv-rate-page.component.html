@@ -8,6 +8,7 @@
         <div
           class="pdv-rate__pdv-value"
           appTypeface="header-3"
+          [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async })"
         >
           {{ pdvRate.value | pdvValue }} PDV
         </div>

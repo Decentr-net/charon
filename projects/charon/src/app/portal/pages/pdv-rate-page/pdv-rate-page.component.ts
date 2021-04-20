@@ -25,6 +25,7 @@ interface FilterButton {
 })
 export class PdvRatePageComponent {
   public coinRate$: Observable<CoinRateFor24Hours>;
+  public estimatedBalance$: Observable<string>;
   public pdvChartPoints$: Observable<PdvChartPoint[]>;
   public pdvRate$: Observable<BalanceValueDynamic>;
 
@@ -47,6 +48,7 @@ export class PdvRatePageComponent {
 
   public ngOnInit(): void {
     this.coinRate$ = this.pdvRateService.getCoinRate();
+    this.estimatedBalance$ = this.pdvRateService.getEstimatedBalance();
     this.pdvRate$ = this.pdvRateService.getPdvRateWithMargin();
     this.pdvChartPoints$ = this.pdvRateService.getPdvChartPoints();
 

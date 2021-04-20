@@ -11,6 +11,7 @@
     "transactions": "Transactions"
   },
   "pdv_rate": {
+    "estimated_balance": "In progress: {{estimatedBalance}} PDV",
     "no_pdv_rate": "You have no PDV Rate data",
     "not_enough_pdv_rate": "Not enough data for the chart"
   },
