@@ -20,6 +20,10 @@
   padding: $grid-step * 1.5 $grid-step * 2;
   row-gap: $grid-step / 2;
 
+  &.mod-new {
+    background-color: rgba($color-positive, 0.08);
+  }
+
   &:last-child {
     border: none;
   }

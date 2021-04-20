@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Navigation, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
@@ -32,8 +33,11 @@ export class AssetsPageComponent
 
   public readonly portalRoute: typeof PortalRoute = PortalRoute;
 
+  public lastTransferTime: number;
+
   constructor(
     private assetsPageService: AssetsPageService,
+    private router: Router,
     private svgIconRegistry: SvgIconRegistry,
   ) {
     super(assetsPageService);
@@ -42,9 +46,15 @@ export class AssetsPageComponent
       svgAdd,
       svgSend,
     ]);
+
+    this.lastTransferTime = this.getLastTransferTime(this.router.getCurrentNavigation());
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.assetsList$ = this.assetsPageService.getAssets();
+  }
+
+  private getLastTransferTime(navigation: Navigation): number | undefined {
+    return navigation?.extras?.state?.lastTransferTime;
   }
 }

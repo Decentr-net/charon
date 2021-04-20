@@ -9,6 +9,7 @@
 
     <div
       class="token-transactions-table__group-item"
+      [class.mod-new]="transaction.timestamp > newTransactionsAfter"
       *ngFor="let transaction of group.items"
       appTypeface="paragraph"
     >

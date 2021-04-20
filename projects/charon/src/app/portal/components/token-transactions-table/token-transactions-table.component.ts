@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 
+import { svgReceive, svgSend } from '@shared/svg-icons';
 import { groupByDate, GroupedByDate } from '@shared/utils/group-by';
 import { TokenTransaction } from './token-transactions-table.definitions';
-import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { svgReceive, svgSend } from '../../../../../../../shared/svg-icons';
 
 @Component({
   selector: 'app-token-transactions-table',
@@ -12,6 +12,8 @@ import { svgReceive, svgSend } from '../../../../../../../shared/svg-icons';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TokenTransactionsTableComponent {
+  @Input() public newTransactionsAfter: number;
+
   @Input() public set transactions(value: TokenTransaction[]) {
     this.groups = groupByDate(value || [], (item) => item.timestamp);
   }

@@ -134,6 +134,7 @@ export class AssetsPageService
       map((response) => response.transactions.map((transaction) => ({
         ...transaction,
         role,
+        timestamp: new Date(transaction.timestamp).valueOf(),
       }))),
       tap((transactions) => roleList.next([...roleList.value, ...transactions])),
     );
