@@ -1,0 +1,47 @@
+@import 'variables';
+
+.pdv-rate__pdv {
+  border: 2px solid $color-outlines;
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  padding: $grid-step * 2;
+}
+
+.pdv-rate__pdv-loading {
+  width: 100%;
+}
+
+.pdv-rate__pdv-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pdv-rate__pdv-value-margin {
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+}
+
+.pdv-rate__pdv-filter {
+}
+
+.pdv-rate__pdv-chart {
+  margin-top: $grid-step;
+}
+
+.pdv-rate__currency {
+  align-items: center;
+  border: 2px solid $color-outlines;
+  border-radius: $border-radius;
+  display: flex;
+  font-weight: 500;
+  margin-top: $grid-step * 3;
+  padding: $grid-step * 3 $grid-step * 2;
+}
+
+.pdv-rate__currency-icon {
+  display: flex;
+  font-size: 64px;
+  margin-right: $grid-step * 2;
+}

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HighchartsChartModule } from 'highcharts-angular';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
@@ -14,8 +15,10 @@ import { SlotModule } from '@shared/components/slot';
 import { BindQueryParamsModule } from '@shared/directives/bind-query-params';
 import { IntersectionModule } from '@shared/directives/intersection';
 import { TypefaceModule } from '@shared/directives/typeface';
+import { MarginLabelModule } from '@shared/components/margin-label';
 import { MicroValueModule } from '@shared/pipes/micro-value';
 import { AuthorizedLayoutModule } from '@core/layout/authorized-layout';
+import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { PORTAL_COMPONENTS } from './components';
 import { PORTAL_PAGES } from './pages';
 import { PortalRoutingModule } from './portal-routing.module';
@@ -32,12 +35,15 @@ import { PortalRoutingModule } from './portal-routing.module';
     CommonModule,
     FormErrorModule,
     FormsModule,
+    HighchartsChartModule,
+    MarginLabelModule,
     MatExpansionModule,
     MicroValueModule,
     NetworkSelectorModule,
     ExpansionListModule,
     IntersectionModule,
     NgxSkeletonLoaderModule,
+    PdvValueModule,
     PortalRoutingModule,
     ReactiveFormsModule,
     SlotModule,
