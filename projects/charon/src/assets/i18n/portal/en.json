@@ -21,8 +21,8 @@
   },
   "token_transactions_table": {
     "from": "From",
-    "receive": "Receive",
-    "send": "Send",
+    "received": "Received",
+    "sent": "Sent",
     "to": "To"
   },
   "transfer_page": {
