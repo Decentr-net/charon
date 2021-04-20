@@ -25,6 +25,8 @@ import { ExpansionListHeaderCellDefDirective } from '../expansion-list-header-ce
 export class ExpansionListColumnDefDirective<T> implements OnInit {
   @Input('appExpansionListColumnDef') public pluck: string;
 
+  @Input('appExpansionListColumnDefChooseFirst') public chooseFirst: boolean = true;
+
   @Input('appExpansionListColumnDefColspan') public colspan: number = 1;
 
   @Input('appExpansionListColumnDefTrackBy') public trackBy: TrackByFunction<T>;

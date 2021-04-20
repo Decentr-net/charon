@@ -1,6 +1,17 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Input, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map, startWith, take } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { coerceObservable } from '../../../utils/observable';
@@ -13,8 +24,10 @@ import { ExpansionListColumnDefDirective } from './expansion-list-column-def.dir
   templateUrl: './expansion-list-column.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExpansionListColumnComponent<T> implements OnInit {
+export class ExpansionListColumnComponent<T> implements OnInit, AfterViewInit {
   @Input() public columnDef: ExpansionListColumnDefDirective<T>;
+
+  @ViewChildren('cell') public cells: QueryList<ElementRef<HTMLDivElement>>;
 
   @HostBinding('class.mod-last')
   public get isLastColumn(): boolean {
@@ -32,6 +45,23 @@ export class ExpansionListColumnComponent<T> implements OnInit {
   ) {
   }
 
+  public ngAfterViewInit(): void {
+    if (!this.columnDef.chooseFirst) {
+      return;
+    }
+
+    this.cells.changes.pipe(
+      startWith(this.cells),
+      map((cellsQueryList: QueryList<ElementRef<HTMLDivElement>>) => cellsQueryList.toArray()),
+      filter((cellRefs) => cellRefs.length > 0),
+      map((cellRefs) => cellRefs[0].nativeElement),
+      take(1),
+      untilDestroyed(this),
+    ).subscribe((firstCell) => {
+      firstCell.click();
+    });
+  }
+
   public get parentActiveItem(): undefined | Observable<any | undefined> {
     return this.columnDef.parentColumnDef?.getActiveItem();
   }
@@ -43,7 +73,7 @@ export class ExpansionListColumnComponent<T> implements OnInit {
       untilDestroyed(this),
     ).subscribe((item) => {
       this.activeItem = item;
-      this.changeDetectorRef.markForCheck();
+      this.changeDetectorRef.detectChanges();
     });
 
     this.isLoading$ = combineLatest([
