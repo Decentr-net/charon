@@ -17,15 +17,19 @@
   overflow: hidden;
 }
 
+.authorized-layout-header__logo {
+  display: inline-flex;
+}
+
 .authorized-layout-header__logo-icon {
   display: inline-flex;
   height: 40px;
-  width: 115px;
+  width: 147px;
 }
 
 .authorized-layout-header__meta-container {
   border-radius: $border-radius;
   display: flex;
   flex-grow: 1;
-  margin: 0 40px;
+  margin: 0 $grid-step * 3.5;
 }

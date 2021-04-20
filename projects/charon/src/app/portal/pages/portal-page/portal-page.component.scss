@@ -8,6 +8,15 @@
   width: $page-width + $page-side-padding * 2;
 }
 
+.portal-page__logo {
+  display: inline-flex;
+}
+
+.portal-page__logo-icon {
+  height: 40px;
+  width: 119px;
+}
+
 .portal-page__copy-wallet-button {
   background-color: $color-background;
   border-radius: $border-radius;

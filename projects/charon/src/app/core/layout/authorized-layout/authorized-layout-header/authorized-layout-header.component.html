@@ -1,8 +1,13 @@
-<svg-icon
-  class="authorized-layout-header__logo-icon"
-  key="logo"
+<a
+  class="authorized-layout-header__logo"
   *appSlotContainer="logoSlotName"
-></svg-icon>
+  [routerLink]="['./']"
+>
+  <svg-icon
+    class="authorized-layout-header__logo-icon"
+    key="logo"
+  ></svg-icon>
+</a>
 
 <div class="authorized-layout-header__meta-container">
   <ng-container *appSlotContainer="metaSlotName; rootElement: elementRef.nativeElement"></ng-container>

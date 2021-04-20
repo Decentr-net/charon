@@ -2,9 +2,10 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgWallet } from '@shared/svg-icons';
+import { svgLogoPortal, svgWallet } from '@shared/svg-icons';
 import {
   AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT,
+  AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT,
   AUTHORIZED_LAYOUT_HEADER_META_SLOT,
 } from '@core/layout/authorized-layout';
 import { PortalPageService } from './portal-page.service';
@@ -20,6 +21,7 @@ import { PortalPageService } from './portal-page.service';
 })
 export class PortalPageComponent implements OnInit {
   public readonly headerActionsSlot = AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT;
+  public readonly headerLogoSlot = AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT;
   public readonly headerMetaSlot = AUTHORIZED_LAYOUT_HEADER_META_SLOT;
 
   public walletAddress$: Observable<string>;
@@ -29,6 +31,7 @@ export class PortalPageComponent implements OnInit {
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register([
+      svgLogoPortal,
       svgWallet,
     ]);
   }

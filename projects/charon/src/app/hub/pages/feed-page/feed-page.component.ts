@@ -5,7 +5,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { Post } from 'decentr-js';
 
-import { svgEdit, svgLogoPink } from '@shared/svg-icons';
+import { svgEdit, svgLogoFeed } from '@shared/svg-icons';
 import { AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT } from '@core/layout/authorized-layout';
 import { PostsListItem } from '@core/services';
 import { HubPostsService } from '../../services';
@@ -46,7 +46,7 @@ export class FeedPageComponent implements OnInit {
   ) {
     svgIconRegistry.register([
       svgEdit,
-      svgLogoPink,
+      svgLogoFeed,
     ]);
   }
 
