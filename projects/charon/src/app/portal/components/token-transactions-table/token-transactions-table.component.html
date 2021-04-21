@@ -41,7 +41,7 @@
     <div class="token-transactions-table__operation">{{ translate('sent') }}</div>
 
     <div class="token-transactions-table__amount token-transactions-table__color-send">
-      -{{ transaction.amount.amount }} tDEC
+      -{{ transaction.amount.amount | microValue }} tDEC
     </div>
 
     <div class="token-transactions-table__address" appTypeface="caption">
@@ -59,7 +59,7 @@
     <div class="token-transactions-table__operation">{{ translate('received') }}</div>
 
     <div class="token-transactions-table__amount token-transactions-table__color-receive">
-      {{ transaction.amount.amount }} tDEC
+      {{ transaction.amount.amount | microValue }} tDEC
     </div>
 
     <div class="token-transactions-table__address" appTypeface="caption">
