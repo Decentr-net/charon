@@ -53,7 +53,7 @@ export class PdvRatePageComponent {
     this.pdvChartPoints$ = this.pdvRateService.getPdvChartPoints();
 
     this.chartData$ = combineLatest([
-      this.pdvRateService.getPdvChartPoints(),
+      this.pdvChartPoints$,
       this.activeFilter$,
     ]).pipe(
       map(([data, activeFilter]) => this.filterChartData(data, activeFilter.amount, activeFilter.dateType)),

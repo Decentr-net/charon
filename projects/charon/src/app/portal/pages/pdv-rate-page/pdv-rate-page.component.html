@@ -36,7 +36,7 @@
     </div>
 
     <div
-      *ngIf="chartData$ | async as pdvChartPoints"
+      *ngIf="chartData$ | async as pdvChartPoints; else loadingChart"
       class="pdv-rate__pdv-chart"
     >
       <app-pdv-rate-chart
@@ -46,8 +46,8 @@
 
       <ng-template #noChartData>
         <div class="pdv-rate__pdv-chart__no-data">
-          <ng-container *ngIf="(chartData$ | async)?.length === 1">{{ translate('not_enough_pdv_rate') }}</ng-container>
-          <ng-container *ngIf="(chartData$ | async)?.length < 1">{{ translate('no_pdv_rate') }}</ng-container>
+          <ng-container *ngIf="pdvChartPoints.length === 1">{{ translate('not_enough_pdv_rate') }}</ng-container>
+          <ng-container *ngIf="pdvChartPoints.length < 1">{{ translate('no_pdv_rate') }}</ng-container>
         </div>
       </ng-template>
     </div>
@@ -67,14 +67,25 @@
   </div>
 
   <ng-template #loadingPdvRate>
-  <ngx-skeleton-loader
-    class="pdv-rate__pdv-loading"
-    [theme]="{
-      height: '350px',
-      marginBottom: '0',
-      width: '100%'
-    }"
-  ></ngx-skeleton-loader>
+    <ngx-skeleton-loader
+      class="pdv-rate__pdv-loading"
+      [theme]="{
+        height: '100px',
+        marginBottom: '0',
+        width: '100%'
+      }"
+    ></ngx-skeleton-loader>
+  </ng-template>
+
+  <ng-template #loadingChart>
+    <ngx-skeleton-loader
+      class="pdv-rate__chart-loading"
+        [theme]="{
+        height: '250px',
+        marginBottom: '0',
+        width: '100%'
+      }"
+    ></ngx-skeleton-loader>
   </ng-template>
 
   <ng-template #loadingCoinRate>

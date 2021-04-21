@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Compiler,
   Component,
+  ElementRef,
   Injector,
   Input,
   OnChanges,
@@ -28,9 +29,13 @@ export class PdvRateChartComponent implements AfterViewInit, OnChanges {
   constructor(
     private injector: Injector,
     private compiler: Compiler,
+    private elementRef: ElementRef<HTMLElement>,
   ) {
   }
 
+  public ngOnInit(): void {
+    this.paintChart();
+  }
   public ngAfterViewInit(): void {
     this.paintChart();
   }
@@ -40,7 +45,7 @@ export class PdvRateChartComponent implements AfterViewInit, OnChanges {
   }
 
   private paintChart(): void {
-    Highcharts.chart('chart-container', this.setChartOptions());
+    Highcharts.chart(this.elementRef.nativeElement, this.setChartOptions());
   }
 
   private setChartOptions(): Highcharts.Options {

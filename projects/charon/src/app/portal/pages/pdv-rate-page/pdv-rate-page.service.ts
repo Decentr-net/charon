@@ -20,11 +20,11 @@ export class PdvRatePageService {
   }
 
   public getPdvRateWithMargin(): Observable<BalanceValueDynamic> {
-    return this.pdvService.getBalanceWithMarginLive();
+    return this.pdvService.getBalanceWithMarginLive(false);
   }
 
   public getPdvChartPoints(): Observable<PdvChartPoint[]> {
-    return this.pdvService.getPDVStatChartPointsLive().pipe(
+    return this.pdvService.getPDVStatChartPointsLive(false).pipe(
       map((chartPoints) => {
         return chartPoints.map((chartPoint) => [chartPoint.date, chartPoint.value]);
       }),
