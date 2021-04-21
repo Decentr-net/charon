@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { TooltipFormatterContextObject } from 'highcharts';
 
 @Component({
@@ -6,6 +6,7 @@ import { TooltipFormatterContextObject } from 'highcharts';
   templateUrl: './tooltip.component.html',
   styleUrls: ['./tooltip.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class TooltipComponent {
   @Input() data!: TooltipFormatterContextObject;
