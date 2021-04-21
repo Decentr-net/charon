@@ -60,6 +60,12 @@
   padding: $grid-step $grid-step * 2 $grid-step $grid-step * 1.5;
 }
 
+.assets-page__no-transactions {
+  color: $color-grey;
+  margin-top: $grid-step * 2;
+  text-align: center;
+}
+
 .assets-page__skeleton-loader {
   display: flex;
   flex-direction: column;
