@@ -26,9 +26,9 @@ export class AssetsPageComponent
   public assetsList$: Observable<Asset[]>;
 
   public readonly skeletonLoaderTheme = {
-    height: '48px',
-    marginBottom: '0',
-    width: '100%'
+    height: '24px',
+    marginBottom: '24px',
+    width: '100%',
   };
 
   public readonly portalRoute: typeof PortalRoute = PortalRoute;

@@ -45,5 +45,7 @@
 }
 
 .activity-page__skeleton-loader {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  padding: $grid-step * 1.5;
 }

@@ -59,3 +59,9 @@
   gap: $grid-step;
   padding: $grid-step $grid-step * 2 $grid-step $grid-step * 1.5;
 }
+
+.assets-page__skeleton-loader {
+  display: flex;
+  flex-direction: column;
+  padding: $grid-step * 1.5;
+}

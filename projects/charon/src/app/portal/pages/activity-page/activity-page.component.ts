@@ -17,9 +17,9 @@ import { ActivityPageService } from './activity-page.service';
 })
 export class ActivityPageComponent extends InfiniteLoadingPresenter<ActivityListItem> implements OnInit {
   public readonly skeletonLoaderTheme = {
-    height: '48px',
-    marginBottom: '0',
-    width: '100%'
+    height: '24px',
+    marginBottom: '24px',
+    width: '100%',
   };
 
   constructor(
