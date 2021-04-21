@@ -21,6 +21,9 @@
       ></ng-template>
     </div>
 
-    <ng-template [ngTemplateOutlet]="columnDef.columnFooterTemplate"></ng-template>
+    <ng-template
+      [ngTemplateOutlet]="columnDef.columnFooterTemplate"
+      [ngTemplateOutletContext]="{ $implicit: items }"
+    ></ng-template>
   </ng-container>
 </ng-template>

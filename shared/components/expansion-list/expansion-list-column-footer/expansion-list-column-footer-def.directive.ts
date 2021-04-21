@@ -7,7 +7,7 @@ import { ExpansionListColumnDefDirective } from '../expansion-list-column';
 export class ExpansionListColumnFooterDefDirective<T> implements OnInit {
   constructor(
     public columnDef: ExpansionListColumnDefDirective<T>,
-    private templateRef: TemplateRef<void>,
+    private templateRef: TemplateRef<{ $implicit: T[] }>,
   ) {
   }
 

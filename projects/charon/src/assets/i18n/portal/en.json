@@ -2,6 +2,7 @@
   "activity_page": {
     "details": "Details",
     "date": "Date",
+    "no_activity": "You have no activity data",
     "website": "Website"
   },
   "assets_page": {

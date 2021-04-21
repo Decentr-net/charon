@@ -44,6 +44,12 @@
   color: $color-grey;
 }
 
+.activity-page__no-activity {
+  color: $color-grey;
+  margin-top: $grid-step * 2;
+  text-align: center;
+}
+
 .activity-page__skeleton-loader {
   display: flex;
   flex-direction: column;

@@ -13,7 +13,7 @@
       {{ item.timestamp | date : 'dd/MM/yyyy HH:mm' }}
     </ng-container>
 
-    <ng-container *appExpansionListLoading="let item;">
+    <ng-container *appExpansionListLoading>
       <ngx-skeleton-loader
         class="activity-page__skeleton-loader"
         [count]="10"
@@ -21,7 +21,7 @@
       ></ngx-skeleton-loader>
     </ng-container>
 
-    <ng-container *appExpansionListColumnFooterDef>
+    <ng-container *appExpansionListColumnFooterDef="let items">
       <ng-container *ngIf="(isLoading$ | async) === false">
         <ngx-skeleton-loader
           class="activity-page__skeleton-loader"
@@ -31,6 +31,13 @@
           appIntersectionTarget="0.5"
           (intersect)="loadMore()"
         ></ngx-skeleton-loader>
+
+        <div
+          class="activity-page__no-activity"
+          *ngIf="!items.length"
+        >
+          {{ translate('no_activity') }}
+        </div>
       </ng-container>
     </ng-container>
 

@@ -40,7 +40,7 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
   @ContentChild(ExpansionListColumnDefDirective)
   public childColumnDef: ExpansionListColumnDefDirective<T[keyof T]>;
 
-  public columnFooterTemplate: TemplateRef<void>;
+  public columnFooterTemplate: TemplateRef<{ $implicit: T[] }>;
 
   public loadingTemplate: TemplateRef<{ $implicit: any }>;
 
@@ -92,7 +92,7 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
     return !this.childColumnDef;
   }
 
-  public registerFooterTemplate(template: TemplateRef<void>): void {
+  public registerFooterTemplate(template: TemplateRef<{ $implicit: T[] }>): void {
     this.columnFooterTemplate = template;
   }
 
