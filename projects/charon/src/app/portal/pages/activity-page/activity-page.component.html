@@ -6,7 +6,7 @@
 >
   <ng-container appExpansionListColumnDef [appExpansionListColumnDefTrackBy]="trackBy">
     <ng-container *appExpansionListHeaderCellDef>
-      {{ translate('dates') }}
+      {{ translate('date') }}
     </ng-container>
 
     <ng-container *appExpansionListCellDef="let item;">
@@ -51,7 +51,7 @@
 
       <ng-container appExpansionListColumnDef="data">
         <ng-container *appExpansionListHeaderCellDef="let cookies;">
-          {{ translate('address_details') }}
+          {{ translate('details') }}
           <span
             class="activity-page__expansion-list__header-count"
             *ngIf="cookies"
