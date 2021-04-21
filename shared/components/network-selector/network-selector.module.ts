@@ -34,7 +34,7 @@ export class NetworkSelectorModule {
       providers: [
         {
           provide: NetworkSelectorService,
-          useExisting: config.service,
+          useClass: config.service,
         },
       ],
     };
