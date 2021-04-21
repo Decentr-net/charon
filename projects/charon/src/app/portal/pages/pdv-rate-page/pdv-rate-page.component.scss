@@ -3,8 +3,7 @@
 .pdv-rate__pdv {
   border: 2px solid $color-outlines;
   border-radius: $border-radius;
-  display: flex;
-  flex-direction: column;
+  display: block;
   padding: $grid-step * 2;
 }
 
@@ -36,19 +35,21 @@
   border-radius: $border-radius;
   display: flex;
   font-weight: 500;
+  user-select: none;
 
   li {
-    cursor: pointer;
     padding: $grid-step * 1.5 $grid-step * 2;
 
     &.active {
       background: $color-white;
       border-radius: $border-radius;
-      box-shadow: 0 4px 12px rgba(146, 146, 151, 0.4);
+      box-shadow: 0 4px 12px rgba($color-grey, 0.4);
+      cursor: default;
     }
 
     &:not(.active) {
       color: $color-grey;
+      cursor: pointer;
     }
   }
 }

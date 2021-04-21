@@ -1,101 +1,99 @@
-<ng-container *transloco="let translate; read: 'portal.pdv_rate'">
-  <div class="pdv-rate__pdv">
-    <div class="pdv-rate__pdv-header">
-      <div
-        *ngIf="pdvRate$ | async as pdvRate; else loadingPdvRate"
-        class="pdv-rate__pdv-value-margin"
-      >
-        <div
-          class="pdv-rate__pdv-value"
-          appTypeface="header-3"
-          [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async })"
-        >
-          {{ pdvRate.value | pdvValue }} PDV
-        </div>
-
-        <app-margin-label
-          class="pdv-rate__pdv-margin"
-          [dayMargin]="pdvRate.dayMargin"
-          [digitsInfo]="'1.0-5'"
-        ></app-margin-label>
-      </div>
-
-      <div class="pdv-rate__pdv-filter">
-        <ul
-          *ngIf="(pdvChartPoints$ | async)?.length > 1"
-          class="pdv-rate__pdv-filter-buttons"
-        >
-          <li
-            *ngFor="let button of filterButtons"
-            [class.active]="(activeFilter$ | async) === button"
-            (click)="setFilter(button)"
-          >
-            {{ button.label }}
-          </li>
-        </ul>
-      </div>
-    </div>
-
+<div *transloco="let translate; read: 'portal.pdv_rate'" class="pdv-rate__pdv">
+  <div class="pdv-rate__pdv-header">
     <div
-      *ngIf="chartData$ | async as pdvChartPoints; else loadingChart"
-      class="pdv-rate__pdv-chart"
+      *ngIf="pdvRate$ | async as pdvRate; else loadingPdvRate"
+      class="pdv-rate__pdv-value-margin"
     >
-      <app-pdv-rate-chart
-        *ngIf="pdvChartPoints.length > 1; else noChartData"
-        [data]="pdvChartPoints"
-      ></app-pdv-rate-chart>
+      <div
+        class="pdv-rate__pdv-value"
+        appTypeface="header-3"
+        [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async })"
+      >
+        {{ pdvRate.value | pdvValue }} PDV
+      </div>
 
-      <ng-template #noChartData>
-        <div class="pdv-rate__pdv-chart__no-data">
-          <ng-container *ngIf="pdvChartPoints.length === 1">{{ translate('not_enough_pdv_rate') }}</ng-container>
-          <ng-container *ngIf="pdvChartPoints.length < 1">{{ translate('no_pdv_rate') }}</ng-container>
-        </div>
-      </ng-template>
+      <app-margin-label
+        class="pdv-rate__pdv-margin"
+        [dayMargin]="pdvRate.dayMargin"
+        [digitsInfo]="'1.0-5'"
+      ></app-margin-label>
+    </div>
+
+    <div class="pdv-rate__pdv-filter">
+      <ul
+        *ngIf="(pdvChartPoints$ | async)?.length > 1"
+        class="pdv-rate__pdv-filter-buttons"
+      >
+        <li
+          *ngFor="let button of filterButtons"
+          [class.active]="(activeFilter$ | async) === button"
+          (click)="setFilter(button)"
+        >
+          {{ button.label }}
+        </li>
+      </ul>
     </div>
   </div>
 
-  <div class="pdv-rate__currency">
-    <ng-container *ngIf="coinRate$ | async as coinRate; else loadingCoinRate">
-      <svg-icon
-        class="pdv-rate__currency-icon"
-        key="logo-icon">
-      </svg-icon>
+  <div
+    *ngIf="chartData$ | async as pdvChartPoints; else loadingChart"
+    class="pdv-rate__pdv-chart"
+  >
+    <app-pdv-rate-chart
+      *ngIf="pdvChartPoints.length > 1; else noChartData"
+      [data]="pdvChartPoints"
+    ></app-pdv-rate-chart>
 
-      <div appTypeface="header-3">
-        1 DEC = {{ coinRate.value | currency : 'USD' : 'symbol' : '1.4' }}
+    <ng-template #noChartData>
+      <div class="pdv-rate__pdv-chart__no-data">
+        <ng-container *ngIf="pdvChartPoints.length === 1">{{ translate('not_enough_pdv_rate') }}</ng-container>
+        <ng-container *ngIf="pdvChartPoints.length < 1">{{ translate('no_pdv_rate') }}</ng-container>
       </div>
-    </ng-container>
+    </ng-template>
   </div>
+</div>
 
-  <ng-template #loadingPdvRate>
-    <ngx-skeleton-loader
-      class="pdv-rate__pdv-loading"
+<div class="pdv-rate__currency">
+  <ng-container *ngIf="coinRate$ | async as coinRate; else loadingCoinRate">
+    <svg-icon
+      class="pdv-rate__currency-icon"
+      key="logo-icon">
+    </svg-icon>
+
+    <div appTypeface="header-3">
+      1 DEC = {{ coinRate.value | currency : 'USD' : 'symbol' : '1.4' }}
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #loadingPdvRate>
+  <ngx-skeleton-loader
+    class="pdv-rate__pdv-loading"
+    [theme]="{
+      height: '100px',
+      marginBottom: '0',
+      width: '100%'
+    }"
+  ></ngx-skeleton-loader>
+</ng-template>
+
+<ng-template #loadingChart>
+  <ngx-skeleton-loader
+    class="pdv-rate__chart-loading"
       [theme]="{
-        height: '100px',
-        marginBottom: '0',
-        width: '100%'
-      }"
-    ></ngx-skeleton-loader>
-  </ng-template>
+      height: '250px',
+      marginBottom: '0',
+      width: '100%'
+    }"
+  ></ngx-skeleton-loader>
+</ng-template>
 
-  <ng-template #loadingChart>
-    <ngx-skeleton-loader
-      class="pdv-rate__chart-loading"
-        [theme]="{
-        height: '250px',
-        marginBottom: '0',
-        width: '100%'
-      }"
-    ></ngx-skeleton-loader>
-  </ng-template>
-
-  <ng-template #loadingCoinRate>
-    <ngx-skeleton-loader
-      [theme]="{
-        height: '68px',
-        marginBottom: '0',
-        width: '500px'
-      }"
-    ></ngx-skeleton-loader>
-  </ng-template>
-</ng-container>
+<ng-template #loadingCoinRate>
+  <ngx-skeleton-loader
+    [theme]="{
+      height: '68px',
+      marginBottom: '0',
+      width: '500px'
+    }"
+  ></ngx-skeleton-loader>
+</ng-template>

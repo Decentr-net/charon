@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import * as Highcharts from 'highcharts';
+import { TooltipFormatterContextObject } from 'highcharts';
 
 @Component({
   selector: 'app-tooltip',
@@ -8,5 +8,5 @@ import * as Highcharts from 'highcharts';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TooltipComponent {
-  @Input() data!: Highcharts.TooltipFormatterContextObject;
+  @Input() data!: TooltipFormatterContextObject;
 }

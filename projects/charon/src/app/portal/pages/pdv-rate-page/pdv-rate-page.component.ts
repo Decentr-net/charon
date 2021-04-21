@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { addAmountToDate, DateAmountType } from '@shared/utils/date';
 import { BalanceValueDynamic } from '@shared/services/pdv';
@@ -54,7 +54,9 @@ export class PdvRatePageComponent {
 
     this.chartData$ = combineLatest([
       this.pdvChartPoints$,
-      this.activeFilter$,
+      this.activeFilter$.pipe(
+        distinctUntilChanged((previous, current) => previous.amount === current.amount),
+      ),
     ]).pipe(
       map(([data, activeFilter]) => this.filterChartData(data, activeFilter.amount, activeFilter.dateType)),
     );

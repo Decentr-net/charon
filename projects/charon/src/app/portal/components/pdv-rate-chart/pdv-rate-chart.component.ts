@@ -1,18 +1,8 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Compiler,
-  Component,
-  ElementRef,
-  Injector,
-  Input,
-  OnChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Compiler, Component, ElementRef, Injector, Input, } from '@angular/core';
 import * as Highcharts from 'highcharts';
 
 import { ComponentFactoryClass } from './utils/component-factory';
-import { TooltipComponent } from './tooltip/tooltip.component';
-import { TooltipModule } from './tooltip';
+import { TooltipComponent, TooltipModule } from './tooltip';
 
 export type PdvChartPoint = Record<number, number>;
 
@@ -23,8 +13,10 @@ export type PdvChartPoint = Record<number, number>;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class PdvRateChartComponent implements AfterViewInit, OnChanges {
-  @Input() data: PdvChartPoint[];
+export class PdvRateChartComponent {
+  @Input() public set data(value: PdvChartPoint[]) {
+    this.paintChart(value);
+  }
 
   constructor(
     private injector: Injector,
@@ -33,22 +25,11 @@ export class PdvRateChartComponent implements AfterViewInit, OnChanges {
   ) {
   }
 
-  public ngOnInit(): void {
-    this.paintChart();
-  }
-  public ngAfterViewInit(): void {
-    this.paintChart();
+  private paintChart(value: PdvChartPoint[]): void {
+    Highcharts.chart(this.elementRef.nativeElement, this.getChartOptions(value));
   }
 
-  public ngOnChanges(): void {
-    this.paintChart();
-  }
-
-  private paintChart(): void {
-    Highcharts.chart(this.elementRef.nativeElement, this.setChartOptions());
-  }
-
-  private setChartOptions(): Highcharts.Options {
+  private getChartOptions(value: PdvChartPoint[]): Highcharts.Options {
     const component = new ComponentFactoryClass<TooltipModule, TooltipComponent>
     (this.injector, this.compiler).createComponent(TooltipModule, TooltipComponent);
 
@@ -125,7 +106,7 @@ export class PdvRateChartComponent implements AfterViewInit, OnChanges {
       series: [
         {
           color: '#9F65FD',
-          data: this.data,
+          data: value,
           type: 'area',
         },
       ],
