@@ -3,14 +3,4 @@
   [detailsAnchorElement]="root"
 ></app-hub-header-stats-meta>
 
-<ng-template [appSlot]="headerActionsSlotName">
-  <app-hub-header-action-button
-    *transloco="let translate"
-    [icon]="'edit'"
-    [routerLink]="['/', appRoute.Hub, hubRoute.PostCreate]"
-  >
-    {{ translate('hub.posts.new') }}
-  </app-hub-header-action-button>
-</ng-template>
-
 <router-outlet></router-outlet>

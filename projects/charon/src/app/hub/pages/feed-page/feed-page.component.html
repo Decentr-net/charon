@@ -11,6 +11,16 @@
   </a>
 </ng-template>
 
+<ng-template [appSlot]="headerActionsSlotName">
+  <app-hub-header-action-button
+    *transloco="let translate"
+    [icon]="'edit'"
+    [routerLink]="['/', appRoute.Hub, hubRoute.PostCreate]"
+  >
+    {{ translate('hub.posts.new') }}
+  </app-hub-header-action-button>
+</ng-template>
+
 <app-hub-feed-navigation *ngIf="!isPostOutletActivated"></app-hub-feed-navigation>
 
 <div class="feed-page__content-container" [class.mod-hidden]="isPostOutletActivated">
