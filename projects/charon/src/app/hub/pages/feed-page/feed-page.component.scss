@@ -9,10 +9,13 @@ $feed-page--top-feed--no-posts--color: #9EA0A5;
   overflow-y: auto;
 }
 
-.feed-page__header-logo-icon {
+.feed-page__logo {
   display: inline-flex;
+}
+
+.feed-page__logo-icon {
   height: 40px;
-  width: 115px;
+  width: 106px;
 }
 
 .feed-page__content-container {
@@ -30,6 +33,10 @@ $feed-page--top-feed--no-posts--color: #9EA0A5;
 
 .feed-page__left-column {
   grid-column: 1 / 4;
+}
+
+.feed-page__right-column {
+  height: max-content;
 }
 
 .feed-page__top-posts__header {

@@ -6,6 +6,7 @@ import {
   AuthCompletedRegistrationGuard,
   UnauthGuard,
 } from '@core/auth';
+import { AuthorizedLayoutComponent } from '@core/layout/authorized-layout';
 import { LockGuard } from '@core/lock';
 import { AppRoute } from './app-route';
 
@@ -46,6 +47,22 @@ const ROUTES: Routes = [
     ],
   },
   {
+    path: AppRoute.Portal,
+    component: AuthorizedLayoutComponent,
+    loadChildren: () => import('./portal/portal.module').then(x => x.PortalModule),
+    canLoad: [
+      AuthCompletedRegistrationGuard,
+    ],
+    canActivate: [
+      SupportedVersionGuard,
+      AuthCompletedRegistrationGuard,
+      LockGuard,
+    ],
+    canDeactivate: [
+      LockGuard,
+    ],
+  },
+  {
     path: AppRoute.Welcome,
     loadChildren: () => import('./welcome/welcome.module').then(m => m.WelcomeModule),
     canLoad: [
@@ -59,6 +76,7 @@ const ROUTES: Routes = [
   },
   {
     path: AppRoute.Hub,
+    component: AuthorizedLayoutComponent,
     loadChildren: () => import('./hub/hub.module').then(m => m.HubModule),
     canLoad: [
       AuthCompletedRegistrationGuard,

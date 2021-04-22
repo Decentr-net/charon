@@ -9,9 +9,7 @@
 </ng-template>
 
 <ng-template [ngIf]="!isPostOutletActivated">
-  <ng-container *appSlot="headerContentSlotName">
-    <app-hub-navigation></app-hub-navigation>
-  </ng-container>
+  <app-hub-navigation></app-hub-navigation>
 
   <app-spinner
     class="posts-page__spinner"

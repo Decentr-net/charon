@@ -1,0 +1,28 @@
+<app-portal-navigation></app-portal-navigation>
+
+<a
+  class="portal-page__logo"
+  *appSlot="headerLogoSlot"
+  [routerLink]="['./']"
+>
+  <svg-icon class="portal-page__logo-icon" key="logo-portal"></svg-icon>
+</a>
+
+<ng-container *transloco="let translate; read: 'portal.portal_page'">
+  <button
+    class="portal-page__copy-wallet-button"
+    *appSlot="headerActionsSlot"
+    appTypeface="paragraph"
+    [cdkCopyToClipboard]="walletAddress$ | async"
+    (cdkCopyToClipboardCopied)="onWalletAddressCopied()"
+  >
+    <svg-icon key="wallet" size="lg"></svg-icon>
+    {{ translate('copy_wallet_address') }}
+  </button>
+</ng-container>
+
+<app-network-selector
+  *appSlot="headerMetaSlot"
+></app-network-selector>
+
+<router-outlet></router-outlet>

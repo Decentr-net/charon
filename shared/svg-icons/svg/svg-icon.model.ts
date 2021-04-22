@@ -2,6 +2,7 @@
 
 export type SvgIconName =
   | 'add-image'
+  | 'add'
   | 'arrow-left'
   | 'chart-arrow-down'
   | 'chart-arrow-flat'
@@ -16,29 +17,37 @@ export type SvgIconName =
   | 'edit'
   | 'expand-more'
   | 'follow'
+  | 'github'
   | 'import-account'
   | 'import'
   | 'information'
   | 'like'
   | 'lock-account'
   | 'lock'
+  | 'logo-feed'
   | 'logo-icon-green'
   | 'logo-icon-orange'
   | 'logo-icon-pink'
   | 'logo-icon'
-  | 'logo-pink'
+  | 'logo-portal'
   | 'logo'
+  | 'medium'
   | 'path'
   | 'pdv-rate-icon'
   | 'plus'
   | 'publish'
   | 'receive-coin'
+  | 'receive'
   | 'reload'
   | 'send-coin'
+  | 'send'
   | 'settings'
   | 'signal'
+  | 'telegram'
   | 'topup'
-  | 'trash';
+  | 'trash'
+  | 'twitter'
+  | 'wallet';
 export interface SvgIcon {
   name: SvgIconName;
   data: string;

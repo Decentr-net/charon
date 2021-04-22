@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, OnDestroy, OnInit, Optional, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Optional, Output } from '@angular/core';
 
 import { IntersectionAreaDirective } from './intersection-area.directive';
 
@@ -6,6 +6,8 @@ import { IntersectionAreaDirective } from './intersection-area.directive';
   selector: '[appIntersectionTarget]',
 })
 export class IntersectionTargetDirective implements OnInit, OnDestroy {
+  @Input('appIntersectionTarget') public threshold: number = 1;
+
   @Output() public intersect: EventEmitter<void> = new EventEmitter();
 
   private intersectionObserver: IntersectionObserver;
@@ -25,7 +27,7 @@ export class IntersectionTargetDirective implements OnInit, OnDestroy {
       },
       {
         root: this.intersectionArea?.element,
-        threshold: 1,
+        threshold: this.threshold,
       },
     );
 

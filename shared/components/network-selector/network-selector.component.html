@@ -2,12 +2,24 @@
   class="network-selector__trigger"
   [matMenuTriggerFor]="menuTemplate"
 >
-    <svg-icon class="network-selector__trigger__icon-signal" key="signal"></svg-icon>
+  <svg-icon
+    class="network-selector__trigger__network-icon"
+    key="signal"
+    size="md"
+  ></svg-icon>
 
-    <div class="network-selector__trigger__network-name">
-      {{ activeNetwork?.name }}
-    </div>
-  <div class="network-selector__trigger__arrow"></div>
+  <div
+    class="network-selector__trigger__network-name"
+    appTypeface="caption"
+  >
+    {{ activeNetwork?.name }}
+  </div>
+
+  <svg-icon
+    class="network-selector__trigger-icon"
+    key="expand-more"
+    size="md"
+  ></svg-icon>
 </div>
 
 <mat-menu
@@ -33,12 +45,12 @@
           *ngFor="let network of networks; trackBy: trackByName"
           (click)="switchNetwork(network)"
         >
-          <svg-icon class="menu-popup-item-icon network-selector__menu__item-icon-signal" key="signal"></svg-icon>
+          <svg-icon class="menu-popup-item-icon network-selector__menu__item-icon-signal" key="signal" size="lg"></svg-icon>
 
           <span class="menu-popup-item-title">
             <span appTypeface="paragraph">{{ network.name }}</span>
 
-            <svg-icon class="network-selector__menu__item-icon-check" key="check"></svg-icon>
+            <svg-icon class="network-selector__menu__item-icon-check" key="check" size="lg"></svg-icon>
           </span>
         </div>
       </div>

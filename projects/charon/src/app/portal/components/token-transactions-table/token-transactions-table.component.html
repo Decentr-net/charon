@@ -1,0 +1,69 @@
+<ng-container *transloco="let translate; read: 'portal.token_transactions_table'">
+  <ng-container *ngFor="let group of groups">
+    <div
+      class="token-transactions-table__group-header"
+      appTypeface="caption"
+    >
+      {{ group.timestamp | date : 'd MMM, yyyy' }}
+    </div>
+
+    <div
+      class="token-transactions-table__group-item"
+      [class.mod-new]="transaction.timestamp > newTransactionsAfter"
+      *ngFor="let transaction of group.items"
+      appTypeface="paragraph"
+    >
+      <ng-container [ngSwitch]="transaction.role">
+        <ng-template [ngSwitchCase]="'sender'">
+          <ng-template
+            [ngTemplateOutlet]="sendTemplate"
+            [ngTemplateOutletContext]="{ $implicit: transaction }"
+          ></ng-template>
+        </ng-template>
+
+        <ng-template ngSwitchCase="recipient">
+          <ng-template
+            [ngTemplateOutlet]="receiveTemplate"
+            [ngTemplateOutletContext]="{ $implicit: transaction }"
+          ></ng-template>
+        </ng-template>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <ng-template #sendTemplate let-transaction>
+    <svg-icon
+      class="token-transactions-table__icon token-transactions-table__color-send"
+      key="send"
+      size="lg"
+    ></svg-icon>
+
+    <div class="token-transactions-table__operation">{{ translate('sent') }}</div>
+
+    <div class="token-transactions-table__amount token-transactions-table__color-send">
+      -{{ transaction.amount.amount | microValue }} tDEC
+    </div>
+
+    <div class="token-transactions-table__address" appTypeface="caption">
+      {{ translate('to') }}: {{ transaction.recipient }}
+    </div>
+  </ng-template>
+
+  <ng-template #receiveTemplate let-transaction>
+    <svg-icon
+      class="token-transactions-table__icon token-transactions-table__color-receive"
+      key="receive"
+      size="lg"
+    ></svg-icon>
+
+    <div class="token-transactions-table__operation">{{ translate('received') }}</div>
+
+    <div class="token-transactions-table__amount token-transactions-table__color-receive">
+      {{ transaction.amount.amount | microValue }} tDEC
+    </div>
+
+    <div class="token-transactions-table__address" appTypeface="caption">
+      {{ translate('from') }}: {{ transaction.sender }}
+    </div>
+  </ng-template>
+</ng-container>

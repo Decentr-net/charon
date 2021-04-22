@@ -1,0 +1,13 @@
+<div class="authorized-layout__header-container">
+  <app-authorized-layout-header></app-authorized-layout-header>
+
+  <app-authorized-layout-navigation
+    *ngIf="hasNavigation"
+  ></app-authorized-layout-navigation>
+</div>
+
+<div class="authorized-layout__content-container">
+  <router-outlet></router-outlet>
+</div>
+
+<app-layout-footer></app-layout-footer>

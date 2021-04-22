@@ -13,9 +13,9 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { svgEdit } from '@shared/svg-icons';
+import { AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT } from '@core/layout/authorized-layout';
 import { PostsListItem } from '@core/services';
 import { AppRoute } from '../../../app-route';
-import { HUB_HEADER_ACTIONS_SLOT, HUB_HEADER_CONTENT_SLOT } from '../../components/hub-header';
 import { PostsPageService } from './posts-page.service';
 import { HubCategoryRouteParam, HubRoute } from '../../hub-route';
 import { HubPostsService } from '../../services';
@@ -34,8 +34,7 @@ import { HubPostsService } from '../../services';
   ],
 })
 export class PostsPageComponent {
-  public headerActionsSlotName = HUB_HEADER_ACTIONS_SLOT;
-  public headerContentSlotName = HUB_HEADER_CONTENT_SLOT;
+  public headerActionsSlotName = AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT;
 
   public appRoute: typeof AppRoute = AppRoute;
   public hubRoute: typeof HubRoute = HubRoute;

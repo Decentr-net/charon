@@ -15,6 +15,7 @@ import { ERROR_PROCESSORS, FallbackErrorProcessor } from '@core/notifications';
 import { AppRoute } from '../app-route';
 import { SignUpRoute } from '../sign-up';
 import { AuthModule, AuthService } from './auth';
+import { AuthorizedLayoutModule } from './layout/authorized-layout';
 import { LockModule } from './lock';
 import { ConfigService, ConfigurationModule } from '@shared/services/configuration';
 import { CORE_GUARDS } from './guards';
@@ -56,6 +57,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       uncompletedRegistrationUrl: `/${AppRoute.SignUp}/${SignUpRoute.CompleteRegistration}`,
       unconfirmedEmailUrl: `/${AppRoute.SignUp}/${SignUpRoute.EmailConfirmation}`,
     }),
+    AuthorizedLayoutModule,
     ConfigurationModule,
     CurrencyModule.forRoot({
       api: environment.currencyApi,

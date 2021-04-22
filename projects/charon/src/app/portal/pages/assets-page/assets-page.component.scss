@@ -1,0 +1,73 @@
+@import 'variables';
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.assets-page__expansion-list {
+  height: 100%;
+}
+
+.assets-page__tokens-header-cell {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.assets-page__add-token-button {
+  align-items: center;
+  background: $color-background;
+  border-radius: $border-radius;
+  color: $color-light-grey;
+  display: inline-flex;
+  gap: $grid-step;
+  padding: $grid-step $grid-step * 2 $grid-step $grid-step * 1.5;
+  pointer-events: none;
+}
+
+.assets-page__expansion-list__header-count {
+  background-color: $color-background;
+  border-radius: $border-radius;
+  font-weight: 400;
+  margin-left: $grid-step;
+  min-width: 36px;
+  padding: $grid-step / 2 $grid-step;
+  text-align: center;
+}
+
+.assets-page__token-cell {
+  align-items: center;
+  display: flex;
+  gap: $grid-step;
+}
+
+.assets-page__transactions-header-cell {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.assets-page__send-button {
+  align-items: center;
+  background-color: $color-primary;
+  border-radius: $border-radius;
+  color: $color-white;
+  cursor: pointer;
+  display: inline-flex;
+  gap: $grid-step;
+  padding: $grid-step $grid-step * 2 $grid-step $grid-step * 1.5;
+}
+
+.assets-page__no-transactions {
+  color: $color-grey;
+  margin-top: $grid-step * 2;
+  text-align: center;
+}
+
+.assets-page__skeleton-loader {
+  display: flex;
+  flex-direction: column;
+  padding: $grid-step * 1.5;
+}

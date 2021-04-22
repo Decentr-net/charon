@@ -40,5 +40,6 @@ export class UserPageComponent implements OnInit {
 
   public expandView(): void {
     this.navigationService.openInNewTab(this.router.url);
+    window.close();
   }
 }

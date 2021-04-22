@@ -25,6 +25,7 @@ import { AdvDdvStatistics, BalanceValueDynamic, PDVStatChartPoint } from './pdv.
 import { PDVApiService } from './pdv-api.service';
 import { PDVStorageService } from './pdv-storage.service';
 import { PDVUpdateNotifier } from './pdv-update-notifier';
+import { getPDVDayChange, mapPDVStatsToChartPoints } from '../../utils/pdv';
 
 @UntilDestroy()
 @Injectable()
@@ -51,14 +52,18 @@ export class PDVService {
     return this.pdvApiService.getAdvDdvStats();
   }
 
-  public getBalanceLive(): Observable<string> {
-    if (!this.balance$) {
-      this.balance$ = this.createBalanceLiveObservable().pipe(
-        share(),
-      );
-    }
+  public getBalanceLive(isShare: boolean = true): Observable<string> {
+    if (isShare) {
+      if (!this.balance$) {
+        this.balance$ = this.createBalanceLiveObservable().pipe(
+          share(),
+        );
+      }
 
-    return this.balance$;
+      return this.balance$;
+    } else {
+      return this.createBalanceLiveObservable();
+    }
   }
 
   public getEstimatedBalance(): Observable<string> {
@@ -93,9 +98,9 @@ export class PDVService {
     );
   }
 
-  public getPDVStatChartPointsLive(): Observable<PDVStatChartPoint[]> {
+  public getPDVStatChartPointsLive(isBalanceShare: boolean = false): Observable<PDVStatChartPoint[]> {
     if (!this.pdvStatsChartPoints$) {
-      this.pdvStatsChartPoints$ = this.createPDVStatChartPointsLiveObservable().pipe(
+      this.pdvStatsChartPoints$ = this.createPDVStatChartPointsLiveObservable(isBalanceShare).pipe(
         share(),
       );
     }
@@ -103,23 +108,16 @@ export class PDVService {
     return this.pdvStatsChartPoints$;
   }
 
-  public getBalanceWithMarginLive(): Observable<BalanceValueDynamic> {
+  public getBalanceWithMarginLive(isBalanceShare: boolean = true): Observable<BalanceValueDynamic> {
     return combineLatest([
-      this.getBalanceLive(),
+      this.getBalanceLive(isBalanceShare),
       this.getPDVStatChartPointsLive(),
     ])
       .pipe(
-        map(([pdvRate, pdvRateHistory]) => {
-          const now = new Date;
-          const historyDate = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() - 1);
-          const historyPdvRate = pdvRateHistory.find(el => el.date === historyDate)?.value;
-          const dayMargin = calculateDifferencePercentage(Number(pdvRate), historyPdvRate);
-
-          return {
-            dayMargin,
-            value: pdvRate,
-          };
-        }),
+        map(([pdvRate, pdvRateHistory]) => ({
+          dayMargin: getPDVDayChange(pdvRateHistory, +pdvRate),
+          value: pdvRate,
+        })),
       )
   }
 
@@ -154,20 +152,14 @@ export class PDVService {
     );
   }
 
-  private createPDVStatChartPointsLiveObservable(): Observable<PDVStatChartPoint[]> {
+  private createPDVStatChartPointsLiveObservable(isBalanceShare: boolean = true): Observable<PDVStatChartPoint[]> {
     return this.wallet$.pipe(
       pluck('address'),
-      switchMap((walletAddress) => this.getBalanceLive().pipe(
+      switchMap((walletAddress) => this.getBalanceLive(isBalanceShare).pipe(
         mapTo(walletAddress),
       )),
       switchMap((walletAddress) => this.pdvApiService.getPDVStats(walletAddress)),
-      map((stats) => stats
-        .map(({ date, value }) => ({
-          date: new Date(date).valueOf(),
-          value,
-        }))
-        .sort((a, b) => a.date - b.date)
-      ),
+      map(mapPDVStatsToChartPoints),
     );
   }
 }

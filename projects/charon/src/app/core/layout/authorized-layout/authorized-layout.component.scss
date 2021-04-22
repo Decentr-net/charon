@@ -1,0 +1,16 @@
+@import 'variables';
+
+:host {
+  display: grid;
+  grid-template-rows: max-content 1fr;
+  height: 100vh;
+}
+
+.authorized-layout__header-container {
+  background-color: $color-white;
+  border-bottom: 1px solid $color-outlines;
+}
+
+.authorized-layout__content-container {
+  overflow: auto;
+}

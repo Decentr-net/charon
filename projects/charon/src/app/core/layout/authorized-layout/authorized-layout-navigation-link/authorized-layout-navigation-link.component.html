@@ -1,0 +1,14 @@
+<span
+  class="hub-navigation-link__dot"
+  *ngIf="dot"
+></span>
+
+<span
+  #titleContainer
+  class="hub-navigation-link__title"
+  [attr.data-title]="title"
+>
+  <ng-content></ng-content>
+</span>
+
+<span class="hub-navigation-link__border"></span>

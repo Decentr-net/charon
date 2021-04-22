@@ -14,17 +14,16 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Wallet } from 'decentr-js';
 
 import { svgArrowLeft } from '@shared/svg-icons';
-import { coerceTimestamp } from '@shared/utils/date';
-import { calculateDifferencePercentage } from '@shared/utils/number';
 import { AuthService } from '@core/auth';
 import { FollowingService, PostsListItem } from '@core/services';
 import { AppRoute } from '../../../app-route';
-import { UserRoute } from '../../../user';
-import { RECEIVER_WALLET_PARAM } from '../../../user/pages';
 import { HubRoute } from '../../hub-route';
 import { HubPDVStatistics, PDVStatisticsTranslations } from '../../components/hub-pdv-statistics';
 import { HubProfile } from '../../components/hub-profile-card';
 import { PostPageService } from './post-page.service';
+import { getHubPDVStats } from '../../utils/pdv';
+import { PortalRoute } from '../../../portal';
+import { RECEIVER_WALLET_PARAM } from '../../../portal/pages';
 
 @UntilDestroy()
 @Component({
@@ -110,24 +109,7 @@ export class PostPageComponent implements OnInit {
     ).subscribe(() => this.elementRef.nativeElement.scrollTop = 0);
 
     this.post$.pipe(
-      map((post) => {
-        const now = new Date();
-        const historyDate = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() - 1);
-        const historyPdvRate = (post.stats || []).find(el => new Date(el.date).valueOf() === historyDate)?.value;
-        const dayMargin = calculateDifferencePercentage(Number(post.pdv), historyPdvRate);
-
-        return {
-          pdvChangedIn24HoursPercent: dayMargin,
-          fromDate: coerceTimestamp(post.createdAt),
-          pdv: post.pdv,
-          points: (post.stats || [])
-            .map(({ date, value }) => ({
-              date: new Date(date).valueOf(),
-              value,
-            }))
-            .sort((left, right) => left.date - right.date),
-        };
-      }),
+      map((post) => getHubPDVStats(post.stats, post.pdv, post.createdAt)),
       untilDestroyed(this),
     ).subscribe((postStatistics) => {
       this.postStatistics = postStatistics;
@@ -155,7 +137,7 @@ export class PostPageComponent implements OnInit {
   }
 
   public onTopUpAuthor(author: Wallet['address']): void {
-    this.router.navigate(['/', AppRoute.User, UserRoute.Transfer], {
+    this.router.navigate(['/', AppRoute.Portal, PortalRoute.Assets, PortalRoute.Transfer], {
       queryParams: {
         [RECEIVER_WALLET_PARAM]: author,
       },

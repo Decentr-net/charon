@@ -7,6 +7,7 @@ import { FORM_ERROR_TRANSLOCO_READ } from './form-error.tokens';
 
 @Component({
   selector: 'app-form-error',
+  styleUrls: ['./form-error.component.scss'],
   templateUrl: './form-error.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

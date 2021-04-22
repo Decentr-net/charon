@@ -97,8 +97,8 @@ export class MenuService extends MenuBaseService {
             },
             {
               action: () => isOpenedInTab()
-                ? this.router.navigate(['/', AppRoute.User])
-                : this.navigationService.openInNewTab(`/${AppRoute.User}`),
+                ? this.router.navigate(['/', AppRoute.Portal])
+                : this.navigationService.openInNewTab(`/${AppRoute.Portal}`),
               description: itemsTranslationsObject['decentr_portal']['description'],
               iconKey: svgLogoIconOrange.name,
               title: itemsTranslationsObject['decentr_portal']['title'],

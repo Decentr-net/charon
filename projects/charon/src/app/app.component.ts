@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { version } from '../../../../package.json';
 
 import { svgLogoIcon } from '@shared/svg-icons';
 
@@ -10,6 +11,8 @@ import { svgLogoIcon } from '@shared/svg-icons';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
+  @HostBinding('attr.version') public appVersion: string = version;
+
   public isInitLoading = true;
 
   constructor(

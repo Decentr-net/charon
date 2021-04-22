@@ -53,6 +53,7 @@
       <ng-container *ngFor="let item of section; let last = last">
         <div
           class="menu-popup-item menu__item"
+          [attr.data-id]="item.title | lowercase"
           [class.is-disabled]="!item.action"
           (click)="item.action && item.action()"
         >

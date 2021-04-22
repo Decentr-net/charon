@@ -13,15 +13,15 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
+import { Subject } from 'rxjs';
+import { throttleTime } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as d3 from 'd3';
 
+import { coerceTimestamp } from '../../utils/date';
+import { observeResize } from '../../utils/observe-resize';
 import { ChartPoint } from './line-chart.module';
-import { coerceTimestamp } from '@shared/utils/date';
-import { observeResize } from '@shared/utils/observe-resize';
 import { LineChartTooltipDirective } from './line-chart-tooltip.directive';
-import { Subject } from 'rxjs';
-import { throttleTime } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({

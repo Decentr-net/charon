@@ -34,7 +34,9 @@ export abstract class InfiniteLoadingService<T> {
     return this.list.asObservable();
   }
 
-  public abstract get canLoadMore$(): Observable<boolean>;
+  public get canLoadMore$(): Observable<boolean> {
+    return this.canLoadMore.asObservable();
+  }
 
   public get isLoading$(): Observable<boolean> {
     return this.isLoading.pipe(

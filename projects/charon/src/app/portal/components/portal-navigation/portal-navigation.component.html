@@ -1,0 +1,9 @@
+<ng-container *transloco="let translate">
+  <ng-container *appAuthorizedLayoutNavigationDef>
+    <ng-container *ngFor="let link of links;">
+      <ng-container *appAuthorizedLayoutNavigationLinkDef="link.link; colorClass: link.colorClass; exact: false">
+        {{ translate(link.i18nKey) }}
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-container>

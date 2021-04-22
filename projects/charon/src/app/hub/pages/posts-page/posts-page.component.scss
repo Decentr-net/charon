@@ -36,6 +36,7 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
 
 .posts-page__section-right {
   grid-area: right;
+  height: max-content;
 }
 
 .posts-page__posts-grid-container {

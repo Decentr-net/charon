@@ -9,9 +9,9 @@ import { PostCreate } from 'decentr-js';
 
 import { ONE_SECOND } from '@shared/utils/date';
 import { svgPublish } from '@shared/svg-icons';
+import { AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT } from '@core/layout/authorized-layout';
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../hub-route';
-import { HUB_HEADER_ACTIONS_SLOT } from '../../components/hub-header';
 import { PostCreatePageService } from './post-create-page.service';
 
 @UntilDestroy()
@@ -25,7 +25,7 @@ import { PostCreatePageService } from './post-create-page.service';
   ],
 })
 export class PostCreatePageComponent implements OnInit {
-  public readonly headerActionsSlotName = HUB_HEADER_ACTIONS_SLOT;
+  public readonly headerActionsSlotName = AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT;
 
   public formId: string = 'POST_CREATE_FORM';
 

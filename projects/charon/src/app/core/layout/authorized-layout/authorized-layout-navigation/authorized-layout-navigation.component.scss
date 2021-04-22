@@ -1,0 +1,27 @@
+@import 'variables';
+
+:host {
+  background-color: $color-white;
+  display: flex;
+  height: 48px;
+  margin: 0 auto;
+  padding: 0 $page-side-padding;
+  width: $page-width + $page-side-padding * 2;
+}
+
+.authorized-layout-navigation__container {
+  display: flex;
+  height: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.authorized-layout-navigation__link {
+  & + & {
+    margin-left: $grid-step * 3;
+  }
+}

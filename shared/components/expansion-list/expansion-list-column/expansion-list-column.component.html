@@ -1,0 +1,29 @@
+<ng-container *ngIf="isLoading$ | async; else items">
+  <ng-template
+    [ngTemplateOutlet]="columnDef.loadingTemplate"
+    [ngTemplateOutletContext]="{ $implicit: parentActiveItem | async }"
+  ></ng-template>
+</ng-container>
+
+<ng-template #items>
+  <ng-container *ngIf="items$ | async as items">
+    <div
+      #cell
+      class="expansion-list-column__cell"
+      *ngFor="let item of items; trackBy: columnDef.trackBy"
+      [class.is-active]="item === activeItem"
+      appTypeface="paragraph"
+      (click)="activateItem(item)"
+    >
+      <ng-template
+        [ngTemplateOutlet]="columnDef.cellDef.templateRef"
+        [ngTemplateOutletContext]="{ $implicit: item }"
+      ></ng-template>
+    </div>
+
+    <ng-template
+      [ngTemplateOutlet]="columnDef.columnFooterTemplate"
+      [ngTemplateOutletContext]="{ $implicit: items }"
+    ></ng-template>
+  </ng-container>
+</ng-template>
