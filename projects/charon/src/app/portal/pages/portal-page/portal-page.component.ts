@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgLogoPortal, svgWallet } from '@shared/svg-icons';
+import { ToolbarStateService } from '@shared/services/toolbar-state';
+import { svgLogoIconOrange, svgLogoPortal, svgWallet } from '@shared/svg-icons';
+import { isOpenedInTab } from '@shared/utils/browser';
 import {
   AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT,
   AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT,
@@ -20,24 +22,37 @@ import { PortalPageService } from './portal-page.service';
   ],
 })
 export class PortalPageComponent implements OnInit {
+  @HostBinding('class.mod-popup-view')
+  public isOpenedInPopup: boolean = !isOpenedInTab();
+
   public readonly headerActionsSlot = AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT;
   public readonly headerLogoSlot = AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT;
   public readonly headerMetaSlot = AUTHORIZED_LAYOUT_HEADER_META_SLOT;
+
+  public toolbarEnabledState$: Observable<boolean>;
 
   public walletAddress$: Observable<string>;
 
   constructor(
     private portalPageService: PortalPageService,
     svgIconRegistry: SvgIconRegistry,
+    private toolbarStateService: ToolbarStateService
   ) {
     svgIconRegistry.register([
+      svgLogoIconOrange,
       svgLogoPortal,
       svgWallet,
     ]);
   }
 
   public ngOnInit(): void {
+    this.toolbarEnabledState$ = this.toolbarStateService.getEnabledState();
+
     this.walletAddress$ = this.portalPageService.getWalletAddress();
+  }
+
+  public onToolbarEnabledStateChange(state: boolean): void {
+    this.toolbarStateService.setEnabledState(state);
   }
 
   public onWalletAddressCopied(): void {

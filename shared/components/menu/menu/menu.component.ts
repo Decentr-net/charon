@@ -14,8 +14,6 @@ import { svgDropdownExpand } from '../../../svg-icons';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent implements OnInit {
-  @Input() hideUsername: boolean;
-
   public userProfile$: Observable<MenuUserProfile>;
 
   public translations$: Observable<MenuTranslations>;

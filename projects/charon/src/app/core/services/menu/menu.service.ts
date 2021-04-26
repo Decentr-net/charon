@@ -22,13 +22,13 @@ import {
   svgLogoIconPink
 } from '@shared/svg-icons';
 import { PDVService } from '@shared/services/pdv';
+import { isOpenedInTab } from '@shared/utils/browser';
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../../hub';
 import { UserRoute } from '../../../user';
 import { LockService } from '../../lock';
 import { NavigationService } from '../../navigation';
 import { AuthService } from '../../auth';
-import { isOpenedInTab } from '../../browser';
 
 const DECENTR_SITE_URL = 'https://decentr.net/';
 const DECENTR_EXPLORER_SITE_URL = 'https://explorer.decentr.net';

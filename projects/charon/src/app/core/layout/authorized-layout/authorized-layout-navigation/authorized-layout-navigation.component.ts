@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AuthorizedLayoutNavigationLinkDefDirective } from '../authorized-layout-navigation-link';
@@ -17,6 +17,8 @@ import { AuthorizedLayoutNavigationDefDirective } from './authorized-layout-navi
 export class AuthorizedLayoutNavigationComponent implements OnInit {
   public linksDefs: AuthorizedLayoutNavigationLinkDefDirective[];
 
+  public contentTemplate$: Observable<TemplateRef<void>>;
+
   constructor(
     private authorizedLayoutNavigationService: AuthorizedLayoutNavigationService,
     private changeDetectorRef: ChangeDetectorRef,
@@ -31,5 +33,9 @@ export class AuthorizedLayoutNavigationComponent implements OnInit {
       this.linksDefs = linksDefs;
       this.changeDetectorRef.detectChanges();
     });
+
+    this.contentTemplate$ = this.authorizedLayoutNavigationService.getCurrentContent().pipe(
+      map((contentDef) => contentDef?.templateRef),
+    );
   }
 }

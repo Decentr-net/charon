@@ -1,14 +1,41 @@
 @import 'variables';
 
+$popup-side-padding: $grid-step * 2;
+
 :host {
   display: grid;
-  grid-template-rows: max-content 1fr;
+  grid-template-rows: max-content 1fr max-content;
   height: 100vh;
+
+  &.mod-popup-view {
+    .authorized-layout__header,
+    .authorized-layout__navigation {
+      padding-left: $popup-side-padding;
+      padding-right: $popup-side-padding;
+      width: auto;
+    }
+
+    .authorized-layout__header {
+      padding-bottom: $grid-step * 1.5;
+    }
+  }
 }
 
 .authorized-layout__header-container {
   background-color: $color-white;
   border-bottom: 1px solid $color-outlines;
+}
+
+.authorized-layout__header {
+  margin: auto;
+  padding: $grid-step * 2 $page-side-padding;
+  width: $page-width + $page-side-padding * 2;
+}
+
+.authorized-layout__navigation {
+  margin: 0 auto;
+  padding: 0 $page-side-padding;
+  width: $page-width + $page-side-padding * 2;
 }
 
 .authorized-layout__content-container {

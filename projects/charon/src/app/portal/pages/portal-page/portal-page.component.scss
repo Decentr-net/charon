@@ -4,8 +4,11 @@
   display: block;
   height: 100%;
   margin: 0 auto;
-  padding: $grid-step * 2 $page-side-padding;
-  width: $page-width + $page-side-padding * 2;
+
+  &:not(.mod-popup-view) {
+    padding: $grid-step * 2 $page-side-padding;
+    width: $page-width + $page-side-padding * 2;
+  }
 }
 
 .portal-page__logo {
@@ -30,4 +33,14 @@
   &:hover {
     background-color: $color-outlines;
   }
+}
+
+.portal-page__footer {
+  align-items: center;
+  background: $color-background;
+  display: flex;
+  font-weight: 500;
+  height: 40px;
+  justify-content: space-between;
+  padding: $grid-step * 1.5 $grid-step * 2;
 }

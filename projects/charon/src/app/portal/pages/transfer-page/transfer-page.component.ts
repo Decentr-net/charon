@@ -13,6 +13,7 @@ import { svgArrowLeft, svgDecentrHub } from '@shared/svg-icons';
 import { ONE_SECOND } from '@shared/utils/date';
 import { RECEIVER_WALLET_PARAM, TRANSFER_START_AMOUNT, TransferForm } from './transfer-page.definitions';
 import { TransferPageService } from './transfer-page.service';
+import { isOpenedInTab } from '../../../../../../../shared/utils/browser';
 
 @UntilDestroy()
 @Component({
@@ -31,6 +32,9 @@ import { TransferPageService } from './transfer-page.service';
 export class TransferPageComponent implements OnInit {
   @HostBinding('class.is-disabled')
   public isPageDisabled: boolean = false;
+
+  @HostBinding('class.mod-popup-view')
+  public isOpenedInPopup: boolean = !isOpenedInTab();
 
   public balance$: Observable<number>;
 

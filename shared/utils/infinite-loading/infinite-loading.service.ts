@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { finalize, shareReplay, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 export abstract class InfiniteLoadingService<T> {
   protected readonly canLoadMore: BehaviorSubject<boolean> = new BehaviorSubject(true);
@@ -39,9 +39,7 @@ export abstract class InfiniteLoadingService<T> {
   }
 
   public get isLoading$(): Observable<boolean> {
-    return this.isLoading.pipe(
-      shareReplay(1),
-    );
+    return this.isLoading;
   }
 
   public loadMoreItems(): void {

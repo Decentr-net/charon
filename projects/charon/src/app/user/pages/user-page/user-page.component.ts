@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
+import { isOpenedInTab } from '@shared/utils/browser';
 import { AuthService, AuthUser } from '@core/auth';
-import { isOpenedInTab } from '@core/browser';
 import { NavigationService } from '@core/navigation';
 import { MediaService } from '@core/services';
 import { UserRoute } from '../../user.route';
