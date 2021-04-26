@@ -66,8 +66,7 @@ export class PdvRateChartComponent {
         headerShape: 'square',
         shadow: false,
         formatter(): string {
-          component.instance.data = this;
-          component.changeDetectorRef.detectChanges();
+          component.instance.setTooltipData = this;
           return component.location.nativeElement.outerHTML;
         },
       },
