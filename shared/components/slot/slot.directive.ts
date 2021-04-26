@@ -17,13 +17,15 @@ export class SlotDirective implements OnInit, OnChanges, OnDestroy {
     this.slotService.registerSlot(this.slotName, this.templateRef);
   }
 
+  public ngOnDestroy() {
+    this.slotService.unregisterSlot(this.slotName);
+  }
+
   public ngOnChanges({ slotName }: SimpleChanges) {
     if (slotName) {
       this.slotService.registerSlot(slotName.currentValue, this.templateRef);
     }
   }
 
-  public ngOnDestroy() {
-    this.slotService.unregisterSlot(this.slotName);
-  }
+
 }
