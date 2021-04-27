@@ -67,7 +67,6 @@ export class PdvRateChartComponent {
         shadow: false,
         formatter(): string {
           component.instance.data = this;
-          component.changeDetectorRef.detectChanges();
           return component.location.nativeElement.outerHTML;
         },
       },
