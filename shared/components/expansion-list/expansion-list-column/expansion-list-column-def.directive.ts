@@ -9,7 +9,7 @@ import {
   TrackByFunction,
 } from '@angular/core';
 import { coerceArray } from '@angular/cdk/coercion';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -84,11 +84,19 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
     );
   }
 
+  public getParentActiveItem(): Observable<any | undefined> {
+    return this.parentColumnDef?.getActiveItem() || of(undefined);
+  }
+
   public getItems(): Observable<T[] | undefined> {
     return this.items.asObservable();
   }
 
-  public isLastColumn(): boolean {
+  public get isFirstColumn(): boolean {
+    return !this.parentColumnDef;
+  }
+
+  public get isLastColumn(): boolean {
     return !this.childColumnDef;
   }
 
@@ -110,6 +118,7 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
     }
 
     this.parentColumnDef.getActiveItem().pipe(
+      tap((item) => item && this.expansionListService.setActiveColumn(this)),
       tap(() => this.items.next(undefined)),
       switchMap((item) => item ? coerceObservable(this.pluck ? item[this.pluck] : item) : []),
       map((items) => coerceArray(items)),

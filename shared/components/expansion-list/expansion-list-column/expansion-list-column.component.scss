@@ -1,7 +1,8 @@
 @import '../../../styles/variables';
 
 :host {
-  display: block;
+  display: grid;
+  grid-template-rows: max-content 1fr;
 
   &:not(.mod-last) {
     .expansion-list-column__cell {
@@ -18,4 +19,31 @@
       }
     }
   }
+}
+
+.expansion-list-column__header-cell {
+  align-items: center;
+  border-bottom: var(--expansion-list--border);
+  display: flex;
+  min-height: 68px;
+  padding: 0 $grid-step * 2;
+}
+
+.expansion-list-column__back-btn {
+  background: $color-background;
+  border-radius: $border-radius;
+  color: $color-grey;
+  cursor: pointer;
+  display: inline-flex;
+  margin-right: $grid-step * 2;
+  padding: $grid-step;
+  transition: background .3s ease;
+
+  &:hover {
+    background-color: $color-outlines;
+  }
+}
+
+.expansion-list-column__cells-container {
+  overflow: auto;
 }
