@@ -120,7 +120,7 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
     this.parentColumnDef.getActiveItem().pipe(
       tap((item) => item && this.expansionListService.setActiveColumn(this)),
       tap(() => this.items.next(undefined)),
-      switchMap((item) => item ? coerceObservable(this.pluck ? item[this.pluck] : item) : []),
+      switchMap((item) => item ? coerceObservable(this.pluck ? item[this.pluck] : item) : of([])),
       map((items) => coerceArray(items)),
       untilDestroyed(this),
     ).subscribe(this.items);
