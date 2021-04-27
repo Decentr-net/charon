@@ -86,6 +86,11 @@ export class ExpansionListColumnComponent<T> implements OnInit {
       pluck(0),
       untilDestroyed(this),
     ).subscribe((item) => this.activateItem(item));
+
+    this.expansionListService.getActiveColumn().pipe(
+      filter((columnDef) => columnDef === this.columnDef),
+      untilDestroyed(this),
+    ).subscribe(() => this.activateItem(undefined));
   }
 
   public activateItem(item: T): void {
@@ -96,7 +101,7 @@ export class ExpansionListColumnComponent<T> implements OnInit {
     this.columnDef.activateItem(item);
   }
 
-  public onBack(): void {
+  public back(): void {
     this.expansionListService.setActiveColumn(this.columnDef.parentColumnDef || this.columnDef);
   }
 }
