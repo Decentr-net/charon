@@ -16,7 +16,7 @@ export class TooltipComponent {
   ) {
   }
 
-  @Input() set setTooltipData(value: TooltipFormatterContextObject) {
+  @Input() set data(value: TooltipFormatterContextObject) {
     this.tooltipData = value;
     this.changeDetectorRef.detectChanges();
   }
