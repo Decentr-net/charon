@@ -1,6 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
+
+import { svgWidescreen } from '@shared/svg-icons';
+import { NavigationService } from '@core/navigation';
 import { AppRoute } from '../../../app-route';
 import { PortalRoute } from '../../portal-route';
+import { AUTHORIZED_LAYOUT_NAVIGATION_RIGHT_SLOT } from '../../../core/layout/authorized-layout';
 
 interface LinkDef {
   colorClass: string;
@@ -11,6 +17,7 @@ interface LinkDef {
 @Component({
   selector: 'app-portal-navigation',
   templateUrl: './portal-navigation.component.html',
+  styleUrls: ['./portal-navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortalNavigationComponent {
@@ -32,4 +39,21 @@ export class PortalNavigationComponent {
       link: ['/', AppRoute.Portal, PortalRoute.Assets],
     },
   ];
+
+  public readonly navigationRightSlot = AUTHORIZED_LAYOUT_NAVIGATION_RIGHT_SLOT;
+
+  constructor(
+    private navigationService: NavigationService,
+    private router: Router,
+    svgIconRegistry: SvgIconRegistry,
+  ) {
+    svgIconRegistry.register([
+      svgWidescreen,
+    ]);
+  }
+
+  public expandView(): void {
+    this.navigationService.openInNewTab(this.router.url);
+    window.close();
+  }
 }

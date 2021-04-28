@@ -2,6 +2,7 @@ import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angula
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { SlotService, SlotTemplate } from './slot.service';
+import { debounceTime } from 'rxjs/operators';
 
 @UntilDestroy()
 @Directive({
@@ -21,6 +22,7 @@ export class SlotContainerDirective implements OnInit {
   public ngOnInit() {
     this.slotService.getSlotTemplate(this.forSlot)
       .pipe(
+        debounceTime(0),
         untilDestroyed(this),
       ).subscribe((template) => {
         this.viewContainerRef.clear();

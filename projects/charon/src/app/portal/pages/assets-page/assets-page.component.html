@@ -2,19 +2,30 @@
   class="assets-page__expansion-list"
   *transloco="let translate; read: 'portal.assets_page'"
   [data]="assetsList$ | async"
+  [border]="isOpenedInTab"
+  [singleColumnMode]="!isOpenedInTab"
   appIntersectionArea
 >
-  <ng-container appExpansionListColumnDef>
+  <ng-container
+    appExpansionListColumnDef
+    [appExpansionListColumnDefChooseFirst]="isOpenedInTab"
+  >
     <div
       class="assets-page__tokens-header-cell"
       *appExpansionListHeaderCellDef
     >
       {{ translate('tokens') }}
 
-      <button class="assets-page__add-token-button" appTypeface="caption">
-        <svg-icon key="add" size="md"></svg-icon>
-        {{ translate('add_token') }}
-      </button>
+      <div class="assets-page__tokens-header-cell__actions">
+        <button class="assets-page__add-token-button" appTypeface="caption">
+          <svg-icon key="add" size="md"></svg-icon>
+          {{ translate('add_token') }}
+        </button>
+
+        <ng-container *appBrowserPopupView>
+          <ng-template [ngTemplateOutlet]="sendButton"></ng-template>
+        </ng-container>
+      </div>
     </div>
 
     <div
@@ -26,58 +37,58 @@
       {{ asset.token }}
     </div>
 
-    <ng-container appExpansionListColumnDef appExpansionListColumnDefColspan="2">
-      <ng-container *appExpansionListHeaderCellDef="let assets">
-        {{ translate('transactions') }}
+    <ng-container *appExpansionListLoading>
+      <ngx-skeleton-loader
+        class="assets-page__skeleton-loader"
+        [count]="5"
+        [theme]="skeletonLoaderTheme"
+      ></ngx-skeleton-loader>
+    </ng-container>
 
-        <ng-template [ngIf]="assets">
-          <div
-            class="assets-page__transactions-header-cell"
-            *ngIf="assets[0].transactions | async as transactions"
+    <ng-container appExpansionListColumnDef="transactions" appExpansionListColumnDefColspan="2">
+      <div
+        class="assets-page__transactions-header-cell"
+        *appExpansionListHeaderCellDef="let transactions; let asset = parentItem"
+      >
+        <div class="assets-page__transactions-header-cell-section">
+          <ng-container *appBrowserTabView>
+            {{ translate('transactions') }}
+          </ng-container>
+
+          <ng-container *appBrowserPopupView>
+            {{ asset?.balance | microValue }}
+            {{ asset?.token }}
+          </ng-container>
+
+          <span
+            class="assets-page__expansion-list__header-count"
+            *ngIf="transactions"
+            appTypeface="paragraph"
           >
-            <span
-              class="assets-page__expansion-list__header-count"
-              appTypeface="paragraph"
-            >
-              {{ transactions.length }}
-            </span>
+            {{ transactions[0]?.length }}
+          </span>
+        </div>
 
-            <button
-              class="assets-page__send-button"
-              [routerLink]="['./', portalRoute.Transfer]"
-              appTypeface="caption"
-            >
-              <svg-icon key="send" size="md"></svg-icon>
-              {{ translate('send') }}
-            </button>
-          </div>
-        </ng-template>
-      </ng-container>
-
-      <ng-container *appExpansionListCellDef="let asset;">
-        <ng-container *ngIf="asset.transactions | async as transactions">
-          <app-token-transactions-table
-            [newTransactionsAfter]="lastTransferTime"
-            [transactions]="transactions"
-          ></app-token-transactions-table>
-
-          <div
-            class="assets-page__no-transactions"
-            *ngIf="transactions?.length === 0"
-          >
-            {{ translate('no_transactions') }}
-          </div>
+        <ng-container *appBrowserTabView>
+          <ng-template [ngTemplateOutlet]="sendButton"></ng-template>
         </ng-container>
+      </div>
 
-        <ngx-skeleton-loader
-          *ngIf="(asset.transactions | async) === undefined"
-          class="assets-page__skeleton-loader"
-          [count]="5"
-          [theme]="skeletonLoaderTheme"
-        ></ngx-skeleton-loader>
+      <ng-container *appExpansionListCellDef="let transactions;">
+        <app-token-transactions-table
+          [newTransactionsAfter]="lastTransferTime"
+          [transactions]="transactions"
+        ></app-token-transactions-table>
+
+        <div
+          class="assets-page__no-transactions"
+          *ngIf="transactions?.length === 0"
+        >
+          {{ translate('no_transactions') }}
+        </div>
       </ng-container>
 
-      <ng-container *appExpansionListColumnFooterDef="let assets">
+      <ng-container *appExpansionListColumnFooterDef>
         <ng-container *ngIf="(isLoading$ | async) === false">
           <ngx-skeleton-loader
             *ngIf="canLoadMore$ | async"
@@ -90,4 +101,15 @@
       </ng-container>
     </ng-container>
   </ng-container>
+
+  <ng-template #sendButton>
+    <button
+      class="assets-page__send-button"
+      [routerLink]="['./', portalRoute.Transfer]"
+      appTypeface="caption"
+    >
+      <svg-icon key="send" size="md"></svg-icon>
+      {{ translate('send') }}
+    </button>
+  </ng-template>
 </app-expansion-list>

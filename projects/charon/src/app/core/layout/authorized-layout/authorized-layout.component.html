@@ -1,7 +1,10 @@
 <div class="authorized-layout__header-container">
-  <app-authorized-layout-header></app-authorized-layout-header>
+  <app-authorized-layout-header
+    class="authorized-layout__header"
+  ></app-authorized-layout-header>
 
   <app-authorized-layout-navigation
+    class="authorized-layout__navigation"
     *ngIf="hasNavigation"
   ></app-authorized-layout-navigation>
 </div>
@@ -10,4 +13,4 @@
   <router-outlet></router-outlet>
 </div>
 
-<app-layout-footer></app-layout-footer>
+<app-layout-footer *appSlotContainer="footerSlotName"></app-layout-footer>

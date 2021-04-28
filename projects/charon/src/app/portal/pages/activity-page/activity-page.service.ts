@@ -32,7 +32,7 @@ export class ActivityPageService extends InfiniteLoadingService<ActivityListItem
         pdvList: this.pdvService.getPDVDetails(pdvListItem).pipe(
           pluck('pdv'),
         ),
-      })))
+      }))),
     );
   }
 }

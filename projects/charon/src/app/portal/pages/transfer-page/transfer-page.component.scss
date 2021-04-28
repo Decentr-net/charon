@@ -4,8 +4,6 @@ $transfer-page--border: 2px solid $color-outlines;
 $transfer-page--padding: $grid-step * 2;
 
 :host {
-  border: $transfer-page--border;
-  border-radius: $border-radius;
   display: block;
 
   &.is-disabled {
@@ -14,12 +12,37 @@ $transfer-page--padding: $grid-step * 2;
 
     .transfer-page__back-button {
       color: $color-light-grey;
-      //pointer-events: none;
     }
 
     .transfer-page__balance {
       background-color: $color-background;
     }
+  }
+
+  &.mod-popup-view {
+    .transfer-page__form__inputs-container {
+      grid-template-areas: 'amount'
+                           'error-amount'
+                           'to'
+                           'error-to';
+      grid-template-columns: initial;
+    }
+
+    .transfer-page__form__actions-container {
+      justify-content: space-between;
+      padding-bottom: $grid-step * 1.5;
+      padding-top: $grid-step * 1.5;
+    }
+
+    .transfer-page__header {
+      padding-bottom: $grid-step * 2;
+      padding-top: $grid-step * 2;
+    }
+  }
+
+  &:not(.mod-popup-view) {
+    border: $transfer-page--border;
+    border-radius: $border-radius;
   }
 }
 
@@ -33,6 +56,7 @@ $transfer-page--padding: $grid-step * 2;
   align-items: center;
   border-bottom: $transfer-page--border;
   display: flex;
+  font-weight: 500;
   gap: $grid-step * 2;
 }
 
@@ -95,6 +119,7 @@ $transfer-page--padding: $grid-step * 2;
 }
 
 .transfer-page__form__error {
+  min-height: 16px;
   padding: 0 $grid-step * 2;
 }
 

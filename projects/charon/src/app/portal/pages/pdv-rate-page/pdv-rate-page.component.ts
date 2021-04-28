@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
+import { isOpenedInTab } from '@shared/utils/browser';
 import { addAmountToDate, DateAmountType } from '@shared/utils/date';
 import { BalanceValueDynamic } from '@shared/services/pdv';
 import { CoinRateFor24Hours } from '@shared/services/currency';
@@ -24,6 +25,9 @@ interface FilterButton {
   ],
 })
 export class PdvRatePageComponent {
+  @HostBinding('class.mod-popup-view')
+  public readonly isOpenedInPopup: boolean = !isOpenedInTab();
+
   public coinRate$: Observable<CoinRateFor24Hours>;
   public estimatedBalance$: Observable<string>;
   public pdvChartPoints$: Observable<PdvChartPoint[]>;

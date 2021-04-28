@@ -1,14 +1,24 @@
-<app-portal-navigation></app-portal-navigation>
-
-<a
-  class="portal-page__logo"
-  *appSlot="headerLogoSlot"
-  [routerLink]="['./']"
->
-  <svg-icon class="portal-page__logo-icon" key="logo-portal"></svg-icon>
-</a>
-
 <ng-container *transloco="let translate; read: 'portal.portal_page'">
+  <app-portal-navigation></app-portal-navigation>
+
+  <a
+    class="portal-page__logo"
+    *appSlot="headerLogoSlot"
+    [routerLink]="['./']"
+  >
+    <svg-icon
+      class="portal-page__logo-icon"
+      *appBrowserTabView
+      key="logo-portal"
+    ></svg-icon>
+
+    <svg-icon
+      *appBrowserPopupView
+      fontSize="40px"
+      key="logo-icon-orange"
+    ></svg-icon>
+  </a>
+
   <button
     class="portal-page__copy-wallet-button"
     *appSlot="headerActionsSlot"
@@ -19,10 +29,28 @@
     <svg-icon key="wallet" size="lg"></svg-icon>
     {{ translate('copy_wallet_address') }}
   </button>
+
+  <ng-container *appBrowserTabView>
+    <app-network-selector
+      *appSlot="headerMetaSlot"
+    ></app-network-selector>
+  </ng-container>
+
+  <router-outlet></router-outlet>
+
+  <ng-container *appBrowserPopupView>
+    <div
+      class="portal-page__footer"
+      *appSlot="footerSlot"
+      appTypeface="caption"
+    >
+      <span>{{ translate('enable_toolbar') }}</span>
+
+      <mat-slide-toggle
+        color="primary"
+        [ngModel]="toolbarEnabledState$ | async"
+        (ngModelChange)="onToolbarEnabledStateChange($event)"
+      ></mat-slide-toggle>
+    </div>
+  </ng-container>
 </ng-container>
-
-<app-network-selector
-  *appSlot="headerMetaSlot"
-></app-network-selector>
-
-<router-outlet></router-outlet>

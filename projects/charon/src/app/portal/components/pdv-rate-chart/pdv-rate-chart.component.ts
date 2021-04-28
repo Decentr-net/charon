@@ -51,7 +51,6 @@ export class PdvRateChartComponent {
     return {
       ...defaultOptions,
       chart: {
-        height: 250,
         marginBottom: 20,
         marginLeft: 10,
         marginRight: 45,

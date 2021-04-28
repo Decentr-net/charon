@@ -14,10 +14,10 @@ import {
 } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { AppRoute } from '../../../app-route';
-import { isOpenedInTab } from '@core/browser';
+import { isOpenedInTab } from '@shared/utils/browser';
 import { LockBrowserStorageService } from '@shared/services/lock';
 import { ONE_SECOND } from '@shared/utils/date';
+import { AppRoute } from '../../../app-route';
 import { LOCK_ACTIVITY_SOURCE, LOCK_REDIRECT_URL } from '../lock.tokens';
 
 export const LOCK_RETURN_URL_PARAM = 'returnUrl';

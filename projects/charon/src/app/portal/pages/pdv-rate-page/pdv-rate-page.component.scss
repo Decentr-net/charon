@@ -1,10 +1,58 @@
 @import 'variables';
 
-.pdv-rate__pdv {
-  border: 2px solid $color-outlines;
-  border-radius: $border-radius;
+$popup-side-padding: $grid-step * 2;
+
+:host {
   display: block;
-  padding: $grid-step * 2;
+
+  &.mod-popup-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .pdv-rate__pdv {
+      flex-grow: 1;
+      padding: $popup-side-padding;
+    }
+
+    .pdv-rate__pdv-header {
+      flex-direction: column;
+    }
+
+    .pdv-rate__pdv-chart {
+      height: 200px;
+    }
+
+    .pdv-rate__currency {
+      border-bottom: 2px solid $color-outlines;
+      border-top: $grid-step / 2 solid $color-outlines;
+      padding: $grid-step * 1.5 $popup-side-padding $grid-step * 2;
+    }
+
+    .pdv-rate__currency-icon {
+      font-size: 24px;
+    }
+  }
+
+  &:not(.mod-popup-view) {
+    padding-bottom: $grid-step * 2;
+
+    .pdv-rate__pdv,
+    .pdv-rate__currency {
+      border: 2px solid $color-outlines;
+      border-radius: $border-radius;
+    }
+
+    .pdv-rate__currency {
+      margin-top: $grid-step * 3;
+      padding: $grid-step * 3 $page-side-padding;
+    }
+  }
+}
+
+.pdv-rate__pdv {
+  display: block;
+  padding: $page-side-padding;
 }
 
 .pdv-rate__pdv-loading {
@@ -30,12 +78,15 @@
   margin-top: $grid-step;
 }
 
-.pdv-rate__pdv-filter-buttons {
+.pdv-rate__pdv-filter {
   background: $color-background;
   border-radius: $border-radius;
   display: flex;
   font-weight: 500;
+  height: max-content;
+  margin-top: $grid-step;
   user-select: none;
+  width: max-content;
 
   li {
     padding: $grid-step * 1.5 $grid-step * 2;
@@ -43,7 +94,7 @@
     &.active {
       background: $color-white;
       border-radius: $border-radius;
-      box-shadow: 0 4px 12px rgba($color-grey, 0.4);
+      box-shadow: 0 $grid-step / 2 $grid-step * 1.5 rgba($color-grey, 0.4);
       cursor: default;
     }
 
@@ -56,7 +107,7 @@
 
 .pdv-rate__pdv-chart {
   margin-top: $grid-step;
-  min-height: 250px;
+  height: 250px;
 }
 
 .pdv-rate__pdv-chart__no-data {
@@ -69,12 +120,8 @@
 
 .pdv-rate__currency {
   align-items: center;
-  border: 2px solid $color-outlines;
-  border-radius: $border-radius;
   display: flex;
   font-weight: 500;
-  margin-top: $grid-step * 3;
-  padding: $grid-step * 3 $grid-step * 2;
 }
 
 .pdv-rate__currency-icon {

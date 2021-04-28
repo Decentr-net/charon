@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@an
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { isOpenedInTab } from '@shared/utils/browser';
 import { InfiniteLoadingPresenter } from '@shared/utils/infinite-loading';
 import { ActivityListItem } from './activity-page.definitions';
 import { ActivityPageService } from './activity-page.service';
@@ -16,11 +17,15 @@ import { ActivityPageService } from './activity-page.service';
   ],
 })
 export class ActivityPageComponent extends InfiniteLoadingPresenter<ActivityListItem> implements OnInit {
+  public readonly isOpenedInTab: boolean = isOpenedInTab();
+
   public readonly skeletonLoaderTheme = {
     height: '24px',
     marginBottom: '24px',
     width: '100%',
   };
+
+  public readonly dateFormat: string = 'dd/MM/yyyy HH:mm';
 
   constructor(
     activityPageService: ActivityPageService,

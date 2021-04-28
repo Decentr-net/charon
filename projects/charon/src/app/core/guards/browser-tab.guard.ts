@@ -6,8 +6,8 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 
+import { isOpenedInTab } from '@shared/utils/browser';
 import { NavigationService } from '@core/navigation';
-import { isOpenedInTab } from '@core/browser';
 
 @Injectable()
 export class BrowserTabGuard implements CanActivate, CanActivateChild {

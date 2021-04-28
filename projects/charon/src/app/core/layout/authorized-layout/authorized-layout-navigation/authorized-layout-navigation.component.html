@@ -3,17 +3,23 @@
   appDragScroll
   appMouseWheelHorizontalScroll
 >
-  <a
-    class="authorized-layout-navigation__link"
-    app-authorized-layout-navigation-link
-    *ngFor="let linkDef of linksDefs"
-    [ngClass]="linkDef.colorClass"
-    [routerLink]="linkDef.link"
-    routerLinkActive="is-active"
-    [routerLinkActiveOptions]="{ exact: linkDef.exact }"
-    [dot]="linkDef.dot"
-    appRouterLinkScrollAnchor
-  >
-    <ng-template [ngTemplateOutlet]="linkDef.templateRef"></ng-template>
-  </a>
+  <div class="authorized-layout-navigation__links-container">
+    <a
+      class="authorized-layout-navigation__link"
+      app-authorized-layout-navigation-link
+      *ngFor="let linkDef of linksDefs$ | async"
+      [ngClass]="linkDef.colorClass"
+      [routerLink]="linkDef.link"
+      routerLinkActive="is-active"
+      [routerLinkActiveOptions]="{ exact: linkDef.exact }"
+      [dot]="linkDef.dot"
+      appRouterLinkScrollAnchor
+    >
+      <ng-template [ngTemplateOutlet]="linkDef.templateRef"></ng-template>
+    </a>
+  </div>
+
+  <div>
+    <ng-template [appSlotContainer]="rightSlotName"></ng-template>
+  </div>
 </div>
