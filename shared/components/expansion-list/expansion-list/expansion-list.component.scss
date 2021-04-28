@@ -6,6 +6,7 @@
   border-radius: $border-radius;
   display: grid;
   grid-template-rows: 100%;
+  height: 100%;
 
   &.mod-bordered {
     border: 2px solid $color-outlines;
