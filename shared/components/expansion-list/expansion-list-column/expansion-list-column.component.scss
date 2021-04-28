@@ -2,7 +2,7 @@
 
 :host {
   display: grid;
-  grid-template-rows: max-content 1fr;
+  grid-template-rows: max-content minmax(0, 1fr);
 
   &:not(.mod-last) {
     .expansion-list-column__cell {
