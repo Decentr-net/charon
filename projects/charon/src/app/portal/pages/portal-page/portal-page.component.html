@@ -19,7 +19,6 @@
     ></svg-icon>
   </a>
 
-
   <button
     class="portal-page__copy-wallet-button"
     *appSlot="headerActionsSlot"
@@ -42,7 +41,7 @@
   <ng-container *appBrowserPopupView>
     <div
       class="portal-page__footer"
-      *appAuthorizedLayoutFooterDef
+      *appSlot="footerSlot"
       appTypeface="caption"
     >
       <span>{{ translate('enable_toolbar') }}</span>

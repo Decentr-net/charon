@@ -14,22 +14,18 @@ import { AuthorizedLayoutComponent } from './authorized-layout.component';
 import { AuthorizedLayoutHeaderComponent } from './authorized-layout-header';
 import {
   AuthorizedLayoutNavigationComponent,
-  AuthorizedLayoutNavigationContentDefDirective,
   AuthorizedLayoutNavigationDefDirective,
 } from './authorized-layout-navigation';
 import {
   AuthorizedLayoutNavigationLinkComponent,
   AuthorizedLayoutNavigationLinkDefDirective,
 } from './authorized-layout-navigation-link';
-import { AuthorizedLayoutFooterDefDirective } from '@core/layout/authorized-layout/authorized-layout-footer';
 
 @NgModule({
   declarations: [
     AuthorizedLayoutComponent,
-    AuthorizedLayoutFooterDefDirective,
     AuthorizedLayoutHeaderComponent,
     AuthorizedLayoutNavigationComponent,
-    AuthorizedLayoutNavigationContentDefDirective,
     AuthorizedLayoutNavigationDefDirective,
     AuthorizedLayoutNavigationLinkComponent,
     AuthorizedLayoutNavigationLinkDefDirective,
@@ -48,8 +44,6 @@ import { AuthorizedLayoutFooterDefDirective } from '@core/layout/authorized-layo
   ],
   exports: [
     AuthorizedLayoutComponent,
-    AuthorizedLayoutFooterDefDirective,
-    AuthorizedLayoutNavigationContentDefDirective,
     AuthorizedLayoutNavigationDefDirective,
     AuthorizedLayoutNavigationLinkDefDirective,
   ],

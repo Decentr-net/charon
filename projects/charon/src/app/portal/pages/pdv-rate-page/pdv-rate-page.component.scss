@@ -8,6 +8,7 @@ $popup-side-padding: $grid-step * 2;
   &.mod-popup-view {
     display: flex;
     flex-direction: column;
+    height: 100%;
 
     .pdv-rate__pdv {
       flex-grow: 1;

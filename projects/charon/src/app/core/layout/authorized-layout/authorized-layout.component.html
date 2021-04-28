@@ -13,6 +13,4 @@
   <router-outlet></router-outlet>
 </div>
 
-<ng-template [ngTemplateOutlet]="footerTemplate$ | async"></ng-template>
-
-<app-layout-footer *appAuthorizedLayoutFooterDef></app-layout-footer>
+<app-layout-footer *appSlotContainer="footerSlotName"></app-layout-footer>

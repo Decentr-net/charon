@@ -9,7 +9,7 @@
     <ng-container *appBrowserPopupView>
       <a
         class="portal-navigation__expand-btn"
-        *appAuthorizedLayoutNavigationContentDef
+        *appSlot="navigationRightSlot"
         (click)="expandView()"
       >
         <svg-icon key="widescreen" size="lg"></svg-icon>

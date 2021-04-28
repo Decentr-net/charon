@@ -7,7 +7,7 @@
     <a
       class="authorized-layout-navigation__link"
       app-authorized-layout-navigation-link
-      *ngFor="let linkDef of linksDefs"
+      *ngFor="let linkDef of linksDefs$ | async"
       [ngClass]="linkDef.colorClass"
       [routerLink]="linkDef.link"
       routerLinkActive="is-active"
@@ -20,6 +20,6 @@
   </div>
 
   <div>
-    <ng-template [ngTemplateOutlet]="contentTemplate$ | async"></ng-template>
+    <ng-template [appSlotContainer]="rightSlotName"></ng-template>
   </div>
 </div>

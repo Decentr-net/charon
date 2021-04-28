@@ -8,6 +8,9 @@ $popup-side-padding: $grid-step * 2;
   height: 100vh;
 
   &.mod-popup-view {
+    height: 600px;
+    width: 375px;
+
     .authorized-layout__header,
     .authorized-layout__navigation {
       padding-left: $popup-side-padding;

@@ -6,6 +6,7 @@ import { svgWidescreen } from '@shared/svg-icons';
 import { NavigationService } from '@core/navigation';
 import { AppRoute } from '../../../app-route';
 import { PortalRoute } from '../../portal-route';
+import { AUTHORIZED_LAYOUT_NAVIGATION_RIGHT_SLOT } from '../../../core/layout/authorized-layout';
 
 interface LinkDef {
   colorClass: string;
@@ -38,6 +39,8 @@ export class PortalNavigationComponent {
       link: ['/', AppRoute.Portal, PortalRoute.Assets],
     },
   ];
+
+  public readonly navigationRightSlot = AUTHORIZED_LAYOUT_NAVIGATION_RIGHT_SLOT;
 
   constructor(
     private navigationService: NavigationService,

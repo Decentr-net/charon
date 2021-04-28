@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit, TemplateRef } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { isOpenedInTab } from '@shared/utils/browser';
 import { AuthorizedLayoutNavigationService } from './authorized-layout-navigation';
-import { AuthorizedLayoutService } from './authorized-layout.service';
+
+export const AUTHORIZED_LAYOUT_FOOTER_SLOT = Symbol('AUTHORIZED_LAYOUT_FOOTER_SLOT');
 
 @UntilDestroy()
 @Component({
@@ -15,18 +15,16 @@ import { AuthorizedLayoutService } from './authorized-layout.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     AuthorizedLayoutNavigationService,
-    AuthorizedLayoutService,
   ],
 })
 export class AuthorizedLayoutComponent implements OnInit {
   @HostBinding('class.mod-popup-view') public isOpenedInPopup: boolean;
 
+  public readonly footerSlotName: Symbol = AUTHORIZED_LAYOUT_FOOTER_SLOT;
+
   public hasNavigation: boolean;
 
-  public footerTemplate$: Observable<TemplateRef<void>>;
-
   constructor(
-    private authorizedLayoutService: AuthorizedLayoutService,
     private authorizedLayoutNavigationService: AuthorizedLayoutNavigationService,
     private changeDetectorRef: ChangeDetectorRef,
   ) {
@@ -38,12 +36,8 @@ export class AuthorizedLayoutComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe((hasNavigation) => {
       this.hasNavigation = hasNavigation;
-      this.changeDetectorRef.detectChanges();
+      this.changeDetectorRef.markForCheck();
     });
-
-    this.footerTemplate$ = this.authorizedLayoutService.getCurrentFooter().pipe(
-      map((footerDef) => footerDef?.templateRef),
-    );
 
     this.isOpenedInPopup = !isOpenedInTab();
   }
