@@ -25,7 +25,6 @@ import { PDVService } from '@shared/services/pdv';
 import { isOpenedInTab } from '@shared/utils/browser';
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../../hub';
-import { UserRoute } from '../../../user';
 import { LockService } from '../../lock';
 import { NavigationService } from '../../navigation';
 import { AuthService } from '../../auth';
@@ -130,7 +129,7 @@ export class MenuService extends MenuBaseService {
     ]).pipe(
       map(([user, pdvValue]) => ({
         pdvValue,
-        action: () => this.router.navigate(['/', AppRoute.User, UserRoute.Edit]),
+        action: () => this.router.navigate(['/', AppRoute.User]),
         title: `${user.firstName} ${user.lastName}`,
       })),
     );
