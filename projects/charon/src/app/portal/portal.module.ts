@@ -9,6 +9,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
 import { ExpansionListModule } from '@shared/components/expansion-list';
 import { FormErrorModule } from '@shared/components/form-error';
@@ -47,6 +48,7 @@ import { PortalRoutingModule } from './portal-routing.module';
     MatTooltipModule,
     MicroValueModule,
     NetworkSelectorModule,
+    NgxTrimDirectiveModule,
     ExpansionListModule,
     IntersectionModule,
     NgxSkeletonLoaderModule,
