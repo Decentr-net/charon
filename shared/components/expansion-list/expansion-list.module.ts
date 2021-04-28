@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SvgIconsModule } from '@ngneat/svg-icon';
 
 import { IntersectionModule } from '../../directives/intersection';
 import { TypefaceModule } from '../../directives/typeface';
@@ -23,6 +24,7 @@ import { ExpansionListLoadingDirective } from './expansion-list-loading';
   imports: [
     CommonModule,
     IntersectionModule,
+    SvgIconsModule,
     TypefaceModule,
   ],
   exports: [
