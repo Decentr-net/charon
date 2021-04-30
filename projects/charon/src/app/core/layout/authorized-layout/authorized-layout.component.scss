@@ -9,6 +9,7 @@ $popup-side-padding: $grid-step * 2;
 
   &.mod-popup-view {
     height: 600px;
+    overflow: hidden;
     width: 375px;
 
     .authorized-layout__header,
