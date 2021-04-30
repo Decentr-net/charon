@@ -56,7 +56,7 @@ export const setRandomNetwork = async (): Promise<void> => {
     if (localNodeAvailability !== NodeAvailability.Available) {
       await networkStorage.setActiveNetwork(defaultNetwork);
     }
-
-    return NETWORK_READY_SUBJECT.next();
   }
+
+  NETWORK_READY_SUBJECT.next();
 };
