@@ -40,7 +40,7 @@
       <div class="menu-popup-items-section">
         <div
           class="network-selector__menu__item menu-popup-item"
-          [class.is-active]="isNetworksEqual(network, activeNetwork)"
+          [class.is-active]="network.name === activeNetwork.name"
           [class.is-disabled]="network.disabled"
           *ngFor="let network of networks; trackBy: trackByName"
           (click)="switchNetwork(network)"

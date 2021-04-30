@@ -40,6 +40,7 @@ export class NetworkSelectorComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe((activeNetwork) => {
       this.activeNetwork = activeNetwork;
+      console.log(this.activeNetwork);
       this.changeDetectorRef.markForCheck();
     });
 
@@ -48,10 +49,6 @@ export class NetworkSelectorComponent implements OnInit {
 
   public switchNetwork(network: Network): void {
     this.networkSelectorService.setActiveNetwork(network);
-  }
-
-  public isNetworksEqual(left: Network, right: Network): boolean {
-    return this.networkSelectorService.isNetworksEqual(left, right);
   }
 
   public trackByName: TrackByFunction<Network> = ({}, { name }) => name;

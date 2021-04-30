@@ -1,5 +1,5 @@
-import { Observable, of, ReplaySubject, throwError } from 'rxjs';
-import { delay, first, map, mergeMap, retryWhen } from 'rxjs/operators';
+import { of, ReplaySubject, throwError } from 'rxjs';
+import { delay, first, mergeMap, retryWhen } from 'rxjs/operators';
 
 import CONFIG_SERVICE from '../config';
 import { environment } from '../../../../../environments/environment';
@@ -12,7 +12,7 @@ const blockchainNodeService = new BlockchainNodeService(configService);
 
 export const NETWORK_READY_SUBJECT = new ReplaySubject<boolean>();
 
-export const getRandomRest = (): Observable<string> => {
+export const getRandomRest = (): Promise<string> => {
   return configService.getRestNodes().pipe(
     mergeMap((nodes) => {
       const random = Math.floor(Math.random() * nodes.length);
@@ -25,7 +25,8 @@ export const getRandomRest = (): Observable<string> => {
     retryWhen((errors) => errors.pipe(
       delay(ONE_SECOND / 2),
     )),
-  );
+    first(),
+  ).toPromise();
 };
 
 export const setRandomNetwork = async (): Promise<void> => {
@@ -37,22 +38,25 @@ export const setRandomNetwork = async (): Promise<void> => {
 
   await networkStorage.clear();
 
-  const defaultNetwork = await getRandomRest().pipe(
-    first(),
-    map((api) => ({ api })),
-  ).toPromise();
+  const defaultNetwork = await getRandomRest().then((api) => ({ api }));
 
   await networkStorage.setDefaultNetwork(defaultNetwork);
 
-  if (activeNetwork?.api === environment.rest.local) {
-    const localNodeAvailability = await blockchainNodeService.getNodeAvailability(environment.rest.local, true).toPromise();
+  if (!activeNetwork) {
+    await networkStorage.setActiveNetwork(defaultNetwork);
 
-    if (localNodeAvailability === NodeAvailability.Available) {
-      return;
-    }
+    return NETWORK_READY_SUBJECT.next();
   }
 
-  await networkStorage.setActiveNetwork(defaultNetwork);
+  if (activeNetwork.api === environment.rest.local) {
+    const localNodeAvailability = await blockchainNodeService.getNodeAvailability(environment.rest.local, true).pipe(
+      first(),
+    ).toPromise();
 
-  NETWORK_READY_SUBJECT.next();
+    if (localNodeAvailability !== NodeAvailability.Available) {
+      await networkStorage.setActiveNetwork(defaultNetwork);
+    }
+
+    return NETWORK_READY_SUBJECT.next();
+  }
 };
