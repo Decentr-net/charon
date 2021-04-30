@@ -40,7 +40,6 @@ export class NetworkSelectorComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe((activeNetwork) => {
       this.activeNetwork = activeNetwork;
-      console.log(this.activeNetwork);
       this.changeDetectorRef.markForCheck();
     });
 
