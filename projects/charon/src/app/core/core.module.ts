@@ -9,6 +9,7 @@ import { CurrencyModule } from '@shared/services/currency';
 import { MenuModule } from '@shared/components/menu';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
 import { SlotModule } from '@shared/components/slot';
+import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { NotificationsModule } from '@shared/services/notification';
 import { PDVModule } from '@shared/services/pdv';
 import { ERROR_PROCESSORS, FallbackErrorProcessor } from '@core/notifications';
@@ -24,7 +25,7 @@ import { NavigationModule, NavigationService } from './navigation';
 import { PermissionsModule } from '@shared/permissions';
 import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
-import { CORE_SERVICES, MenuService, NetworkService } from './services';
+import { CORE_SERVICES, MenuService, NetworkSelectorService } from './services';
 import { QuillRootModule } from './quill';
 
 export function initAuthFactory(authService: AuthService): () => void {
@@ -41,10 +42,6 @@ export function isMaintenanceFactory(configService: ConfigService, navigationSer
       navigationService.redirectToMaintenancePage();
     });
   };
-}
-
-export function initNetworkFactory(networkService: NetworkService): () => void {
-  return () => networkService.init();
 }
 
 @NgModule({
@@ -70,7 +67,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     }),
     NavigationModule,
     NetworkSelectorModule.forRoot({
-      service: NetworkService,
+      service: NetworkSelectorService,
     }),
     NotificationsModule.forRoot({
       errorProcessors: ERROR_PROCESSORS,
@@ -93,6 +90,10 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     CORE_GUARDS,
     CORE_SERVICES,
     {
+      provide: NetworkBrowserStorageService,
+      useClass: NetworkBrowserStorageService,
+    },
+    {
       provide: Environment,
       useValue: environment,
     },
@@ -111,12 +112,6 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       provide: APP_INITIALIZER,
       useFactory: initAuthFactory,
       deps: [AuthService],
-      multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initNetworkFactory,
-      deps: [NetworkService],
       multi: true,
     },
   ],
