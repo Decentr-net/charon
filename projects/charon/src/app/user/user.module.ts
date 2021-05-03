@@ -8,6 +8,7 @@ import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
 import { FormErrorModule } from '@shared/components/form-error';
 import { ProfileFormModule } from '@shared/components/profile-form';
+import { MatButtonModule } from '@angular/material/button';
 import { NavigationModule } from '@core/navigation';
 import { LayoutHeaderModule } from '../layout/layout-header';
 import { USER_PAGES } from './pages';
@@ -19,6 +20,7 @@ import { UserRoutingModule } from './user-routing.module';
     CommonModule,
     FormErrorModule,
     LayoutHeaderModule,
+    MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
     NavigationModule,
