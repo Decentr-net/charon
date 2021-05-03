@@ -130,7 +130,8 @@ export class MenuService extends MenuBaseService {
       map(([user, pdvValue]) => ({
         pdvValue,
         action: () => this.router.navigate(['/', AppRoute.User]),
-        title: `${user.firstName} ${user.lastName}`,
+        firstName: user.firstName,
+        lastName: user.lastName,
       })),
     );
   }

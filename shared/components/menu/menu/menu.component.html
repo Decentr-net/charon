@@ -15,7 +15,7 @@
         appTextEllipsis
         appTypeface="paragraph"
       >
-        {{ userProfile.firstName }} {{ userProfile.lastName }}
+       {{ userProfile.firstName }} {{ userProfile.lastName | slice : 0 : 1 }}.
       </span>
 
       <svg-icon class="menu__trigger-icon" key="dropdown-expand"></svg-icon>
@@ -38,7 +38,13 @@
       ></app-avatar>
 
       <div>
-        <div class="menu-popup-item-title" appTypeface="paragraph">{{ userItem.title }}</div>
+        <div
+          class="menu-popup-item-title"
+          appTextEllipsis
+          appTypeface="paragraph"
+        >
+          {{ userItem.firstName }} {{ userItem.lastName | slice : 0 : 1 }}.
+        </div>
 
         <div class="menu__user-item__pdv" appTypeface="caption">
           {{ userItem.pdvValue | pdvValue }} {{ translations.pdv }}

@@ -11,14 +11,16 @@ export interface MenuUserProfile {
 
 interface MenuItemBase {
   action?: () => void;
-  title: string;
 }
 
 export interface MenuUserItem extends MenuItemBase {
+  firstName: string;
+  lastName: string;
   pdvValue: string;
 }
 
 export interface MenuItem extends MenuItemBase {
   description?: string;
   iconKey: string;
+  title: string;
 }
