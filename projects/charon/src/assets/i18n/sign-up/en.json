@@ -137,12 +137,6 @@
       "text": "Never disclose your backup phrase. Anyone with this phrase can take your Decs forever."
     }
   },
-  "seed_phrase_test_page": {
-    "back": "Back",
-    "confirm": "CONFIRM",
-    "subtitle": "Please select each phrase in order to make sure it is correct.",
-    "title": "Confirm Your Secret Backup Phrase"
-  },
   "sign_up_page": {
     "errors": {
       "account_conflict": "A wallet has already been created for this email or wallet address",
