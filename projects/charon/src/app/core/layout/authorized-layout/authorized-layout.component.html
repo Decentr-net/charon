@@ -13,4 +13,6 @@
   <router-outlet></router-outlet>
 </div>
 
-<app-layout-footer *appSlotContainer="footerSlotName"></app-layout-footer>
+<ng-container *appSlotContainer="footerSlotName">
+  <app-layout-footer *appBrowserTabView></app-layout-footer>
+</ng-container>

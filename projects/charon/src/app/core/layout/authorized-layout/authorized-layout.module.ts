@@ -5,6 +5,7 @@ import { SvgIconsModule } from '@ngneat/svg-icon';
 
 import { MenuModule } from '@shared/components/menu';
 import { SlotModule } from '@shared/components/slot';
+import { BrowserViewModule } from '@shared/directives/browser-view';
 import { DragScrollModule } from '@shared/directives/drag-scroll';
 import { MouseWheelHorizontalScrollModule } from '@shared/directives/mouse-wheel-horizontal-scroll';
 import { RouterLinkScrollAnchorModule } from '@shared/directives/router-link-scroll-anchor';
@@ -30,6 +31,7 @@ import {
     AuthorizedLayoutNavigationLinkDefDirective,
   ],
   imports: [
+    BrowserViewModule,
     CommonModule,
     DragScrollModule,
     LayoutFooterModule,
