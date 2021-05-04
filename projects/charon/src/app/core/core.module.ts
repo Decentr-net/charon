@@ -25,7 +25,7 @@ import { NavigationModule, NavigationService } from './navigation';
 import { PermissionsModule } from '@shared/permissions';
 import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
-import { CORE_SERVICES, MenuService, NetworkSelectorService } from './services';
+import { CORE_SERVICES, MenuService, NetworkSelectorService, NetworkService } from './services';
 import { QuillRootModule } from './quill';
 
 export function initAuthFactory(authService: AuthService): () => void {
@@ -42,6 +42,10 @@ export function isMaintenanceFactory(configService: ConfigService, navigationSer
       navigationService.redirectToMaintenancePage();
     });
   };
+}
+
+export function initNetworkFactory(networkService: NetworkService): () => void {
+  return () => networkService.init();
 }
 
 @NgModule({
@@ -112,6 +116,12 @@ export function isMaintenanceFactory(configService: ConfigService, navigationSer
       provide: APP_INITIALIZER,
       useFactory: initAuthFactory,
       deps: [AuthService],
+      multi: true,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initNetworkFactory,
+      deps: [NetworkService],
       multi: true,
     },
   ],
