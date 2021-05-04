@@ -38,4 +38,8 @@ $transfer-input--border-width: 2px;
   padding: 0;
   resize: none;
   width: 100%;
+
+  &.mod-textarea {
+    height: 48px;
+  }
 }
