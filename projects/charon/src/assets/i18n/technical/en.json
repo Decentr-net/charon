@@ -2,6 +2,9 @@
   "maintenance_page": {
     "title": "Extension is temporarily unavailable due to maintenance downtime.\nPlease, try again later."
   },
+  "offline_page": {
+    "title": "You are offline.\nPlease, check your internet connection."
+  },
   "update_page": {
     "title": "This version is no longer supported.\nPlease, update the extension."
   }

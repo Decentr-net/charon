@@ -47,6 +47,10 @@ export class NavigationService {
   }
 
   public redirectToMaintenancePage(): void {
-    this.router.navigate(['./', AppRoute.Maintenance]);
+    this.router.navigate(['/', AppRoute.Maintenance]);
+  }
+
+  public redirectToOfflinePage(): void {
+    this.router.navigate(['/', AppRoute.Offline]);
   }
 }
