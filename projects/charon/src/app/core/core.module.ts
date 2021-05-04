@@ -1,5 +1,4 @@
 import { APP_INITIALIZER, NgModule, Optional, SkipSelf } from '@angular/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -20,7 +19,7 @@ import { AuthorizedLayoutModule } from './layout/authorized-layout';
 import { LockModule } from './lock';
 import { ConfigService, ConfigurationModule } from '@shared/services/configuration';
 import { CORE_GUARDS } from './guards';
-import { MaintenanceInterceptor } from '@core/interceptors';
+import { INTERCEPTORS_PROVIDERS } from './interceptors';
 import { NavigationModule, NavigationService } from './navigation';
 import { PermissionsModule } from '@shared/permissions';
 import { SvgIconRootModule } from './svg-icons';
@@ -93,6 +92,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
   providers: [
     CORE_GUARDS,
     CORE_SERVICES,
+    INTERCEPTORS_PROVIDERS,
     {
       provide: NetworkBrowserStorageService,
       useClass: NetworkBrowserStorageService,
@@ -105,11 +105,6 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       provide: APP_INITIALIZER,
       useFactory: isMaintenanceFactory,
       deps: [ConfigService, NavigationService],
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MaintenanceInterceptor,
       multi: true,
     },
     {
