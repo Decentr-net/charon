@@ -77,7 +77,7 @@
 
 <ng-template #loadingChart>
   <ngx-skeleton-loader
-    class="pdv-rate__chart-loading"
+    class="pdv-rate__skeleton-loader"
       [theme]="{
         height: isOpenedInPopup ? '200px' : '250px',
         marginBottom: '0',
@@ -88,10 +88,10 @@
 
 <ng-template #loadingCoinRate>
   <ngx-skeleton-loader
+    class="pdv-rate__skeleton-loader"
     [theme]="{
-      height: '68px',
-      marginBottom: '0',
-      width: '500px'
+      height: '36px',
+      marginBottom: '0'
     }"
   ></ngx-skeleton-loader>
 </ng-template>

@@ -59,7 +59,8 @@ $popup-side-padding: $grid-step * 2;
   width: 100%;
 }
 
-.pdv-rate__chart-loading {
+.pdv-rate__skeleton-loader {
+  display: block;
   width: 100%;
 }
 
