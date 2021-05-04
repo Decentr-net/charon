@@ -12,8 +12,15 @@
 
 .post-page__header {
   align-items: center;
-  column-gap: $grid-step * 2;
+  column-gap: $grid-step;
   display: flex;
+}
+
+.post-page__header-separator {
+  background-color: $color-white;
+  border-radius: 100%;
+  height: 4px;
+  width: 4px;
 }
 
 .post-page__navigation-back-button {
@@ -43,6 +50,7 @@
   cursor: pointer;
   display: inline-flex;
   font-weight: 700;
+  margin-left: $grid-step;
 }
 
 .post-page__category-dot {
