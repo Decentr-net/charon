@@ -11,7 +11,12 @@ export class SeedPhraseComponent {
 
   @Output() public readonly next: EventEmitter<void> = new EventEmitter();
 
+  public isSeedPhraseDownloaded = false;
   public isSeedPhraseVisible = false;
+
+  public downloadSeedPhrase(): void {
+    this.isSeedPhraseDownloaded = true;
+  }
 
   public onNext(): void {
     this.next.emit();

@@ -10,8 +10,8 @@
       position: relative;
       border: 1px solid $grey-border-color;
       border-radius: 4px;
-      padding: 1.5rem;
-      max-width: 350px;
+      padding: $grid-step * 3;
+      max-width: 355px;
       font-size: 20px;
       text-align: center;
       margin: 2.5rem 0;
@@ -63,6 +63,44 @@
           }
         }
       }
+    }
+  }
+}
+
+.seed-phrase__download-seed-phrase {
+  margin-right: 16px;
+}
+
+.seed-phrase__hint-container {
+  background: $color-light-red;
+  border-radius: $border-radius;
+  padding: $grid-step * 2;
+}
+
+.seed-phrase__hint-title {
+  color: $color-red;
+  font-weight: 600;
+}
+
+.seed-phrase__hint-label {
+  margin-top: $grid-step * 2;
+}
+
+.seed-phrase__hint-text {
+  list-style: none;
+
+  li {
+    margin-left: $grid-step * 2;
+    margin-top: $grid-step * 2;
+    position: relative;
+
+    &:before {
+      color: $color-red;
+      content: '*';
+      font-size: 20px;
+      font-weight: 600;
+      left: -16px;
+      position: absolute;
     }
   }
 }
