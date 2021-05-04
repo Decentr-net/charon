@@ -18,7 +18,6 @@ export class SeedPhraseComponent {
 
   @ViewChild('pdfTemplate', { static: false }) public pdfTemplate: ElementRef<HTMLElement>;
 
-  public isSeedPhraseDownloaded = false;
   public isSeedPhraseVisible = false;
 
   constructor(
@@ -27,6 +26,10 @@ export class SeedPhraseComponent {
     svgIconRegistry.register([
       svgLogo,
     ]);
+  }
+
+  public downloadSeedPhrase(): void {
+    this.exportAsPDF(this.pdfTemplate.nativeElement);
   }
 
   public exportAsPDF(pdfTemplate: HTMLElement): void {
@@ -49,11 +52,6 @@ export class SeedPhraseComponent {
       pdf.textWithLink('https://decentr.net', 20, 130, { url: 'https://decentr.net/' });
       pdf.save('seed-phrase.pdf');
     });
-  }
-
-  public downloadSeedPhrase(): void {
-    this.exportAsPDF(this.pdfTemplate.nativeElement);
-    this.isSeedPhraseDownloaded = true;
   }
 
   public onNext(): void {
