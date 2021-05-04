@@ -10,12 +10,12 @@ export * from './offline.interceptor';
 export const INTERCEPTORS_PROVIDERS: ClassProvider[] = [
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: MaintenanceInterceptor,
+    useClass: OfflineInterceptor,
     multi: true,
   },
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: OfflineInterceptor,
+    useClass: MaintenanceInterceptor,
     multi: true,
   },
-]
+];
