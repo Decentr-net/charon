@@ -6,16 +6,8 @@
     <ng-container [ngTemplateOutlet]="backBtn"></ng-container>
     <app-seed-phrase
       [seedPhrase]="seedPhrase"
-      (next)="switchTab(tab.SeedPhraseTest)"
+      (next)="switchTab(tab.AccountForm)"
     ></app-seed-phrase>
-  </ng-container>
-
-  <ng-container *ngSwitchCase="tab.SeedPhraseTest">
-    <ng-container [ngTemplateOutlet]="backBtn"></ng-container>
-    <app-seed-phrase-test
-      [seedPhrase]="seedPhrase"
-      (confirmed)="switchTab(tab.AccountForm)"
-    ></app-seed-phrase-test>
   </ng-container>
 
   <ng-container *ngSwitchCase="tab.AccountForm">

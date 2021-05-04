@@ -121,27 +121,23 @@
     }
   },
   "seed_phrase_page": {
+    "download_seed_phrase": "Download Seed Phrase",
     "hint": {
-      "label": "Hint",
       "text1": "Store your seed phrase in a password manager like 1Password.",
-      "text2": "Write this phrase on a piece of paper and store in a secure location. If you want even more security, write it down on multiple pieces of paper and store each in 2 - 3 different locations.",
-      "text3": "Memorize seed phrase.",
-      "text4": "Download this Secret Backup Phrase and keep it stored safely on an external encrypted hard drive or storage medium."
+      "text2": "Write this phrase on a piece of paper and store in a secure location. If you want even more security, write it down on multiple pieces of paper and store each in 2&nbsp;-&nbsp;3 different locations.",
+      "text3": "Download the PDF file with Seed Phrase and keep it stored safely on an external encrypted hard drive or storage medium.",
+      "text4": "We can't recover your Seed Phrase for you. If you lose it, you won't be able to back up your account.",
+      "label": "Seed Phrase is the only way to recover your profile and wallet with DEC balance so take it seriously.",
+      "title": "Lose once never get back"
     },
-    "next": "NEXT",
+    "next": "Next",
     "reveal": "Click here to reveal secret words",
     "subtitle": "Your secret backup phrase (seed phrase) makes it easy to back up and restore your account.",
     "title": "Secret Backup Phrase",
     "warning": {
       "label": "WARNING",
-      "text": "Never disclose your backup phrase. Anyone with this phrase can take your Decs forever."
+      "text": "Never disclose your backup phrase. Anyone with this phrase can take your DECs forever."
     }
-  },
-  "seed_phrase_test_page": {
-    "back": "Back",
-    "confirm": "CONFIRM",
-    "subtitle": "Please select each phrase in order to make sure it is correct.",
-    "title": "Confirm Your Secret Backup Phrase"
   },
   "sign_up_page": {
     "errors": {

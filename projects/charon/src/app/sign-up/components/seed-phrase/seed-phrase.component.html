@@ -33,23 +33,47 @@
 
     <div class="row">
       <div class="col-xs-12">
-        <button class="btn btn__small"
-                mat-flat-button
-                color="accent"
-                [disabled]="!isSeedPhraseVisible"
-                (click)="onNext()">
+        <button
+          class="btn btn__small seed-phrase__download-seed-phrase"
+          mat-flat-button
+          color="accent"
+          [disabled]="!isSeedPhraseVisible"
+          (click)="downloadSeedPhrase()"
+        >
+          {{ translate('download_seed_phrase') }}
+        </button>
+
+        <button
+          class="btn btn__small"
+          mat-flat-button
+          color="accent"
+          [disabled]="!isSeedPhraseVisible"
+          (click)="onNext()"
+        >
           {{ translate('next') }}
         </button>
       </div>
     </div>
   </div>
-  <div class="col-xs-5 hint-message">
-    <div class="hint-title">
-      {{ translate('hint.label') }}:
+
+  <div class="col-xs-5">
+    <ng-container *ngTemplateOutlet="hint"></ng-container>
+  </div>
+
+  <ng-template #hint>
+    <div class="seed-phrase__hint-container">
+      <div class="seed-phrase__hint-title">{{ translate('hint.title') }}</div>
+      <div class="seed-phrase__hint-label">{{ translate('hint.label') }}</div>
+      <ul class="seed-phrase__hint-text">
+        <li>{{ translate('hint.text1') }}</li>
+        <li [innerHTML]="translate('hint.text2')"></li>
+        <li>{{ translate('hint.text3') }}</li>
+        <li>{{ translate('hint.text4') }}</li>
+      </ul>
     </div>
-    <p>{{ translate('hint.text1') }}</p>
-    <p>{{ translate('hint.text2') }}</p>
-    <p>{{ translate('hint.text3') }}</p>
-    <span>{{ translate('hint.text4') }}</span>
+  </ng-template>
+
+  <div #pdfTemplate class="seed-phrase__pdf-template">
+    <svg-icon class="seed-phrase__pdf-template-icon" key="logo"></svg-icon>
   </div>
 </div>
