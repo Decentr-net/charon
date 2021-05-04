@@ -5,22 +5,19 @@ export interface MenuTranslations {
 
 export interface MenuUserProfile {
   avatar: string;
-  firstName: string;
-  lastName: string;
+  title: string;
 }
 
 interface MenuItemBase {
   action?: () => void;
+  title: string;
 }
 
 export interface MenuUserItem extends MenuItemBase {
-  firstName: string;
-  lastName: string;
   pdvValue: string;
 }
 
 export interface MenuItem extends MenuItemBase {
   description?: string;
   iconKey: string;
-  title: string;
 }
