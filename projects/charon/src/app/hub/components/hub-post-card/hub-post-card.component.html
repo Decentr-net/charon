@@ -26,7 +26,7 @@
       </ng-container>
 
       <span class="hub-post-card__time" appTypeface="caption">
-        {{ post.createdAt | appCoerceTimestamp | dateAgo | async }}
+        {{ post.createdAt | appCoerceTimestamp | date : 'd MMM yyyy, HH:mm' }}
       </span>
     </div>
 
