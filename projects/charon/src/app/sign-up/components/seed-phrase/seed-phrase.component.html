@@ -57,6 +57,10 @@
   </div>
 
   <div class="col-xs-5">
+    <ng-container *ngTemplateOutlet="hint"></ng-container>
+  </div>
+
+  <ng-template #hint>
     <div class="seed-phrase__hint-container">
       <div class="seed-phrase__hint-title">{{ translate('hint.title') }}</div>
       <div class="seed-phrase__hint-label">{{ translate('hint.label') }}</div>
@@ -67,5 +71,9 @@
         <li>{{ translate('hint.text4') }}</li>
       </ul>
     </div>
+  </ng-template>
+
+  <div #pdfTemplate class="seed-phrase__pdf-template">
+    <svg-icon class="seed-phrase__pdf-template-icon" key="logo"></svg-icon>
   </div>
 </div>
