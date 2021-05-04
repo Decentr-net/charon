@@ -60,8 +60,7 @@ export class MenuService extends MenuBaseService {
     return this.authService.getActiveUser().pipe(
       map((user) => ({
         avatar: user.avatar,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        title: `${user.firstName} ${user.lastName ? user.lastName.slice(0,1) + '.' : ''}`,
       })),
     )
   }
@@ -124,13 +123,13 @@ export class MenuService extends MenuBaseService {
 
   public getUserItem(): Observable<MenuUserItem> {
     return combineLatest([
-      this.authService.getActiveUser(),
+      this.getUserProfile(),
       this.pdvService.getBalanceLive(),
     ]).pipe(
       map(([user, pdvValue]) => ({
         pdvValue,
         action: () => this.router.navigate(['/', AppRoute.User]),
-        title: `${user.firstName} ${user.lastName}`,
+        title: user.title,
       })),
     );
   }
