@@ -5,8 +5,9 @@ import {
   PostCreate,
   PostIdentificationParameters,
   PublicProfile,
+  StdTxMessageType,
   TransferData,
-  Wallet
+  Wallet,
 } from 'decentr-js';
 
 import CONFIG_SERVICE from '../config';
@@ -23,7 +24,7 @@ export const createPost = (
   walletAddress: Wallet['address'],
   post: PostCreate,
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse> => {
+): Promise<BroadcastResponse<StdTxMessageType.CommunityCreatePost>> => {
   return configService.getChainId().pipe(
     mergeMap((chainId) => new Decentr(getApi(), chainId).community.createPost(
       walletAddress,
@@ -40,7 +41,7 @@ export const deletePost = (
   walletAddress: Wallet['address'],
   postIdentificationParameters: PostIdentificationParameters,
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse> => {
+): Promise<BroadcastResponse<StdTxMessageType.CommunityDeletePost>> => {
   return configService.getChainId().pipe(
     mergeMap((chainId) => new Decentr(getApi(), chainId).community.deletePost(
       walletAddress,
@@ -58,7 +59,7 @@ export const likePost = (
   postIdentificationParameters: PostIdentificationParameters,
   likeWeight: LikeWeight,
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse> => {
+): Promise<BroadcastResponse<StdTxMessageType.CommunitySetLike>> => {
   return configService.getChainId().pipe(
     mergeMap((chainId) => new Decentr(getApi(), chainId).community.likePost(
       walletAddress,
@@ -76,7 +77,7 @@ export const setPublicProfile = (
   walletAddress: Wallet['address'],
   publicProfile: PublicProfile,
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse> => {
+): Promise<BroadcastResponse<StdTxMessageType.ProfileSetPublic>> => {
   return configService.getChainId().pipe(
     mergeMap((chainId) => new Decentr(getApi(), chainId).profile.setPublicProfile(
       walletAddress,
@@ -93,7 +94,7 @@ export const setPrivateProfile = (
   walletAddress: Wallet['address'],
   privateProfile: UserPrivate,
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse> => {
+): Promise<BroadcastResponse<StdTxMessageType.ProfileSetPrivate>> => {
   return configService.getChainId().pipe(
     mergeMap((chainId) => new Decentr(getApi(), chainId).profile.setPrivateProfile(
       walletAddress,
@@ -109,7 +110,7 @@ export const setPrivateProfile = (
 export const transferCoins = (
   transferData: TransferData,
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse> => {
+): Promise<BroadcastResponse<StdTxMessageType.CosmosSend>> => {
   return configService.getChainId().pipe(
     mergeMap((chainId) => new Decentr(getApi(), chainId).bank.sendCoin(
       transferData,
@@ -125,7 +126,7 @@ export const follow = (
   follower: Wallet['address'],
   whom: Wallet['address'],
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse> => {
+): Promise<BroadcastResponse<StdTxMessageType.CommunityFollow>> => {
   return configService.getChainId().pipe(
     mergeMap((chainId) => new Decentr(getApi(), chainId).community.follow(
       follower,
@@ -142,7 +143,7 @@ export const unfollow = (
   follower: Wallet['address'],
   whom: Wallet['address'],
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse> => {
+): Promise<BroadcastResponse<StdTxMessageType.CommunityUnfollow>> => {
   return configService.getChainId().pipe(
     mergeMap((chainId) => new Decentr(getApi(), chainId).community.unfollow(
       follower,

@@ -38,7 +38,9 @@ export class MaintenanceInterceptor implements HttpInterceptor {
           return event;
         }),
         catchError((error: HttpErrorResponse) => {
-          this.navigationService.redirectToMaintenancePage();
+          if (error.status !== 404) {
+            this.navigationService.redirectToMaintenancePage();
+          }
 
           return throwError(error);
         }),
