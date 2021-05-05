@@ -10,6 +10,4 @@ export abstract class NetworkSelectorService {
   public abstract setActiveNetwork(network: Network): void;
 
   public abstract getTranslations(): Observable<NetworkSelectorTranslations>;
-
-  public abstract isNetworksEqual(left: Network, right: Network): boolean;
 }

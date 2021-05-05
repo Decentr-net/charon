@@ -3,10 +3,10 @@ import { filter, map, pairwise } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { openExtensionInNewTab } from '@core/browser';
 import { Tabs } from 'webextension-polyfill-ts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+import { openExtensionInNewTab } from '@shared/utils/browser';
 import { AppRoute } from '../../app-route';
 
 @UntilDestroy()
@@ -47,6 +47,10 @@ export class NavigationService {
   }
 
   public redirectToMaintenancePage(): void {
-    this.router.navigate(['./', AppRoute.Maintenance]);
+    this.router.navigate(['/', AppRoute.Maintenance]);
+  }
+
+  public redirectToOfflinePage(): void {
+    this.router.navigate(['/', AppRoute.Offline]);
   }
 }

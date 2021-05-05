@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
 import { TooltipFormatterContextObject } from 'highcharts';
 
 @Component({
@@ -9,5 +9,15 @@ import { TooltipFormatterContextObject } from 'highcharts';
   encapsulation: ViewEncapsulation.None,
 })
 export class TooltipComponent {
-  @Input() data!: TooltipFormatterContextObject;
+  public tooltipData: TooltipFormatterContextObject;
+
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {
+  }
+
+  @Input() set data(value: TooltipFormatterContextObject) {
+    this.tooltipData = value;
+    this.changeDetectorRef.detectChanges();
+  }
 }

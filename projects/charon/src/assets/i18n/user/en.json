@@ -58,6 +58,7 @@
       },
       "first_name": {
         "errors": {
+          "maxlength": "The maximum length of First Name is {{ requiredLength }} characters",
           "required": "First Name is required"
         },
         "label": "First Name"
@@ -72,6 +73,7 @@
       },
       "last_name": {
         "errors": {
+          "maxlength": "The maximum length of Last Name is {{ requiredLength }} characters",
           "required": "Last Name is required"
         },
         "label": "Last Name"
@@ -81,7 +83,8 @@
       },
       "username": {
         "errors": {
-          "minlength": "Length of name should be not less than {{ requiredLength }}",
+          "maxlength": "The maximum length of Nickname is {{ requiredLength }} characters",
+          "minlength": "Length of Nickname should be not less than {{ requiredLength }}",
           "required": "Nickname is required",
           "unique": "This nickname has already been added"
         },

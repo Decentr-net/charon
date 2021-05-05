@@ -16,7 +16,6 @@ import { WelcomeRoute } from '../../../welcome/welcome-route';
 enum SignUpTab {
   AccountForm,
   SeedPhrase,
-  SeedPhraseTest,
 }
 
 @UntilDestroy()
@@ -54,20 +53,7 @@ export class SignUpPageComponent implements OnInit {
   }
 
   public navigateBack(): void {
-    switch (this.activeTab) {
-      case SignUpTab.SeedPhraseTest: {
-        this.switchTab(SignUpTab.SeedPhrase);
-        break;
-      }
-      case SignUpTab.AccountForm: {
-        this.switchTab(SignUpTab.SeedPhraseTest);
-        break;
-      }
-      default: {
-        this.navigationService.back([AppRoute.Welcome, WelcomeRoute.NewUser]);
-        break;
-      }
-    }
+    this.navigationService.back([AppRoute.Welcome, WelcomeRoute.NewUser]);
   }
 
   public onSubmitAccountForm(accountData: AccountData): void {

@@ -22,13 +22,12 @@ import {
   svgLogoIconPink
 } from '@shared/svg-icons';
 import { PDVService } from '@shared/services/pdv';
+import { isOpenedInTab } from '@shared/utils/browser';
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../../hub';
-import { UserRoute } from '../../../user';
 import { LockService } from '../../lock';
 import { NavigationService } from '../../navigation';
 import { AuthService } from '../../auth';
-import { isOpenedInTab } from '../../browser';
 
 const DECENTR_SITE_URL = 'https://decentr.net/';
 const DECENTR_EXPLORER_SITE_URL = 'https://explorer.decentr.net';
@@ -61,8 +60,7 @@ export class MenuService extends MenuBaseService {
     return this.authService.getActiveUser().pipe(
       map((user) => ({
         avatar: user.avatar,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        title: `${user.firstName} ${user.lastName ? user.lastName.slice(0,1) + '.' : ''}`,
       })),
     )
   }
@@ -125,13 +123,13 @@ export class MenuService extends MenuBaseService {
 
   public getUserItem(): Observable<MenuUserItem> {
     return combineLatest([
-      this.authService.getActiveUser(),
+      this.getUserProfile(),
       this.pdvService.getBalanceLive(),
     ]).pipe(
       map(([user, pdvValue]) => ({
         pdvValue,
-        action: () => this.router.navigate(['/', AppRoute.User, UserRoute.Edit]),
-        title: `${user.firstName} ${user.lastName}`,
+        action: () => this.router.navigate(['/', AppRoute.User]),
+        title: user.title,
       })),
     );
   }

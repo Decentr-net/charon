@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -7,15 +6,15 @@ import {
   HostBinding,
   Input,
   OnInit,
-  QueryList,
-  ViewChildren,
+  ViewChild,
 } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, startWith, take } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, pluck, switchMapTo, take } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { coerceObservable } from '../../../utils/observable';
 import { ExpansionListColumnDefDirective } from './expansion-list-column-def.directive';
+import { ExpansionListService } from '../expansion-list/expansion-list.service';
 
 @UntilDestroy()
 @Component({
@@ -24,14 +23,16 @@ import { ExpansionListColumnDefDirective } from './expansion-list-column-def.dir
   templateUrl: './expansion-list-column.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExpansionListColumnComponent<T> implements OnInit, AfterViewInit {
+export class ExpansionListColumnComponent<T> implements OnInit {
   @Input() public columnDef: ExpansionListColumnDefDirective<T>;
 
-  @ViewChildren('cell') public cells: QueryList<ElementRef<HTMLDivElement>>;
+  @Input() public singleDisplayMode: boolean = false;
+
+  @ViewChild('cellsContainer') public cellsContainer: ElementRef<HTMLDivElement>;
 
   @HostBinding('class.mod-last')
   public get isLastColumn(): boolean {
-    return this.columnDef.isLastColumn();
+    return this.columnDef.isLastColumn;
   }
 
   public items$: Observable<T[]>;
@@ -42,28 +43,12 @@ export class ExpansionListColumnComponent<T> implements OnInit, AfterViewInit {
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
+    private expansionListService: ExpansionListService<any>
   ) {
   }
 
-  public ngAfterViewInit(): void {
-    if (!this.columnDef.chooseFirst) {
-      return;
-    }
-
-    this.cells.changes.pipe(
-      startWith(this.cells),
-      map((cellsQueryList: QueryList<ElementRef<HTMLDivElement>>) => cellsQueryList.toArray()),
-      filter((cellRefs) => cellRefs.length > 0),
-      map((cellRefs) => cellRefs[0].nativeElement),
-      take(1),
-      untilDestroyed(this),
-    ).subscribe((firstCell) => {
-      firstCell.click();
-    });
-  }
-
-  public get parentActiveItem(): undefined | Observable<any | undefined> {
-    return this.columnDef.parentColumnDef?.getActiveItem();
+  public get parentActiveItem(): Observable<any | undefined> {
+    return this.columnDef.getParentActiveItem();
   }
 
   public ngOnInit(): void {
@@ -81,7 +66,36 @@ export class ExpansionListColumnComponent<T> implements OnInit, AfterViewInit {
       this.items$,
     ]).pipe(
       map(([parentActiveItem, items]) => (parentActiveItem || !this.columnDef.parentColumnDef) && !items),
-    )
+      distinctUntilChanged(),
+    );
+
+    this.isLoading$.pipe(
+      untilDestroyed(this),
+    ).subscribe(() => this.changeDetectorRef.markForCheck());
+
+    const newItemsLoaded$ = this.isLoading$.pipe(
+      filter((isLoading) => isLoading),
+      switchMapTo(this.items$.pipe(
+        filter((items) => !!items),
+        take(1),
+      )),
+    );
+
+    newItemsLoaded$.pipe(
+      untilDestroyed(this),
+    ).subscribe(() => this.cellsContainer.nativeElement.scrollTop = 0);
+
+    newItemsLoaded$.pipe(
+      filter(() => this.columnDef.chooseFirst),
+      filter((items) => items?.length > 0),
+      pluck(0),
+      untilDestroyed(this),
+    ).subscribe((item) => this.activateItem(item));
+
+    this.expansionListService.getActiveColumn().pipe(
+      filter((columnDef) => columnDef === this.columnDef),
+      untilDestroyed(this),
+    ).subscribe(() => this.activateItem(undefined));
   }
 
   public activateItem(item: T): void {
@@ -90,5 +104,9 @@ export class ExpansionListColumnComponent<T> implements OnInit, AfterViewInit {
     }
 
     this.columnDef.activateItem(item);
+  }
+
+  public back(): void {
+    this.expansionListService.setActiveColumn(this.columnDef.parentColumnDef || this.columnDef);
   }
 }

@@ -5,8 +5,7 @@ export interface MenuTranslations {
 
 export interface MenuUserProfile {
   avatar: string;
-  firstName: string;
-  lastName: string;
+  title: string;
 }
 
 interface MenuItemBase {

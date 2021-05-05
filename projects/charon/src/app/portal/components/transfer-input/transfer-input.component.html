@@ -1,4 +1,7 @@
-<div class="transfer-input__label" appTypeface="paragraph">
+<div
+  class="transfer-input__label"
+  [appTypeface]="isOpenedInPopup ? 'caption' : 'paragraph'"
+>
   <ng-content></ng-content>
 </div>
 
@@ -6,11 +9,12 @@
 
 <ng-template #textArea>
   <textarea
-    class="transfer-input"
+    class="transfer-input mod-textarea"
     [rows]="rows"
     [ngModel]="value"
     (ngModelChange)="onValueChange($event)"
-    (blur)="onTouched()"
+    (input)="onTouched()"
+    trim
   ></textarea>
 </ng-template>
 
@@ -19,6 +23,7 @@
     class="transfer-input"
     [ngModel]="value"
     (ngModelChange)="onValueChange($event)"
-    (blur)="onTouched()"
+    (input)="onTouched()"
+    trim
   >
 </ng-template>

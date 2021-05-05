@@ -35,7 +35,7 @@
       <app-transfer-input
         class="transfer-page__form__control-amount"
         formControlName="amount"
-        appTypeface="header-3"
+        [appTypeface]="isOpenedInPopup ? 'header-4' : 'header-3'"
       >
         {{ translate('form.amount.label') }}
       </app-transfer-input>
@@ -46,23 +46,28 @@
         appTypeface="caption"
       ></app-form-error>
 
-      <svg-icon class="transfer-page__form__icon" key="arrow-left"></svg-icon>
+      <svg-icon
+        *appBrowserTabView
+        class="transfer-page__form__icon"
+        key="arrow-left"
+      ></svg-icon>
 
       <app-transfer-input
         class="transfer-page__form__control-to"
         [rows]="2"
         formControlName="to"
-        appTypeface="subheader"
+        [appTypeface]="isOpenedInPopup ? 'paragraph' : 'subheader'"
       >
         {{ translate('form.to.label') }}
       </app-transfer-input>
 
-      <app-form-error
-        class="transfer-page__form__error transfer-page__form__error-to"
-        *ngIf="form.get('to').touched"
-        controlName="to"
-        appTypeface="caption"
-      ></app-form-error>
+      <div class="transfer-page__form__error transfer-page__form__error-to">
+        <app-form-error
+          *ngIf="form.get('to').touched"
+          controlName="to"
+          appTypeface="caption"
+        ></app-form-error>
+      </div>
     </div>
 
     <div

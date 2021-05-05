@@ -6,7 +6,7 @@
 }
 
 .activity-page__expansion-list {
-  height: 100%;
+  //flex-grow: 1;
 }
 
 .activity-page__expansion-list__header-count {
@@ -20,6 +20,7 @@
 }
 
 .activity-page__expansion-list__mat-panel {
+  border-bottom: 1px solid $color-outlines;
   border-radius: 0;
   word-break: break-word;
 }

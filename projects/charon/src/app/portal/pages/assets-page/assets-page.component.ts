@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgAdd, svgSend } from '@shared/svg-icons';
+import { isOpenedInTab } from '@shared/utils/browser';
 import { InfiniteLoadingPresenter } from '@shared/utils/infinite-loading';
 import { TokenTransaction } from '../../components/token-transactions-table';
 import { Asset } from './assets-page.definitions';
@@ -23,6 +24,8 @@ export class AssetsPageComponent
   extends InfiniteLoadingPresenter<TokenTransaction>
   implements OnInit
 {
+  public readonly isOpenedInTab: boolean = isOpenedInTab();
+
   public assetsList$: Observable<Asset[]>;
 
   public readonly skeletonLoaderTheme = {

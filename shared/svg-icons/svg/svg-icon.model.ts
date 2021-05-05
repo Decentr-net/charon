@@ -47,7 +47,8 @@ export type SvgIconName =
   | 'topup'
   | 'trash'
   | 'twitter'
-  | 'wallet';
+  | 'wallet'
+  | 'widescreen';
 export interface SvgIcon {
   name: SvgIconName;
   data: string;

@@ -1,14 +1,39 @@
-<ng-container *ngIf="isLoading$ | async; else items">
+<div
+  class="expansion-list-column__header-cell"
+  appTypeface="subheader"
+>
+  <button
+    class="expansion-list-column__back-btn"
+    *ngIf="singleDisplayMode && !columnDef.isFirstColumn"
+    (click)="back()"
+  >
+    <svg-icon key="arrow-left" size="lg"></svg-icon>
+  </button>
+
   <ng-template
-    [ngTemplateOutlet]="columnDef.loadingTemplate"
-    [ngTemplateOutletContext]="{ $implicit: parentActiveItem | async }"
+    [ngTemplateOutlet]="columnDef.headerCellDef.templateRef"
+    [ngTemplateOutletContext]="{
+      $implicit: columnDef.getItems() | async,
+      parentItem: columnDef.getParentActiveItem() | async
+    }"
   ></ng-template>
-</ng-container>
+</div>
+
+<div
+  #cellsContainer
+  class="expansion-list-column__cells-container"
+>
+  <ng-container *ngIf="isLoading$ | async; else items">
+    <ng-template
+      [ngTemplateOutlet]="columnDef.loadingTemplate"
+      [ngTemplateOutletContext]="{ $implicit: parentActiveItem | async }"
+    ></ng-template>
+  </ng-container>
+</div>
 
 <ng-template #items>
   <ng-container *ngIf="items$ | async as items">
     <div
-      #cell
       class="expansion-list-column__cell"
       *ngFor="let item of items; trackBy: columnDef.trackBy"
       [class.is-active]="item === activeItem"

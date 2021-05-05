@@ -51,7 +51,6 @@ export class PdvRateChartComponent {
     return {
       ...defaultOptions,
       chart: {
-        height: 250,
         marginBottom: 20,
         marginLeft: 10,
         marginRight: 45,
@@ -67,7 +66,6 @@ export class PdvRateChartComponent {
         shadow: false,
         formatter(): string {
           component.instance.data = this;
-          component.changeDetectorRef.detectChanges();
           return component.location.nativeElement.outerHTML;
         },
       },

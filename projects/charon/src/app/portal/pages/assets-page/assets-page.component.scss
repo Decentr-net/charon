@@ -6,23 +6,34 @@
 }
 
 .assets-page__expansion-list {
-  height: 100%;
+  //flex-grow: 1;
 }
 
 .assets-page__tokens-header-cell {
+  align-items: center;
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
-.assets-page__add-token-button {
+.assets-page__tokens-header-cell__actions {
   align-items: center;
-  background: $color-background;
+  column-gap: $grid-step * 2;
+  display: flex;
+}
+
+.assets-page__add-token-button,
+.assets-page__send-button {
+  align-items: center;
   border-radius: $border-radius;
-  color: $color-light-grey;
   display: inline-flex;
   gap: $grid-step;
   padding: $grid-step $grid-step * 2 $grid-step $grid-step * 1.5;
+}
+
+.assets-page__add-token-button {
+  background: $color-background;
+  color: $color-light-grey;
   pointer-events: none;
 }
 
@@ -49,15 +60,15 @@
   width: 100%;
 }
 
-.assets-page__send-button {
+.assets-page__transactions-header-cell-section {
   align-items: center;
+  display: flex;
+}
+
+.assets-page__send-button {
   background-color: $color-primary;
-  border-radius: $border-radius;
   color: $color-white;
   cursor: pointer;
-  display: inline-flex;
-  gap: $grid-step;
-  padding: $grid-step $grid-step * 2 $grid-step $grid-step * 1.5;
 }
 
 .assets-page__no-transactions {

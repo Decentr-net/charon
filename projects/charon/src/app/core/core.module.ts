@@ -1,5 +1,4 @@
 import { APP_INITIALIZER, NgModule, Optional, SkipSelf } from '@angular/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -9,6 +8,7 @@ import { CurrencyModule } from '@shared/services/currency';
 import { MenuModule } from '@shared/components/menu';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
 import { SlotModule } from '@shared/components/slot';
+import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { NotificationsModule } from '@shared/services/notification';
 import { PDVModule } from '@shared/services/pdv';
 import { ERROR_PROCESSORS, FallbackErrorProcessor } from '@core/notifications';
@@ -19,12 +19,12 @@ import { AuthorizedLayoutModule } from './layout/authorized-layout';
 import { LockModule } from './lock';
 import { ConfigService, ConfigurationModule } from '@shared/services/configuration';
 import { CORE_GUARDS } from './guards';
-import { MaintenanceInterceptor } from '@core/interceptors';
+import { INTERCEPTORS_PROVIDERS } from './interceptors';
 import { NavigationModule, NavigationService } from './navigation';
 import { PermissionsModule } from '@shared/permissions';
 import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
-import { CORE_SERVICES, MenuService, NetworkService } from './services';
+import { CORE_SERVICES, MenuService, NetworkSelectorService, NetworkService } from './services';
 import { QuillRootModule } from './quill';
 
 export function initAuthFactory(authService: AuthService): () => void {
@@ -70,7 +70,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     }),
     NavigationModule,
     NetworkSelectorModule.forRoot({
-      service: NetworkService,
+      service: NetworkSelectorService,
     }),
     NotificationsModule.forRoot({
       errorProcessors: ERROR_PROCESSORS,
@@ -92,6 +92,11 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
   providers: [
     CORE_GUARDS,
     CORE_SERVICES,
+    INTERCEPTORS_PROVIDERS,
+    {
+      provide: NetworkBrowserStorageService,
+      useClass: NetworkBrowserStorageService,
+    },
     {
       provide: Environment,
       useValue: environment,
@@ -100,11 +105,6 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       provide: APP_INITIALIZER,
       useFactory: isMaintenanceFactory,
       deps: [ConfigService, NavigationService],
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MaintenanceInterceptor,
       multi: true,
     },
     {

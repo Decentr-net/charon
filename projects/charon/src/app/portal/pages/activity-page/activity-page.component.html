@@ -2,15 +2,21 @@
   class="activity-page__expansion-list"
   *transloco="let translate; read: 'portal.activity_page'"
   [data]="activityList$ | async"
+  [border]="isOpenedInTab"
+  [singleColumnMode]="!isOpenedInTab"
   appIntersectionArea
 >
-  <ng-container appExpansionListColumnDef [appExpansionListColumnDefTrackBy]="trackBy">
+  <ng-container
+    appExpansionListColumnDef
+    [appExpansionListColumnDefTrackBy]="trackBy"
+    [appExpansionListColumnDefChooseFirst]="isOpenedInTab"
+  >
     <ng-container *appExpansionListHeaderCellDef>
       {{ translate('date') }}
     </ng-container>
 
     <ng-container *appExpansionListCellDef="let item;">
-      {{ item.timestamp | date : 'dd/MM/yyyy HH:mm' }}
+      {{ item.timestamp | date : dateFormat }}
     </ng-container>
 
     <ng-container *appExpansionListLoading>
@@ -41,16 +47,26 @@
       </ng-container>
     </ng-container>
 
-    <ng-container appExpansionListColumnDef="pdvList">
-      <ng-container *appExpansionListHeaderCellDef="let pdvList;">
-        {{ translate('website') }}
+    <ng-container
+      appExpansionListColumnDef="pdvList"
+      [appExpansionListColumnDefChooseFirst]="isOpenedInTab"
+    >
+      <ng-container *appExpansionListHeaderCellDef="let pdvList; let activityItem = parentItem">
+        <ng-container *appBrowserTabView>
+          {{ translate('website') }}
+        </ng-container>
+
+        <ng-container *appBrowserPopupView>
+          {{ activityItem?.timestamp | date : dateFormat }}
+        </ng-container>
+
         <span
           class="activity-page__expansion-list__header-count"
           *ngIf="pdvList"
           appTypeface="paragraph"
         >
-          {{ pdvList?.length }}
-        </span>
+            {{ pdvList?.length }}
+          </span>
       </ng-container>
 
       <ng-container *appExpansionListCellDef="let item;">
@@ -58,8 +74,15 @@
       </ng-container>
 
       <ng-container appExpansionListColumnDef="data">
-        <ng-container *appExpansionListHeaderCellDef="let cookies;">
-          {{ translate('details') }}
+        <ng-container *appExpansionListHeaderCellDef="let cookies; let websiteItem = parentItem">
+          <ng-container *appBrowserTabView>
+            {{ translate('details') }}
+          </ng-container>
+
+          <ng-container *appBrowserPopupView>
+            {{ websiteItem?.domain }}
+          </ng-container>
+
           <span
             class="activity-page__expansion-list__header-count"
             *ngIf="cookies"

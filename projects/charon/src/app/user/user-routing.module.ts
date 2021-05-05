@@ -3,13 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { BrowserTabGuard } from '@core/guards';
 import { UserLayoutComponent } from './components';
-import {
-  EditProfilePageComponent,
-  TransferPageComponent,
-  UserDetailsPageComponent,
-  UserPageComponent,
-} from './pages';
-import { UserRoute } from './user.route';
+import { EditProfilePageComponent, } from './pages';
 
 const ROUTES: Routes = [
   {
@@ -18,24 +12,6 @@ const ROUTES: Routes = [
     children: [
       {
         path: '',
-        component: UserPageComponent,
-        children: [
-          {
-            path: '',
-            component: UserDetailsPageComponent,
-          },
-          {
-            path: UserRoute.Transfer,
-            component: TransferPageComponent,
-          },
-          {
-            path: UserRoute.Transfer,
-            component: TransferPageComponent,
-          },
-        ],
-      },
-      {
-        path: UserRoute.Edit,
         component: EditProfilePageComponent,
         canActivate: [
           BrowserTabGuard,

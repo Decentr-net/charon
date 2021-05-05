@@ -36,6 +36,10 @@ $menu--user-avatar--size: 40px;
   width: $menu--user-avatar--size;
 }
 
+.menu__user-title {
+  max-width: 220px;
+}
+
 .menu__trigger-icon {
   color: $color-grey;
   display: inline-flex;
@@ -54,6 +58,10 @@ $menu--user-avatar--size: 40px;
   width: 40px;
 }
 
+.menu__user-item-title {
+  max-width: 205px;
+}
+
 .menu__user-item__pdv {
   color: $color-grey;
 }
@@ -69,6 +77,7 @@ $menu--user-avatar--size: 40px;
 }
 
 .menu__item-coming-soon {
+  align-self: center;
   color: $color-yellow;
   font-weight: normal;
   margin-left: $grid-step * 4;

@@ -50,9 +50,5 @@ export class NetworkSelectorComponent implements OnInit {
     this.networkSelectorService.setActiveNetwork(network);
   }
 
-  public isNetworksEqual(left: Network, right: Network): boolean {
-    return this.networkSelectorService.isNetworksEqual(left, right);
-  }
-
   public trackByName: TrackByFunction<Network> = ({}, { name }) => name;
 }

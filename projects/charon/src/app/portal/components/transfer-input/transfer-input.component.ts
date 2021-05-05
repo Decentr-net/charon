@@ -4,6 +4,8 @@ import { debounceTime } from 'rxjs/operators';
 import { ControlValueAccessor } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+import { isOpenedInTab } from '@shared/utils/browser';
+
 @UntilDestroy()
 @Component({
   selector: 'app-transfer-input',
@@ -27,6 +29,8 @@ export class TransferInputComponent
 
   @HostBinding('class.is-disabled')
   public isDisabled: boolean = false;
+
+  public isOpenedInPopup: boolean = !isOpenedInTab();
 
   public control: FormControl;
 

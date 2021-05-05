@@ -15,6 +15,7 @@ import { SIGN_UP_COMPONENTS } from './components';
 import { SIGN_UP_PAGES } from './pages';
 import { SIGN_UP_SERVICES } from './services';
 import { SignUpRoutingModule } from './sign-up-routing.module';
+import { SvgIconsModule } from '@ngneat/svg-icon';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     ReactiveFormsModule,
     RxReactiveFormsModule,
     SignUpRoutingModule,
+    SvgIconsModule,
     TranslocoModule,
   ],
   providers: [

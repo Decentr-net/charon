@@ -5,5 +5,16 @@
         {{ translate(link.i18nKey) }}
       </ng-container>
     </ng-container>
+
+    <ng-container *appBrowserPopupView>
+      <a
+        class="portal-navigation__expand-btn"
+        *appSlot="navigationRightSlot"
+        (click)="expandView()"
+      >
+        <svg-icon key="widescreen" size="lg"></svg-icon>
+      </a>
+    </ng-container>
   </ng-container>
 </ng-container>
+

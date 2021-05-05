@@ -6,7 +6,7 @@
     >
       <div
         class="pdv-rate__pdv-value"
-        appTypeface="header-3"
+        [appTypeface]="isOpenedInPopup ? 'subheader' : 'header-3'"
         [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async })"
       >
         {{ pdvRate.value | pdvValue }} PDV
@@ -19,20 +19,18 @@
       ></app-margin-label>
     </div>
 
-    <div class="pdv-rate__pdv-filter">
-      <ul
-        *ngIf="(pdvChartPoints$ | async)?.length > 1"
-        class="pdv-rate__pdv-filter-buttons"
+    <ul
+      *ngIf="(pdvChartPoints$ | async)?.length > 1"
+      class="pdv-rate__pdv-filter"
+    >
+      <li
+        *ngFor="let button of filterButtons"
+        [class.active]="(activeFilter$ | async) === button"
+        (click)="setFilter(button)"
       >
-        <li
-          *ngFor="let button of filterButtons"
-          [class.active]="(activeFilter$ | async) === button"
-          (click)="setFilter(button)"
-        >
-          {{ button.label }}
-        </li>
-      </ul>
-    </div>
+        {{ button.label }}
+      </li>
+    </ul>
   </div>
 
   <div
@@ -60,7 +58,7 @@
       key="logo-icon">
     </svg-icon>
 
-    <div appTypeface="header-3">
+    <div [appTypeface]="isOpenedInPopup ? 'subheader' : 'header-3'">
       1 DEC = {{ coinRate.value | currency : 'USD' : 'symbol' : '1.4' }}
     </div>
   </ng-container>
@@ -70,7 +68,7 @@
   <ngx-skeleton-loader
     class="pdv-rate__pdv-loading"
     [theme]="{
-      height: '100px',
+      height: isOpenedInPopup ? '108px' : '100px',
       marginBottom: '0',
       width: '100%'
     }"
@@ -79,21 +77,21 @@
 
 <ng-template #loadingChart>
   <ngx-skeleton-loader
-    class="pdv-rate__chart-loading"
+    class="pdv-rate__skeleton-loader"
       [theme]="{
-      height: '250px',
-      marginBottom: '0',
-      width: '100%'
-    }"
+        height: isOpenedInPopup ? '200px' : '250px',
+        marginBottom: '0',
+        width: '100%'
+      }"
   ></ngx-skeleton-loader>
 </ng-template>
 
 <ng-template #loadingCoinRate>
   <ngx-skeleton-loader
+    class="pdv-rate__skeleton-loader"
     [theme]="{
-      height: '68px',
-      marginBottom: '0',
-      width: '500px'
+      height: '36px',
+      marginBottom: '0'
     }"
   ></ngx-skeleton-loader>
 </ng-template>

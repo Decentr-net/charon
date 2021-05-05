@@ -1,13 +1,17 @@
 @import 'variables';
 
+$transfer-input--border-width: 2px;
+
 :host {
+  $border-width: 2px;
+
   background-color: $color-background;
   border-color: transparent;
   border-radius: $border-radius;
   border-style: solid;
-  border-width: 2px;
+  border-width: $transfer-input--border-width;
   height: 100%;
-  padding: $grid-step * 2;
+  padding: $grid-step * 2 - $transfer-input--border-width;
   width: 100%;
 
   &.is-invalid.is-touched {
@@ -31,6 +35,11 @@
   background-color: inherit;
   color: $color-black;
   font: inherit;
+  padding: 0;
   resize: none;
   width: 100%;
+
+  &.mod-textarea {
+    height: 3em;
+  }
 }

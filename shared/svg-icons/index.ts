@@ -51,4 +51,5 @@ export * from './svg/svg-topup.icon';
 export * from './svg/svg-trash.icon';
 export * from './svg/svg-twitter.icon';
 export * from './svg/svg-wallet.icon';
+export * from './svg/svg-widescreen.icon';
 export * from './svg/svg-icon.model';

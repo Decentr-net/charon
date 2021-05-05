@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { of } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AuthorizedLayoutNavigationLinkDefDirective } from '../authorized-layout-navigation-link';
 import { AuthorizedLayoutNavigationService } from './authorized-layout-navigation.service';
 import { AuthorizedLayoutNavigationDefDirective } from './authorized-layout-navigation-def.directive';
 
-@UntilDestroy()
+export const AUTHORIZED_LAYOUT_NAVIGATION_RIGHT_SLOT = Symbol('AUTHORIZED_LAYOUT_NAVIGATION_RIGHT_SLOT');
+
 @Component({
   selector: 'app-authorized-layout-navigation',
   templateUrl: './authorized-layout-navigation.component.html',
@@ -15,21 +15,18 @@ import { AuthorizedLayoutNavigationDefDirective } from './authorized-layout-navi
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthorizedLayoutNavigationComponent implements OnInit {
-  public linksDefs: AuthorizedLayoutNavigationLinkDefDirective[];
+  public readonly rightSlotName: Symbol = AUTHORIZED_LAYOUT_NAVIGATION_RIGHT_SLOT;
+
+  public linksDefs$: Observable<AuthorizedLayoutNavigationLinkDefDirective[]>;
 
   constructor(
     private authorizedLayoutNavigationService: AuthorizedLayoutNavigationService,
-    private changeDetectorRef: ChangeDetectorRef,
   ) {
   }
 
   public ngOnInit(): void {
-    this.authorizedLayoutNavigationService.getCurrentNavigation().pipe(
+    this.linksDefs$ = this.authorizedLayoutNavigationService.getCurrentNavigation().pipe(
       switchMap((navigation: AuthorizedLayoutNavigationDefDirective) => navigation?.getLinksDefs() || of([])),
-      untilDestroyed(this),
-    ).subscribe((linksDefs) => {
-      this.linksDefs = linksDefs;
-      this.changeDetectorRef.detectChanges();
-    });
+    );
   }
 }

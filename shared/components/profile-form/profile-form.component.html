@@ -21,7 +21,7 @@
         <input
           matInput
           [formControlName]="controlName.FirstName"
-          maxlength="64"
+          maxlength="20"
           trim="blur"
         >
 
@@ -41,7 +41,7 @@
         <input
           matInput
           [formControlName]="controlName.LastName"
-          maxlength="64"
+          maxlength="20"
           trim="blur"
         >
 
@@ -127,6 +127,7 @@
             <input
               matInput
               [formControlName]="controlName.UsernameValue"
+              maxlength="30"
               trim="blur"
             >
 

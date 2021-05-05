@@ -1,0 +1,15 @@
+@import 'variables';
+
+.portal-navigation__expand-btn {
+  background: $color-background;
+  border-radius: $border-radius;
+  color: $color-grey;
+  cursor: pointer;
+  display: inline-flex;
+  padding: $grid-step;
+  transition: background .3s ease;
+
+  &:hover {
+    background: $color-outlines;
+  }
+}

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { BrowserTabGuard, MaintenanceGuard, SupportedVersionGuard, UpdateGuard } from '@core/guards';
+import { BrowserTabGuard, MaintenanceGuard, OfflineGuard, SupportedVersionGuard, UpdateGuard } from '@core/guards';
 import {
   AuthCompletedRegistrationGuard,
   UnauthGuard,
@@ -109,6 +109,16 @@ const ROUTES: Routes = [
     ],
     data: {
       i18nPageKey: 'maintenance_page',
+    },
+  },
+  {
+    path: AppRoute.Offline,
+    loadChildren: () => import('./technical/technical.module').then(m => m.TechnicalModule),
+    canActivate: [
+      OfflineGuard,
+    ],
+    data: {
+      i18nPageKey: 'offline_page',
     },
   },
 ];

@@ -4,6 +4,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 
+import { BrowserViewModule } from '../../directives/browser-view';
 import { TextEllipsisModule } from '../../directives/text-ellipsis';
 import { TypefaceModule } from '../../directives/typeface';
 import { PdvValueModule } from '../../pipes/pdv-value';
@@ -19,6 +20,7 @@ export interface MenuModuleConfig {
 @NgModule({
   imports: [
     AvatarModule,
+    BrowserViewModule,
     CommonModule,
     MatMenuModule,
     PdvValueModule,
