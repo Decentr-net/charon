@@ -17,6 +17,7 @@ import { NetworkSelectorModule } from '@shared/components/network-selector';
 import { SlotModule } from '@shared/components/slot';
 import { BindQueryParamsModule } from '@shared/directives/bind-query-params';
 import { BrowserViewModule } from '@shared/directives/browser-view';
+import { NumericModule } from '@shared/directives/numeric';
 import { IntersectionModule } from '@shared/directives/intersection';
 import { TypefaceModule } from '@shared/directives/typeface';
 import { MarginLabelModule } from '@shared/components/margin-label';
@@ -49,6 +50,7 @@ import { PortalRoutingModule } from './portal-routing.module';
     MicroValueModule,
     NetworkSelectorModule,
     NgxTrimDirectiveModule,
+    NumericModule,
     ExpansionListModule,
     IntersectionModule,
     NgxSkeletonLoaderModule,
