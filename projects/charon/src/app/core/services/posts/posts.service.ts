@@ -42,7 +42,9 @@ export class PostsService {
     );
   }
 
-  public createPost(post: PostCreate): Observable<void> {
+  public createPost(
+    post: PostCreate,
+  ): Observable<CharonAPIMessageBusMap[MessageCode.PostCreate]['response']['messageValue']> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
@@ -55,6 +57,8 @@ export class PostsService {
         if (!response.success) {
           throw response.error;
         }
+
+        return response.messageValue;
       }));
   }
 
