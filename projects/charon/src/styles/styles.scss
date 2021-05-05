@@ -28,6 +28,10 @@ body {
   color: $color-font-base;
 }
 
+button {
+  font-family: inherit;
+}
+
 .flex {
   display: flex;
 }
