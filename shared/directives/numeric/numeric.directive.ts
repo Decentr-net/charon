@@ -15,13 +15,20 @@ export class NumericDirective {
 
     if (key === '.') {
       const value = this.getValue();
+      if (!value) {
+        this.setValue(0);
+        return;
+      }
+
       if (value.includes('.')) {
         const newValue = parseInt(value.replace('.', ''));
         this.setValue(newValue);
       }
+
+      return;
     }
 
-    if ([46, 8, 9, 27, 13, 110, 190].includes(keyCode)) {
+    if ([46, 8, 9, 27, 13, 110].includes(keyCode)) {
       return;
     }
 
