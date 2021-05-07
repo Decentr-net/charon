@@ -2,7 +2,7 @@
   <div class="transfer-page__header">
     <a
       class="transfer-page__back-button"
-      [routerLink]="['../']"
+      [appNavigateBack]="['../']"
     >
       <svg-icon key="arrow-left" size="lg"></svg-icon>
     </a>
@@ -77,8 +77,8 @@
       <button
         type="button"
         class="transfer-page__form__action-button"
-        [routerLink]="['../']"
         [disabled]="isPageDisabled"
+        [appNavigateBack]="['../']"
       >
         {{ translate('cancel') }}
       </button>

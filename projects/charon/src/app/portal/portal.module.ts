@@ -25,6 +25,7 @@ import { MicroValueModule } from '@shared/pipes/micro-value';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { ToolbarStateService } from '@shared/services/toolbar-state';
 import { AuthorizedLayoutModule } from '@core/layout/authorized-layout';
+import { NavigationModule } from '@core/navigation';
 import { PORTAL_COMPONENTS } from './components';
 import { PORTAL_PAGES } from './pages';
 import { PortalRoutingModule } from './portal-routing.module';
@@ -48,6 +49,7 @@ import { PortalRoutingModule } from './portal-routing.module';
     MatSlideToggleModule,
     MatTooltipModule,
     MicroValueModule,
+    NavigationModule,
     NetworkSelectorModule,
     NgxTrimDirectiveModule,
     NumericModule,
