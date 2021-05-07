@@ -67,9 +67,10 @@ $transfer-page--padding: $grid-step * 2;
   cursor: pointer;
   display: inline-flex;
   padding: $grid-step;
+  transition: background-color .3s ease;
 
   &:hover {
-    color: $color-dark-grey;
+    background-color: $color-outlines;
   }
 
   &.is-disabled {
@@ -144,7 +145,12 @@ $transfer-page--padding: $grid-step * 2;
   display: inline-flex;
   height: 48px;
   justify-content: center;
+  transition: background-color .3s ease;
   width: 160px;
+
+  &:hover {
+    background-color: $color-outlines;
+  }
 
   &.mod-send:not(:disabled) {
     background-color: $color-primary;
