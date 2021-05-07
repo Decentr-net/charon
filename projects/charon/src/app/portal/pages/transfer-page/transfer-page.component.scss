@@ -68,6 +68,10 @@ $transfer-page--padding: $grid-step * 2;
   display: inline-flex;
   padding: $grid-step;
 
+  &:hover {
+    color: $color-dark-grey;
+  }
+
   &.is-disabled {
     color: $color-light-grey;
     pointer-events: none;
