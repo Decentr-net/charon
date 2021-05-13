@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { defer, Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, pluck } from 'rxjs/operators';
 import {
   getPDVDetails,
   getPDVList,
+  getRewards,
   getTokenBalance,
   PDVDetails,
   PDVListItem,
   PDVListPaginationOptions,
   PDVStatItem,
+  PDVType,
   Wallet,
 } from 'decentr-js';
 
@@ -57,8 +59,15 @@ export class PDVApiService {
   public getPDVStats(walletAddress: Wallet['address']): Observable<PDVStatItem[]> {
     return this.configService.getTheseusUrl().pipe(
       mergeMap((theseusUrl) => {
-        return this.httpClient.get<PDVStatItem[]>(`${theseusUrl}/v1/profiles/${walletAddress}/stats`);
+        return this.httpClient.get<{ stats: PDVStatItem[] }>(`${theseusUrl}/v1/profiles/${walletAddress}/stats`);
       }),
+      pluck('stats'),
+    );
+  }
+
+  public getRewards(): Observable<Record<PDVType, number>> {
+    return this.configService.getCerberusUrl().pipe(
+      mergeMap((cerberusUrl) => getRewards(cerberusUrl)),
     );
   }
 }
