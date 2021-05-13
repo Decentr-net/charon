@@ -1,4 +1,4 @@
-import { defer, Observable, zip } from 'rxjs';
+import { defer, Observable } from 'rxjs';
 import { mapTo, mergeMap } from 'rxjs/operators';
 import { PDV, sendPDV as decentrSendPDV, Wallet } from 'decentr-js';
 
@@ -8,11 +8,8 @@ import CONFIG_SERVICE from '../config';
 const configService = CONFIG_SERVICE;
 
 export const sendPDV = (wallet: Wallet, pDVs: PDV[]): Observable<void> => {
-  return defer(() => QUEUE.add(() => zip(
-    configService.getCerberusUrl(),
-    configService.getChainId(),
-  ).pipe(
-    mergeMap(([cerberusUrl, chainId]) => decentrSendPDV(cerberusUrl, chainId, pDVs, wallet)),
+  return defer(() => QUEUE.add(() => configService.getCerberusUrl().pipe(
+    mergeMap(([cerberusUrl]) => decentrSendPDV(cerberusUrl, pDVs, wallet)),
     mapTo(void 0),
-  ).toPromise(), { priority: QueuePriority.Cookies }));
+  ).toPromise(), { priority: QueuePriority.PDV }));
 };

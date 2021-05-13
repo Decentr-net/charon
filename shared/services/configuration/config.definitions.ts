@@ -1,4 +1,4 @@
-import { PDVDataType } from 'decentr-js';
+import { PDVType } from 'decentr-js';
 
 export interface VPNServer {
   address: string;
@@ -11,7 +11,7 @@ export interface Config {
   cerberus: {
     minPDVCount: number;
     maxPDVCount: number;
-    rewards: Record<PDVDataType, number>;
+    rewards: Record<PDVType, number>;
     url: string;
   };
   maintenance: boolean;
