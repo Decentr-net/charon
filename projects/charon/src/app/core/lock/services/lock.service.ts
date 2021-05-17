@@ -116,7 +116,7 @@ export class LockService {
   public navigateToUnlockedUrl(): Promise<boolean> {
     const returnUrl = this.activatedRoute.snapshot.queryParamMap.get(LOCK_RETURN_URL_PARAM);
 
-    return this.navigate(isOpenedInTab() ? this.router.parseUrl(returnUrl || '/') : AppRoute.User);
+    return this.navigate(isOpenedInTab() ? this.router.parseUrl(returnUrl || '/') : AppRoute.Portal);
   }
 
   private init(): void {
