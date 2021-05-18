@@ -18,7 +18,7 @@ export class PDVUniqueStore {
   private static getPDVHash(pdv: PDV): string {
     switch (pdv.type) {
       case PDVType.Cookie:
-        return [pdv.name, pdv.secure, pdv.hostOnly, pdv.sameSite].join();
+        return [pdv.domain, pdv.path, pdv.name, pdv.secure, pdv.hostOnly, pdv.sameSite].join();
       case PDVType.SearchHistory:
         return [pdv.engine, pdv.query].join();
       default:
