@@ -80,4 +80,8 @@ export class PDVStorageService {
   private getUserPDVStorage(walletAddress: Wallet['address']): BrowserStorage<PDVStorageUserValue> {
     return this.browserStorage.useSection<PDVStorageUserValue>(walletAddress);
   }
+
+  public clear(): Promise<void> {
+    return this.browserStorage.clear();
+  }
 }
