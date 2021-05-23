@@ -1,0 +1,21 @@
+<ng-container *transloco="let translate; read: 'portal.vpn_page'">
+  <div class="vpn-page__button-container">
+    <button
+      class="vpn-page__button"
+      (click)="toggleProxy()"
+    >
+      <span
+        class="vpn-page__button-status"
+        appTypeface="header-4"
+      >
+        {{ translate(isActive ? 'status.on' : 'status.off') }}
+      </span>
+
+      <span class="vpn-page__button-divider"></span>
+
+      <span class="vpn-page__button-connection">
+        {{ translate(isActive ? 'connection.secured' : 'connection.insecure') }}
+      </span>
+    </button>
+  </div>
+</ng-container>

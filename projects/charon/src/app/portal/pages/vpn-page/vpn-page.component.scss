@@ -1,0 +1,84 @@
+@import 'variables';
+
+:host {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &.is-vpn-active {
+    background: linear-gradient(180deg, rgba($color-blue, 0) 0%, $color-blue 100%);
+  }
+}
+
+.vpn-page__button-container {
+  align-items: center;
+  background-image: url('../../../../assets/images/vpn-ellipses/ellipse-1.svg');
+  display: inline-flex;
+  justify-content: center;
+  margin: $grid-step * 6 0;
+  padding: $grid-step * 2;
+  position: relative;
+
+  &,
+  &:before,
+  &:after {
+    background-size: 100%;
+    filter: drop-shadow(0 $grid-step / 2 $grid-step / 2 rgba(0, 0, 0, 0.25));
+  }
+
+  &:before,
+  &:after {
+    box-sizing: content-box;
+    content: '';
+    height: 100%;
+    position: absolute;
+    width: 100%;
+  }
+
+  &:before {
+    background-image: url('../../../../assets/images/vpn-ellipses/ellipse-2.svg');
+    padding: $grid-step * 2;
+  }
+
+  &:after {
+    background-image: url('../../../../assets/images/vpn-ellipses/ellipse-3.svg');
+    padding: $grid-step * 4;
+  }
+}
+
+.vpn-page__button {
+  $vpn-page--button--size: 225px;
+
+  align-items: center;
+  background-color: $color-white;
+  border-radius: 100%;
+  box-shadow: 0 $grid-step / 2 $grid-step * 1.5 rgba($color-grey, .4);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: $vpn-page--button--size;
+  justify-content: center;
+  padding: $grid-step * 2.5;
+  width: $vpn-page--button--size;
+  z-index: 1;
+}
+
+.vpn-page__button-status {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 48px;
+  margin-bottom: $grid-step * 2;
+  text-transform: uppercase;
+}
+
+.vpn-page__button-divider {
+  background-color: $color-grey;
+  height: 1px;
+  width: 100%;
+}
+
+.vpn-page__button-connection {
+  color: $color-grey;
+  margin-top: $grid-step * 2;
+}

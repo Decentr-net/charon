@@ -20,7 +20,8 @@
   "portal_navigation": {
     "activity": "Activity",
     "assets": "Assets",
-    "pdv_rate": "PDV rate"
+    "pdv_rate": "PDV rate",
+    "vpn": "VPN"
   },
   "portal_page": {
     "copy_wallet_address": "Copy wallet address",
@@ -60,5 +61,15 @@
     },
     "send": "Send",
     "sending": "Sending..."
+  },
+  "vpn_page": {
+    "connection": {
+      "secured": "Your connection is secured!",
+      "insecure": "Now you browsing insecurely"
+    },
+    "status": {
+      "off": "Off",
+      "on": "On"
+    }
   }
 }
