@@ -1,4 +1,4 @@
-import { LikeWeight, Post, PostCategory, PublicProfile, Wallet } from 'decentr-js';
+import { LikeWeight, Post, PostCategory, Profile, Wallet } from 'decentr-js';
 
 export interface PostsListFilterOptions {
   after?: string;  // `Post['owner']/Post['uuid']`
@@ -18,7 +18,7 @@ export interface PostsListResponsePost extends Post {
   likeWeight: LikeWeight;
 }
 
-export interface PostOwnerProfile extends PublicProfile {
+export interface PostOwnerProfile extends Profile {
   postsCount: number;
 }
 

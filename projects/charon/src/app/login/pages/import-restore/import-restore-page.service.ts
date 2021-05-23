@@ -36,13 +36,11 @@ export class ImportRestorePageService {
           )));
       }),
       mergeMapTo(forkJoin([
-        this.userService.getPrivateProfile(wallet.address, wallet.privateKey),
-        this.userService.getPublicProfile(wallet.address),
+        this.userService.getProfile(wallet.address),
         this.userService.getModeratorAddresses(),
       ])),
-      mergeMap(([privateProfile, publicProfile, moderatorAddresses]) => this.authService.createUser({
-          ...privateProfile,
-          ...publicProfile,
+      mergeMap(([profile, moderatorAddresses]) => this.authService.createUser({
+          ...profile,
           isModerator: moderatorAddresses.includes(wallet.address) || undefined,
           wallet,
           password,

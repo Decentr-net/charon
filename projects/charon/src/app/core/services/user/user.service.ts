@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
-import { from, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, delay, repeat, retryWhen, skipWhile, take } from 'rxjs/operators';
-import { Account, ModeratorAddressesResponse, PublicProfile } from 'decentr-js';
+import { Account, ModeratorAddressesResponse, Profile, ProfileUpdate, Wallet } from 'decentr-js';
 
-import { MessageBus } from '@shared/message-bus';
-import { UserPrivate } from '@shared/services/auth';
-import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
-import { MessageCode } from '@scripts/messages';
 import { NetworkService } from '../network';
 import { UserApiService } from '../api';
 
@@ -56,46 +52,18 @@ export class UserService {
     );
   }
 
-  public getPrivateProfile(walletAddress: string, privateKey: string): Observable<UserPrivate> {
-    return this.userApiService.getPrivateProfile(
-      this.networkService.getActiveNetworkInstant().api,
-      walletAddress,
-      privateKey,
-    );
+  public getProfile(walletAddress: string): Observable<Profile> {
+    return this.userApiService.getProfile(walletAddress);
   }
 
-  public getPublicProfile(walletAddress: string): Observable<PublicProfile> {
-    return this.userApiService.getPublicProfile(
-      this.networkService.getActiveNetworkInstant().api,
-      walletAddress,
-    );
+  public getProfiles(walletAddresses: Wallet['address'][]): Observable<Record<Wallet['address'], Profile>> {
+    return this.userApiService.getProfiles(walletAddresses);
   }
 
-  public setPublicProfile(publicProfile: PublicProfile, walletAddress: string, privateKey: string): Observable<void> {
-    return from(new MessageBus<CharonAPIMessageBusMap>()
-      .sendMessage(MessageCode.PublicProfileUpdate, {
-        privateKey,
-        publicProfile,
-        walletAddress,
-      })
-      .then(response => {
-        if (!response.success) {
-          throw response.error;
-        }
-      }));
-  }
-
-  public setPrivateProfile(privateProfile: UserPrivate, walletAddress: string, privateKey: string): Observable<void> {
-    return from(new MessageBus<CharonAPIMessageBusMap>()
-      .sendMessage(MessageCode.PrivateProfileUpdate, {
-        privateKey,
-        privateProfile,
-        walletAddress,
-      })
-      .then(response => {
-        if (!response.success) {
-          throw response.error;
-        }
-      }));
+  public setProfile(profile: ProfileUpdate, wallet: Wallet): Observable<void> {
+    return this.userApiService.setProfile({
+      ...profile,
+      birthday: '1911-11-11',
+    }, wallet);
   }
 }
