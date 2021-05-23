@@ -7,6 +7,7 @@ import {
   PdvRatePageComponent,
   PortalPageComponent,
   TransferPageComponent,
+  VpnPageComponent,
 } from './pages';
 import { PortalRoute } from './portal-route';
 
@@ -39,6 +40,10 @@ const ROUTES: Routes = [
             component: TransferPageComponent,
           },
         ],
+      },
+      {
+        path: PortalRoute.VPN,
+        component: VpnPageComponent,
       },
       {
         path: '**',

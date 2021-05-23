@@ -3,4 +3,5 @@ export enum PortalRoute {
   Assets = 'assets',
   PDVRate = 'pdv-rate',
   Transfer = 'transfer',
+  VPN = 'vpn',
 }
