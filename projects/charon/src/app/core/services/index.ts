@@ -5,6 +5,7 @@ import { ImageUploaderService } from './image-uploader';
 import { MediaService } from './media';
 import { NetworkService } from './network';
 import { PostsService } from './posts';
+import { ProxyService } from './proxy';
 import { SpinnerService } from './spinner';
 import { UserService } from './user';
 
@@ -16,6 +17,7 @@ export * from './menu';
 export * from './network';
 export * from './network-selector';
 export * from './posts';
+export * from './proxy';
 export * from './spinner';
 export * from './user';
 
@@ -27,6 +29,7 @@ export const CORE_SERVICES = [
   MediaService,
   NetworkService,
   PostsService,
+  ProxyService,
   SpinnerService,
   UserService,
 ];

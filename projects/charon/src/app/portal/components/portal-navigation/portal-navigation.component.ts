@@ -38,6 +38,11 @@ export class PortalNavigationComponent {
       i18nKey: 'portal.portal_navigation.assets',
       link: ['/', AppRoute.Portal, PortalRoute.Assets],
     },
+    {
+      colorClass: 'color-primary',
+      i18nKey: 'portal.portal_navigation.vpn',
+      link: ['/', AppRoute.Portal, PortalRoute.VPN],
+    },
   ];
 
   public readonly navigationRightSlot = AUTHORIZED_LAYOUT_NAVIGATION_RIGHT_SLOT;

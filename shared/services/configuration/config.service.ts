@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { filter, map, pluck, take } from 'rxjs/operators';
+import { delay, filter, map, pluck, retryWhen, take } from 'rxjs/operators';
 import { Observable, ReplaySubject } from 'rxjs';
 import { PDVDataType } from 'decentr-js';
 
 import { Environment } from '../../../environments/environment.definitions';
+import { ONE_SECOND } from '../../utils/date';
 import { ConfigApiService } from './config-api.service';
 import { Config } from './config.definitions';
 
@@ -23,7 +24,11 @@ export class ConfigService {
     if (!this.pendingConfig) {
       this.pendingConfig = true;
 
-      this.configApiService.getConfig().subscribe(
+      this.configApiService.getConfig().pipe(
+        retryWhen(((errors) => errors.pipe(
+          delay(ONE_SECOND / 2),
+        ))),
+      ).subscribe(
         (config) => this.config$.next(config),
         (error) => this.config$.error(error),
       );

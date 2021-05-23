@@ -3,8 +3,11 @@ import { initMessageListeners } from './background/listeners';
 import { initAutoLock } from './background/lock';
 import { setRandomNetwork } from './background/network-switch';
 import { initCookiesCollection } from './background/cookies/collection';
+import { handleProxyErrors } from './background/proxy';
 
 (async () => {
+  handleProxyErrors();
+
   await setRandomNetwork();
 
   initAutoLock();
