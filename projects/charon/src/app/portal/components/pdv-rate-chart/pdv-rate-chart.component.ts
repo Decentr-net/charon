@@ -125,7 +125,9 @@ export class PdvRateChartComponent {
             color: '#B6B7BA',
             fontSize: '12px',
           },
+          y: 17,
         },
+        tickLength: 5,
         type: 'datetime',
         title: {
           text: '',
