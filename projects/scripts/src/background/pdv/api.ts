@@ -9,7 +9,7 @@ const configService = CONFIG_SERVICE;
 
 export const sendPDV = (wallet: Wallet, pDVs: PDV[]): Observable<void> => {
   return defer(() => QUEUE.add(() => configService.getCerberusUrl().pipe(
-    mergeMap(([cerberusUrl]) => decentrSendPDV(cerberusUrl, pDVs, wallet)),
+    mergeMap((cerberusUrl) => decentrSendPDV(cerberusUrl, pDVs, wallet)),
     mapTo(void 0),
   ).toPromise(), { priority: QueuePriority.PDV }));
 };
