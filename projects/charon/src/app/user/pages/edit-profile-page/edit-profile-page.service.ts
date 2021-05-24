@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import { ProfileUpdate } from 'decentr-js';
 
 import { AuthService, AuthUserUpdate } from '@core/auth';
 import { UserService } from '@core/services';
@@ -16,8 +17,15 @@ export class EditProfilePageService {
   public editProfile(update: AuthUserUpdate): Observable<void> {
     const user = this.authService.getActiveUserInstant();
 
-    return (this.shouldUpdateRemoteProfile(update)
-      ? this.updateRemoteProfile(update)
+    const remoteUpdate = {
+      ...update as Required<AuthUserUpdate>,
+      emails: [user.primaryEmail, ...user.emails],
+      password: undefined,
+      usernames: undefined,
+    };
+
+    return (this.shouldUpdateRemoteProfile(remoteUpdate)
+      ? this.updateRemoteProfile(remoteUpdate)
       : of(void 0)
     ).pipe(
       mergeMap(() => this.authService.updateUser(user.id, update)),
@@ -36,11 +44,11 @@ export class EditProfilePageService {
       || update.lastName !== user.lastName;
   }
 
-  private updateRemoteProfile(update: AuthUserUpdate): Observable<void> {
+  private updateRemoteProfile(update: ProfileUpdate): Observable<void> {
     const user = this.authService.getActiveUserInstant();
 
     return this.userService.setProfile(
-      update as Required<AuthUserUpdate>,
+      update,
       user.wallet,
     );
   }

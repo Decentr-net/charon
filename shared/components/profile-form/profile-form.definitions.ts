@@ -10,11 +10,11 @@ export enum ProfileFormControlName {
   Gender = 'gender',
   LastName = 'lastName',
   PrimaryEmail = 'primaryEmail',
-  Usernames = 'usernames',
-  UsernameValue = 'value',
+  // Usernames = 'usernames',
+  // UsernameValue = 'value',
 }
 
-export type ArrayControlName = ProfileFormControlName.Emails | ProfileFormControlName.Usernames;
+export type ArrayControlName = ProfileFormControlName.Emails;
 
 export interface TranslationsConfig {
   read: string;
@@ -23,7 +23,7 @@ export interface TranslationsConfig {
 
 export type ProfileFormControlValue = Partial<ProfileUpdate> & {
   primaryEmail?: string;
-  usernames?: string[];
+  // usernames?: string[];
 }
 
 export interface UsernameForm {
@@ -34,7 +34,7 @@ export interface EmailForm {
   value: string;
 }
 
-export interface ProfileForm extends Omit<ProfileFormControlValue, 'emails' | 'usernames'> {
+export interface ProfileForm extends Omit<ProfileFormControlValue, 'emails'> {
   emails?: EmailForm[];
-  usernames?: UsernameForm[];
+  // usernames?: UsernameForm[];
 }

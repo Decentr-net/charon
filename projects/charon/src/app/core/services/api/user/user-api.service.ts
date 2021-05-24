@@ -8,9 +8,10 @@ import {
   getModeratorAddresses,
   getProfile,
   getProfiles,
+  KeyPair,
   Profile,
   ProfileUpdate,
-  saveProfile,
+  setProfile,
   Wallet,
 } from 'decentr-js';
 
@@ -56,21 +57,21 @@ export class UserApiService {
     return defer(() => getModeratorAddresses(api));
   }
 
-  public getProfile(walletAddress: Wallet['address']): Observable<Profile> {
+  public getProfile(walletAddress: Wallet['address'], keys?: KeyPair): Observable<Profile> {
     return this.configService.getCerberusUrl().pipe(
-      mergeMap((cerberusUrl) => getProfile(cerberusUrl, walletAddress)),
+      mergeMap((cerberusUrl) => getProfile(cerberusUrl, walletAddress, keys)),
     );
   }
 
-  public getProfiles(walletAddresses: Wallet['address'][]): Observable<Record<Wallet['address'], Profile>> {
+  public getProfiles(walletAddresses: Wallet['address'][], keys?: KeyPair): Observable<Record<Wallet['address'], Profile>> {
     return this.configService.getCerberusUrl().pipe(
-      mergeMap((cerberusUrl) => getProfiles(cerberusUrl, walletAddresses)),
+      mergeMap((cerberusUrl) => getProfiles(cerberusUrl, walletAddresses, keys)),
     );
   }
 
   public setProfile(profile: ProfileUpdate, wallet: Wallet): Observable<void> {
     return this.configService.getCerberusUrl().pipe(
-      mergeMap((cerberusUrl) => saveProfile(cerberusUrl, profile, wallet)),
+      mergeMap((cerberusUrl) => setProfile(cerberusUrl, profile, wallet)),
       mapTo(void 0),
     );
   }

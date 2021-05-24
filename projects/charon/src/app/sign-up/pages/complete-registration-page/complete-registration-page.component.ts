@@ -55,7 +55,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
     const user = this.authService.getActiveUserInstant() as AuthUser;
     this.form.patchValue({ profile: {
       ...user,
-      usernames: [''],
+      // usernames: [''],
     }});
   }
 

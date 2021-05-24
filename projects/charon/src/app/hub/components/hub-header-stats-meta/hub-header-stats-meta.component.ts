@@ -79,12 +79,12 @@ export class HubHeaderStatsMetaComponent implements OnInit {
       this.changeDetectorRef.detectChanges();
     });
 
-    // this.hubHeaderStatsMetaService.getPdvStatistics().pipe(
-    //   untilDestroyed(this),
-    // ).subscribe((statistics) => {
-    //   this.pdvStatistics = statistics;
-    //   this.changeDetectorRef.detectChanges();
-    // });
+    this.hubHeaderStatsMetaService.getPdvStatistics().pipe(
+      untilDestroyed(this),
+    ).subscribe((statistics) => {
+      this.pdvStatistics = statistics;
+      this.changeDetectorRef.detectChanges();
+    });
 
     this.hubHeaderStatsMetaService.getCoinRateStatistics().pipe(
       untilDestroyed(this),

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, delay, repeat, retryWhen, skipWhile, take } from 'rxjs/operators';
-import { Account, ModeratorAddressesResponse, Profile, ProfileUpdate, Wallet } from 'decentr-js';
+import { Account, KeyPair, ModeratorAddressesResponse, Profile, ProfileUpdate, Wallet } from 'decentr-js';
 
 import { NetworkService } from '../network';
 import { UserApiService } from '../api';
@@ -52,12 +52,12 @@ export class UserService {
     );
   }
 
-  public getProfile(walletAddress: string): Observable<Profile> {
-    return this.userApiService.getProfile(walletAddress);
+  public getProfile(walletAddress: string, keys?: KeyPair): Observable<Profile> {
+    return this.userApiService.getProfile(walletAddress, keys);
   }
 
-  public getProfiles(walletAddresses: Wallet['address'][]): Observable<Record<Wallet['address'], Profile>> {
-    return this.userApiService.getProfiles(walletAddresses);
+  public getProfiles(walletAddresses: Wallet['address'][], keys?: KeyPair): Observable<Record<Wallet['address'], Profile>> {
+    return this.userApiService.getProfiles(walletAddresses, keys);
   }
 
   public setProfile(profile: ProfileUpdate, wallet: Wallet): Observable<void> {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { defer, Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, pluck } from 'rxjs/operators';
 import {
   getPDVDetails,
   getPDVList,
@@ -15,7 +15,7 @@ import {
 } from 'decentr-js';
 
 import { ConfigService } from '../configuration';
-import { AdvDdvStatistics, ProfileStats } from './pdv.definitions';
+import { AdvDdvStatistics, PDVStats, ProfileStats } from './pdv.definitions';
 
 @Injectable()
 export class PDVApiService {
@@ -55,11 +55,12 @@ export class PDVApiService {
     );
   }
 
-  public getPDVStats(walletAddress: Wallet['address']): Observable<ProfileStats> {
+  public getPDVStats(walletAddress: Wallet['address']): Observable<PDVStats[]> {
     return this.configService.getTheseusUrl().pipe(
       mergeMap((theseusUrl) => {
         return this.httpClient.get<ProfileStats>(`${theseusUrl}/v1/profiles/${walletAddress}/stats`);
       }),
+      pluck('stats'),
     );
   }
 
