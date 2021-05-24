@@ -158,7 +158,6 @@ export class PDVService {
         mapTo(walletAddress),
       )),
       switchMap((walletAddress) => this.pdvApiService.getPDVStats(walletAddress)),
-      pluck('stats'),
       map(mapPDVStatsToChartPoints),
     );
   }
