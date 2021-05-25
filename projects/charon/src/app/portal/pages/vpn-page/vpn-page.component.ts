@@ -34,7 +34,6 @@ export class VpnPageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.serverFormControl.value$.subscribe(console.log);
     this.servers$ = this.proxyService.getProxies();
 
     this.servers$.pipe(
