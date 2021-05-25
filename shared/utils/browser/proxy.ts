@@ -4,6 +4,12 @@ import { browser, Types } from 'webextension-polyfill-ts';
 
 declare const chrome;
 
+export interface ExtensionProxySettings {
+  levelOfControl: Types.LevelOfControl;
+  host?: string;
+  port?: string;
+}
+
 const clearProxySettings = (): Promise<void> => {
   if (chrome) {
     return new Promise((resolve) => {
@@ -44,6 +50,18 @@ const onProxySettingsChange = (): Observable<Types.SettingOnChangeDetailsType> =
   });
 };
 
+export const getActiveProxySettings = (): Observable<ExtensionProxySettings> => {
+  return defer(() => getProxySettings({})).pipe(
+    mergeMap((settings) => onProxySettingsChange().pipe(
+      startWith(settings),
+    )),
+    map((settings) => ({
+      levelOfControl: settings.levelOfControl,
+      ...settings.value?.rules?.singleProxy,
+    })),
+  );
+};
+
 export const listenProxyErrors = (): Observable<void> => {
   return new Observable<void>((subscriber) => {
     const listener = () => subscriber.next();
@@ -56,26 +74,20 @@ export const listenProxyErrors = (): Observable<void> => {
   });
 };
 
-export const isProxyEnabled = (): Observable<boolean> => {
-  return defer(() => getProxySettings({})).pipe(
-    mergeMap((settings) => onProxySettingsChange().pipe(
-      startWith(settings),
-    )),
-    map((settings) => settings.levelOfControl === 'controlled_by_this_extension'),
-  );
-};
-
 export const setProxy = (host: string | undefined): Promise<void> => {
   if (!host) {
     return clearProxySettings();
   }
+
+  const [ip, port] = host.split(':');
 
   const config = {
     mode: 'fixed_servers',
     rules: {
       singleProxy: {
         scheme: 'http',
-        host,
+        host: ip,
+        port: port && +port,
       },
     },
   };
