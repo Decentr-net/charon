@@ -5,9 +5,18 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding: 0 $grid-step * 2;
 
   &.is-vpn-active {
     background: linear-gradient(180deg, rgba($color-blue, 0) 0%, $color-blue 100%);
+  }
+
+  &:not(.mod-popup-view) {
+    border: 2px solid $color-outlines;
+    border-radius: $border-radius;
+    height: auto;
+    padding-bottom: $grid-step * 4;
+    width: 375px;
   }
 }
 
@@ -62,6 +71,10 @@
   padding: $grid-step * 2.5;
   width: $vpn-page--button--size;
   z-index: 1;
+
+  &:hover {
+    box-shadow: 0 $grid-step / 2 $grid-step * 8 rgba($color-blue, .4), 0 0 $grid-step * 2.5 rgba($color-blue, .16);
+  }
 }
 
 .vpn-page__button-status {
@@ -81,4 +94,25 @@
 .vpn-page__button-connection {
   color: $color-grey;
   margin-top: $grid-step * 2;
+}
+
+.vpn-page__active-vpn-container {
+  align-items: center;
+  color: $color-white;
+  display: flex;
+  flex-direction: column;
+}
+
+.vpn-page__active-vpn-region {
+  margin-top: $grid-step * 1.5;
+}
+
+.vpn-page__vpn-selector__title {
+  align-self: flex-start;
+  color: $color-grey;
+}
+
+.vpn-page__vpn-selector {
+  margin-top: $grid-step / 2;
+  width: 100%;
 }

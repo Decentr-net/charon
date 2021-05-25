@@ -64,6 +64,8 @@
     "sending": "Sending..."
   },
   "vpn_page": {
+    "browse_securely_from": "Browse securely from",
+    "browsing_securely_from": "Browsing securely from",
     "connection": {
       "secured": "Your connection is secured!",
       "insecure": "Now you browsing insecurely"
