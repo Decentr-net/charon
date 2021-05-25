@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -46,6 +47,7 @@ import { PortalRoutingModule } from './portal-routing.module';
     HighchartsChartModule,
     MarginLabelModule,
     MatExpansionModule,
+    MatMenuModule,
     MatSlideToggleModule,
     MatTooltipModule,
     MicroValueModule,

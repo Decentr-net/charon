@@ -18,4 +18,32 @@
       </span>
     </button>
   </div>
+
+  <div
+    class="vpn-page__active-vpn-container"
+    *ngIf="activeServer$ | async as activeServer; else vpnSelector"
+  >
+    <span appTypeface="caption">
+      {{ translate('browsing_securely_from') }}
+    </span>
+
+    <span class="vpn-page__active-vpn-region">
+      {{ activeServer.region }}
+    </span>
+  </div>
+
+  <ng-template #vpnSelector>
+    <span
+      class="vpn-page__vpn-selector__title"
+      appTypeface="caption"
+    >
+      {{ translate('browse_securely_from') }}
+    </span>
+
+    <app-vpn-selector
+      class="vpn-page__vpn-selector"
+      [servers]="servers$ | async"
+      [formControl]="serverFormControl"
+    ></app-vpn-selector>
+  </ng-template>
 </ng-container>
