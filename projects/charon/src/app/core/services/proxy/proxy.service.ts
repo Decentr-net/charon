@@ -13,16 +13,8 @@ export class ProxyService {
   public getProxies(): Observable<ProxyServer[]> {
     return of([
       {
-        host: '168.138.211.5:8080',
-        region: 'Japan',
-      },
-      {
-        host: '79.111.13.155:50625',
-        region: 'Russian Federation',
-      },
-      {
-        host: '81.90.224.248:3128',
-        region: 'Ukraine',
+        host: '199.247.19.150:3131',
+        region: 'Frankfurt',
       },
     ]);
   }

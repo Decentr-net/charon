@@ -25,7 +25,8 @@
     "tabs",
     "unlimitedStorage",
     "<all_urls>",
-    "webRequest"
+    "webRequest",
+    "webRequestBlocking"
   ],
   "content_scripts": [
     {
