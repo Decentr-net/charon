@@ -58,6 +58,10 @@ export class VpnPageComponent implements OnInit {
     ).subscribe((server) => {
       this.isActive = !!server;
 
+      if (server) {
+        this.serverFormControl.setValue(server.host);
+      }
+
       this.changeDetectorRef.markForCheck();
     });
   }
