@@ -4,13 +4,13 @@ import { initAutoLock } from './background/lock';
 import { initMigration } from './background/migration';
 import { setRandomNetwork } from './background/network-switch';
 import { initCookiesCollection } from './background/cookies/collection';
-import { handleProxyErrors } from './background/proxy';
+import { initProxyHandlers } from './background/proxy';
 import { whileApplicationAvailable } from './background/technical';
 
 (async () => {
   initMigration();
 
-  handleProxyErrors();
+  initProxyHandlers();
 
   await setRandomNetwork();
 
