@@ -11,3 +11,9 @@ export const isOpenedInTab = (): boolean => {
     .getViews({ type: 'tab' })
     .some(extensionWindow => extensionWindow === window);
 };
+
+export const setExtensionIcon = (iconPaths: {[s:string]:string}): Promise<void> => {
+  return browser.browserAction.setIcon({
+    path: iconPaths,
+  });
+};

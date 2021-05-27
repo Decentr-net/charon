@@ -2,7 +2,13 @@ import { EMPTY, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { browser } from 'webextension-polyfill-ts';
 
-import { getActiveProxySettings, listenProxyErrors, setProxy } from '../../../../../shared/utils/browser';
+import {
+  getActiveProxySettings,
+  isSelfProxyEnabled,
+  listenProxyErrors,
+  setExtensionIcon,
+  setProxy,
+} from '../../../../../shared/utils/browser';
 
 const PROXY_AUTH_CREDENTIALS = {
   username: '',
@@ -45,4 +51,18 @@ const handleProxyAuth = (): Observable<void> => {
 export const initProxyHandlers = (): void => {
   handleProxyErrors().subscribe();
   handleProxyAuth().subscribe();
+
+  isSelfProxyEnabled().subscribe((isEnabled) => {
+    const iconPaths = isEnabled
+      ? {
+        '16': 'assets/icons/16_active.png',
+        '32': 'assets/icons/32_active.png',
+      }
+      : {
+        '16': 'assets/icons/16.png',
+        '32': 'assets/icons/32.png',
+      };
+
+    setExtensionIcon(iconPaths).then();
+  });
 };
