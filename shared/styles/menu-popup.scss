@@ -35,7 +35,7 @@ body .menu-popup {
   grid-template-areas: "icon title"
                        "empty description";
   grid-template-columns: min-content 1fr;
-  padding: $grid-step * 1.5 $grid-step * 2;
+  padding: $grid-step $grid-step * 2;
   white-space: nowrap;
 
   &.is-disabled {
@@ -50,6 +50,9 @@ body .menu-popup {
 
 .menu-popup-item-icon {
   grid-area: icon;
+  height: 24px;
+  margin-right: $grid-step;
+  width: 24px;
 }
 
 .menu-popup-item-title {
