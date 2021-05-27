@@ -18,6 +18,8 @@ const handleProxyErrors = (): Observable<void> => {
 const createAuthObservable = (): Observable<void> => {
   const event = browser.webRequest.onAuthRequired;
 
+  console.log(PROXY_AUTH_CREDENTIALS);
+
   const listener = () => ({ authCredentials: PROXY_AUTH_CREDENTIALS });
 
   return new Observable<void>(() => {

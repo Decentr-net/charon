@@ -4,8 +4,9 @@ import { map, take } from 'rxjs/operators';
 import { FormControl } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+import { VPNServer } from '@shared/services/configuration';
 import { isOpenedInTab } from '@shared/utils/browser';
-import { ProxyServer, ProxyService } from '@core/services';
+import { ProxyService } from '@core/services';
 
 @UntilDestroy()
 @Component({
@@ -21,11 +22,11 @@ export class VpnPageComponent implements OnInit {
   @HostBinding('class.is-vpn-active')
   public isActive: boolean;
 
-  public activeServer$: Observable<ProxyServer>;
+  public activeServer$: Observable<VPNServer>;
 
-  public servers$: Observable<ProxyServer[]>;
+  public servers$: Observable<VPNServer[]>;
 
-  public serverFormControl: FormControl<string> = new FormControl();
+  public serverFormControl: FormControl<VPNServer> = new FormControl();
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -40,7 +41,7 @@ export class VpnPageComponent implements OnInit {
       take(1),
       untilDestroyed(this),
     ).subscribe((servers) => {
-      this.serverFormControl.setValue(servers[0]?.host);
+      this.serverFormControl.setValue(servers[0]);
     });
 
     this.activeServer$ = combineLatest([
@@ -48,8 +49,7 @@ export class VpnPageComponent implements OnInit {
       this.servers$,
     ]).pipe(
       map(([settings, servers]) => {
-        const host = [settings.host, settings.port].filter(Boolean).join(':');
-        return servers.find((server) => server.host === host);
+        return servers.find((server) => server.address === settings.host);
       }),
     );
 
@@ -59,7 +59,7 @@ export class VpnPageComponent implements OnInit {
       this.isActive = !!server;
 
       if (server) {
-        this.serverFormControl.setValue(server.host);
+        this.serverFormControl.setValue(server);
       }
 
       this.changeDetectorRef.markForCheck();
@@ -71,6 +71,8 @@ export class VpnPageComponent implements OnInit {
       return this.proxyService.clearProxy();
     }
 
-    return this.proxyService.setProxy(this.serverFormControl.value);
+    const { address, port } = this.serverFormControl.value;
+
+    return this.proxyService.setProxy(address, port);
   }
 }

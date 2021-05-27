@@ -98,4 +98,10 @@ export class ConfigService {
       pluck('theseus', 'url'),
     );
   }
+
+  public getVPNSettings(): Observable<Config['vpn']> {
+    return this.getConfig().pipe(
+      pluck('vpn'),
+    );
+  }
 }

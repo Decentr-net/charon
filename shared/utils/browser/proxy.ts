@@ -66,7 +66,7 @@ export const listenProxyErrors = (): Observable<void> => {
   return new Observable<void>((subscriber) => {
     const listener = () => subscriber.next();
 
-    let errorNotifier = chrome ? chrome.proxy.onProxyError : browser.proxy.onError;
+    const errorNotifier = browser.proxy.onError || (browser.proxy as any).onProxyError;
 
     errorNotifier.addListener(listener);
 
@@ -74,21 +74,20 @@ export const listenProxyErrors = (): Observable<void> => {
   });
 };
 
-export const setProxy = (host: string | undefined): Promise<void> => {
-  if (!host) {
+export const setProxy = (server: { host: string; port?: number } | undefined): Promise<void> => {
+  if (!server) {
     return clearProxySettings();
   }
-
-  const [ip, port] = host.split(':');
 
   const config = {
     mode: 'fixed_servers',
     rules: {
       singleProxy: {
         scheme: 'http',
-        host: ip,
-        port: port && +port,
+        host: server.host,
+        port: server.port,
       },
+      bypassList: ['*localhost*', '*127.0.0.1*', '*google-analytics.com*'],
     },
   };
 
