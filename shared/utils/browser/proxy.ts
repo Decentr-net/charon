@@ -62,6 +62,12 @@ export const getActiveProxySettings = (): Observable<ExtensionProxySettings> => 
   );
 };
 
+export const isSelfProxyEnabled = (): Observable<boolean> => {
+  return getActiveProxySettings().pipe(
+    map((settings) => settings.levelOfControl === 'controlled_by_this_extension'),
+  );
+};
+
 export const listenProxyErrors = (): Observable<void> => {
   return new Observable<void>((subscriber) => {
     const listener = () => subscriber.next();
