@@ -27,9 +27,16 @@
       {{ translate('browsing_securely_from') }}
     </span>
 
-    <span class="vpn-page__active-vpn-region">
-      {{ activeServer.title }}
-    </span>
+    <div class="vpn-page__active-vpn-region">
+      <div
+        class="vpn-page__active-vpn-region-icon"
+        [ngClass]="'flag-icon flag-icon-' + activeServer?.country"
+      ></div>
+
+      <span>
+        {{ activeServer.title }}
+      </span>
+    </div>
   </div>
 
   <ng-template #vpnSelector>

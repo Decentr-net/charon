@@ -30,6 +30,16 @@
   }
 }
 
+.vpn-selector__trigger__region {
+  display: flex;
+}
+
+.vpn-selector__trigger__region-icon {
+  height: 24px;
+  margin-right: $grid-step;
+  width: 24px;
+}
+
 .vpn-selector__trigger-icon {
   color: $color-grey;
   transition: color .3s ease;
