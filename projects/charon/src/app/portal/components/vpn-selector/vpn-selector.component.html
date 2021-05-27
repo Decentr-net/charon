@@ -6,7 +6,7 @@
     class="vpn-selector__trigger__region"
     appTypeface="paragraph"
   >
-    {{ activeServer?.region }}
+    {{ activeServer?.title }}
   </div>
 
   <svg-icon
@@ -28,7 +28,7 @@
         (click)="chooseServer(server)"
       >
         <div class="menu-popup-item-title">
-          {{ server.region }}
+          {{ server.title }}
 
           <svg-icon class="vpn-selector__menu-item-icon-check" key="check" size="lg"></svg-icon>
         </div>

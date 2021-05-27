@@ -12,7 +12,7 @@ import { ControlValueAccessor } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgCheck, svgDropdownExpand } from '@shared/svg-icons';
-import { ProxyServer } from '@core/services';
+import { VPNServer } from '@shared/services/configuration';
 
 @Component({
   selector: 'app-vpn-selector',
@@ -27,10 +27,10 @@ import { ProxyServer } from '@core/services';
     },
   ],
 })
-export class VpnSelectorComponent extends ControlValueAccessor<string> implements OnChanges {
-  @Input() public servers: ProxyServer[];
+export class VpnSelectorComponent extends ControlValueAccessor<VPNServer> implements OnChanges {
+  @Input() public servers: VPNServer[];
 
-  public activeServer: ProxyServer;
+  public activeServer: VPNServer;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -46,24 +46,24 @@ export class VpnSelectorComponent extends ControlValueAccessor<string> implement
 
   public ngOnChanges({ servers }: SimpleChanges) {
     if (servers) {
-      const serversValue = (servers.currentValue || []) as ProxyServer[];
+      const serversValue = (servers.currentValue || []) as VPNServer[];
 
-      const newServer = serversValue.find((server) => server.host === this.activeServer?.host);
+      const newServer = serversValue.find((server) => server.address === this.activeServer?.address);
 
       this.chooseServer(newServer || serversValue[0]);
     }
   }
 
-  public chooseServer(server: ProxyServer, emit: boolean = true): void {
+  public chooseServer(server: VPNServer, emit: boolean = true): void {
     this.activeServer = server;
 
-    emit && this.onChange(this.activeServer?.host);
+    emit && this.onChange(this.activeServer);
   }
 
-  public trackByHost: TrackByFunction<ProxyServer> = ({}, { host }) => host;
+  public trackByHost: TrackByFunction<VPNServer> = ({}, { address }) => address;
 
-  public writeValue(value: string) {
-    const server = (this.servers || []).find((server) => server.host === value);
+  public writeValue(value: VPNServer) {
+    const server = (this.servers || []).find((server) => server.address === value.address);
 
     this.chooseServer(server || this.servers[0], !server);
 
