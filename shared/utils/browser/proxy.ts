@@ -1,8 +1,11 @@
 import { defer, Observable } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 import { browser, Types } from 'webextension-polyfill-ts';
+import { BrowserType, detectBrowser } from './browser';
 
 declare const chrome;
+
+const browserType: typeof BrowserType = BrowserType;
 
 export interface ExtensionProxySettings {
   levelOfControl: Types.LevelOfControl;
@@ -11,7 +14,7 @@ export interface ExtensionProxySettings {
 }
 
 const clearProxySettings = (): Promise<void> => {
-  if (chrome) {
+  if (detectBrowser() === browserType.Chrome) {
     return new Promise((resolve) => {
       chrome.proxy.settings.clear({}, resolve);
     });
@@ -21,7 +24,7 @@ const clearProxySettings = (): Promise<void> => {
 };
 
 const getProxySettings = (details: Types.SettingGetDetailsType): Promise<Types.SettingGetCallbackDetailsType> => {
-  if (chrome) {
+  if (detectBrowser() === browserType.Chrome) {
     return new Promise((resolve) => {
       chrome.proxy.settings.get(details, resolve);
     });
@@ -31,7 +34,7 @@ const getProxySettings = (details: Types.SettingGetDetailsType): Promise<Types.S
 };
 
 const setProxySettings = (details: Types.SettingSetDetailsType): Promise<void> => {
-  if (chrome) {
+  if (detectBrowser() === browserType.Chrome) {
     return new Promise((resolve) => {
       chrome.proxy.settings.set(details, resolve);
     });
@@ -57,7 +60,12 @@ export const getActiveProxySettings = (): Observable<ExtensionProxySettings> => 
     )),
     map((settings) => ({
       levelOfControl: settings.levelOfControl,
-      ...settings.value?.rules?.singleProxy,
+      ...detectBrowser() === browserType.Chrome && settings.value?.rules?.singleProxy,
+      // TODO: adjust for Firefox
+      ...detectBrowser() === browserType.Firefox && settings.levelOfControl === 'controlled_by_this_extension' && {
+        host: settings.value?.http.split(':')[0],
+        port: settings.value?.http.split(':')[1],
+      },
     })),
   );
 };
@@ -85,17 +93,35 @@ export const setProxy = (server: { host: string; port?: number } | undefined): P
     return clearProxySettings();
   }
 
-  const config = {
-    mode: 'fixed_servers',
-    rules: {
-      singleProxy: {
-        scheme: 'http',
-        host: server.host,
-        port: server.port,
-      },
-      bypassList: ['*localhost*', '*127.0.0.1*', '*google-analytics.com*'],
-    },
-  };
+  let config;
 
-  return setProxySettings({ value: config, scope: 'regular' });
+  if (detectBrowser() === browserType.Chrome) {
+    config = {
+      mode: 'fixed_servers',
+      rules: {
+        singleProxy: {
+          scheme: 'http',
+          host: server.host,
+          port: server.port,
+        },
+        bypassList: ['*localhost*', '*127.0.0.1*', '*google-analytics.com*'],
+      },
+    };
+  }
+
+  if (detectBrowser() === browserType.Firefox) {
+    config = {
+      httpProxyAll: true,
+      proxyType: "manual",
+      http: `${server.host}:${server.port}`,
+      socksVersion: 4,
+      // TODO: add passthrough
+      // passthrough: ['*localhost*', '*127.0.0.1*', '*google-analytics.com*'],
+    };
+  }
+
+  return setProxySettings({
+    value: config,
+    ...detectBrowser() === browserType.Chrome && { scope: 'regular' },
+  });
 };
