@@ -6,6 +6,11 @@
     class="vpn-selector__trigger__region"
     appTypeface="paragraph"
   >
+    <div
+      class="vpn-selector__trigger__region-icon"
+      [ngClass]="'flag-icon flag-icon-' + activeServer?.country"
+    ></div>
+
     {{ activeServer?.title }}
   </div>
 
@@ -27,6 +32,11 @@
         [class.is-active]="server === activeServer"
         (click)="chooseServer(server)"
       >
+        <div
+         class="menu-popup-item-icon"
+         [ngClass]="'flag-icon flag-icon-' + server.country"
+        ></div>
+
         <div class="menu-popup-item-title">
           {{ server.title }}
 
