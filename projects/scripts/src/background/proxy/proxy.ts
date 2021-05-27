@@ -5,8 +5,8 @@ import { browser } from 'webextension-polyfill-ts';
 import { getActiveProxySettings, listenProxyErrors, setProxy } from '../../../../../shared/utils/browser';
 
 const PROXY_AUTH_CREDENTIALS = {
-  username: 'decentr',
-  password: 'decentr123',
+  username: '',
+  password: '',
 };
 
 const handleProxyErrors = (): Observable<void> => {
