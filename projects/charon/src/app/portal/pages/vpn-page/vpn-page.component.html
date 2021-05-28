@@ -55,8 +55,9 @@
     </span>
 
     <app-vpn-selector
+      *ngIf="servers$ | async as servers"
       class="vpn-page__vpn-selector"
-      [servers]="servers$ | async"
+      [servers]="servers"
       [formControl]="serverFormControl"
     ></app-vpn-selector>
   </ng-template>
