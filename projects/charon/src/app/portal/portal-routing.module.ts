@@ -10,6 +10,7 @@ import {
   VpnPageComponent,
 } from './pages';
 import { PortalRoute } from './portal-route';
+import { VpnGuard } from '../core/guards/vpn.guard';
 
 const ROUTES: Routes = [
   {
@@ -44,6 +45,9 @@ const ROUTES: Routes = [
       {
         path: PortalRoute.VPN,
         component: VpnPageComponent,
+        canActivate: [
+          VpnGuard,
+        ],
       },
       {
         path: '**',
