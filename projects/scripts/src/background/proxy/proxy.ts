@@ -1,5 +1,5 @@
 import { EMPTY, Observable } from 'rxjs';
-import { catchError, filter, mapTo, mergeMap, switchMap, take } from 'rxjs/operators';
+import { filter, mapTo, mergeMap, switchMap, take, tap } from 'rxjs/operators';
 import { browser } from 'webextension-polyfill-ts';
 
 import {
@@ -23,8 +23,8 @@ const handleProxyErrors = (): Observable<void> => {
       take(1),
     )),
     mergeMap((settings: ExtensionProxySettings) => fetch(`http://${settings.host}`)),
+    tap((pingResponse: Response) => !pingResponse.ok && setProxy(undefined)),
     mapTo(void 0),
-    catchError(() => setProxy(undefined)),
   );
 };
 
