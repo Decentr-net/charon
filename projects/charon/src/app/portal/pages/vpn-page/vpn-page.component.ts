@@ -26,6 +26,8 @@ export class VpnPageComponent implements OnInit {
 
   public activeServer$: Observable<VPNServer>;
 
+  public isFirefoxHintVisible: boolean;
+
   public servers$: Observable<VPNServer[]>;
 
   public serverFormControl: FormControl<VPNServer> = new FormControl();
@@ -78,6 +80,14 @@ export class VpnPageComponent implements OnInit {
     this.isLoading = true;
 
     return this.proxyService.setProxy(address, port).then(() => {
+      if (this.isFirefoxHintVisible) {
+        this.isFirefoxHintVisible = false;
+      }
+    }, (reject) => {
+      if (reject.message === "proxy.settings requires private browsing permission.") {
+        this.isFirefoxHintVisible = true;
+      }
+    }).finally(() => {
       this.isLoading = false;
       this.changeDetectorRef.markForCheck();
     });
