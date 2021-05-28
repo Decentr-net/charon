@@ -13,7 +13,7 @@
 
       <span class="vpn-page__button-divider"></span>
 
-      <span class="vpn-page__button-connection">
+      <span class="vpn-page__button-connection" appTypeface="paragraph">
         {{ translate(isActive ? 'connection.secured' : 'connection.insecure') }}
       </span>
     </button>
@@ -54,3 +54,10 @@
     ></app-vpn-selector>
   </ng-template>
 </ng-container>
+
+<div
+  *ngIf="isLoading"
+  class="vpn-page__loader-container"
+>
+  <app-spinner></app-spinner>
+</div>
