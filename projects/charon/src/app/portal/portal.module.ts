@@ -28,6 +28,7 @@ import { NavigationModule } from '@core/navigation';
 import { PORTAL_COMPONENTS } from './components';
 import { PORTAL_PAGES } from './pages';
 import { PortalRoutingModule } from './portal-routing.module';
+import { SpinnerModule } from '@shared/components/spinner';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { PortalRoutingModule } from './portal-routing.module';
     PortalRoutingModule,
     ReactiveFormsModule,
     SlotModule,
+    SpinnerModule,
     SvgIconsModule,
     TranslocoModule,
     TypefaceModule,

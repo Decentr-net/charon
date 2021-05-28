@@ -22,6 +22,8 @@ export class VpnPageComponent implements OnInit {
   @HostBinding('class.is-vpn-active')
   public isActive: boolean;
 
+  public isLoading: boolean;
+
   public activeServer$: Observable<VPNServer>;
 
   public servers$: Observable<VPNServer[]>;
@@ -73,6 +75,11 @@ export class VpnPageComponent implements OnInit {
 
     const { address, port } = this.serverFormControl.value;
 
-    return this.proxyService.setProxy(address, port);
+    this.isLoading = true;
+
+    return this.proxyService.setProxy(address, port).then(() => {
+      this.isLoading = false;
+      this.changeDetectorRef.markForCheck();
+    });
   }
 }

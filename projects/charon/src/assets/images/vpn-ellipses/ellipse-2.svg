@@ -1,9 +1,9 @@
-<svg width="303" height="304" viewBox="0 0 303 304" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g opacity="0.5" filter="url(#ellipse-2-filter)">
-<circle cx="151.5" cy="147.934" r="146.5" stroke="white" stroke-width="2" stroke-linejoin="round" stroke-dasharray="2 8"/>
+<svg width="305" height="305" viewBox="0 0 305 305" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g opacity="0.5" filter="url(#filter0_d-2)">
+<circle cx="152.5" cy="148.5" r="147.5" stroke="white" stroke-width="2" stroke-linejoin="round" stroke-dasharray="2 8"/>
 </g>
 <defs>
-<filter id="ellipse-2-filter" x="0" y="0.434326" width="303" height="303" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter0_d-2" x="0" y="0" width="305" height="305" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
 <feOffset dy="4"/>
