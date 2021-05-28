@@ -3,6 +3,7 @@ import { MaintenanceGuard } from './maintenance.guard';
 import { OfflineGuard } from './offline.guard';
 import { SupportedVersionGuard } from './supported-version.guard';
 import { UpdateGuard } from './update.guard';
+import { VpnGuard } from '@core/guards/vpn.guard';
 
 export * from './browser-tab.guard';
 export * from './maintenance.guard';
@@ -16,4 +17,5 @@ export const CORE_GUARDS = [
   OfflineGuard,
   SupportedVersionGuard,
   UpdateGuard,
+  VpnGuard,
 ];
