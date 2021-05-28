@@ -1,5 +1,5 @@
 import { EMPTY, Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 import { browser } from 'webextension-polyfill-ts';
 
 import {
@@ -9,6 +9,7 @@ import {
   setExtensionIcon,
   setProxy,
 } from '../../../../../shared/utils/browser';
+import CONFIG_SERVICE from '../config';
 
 const PROXY_AUTH_CREDENTIALS = {
   username: '',
@@ -51,6 +52,12 @@ const handleProxyAuth = (): Observable<void> => {
 export const initProxyHandlers = (): void => {
   handleProxyErrors().subscribe();
   handleProxyAuth().subscribe();
+
+  CONFIG_SERVICE.getVPNSettings().pipe(
+    filter((settings) => !settings.enabled),
+  ).subscribe(() => {
+    setProxy(undefined).then();
+  });
 
   isSelfProxyEnabled().subscribe((isEnabled) => {
     const iconPaths = isEnabled
