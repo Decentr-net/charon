@@ -5,11 +5,13 @@ import { mergeMap } from 'rxjs/operators';
 import {
   getPDVDetails,
   getPDVList,
+  getRewards,
   getTokenBalance,
   PDVDetails,
   PDVListItem,
   PDVListPaginationOptions,
   PDVStatItem,
+  PDVType,
   Wallet,
 } from 'decentr-js';
 
@@ -59,6 +61,12 @@ export class PDVApiService {
       mergeMap((theseusUrl) => {
         return this.httpClient.get<PDVStatItem[]>(`${theseusUrl}/v1/profiles/${walletAddress}/stats`);
       }),
+    );
+  }
+
+  public getRewards(): Observable<Record<PDVType, number>> {
+    return this.configService.getCerberusUrl().pipe(
+      mergeMap((cerberusUrl) => getRewards(cerberusUrl)),
     );
   }
 }

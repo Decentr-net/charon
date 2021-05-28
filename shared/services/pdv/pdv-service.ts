@@ -72,7 +72,7 @@ export class PDVService {
         pluck('address'),
         switchMap((walletAddress) => this.pdvStorageService.getUserAccumulatedPDVChanges(walletAddress)),
       ),
-      this.configService.getRewards(),
+      this.pdvApiService.getRewards(),
     ]).pipe(
       map(([pDVs, rewards]) => pDVs.reduce((acc, pdv) => acc + rewards[pdv.type] || 0, 0)),
       map((estimatedBalance) => this.microValuePipe.transform(estimatedBalance)),

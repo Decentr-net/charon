@@ -11,7 +11,6 @@ export interface Config {
   cerberus: {
     minPDVCount: number;
     maxPDVCount: number;
-    rewards: Record<PDVType, number>;
     url: string;
   };
   maintenance: boolean;
