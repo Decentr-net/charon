@@ -54,6 +54,18 @@
   }
 }
 
+.vpn-page__firefox-hint {
+  background: $color-red;
+  border-radius: $border-radius;
+  color: $color-white;
+  left: $grid-step;
+  padding: $grid-step * 2;
+  position: absolute;
+  right: $grid-step;
+  top: $grid-step;
+  z-index: 2;
+}
+
 .vpn-page__button-container {
   align-items: center;
   display: inline-flex;

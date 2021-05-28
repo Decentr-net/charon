@@ -70,6 +70,7 @@
       "secured": "Your connection is secured!",
       "insecure": "Now you browsing insecurely"
     },
+    "firefox_hint": "To be able to enable proxy: open Firefox's extension settings and allow \"Run in Private Windows\".",
     "status": {
       "off": "Off",
       "on": "On"
