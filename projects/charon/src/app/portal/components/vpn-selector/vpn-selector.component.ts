@@ -65,7 +65,7 @@ export class VpnSelectorComponent extends ControlValueAccessor<VPNServer> implem
   public writeValue(value: VPNServer) {
     const server = (this.servers || []).find((server) => server.address === value.address);
 
-    this.chooseServer(server || this.servers[0], !server);
+    this.chooseServer(server || this.servers && this.servers[0], !server);
 
     this.changeDetectorRef.markForCheck();
   }
