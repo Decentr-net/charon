@@ -27,6 +27,7 @@
 
     .vpn-page__button {
       box-shadow: 0 $grid-step / 2 $grid-step * 12.5 #4F80FF, 0 0 $grid-step * 7.5 rgba($color-blue, .24);
+      transition: all .8s ease;
     }
   }
 
