@@ -27,6 +27,7 @@ export class ConfigService {
       this.configApiService.getConfig().pipe(
         retryWhen(((errors) => errors.pipe(
           delay(ONE_SECOND / 2),
+          take(5),
         ))),
       ).subscribe(
         (config) => this.config$.next(config),
