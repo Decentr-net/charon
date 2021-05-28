@@ -21,6 +21,7 @@ export class ProxyService {
   }
 
   public getProxies(): Observable<Config['vpn']['servers']> {
+    this.configService.forceUpdate();
     return this.configService.getVPNSettings().pipe(
       map(({ enabled, servers }) => enabled ? servers : []),
     );

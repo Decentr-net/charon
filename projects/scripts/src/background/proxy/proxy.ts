@@ -1,8 +1,9 @@
 import { EMPTY, Observable } from 'rxjs';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, mapTo, mergeMap, switchMap, take } from 'rxjs/operators';
 import { browser } from 'webextension-polyfill-ts';
 
 import {
+  ExtensionProxySettings,
   getActiveProxySettings,
   isSelfProxyEnabled,
   listenProxyErrors,
@@ -18,7 +19,12 @@ const PROXY_AUTH_CREDENTIALS = {
 
 const handleProxyErrors = (): Observable<void> => {
   return listenProxyErrors().pipe(
-    tap(() => setProxy(undefined)),
+    mergeMap(() => getActiveProxySettings().pipe(
+      take(1),
+    )),
+    mergeMap((settings: ExtensionProxySettings) => fetch(`http://${settings.host}`)),
+    mapTo(void 0),
+    catchError(() => setProxy(undefined)),
   );
 };
 
