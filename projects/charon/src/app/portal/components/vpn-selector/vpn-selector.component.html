@@ -1,0 +1,50 @@
+<div
+  class="vpn-selector__trigger"
+  [matMenuTriggerFor]="menuTemplate"
+>
+  <div
+    class="vpn-selector__trigger__region"
+    appTypeface="paragraph"
+  >
+    <div
+      class="vpn-selector__trigger__region-icon"
+      [ngClass]="'flag-icon flag-icon-' + activeServer?.country"
+    ></div>
+
+    {{ activeServer?.title }}
+  </div>
+
+  <svg-icon
+    class="vpn-selector__trigger-icon"
+    key="dropdown-expand"
+    size="lg"
+  ></svg-icon>
+</div>
+
+<mat-menu
+  #menuTemplate
+  class="vpn-selector__menu menu-popup"
+>
+  <div class="menu-popup-items-section">
+    <ng-container *ngFor="let server of servers; let last = last; trackBy: trackByHost">
+      <div
+        class="vpn-selector__menu-item menu-popup-item"
+        [class.is-active]="server === activeServer"
+        (click)="chooseServer(server)"
+      >
+        <div
+         class="menu-popup-item-icon"
+         [ngClass]="'flag-icon flag-icon-' + server.country"
+        ></div>
+
+        <div class="menu-popup-item-title">
+          {{ server.title }}
+
+          <svg-icon class="vpn-selector__menu-item-icon-check" key="check" size="lg"></svg-icon>
+        </div>
+      </div>
+
+      <div class="menu-popup-items-divider" *ngIf="!last"></div>
+    </ng-container>
+  </div>
+</mat-menu>
