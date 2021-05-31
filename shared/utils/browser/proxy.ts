@@ -104,7 +104,7 @@ export const setProxy = (server: { host: string; port?: number } | undefined): P
           host: server.host,
           port: server.port,
         },
-        bypassList: ['*localhost*', '*127.0.0.1*', '*google-analytics.com*'],
+        bypassList: ['*localhost*', '*127.0.0.1*'],
       },
     };
   }
@@ -115,7 +115,6 @@ export const setProxy = (server: { host: string; port?: number } | undefined): P
       proxyType: "manual",
       http: `${server.host}:${server.port}`,
       socksVersion: 4,
-      passthrough: '*localhost*,*127.0.0.1*,*google-analytics.com*',
     };
   }
 
