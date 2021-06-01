@@ -1,4 +1,4 @@
-import { EMPTY, from, merge, Observable, of, throwError, timer } from 'rxjs';
+import { EMPTY, from, Observable, of, throwError, timer } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -23,7 +23,7 @@ import { ONE_SECOND } from '../../../../../shared/utils/date';
 import { whileUserActive } from '../auth/while-user-active';
 import { sendPDV } from './api';
 import { convertCookiesToPDVs } from './convert';
-import { listenCookiesSet, listenLoginCookies } from './events';
+import { listenCookiesSet } from './events';
 import { PDVDataUniqueStore } from './pdv-data-unique-store';
 
 const configService = CONFIG_SERVICE;
@@ -63,23 +63,11 @@ const mergePDVsIntoAccumulated = (walletAddress: Wallet['address'], pDVs: PDV[],
 };
 
 const collectPDVIntoStorage = (): Observable<void> => {
-  return whileUserActive((user) => merge(
-    listenLoginCookies([
-      ...user.usernames,
-      ...user.emails,
-      user.primaryEmail,
-    ]).pipe(
-      map((cookies) => cookies.filter((cookie) => !cookie.httpOnly && !cookie.session)),
-      filter((cookies) => cookies.length > 0),
-      map((cookies) => ({ cookies, pdvDataType: PDVDataType.LoginCookie })),
-    ),
-    listenCookiesSet({
-      httpOnly: false,
-      session: false,
-    }).pipe(
-      map((cookie) => ({ cookies: [cookie], pdvDataType: PDVDataType.Cookie })),
-    ),
-  ).pipe(
+  return whileUserActive((user) => listenCookiesSet({
+    httpOnly: false,
+    session: false,
+  }).pipe(
+    map((cookie) => ({ cookies: [cookie], pdvDataType: PDVDataType.Cookie })),
     takeUntil(timer(ONE_SECOND * 10)),
     reduce((acc, { cookies, pdvDataType }) => [
       ...acc,
