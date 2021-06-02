@@ -14,7 +14,7 @@ import { AppRoute } from '../../app-route';
   providedIn: 'root',
 })
 export class NavigationService {
-  private previousPageUrl: string;
+  private previousPageUrls: string[] = [];
 
   constructor(
     private location: Location,
@@ -22,15 +22,27 @@ export class NavigationService {
   ) {
     this.getUrlChanges().pipe(
       untilDestroyed(this),
-    ).subscribe((url) => this.previousPageUrl = url);
+    ).subscribe((url) => {
+      this.previousPageUrls.push(url);
+    });
   }
 
-  public async back(fallbackUrl: string[]): Promise<void> {
-    if (this.previousPageUrl && await this.router.navigateByUrl(this.previousPageUrl)) {
-      return;
+  public async back(fallbackUrl: string[], startsWith?: string): Promise<void> {
+    let urlToNavigate: string = '';
+
+    do {
+      urlToNavigate = this.previousPageUrls.pop();
+    }
+    while (urlToNavigate && !urlToNavigate.startsWith(startsWith || '') || urlToNavigate === this.router.url)
+
+    if (urlToNavigate) {
+      const success = await this.router.navigateByUrl(urlToNavigate);
+      if (success !== false) {
+        return Promise.resolve();
+      }
     }
 
-    this.router.navigate(fallbackUrl);
+    await this.router.navigate(fallbackUrl);
   }
 
   private getUrlChanges(): Observable<string> {

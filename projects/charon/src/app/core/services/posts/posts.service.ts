@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { defer, from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { defer, from, Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, repeat, takeWhile, tap } from 'rxjs/operators';
 import { LikeWeight, Post, PostCreate, PostIdentificationParameters } from 'decentr-js'
 
 import { MessageBus } from '@shared/message-bus';
@@ -42,7 +42,9 @@ export class PostsService {
     );
   }
 
-  public createPost(post: PostCreate): Observable<void> {
+  public createPost(
+    post: PostCreate,
+  ): Observable<CharonAPIMessageBusMap[MessageCode.PostCreate]['response']['messageValue']> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
@@ -55,6 +57,8 @@ export class PostsService {
         if (!response.success) {
           throw response.error;
         }
+
+        return response.messageValue;
       }));
   }
 
@@ -86,17 +90,20 @@ export class PostsService {
     return from(new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.PostDelete, {
         walletAddress: wallet.address,
-        postIdentificationParameters: {
-          author: post.author,
-          postId: post.postId,
-        },
+        postIdentificationParameters: post,
         privateKey: wallet.privateKey
-      })
-      .then(response => {
-        if (!response.success) {
-          throw response.error;
-        }
-      }));
+      })).pipe(
+        tap((response) => {
+          if (!response.success) {
+            throw response.error;
+          }
+        }),
+        mergeMap(() => this.getPost({ owner: post.author, uuid: post.postId }).pipe(
+          catchError(() => of(undefined)),
+          repeat(),
+          takeWhile((post) => !!post),
+        )),
+      );
   }
 
   private mapPostsResponseToList(postsListResponse: PostsListResponse): PostsListItem[] {

@@ -1,3 +1,5 @@
+import { BroadcastResponse, BroadcastSuccessResponse, StdTxMessageValue, StdTxMessageValueMap } from 'decentr-js';
+
 import { MessageBus } from '../../../../../shared/message-bus';
 import { MessageCode } from '../../messages';
 import {
@@ -13,14 +15,26 @@ import {
 import QUEUE, { QueuePriority } from '../queue';
 import { CharonAPIMessageBusMap } from './message-bus-map';
 
-const sendRequest = <T>(
-  fn: () => PromiseLike<T>,
-  callback: ({ success: boolean, error: any }) => void,
+interface RequestCallbackParams<K extends keyof StdTxMessageValueMap> {
+  success: boolean;
+  error?: any;
+  messageValue?: StdTxMessageValue<K>;
+}
+
+const sendRequest = <K extends keyof StdTxMessageValueMap>(
+  fn: () => PromiseLike<BroadcastResponse<K>>,
+  callback: (params: RequestCallbackParams<K>) => void,
 ): void => {
   QUEUE.add(fn, { priority: QueuePriority.Charon })
     .then(
-      () => callback({ success: true, error: undefined }),
-      (error) => callback({ success: false, error }),
+      (response: BroadcastSuccessResponse<K>) => callback({
+        success: true,
+        messageValue: response.stdTxValue.msg[0].value,
+      }),
+      (error) => callback({
+        success: false,
+        error,
+      }),
     );
 }
 

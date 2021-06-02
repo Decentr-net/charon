@@ -1,13 +1,22 @@
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable } from 'rxjs';
-import { catchError, finalize, mergeMap, tap } from 'rxjs/operators';
-import { PostCreate, Wallet } from 'decentr-js';
+import { EMPTY, from, Observable } from 'rxjs';
+import {
+  catchError,
+  delay,
+  finalize,
+  mapTo,
+  mergeMap,
+  retryWhen,
+  tap
+} from 'rxjs/operators';
+import { TranslocoService } from '@ngneat/transloco';
+import { Post, PostCreate, Wallet } from 'decentr-js';
 
 import { BrowserLocalStorage } from '@shared/services/browser-storage';
+import { NotificationService } from '@shared/services/notification';
+import { ONE_SECOND } from '@shared/utils/date';
 import { AuthService } from '@core/auth/services';
 import { PostsService, SpinnerService } from '@core/services';
-import { NotificationService } from '../../../../../../../shared/services/notification';
-import { TranslocoService } from '@ngneat/transloco';
 
 interface PostStorageValue {
   draft: Record<Wallet['address'], PostCreate>;
@@ -52,18 +61,31 @@ export class PostCreatePageService {
     this.spinnerService.showSpinner();
 
     return this.postsService.createPost(post).pipe(
-      mergeMap(() => this.removeDraft()),
-      tap(() => {
-        this.notificationService.success(
-          this.translocoService.translate('notifications.create.success', null, 'hub')
-        );
-      }),
       catchError((error) => {
         this.notificationService.error(error);
 
         return EMPTY;
       }),
+      mergeMap((createdPost) => from(this.removeDraft()).pipe(
+        mapTo(createdPost),
+      )),
+      mergeMap((createdPost) => this.waitPost(createdPost)),
+      tap(() => console.log('created')),
+      tap(() => {
+        this.notificationService.success(
+          this.translocoService.translate('notifications.create.success', null, 'hub')
+        );
+      }),
       finalize(() => this.spinnerService.hideSpinner()),
+    );
+  }
+
+  private waitPost(postIdentificationParameters: Pick<Post, 'owner' | 'uuid'>): Observable<void> {
+    return this.postsService.getPost(postIdentificationParameters).pipe(
+      retryWhen((errors) => errors.pipe(
+        delay(ONE_SECOND),
+      )),
+      mapTo(void 0),
     );
   }
 }

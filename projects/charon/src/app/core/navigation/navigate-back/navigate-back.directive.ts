@@ -1,4 +1,5 @@
 import { Directive, HostListener, Input } from '@angular/core';
+import { coerceArray } from '@angular/cdk/coercion';
 
 import { NavigationService } from '../navigation.service';
 
@@ -6,7 +7,8 @@ import { NavigationService } from '../navigation.service';
   selector: '[appNavigateBack]',
 })
 export class NavigateBackDirective {
-  @Input() appNavigateBack: string[];
+  @Input('appNavigateBack') fallbackUrl: string[];
+  @Input('appNavigateBackStartsWith') startsWith: string | string[];
 
   constructor(
     private navigationService: NavigationService,
@@ -15,6 +17,9 @@ export class NavigateBackDirective {
 
   @HostListener('click')
   public onClick(): void {
-    this.navigationService.back(this.appNavigateBack);
+    this.navigationService.back(
+      this.fallbackUrl,
+      this.startsWith && coerceArray(this.startsWith).join(''),
+    );
   }
 }

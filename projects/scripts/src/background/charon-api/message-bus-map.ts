@@ -1,4 +1,13 @@
-import { LikeWeight, PostCreate, PostIdentificationParameters, PublicProfile, TransferData, Wallet } from 'decentr-js';
+import {
+  LikeWeight,
+  PostCreate,
+  PostIdentificationParameters,
+  PublicProfile,
+  StdTxMessageType,
+  StdTxMessageValue,
+  TransferData,
+  Wallet,
+} from 'decentr-js';
 
 import { MessageMap } from '../../../../../shared/message-bus';
 import { UserPrivate } from '../../../../../shared/services/auth';
@@ -14,6 +23,7 @@ export interface CharonAPIMessageBusMap extends MessageMap {
     response: {
       success: boolean;
       error?: any;
+      messageValue?: StdTxMessageValue<StdTxMessageType.CommunityCreatePost>;
     };
   };
   [MessageCode.PostDelete]: {

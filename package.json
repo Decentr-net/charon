@@ -1,14 +1,17 @@
 {
   "name": "charon",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "scripts": {
     "ng": "ng",
+    "analyze:charon": "webpack-bundle-analyzer dist/charon/stats.json",
+    "analyze:toolbar": "webpack-bundle-analyzer dist/toolbar/stats.json",
     "build:chrome": "npm run clean && npm run build:charon && npm run build:scripts:chrome && cross-env BROWSER=chrome npm run build:toolbar",
     "build:chrome:prod": "npm run clean && npm run build:charon:prod && npm run build:scripts:chrome:prod && npm run build:toolbar:prod && cross-env BROWSER=chrome npm run pack",
     "build:firefox": "npm run clean && npm run build:charon && npm run build:scripts:firefox && cross-env BROWSER=firefox npm run build:toolbar",
     "build:firefox:prod": "npm run clean && npm run build:charon:prod && npm run build:scripts:firefox:prod && npm run build:toolbar:prod && cross-env BROWSER=firefox npm run pack",
     "build:charon": "ng build charon",
     "build:charon:prod": "ng build charon --prod",
+    "build:charon:stats": "ng build toolbar --stats-json",
     "build:scripts": "webpack --config projects/scripts/webpack.config.dev.js",
     "build:scripts:prod": "webpack --config projects/scripts/webpack.config.prod.js",
     "build:scripts:chrome": "cross-env BROWSER=chrome npm run build:scripts",
@@ -17,6 +20,7 @@
     "build:scripts:firefox:prod": "cross-env BROWSER=firefox npm run build:scripts:prod",
     "build:toolbar": "ng build toolbar",
     "build:toolbar:prod": "ng build toolbar --prod",
+    "build:toolbar:stats": "ng build toolbar --stats-json",
     "generate-icons": "svg-to-ts",
     "clean": "rimraf dist",
     "lint": "ng lint",
@@ -50,7 +54,7 @@
     "@rxweb/reactive-form-validators": "^2.1.2",
     "clamp-js": "^0.7.0",
     "d3": "~6.0.0",
-    "decentr-js": "^1.13.0",
+    "decentr-js": "^1.14.0",
     "highcharts": "^9.0.1",
     "highcharts-angular": "^2.10.0",
     "html2canvas": "*",
@@ -95,6 +99,7 @@
     "tslint": "~6.1.0",
     "typescript": "~4.0.2",
     "webextension-polyfill-ts": "^0.21.0",
+    "webpack-bundle-analyzer": "^3.6.0",
     "webpack-cli": "^3.3.12"
   }
 }

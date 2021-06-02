@@ -17,6 +17,7 @@ import { NetworkSelectorModule } from '@shared/components/network-selector';
 import { SlotModule } from '@shared/components/slot';
 import { BindQueryParamsModule } from '@shared/directives/bind-query-params';
 import { BrowserViewModule } from '@shared/directives/browser-view';
+import { NumericModule } from '@shared/directives/numeric';
 import { IntersectionModule } from '@shared/directives/intersection';
 import { TypefaceModule } from '@shared/directives/typeface';
 import { MarginLabelModule } from '@shared/components/margin-label';
@@ -24,6 +25,7 @@ import { MicroValueModule } from '@shared/pipes/micro-value';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { ToolbarStateService } from '@shared/services/toolbar-state';
 import { AuthorizedLayoutModule } from '@core/layout/authorized-layout';
+import { NavigationModule } from '@core/navigation';
 import { PORTAL_COMPONENTS } from './components';
 import { PORTAL_PAGES } from './pages';
 import { PortalRoutingModule } from './portal-routing.module';
@@ -47,8 +49,10 @@ import { PortalRoutingModule } from './portal-routing.module';
     MatSlideToggleModule,
     MatTooltipModule,
     MicroValueModule,
+    NavigationModule,
     NetworkSelectorModule,
     NgxTrimDirectiveModule,
+    NumericModule,
     ExpansionListModule,
     IntersectionModule,
     NgxSkeletonLoaderModule,
