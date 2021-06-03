@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, Observable } from 'rxjs';
-import { map, pluck, share, switchMap } from 'rxjs/operators';
+import { combineLatest, EMPTY, Observable } from 'rxjs';
+import { catchError, map, pluck, share, switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { NotificationService } from '@shared/services/notification';
@@ -27,6 +27,10 @@ export class PostPageService {
         params[HubPostOwnerRouteParam],
         params[HubPostIdRouteParam],
       )),
+      catchError(() => {
+        this.navigateBack();
+        return EMPTY;
+      }),
     );
 
     this.post$ = combineLatest([
@@ -46,10 +50,14 @@ export class PostPageService {
   public deletePost(post: PostsListItem): void {
     this.hubPostsService.deletePost(post).pipe(
       untilDestroyed(this),
-    ).subscribe(() => this.router.navigate(['../../../']));
+    ).subscribe(() => this.navigateBack());
   }
 
   private getPostLive(owner: PostsListItem['owner'], postId: PostsListItem['uuid']): Observable<PostsListItem> {
     return this.postsService.getPost({ owner, uuid: postId });
+  }
+
+  private navigateBack(): void {
+    this.router.navigate(['../../../']);
   }
 }
