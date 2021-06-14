@@ -5,7 +5,6 @@ export interface AuthUser extends User {
   isModerator: boolean;
   passwordHash: string;
   primaryEmail: string;
-  // usernames: string[];
 }
 
 export type AuthUserCreate = Partial<AuthUser> & { password: string };

@@ -53,10 +53,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
     this.form = this.createForm();
 
     const user = this.authService.getActiveUserInstant() as AuthUser;
-    this.form.patchValue({ profile: {
-      ...user,
-      // usernames: [''],
-    }});
+    this.form.patchValue({ profile: user });
   }
 
   public onSubmit(): void {

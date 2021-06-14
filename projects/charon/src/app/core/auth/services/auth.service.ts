@@ -80,7 +80,6 @@ export class AuthService {
       passwordHash,
       primaryEmail: user.primaryEmail,
       registrationCompleted: user.registrationCompleted,
-      // usernames: user.usernames,
       wallet: user.wallet,
     });
 
@@ -128,7 +127,6 @@ export class AuthService {
         gender: update.gender,
         lastName: update.lastName,
         emails: update.emails,
-        // usernames: update.usernames,
         ...passwordHash ? { passwordHash} : {},
       });
   }
