@@ -1,6 +1,6 @@
 # Charon
 ## Browser extension for Decentr
-* Supports by Chrome browser v58 and above, Firefox browser v56 and above;
+* Supports by Chrome browser v58 and above, Firefox browser v57 and above;
 * Browser extension interacts with Blockchain by [Decentr.js](https://www.npmjs.com/package/decentr-js) library;
 * Password of the local user is encrypted by SHA-256;
 
