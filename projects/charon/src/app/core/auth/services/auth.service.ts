@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first, skip, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { sha256 } from 'js-sha256';
 
 import { AuthBrowserStorageService } from '@shared/services/auth';
+import { sha256 } from '@shared/utils/crypto';
 import { uuid } from '@shared/utils/uuid';
 import { AuthUser, AuthUserCreate, AuthUserUpdate } from '../models';
 import { PermissionsService } from '@shared/permissions';
@@ -26,7 +26,7 @@ export class AuthService {
     return !!this.getActiveUserInstant();
   }
 
-  private static encryptPassword(password: string): string {
+  private static encryptPassword(password: string): Promise<string> {
     return sha256(password);
   }
 
@@ -66,6 +66,8 @@ export class AuthService {
   public async createUser(user: AuthUserCreate): Promise<AuthUser['id']> {
     const id = uuid();
 
+    const passwordHash = await AuthService.encryptPassword(user.password);
+
     // TODO: temporary solution to disable birthday
     await this.authStorage.createUser({
       id,
@@ -75,7 +77,7 @@ export class AuthService {
       emails: user.emails,
       gender: user.gender,
       isModerator: user.isModerator,
-      passwordHash: AuthService.encryptPassword(user.password),
+      passwordHash,
       primaryEmail: user.primaryEmail,
       primaryUsername: user.usernames?.[0],
       registrationCompleted: user.registrationCompleted,
@@ -105,12 +107,18 @@ export class AuthService {
     return this.authStorage.removeActiveUserId();
   }
 
-  public validateCurrentUserPassword(password: string): boolean {
-    return AuthService.encryptPassword(password) === this.getActiveUserInstant().passwordHash;
+  public async validateCurrentUserPassword(password: string): Promise<boolean> {
+    const passwordHash = await AuthService.encryptPassword(password);
+
+    return passwordHash === this.getActiveUserInstant().passwordHash;
   }
 
-  public updateUser(userId: AuthUser['id'], update: AuthUserUpdate): Promise<void> {
+  public async updateUser(userId: AuthUser['id'], update: AuthUserUpdate): Promise<void> {
     // TODO: temporary solution to disable birthday
+    const passwordHash = update.password
+      ? await AuthService.encryptPassword(update.password)
+      : undefined;
+
     return this.authStorage.updateUser(
       userId,
       {
@@ -123,12 +131,7 @@ export class AuthService {
         emails: update.emails,
         usernames: update.usernames,
         primaryUsername: update.usernames?.[0],
-        ...update.password
-          ? {
-            passwordHash: AuthService.encryptPassword(update.password),
-          }
-          : {},
-      }
-    );
+        ...passwordHash ? { passwordHash} : {},
+      });
   }
 }

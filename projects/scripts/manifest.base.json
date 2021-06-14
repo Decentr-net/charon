@@ -3,7 +3,7 @@
   "name": "Charon",
   "description": "Charon Browser Extension",
   "author": "Decentr",
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "content_security_policy": "script-src 'self'; object-src 'self'",
   "browser_action": {
     "default_icon": {
       "16": "assets/icons/16.png",
