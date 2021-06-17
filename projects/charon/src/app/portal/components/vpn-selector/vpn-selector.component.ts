@@ -14,6 +14,7 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { svgCheck } from '@shared/svg-icons/check';
 import { svgDropdownExpand } from '@shared/svg-icons/dropdown-expand';
 import { VPNServer } from '@shared/services/configuration';
+import { flagsIcons } from '@shared/svg-icons/flags';
 
 @Component({
   selector: 'app-vpn-selector',
@@ -35,13 +36,14 @@ export class VpnSelectorComponent extends ControlValueAccessor<VPNServer> implem
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    private svgIconRegistry: SvgIconRegistry,
+    svgIconRegistry: SvgIconRegistry,
   ) {
     super();
 
     svgIconRegistry.register([
       svgCheck,
       svgDropdownExpand,
+      ...flagsIcons,
     ]);
   }
 
