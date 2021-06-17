@@ -10,7 +10,23 @@ function extendManifest(buffer, specificRules = {}) {
   return JSON.stringify(extendedManifest, null, 2);
 }
 
-module.exports = {
+function getCopyManifestPlugin(specificRules = {}) {
+  return new CopyPlugin({
+    patterns: [
+      {
+        from: join(__dirname, 'manifest.base.json'),
+        to: join(__dirname, '../../dist/manifest.json'),
+        transform(content) {
+          const browserSpecificRules = require(`./${process.env.BROWSER}/manifest.json`);
+          const version = require(`../../package.json`).version;
+          return extendManifest(content, { ...browserSpecificRules, ...specificRules, version });
+        },
+      },
+    ]
+  });
+}
+
+const config = {
   entry: {
     'content-script': join(__dirname, 'src/content-script.ts'),
     'background-script': join(__dirname, 'src/background-script.ts')
@@ -32,15 +48,6 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: join(__dirname, 'manifest.base.json'),
-          to: join(__dirname, '../../dist/manifest.json'),
-          transform(content) {
-            const specificRules = require(`./${process.env.BROWSER}/manifest.json`);
-            const version = require(`../../package.json`).version;
-            return extendManifest(content, { ...specificRules, version });
-          },
-        },
-        {
           from: join(__dirname, 'assets'),
           to: join(__dirname, '../../dist/assets'),
         }
@@ -50,4 +57,9 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js']
   }
+};
+
+module.exports = {
+  config,
+  manifestPluginFn: getCopyManifestPlugin,
 };
