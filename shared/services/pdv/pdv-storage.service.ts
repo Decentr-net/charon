@@ -1,19 +1,22 @@
+import { Injectable } from '@angular/core';
 import { defer, Observable } from 'rxjs';
-import { mergeMap, startWith } from 'rxjs/operators';
-import { PDV, Wallet } from 'decentr-js';
+import { map, mergeMap, startWith } from 'rxjs/operators';
+import { PDV, PDVType, Wallet } from 'decentr-js';
 
 import { uuid } from '../../utils/uuid';
 import { BrowserLocalStorage, BrowserStorage } from '../browser-storage';
-import { Injectable } from '@angular/core';
 
 export interface PDVBlock {
   id: string;
   pDVs: PDV[];
 }
 
+export type PDVSettings = Record<PDVType, boolean>;
+
 interface PDVStorageUserValue {
   accumulated: PDV[];
   readyBlocks: PDVBlock[];
+  settings: PDVSettings;
 }
 
 type PDVStorageValue = Record<Wallet['address'], PDVStorageUserValue>;
@@ -75,6 +78,21 @@ export class PDVStorageService {
 
   public setUserReadyBlocks(walletAddress: Wallet['address'], blocks: PDVBlock[]): Promise<void> {
     return this.getUserPDVStorage(walletAddress).set('readyBlocks', blocks);
+  }
+
+  public getUserSettingsChanges(walletAddress: Wallet['address']): Observable<PDVSettings> {
+    const userPDVStorage = this.getUserPDVStorage(walletAddress);
+
+    return defer(() => userPDVStorage.get('settings')).pipe(
+      mergeMap((settings) => userPDVStorage.onChange('settings').pipe(
+        startWith(settings),
+      )),
+      map((settings) => settings || {} as PDVSettings),
+    );
+  }
+
+  public setUserSettings(walletAddress: Wallet['address'], settings: PDVSettings): Promise<void> {
+    return this.getUserPDVStorage(walletAddress).set('settings', settings);
   }
 
   private getUserPDVStorage(walletAddress: Wallet['address']): BrowserStorage<PDVStorageUserValue> {
