@@ -7,10 +7,9 @@ import { initCookiesCollection } from './background/cookies/collection';
 import { initProxyHandlers } from './background/proxy';
 
 (async () => {
-  initProxyHandlers();
   initMigration();
 
-  handleProxyErrors();
+  initProxyHandlers();
 
   await setRandomNetwork();
 
