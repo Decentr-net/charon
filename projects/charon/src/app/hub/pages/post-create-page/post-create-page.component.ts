@@ -8,7 +8,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PostCreate } from 'decentr-js';
 
 import { ONE_SECOND } from '@shared/utils/date';
-import { svgPublish } from '@shared/svg-icons';
+import { svgPublish } from '@shared/svg-icons/publish';
 import { AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT } from '@core/layout/authorized-layout';
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../hub-route';
@@ -38,7 +38,9 @@ export class PostCreatePageComponent implements OnInit {
     private router: Router,
     svgIconRegistry: SvgIconRegistry,
   ) {
-    svgIconRegistry.register(svgPublish);
+    svgIconRegistry.register([
+      svgPublish,
+    ]);
   }
 
   public ngOnInit() {

@@ -5,7 +5,7 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { MenuService } from '../menu.service';
 import { MenuItem, MenuTranslations, MenuUserItem, MenuUserProfile } from '../menu.definitions';
-import { svgDropdownExpand } from '../../../svg-icons';
+import { svgDropdownExpand } from '../../../svg-icons/dropdown-expand';
 
 @Component({
   selector: 'app-menu',

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { version } from '../../../../package.json';
 
-import { svgLogoIcon } from '@shared/svg-icons';
+import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
 
 @Component({
   selector: 'app-root',

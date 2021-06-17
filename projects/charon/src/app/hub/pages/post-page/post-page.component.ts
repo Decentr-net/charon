@@ -13,7 +13,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Wallet } from 'decentr-js';
 
-import { svgArrowLeft } from '@shared/svg-icons';
+import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
 import { AuthService } from '@core/auth';
 import { FollowingService, PostsListItem } from '@core/services';
 import { AppRoute } from '../../../app-route';
@@ -63,7 +63,9 @@ export class PostPageComponent implements OnInit {
     private translocoService: TranslocoService,
     svgIconRegistry: SvgIconRegistry,
   ) {
-    svgIconRegistry.register(svgArrowLeft);
+    svgIconRegistry.register([
+      svgArrowLeft,
+    ]);
   }
 
   public ngOnInit(): void {

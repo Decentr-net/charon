@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgWidescreen } from '@shared/svg-icons';
+import { svgWidescreen } from '@shared/svg-icons/widescreen';
 import { NavigationService } from '@core/navigation';
 import { AppRoute } from '../../../app-route';
 import { PortalRoute } from '../../portal-route';

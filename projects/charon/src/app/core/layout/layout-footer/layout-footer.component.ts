@@ -1,7 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgGithub, svgLogoIcon, svgMedium, svgTelegram, svgTwitter } from '@shared/svg-icons';
+import { svgGithub } from '@shared/svg-icons/github';
+import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
+import { svgMedium } from '@shared/svg-icons/medium';
+import { svgTelegram } from '@shared/svg-icons/telegram';
+import { svgTwitter } from '@shared/svg-icons/twitter';
 
 interface SocialLink {
   iconKey: string;
