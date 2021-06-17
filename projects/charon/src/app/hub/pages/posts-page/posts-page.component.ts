@@ -12,7 +12,7 @@ import { filter, pluck, share } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { svgEdit } from '@shared/svg-icons';
+import { svgEdit } from '@shared/svg-icons/edit';
 import { AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT } from '@core/layout/authorized-layout';
 import { PostsListItem } from '@core/services';
 import { AppRoute } from '../../../app-route';
@@ -59,7 +59,9 @@ export class PostsPageComponent {
     private postsPageService: HubPostsService,
     svgIconRegistry: SvgIconRegistry,
   ) {
-    svgIconRegistry.register(svgEdit);
+    svgIconRegistry.register([
+      svgEdit,
+    ]);
   }
 
   public ngOnInit() {

@@ -13,7 +13,8 @@ import { LockBrowserStorageService } from '@shared/services/lock';
 import { MarginLabelModule } from '@shared/components/margin-label';
 import { PDVModule } from '@shared/services/pdv';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
-import { svgClose, svgLogo } from '@shared/svg-icons';
+import { svgClose } from '@shared/svg-icons/close';
+import { svgLogo } from '@shared/svg-icons/logo';
 import { TranslocoRootModule } from './transloco';
 import { TOOLBAR_SERVICES } from './services';
 
@@ -32,6 +33,15 @@ import { TOOLBAR_SERVICES } from './services';
     PDVModule,
     PdvValueModule,
     SvgIconsModule.forRoot({
+      sizes: {
+        xs: '16px',
+        sm: '20px',
+        md: '24px',
+        lg: '32px',
+        xl: '48px',
+        xxl: '64px',
+      },
+      defaultSize: 'md',
       icons: [
         svgClose,
         svgLogo,

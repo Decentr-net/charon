@@ -55,8 +55,9 @@
   <ng-container *ngIf="coinRate$ | async as coinRate; else loadingCoinRate">
     <svg-icon
       class="pdv-rate__currency-icon"
-      key="logo-icon">
-    </svg-icon>
+      key="logo-icon"
+      [size]="isOpenedInPopup ? 'md' : 'xxl'"
+    ></svg-icon>
 
     <div [appTypeface]="isOpenedInPopup ? 'subheader' : 'header-3'">
       1 DEC = {{ coinRate.value | currency : 'USD' : 'symbol' : '1.4' }}

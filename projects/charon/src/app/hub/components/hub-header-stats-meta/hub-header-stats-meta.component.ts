@@ -22,7 +22,7 @@ import { HubCurrencyStatistics } from '../hub-currency-statistics';
 import { HubHeaderStatsMetaService } from './hub-header-stats-meta.service';
 import { HubPDVStatistics } from '../hub-pdv-statistics';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { svgExpandMore } from '../../../../../../../shared/svg-icons';
+import { svgExpandMore } from '@shared/svg-icons/expand-more';
 
 @UntilDestroy()
 @Component({

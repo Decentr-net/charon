@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgReceive, svgSend } from '@shared/svg-icons';
+import { svgReceive } from '@shared/svg-icons/receive';
+import { svgSend } from '@shared/svg-icons/send';
 import { groupByDate, GroupedByDate } from '@shared/utils/group-by';
 import { TokenTransaction } from './token-transactions-table.definitions';
 

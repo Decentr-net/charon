@@ -12,15 +12,7 @@ import {
   MenuUserItem,
   MenuUserProfile
 } from '@shared/components/menu';
-import {
-  svgDecentrHub,
-  svgImportAccount,
-  svgInformation,
-  svgLockAccount,
-  svgLogoIconGreen,
-  svgLogoIconOrange,
-  svgLogoIconPink
-} from '@shared/svg-icons';
+
 import { PDVService } from '@shared/services/pdv';
 import { isOpenedInTab } from '@shared/utils/browser';
 import { AppRoute } from '../../../app-route';
@@ -28,6 +20,13 @@ import { HubRoute } from '../../../hub';
 import { LockService } from '../../lock';
 import { NavigationService } from '../../navigation';
 import { AuthService } from '../../auth';
+import { svgDecentrHub } from '@shared/svg-icons/decentr-hub';
+import { svgImportAccount } from '@shared/svg-icons/import-account';
+import { svgInformation } from '@shared/svg-icons/information';
+import { svgLockAccount } from '@shared/svg-icons/lock-account';
+import { svgLogoIconOrange } from '@shared/svg-icons/logo-icon-orange';
+import { svgLogoIconPink } from '@shared/svg-icons/logo-icon-pink';
+import { svgLogoIconGreen } from '@shared/svg-icons/logo-icon-green';
 
 const DECENTR_SITE_URL = 'https://decentr.net/';
 const DECENTR_EXPLORER_SITE_URL = 'https://explorer.decentr.net';

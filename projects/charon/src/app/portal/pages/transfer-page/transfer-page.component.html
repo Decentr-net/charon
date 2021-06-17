@@ -4,7 +4,7 @@
       class="transfer-page__back-button"
       [appNavigateBack]="['../']"
     >
-      <svg-icon key="arrow-left" size="lg"></svg-icon>
+      <svg-icon key="arrow-left"></svg-icon>
     </a>
 
     <span appTypeface="subheader">
@@ -19,7 +19,6 @@
       <svg-icon
         class="transfer-page__balance-icon"
         key="decentr-hub"
-        size="lg"
       ></svg-icon>
       {{ balance | microValue }} tDEC
     </div>
@@ -50,6 +49,7 @@
         *appBrowserTabView
         class="transfer-page__form__icon"
         key="arrow-left"
+        size="xl"
       ></svg-icon>
 
       <app-transfer-input

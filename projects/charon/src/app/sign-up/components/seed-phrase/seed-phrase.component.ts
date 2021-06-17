@@ -3,7 +3,7 @@ import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgLogo } from '@shared/svg-icons';
+import { svgLogo } from '@shared/svg-icons/logo';
 
 @Component({
   selector: 'app-seed-phrase',

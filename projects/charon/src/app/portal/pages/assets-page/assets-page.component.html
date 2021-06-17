@@ -18,7 +18,7 @@
 
       <div class="assets-page__tokens-header-cell__actions">
         <button class="assets-page__add-token-button" appTypeface="caption">
-          <svg-icon key="add" size="md"></svg-icon>
+          <svg-icon key="add" size="xs"></svg-icon>
           {{ translate('add_token') }}
         </button>
 
@@ -32,7 +32,7 @@
       class="assets-page__token-cell"
       *appExpansionListCellDef="let asset;"
     >
-      <svg-icon key="decentr-hub" size="lg"></svg-icon>
+      <svg-icon key="decentr-hub"></svg-icon>
       {{ asset.balance | microValue }}
       {{ asset.token }}
     </div>
@@ -108,7 +108,7 @@
       [routerLink]="['./', portalRoute.Transfer]"
       appTypeface="caption"
     >
-      <svg-icon key="send" size="md"></svg-icon>
+      <svg-icon key="send" size="xs"></svg-icon>
       {{ translate('send') }}
     </button>
   </ng-template>

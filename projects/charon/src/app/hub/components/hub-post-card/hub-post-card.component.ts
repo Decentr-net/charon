@@ -9,8 +9,8 @@ import {
 } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgTrash } from '@shared/svg-icons';
 import { PostsListItem } from '@core/services';
+import { svgTrash } from '@shared/svg-icons/trash';
 
 const DEFAULT_ORIENTATION = 'vertical';
 
@@ -36,7 +36,9 @@ export class HubPostCardComponent implements OnChanges {
   ) {
     this.renderer.addClass(this.elementRef.nativeElement, `mod-${DEFAULT_ORIENTATION}`);
 
-    svgIconRegistry.register(svgTrash);
+    svgIconRegistry.register([
+      svgTrash,
+    ]);
   }
 
   public ngOnChanges({ orientation }: SimpleChanges): void {

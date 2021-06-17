@@ -3,7 +3,9 @@ import { Observable } from 'rxjs';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { ToolbarStateService } from '@shared/services/toolbar-state';
-import { svgLogoIconOrange, svgLogoPortal, svgWallet } from '@shared/svg-icons';
+import { svgLogoIconOrange } from '@shared/svg-icons/logo-icon-orange';
+import { svgLogoPortal } from '@shared/svg-icons/logo-portal';
+import { svgWallet } from '@shared/svg-icons/wallet';
 import { isOpenedInTab } from '@shared/utils/browser';
 import {
   AUTHORIZED_LAYOUT_FOOTER_SLOT,

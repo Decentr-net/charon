@@ -3,7 +3,8 @@ import { Navigation, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgAdd, svgSend } from '@shared/svg-icons';
+import { svgAdd } from '@shared/svg-icons/add';
+import { svgSend } from '@shared/svg-icons/send';
 import { isOpenedInTab } from '@shared/utils/browser';
 import { InfiniteLoadingPresenter } from '@shared/utils/infinite-loading';
 import { TokenTransaction } from '../../components/token-transactions-table';
