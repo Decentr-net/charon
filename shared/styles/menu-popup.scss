@@ -56,6 +56,7 @@ body .menu-popup {
 }
 
 .menu-popup-item-title {
+  align-items: center;
   display: flex;
   font-weight: 500;
   grid-area: title;

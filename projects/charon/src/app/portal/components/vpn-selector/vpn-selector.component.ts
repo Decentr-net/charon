@@ -11,7 +11,8 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ControlValueAccessor } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgCheck, svgDropdownExpand } from '@shared/svg-icons';
+import { svgCheck } from '@shared/svg-icons/check';
+import { svgDropdownExpand } from '@shared/svg-icons/dropdown-expand';
 import { VPNServer } from '@shared/services/configuration';
 
 @Component({
