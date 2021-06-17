@@ -7,6 +7,7 @@
       class="hub-post-rating__icon"
       [class.mod-liked]="post.likeWeight === likeWeight.Up"
       key="like"
+      size="xs"
     ></svg-icon>
 
     <span>{{ post.likesCount }}</span>
@@ -20,6 +21,7 @@
       class="hub-post-rating__icon mod-dislike"
       [class.mod-disliked]="post.likeWeight === likeWeight.Down"
       key="like"
+      size="xs"
     ></svg-icon>
 
     <span>{{ post.dislikesCount }}</span>
