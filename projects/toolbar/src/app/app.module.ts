@@ -13,7 +13,8 @@ import { LockBrowserStorageService } from '@shared/services/lock';
 import { MarginLabelModule } from '@shared/components/margin-label';
 import { PDVModule } from '@shared/services/pdv';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
-import { svgClose, svgLogo } from '@shared/svg-icons';
+import { svgClose } from '@shared/svg-icons/close';
+import { svgLogo } from '@shared/svg-icons/logo';
 import { TranslocoRootModule } from './transloco';
 import { TOOLBAR_SERVICES } from './services';
 
