@@ -35,10 +35,10 @@
     </span>
 
     <div class="vpn-page__active-vpn-region">
-      <div
+      <svg-icon
         class="vpn-page__active-vpn-region-icon"
-        [ngClass]="'flag-icon flag-icon-' + activeServer?.country"
-      ></div>
+        [key]="activeServer?.country"
+      ></svg-icon>
 
       <span>
         {{ activeServer.title }}

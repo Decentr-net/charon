@@ -2,11 +2,13 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnI
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { FormControl } from '@ngneat/reactive-forms';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { VPNServer } from '@shared/services/configuration';
 import { isOpenedInTab } from '@shared/utils/browser';
 import { ProxyService } from '@core/services';
+import { flagsIcons } from '@shared/svg-icons/flags';
 
 @UntilDestroy()
 @Component({
@@ -35,7 +37,11 @@ export class VpnPageComponent implements OnInit {
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private proxyService: ProxyService,
+    svgIconRegistry: SvgIconRegistry,
   ) {
+    svgIconRegistry.register([
+      ...flagsIcons,
+    ]);
   }
 
   public ngOnInit(): void {
