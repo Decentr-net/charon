@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { catchError, map, take } from 'rxjs/operators';
 import { FormControl } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -21,14 +21,18 @@ export class VpnPageComponent implements OnInit {
   @HostBinding('class.mod-popup-view')
   public isOpenedInPopup: boolean = !isOpenedInTab();
 
-  @HostBinding('class.is-vpn-active')
-  public isActive: boolean;
+  @HostBinding('class.is-vpn-active') get isActive():boolean {
+    return !this.isLoading && this.isActiveServer;
+  }
+
+  public isActiveServer: boolean;
 
   public isLoading: boolean;
 
   public activeServer$: Observable<VPNServer>;
 
   public isFirefoxHintVisible: boolean;
+  public isUnknownBrowser: boolean;
 
   public servers$: Observable<VPNServer[]>;
 
@@ -58,6 +62,12 @@ export class VpnPageComponent implements OnInit {
       this.proxyService.getActiveProxySettings(),
       this.servers$,
     ]).pipe(
+      catchError((error) => {
+        if (error.message === 'Unknown browser') {
+          this.isUnknownBrowser = true;
+        }
+        return void 0;
+      }),
       map(([settings, servers]) => {
         return servers.find((server) => server.address === settings.host);
       }),
@@ -66,7 +76,7 @@ export class VpnPageComponent implements OnInit {
     this.activeServer$.pipe(
       untilDestroyed(this),
     ).subscribe((server) => {
-      this.isActive = !!server;
+      this.isActiveServer = !!server;
 
       if (server) {
         this.serverFormControl.setValue(server);
@@ -90,7 +100,7 @@ export class VpnPageComponent implements OnInit {
         this.isFirefoxHintVisible = false;
       }
     }, (reject) => {
-      if (reject.message === "proxy.settings requires private browsing permission.") {
+      if (reject.message === 'proxy.settings requires private browsing permission.') {
         this.isFirefoxHintVisible = true;
       }
     }).finally(() => {

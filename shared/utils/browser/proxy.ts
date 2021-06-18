@@ -30,7 +30,11 @@ const getProxySettings = (details: Types.SettingGetDetailsType): Promise<Types.S
     });
   }
 
-  return browser.proxy.settings.get({});
+  if (detectBrowser() === browserType.Firefox) {
+    return browser.proxy.settings.get({});
+  }
+
+  throw new Error('Unknown browser');
 };
 
 const setProxySettings = (details: Types.SettingSetDetailsType): Promise<void> => {
@@ -40,7 +44,11 @@ const setProxySettings = (details: Types.SettingSetDetailsType): Promise<void> =
     });
   }
 
-  return browser.proxy.settings.set(details);
+  if (detectBrowser() === browserType.Firefox) {
+    return browser.proxy.settings.set(details);
+  }
+
+  throw new Error('Unknown browser');
 };
 
 const onProxySettingsChange = (): Observable<Types.SettingOnChangeDetailsType> => {
@@ -61,10 +69,9 @@ export const getActiveProxySettings = (): Observable<ExtensionProxySettings> => 
     map((settings) => ({
       levelOfControl: settings.levelOfControl,
       ...detectBrowser() === browserType.Chrome && settings.value?.rules?.singleProxy,
-      // TODO: adjust for Firefox
       ...detectBrowser() === browserType.Firefox && settings.levelOfControl === 'controlled_by_this_extension' && {
-        host: settings.value?.http.split(':')[0],
-        port: settings.value?.http.split(':')[1],
+        host: settings.value?.http?.split(':')[0],
+        port: settings.value?.http?.split(':')[1],
       },
     })),
   );

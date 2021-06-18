@@ -70,6 +70,7 @@
       "insecure": "Now you browsing insecurely"
     },
     "firefox_hint": "To be able to enable proxy: open Firefox's extension settings and allow \"Run in Private Windows\".",
+    "unknown_browser": "We can't recognize your browser. Be sure you use Chrome or Firefox.",
     "status": {
       "off": "Off",
       "on": "On"

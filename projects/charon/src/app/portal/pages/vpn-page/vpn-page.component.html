@@ -1,9 +1,10 @@
 <ng-container *transloco="let translate; read: 'portal.vpn_page'">
   <div
-    *ngIf="isFirefoxHintVisible"
-    class="vpn-page__firefox-hint"
+    *ngIf="isFirefoxHintVisible || isUnknownBrowser"
+    class="vpn-page__error-hint"
   >
-    {{ translate('firefox_hint') }}
+    {{ isFirefoxHintVisible ? translate('firefox_hint') : '' }}
+    {{ isUnknownBrowser ? translate('unknown_browser') : '' }}
   </div>
 
   <div class="vpn-page__button-container">
