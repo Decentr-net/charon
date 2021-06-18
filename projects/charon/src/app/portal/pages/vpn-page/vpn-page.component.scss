@@ -48,13 +48,13 @@
     border: 2px solid $color-outlines;
     border-radius: $border-radius;
     height: auto;
-    min-height: 450px;
+    min-height: 460px;
     padding-bottom: $grid-step * 4;
     width: 375px;
   }
 }
 
-.vpn-page__firefox-hint {
+.vpn-page__error-hint {
   background: $color-red;
   border-radius: $border-radius;
   color: $color-white;

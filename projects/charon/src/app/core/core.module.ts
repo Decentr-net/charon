@@ -113,6 +113,12 @@ export function initProxyFactory(configService: ConfigService): () => void {
     },
     {
       provide: APP_INITIALIZER,
+      useFactory: initProxyFactory,
+      deps: [ConfigService],
+      multi: true,
+    },
+    {
+      provide: APP_INITIALIZER,
       useFactory: isMaintenanceFactory,
       deps: [ConfigService, NavigationService],
       multi: true,
@@ -127,12 +133,6 @@ export function initProxyFactory(configService: ConfigService): () => void {
       provide: APP_INITIALIZER,
       useFactory: initNetworkFactory,
       deps: [NetworkService],
-      multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initProxyFactory,
-      deps: [ConfigService],
       multi: true,
     },
   ],
