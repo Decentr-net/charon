@@ -12,15 +12,15 @@
     background: linear-gradient(180deg, rgba($color-blue, 0) 0%, $color-blue 100%);
 
     .vpn-page__button-container {
-      background-image: url('../../../../assets/images/vpn-ellipses/ellipse-1.svg');
+      background-image: url('/charon/assets/images/vpn-ellipses/ellipse-1.svg');
 
       &:before {
-        background-image: url('../../../../assets/images/vpn-ellipses/ellipse-2.svg');
+        background-image: url('/charon/assets/images/vpn-ellipses/ellipse-2.svg');
         padding: $grid-step * 2.5;
       }
 
       &:after {
-        background-image: url('../../../../assets/images/vpn-ellipses/ellipse-3.svg');
+        background-image: url('/charon/assets/images/vpn-ellipses/ellipse-3.svg');
         padding: $grid-step * 5.5;
       }
     }
@@ -33,7 +33,7 @@
 
   &:not(.is-vpn-active) {
     &:before {
-      background-image: url('../../../../assets/images/vpn-ellipses/dots.svg');
+      background-image: url('/charon/assets/images/vpn-ellipses/dots.svg');
       box-sizing: content-box;
       content: '';
       height: 100%;
