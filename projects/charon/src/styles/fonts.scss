@@ -1,9 +1,11 @@
 @import 'mixins';
 
-@include font-face("Inter", "../assets/fonts/Inter-Regular", 400, 'normal');
-@include font-face("Inter", "../assets/fonts/Inter-Medium", 500, 'normal');
-@include font-face("Inter", "../assets/fonts/Inter-Bold", 700, 'bold');
-@include font-face("Material Icons", "../assets/fonts/MaterialIcons-Regular", 400, 'normal');
+$font-path: '/charon/assets/fonts';
+
+@include font-face('Inter', '#{$font-path}/Inter-Regular', 400, 'normal');
+@include font-face('Inter', '#{$font-path}/Inter-Medium', 500, 'normal');
+@include font-face('Inter', '#{$font-path}/Inter-Bold', 700, 'bold');
+@include font-face('Material Icons', '#{$font-path}/MaterialIcons-Regular', 400, 'normal');
 
 .material-icons {
   font-family: 'Material Icons';
