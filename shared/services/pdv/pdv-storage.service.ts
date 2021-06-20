@@ -11,7 +11,7 @@ export interface PDVBlock {
   pDVs: PDV[];
 }
 
-export type PDVSettings = Record<PDVType, boolean>;
+export type PDVSettings = Record<Exclude<PDVType, PDVType.Profile>, boolean>;
 
 interface PDVStorageUserValue {
   accumulated: PDV[];
@@ -20,6 +20,13 @@ interface PDVStorageUserValue {
 }
 
 type PDVStorageValue = Record<Wallet['address'], PDVStorageUserValue>;
+
+const DEFAULT_PDV_SETTINGS: PDVSettings = {
+  [PDVType.AdvertiserId]: true,
+  [PDVType.Cookie]: true,
+  [PDVType.Location]: true,
+  [PDVType.SearchHistory]: true,
+};
 
 @Injectable()
 export class PDVStorageService {
@@ -87,7 +94,7 @@ export class PDVStorageService {
       mergeMap((settings) => userPDVStorage.onChange('settings').pipe(
         startWith(settings),
       )),
-      map((settings) => settings || {} as PDVSettings),
+      map((settings) => settings || DEFAULT_PDV_SETTINGS),
     );
   }
 
