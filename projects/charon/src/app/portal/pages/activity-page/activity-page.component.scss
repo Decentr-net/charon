@@ -42,7 +42,7 @@
   }
 }
 
-.activity-page--cookie-description {
+.activity-page--pdv-description {
   column-gap: $grid-step;
   display: grid;
   grid-template-columns: max-content 1fr;
@@ -50,7 +50,7 @@
   row-gap: $grid-step / 2;
 }
 
-.activity-page--cookie-description__key {
+.activity-page--pdv-description__key {
   color: $color-grey;
 }
 

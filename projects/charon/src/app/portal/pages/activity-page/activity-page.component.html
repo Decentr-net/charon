@@ -111,10 +111,10 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
 
-            <div class="activity-page--cookie-description">
+            <div class="activity-page--pdv-description">
               <ng-container *ngFor="let keyValue of pdv.details | keyvalue">
                 <ng-container *ngIf="keyValue.key !== 'source' && keyValue.key !== 'type'">
-                  <span class="activity-page--cookie-description__key">{{ keyValue.key }}:</span>
+                  <span class="activity-page--pdv-description__key">{{ keyValue.key }}:</span>
                   <span>{{ keyValue.value | json }}</span>
                 </ng-container>
               </ng-container>
