@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 
 import { isOpenedInTab } from '@shared/utils/browser';
 import { InfiniteLoadingPresenter } from '@shared/utils/infinite-loading';
-import { ActivityListItem } from './activity-page.definitions';
+import { ACTIVITY_DATE_FORMAT, ActivityListItem } from './activity-page.definitions';
 import { ActivityPageService } from './activity-page.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class ActivityPageComponent extends InfiniteLoadingPresenter<ActivityList
     width: '100%',
   };
 
-  public readonly dateFormat: string = 'dd/MM/yyyy HH:mm';
+  public readonly dateFormat: string = ACTIVITY_DATE_FORMAT;
 
   constructor(
     activityPageService: ActivityPageService,

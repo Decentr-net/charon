@@ -19,6 +19,15 @@
   text-align: center;
 }
 
+.activity-page--pdv-block-cell {
+  column-gap: $grid-step;
+  display: flex;
+
+  .is-active {
+    color: currentColor;
+  }
+}
+
 .activity-page__expansion-list__mat-panel {
   border-bottom: 1px solid $color-outlines;
   border-radius: 0;
