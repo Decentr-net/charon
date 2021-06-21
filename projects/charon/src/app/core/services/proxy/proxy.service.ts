@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Config, ConfigService } from '@shared/services/configuration';
-import { ExtensionProxySettings, getActiveProxySettings, setProxy } from '@shared/utils/browser';
+import { clearProxy, ExtensionProxySettings, getActiveProxySettings, setProxy } from '@shared/utils/browser';
 import { BlockchainNodeService } from '@shared/services/blockchain-node';
 import { NetworkService } from '../network';
 
@@ -17,11 +17,12 @@ export class ProxyService {
   }
 
   public clearProxy(): Promise<void> {
-    return setProxy(undefined);
+    return clearProxy();
   }
 
   public getProxies(): Observable<Config['vpn']['servers']> {
     this.configService.forceUpdate();
+
     return this.configService.getVPNSettings().pipe(
       map(({ enabled, servers }) => enabled ? servers : []),
     );
@@ -31,8 +32,8 @@ export class ProxyService {
     return getActiveProxySettings();
   }
 
-  public setProxy(host: string, port?: number): Promise<void> {
-    return setProxy({ host, port }).then(() => this.ping());
+  public setProxy(host: string, port: number): Promise<void> {
+    return setProxy(host, port).then(() => this.ping());
   }
 
   private ping(): Promise<void> {

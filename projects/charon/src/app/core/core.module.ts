@@ -25,8 +25,6 @@ import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES, MenuService, NetworkSelectorService, NetworkService } from './services';
 import { QuillRootModule } from './quill';
-import { filter } from 'rxjs/operators';
-import { setProxy } from '@shared/utils/browser';
 
 export function initAuthFactory(authService: AuthService): () => void {
   return () => authService.init();
@@ -46,14 +44,6 @@ export function isMaintenanceFactory(configService: ConfigService, navigationSer
 
 export function initNetworkFactory(networkService: NetworkService): () => void {
   return () => networkService.init();
-}
-
-export function initProxyFactory(configService: ConfigService): () => void {
-  return () => configService.getVPNSettings().pipe(
-    filter((settings) => !settings.enabled),
-  ).subscribe(() => {
-    setProxy(undefined).then();
-  });
 }
 
 @NgModule({
@@ -102,12 +92,6 @@ export function initProxyFactory(configService: ConfigService): () => void {
     {
       provide: Environment,
       useValue: environment,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initProxyFactory,
-      deps: [ConfigService],
-      multi: true,
     },
     {
       provide: APP_INITIALIZER,

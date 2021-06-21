@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { catchError, map, take } from 'rxjs/operators';
+import { combineLatest, EMPTY, Observable, of } from 'rxjs';
+import { catchError, map, mapTo, share } from 'rxjs/operators';
 import { FormControl } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -49,29 +49,35 @@ export class VpnPageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.servers$ = this.proxyService.getProxies();
+    this.servers$ = this.proxyService.getProxies().pipe(
+      share(),
+    );
 
-    this.servers$.pipe(
-      take(1),
+    this.proxyService.getActiveProxySettings().pipe(
+      mapTo(false),
+      catchError(() => of(true)),
       untilDestroyed(this),
-    ).subscribe((servers) => {
-      this.serverFormControl.setValue(servers[0]);
-    });
+    ).subscribe((isUnknownBrowser) => {
+      this.isUnknownBrowser = isUnknownBrowser;
+      this.changeDetectorRef.markForCheck();
+    })
 
     this.activeServer$ = combineLatest([
-      this.proxyService.getActiveProxySettings(),
+      this.proxyService.getActiveProxySettings().pipe(
+        catchError(() => EMPTY),
+      ),
       this.servers$,
     ]).pipe(
-      catchError((error) => {
-        if (error.message === 'Unknown browser') {
-          this.isUnknownBrowser = true;
-        }
-        return void 0;
-      }),
       map(([settings, servers]) => {
         return servers.find((server) => server.address === settings.host);
       }),
     );
+
+    this.servers$.pipe(
+      untilDestroyed(this),
+    ).subscribe((servers) => {
+      this.serverFormControl.setValue(servers[0]);
+    });
 
     this.activeServer$.pipe(
       untilDestroyed(this),
@@ -96,9 +102,7 @@ export class VpnPageComponent implements OnInit {
     this.isLoading = true;
 
     return this.proxyService.setProxy(address, port).then(() => {
-      if (this.isFirefoxHintVisible) {
-        this.isFirefoxHintVisible = false;
-      }
+      this.isFirefoxHintVisible = false;
     }, (reject) => {
       if (reject.message === 'proxy.settings requires private browsing permission.') {
         this.isFirefoxHintVisible = true;

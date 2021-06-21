@@ -5,7 +5,11 @@ import { BrowserType, detectBrowser } from './browser';
 
 declare const chrome;
 
-const browserType: typeof BrowserType = BrowserType;
+const CURRENT_BROWSER_TYPE: BrowserType = detectBrowser();
+
+export enum ProxyErrorMessage {
+  UnknownBrowser = 'Unknown browser',
+}
 
 export interface ExtensionProxySettings {
   levelOfControl: Types.LevelOfControl;
@@ -14,41 +18,45 @@ export interface ExtensionProxySettings {
 }
 
 const clearProxySettings = (): Promise<void> => {
-  if (detectBrowser() === browserType.Chrome) {
-    return new Promise((resolve) => {
-      chrome.proxy.settings.clear({}, resolve);
-    });
-  }
+  switch (CURRENT_BROWSER_TYPE) {
+    case BrowserType.Chrome:
+      return new Promise((resolve) => {
+        chrome.proxy.settings.clear({}, resolve);
+      });
 
-  return browser.proxy.settings.clear({});
+    default:
+      return browser.proxy.settings.clear({});
+  }
 };
 
 const getProxySettings = (details: Types.SettingGetDetailsType): Promise<Types.SettingGetCallbackDetailsType> => {
-  if (detectBrowser() === browserType.Chrome) {
-    return new Promise((resolve) => {
-      chrome.proxy.settings.get(details, resolve);
-    });
-  }
+  switch (CURRENT_BROWSER_TYPE) {
+    case BrowserType.Chrome:
+      return new Promise((resolve) => {
+        chrome.proxy.settings.get(details, resolve);
+      });
 
-  if (detectBrowser() === browserType.Firefox) {
-    return browser.proxy.settings.get({});
-  }
+    case BrowserType.Firefox:
+      return browser.proxy.settings.get({});
 
-  throw new Error('Unknown browser');
+    default:
+      throw new Error(ProxyErrorMessage.UnknownBrowser);
+  }
 };
 
 const setProxySettings = (details: Types.SettingSetDetailsType): Promise<void> => {
-  if (detectBrowser() === browserType.Chrome) {
-    return new Promise((resolve) => {
-      chrome.proxy.settings.set(details, resolve);
-    });
-  }
+  switch (CURRENT_BROWSER_TYPE) {
+    case BrowserType.Chrome:
+      return new Promise((resolve) => {
+        chrome.proxy.settings.set(details, resolve);
+      });
 
-  if (detectBrowser() === browserType.Firefox) {
-    return browser.proxy.settings.set(details);
-  }
+    case BrowserType.Firefox:
+      return browser.proxy.settings.set(details);
 
-  throw new Error('Unknown browser');
+    default:
+      throw new Error(ProxyErrorMessage.UnknownBrowser);
+  }
 };
 
 const onProxySettingsChange = (): Observable<Types.SettingOnChangeDetailsType> => {
@@ -68,8 +76,8 @@ export const getActiveProxySettings = (): Observable<ExtensionProxySettings> => 
     )),
     map((settings) => ({
       levelOfControl: settings.levelOfControl,
-      ...detectBrowser() === browserType.Chrome && settings.value?.rules?.singleProxy,
-      ...detectBrowser() === browserType.Firefox && settings.levelOfControl === 'controlled_by_this_extension' && {
+      ...CURRENT_BROWSER_TYPE === BrowserType.Chrome && settings.value?.rules?.singleProxy,
+      ...CURRENT_BROWSER_TYPE === BrowserType.Firefox && {
         host: settings.value?.http?.split(':')[0],
         port: settings.value?.http?.split(':')[1],
       },
@@ -95,38 +103,40 @@ export const listenProxyErrors = (): Observable<void> => {
   });
 };
 
-export const setProxy = (server: { host: string; port?: number } | undefined): Promise<void> => {
-  if (!server) {
-    return clearProxySettings();
-  }
-
-  let config;
-
-  if (detectBrowser() === browserType.Chrome) {
-    config = {
-      mode: 'fixed_servers',
-      rules: {
-        singleProxy: {
-          scheme: 'http',
-          host: server.host,
-          port: server.port,
+const getProxyConfig = (host: string, port: number): unknown => {
+  switch (CURRENT_BROWSER_TYPE) {
+    case BrowserType.Chrome:
+      return {
+        mode: 'fixed_servers',
+        rules: {
+          singleProxy: {
+            scheme: 'http',
+            host: host,
+            port: port,
+          },
+          bypassList: ['*localhost*', '*127.0.0.1*'],
         },
-        bypassList: ['*localhost*', '*127.0.0.1*'],
-      },
-    };
+      };
+    case BrowserType.Firefox:
+      return {
+        httpProxyAll: true,
+        proxyType: 'manual',
+        http: `${host}:${port}`,
+        socksVersion: 4,
+      };
+    default:
+      return void 0;
   }
+}
 
-  if (detectBrowser() === browserType.Firefox) {
-    config = {
-      httpProxyAll: true,
-      proxyType: "manual",
-      http: `${server.host}:${server.port}`,
-      socksVersion: 4,
-    };
-  }
+export const clearProxy = (): Promise<void> => {
+  return clearProxySettings();
+}
 
+export const setProxy = (host: string, port: number): Promise<void> => {
   return setProxySettings({
-    value: config,
-    ...detectBrowser() === browserType.Chrome && { scope: 'regular' },
+    value: getProxyConfig(host, port),
+    scope: 'regular',
+    // ...detectBrowser() === BrowserType.Chrome && { scope: 'regular' },
   });
 };

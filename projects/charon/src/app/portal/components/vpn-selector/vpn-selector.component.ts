@@ -3,8 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  OnChanges,
-  SimpleChanges,
   TrackByFunction,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -29,7 +27,7 @@ import { flagsIcons } from '@shared/svg-icons/flags';
     },
   ],
 })
-export class VpnSelectorComponent extends ControlValueAccessor<VPNServer> implements OnChanges {
+export class VpnSelectorComponent extends ControlValueAccessor<VPNServer> {
   @Input() public servers: VPNServer[];
 
   public activeServer: VPNServer;
@@ -47,16 +45,6 @@ export class VpnSelectorComponent extends ControlValueAccessor<VPNServer> implem
     ]);
   }
 
-  public ngOnChanges({ servers }: SimpleChanges) {
-    if (servers) {
-      const serversValue = (servers.currentValue || []) as VPNServer[];
-
-      const newServer = serversValue.find((server) => server.address === this.activeServer?.address);
-
-      this.chooseServer(newServer || serversValue[0]);
-    }
-  }
-
   public chooseServer(server: VPNServer, emit: boolean = true): void {
     this.activeServer = server;
 
@@ -65,10 +53,8 @@ export class VpnSelectorComponent extends ControlValueAccessor<VPNServer> implem
 
   public trackByHost: TrackByFunction<VPNServer> = ({}, { address }) => address;
 
-  public writeValue(value: VPNServer) {
-    const server = (this.servers || []).find((server) => server.address === value.address);
-
-    this.chooseServer(server || this.servers && this.servers[0], !server);
+  public writeValue(server: VPNServer) {
+    this.chooseServer(server, false);
 
     this.changeDetectorRef.markForCheck();
   }

@@ -23,13 +23,7 @@ export const isOpenedInTab = (): boolean => {
     .some(extensionWindow => extensionWindow === window);
 };
 
-export const setExtensionIcon = (iconPaths: { [s: string]: string }): Promise<void> => {
-  return browser.browserAction.setIcon({
-    path: iconPaths,
-  });
-};
-
-export const detectBrowser = (): string => {
+export const detectBrowser = (): BrowserType => {
   const userAgent = window.navigator.userAgent;
 
   if (userAgent.indexOf("Firefox") > -1) {
