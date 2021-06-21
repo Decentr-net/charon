@@ -1,9 +1,7 @@
-import { PDVStatItem } from 'decentr-js';
-
-import { PDVStatChartPoint } from '../../services/pdv';
+import { PDVStatChartPoint, PDVStats } from '../../services/pdv';
 import { calculateDifferencePercentage } from '../number';
 
-export const getPDVDayChange = (stats: (PDVStatItem | PDVStatChartPoint)[], currentPDV: number): number => {
+export const getPDVDayChange = (stats: (PDVStats | PDVStatChartPoint)[], currentPDV: number): number => {
   const now = new Date();
   const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
 

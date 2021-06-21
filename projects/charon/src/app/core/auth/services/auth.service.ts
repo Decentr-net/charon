@@ -79,9 +79,7 @@ export class AuthService {
       isModerator: user.isModerator,
       passwordHash,
       primaryEmail: user.primaryEmail,
-      primaryUsername: user.usernames?.[0],
       registrationCompleted: user.registrationCompleted,
-      usernames: user.usernames,
       wallet: user.wallet,
     });
 
@@ -129,8 +127,6 @@ export class AuthService {
         gender: update.gender,
         lastName: update.lastName,
         emails: update.emails,
-        usernames: update.usernames,
-        primaryUsername: update.usernames?.[0],
         ...passwordHash ? { passwordHash} : {},
       });
   }

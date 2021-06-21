@@ -39,7 +39,7 @@ export class PostPageComponent implements OnInit {
   public readonly appRoute: typeof AppRoute = AppRoute;
   public readonly hubRoute: typeof HubRoute = HubRoute;
 
-  public post$: Observable<PostsListItem>;
+  public post: PostsListItem;
 
   public authorProfile: HubProfile;
 
@@ -69,21 +69,24 @@ export class PostPageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.post$ = this.postPageService.getPost().pipe(
+    const post$ = this.postPageService.getPost().pipe(
       filter(post => !!post),
     );
 
-    this.post$.pipe(
+    post$.pipe(
       untilDestroyed(this),
-    ).subscribe(() => {
+    ).subscribe((post) => {
       this.isFollowingAuthor = undefined;
+      this.post = post;
+
+      this.changeDetectorRef.detectChanges()
     });
 
     const walletAddress = this.authService.getActiveUserInstant().wallet.address;
 
     combineLatest([
-      this.post$,
-      this.post$.pipe(
+      post$,
+      post$.pipe(
         switchMap(() => this.followingService.getFollowees(walletAddress)),
       ),
       FollowingService.isFollowingUpdating$,
@@ -104,13 +107,13 @@ export class PostPageComponent implements OnInit {
       this.changeDetectorRef.detectChanges();
     });
 
-    this.post$.pipe(
+    post$.pipe(
       pluck('uuid'),
       distinctUntilChanged(),
       untilDestroyed(this),
     ).subscribe(() => this.elementRef.nativeElement.scrollTop = 0);
 
-    this.post$.pipe(
+    post$.pipe(
       map((post) => getHubPDVStats(post.stats, post.pdv, post.createdAt)),
       untilDestroyed(this),
     ).subscribe((postStatistics) => {
