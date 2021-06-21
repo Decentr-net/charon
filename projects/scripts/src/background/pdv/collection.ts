@@ -1,4 +1,4 @@
-import { EMPTY, from, merge, Observable, of, throwError, timer } from 'rxjs';
+import { EMPTY, from, merge, Observable, of, partition, pipe, throwError, timer } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -9,12 +9,15 @@ import {
   map,
   mapTo,
   mergeMap,
+  pluck,
   reduce,
   repeat,
+  repeatWhen,
   retryWhen,
   takeUntil,
   tap,
 } from 'rxjs/operators';
+import { PDVType, Wallet } from 'decentr-js';
 
 import { ONE_SECOND } from '../../../../../shared/utils/date';
 import CONFIG_SERVICE from '../config';
@@ -25,14 +28,33 @@ import { listenSearchHistoryPDVs } from './search-history';
 import { mergePDVsIntoAccumulated, PDV_STORAGE_SERVICE, rollbackPDVBlock } from './storage';
 
 const configService = CONFIG_SERVICE;
+const pdvStorageService = PDV_STORAGE_SERVICE;
 
-const pDVsSource = merge(
-  listenCookiePDVs(),
-  listenSearchHistoryPDVs(),
+const whilePDVAllowed = (pdvType: PDVType, walletAddress: Wallet['address']) => {
+  const settingStatus$ = pdvStorageService.getUserSettingsChanges(walletAddress).pipe(
+    pluck(pdvType),
+    distinctUntilChanged(),
+  );
+
+  const [allowed$, forbidden$] = partition(settingStatus$, (value) => value);
+
+  return pipe(
+    takeUntil(forbidden$),
+    repeatWhen(() => allowed$),
+  );
+}
+
+const getAllPDVSource = (walletAddress: Wallet['address']) => merge(
+  listenCookiePDVs().pipe(
+    whilePDVAllowed(PDVType.Cookie, walletAddress),
+  ),
+  listenSearchHistoryPDVs().pipe(
+    whilePDVAllowed(PDVType.SearchHistory, walletAddress),
+  ),
 );
 
 const collectPDVIntoStorage = (): Observable<void> => {
-  return whileUserActive((user) => pDVsSource.pipe(
+  return whileUserActive((user) => getAllPDVSource(user.wallet.address).pipe(
     takeUntil(timer(ONE_SECOND * 10)),
     reduce((acc, pdv) => [
       ...acc,
