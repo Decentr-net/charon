@@ -1,0 +1,6 @@
+@import '../../styles/variables';
+
+:host {
+  color: $color-grey;
+  display: inline-flex;
+}

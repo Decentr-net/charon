@@ -48,12 +48,12 @@
     </ng-container>
 
     <ng-container
-      appExpansionListColumnDef="pdvList"
+      appExpansionListColumnDef="pdvBlocks"
       [appExpansionListColumnDefChooseFirst]="isOpenedInTab"
     >
-      <ng-container *appExpansionListHeaderCellDef="let pdvList; let activityItem = parentItem">
+      <ng-container *appExpansionListHeaderCellDef="let pdvBlocks; let activityItem = parentItem">
         <ng-container *appBrowserTabView>
-          {{ translate('website') }}
+          {{ translate('collected_info') }}
         </ng-container>
 
         <ng-container *appBrowserPopupView>
@@ -62,51 +62,61 @@
 
         <span
           class="activity-page__expansion-list__header-count"
-          *ngIf="pdvList"
+          *ngIf="pdvBlocks"
           appTypeface="paragraph"
         >
-            {{ pdvList?.length }}
+            {{ pdvBlocks?.length }}
           </span>
       </ng-container>
 
-      <ng-container *appExpansionListCellDef="let item;">
-        {{ item.domain }}
-      </ng-container>
+      <div
+        class="activity-page--pdv-block-cell"
+        *appExpansionListCellDef="let item; let isActive = isActive"
+      >
+        <app-pdv-type-icon
+          [class.is-active]="isActive"
+          [type]="item.type"
+        ></app-pdv-type-icon>
 
-      <ng-container appExpansionListColumnDef="data">
-        <ng-container *appExpansionListHeaderCellDef="let cookies; let websiteItem = parentItem">
+        {{ item.title }}
+      </div>
+
+      <ng-container appExpansionListColumnDef="pdv">
+        <ng-container *appExpansionListHeaderCellDef="let pdvs; let pdvBLock = parentItem">
           <ng-container *appBrowserTabView>
             {{ translate('details') }}
           </ng-container>
 
           <ng-container *appBrowserPopupView>
-            {{ websiteItem?.domain }}
+            {{ pdvBLock?.title }}
           </ng-container>
 
           <span
             class="activity-page__expansion-list__header-count"
-            *ngIf="cookies"
+            *ngIf="pdvs"
             appTypeface="paragraph"
           >
-          {{ cookies?.length }}
-        </span>
+            {{ pdvs?.length }}
+          </span>
         </ng-container>
 
-        <ng-container *appExpansionListCellDef="let cookie;">
+        <ng-container *appExpansionListCellDef="let pdv;">
           <mat-expansion-panel class="activity-page__expansion-list__mat-panel mat-elevation-z">
             <mat-expansion-panel-header
               class="activity-page__expansion-list__mat-panel-header"
               expandedHeight="48px"
             >
               <mat-panel-title>
-                {{ cookie.name }}
+                {{ pdv.title }}
               </mat-panel-title>
             </mat-expansion-panel-header>
 
-            <div class="activity-page--cookie-description">
-              <ng-container *ngFor="let keyValue of cookie | keyvalue">
-                <span class="activity-page--cookie-description__key">{{ keyValue.key }}:</span>
-                <span>{{ keyValue.value }}</span>
+            <div class="activity-page--pdv-description">
+              <ng-container *ngFor="let keyValue of pdv.details | keyvalue">
+                <ng-container *ngIf="keyValue.key !== 'source' && keyValue.key !== 'type'">
+                  <span class="activity-page--pdv-description__key">{{ keyValue.key }}:</span>
+                  <span>{{ keyValue.value | json }}</span>
+                </ng-container>
               </ng-container>
             </div>
           </mat-expansion-panel>
