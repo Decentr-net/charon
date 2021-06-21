@@ -3,7 +3,7 @@ import { browser, Cookies } from 'webextension-polyfill-ts';
 import Cookie = Cookies.Cookie;
 import OnChangedChangeInfoType = Cookies.OnChangedChangeInfoType;
 
-import { hasOwnProperty } from '../../../../../shared/utils/object';
+import { hasOwnProperty } from '../../../../../../shared/utils/object';
 
 export const listenCookiesSet = (filter: Partial<Cookie> = {}): Observable<Cookie> => {
   return new Observable((subscriber) => {
