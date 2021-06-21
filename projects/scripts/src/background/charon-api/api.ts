@@ -4,16 +4,14 @@ import {
   LikeWeight,
   PostCreate,
   PostIdentificationParameters,
-  PublicProfile,
   StdTxMessageType,
   TransferData,
   Wallet,
 } from 'decentr-js';
+import { mergeMap } from 'rxjs/operators';
 
 import CONFIG_SERVICE from '../config';
-import { mergeMap } from 'rxjs/operators';
 import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
-import { UserPrivate } from '../../../../../shared/services/auth';
 
 const configService = CONFIG_SERVICE;
 const networkStorage = new NetworkBrowserStorageService();
@@ -68,40 +66,6 @@ export const likePost = (
       {
         broadcast: true,
         privateKey,
-      },
-    )),
-  ).toPromise();
-};
-
-export const setPublicProfile = (
-  walletAddress: Wallet['address'],
-  publicProfile: PublicProfile,
-  privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse<StdTxMessageType.ProfileSetPublic>> => {
-  return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).profile.setPublicProfile(
-      walletAddress,
-      publicProfile,
-      {
-        broadcast: true,
-        privateKey,
-      },
-    )),
-  ).toPromise();
-};
-
-export const setPrivateProfile = (
-  walletAddress: Wallet['address'],
-  privateProfile: UserPrivate,
-  privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse<StdTxMessageType.ProfileSetPrivate>> => {
-  return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).profile.setPrivateProfile(
-      walletAddress,
-      privateProfile,
-      privateKey,
-      {
-        broadcast: true,
       },
     )),
   ).toPromise();

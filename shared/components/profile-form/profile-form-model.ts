@@ -27,13 +27,6 @@ export class ProfileFormModel {
     return form.controls.emails as FormArray;
   }
 
-  public getUsernamesFormArray(form: FormGroup<ProfileForm>): FormArray<UsernameForm> {
-    if (!form.controls.usernames) {
-      form.addControl(ProfileFormControlName.Usernames, new FormArray([]));
-    }
-
-    return form.controls.usernames as FormArray;
-  }
 
   public addEmail(form: FormGroup<ProfileForm>): void {
     this.getEmailsFormArray(form).push(
@@ -41,16 +34,8 @@ export class ProfileFormModel {
     );
   }
 
-  public addUsername(form: FormGroup<ProfileForm>): void {
-    this.getUsernamesFormArray(form).push(this.createUsernameGroup());
-  }
-
   public removeEmail(form: FormGroup<ProfileForm>, index: number): void {
     this.getEmailsFormArray(form).removeAt(index);
-  }
-
-  public removeUsername(form, index: number): void {
-    this.getUsernamesFormArray(form).removeAt(index);
   }
 
   public createForm(): FormGroup<ProfileForm> {
@@ -88,11 +73,6 @@ export class ProfileFormModel {
       form.addControl(ProfileFormControlName.PrimaryEmail, primaryEmailControl);
     }
 
-    const usernameControl = this.createUsernameControl();
-    if (usernameControl) {
-      this.addUsername(form);
-    }
-
     return form;
   }
 
@@ -104,20 +84,7 @@ export class ProfileFormModel {
     const patch: ProfileForm = {
       ...value,
       emails: (value && value.emails || []).map((value) => ({ value })),
-      usernames: (value && value.usernames || []).map((value) => ({ value })),
     };
-
-    if (patch.usernames) {
-      const usernamesPatchLength = patch.usernames.length;
-      const usernamesFormArray = this.getUsernamesFormArray(form);
-      while (usernamesFormArray.length !== usernamesPatchLength) {
-        if (usernamesFormArray.length > usernamesPatchLength) {
-          this.removeUsername(form, usernamesFormArray.length - 1);
-        } else {
-          this.addUsername(form);
-        }
-      }
-    }
 
     if (patch.emails) {
       const emailsPatchLength = patch.emails.length;
@@ -136,17 +103,12 @@ export class ProfileFormModel {
 
   public getOuterValue(form: FormGroup<ProfileForm>): ProfileFormControlValue {
     return {
-      ...form.value,
+      ...form.getRawValue(),
       ...form.value.emails
         ? {
           emails: form.value.emails.map(({ value }) => value),
         }
         : undefined,
-      ...form.value.usernames
-        ? {
-          usernames: form.value.usernames.map(({ value }) => value),
-        }
-        : undefined
     }
   }
 
@@ -242,12 +204,6 @@ export class ProfileFormModel {
   private createEmailGroup(additionalEmailValidators?: ValidatorFn[]): FormGroup<EmailForm> | undefined {
     return new FormGroup<EmailForm>({
       [ProfileFormControlName.EmailValue]: this.createEmailControl(additionalEmailValidators),
-    });
-  }
-
-  private createUsernameGroup(): FormGroup<UsernameForm> | undefined {
-    return new FormGroup<UsernameForm>({
-      [ProfileFormControlName.UsernameValue]: this.createUsernameControl(),
     });
   }
 
