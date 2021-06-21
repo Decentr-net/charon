@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HighchartsChartModule } from 'highcharts-angular';
@@ -14,6 +14,7 @@ import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 import { ExpansionListModule } from '@shared/components/expansion-list';
 import { FormErrorModule } from '@shared/components/form-error';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
+import { PdvTypeIconModule } from '@shared/components/pdv-type-icon';
 import { SlotModule } from '@shared/components/slot';
 import { BindQueryParamsModule } from '@shared/directives/bind-query-params';
 import { BrowserViewModule } from '@shared/directives/browser-view';
@@ -57,6 +58,7 @@ import { SpinnerModule } from '@shared/components/spinner';
     IntersectionModule,
     NgxSkeletonLoaderModule,
     PdvValueModule,
+    PdvTypeIconModule,
     PortalRoutingModule,
     ReactiveFormsModule,
     SlotModule,
@@ -66,6 +68,7 @@ import { SpinnerModule } from '@shared/components/spinner';
     TypefaceModule,
   ],
   providers: [
+    DatePipe,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: 'portal',
