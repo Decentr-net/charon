@@ -1,4 +1,6 @@
-import { LikeWeight, Post, PostCategory, PublicProfile, Wallet } from 'decentr-js';
+import { LikeWeight, Post, PostCategory, Profile, Wallet } from 'decentr-js';
+
+import { ProfileStats } from '@shared/services/pdv';
 
 export interface PostsListFilterOptions {
   after?: string;  // `Post['owner']/Post['uuid']`
@@ -18,13 +20,13 @@ export interface PostsListResponsePost extends Post {
   likeWeight: LikeWeight;
 }
 
-export interface PostOwnerProfile extends PublicProfile {
+export interface PostOwnerProfile extends Profile {
   postsCount: number;
 }
 
 export interface PostResponse {
   post: PostsListResponsePost;
-  profile: PostOwnerProfile;
+  profileStats: ProfileStats;
   stats: PostsListResponseStat[];
 }
 
@@ -35,6 +37,6 @@ export interface PostsListResponseStat {
 
 export interface PostsListResponse {
   posts: PostsListResponsePost[];
-  profiles: Record<Post['owner'], PostOwnerProfile>;
+  profileStats: Record<Post['owner'], ProfileStats>;
   stats: Record<string, PostsListResponseStat[]>; // [`owner/uuid`]: PostsListResponseStat
 }

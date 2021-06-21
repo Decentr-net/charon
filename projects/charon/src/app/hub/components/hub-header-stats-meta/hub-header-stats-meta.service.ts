@@ -47,8 +47,8 @@ export class HubHeaderStatsMetaService {
   private getUserRegisteredAt(): Observable<string> {
     const user = this.authService.getActiveUserInstant();
 
-    return this.userService.getPublicProfile(user.wallet.address).pipe(
-      pluck('registeredAt'),
+    return this.userService.getProfile(user.wallet.address).pipe(
+      pluck('createdAt'),
     );
   }
 

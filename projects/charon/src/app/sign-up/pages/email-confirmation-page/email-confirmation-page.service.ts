@@ -50,13 +50,7 @@ export class EmailConfirmationPageService {
       }),
       mergeMap(() => this.authService.confirmUserEmail(user.id)),
       mergeMap(() => this.userService.waitAccount(user.wallet.address)),
-      mergeMap(() => this.userService.setPrivateProfile(
-        {
-          primaryEmail: user.primaryEmail,
-        },
-        user.wallet.address,
-        user.wallet.privateKey,
-      )),
+      mapTo(void 0),
     );
   }
 
