@@ -3,7 +3,7 @@ import { initMessageListeners } from './background/listeners';
 import { initAutoLock } from './background/lock';
 import { initMigration } from './background/migration';
 import { setRandomNetwork } from './background/network-switch';
-import { initCookiesCollection } from './background/cookies/collection';
+import { initPDVCollection } from './background/pdv';
 
 (async () => {
   initMigration();
@@ -17,6 +17,5 @@ import { initCookiesCollection } from './background/cookies/collection';
   const pdvUpdateNotifier = new PDVUpdateNotifier();
   pdvUpdateNotifier.start();
 
-  initCookiesCollection()
-    .subscribe(() => pdvUpdateNotifier.notify());
+  initPDVCollection().subscribe(() => pdvUpdateNotifier.notify());
 })();
