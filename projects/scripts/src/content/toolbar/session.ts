@@ -2,7 +2,7 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Observable } from 'rxjs';
 import { browser } from 'webextension-polyfill-ts';
 
-import { ToolbarStateService } from '../../../../shared/services/toolbar-state';
+import { ToolbarStateService } from '../../../../../shared/services/toolbar-state';
 
 const toolbarStateService = new ToolbarStateService();
 

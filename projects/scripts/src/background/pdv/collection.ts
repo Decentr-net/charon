@@ -26,6 +26,7 @@ import { sendPDV } from './api';
 import { listenCookiePDVs } from './cookies';
 import { listenSearchHistoryPDVs } from './search-history';
 import { mergePDVsIntoAccumulated, PDV_STORAGE_SERVICE, rollbackPDVBlock } from './storage';
+import { listenLocationPDVs } from './location';
 
 const configService = CONFIG_SERVICE;
 const pdvStorageService = PDV_STORAGE_SERVICE;
@@ -36,7 +37,7 @@ const whilePDVAllowed = (pdvType: PDVType, walletAddress: Wallet['address']) => 
     distinctUntilChanged(),
   );
 
-  const [allowed$, forbidden$] = partition(settingStatus$, (value) => value);
+  const [allowed$, forbidden$] = partition(settingStatus$, (value: boolean) => value);
 
   return pipe(
     takeUntil(forbidden$),
@@ -47,6 +48,9 @@ const whilePDVAllowed = (pdvType: PDVType, walletAddress: Wallet['address']) => 
 const getAllPDVSource = (walletAddress: Wallet['address']) => merge(
   listenCookiePDVs().pipe(
     whilePDVAllowed(PDVType.Cookie, walletAddress),
+  ),
+  listenLocationPDVs().pipe(
+    whilePDVAllowed(PDVType.Location, walletAddress),
   ),
   listenSearchHistoryPDVs().pipe(
     whilePDVAllowed(PDVType.SearchHistory, walletAddress),
