@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { defer, from, Observable, of } from 'rxjs';
+import { defer, forkJoin, from, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, repeat, takeWhile, tap } from 'rxjs/operators';
 import { LikeWeight, Post, PostCreate, PostIdentificationParameters } from 'decentr-js'
 
 import { MessageBus } from '@shared/message-bus';
+import { getArrayUniqueValues } from '@shared/utils/array';
 import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
-import { PostsApiService, PostsListFilterOptions, PostsListResponse } from '../api';
+import { PostsApiService, PostsListFilterOptions } from '../api';
 import { AuthService } from '../../auth';
 import { NetworkService } from '../network';
+import { UserService } from '../user';
 import { PostsListItem } from './posts.definitions';
 
 @Injectable()
@@ -16,20 +18,27 @@ export class PostsService {
   constructor(
     private authService: AuthService,
     private networkService: NetworkService,
-    private postsApiService: PostsApiService
+    private postsApiService: PostsApiService,
+    private userService: UserService,
   ) {
   }
 
   public getPost(postIdentificationParameters: Pick<Post, 'owner' | 'uuid'>): Observable<PostsListItem> {
-    return this.postsApiService.getPost(
-      postIdentificationParameters,
-      this.authService.getActiveUserInstant().wallet.address,
-    ).pipe(
-      map((response) => ({
-        ...response.post,
-        author: response.profile,
-        stats: response.stats,
-      }))
+    return forkJoin([
+      this.postsApiService.getPost(
+        postIdentificationParameters,
+        this.authService.getActiveUserInstant().wallet.address,
+      ),
+      this.userService.getProfile(postIdentificationParameters.owner),
+    ]).pipe(
+      map(([postResponse, profile]) => ({
+        ...postResponse.post,
+        author: {
+          ...profile,
+          postsCount: postResponse.profileStats.postsCount,
+        },
+        stats: postResponse.stats,
+      })),
     );
   }
 
@@ -38,7 +47,26 @@ export class PostsService {
       requestedBy: this.authService.getActiveUserInstant().wallet.address,
       ...filterOptions,
     }).pipe(
-      map(this.mapPostsResponseToList),
+      mergeMap((postsListResponse) => {
+        if (!postsListResponse.posts.length) {
+          return of([]);
+        }
+
+        const addresses = getArrayUniqueValues(postsListResponse.posts.map(({ owner }) => owner));
+
+        return this.userService.getProfiles(addresses).pipe(
+          map((profiles) => {
+            return postsListResponse.posts.map((post) => ({
+                ...post,
+                author: {
+                  ...profiles[post.owner],
+                  postsCount: postsListResponse.profileStats[post.owner].postsCount,
+                },
+                stats: postsListResponse.stats[`${post.owner}/${post.uuid}`],
+            }));
+          })
+        )
+      }),
     );
   }
 
@@ -104,17 +132,5 @@ export class PostsService {
           takeWhile((post) => !!post),
         )),
       );
-  }
-
-  private mapPostsResponseToList(postsListResponse: PostsListResponse): PostsListItem[] {
-    return postsListResponse.posts.map((post) => {
-      const profile = postsListResponse.profiles[post.owner];
-
-      return {
-        ...post,
-        author: profile,
-        stats: postsListResponse.stats[`${post.owner}/${post.uuid}`],
-      };
-    });
   }
 }

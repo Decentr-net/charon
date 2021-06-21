@@ -1,13 +1,7 @@
-import { PrivateProfile, PublicProfile, Wallet } from 'decentr-js';
+import { ProfileUpdate, Wallet } from 'decentr-js';
 
-export interface UserPrivate extends PrivateProfile {
-  readonly emails?: string[];
-  readonly primaryEmail: string;
-  readonly registrationCompleted?: boolean;
-  readonly usernames?: string[];
-}
-
-export interface User extends Partial<UserPrivate>, Partial<PublicProfile> {
+export interface User extends Partial<ProfileUpdate> {
   readonly id: string;
+  readonly registrationCompleted?: boolean;
   readonly wallet: Wallet;
 }
