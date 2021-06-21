@@ -42,7 +42,10 @@
     >
       <ng-template
         [ngTemplateOutlet]="columnDef.cellDef.templateRef"
-        [ngTemplateOutletContext]="{ $implicit: item }"
+        [ngTemplateOutletContext]="{
+          $implicit: item,
+          isActive: item === activeItem
+        }"
       ></ng-template>
     </div>
 
