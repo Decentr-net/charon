@@ -29,7 +29,7 @@
 
   <div
     class="vpn-page__active-vpn-container"
-    *ngIf="activeServer$ | async as activeServer; else vpnSelector"
+    *ngIf="!isLoading && activeServer$ | async as activeServer; else vpnSelector"
   >
     <span appTypeface="caption">
       {{ translate('browsing_securely_from') }}
