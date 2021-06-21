@@ -1,4 +1,4 @@
-import { ToolbarIds } from './toolbar'
+import { ToolbarIds } from './components'
 
 let shiftedElements: Map<HTMLElement, string> = new Map();
 
