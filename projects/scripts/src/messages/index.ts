@@ -6,5 +6,6 @@ export enum MessageCode {
   PostDelete = 'CHARON_POST_DELETE',
   PostLike = 'CHARON_POST_LIKE',
   CoinTransfer = 'CHARON_COIN_TRANSFER',
+  Location = 'CHARON_LOCATION',
   Unfollow = 'CHARON_UNFOLLOW',
 }
