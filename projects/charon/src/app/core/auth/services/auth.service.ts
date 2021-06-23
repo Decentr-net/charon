@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first, skip, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -15,6 +16,7 @@ import { UserPermissions } from '../../permissions';
 export class AuthService {
   constructor(
     private permissionsService: PermissionsService,
+    private router: Router,
   ) {
   }
 
@@ -102,7 +104,9 @@ export class AuthService {
   }
 
   public logout(): Promise<void> {
-    return this.authStorage.removeActiveUserId();
+    return this.authStorage.removeActiveUserId()
+      .then(() => this.router.navigate(['/']))
+      .then();
   }
 
   public async validateCurrentUserPassword(password: string): Promise<boolean> {

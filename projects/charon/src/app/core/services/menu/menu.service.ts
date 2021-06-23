@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, EMPTY, Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -61,24 +61,14 @@ export class MenuService extends MenuBaseService {
         avatar: user.avatar,
         title: `${user.firstName} ${user.lastName ? user.lastName.slice(0,1) + '.' : ''}`,
       })),
-    )
+      catchError(() => EMPTY),
+    );
   }
 
   public getItems(): Observable<MenuItem[][]> {
     return this.translocoService.selectTranslateObject('menu.items', null, 'core')
       .pipe(
         map((itemsTranslationsObject) => [
-          [
-            {
-              action: () => this.lockService.lock(),
-              iconKey: svgLockAccount.name,
-              title: itemsTranslationsObject['lock'],
-            },
-            {
-              iconKey: svgImportAccount.name,
-              title: itemsTranslationsObject['import_account'],
-            },
-          ],
           [
             {
               action: () => this.router.navigate(['/', AppRoute.Hub]),
@@ -111,6 +101,13 @@ export class MenuService extends MenuBaseService {
           ],
           [
             {
+              action: () => this.lockService.lock(),
+              iconKey: svgLockAccount.name,
+              title: itemsTranslationsObject['lock'],
+            },
+          ],
+          [
+            {
               action: () => window.open(DECENTR_SITE_URL, '_blank'),
               iconKey: svgInformation.name,
               title: itemsTranslationsObject['info_and_help'],
@@ -134,15 +131,6 @@ export class MenuService extends MenuBaseService {
   }
 
   public getTranslations(): Observable<MenuTranslations> {
-    return this.translocoService.selectTranslateObject('menu', null, 'core')
-      .pipe(
-        map(({
-          coming_soon: comingSoon,
-          ...rest
-        }) => ({
-          ...rest,
-          comingSoon,
-        })),
-      );
+    return this.translocoService.selectTranslateObject('menu', null, 'core');
   }
 }

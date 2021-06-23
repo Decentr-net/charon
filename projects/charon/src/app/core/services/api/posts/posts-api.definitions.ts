@@ -21,6 +21,7 @@ export interface PostsListResponsePost extends Post {
 }
 
 export interface PostOwnerProfile extends Profile {
+  profileExists: boolean;
   postsCount: number;
 }
 

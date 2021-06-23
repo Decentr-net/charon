@@ -99,6 +99,10 @@ export class ProfileFormModel {
     }
 
     form.patchValue(patch, options);
+
+    if (!form.getRawValue().primaryEmail) {
+      form.get('primaryEmail').enable();
+    }
   }
 
   public getOuterValue(form: FormGroup<ProfileForm>): ProfileFormControlValue {
@@ -175,7 +179,10 @@ export class ProfileFormModel {
     return new FormControl({
       value: '',
       disabled: true,
-    });
+    }, [
+      Validators.required,
+      RxwebValidators.email(),
+    ]);
   }
 
   protected createEmailControl(additionalValidators?: ValidatorFn[]): FormControl<EmailForm['value']> | undefined {

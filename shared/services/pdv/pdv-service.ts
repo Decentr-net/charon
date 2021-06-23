@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, EMPTY, Observable, ReplaySubject } from 'rxjs';
+import { combineLatest, EMPTY, Observable, of, ReplaySubject } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
+  filter,
   map,
-  mapTo,
   mergeMap,
   pluck,
   share,
@@ -23,7 +23,7 @@ import { ConfigService } from '../configuration';
 import { Network, NetworkBrowserStorageService } from '../network-storage';
 import { AdvDdvStatistics, BalanceValueDynamic, PDVStatChartPoint } from './pdv.definitions';
 import { PDVApiService } from './pdv-api.service';
-import { PDVStorageService } from './pdv-storage.service';
+import { PDVSettings, PDVStorageService } from './pdv-storage.service';
 import { PDVUpdateNotifier } from './pdv-update-notifier';
 import { getPDVDayChange, mapPDVStatsToChartPoints } from '../../utils/pdv';
 
@@ -74,7 +74,7 @@ export class PDVService {
       ),
       this.pdvApiService.getRewards(),
     ]).pipe(
-      map(([pDVs, rewards]) => pDVs.reduce((acc, pdv) => acc + rewards[pdv.type] || 0, 0)),
+      map(([pDVs, rewards]) => (pDVs || []).reduce((acc, pdv) => acc + rewards[pdv.type] || 0, 0)),
       map((estimatedBalance) => this.microValuePipe.transform(estimatedBalance)),
       map((balance) => balance || '0'),
       startWith('0'),
@@ -97,9 +97,9 @@ export class PDVService {
     );
   }
 
-  public getPDVStatChartPointsLive(isBalanceShare: boolean = false): Observable<PDVStatChartPoint[]> {
+  public getPDVStatChartPointsLive(): Observable<PDVStatChartPoint[]> {
     if (!this.pdvStatsChartPoints$) {
-      this.pdvStatsChartPoints$ = this.createPDVStatChartPointsLiveObservable(isBalanceShare).pipe(
+      this.pdvStatsChartPoints$ = this.createPDVStatChartPointsLiveObservable().pipe(
         share(),
       );
     }
@@ -120,6 +120,14 @@ export class PDVService {
       )
   }
 
+  public getUserSettings(walletAddress: Wallet['address']): Observable<PDVSettings> {
+    return this.pdvStorageService.getUserSettingsChanges(walletAddress);
+  }
+
+  public setUserSettings(walletAddress: Wallet['address'], settings: PDVSettings): Promise<void> {
+    return this.pdvStorageService.setUserSettings(walletAddress, settings);
+  }
+
   private getActiveUserWallet(): Observable<Wallet> {
     return this.authBrowserStorageService.getActiveUser().pipe(
       pluck('wallet'),
@@ -137,6 +145,7 @@ export class PDVService {
     return combineLatest([
       this.wallet$.pipe(
         pluck('address'),
+        filter((address) => !!address),
       ),
       this.getActiveNetworkApi(),
       PDVUpdateNotifier.listen().pipe(
@@ -151,13 +160,12 @@ export class PDVService {
     );
   }
 
-  private createPDVStatChartPointsLiveObservable(isBalanceShare: boolean = true): Observable<PDVStatChartPoint[]> {
+  private createPDVStatChartPointsLiveObservable(): Observable<PDVStatChartPoint[]> {
     return this.wallet$.pipe(
       pluck('address'),
-      switchMap((walletAddress) => this.getBalanceLive(isBalanceShare).pipe(
-        mapTo(walletAddress),
-      )),
+      filter((address) => !!address),
       switchMap((walletAddress) => this.pdvApiService.getPDVStats(walletAddress)),
+      catchError(() => of([])),
       map(mapPDVStatsToChartPoints),
     );
   }

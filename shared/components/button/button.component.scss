@@ -1,0 +1,74 @@
+@import '../../styles/variables';
+
+:host {
+  align-items: center;
+  border-radius: $border-radius;
+  display: inline-flex;
+  column-gap: $grid-step;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background .3s ease;
+
+  &.mod-size {
+    &-xs {
+      padding: $grid-step $grid-step * 1.5 $grid-step $grid-step * 1.5;
+
+      &.mod-with-icon {
+        padding-left: $grid-step * 1;
+      }
+    }
+
+    &-sm {
+      padding: $grid-step $grid-step * 2 $grid-step $grid-step * 2;
+
+      &.mod-with-icon {
+        padding-left: $grid-step * 1.5;
+      }
+    }
+
+    &-md {
+      padding: $grid-step * 1.5 $grid-step * 3 $grid-step * 1.5 $grid-step * 3;
+
+      &.mod-with-icon {
+        padding-left: $grid-step * 2;
+      }
+    }
+  }
+
+  &.mod-color {
+    &-negative {
+      background: $color-negative;
+      color: $color-white;
+    }
+
+    &-primary {
+      background: $color-primary;
+      color: $color-white;
+
+      &:hover {
+        background: $color-blue-hover;
+      }
+    }
+
+    &-grey {
+      background: $color-background;
+      color: $color-black;
+
+      &:hover {
+        background: $color-outlines;
+      }
+    }
+  }
+
+  &:disabled {
+    background: $color-background;
+    color: $color-light-grey;
+    pointer-events: none;
+  }
+
+  &::ng-deep {
+    svg-icon {
+      flex-shrink: 0;
+    }
+  }
+}
