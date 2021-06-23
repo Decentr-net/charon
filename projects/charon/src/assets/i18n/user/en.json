@@ -89,6 +89,20 @@
       "successful_update": "User was successfully updated"
     }
   },
+  "pdv_types_toggle": {
+    "advertiserId": "advertiser Id",
+    "cookie": "cookie",
+    "location": "location",
+    "searchHistory": "search history"
+  },
+  "settings_page": {
+    "content": {
+      "subtitle": "We use information about the sites you visit in order to transform it into PDV rate.",
+      "title": "Information we can track and transfer into PDV",
+      "warning": "Selected options will directly affect the PDV, the less we track the less will be your PDV."
+    },
+    "title": "Account settings"
+  },
   "user_page": {
     "copy_wallet_address": "Copy wallet address",
     "pdv": "PDV",
