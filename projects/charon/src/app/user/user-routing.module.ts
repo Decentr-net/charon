@@ -1,23 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { BrowserTabGuard } from '@core/guards';
-import { UserLayoutComponent } from './components';
-import { EditProfilePageComponent, } from './pages';
+import { EditProfilePageComponent, UserPageComponent } from './pages';
+import { UserRoute } from './user-route';
 
 const ROUTES: Routes = [
   {
     path: '',
-    component: UserLayoutComponent,
+    component: UserPageComponent,
     children: [
-      {
-        path: '',
-        component: EditProfilePageComponent,
-        canActivate: [
-          BrowserTabGuard,
-        ],
-      },
     ],
+  },
+  {
+    path: UserRoute.Edit,
+    component: EditProfilePageComponent,
   },
 ];
 

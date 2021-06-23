@@ -1,0 +1,65 @@
+<app-network-selector
+  *appSlot="headerMetaSlot"
+></app-network-selector>
+
+<ng-container *transloco="let translate; read: 'user.user_page'">
+  <div
+    class="user-page__card"
+  >
+    <router-outlet></router-outlet>
+  </div>
+
+  <div
+    class="user-page__card"
+  >
+    <div
+      class="user-page__wallet-card__title"
+      appTypeface="subheader"
+    >
+      {{ translate('your_wallet') }}
+    </div>
+
+    <ng-container *ngIf="balanceWithMargin; else balanceLoading">
+      <div
+        class="user-page__wallet-card__balance"
+        appTypeface="header-3"
+      >
+        {{ balanceWithMargin.value }} {{ translate('pdv') }}
+      </div>
+
+      <app-margin-label
+        class="user-page__wallet-card__balance-margin"
+        [dayMargin]="balanceWithMargin.dayMargin"
+        [digitsInfo]="'1.0-5'"
+        appTypeface="paragraph"
+      ></app-margin-label>
+    </ng-container>
+
+    <div class="user-page__wallet-card__actions">
+      <a [routerLink]="transferRoute">
+        <button
+          app-button
+        >
+          <svg-icon key="send"></svg-icon>
+          {{ translate('send') }}
+        </button>
+      </a>
+
+      <button
+        app-button
+        color="grey"
+        [cdkCopyToClipboard]="walletAddress$ | async"
+        (cdkCopyToClipboardCopied)="onWalletAddressCopied()"
+      >
+        <svg-icon key="wallet"></svg-icon>
+        {{ translate('copy_wallet_address') }}
+      </button>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #balanceLoading>
+  <ngx-skeleton-loader
+    [theme]="{ height: '90px' }"
+  ></ngx-skeleton-loader>
+</ng-template>

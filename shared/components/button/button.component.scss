@@ -1,0 +1,64 @@
+@import '../../styles/variables';
+
+:host {
+  align-items: center;
+  border-radius: $border-radius;
+  display: inline-flex;
+  column-gap: $grid-step;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background .3s ease;
+  white-space: nowrap;
+
+  &:disabled {
+    pointer-events: none;
+  }
+
+  &.mod-size {
+    &-sm {
+      padding: $grid-step $grid-step * 2 $grid-step $grid-step * 2;
+
+      &.mod-with-icon {
+        padding-left: $grid-step * 1.5;
+      }
+    }
+
+    &-md {
+      padding: $grid-step * 1.5 $grid-step * 3 $grid-step * 1.5 $grid-step * 3;
+
+      &.mod-with-icon {
+        padding-left: $grid-step * 2;
+      }
+    }
+  }
+
+  &.mod-color {
+    &-blue {
+      background: $color-primary;
+      color: $color-white;
+
+      &:disabled {
+        color: $color-grey;
+        background: $color-background;
+      }
+
+      &:hover:not(:disabled) {
+        background: $color-blue-hover;
+      }
+    }
+
+    &-grey {
+      background: $color-background;
+      color: $color-black;
+
+      &:disabled {
+        color: $color-light-grey;
+        background: $color-background;
+      }
+
+      &:hover:not(:disabled) {
+        background: $color-outlines;
+      }
+    }
+  }
+}
