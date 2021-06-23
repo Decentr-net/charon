@@ -1,0 +1,68 @@
+@import 'variables';
+
+:host {
+  display: block;
+}
+
+.user-menu-page__profile {
+  column-gap: $grid-step * 3;
+  display: flex;
+}
+
+.user-menu-page__profile__avatar {
+  height: 80px;
+  width: 80px;
+}
+
+.user-menu-page__profile__bio {
+  color: $color-grey;
+}
+
+.user-menu-page__menu-block {
+  background: $color-background;
+  border-radius: $border-radius;
+  margin-top: $grid-step * 2;
+  overflow: hidden;
+}
+
+.user-menu-page__menu-block__button {
+  border-radius: 0;
+  width: 100%;
+
+  & + & {
+    border-top: 1px solid $color-outlines;
+  }
+
+  &.mod-disable-align {
+    align-items: flex-start;
+    text-align: start;
+  }
+}
+
+.user-menu-page__menu-block__button-hint {
+  color: $color-grey;
+  font-weight: normal;
+}
+
+.user-menu-page__menu-block__coming-soon {
+  color: $color-primary;
+  margin-left: auto;
+}
+
+.user-menu-page__delete-confirmation {
+  background: $color-dark-grey;
+  border-radius: $border-radius;
+  color: $color-white;
+  column-gap: $grid-step;
+  cursor: default;
+  display: flex;
+}
+
+.user-menu-page__delete-confirmation__footer {
+  column-gap: $grid-step;
+  display: flex;
+}
+
+.user-menu-page__delete-confirmation__hint {
+  color: $color-grey;
+}
