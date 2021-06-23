@@ -19,7 +19,7 @@ export class EditProfilePageService {
 
     const remoteUpdate = {
       ...update as Required<AuthUserUpdate>,
-      emails: [user.primaryEmail, ...user.emails],
+      emails: [user.primaryEmail, ...user.emails].filter(Boolean),
       password: undefined,
       primaryEmail: undefined,
     };

@@ -1,24 +1,4 @@
 {
-  "activity_details": {
-    "date": "Date",
-    "domain": "Domain",
-    "ip": "IP"
-  },
-  "assets_list": {
-    "add_token": "Add Token"
-  },
-  "assets_history_list_item": {
-    "copy_wallet_address": "Copy wallet address",
-    "from": "From",
-    "received": "Received",
-    "sent": "Sent",
-    "to": "To"
-  },
-  "user_bank_balance": {
-    "buttons": {
-      "send": "Send"
-    }
-  },
   "edit_profile_page": {
     "back": "< Back",
     "form": {
@@ -109,63 +89,41 @@
       "successful_update": "User was successfully updated"
     }
   },
-  "pdv_activity_chart": {
-    "no_pdv_rate": "You have no PDV Rate data",
-    "not_enough_pdv_rate": "Not enough data for the chart"
+  "pdv_types_toggle": {
+    "advertiserId": "advertiser Id",
+    "cookie": "cookie",
+    "location": "location",
+    "searchHistory": "search history"
   },
-  "pdv_activity_list": {
-    "no_activity": "You have no activity data"
-  },
-  "toolbar_toggle": {
-    "label": "Enable the Decentr Toolbar"
-  },
-  "transfer_page": {
-    "cancel": "Cancel",
-    "form": {
-      "amount": {
-        "label": "Amount",
-        "errors": {
-          "insufficient": "Insufficient funds",
-          "min": "Minimum value is {{ min }}",
-          "pattern": "Incorrect amount format",
-          "required": "Amount is required"
-        }
-      },
-      "asset": {
-        "label": "Asset"
-      },
-      "receiver": {
-        "errors": {
-          "exists": "Enter valid wallet address",
-          "myAddress": "You can not send to your account",
-          "required": "Wallet address is required"
-        }
-      }
+  "settings_page": {
+    "content": {
+      "subtitle": "We use information about the sites you visit in order to transform it into PDV rate.",
+      "title": "Information we can track and transfer into PDV",
+      "warning": "Selected options will directly affect the PDV, the less we track the less will be your PDV."
     },
-    "send": "Send",
-    "tDEC": "tDEC",
-    "title": "Send tDEC",
-    "toastr": {
-      "successful_sent": "Successfully sent"
-    }
-  },
-  "user_details_page": {
-    "back": "< Back",
-    "estimated_balance": "In progress: {{estimatedBalance}} PDV",
-    "exchange_rate": "1 DEC = ${{ rate }} USD",
-    "tabs": {
-      "activity": "Activity",
-      "assets": "Assets",
-      "pdv_rate": "PDV Rate"
-    }
+    "title": "Account settings"
   },
   "user_page": {
-    "account_details": "Account details",
     "copy_wallet_address": "Copy wallet address",
-    "copy_wallet_address_success": "The wallet address was copied successfully",
-    "expand_view": "Expand view"
+    "pdv": "PDV",
+    "send": "Send",
+    "wallet_address_copied": "The wallet address was copied successfully",
+    "your_wallet": "Your wallet"
   },
-  "user_transfer_history": {
-    "no_history": "This asset has no any transfers"
+  "user_menu_page": {
+    "coming_soon": "coming soon",
+    "delete": "Delete account",
+    "delete_hint": "We’ll clean all the cookies and other information connected with your account.\nYou’ll be able to recover your account with seed phrase.",
+    "delete_confirmation": {
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "hint": "We’ll clean all the cookies and other information connected with your account. You won’t be able to undo this action. ",
+      "title": "Account will be deleted permanently"
+    },
+    "edit": "Edit account information",
+    "import": "Import account",
+    "lock": "Lock account",
+    "lock_hint": "You’ll be able to unlock your account using your password.",
+    "settings": "Settings"
   }
 }

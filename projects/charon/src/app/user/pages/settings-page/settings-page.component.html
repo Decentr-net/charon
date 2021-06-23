@@ -1,0 +1,39 @@
+<ng-container *transloco="let translate; read: 'user.settings_page'">
+  <div class="settings-page__header">
+    <button
+      app-button-back
+      [routerLink]="['../']"
+    ></button>
+
+    <div appTypeface="subheader">
+      {{ translate('title') }}
+    </div>
+  </div>
+
+  <div class="settings-page__divider"></div>
+
+  <div
+    class="settings-page__content__title"
+    appTypeface="paragraph"
+  >
+    {{ translate('content.title') }}
+  </div>
+
+  <div
+    class="settings-page__content__subtitle"
+    appTypeface="caption"
+  >
+    {{ translate('content.subtitle') }}
+  </div>
+
+  <app-pdv-types-toggle [formControl]="settingsControl"></app-pdv-types-toggle>
+
+  <div
+    class="settings-page__content__warning"
+    appTypeface="caption"
+  >
+    <svg-icon key="eye-crossed" size="xs"></svg-icon>
+
+    {{ translate('content.warning') }}
+  </div>
+</ng-container>

@@ -66,4 +66,17 @@ export class UserService {
       birthday: '1911-11-11',
     }, wallet);
   }
+
+  public resetAccount(
+    walletAddress: Wallet['address'],
+    initiator: Wallet['address'],
+    privateKey: Wallet['privateKey']
+  ): Observable<void> {
+    return this.userApiService.resetAccount(
+      this.networkService.getActiveNetworkInstant().api,
+      walletAddress,
+      initiator,
+      privateKey,
+    );
+  }
 }

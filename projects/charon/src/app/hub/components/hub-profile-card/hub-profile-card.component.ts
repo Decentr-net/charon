@@ -9,6 +9,7 @@ export interface HubProfile extends Profile {
   isFollowing: boolean;
   isFollowingUpdating: boolean;
   isUserProfile: boolean;
+  profileExists: boolean;
   postsCount: number;
 }
 

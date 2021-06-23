@@ -36,6 +36,7 @@ export class PostsService {
         ...postResponse.post,
         author: {
           ...profile,
+          profileExists: !!profile,
           postsCount: postResponse.profileStats.postsCount,
         },
         stats: postResponse.stats,

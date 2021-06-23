@@ -1,0 +1,33 @@
+@import 'variables';
+
+:host {
+  column-gap: $grid-step * 3;
+  display: flex;
+  margin: 0 auto;
+  padding: $page-side-padding;
+  width: $page-width + $page-side-padding * 2;
+}
+
+.user-page__card {
+  border: 2px solid $color-outlines;
+  border-radius: $border-radius;
+  height: min-content;
+  padding: $grid-step * 2;
+  width: 100%;
+}
+
+.user-page__wallet-card__title {
+  font-weight: 500;
+}
+
+.user-page__wallet-card__balance {
+  display: flex;
+  font-weight: 500;
+  margin-top: $grid-step * 2;
+}
+
+.user-page__wallet-card__actions {
+  column-gap: $grid-step * 2;
+  display: flex;
+  margin-top: $grid-step * 3;
+}

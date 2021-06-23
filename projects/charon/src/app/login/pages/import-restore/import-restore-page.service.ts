@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
-import { delay, mapTo, mergeMap, mergeMapTo } from 'rxjs/operators';
+import { delay, map, mapTo, mergeMap, mergeMapTo } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
-import { createWalletFromMnemonic } from 'decentr-js';
+import { createWalletFromMnemonic, Profile } from 'decentr-js';
 
 import { UserService } from '@core/services';
 import { AuthService } from '@core/auth';
@@ -36,7 +36,9 @@ export class ImportRestorePageService {
           )));
       }),
       mergeMapTo(forkJoin([
-        this.userService.getProfile(wallet.address, wallet),
+        this.userService.getProfile(wallet.address, wallet).pipe(
+          map((profile) => profile || {} as Profile),
+        ),
         this.userService.getModeratorAddresses(),
       ])),
       mergeMap(([profile, moderatorAddresses]) => this.authService.createUser({
