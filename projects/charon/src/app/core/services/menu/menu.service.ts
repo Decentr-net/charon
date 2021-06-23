@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, EMPTY, Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -61,7 +61,8 @@ export class MenuService extends MenuBaseService {
         avatar: user.avatar,
         title: `${user.firstName} ${user.lastName ? user.lastName.slice(0,1) + '.' : ''}`,
       })),
-    )
+      catchError(() => EMPTY),
+    );
   }
 
   public getItems(): Observable<MenuItem[][]> {

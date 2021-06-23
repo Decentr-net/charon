@@ -10,6 +10,7 @@ import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
+import { AvatarModule } from '@shared/components/avatar';
 import { ButtonModule } from '@shared/components/button';
 import { FormErrorModule } from '@shared/components/form-error';
 import { MarginLabelModule } from '@shared/components/margin-label';
@@ -25,6 +26,7 @@ import { UserRoutingModule } from './user-routing.module';
 
 @NgModule({
   imports: [
+    AvatarModule,
     ButtonModule,
     ClipboardModule,
     CommonModule,

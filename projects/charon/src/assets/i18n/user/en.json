@@ -95,5 +95,21 @@
     "send": "Send",
     "wallet_address_copied": "The wallet address was copied successfully",
     "your_wallet": "Your wallet"
+  },
+  "user_menu_page": {
+    "coming_soon": "coming soon",
+    "delete": "Delete account",
+    "delete_hint": "We’ll clean all the cookies and other information connected with your account.\nYou’ll be able to recover your account with seed phrase.",
+    "delete_confirmation": {
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "hint": "We’ll clean all the cookies and other information connected with your account. You won’t be able to undo this action. ",
+      "title": "Account will be deleted permanently"
+    },
+    "edit": "Edit account information",
+    "import": "Import account",
+    "lock": "Lock account",
+    "lock_hint": "You’ll be able to unlock your account using your password.",
+    "settings": "Settings"
   }
 }

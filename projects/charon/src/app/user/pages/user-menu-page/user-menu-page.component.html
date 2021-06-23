@@ -1,1 +1,152 @@
-<p>user-menu-page works!</p>
+<ng-container *transloco="let translate; read: 'user.user_menu_page'">
+  <div
+    class="user-menu-page__profile"
+    *ngIf="profile$ | async as profile"
+  >
+    <app-avatar
+      class="user-menu-page__profile__avatar"
+      [avatarUrl]="profile.avatar"
+    ></app-avatar>
+
+    <div>
+      <div appTypeface="header-4">{{ profile.lastName }} {{ profile.firstName }}</div>
+
+      <div
+        class="user-menu-page__profile__bio"
+        appTypeface="paragraph"
+      >
+        {{ profile.bio }}
+      </div>
+    </div>
+  </div>
+
+  <div class="user-menu-page__menu-block">
+    <button
+      class="user-menu-page__menu-block__button"
+      app-button
+      color="grey"
+      appTypeface="paragraph"
+      [routerLink]="['./', userRoute.Edit]"
+    >
+      <svg-icon key="edit"></svg-icon>
+
+      <span>{{ translate('edit') }}</span>
+    </button>
+
+    <button
+      class="user-menu-page__menu-block__button"
+      app-button
+      color="grey"
+      appTypeface="paragraph"
+      [routerLink]="['./', userRoute.Settings]"
+    >
+      <svg-icon key="settings"></svg-icon>
+
+      <span>{{ translate('settings') }}</span>
+    </button>
+  </div>
+
+  <div class="user-menu-page__menu-block">
+    <button
+      class="user-menu-page__menu-block__button"
+      app-button
+      color="grey"
+      disabled
+      appTypeface="paragraph"
+    >
+      <svg-icon key="import-account"></svg-icon>
+
+      <span>{{ translate('import') }}</span>
+
+      <span
+        appTypeface="caption"
+        class="user-menu-page__menu-block__coming-soon"
+      >
+        {{ translate('coming_soon') }}
+      </span>
+    </button>
+
+    <button
+      class="user-menu-page__menu-block__button mod-disable-align"
+      app-button
+      color="grey"
+      appTypeface="paragraph"
+      (click)="lockAccount()"
+    >
+      <svg-icon key="lock-account"></svg-icon>
+
+      <div>
+        <span>{{ translate('lock') }}</span>
+
+        <div
+          class="user-menu-page__menu-block__button-hint"
+          appTypeface="caption"
+        >
+          {{ translate('lock_hint') }}
+        </div>
+      </div>
+    </button>
+
+    <button
+      class="user-menu-page__menu-block__button mod-disable-align"
+      *ngIf="!deleteConfirmationRequested; else deleteConfirmationTemplate"
+      app-button
+      color="grey"
+      appTypeface="paragraph"
+      (click)="requestDeleteConfirmation()"
+    >
+      <svg-icon key="delete"></svg-icon>
+
+      <div>
+        <span>{{ translate('delete') }}</span>
+
+        <div
+          class="user-menu-page__menu-block__button-hint"
+          appTypeface="caption"
+        >
+          {{ translate('delete_hint') }}
+        </div>
+      </div>
+    </button>
+  </div>
+
+  <ng-template #deleteConfirmationTemplate>
+    <button
+      class="user-menu-page__menu-block__button mod-disable-align user-menu-page__delete-confirmation"
+      app-button
+      color=""
+      appTypeface="paragraph"
+    >
+      <svg-icon key="delete"></svg-icon>
+
+      <div>
+        <span>{{ translate('delete_confirmation.title') }}</span>
+
+        <div
+          class="user-menu-page__menu-block__button-hint user-menu-page__delete-confirmation__footer"
+          appTypeface="caption"
+        >
+          <div>{{ translate('delete_confirmation.hint') }}</div>
+
+          <button
+            app-button
+            color="grey"
+            size="xs"
+            (click)="cancelDelete()"
+          >
+            {{ translate('delete_confirmation.cancel') }}
+          </button>
+
+          <button
+            app-button
+            color="negative"
+            size="xs"
+            (click)="deleteAccount()"
+          >
+            {{ translate('delete_confirmation.confirm') }}
+          </button>
+        </div>
+      </div>
+    </button>
+  </ng-template>
+</ng-container>
