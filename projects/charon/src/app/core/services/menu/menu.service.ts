@@ -71,17 +71,6 @@ export class MenuService extends MenuBaseService {
         map((itemsTranslationsObject) => [
           [
             {
-              action: () => this.lockService.lock(),
-              iconKey: svgLockAccount.name,
-              title: itemsTranslationsObject['lock'],
-            },
-            {
-              iconKey: svgImportAccount.name,
-              title: itemsTranslationsObject['import_account'],
-            },
-          ],
-          [
-            {
               action: () => this.router.navigate(['/', AppRoute.Hub]),
               description: itemsTranslationsObject['decentr_hub']['description'],
               iconKey: svgDecentrHub.name,
@@ -112,6 +101,13 @@ export class MenuService extends MenuBaseService {
           ],
           [
             {
+              action: () => this.lockService.lock(),
+              iconKey: svgLockAccount.name,
+              title: itemsTranslationsObject['lock'],
+            },
+          ],
+          [
+            {
               action: () => window.open(DECENTR_SITE_URL, '_blank'),
               iconKey: svgInformation.name,
               title: itemsTranslationsObject['info_and_help'],
@@ -135,15 +131,6 @@ export class MenuService extends MenuBaseService {
   }
 
   public getTranslations(): Observable<MenuTranslations> {
-    return this.translocoService.selectTranslateObject('menu', null, 'core')
-      .pipe(
-        map(({
-          coming_soon: comingSoon,
-          ...rest
-        }) => ({
-          ...rest,
-          comingSoon,
-        })),
-      );
+    return this.translocoService.selectTranslateObject('menu', null, 'core');
   }
 }
