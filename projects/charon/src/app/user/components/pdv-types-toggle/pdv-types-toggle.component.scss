@@ -1,0 +1,14 @@
+@import 'variables';
+
+:host {
+  display: block;
+}
+
+.pdv-types-toggle__control {
+  column-gap: $grid-step;
+  display: flex;
+
+  & + & {
+    margin-top: $grid-step;
+  }
+}
