@@ -8,7 +8,7 @@ import { pingProxyServer } from './ping';
 
 export const handleProxyStatus = (): Observable<void> => {
   const checkTimer$ = isSelfProxyEnabled().pipe(
-    switchMap((enabled) => enabled ? timer(ONE_SECOND * 20) : EMPTY),
+    switchMap((enabled) => enabled ? timer(0, ONE_SECOND * 20) : EMPTY),
     tap(() => CONFIG_SERVICE.forceUpdate()),
     startWith(void 0),
     share(),
@@ -28,13 +28,14 @@ export const handleProxyStatus = (): Observable<void> => {
         map((settings) => settings.servers || []),
       )]),
     ),
-    filter(([settings, servers]) => servers.some((server) => {
-      return createProxyAddress(settings.host, settings.port) === createProxyAddress(server.address, server.port)
+    filter(([settings, servers]) => servers.every((server) => {
+      return createProxyAddress(settings.host, settings.port) !== createProxyAddress(server.address, server.port);
     })),
   );
 
   const proxyServerNotAvailable$ = checkTimer$.pipe(
     switchMap(() => getActiveProxySettings()),
+    filter((settings) => !!settings.host),
     mergeMap((settings) => pingProxyServer(settings.host)),
     mapTo(false),
     catchError(() => of(true)),
