@@ -14,6 +14,10 @@ export const listenCookiesSet = (filter: Partial<Cookie> = {}): Observable<Cooki
 
       const cookie = changeInfo.cookie;
 
+      if (!cookie.value) {
+        return;
+      }
+
       if (Object.keys(filter).some((key) => {
         return hasOwnProperty(cookie, key as keyof Cookie) && cookie[key] !== filter[key];
       })) {
