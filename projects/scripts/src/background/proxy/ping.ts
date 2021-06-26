@@ -4,7 +4,7 @@ export const pingProxyServer = async (host: string, timeout: number = ONE_SECOND
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeout);
 
-  const response = await fetch(`http://${host}`, {
+  const response = await fetch(`http://${host}?${Date.now()}`, {
     signal: controller.signal,
   });
 
