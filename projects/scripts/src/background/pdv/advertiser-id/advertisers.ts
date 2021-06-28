@@ -20,7 +20,6 @@ const ADVERTISERS_CONFIGURATION: Record<Advertisers, AdvertisersConfig> = {
       /(^ad-id([0-9a-zA-Z_]+)?)+$/,
       /(^advertising_id([0-9a-zA-Z_]+)?)+$/,
       /(^fire_adid([0-9a-zA-Z_]+)?)+$/,
-
     ],
     domainRegex: createUrlRegex('amazon'),
   },
