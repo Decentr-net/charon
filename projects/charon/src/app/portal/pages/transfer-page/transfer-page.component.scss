@@ -21,11 +21,11 @@ $transfer-page--padding: $grid-step * 2;
 
   &.mod-popup-view {
     .transfer-page__form__inputs-container {
-      grid-template-areas: 'amount'
-                           'error-amount'
-                           'to'
-                           'error-to';
-      grid-template-columns: initial;
+      display: block;
+    }
+
+    .transfer-page__form__control-to {
+      margin-top: $grid-step * 2;
     }
 
     .transfer-page__form__actions-container {
@@ -99,7 +99,6 @@ $transfer-page--padding: $grid-step * 2;
                        'error-amount empty error-to';
   grid-template-columns: 1fr max-content 1fr;
   padding-bottom: $grid-step;
-  row-gap: $grid-step;
 }
 
 .transfer-page__form__control-amount {
@@ -126,6 +125,7 @@ $transfer-page--padding: $grid-step * 2;
 
 .transfer-page__form__error {
   min-height: 16px;
+  margin-top: $grid-step;
   padding: 0 $grid-step * 2;
 }
 

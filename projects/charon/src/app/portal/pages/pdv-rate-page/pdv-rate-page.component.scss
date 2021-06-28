@@ -12,6 +12,8 @@ $popup-side-padding: $grid-step * 2;
 
     .pdv-rate__pdv {
       flex-grow: 1;
+      display: flex;
+      flex-direction: column;
       padding: $popup-side-padding;
     }
 
@@ -20,11 +22,10 @@ $popup-side-padding: $grid-step * 2;
     }
 
     .pdv-rate__pdv-chart {
-      height: 200px;
+      flex-grow: 1;
     }
 
     .pdv-rate__currency {
-      border-bottom: 2px solid $color-outlines;
       border-top: $grid-step / 2 solid $color-outlines;
       padding: $grid-step * 1.5 $popup-side-padding $grid-step * 2;
     }

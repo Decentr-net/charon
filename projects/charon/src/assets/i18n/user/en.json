@@ -116,9 +116,6 @@
   "pdv_activity_list": {
     "no_activity": "You have no activity data"
   },
-  "toolbar_toggle": {
-    "label": "Enable the Decentr Toolbar"
-  },
   "transfer_page": {
     "cancel": "Cancel",
     "form": {

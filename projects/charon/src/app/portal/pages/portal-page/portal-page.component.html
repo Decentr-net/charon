@@ -37,20 +37,4 @@
   </ng-container>
 
   <router-outlet></router-outlet>
-
-  <ng-container *appBrowserPopupView>
-    <div
-      class="portal-page__footer"
-      *appSlot="footerSlot"
-      appTypeface="caption"
-    >
-      <span>{{ translate('enable_toolbar') }}</span>
-
-      <mat-slide-toggle
-        color="primary"
-        [ngModel]="toolbarEnabledState$ | async"
-        (ngModelChange)="onToolbarEnabledStateChange($event)"
-      ></mat-slide-toggle>
-    </div>
-  </ng-container>
 </ng-container>
