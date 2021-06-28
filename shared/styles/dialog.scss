@@ -1,0 +1,10 @@
+@import 'variables';
+
+.app-confirmation-dialog-container {
+  .mat-dialog-container {
+    border-radius: $border-radius;
+    height: auto;
+    max-width: 588px;
+    padding: $grid-step * 2 $grid-step * 3;
+  }
+}

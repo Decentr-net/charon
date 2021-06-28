@@ -1,0 +1,45 @@
+<header
+  class="confirmation-dialog__title"
+  mat-dialog-title
+  appTypeface="subheader"
+>
+  {{ config.title }}
+</header>
+
+<mat-dialog-content
+  class="confirmation-dialog__content"
+  appTypeface="paragraph"
+>
+  {{ config.content }}
+</mat-dialog-content>
+
+<mat-dialog-actions
+  class="confirmation-dialog__actions"
+>
+  <button
+    class="confirmation-dialog__button"
+    app-button
+    color="grey"
+    mat-dialog-close
+  >
+    <svg-icon
+      *ngIf="config.cancel.icon as icon"
+      [key]="icon"
+    ></svg-icon>
+
+    {{ config.cancel.label }}
+  </button>
+
+  <button
+    app-button
+    [color]="config.alert ? 'negative' : 'primary'"
+    [mat-dialog-close]="true"
+  >
+    <svg-icon
+      *ngIf="config.confirm.icon as icon"
+      [key]="icon"
+    ></svg-icon>
+
+    {{ config.confirm.label }}
+  </button>
+</mat-dialog-actions>
