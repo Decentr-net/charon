@@ -89,7 +89,6 @@
 
     <button
       class="user-menu-page__menu-block__button mod-disable-align"
-      *ngIf="!deleteConfirmationRequested; else deleteConfirmationTemplate"
       app-button
       color="grey"
       appTypeface="paragraph"
@@ -109,44 +108,4 @@
       </div>
     </button>
   </div>
-
-  <ng-template #deleteConfirmationTemplate>
-    <button
-      class="user-menu-page__menu-block__button mod-disable-align user-menu-page__delete-confirmation"
-      app-button
-      color=""
-      appTypeface="paragraph"
-    >
-      <svg-icon key="delete"></svg-icon>
-
-      <div>
-        <span>{{ translate('delete_confirmation.title') }}</span>
-
-        <div
-          class="user-menu-page__menu-block__button-hint user-menu-page__delete-confirmation__footer"
-          appTypeface="caption"
-        >
-          <div>{{ translate('delete_confirmation.hint') }}</div>
-
-          <button
-            app-button
-            color="grey"
-            size="xs"
-            (click)="cancelDelete()"
-          >
-            {{ translate('delete_confirmation.cancel') }}
-          </button>
-
-          <button
-            app-button
-            color="negative"
-            size="xs"
-            (click)="deleteAccount()"
-          >
-            {{ translate('delete_confirmation.confirm') }}
-          </button>
-        </div>
-      </div>
-    </button>
-  </ng-template>
 </ng-container>

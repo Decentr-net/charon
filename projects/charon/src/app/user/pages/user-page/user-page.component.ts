@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, pluck, switchMap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 import { Wallet } from 'decentr-js';
@@ -49,6 +49,7 @@ export class UserPageComponent implements OnInit {
     );
 
     this.decBalance$ = this.walletAddress$.pipe(
+      filter((walletAddress) => !!walletAddress),
       switchMap((walletAddress) => this.userService.getAccount(walletAddress)),
       map((account) => account.coins[0].amount),
       map((amount) => amount.replace(/(?!^)(?=(?:\d{3})+$)/g, ' ')),
