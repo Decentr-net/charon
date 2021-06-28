@@ -117,8 +117,8 @@
     "delete_confirmation": {
       "cancel": "Cancel",
       "confirm": "Delete",
-      "hint": "We’ll clean all the cookies and other information connected with your account. You won’t be able to undo this action. ",
-      "title": "Account will be deleted permanently"
+      "content": "You’ll loose your account information, balance,  PDV rate and cookies and wont be able to restore it. Only thing you can restore with seed phrase is the account name.",
+      "title": "Delete your account?"
     },
     "edit": "Edit account information",
     "import": "Import account",

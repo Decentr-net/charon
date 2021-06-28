@@ -14,6 +14,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AvatarModule } from '@shared/components/avatar';
 import { ButtonModule } from '@shared/components/button';
 import { ButtonBackModule } from '@shared/components/button-back';
+import { ConfirmationDialogModule } from '@shared/components/confirmation-dialog';
 import { FormErrorModule } from '@shared/components/form-error';
 import { MarginLabelModule } from '@shared/components/margin-label';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
@@ -34,6 +35,7 @@ import { UserRoutingModule } from './user-routing.module';
     ButtonBackModule,
     ClipboardModule,
     CommonModule,
+    ConfirmationDialogModule,
     FormErrorModule,
     LayoutHeaderModule,
     MarginLabelModule,

@@ -49,21 +49,3 @@
   color: $color-primary;
   margin-left: auto;
 }
-
-.user-menu-page__delete-confirmation {
-  background: $color-dark-grey;
-  border-radius: $border-radius;
-  color: $color-white;
-  column-gap: $grid-step;
-  cursor: default;
-  display: flex;
-}
-
-.user-menu-page__delete-confirmation__footer {
-  column-gap: $grid-step;
-  display: flex;
-}
-
-.user-menu-page__delete-confirmation__hint {
-  color: $color-grey;
-}

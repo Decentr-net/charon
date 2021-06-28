@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
-import { catchError, finalize, pluck, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, finalize, map, mergeMap, pluck, switchMap, tap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Profile } from 'decentr-js';
 
@@ -10,6 +11,7 @@ import { svgEdit } from '@shared/svg-icons/edit';
 import { svgImportAccount } from '@shared/svg-icons/import-account';
 import { svgLockAccount } from '@shared/svg-icons/lock-account';
 import { svgSettings } from '@shared/svg-icons/settings';
+import { ConfirmationDialogService } from '@shared/components/confirmation-dialog';
 import { NotificationService } from '@shared/services/notification';
 import { AuthService } from '@core/auth';
 import { LockService } from '@core/lock';
@@ -31,10 +33,13 @@ export class UserMenuPageComponent implements OnInit {
   public readonly userRoute: typeof UserRoute = UserRoute;
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) private translocoScope,
     private authService: AuthService,
+    private confirmationDialogService: ConfirmationDialogService,
     private lockService: LockService,
     private notificationService: NotificationService,
     private spinnerService: SpinnerService,
+    private translocoService: TranslocoService,
     private userService: UserService,
     svgIconRegistry: SvgIconRegistry,
   ) {
@@ -59,17 +64,13 @@ export class UserMenuPageComponent implements OnInit {
     this.lockService.lock();
   }
 
-  public cancelDelete(): void {
-    this.deleteConfirmationRequested = false;
-  }
-
-  public deleteAccount(): void {
+  public deleteAccount(): Observable<void> {
     this.spinnerService.showSpinner();
 
     const user = this.authService.getActiveUserInstant();
     const wallet = user.wallet;
 
-    this.userService.resetAccount(
+    return this.userService.resetAccount(
       wallet.address,
       wallet.address,
       wallet.privateKey,
@@ -81,11 +82,30 @@ export class UserMenuPageComponent implements OnInit {
         return EMPTY;
       }),
       finalize(() => this.spinnerService.hideSpinner()),
-      untilDestroyed(this),
-    ).subscribe();
+    );
   }
 
   public requestDeleteConfirmation(): void {
-    this.deleteConfirmationRequested = true;
+    this.translocoService.selectTranslateObject(
+      'user_menu_page.delete_confirmation',
+      {},
+      this.translocoScope,
+    ).pipe(
+      map((translations) => ({
+        ...translations,
+        cancel: {
+          label: translations.cancel,
+        },
+        confirm: {
+          icon: svgDelete.name,
+          label: translations.confirm,
+        },
+        alert: true,
+      })),
+      mergeMap((config) => this.confirmationDialogService.open(config).afterClosed()),
+      filter((confirmed: boolean) => confirmed),
+      mergeMap(() => this.deleteAccount()),
+      untilDestroyed(this),
+    ).subscribe();
   }
 }
