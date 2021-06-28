@@ -4,6 +4,7 @@ import { initAutoLock } from './background/lock';
 import { initMigration } from './background/migration';
 import { setRandomNetwork } from './background/network-switch';
 import { initCookiesCollection } from './background/cookies/collection';
+import { whileApplicationAvailable } from './background/technical';
 
 (async () => {
   initMigration();
@@ -17,6 +18,7 @@ import { initCookiesCollection } from './background/cookies/collection';
   const pdvUpdateNotifier = new PDVUpdateNotifier();
   pdvUpdateNotifier.start();
 
-  initCookiesCollection()
-    .subscribe(() => pdvUpdateNotifier.notify());
+  initCookiesCollection().pipe(
+    whileApplicationAvailable(),
+  ).subscribe(() => pdvUpdateNotifier.notify());
 })();
