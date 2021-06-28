@@ -18,16 +18,24 @@
 
 .user-page__wallet-card__title {
   font-weight: 500;
+  margin-bottom: $grid-step * 2;
 }
 
 .user-page__wallet-card__balance {
   display: flex;
   font-weight: 500;
-  margin-top: $grid-step * 2;
 }
 
 .user-page__wallet-card__actions {
   column-gap: $grid-step * 2;
   display: flex;
   margin-top: $grid-step * 3;
+}
+
+.user-page__skeleton-loader {
+  display: block;
+
+  &::ng-deep .loader {
+    display: flex;
+  }
 }
