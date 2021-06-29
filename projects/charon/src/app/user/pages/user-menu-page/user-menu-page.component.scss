@@ -49,11 +49,3 @@
   color: $color-primary;
   margin-left: auto;
 }
-
-.user-menu-page__skeleton-loader {
-  display: block;
-
-  &::ng-deep .loader {
-    display: flex;
-  }
-}
