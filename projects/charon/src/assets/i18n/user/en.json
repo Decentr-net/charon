@@ -82,7 +82,7 @@
     },
     "hint": {
       "label": "Hint",
-      "text": "All account information is private and secured by blockchain.<br><br>Put the nicknames and e-mail addresses you use, it positively influences on PDV level."
+      "text": "All account information is private and secured by blockchain."
     },
     "title": "Account details",
     "toastr": {
