@@ -34,13 +34,3 @@
     background-color: $color-outlines;
   }
 }
-
-.portal-page__footer {
-  align-items: center;
-  background: $color-background;
-  display: flex;
-  font-weight: 500;
-  height: 40px;
-  justify-content: space-between;
-  padding: $grid-step * 1.5 $grid-step * 2;
-}

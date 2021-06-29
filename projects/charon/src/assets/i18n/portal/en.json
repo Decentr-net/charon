@@ -24,7 +24,6 @@
   },
   "portal_page": {
     "copy_wallet_address": "Copy wallet address",
-    "enable_toolbar": "Enable the Decentr Toolbar",
     "wallet_address_copied": "The wallet address was copied successfully"
   },
   "token_transactions_table": {

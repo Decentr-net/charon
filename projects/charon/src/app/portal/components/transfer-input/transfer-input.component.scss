@@ -10,6 +10,7 @@ $transfer-input--border-width: 2px;
   border-radius: $border-radius;
   border-style: solid;
   border-width: $transfer-input--border-width;
+  display: block;
   height: 100%;
   padding: $grid-step * 2 - $transfer-input--border-width;
   width: 100%;

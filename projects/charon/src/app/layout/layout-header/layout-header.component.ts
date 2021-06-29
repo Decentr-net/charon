@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { MediaService } from '@core/services/media';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { MediaService } from '@core/services/media';
 
-import { isAuthorized$ } from '../../../../../scripts/src/content/auth';
 import { LockBrowserStorageService } from '@shared/services/lock';
+import { AuthService } from '../../core/auth';
 
 @UntilDestroy()
 @Component({
@@ -21,15 +22,17 @@ export class LayoutHeaderComponent {
   @Input() userProfile: boolean;
 
   constructor(
+    private authService: AuthService,
+    private changeDetectorRef: ChangeDetectorRef,
     private lockBrowserStorageService: LockBrowserStorageService,
     public mediaService: MediaService,
   ) {
-    isAuthorized$().pipe(
-      untilDestroyed(this),
+    this.authService.getActiveUser().pipe(
+      map(user => user && user.registrationCompleted),
     ).subscribe((isAuthorized) => {
-        this.isAuthorized = isAuthorized;
-      }
-    );
+      this.isAuthorized = isAuthorized;
+      this.changeDetectorRef.markForCheck();
+    });
 
     this.lockBrowserStorageService.getLockedChanges().pipe(
       untilDestroyed(this),
