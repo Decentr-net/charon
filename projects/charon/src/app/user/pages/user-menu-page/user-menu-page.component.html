@@ -1,7 +1,7 @@
 <ng-container *transloco="let translate; read: 'user.user_menu_page'">
   <div
     class="user-menu-page__profile"
-    *ngIf="profile$ | async as profile; else profileLoading"
+    *ngIf="profile$ | async as profile"
   >
     <app-avatar
       class="user-menu-page__profile__avatar"
@@ -109,10 +109,3 @@
     </button>
   </div>
 </ng-container>
-
-<ng-template #profileLoading>
-  <ngx-skeleton-loader
-    class="user-menu-page__skeleton-loader"
-    [theme]="{ height: '80px' }"
-  ></ngx-skeleton-loader>
-</ng-template>
