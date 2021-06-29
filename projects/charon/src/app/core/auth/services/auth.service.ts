@@ -131,6 +131,7 @@ export class AuthService {
         gender: update.gender,
         lastName: update.lastName,
         emails: update.emails,
+        primaryEmail: update.primaryEmail,
         ...passwordHash ? { passwordHash} : {},
       });
   }
