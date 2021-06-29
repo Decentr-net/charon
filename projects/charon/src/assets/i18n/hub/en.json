@@ -112,6 +112,7 @@
     "remove_post": "Remove post"
   },
   "hub_profile_card": {
+    "unknown_author": "Unknown author",
     "follow": "Follow on Decentr",
     "following": "Following",
     "posts": "Posts",

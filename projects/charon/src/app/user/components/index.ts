@@ -1,7 +1,5 @@
-import { UserLayoutComponent } from './user-layout';
-
-export * from './user-layout';
+import { PdvTypesToggleComponent } from './pdv-types-toggle';
 
 export const USER_COMPONENTS = [
-  UserLayoutComponent,
+  PdvTypesToggleComponent,
 ];

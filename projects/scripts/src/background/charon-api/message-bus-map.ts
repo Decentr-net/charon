@@ -2,7 +2,6 @@ import {
   LikeWeight,
   PostCreate,
   PostIdentificationParameters,
-  PublicProfile,
   StdTxMessageType,
   StdTxMessageValue,
   TransferData,
@@ -10,7 +9,6 @@ import {
 } from 'decentr-js';
 
 import { MessageMap } from '../../../../../shared/message-bus';
-import { UserPrivate } from '../../../../../shared/services/auth';
 import { MessageCode } from '../../messages';
 
 export interface CharonAPIMessageBusMap extends MessageMap {
@@ -42,28 +40,6 @@ export interface CharonAPIMessageBusMap extends MessageMap {
       walletAddress: Wallet['address'];
       postIdentificationParameters: PostIdentificationParameters;
       likeWeight: LikeWeight;
-      privateKey: Wallet['privateKey'];
-    };
-    response: {
-      success: boolean;
-      error?: any;
-    };
-  };
-  [MessageCode.PrivateProfileUpdate]: {
-    body: {
-      walletAddress: Wallet['address'];
-      privateProfile: UserPrivate;
-      privateKey: Wallet['privateKey'];
-    };
-    response: {
-      success: boolean;
-      error?: any;
-    };
-  };
-  [MessageCode.PublicProfileUpdate]: {
-    body: {
-      publicProfile: PublicProfile;
-      walletAddress: Wallet['address'];
       privateKey: Wallet['privateKey'];
     };
     response: {

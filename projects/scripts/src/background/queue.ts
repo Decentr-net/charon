@@ -3,7 +3,7 @@ import PQueue from 'p-queue';
 const QUEUE = new PQueue({ concurrency: 1 });
 
 export enum QueuePriority {
-  Cookies = 0,
+  PDV = 0,
   Charon = 1,
 }
 

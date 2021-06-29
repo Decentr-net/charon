@@ -12,3 +12,13 @@ export interface AdvDdvStatistics {
   adv: number;
   ddv: number;
 }
+
+export interface PDVStats {
+  date: string;
+  value: number;
+}
+
+export interface ProfileStats {
+  postsCount: number;
+  stats: PDVStats[];
+}

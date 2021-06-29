@@ -1,0 +1,7 @@
+@import 'variables';
+
+.overlay-backdrop,
+.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  background-color: $color-black;
+  opacity: .4;
+}

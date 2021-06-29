@@ -33,6 +33,7 @@ const ROUTES: Routes = [
   },
   {
     path: AppRoute.User,
+    component: AuthorizedLayoutComponent,
     loadChildren: () => import('./user/user.module').then(x => x.UserModule),
     canLoad: [
       AuthCompletedRegistrationGuard,
@@ -41,6 +42,7 @@ const ROUTES: Routes = [
       SupportedVersionGuard,
       AuthCompletedRegistrationGuard,
       LockGuard,
+      BrowserTabGuard,
     ],
     canDeactivate: [
       LockGuard,

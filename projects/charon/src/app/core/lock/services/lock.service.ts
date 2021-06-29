@@ -18,6 +18,7 @@ import { isOpenedInTab } from '@shared/utils/browser';
 import { LockBrowserStorageService } from '@shared/services/lock';
 import { ONE_SECOND } from '@shared/utils/date';
 import { AppRoute } from '../../../app-route';
+import { AuthService } from '../../auth';
 import { LOCK_ACTIVITY_SOURCE, LOCK_REDIRECT_URL } from '../lock.tokens';
 
 export const LOCK_RETURN_URL_PARAM = 'returnUrl';
@@ -33,6 +34,7 @@ export class LockService {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
     private lockStorage: LockBrowserStorageService,
     private ngZone: NgZone,
     private router: Router,
@@ -120,6 +122,11 @@ export class LockService {
   }
 
   private init(): void {
+    this.authService.getActiveUser().pipe(
+      filter((user) => !user),
+      untilDestroyed(this),
+    ).subscribe(() => this.lockStorage.clear());
+
     this.initActivityUpdateSubscription();
 
     this.locked$.pipe(

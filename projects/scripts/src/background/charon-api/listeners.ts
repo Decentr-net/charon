@@ -7,8 +7,6 @@ import {
   deletePost,
   follow,
   likePost,
-  setPrivateProfile,
-  setPublicProfile,
   transferCoins,
   unfollow,
 } from './api';
@@ -69,28 +67,6 @@ export const initCharonAPIListeners = () => {
         message.body.walletAddress,
         message.body.postIdentificationParameters,
         message.body.likeWeight,
-        message.body.privateKey,
-      ),
-      message.sendResponse,
-    );
-  });
-
-  messageBus.onMessage(MessageCode.PrivateProfileUpdate).subscribe((message) => {
-    sendRequest(
-      () => setPrivateProfile(
-        message.body.walletAddress,
-        message.body.privateProfile,
-        message.body.privateKey,
-      ),
-      message.sendResponse,
-    );
-  });
-
-  messageBus.onMessage(MessageCode.PublicProfileUpdate).subscribe((message) => {
-    sendRequest(
-      () => setPublicProfile(
-        message.body.walletAddress,
-        message.body.publicProfile,
         message.body.privateKey,
       ),
       message.sendResponse,

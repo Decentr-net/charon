@@ -37,6 +37,10 @@ export class LockBrowserStorageService {
     return this.getStorageValueChanges('lastActivityTime');
   }
 
+  public clear(): Promise<void> {
+    return this.lockStorage.clear();
+  }
+
   private getStorageValueChanges<K extends keyof LockStorage>(key: K): Observable<LockStorage[K]> {
     return from(this.lockStorage.get(key)).pipe(
       mergeMap((isLocked) => this.lockStorage.onChange(key).pipe(

@@ -111,42 +111,6 @@
         imitatedIndex: index + 1
       }"
     ></ng-container>
-
-    <div [formArrayName]="controlName.Usernames">
-      <ng-container
-        *ngFor="let username of getArrayControl(controlName.Usernames).controls; let index = index"
-      >
-        <div class="input-container col-xs-12">
-          <div class="input-label">{{ translate('username.label') }} {{ !index ? '' : index + 1 }}</div>
-
-          <mat-form-field
-            [formGroupName]="index"
-            class="input-control icon-protected"
-            appearance="outline"
-          >
-            <input
-              matInput
-              [formControlName]="controlName.UsernameValue"
-              maxlength="30"
-              trim="blur"
-            >
-
-            <mat-error>
-              <app-form-error [controlName]="controlName.UsernameValue" i18nControlKey="username"></app-form-error>
-            </mat-error>
-          </mat-form-field>
-
-          <ng-container
-            [ngTemplateOutlet]="arrayControls"
-            [ngTemplateOutletContext]="{
-              $implicit: controlName.Usernames,
-              controlsLimit: maxUsernamesCount,
-              index: index
-            }"
-          ></ng-container>
-        </div>
-      </ng-container>
-    </div>
   </div>
 </form>
 

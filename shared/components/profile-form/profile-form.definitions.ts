@@ -1,5 +1,4 @@
-import { UserPrivate } from '../../services/auth';
-import { PublicProfile } from 'decentr-js';
+import { ProfileUpdate } from 'decentr-js';
 
 export enum ProfileFormControlName {
   Avatar = 'avatar',
@@ -11,18 +10,18 @@ export enum ProfileFormControlName {
   Gender = 'gender',
   LastName = 'lastName',
   PrimaryEmail = 'primaryEmail',
-  Usernames = 'usernames',
-  UsernameValue = 'value',
 }
 
-export type ArrayControlName = ProfileFormControlName.Emails | ProfileFormControlName.Usernames;
+export type ArrayControlName = ProfileFormControlName.Emails;
 
 export interface TranslationsConfig {
   read: string;
   scope?: string;
 }
 
-export type ProfileFormControlValue = Partial<Omit<UserPrivate, 'registrationCompleted'> & PublicProfile>;
+export type ProfileFormControlValue = Partial<ProfileUpdate> & {
+  primaryEmail?: string;
+}
 
 export interface UsernameForm {
   value: string;
@@ -32,7 +31,6 @@ export interface EmailForm {
   value: string;
 }
 
-export interface ProfileForm extends Partial<Omit<ProfileFormControlValue, 'emails' | 'usernames'>> {
+export interface ProfileForm extends Omit<ProfileFormControlValue, 'emails'> {
   emails?: EmailForm[];
-  usernames?: UsernameForm[];
 }

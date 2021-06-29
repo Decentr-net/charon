@@ -5,6 +5,7 @@ import { finalize } from 'rxjs/operators';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ProfileUpdate } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { NotificationService } from '@shared/services/notification';
@@ -85,7 +86,7 @@ export class EditProfilePageComponent implements OnInit {
 
   private createForm(): FormGroup<EditProfileForm> {
     return this.formBuilder.group({
-      profile: [{}],
+      profile: undefined,
       confirmPassword: ['', [
         RxwebValidators.compare({ fieldName: 'password' }),
       ]],

@@ -1,5 +1,4 @@
 export interface MenuTranslations {
-  comingSoon: string;
   pdv: string;
 }
 
