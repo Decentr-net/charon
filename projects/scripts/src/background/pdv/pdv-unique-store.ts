@@ -21,6 +21,8 @@ export class PDVUniqueStore {
         return [pdv.domain, pdv.path, pdv.name, pdv.secure, pdv.hostOnly, pdv.sameSite].join();
       case PDVType.SearchHistory:
         return [pdv.engine, pdv.query].join();
+      case PDVType.AdvertiserId:
+        return [pdv.advertiser, pdv.name, pdv.value].join();
       default:
         return uuid();
     }
