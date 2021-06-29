@@ -89,7 +89,7 @@ export class ActivityPageService extends InfiniteLoadingService<ActivityListItem
   private getPDVTitle(pdv: PDV): string {
     switch (pdv.type) {
       case PDVType.AdvertiserId:
-        return pdv.id;
+        return pdv.advertiser;
       case PDVType.Cookie:
         return pdv.name;
       case PDVType.Location:

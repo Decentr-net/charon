@@ -23,6 +23,7 @@ import { ONE_SECOND } from '../../../../../shared/utils/date';
 import CONFIG_SERVICE from '../config';
 import { whileUserActive } from '../auth/while-user-active';
 import { sendPDV } from './api';
+import { listenAdvertiserPDVs } from './advertiser-id';
 import { listenCookiePDVs } from './cookies';
 import { listenSearchHistoryPDVs } from './search-history';
 import { mergePDVsIntoAccumulated, PDV_STORAGE_SERVICE, rollbackPDVBlock } from './storage';
@@ -43,7 +44,7 @@ const whilePDVAllowed = (pdvType: PDVType, walletAddress: Wallet['address']) => 
     takeUntil(forbidden$),
     repeatWhen(() => allowed$),
   );
-}
+};
 
 const getAllPDVSource = (walletAddress: Wallet['address']) => merge(
   listenCookiePDVs().pipe(
@@ -54,6 +55,9 @@ const getAllPDVSource = (walletAddress: Wallet['address']) => merge(
   ),
   listenSearchHistoryPDVs().pipe(
     whilePDVAllowed(PDVType.SearchHistory, walletAddress),
+  ),
+  listenAdvertiserPDVs().pipe(
+    whilePDVAllowed(PDVType.AdvertiserId, walletAddress),
   ),
 );
 
