@@ -80,7 +80,7 @@ export class ActivityPageService extends InfiniteLoadingService<ActivityListItem
       case PDVType.Location:
         return `${pdv.latitude}, ${pdv.longitude}`;
       case PDVType.Profile:
-        return `${pdv.lastName} ${pdv.firstName}`;
+        return `${pdv.firstName} ${pdv.lastName}`;
       case PDVType.SearchHistory:
         return pdv.engine;
     }
@@ -95,7 +95,7 @@ export class ActivityPageService extends InfiniteLoadingService<ActivityListItem
       case PDVType.Location:
         return pdv.timestamp;
       case PDVType.Profile:
-        return `${pdv.lastName} ${pdv.firstName}`;
+        return `${pdv.firstName} ${pdv.lastName}`;
       case PDVType.SearchHistory:
         return this.datePipe.transform(pdv.timestamp, ACTIVITY_DATE_FORMAT);
     }
