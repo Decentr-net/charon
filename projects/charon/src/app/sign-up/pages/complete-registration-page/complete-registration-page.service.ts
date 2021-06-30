@@ -21,7 +21,6 @@ export class CompleteRegistrationPageService {
       update,
       user.wallet,
     ).pipe(
-      mergeMap(() => this.authService.updateUser(user.id, update)),
       mergeMap(() => this.authService.completeRegistration(user.id)),
       delay(100),
     );

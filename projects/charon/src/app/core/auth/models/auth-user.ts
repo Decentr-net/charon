@@ -9,5 +9,6 @@ export interface AuthUser extends User {
 
 export type AuthUserCreate = Partial<AuthUser> & { password: string };
 
-export type AuthUserUpdate
-  = Partial<Pick<AuthUser, 'avatar' | 'bio' | 'birthday' | 'firstName' | 'gender' | 'emails' | 'lastName'> & { password: string }>;
+export interface AuthUserUpdate {
+  password: string
+}

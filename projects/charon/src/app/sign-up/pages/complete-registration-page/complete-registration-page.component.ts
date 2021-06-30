@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Gender, ProfileUpdate } from 'decentr-js';
+import { Gender } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { ProfileFormControlValue } from '@shared/components/profile-form';
 import { NotificationService } from '@shared/services/notification';
-import { AuthService, AuthUser } from '@core/auth';
-import { SpinnerService } from '@core/services';
+import { AuthService } from '@core/auth';
+import { SpinnerService, UserService } from '@core/services';
 import { AppRoute } from '../../../app-route';
 import { SignUpRoute } from '../../sign-up-route';
 import { CompleteRegistrationPageService } from './complete-registration-page.service';
@@ -46,14 +46,20 @@ export class CompleteRegistrationPageComponent implements OnInit {
     private notificationService: NotificationService,
     private router: Router,
     private spinnerService: SpinnerService,
+    private userService: UserService,
   ) {
   }
 
   public ngOnInit(): void {
     this.form = this.createForm();
 
-    const user = this.authService.getActiveUserInstant() as AuthUser;
-    this.form.patchValue({ profile: user });
+    const wallet = this.authService.getActiveUserInstant().wallet;
+
+    this.userService.getProfile(wallet.address, wallet).pipe(
+      untilDestroyed(this),
+    ).subscribe((profile) => {
+      this.form.get('profile').patchValue(profile);
+    });
   }
 
   public onSubmit(): void {
@@ -65,7 +71,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
 
     this.spinnerService.showSpinner();
 
-    this.completeRegistrationPageService.updateUser(formValue.profile as Required<ProfileUpdate>)
+    this.completeRegistrationPageService.updateUser(formValue.profile)
       .pipe(
         finalize(() => this.spinnerService.hideSpinner()),
         untilDestroyed(this),

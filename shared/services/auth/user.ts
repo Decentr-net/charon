@@ -1,6 +1,6 @@
-import { ProfileUpdate, Wallet } from 'decentr-js';
+import { Wallet } from 'decentr-js';
 
-export interface User extends Partial<ProfileUpdate> {
+export interface User {
   readonly id: string;
   readonly registrationCompleted?: boolean;
   readonly wallet: Wallet;

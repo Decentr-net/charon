@@ -18,7 +18,7 @@ export interface TranslationsConfig {
   scope?: string;
 }
 
-export type ProfileFormControlValue = Partial<ProfileUpdate>;
+export type ProfileFormControlValue = ProfileUpdate;
 
 export interface UsernameForm {
   value: string;

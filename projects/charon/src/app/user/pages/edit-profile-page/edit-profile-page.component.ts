@@ -5,14 +5,13 @@ import { finalize } from 'rxjs/operators';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ProfileUpdate } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { NotificationService } from '@shared/services/notification';
 import { AppRoute } from '../../../app-route';
 import { AuthService } from '@core/auth';
 import { EditProfilePageService } from './edit-profile-page.service';
-import { SpinnerService } from '@core/services';
+import { SpinnerService, UserService } from '@core/services';
 import { PasswordValidationUtil } from '@shared/utils/validation';
 import { ProfileFormControlValue } from '@shared/components/profile-form';
 
@@ -49,15 +48,20 @@ export class EditProfilePageComponent implements OnInit {
     private notificationService: NotificationService,
     private translocoService: TranslocoService,
     private editProfilePageService: EditProfilePageService,
+    private userService: UserService,
   ) {
   }
 
   public ngOnInit(): void {
     this.form = this.createForm();
 
-    const user = this.authService.getActiveUserInstant();
+    const wallet = this.authService.getActiveUserInstant().wallet;
 
-    this.form.get('profile').patchValue(user);
+    this.userService.getProfile(wallet.address, wallet).pipe(
+      untilDestroyed(this),
+    ).subscribe((profile) => {
+      this.form.get('profile').patchValue(profile);
+    });
   }
 
   public onSubmit(): void {
