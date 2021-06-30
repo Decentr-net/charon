@@ -52,7 +52,6 @@ export class UserPageComponent implements OnInit {
       filter((walletAddress) => !!walletAddress),
       switchMap((walletAddress) => this.userService.getAccount(walletAddress)),
       map((account) => account.coins[0].amount),
-      map((amount) => amount.replace(/(?!^)(?=(?:\d{3})+$)/g, ' ')),
     );
   }
 
