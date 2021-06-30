@@ -73,11 +73,7 @@ export class AuthService {
     // TODO: temporary solution to disable birthday
     await this.authStorage.createUser({
       id,
-      bio: user.bio,
-      birthday: '1911-11-11',
       emailConfirmed: user.emailConfirmed,
-      emails: user.emails,
-      gender: user.gender,
       isModerator: user.isModerator,
       passwordHash,
       primaryEmail: user.primaryEmail,
@@ -124,13 +120,6 @@ export class AuthService {
     return this.authStorage.updateUser(
       userId,
       {
-        avatar: update.avatar,
-        bio: update.bio,
-        birthday: '1911-11-11',
-        firstName: update.firstName,
-        gender: update.gender,
-        lastName: update.lastName,
-        emails: update.emails,
         ...passwordHash ? { passwordHash} : {},
       });
   }

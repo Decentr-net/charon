@@ -39,7 +39,7 @@ export class ProfileFormModel {
   }
 
   public createForm(): FormGroup<ProfileForm> {
-    const form = new FormGroup<ProfileForm>({});
+    const form = new FormGroup({});
 
     const avatarControl = this.createAvatarControl();
     if (avatarControl) {
