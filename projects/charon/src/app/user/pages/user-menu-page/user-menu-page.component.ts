@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
-import { catchError, filter, finalize, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, filter, finalize, map, mergeMap, pluck, switchMap, tap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Profile } from 'decentr-js';
 
 import { svgDelete } from '@shared/svg-icons/delete';
 import { svgEdit } from '@shared/svg-icons/edit';
@@ -12,7 +13,7 @@ import { svgLockAccount } from '@shared/svg-icons/lock-account';
 import { svgSettings } from '@shared/svg-icons/settings';
 import { ConfirmationDialogService } from '@shared/components/confirmation-dialog';
 import { NotificationService } from '@shared/services/notification';
-import { AuthService, AuthUser } from '@core/auth';
+import { AuthService } from '@core/auth';
 import { LockService } from '@core/lock';
 import { SpinnerService, UserService } from '@core/services';
 import { UserRoute } from '../../user-route';
@@ -25,7 +26,7 @@ import { UserRoute } from '../../user-route';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserMenuPageComponent implements OnInit {
-  public profile$: Observable<AuthUser>;
+  public profile$: Observable<Profile>;
 
   public deleteConfirmationRequested: boolean;
 
@@ -53,6 +54,8 @@ export class UserMenuPageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.profile$ = this.authService.getActiveUser().pipe(
+      pluck('wallet'),
+      switchMap((wallet) => this.userService.getProfile(wallet.address, wallet)),
       catchError(() => EMPTY),
     );
   }
