@@ -81,9 +81,6 @@
         },
         "label": "Last Name"
       },
-      "primary_email": {
-        "label": "Email (primary)"
-      },
       "username": {
         "errors": {
           "minlength": "Length of name should be not less than {{ requiredLength }}",

@@ -30,7 +30,7 @@ export class ProfileFormModel {
 
   public addEmail(form: FormGroup<ProfileForm>): void {
     this.getEmailsFormArray(form).push(
-      this.createEmailGroup([ProfileFormModel.emailUniqueAdditionalValidator(form)]),
+      this.createEmailGroup(),
     );
   }
 
@@ -68,10 +68,7 @@ export class ProfileFormModel {
       form.addControl(ProfileFormControlName.LastName, lastNameControl);
     }
 
-    const primaryEmailControl = this.createPrimaryEmailControl();
-    if (primaryEmailControl) {
-      form.addControl(ProfileFormControlName.PrimaryEmail, primaryEmailControl);
-    }
+    this.addEmail(form);
 
     return form;
   }
@@ -83,7 +80,7 @@ export class ProfileFormModel {
   ): void {
     const patch: ProfileForm = {
       ...value,
-      emails: (value && value.emails || []).map((value) => ({ value })),
+      emails: (value?.emails || []).map((value) => ({ value })),
     };
 
     if (patch.emails) {
@@ -98,11 +95,11 @@ export class ProfileFormModel {
       }
     }
 
-    form.patchValue(patch, options);
-
-    if (!form.getRawValue().primaryEmail) {
-      form.get('primaryEmail').enable();
+    if (!this.getEmailsFormArray(form).length) {
+      this.addEmail(form)
     }
+
+    form.patchValue(patch, options);
   }
 
   public getOuterValue(form: FormGroup<ProfileForm>): ProfileFormControlValue {
@@ -175,24 +172,13 @@ export class ProfileFormModel {
     );
   }
 
-  protected createPrimaryEmailControl(): FormControl<ProfileForm['primaryEmail']> | undefined {
-    return new FormControl({
-      value: '',
-      disabled: true,
-    }, [
-      Validators.required,
-      RxwebValidators.email(),
-    ]);
-  }
-
-  protected createEmailControl(additionalValidators?: ValidatorFn[]): FormControl<EmailForm['value']> | undefined {
+  protected createEmailControl(): FormControl<EmailForm['value']> | undefined {
     return new FormControl(
       '',
       [
         Validators.required,
         RxwebValidators.email(),
         RxwebValidators.unique(),
-        ...additionalValidators,
       ],
     );
   }
@@ -208,28 +194,10 @@ export class ProfileFormModel {
     );
   }
 
-  private createEmailGroup(additionalEmailValidators?: ValidatorFn[]): FormGroup<EmailForm> | undefined {
+  private createEmailGroup(): FormGroup<EmailForm> | undefined {
     return new FormGroup<EmailForm>({
-      [ProfileFormControlName.EmailValue]: this.createEmailControl(additionalEmailValidators),
+      [ProfileFormControlName.EmailValue]: this.createEmailControl(),
     });
-  }
-
-  protected static emailUniqueAdditionalValidator(form: FormGroup<ProfileForm>): ValidatorFn<string> {
-    return (control) => {
-      const primaryEmail = form.get(ProfileFormControlName.PrimaryEmail);
-
-      if (primaryEmail
-        && primaryEmail.value
-        && control.value
-        && control.value.toLowerCase() === primaryEmail.value.toLowerCase()
-      ) {
-        return {
-          unique: {},
-        };
-      }
-
-      return null;
-    }
   }
 
   protected static nonExistentDate(): ValidatorFn<string> {

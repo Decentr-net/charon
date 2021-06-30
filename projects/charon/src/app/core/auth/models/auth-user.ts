@@ -4,10 +4,10 @@ export interface AuthUser extends User {
   emailConfirmed: boolean;
   isModerator: boolean;
   passwordHash: string;
-  primaryEmail: string;
+  primaryEmail?: string; // registrationEmail
 }
 
 export type AuthUserCreate = Partial<AuthUser> & { password: string };
 
 export type AuthUserUpdate
-  = Partial<Pick<AuthUser, 'avatar' | 'bio' | 'birthday' | 'firstName' | 'gender' | 'emails' | 'lastName' | 'primaryEmail'> & { password: string }>;
+  = Partial<Pick<AuthUser, 'avatar' | 'bio' | 'birthday' | 'firstName' | 'gender' | 'emails' | 'lastName'> & { password: string }>;

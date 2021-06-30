@@ -14,18 +14,11 @@ export class CompleteRegistrationPageService {
   ) {
   }
 
-  public updateUser(update: ProfileUpdate & { primaryEmail?: string; }): Observable<void> {
+  public updateUser(update: ProfileUpdate): Observable<void> {
     const user = this.authService.getActiveUserInstant();
 
-    const remoteUpdate = {
-      ...update,
-      emails: [update.primaryEmail, ...update.emails].filter(Boolean),
-    };
-
-    delete remoteUpdate.primaryEmail;
-
     return this.userService.setProfile(
-      remoteUpdate,
+      update,
       user.wallet,
     ).pipe(
       mergeMap(() => this.authService.updateUser(user.id, update)),
