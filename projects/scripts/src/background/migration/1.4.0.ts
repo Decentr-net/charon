@@ -2,6 +2,7 @@ import { map, mergeMap, take } from 'rxjs/operators';
 import { ProfileUpdate } from 'decentr-js';
 
 import { AuthBrowserStorageService, User } from '../../../../../shared/services/auth';
+import { BrowserLocalStorage } from '../../../../../shared/services/browser-storage';
 import { PDV_STORAGE_SERVICE } from '../pdv/storage';
 
 interface OldUser extends User, ProfileUpdate {
@@ -11,6 +12,10 @@ interface OldUser extends User, ProfileUpdate {
 
 const clearPDVStorage = (): Promise<void> => {
   return PDV_STORAGE_SERVICE.clear();
+};
+
+const clearToolbarStorage = (): Promise<void> => {
+  return BrowserLocalStorage.getInstance().useSection('toolbar').clear();
 };
 
 const clearProfilesData = (): Promise<void> => {
@@ -39,6 +44,8 @@ const clearProfilesData = (): Promise<void> => {
 
 export const migrate = async (): Promise<void> => {
   await clearPDVStorage();
+
+  await clearToolbarStorage();
 
   await clearProfilesData();
 };
