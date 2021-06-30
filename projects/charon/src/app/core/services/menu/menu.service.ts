@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { combineLatest, EMPTY, Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, map, pluck, shareReplay, switchMap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
+import { Profile } from 'decentr-js';
 
 import {
   MenuItem,
@@ -20,6 +21,7 @@ import { HubRoute } from '../../../hub';
 import { LockService } from '../../lock';
 import { NavigationService } from '../../navigation';
 import { AuthService } from '../../auth';
+import { UserService } from '../user';
 import { svgDecentrHub } from '@shared/svg-icons/decentr-hub';
 import { svgImportAccount } from '@shared/svg-icons/import-account';
 import { svgInformation } from '@shared/svg-icons/information';
@@ -33,6 +35,8 @@ const DECENTR_EXPLORER_SITE_URL = 'https://explorer.decentr.net';
 
 @Injectable()
 export class MenuService extends MenuBaseService {
+  private profile$: Observable<Profile>;
+
   constructor(
     private authService: AuthService,
     private navigationService: NavigationService,
@@ -40,6 +44,7 @@ export class MenuService extends MenuBaseService {
     private lockService: LockService,
     private router: Router,
     private translocoService: TranslocoService,
+    private userService: UserService,
     svgIconRegistry: SvgIconRegistry,
   ) {
     super();
@@ -53,15 +58,18 @@ export class MenuService extends MenuBaseService {
       svgLogoIconOrange,
       svgLogoIconPink,
     ]);
+
+    this.profile$ = this.getProfile().pipe(
+      shareReplay(1),
+    );
   }
 
   public getUserProfile(): Observable<MenuUserProfile> {
-    return this.authService.getActiveUser().pipe(
-      map((user) => ({
-        avatar: user.avatar,
-        title: `${user.firstName} ${user.lastName ? user.lastName.slice(0,1) + '.' : ''}`,
+    return this.profile$.pipe(
+      map((profile) => ({
+        avatar: profile.avatar,
+        title: `${profile.firstName} ${profile.lastName ? profile.lastName.slice(0,1) + '.' : ''}`,
       })),
-      catchError(() => EMPTY),
     );
   }
 
@@ -132,5 +140,14 @@ export class MenuService extends MenuBaseService {
 
   public getTranslations(): Observable<MenuTranslations> {
     return this.translocoService.selectTranslateObject('menu', null, 'core');
+  }
+
+  private getProfile(): Observable<Profile> {
+    return this.authService.getActiveUser().pipe(
+      pluck('wallet', 'address'),
+      distinctUntilChanged(),
+      switchMap((walletAddress) => this.userService.getProfile(walletAddress)),
+      catchError(() => EMPTY),
+    );
   }
 }

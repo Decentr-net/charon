@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { shareReplay } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { MenuService } from '../menu.service';
@@ -33,13 +32,9 @@ export class MenuComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.userProfile$ = this.menuService.getUserProfile().pipe(
-      shareReplay(1),
-    );
+    this.userProfile$ = this.menuService.getUserProfile();
 
-    this.translations$ = this.menuService.getTranslations().pipe(
-      shareReplay(1),
-    );
+    this.translations$ = this.menuService.getTranslations();
 
     this.items$ = this.menuService.getItems();
 
