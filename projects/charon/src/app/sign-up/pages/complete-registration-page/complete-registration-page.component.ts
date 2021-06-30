@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Gender } from 'decentr-js';
+import { Gender, Profile } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { ProfileFormControlValue } from '@shared/components/profile-form';
@@ -53,11 +53,16 @@ export class CompleteRegistrationPageComponent implements OnInit {
   public ngOnInit(): void {
     this.form = this.createForm();
 
-    const wallet = this.authService.getActiveUserInstant().wallet;
+    const user = this.authService.getActiveUserInstant();
 
-    this.userService.getProfile(wallet.address, wallet).pipe(
+    this.userService.getProfile(user.wallet.address, user.wallet).pipe(
+      map((profile) => profile || {} as Profile),
       untilDestroyed(this),
     ).subscribe((profile) => {
+      if (!profile.emails?.length && user.primaryEmail) {
+        profile.emails = [user.primaryEmail];
+      }
+
       this.form.get('profile').patchValue(profile);
     });
   }
