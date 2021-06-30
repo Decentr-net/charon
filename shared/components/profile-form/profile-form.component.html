@@ -93,22 +93,12 @@
     </div>
 
     <ng-container
-      [ngTemplateOutlet]="emailControl"
-      [ngTemplateOutletContext]="{
-        $implicit: form.get(controlName.PrimaryEmail),
-        index: 0,
-        label: translate('primary_email.label')
-      }"
-    ></ng-container>
-
-    <ng-container
       *ngFor="let email of getArrayControl(controlName.Emails).controls; let index = index;"
       [ngTemplateOutlet]="emailControl"
       [ngTemplateOutletContext]="{
         $implicit: email.get(controlName.EmailValue),
         index: index,
-        label: translate('email.label'),
-        imitatedIndex: index + 1
+        label: translate('email.label')
       }"
     ></ng-container>
   </div>
@@ -117,12 +107,11 @@
 <ng-template
   #emailControl
   let-control
-  let-imitatedIndex="imitatedIndex"
   let-index="index"
   let-label="label"
 >
   <div class="input-container col-xs-12">
-    <div class="input-label">{{ label }} {{ !(imitatedIndex || index) ? '' : (imitatedIndex || index) + 1 }}</div>
+    <div class="input-label">{{ label }} {{ index + 1 }}</div>
 
     <mat-form-field
       class="input-control icon-protected"
@@ -145,7 +134,6 @@
       [ngTemplateOutletContext]="{
         $implicit: controlName.Emails,
         controlsLimit: maxAdditionalEmailsCount,
-        imitatedIndex: imitatedIndex,
         index: index
       }"
     ></ng-container>
@@ -156,11 +144,10 @@
   #arrayControls
   let-arrayName
   let-controlsLimit="controlsLimit"
-  let-imitatedIndex="imitatedIndex"
   let-index="index"
 >
   <ng-template
-    [ngIf]="!(imitatedIndex || index)"
+    [ngIf]="!index"
     [ngIfThen]="addBtn"
     [ngIfElse]="removeBtn"
   ></ng-template>

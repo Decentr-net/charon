@@ -58,9 +58,6 @@
         },
         "label": "Last Name"
       },
-      "primary_email": {
-        "label": "Email (primary)"
-      },
       "username": {
         "errors": {
           "maxlength": "The maximum length of Nickname is {{ requiredLength }} characters",

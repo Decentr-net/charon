@@ -43,8 +43,7 @@ export class ImportRestorePageService {
       ])),
       mergeMap(([profile, moderatorAddresses]) => this.authService.createUser({
           ...profile,
-          emails: (profile.emails || []).slice(1),
-          primaryEmail: (profile.emails || [])[0],
+          emails: profile.emails || [],
           isModerator: moderatorAddresses.includes(wallet.address) || undefined,
           wallet,
           password,

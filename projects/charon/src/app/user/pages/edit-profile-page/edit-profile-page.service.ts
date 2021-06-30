@@ -19,9 +19,7 @@ export class EditProfilePageService {
 
     const remoteUpdate = {
       ...update as Required<AuthUserUpdate>,
-      emails: [user.primaryEmail, ...user.emails].filter(Boolean),
       password: undefined,
-      primaryEmail: undefined,
     };
 
     return (this.shouldUpdateRemoteProfile(remoteUpdate)
@@ -35,7 +33,7 @@ export class EditProfilePageService {
   private shouldUpdateRemoteProfile(update: AuthUserUpdate): boolean {
     const user = this.authService.getActiveUserInstant();
 
-    return update.emails.join() !== [user.primaryEmail, ...user.emails].filter(Boolean).join()
+    return update.emails.join() !== user.emails.join()
       || update.bio !== user.bio
       || update.avatar !== user.avatar
       || update.birthday !== user.birthday

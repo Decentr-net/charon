@@ -9,7 +9,6 @@ export enum ProfileFormControlName {
   FirstName = 'firstName',
   Gender = 'gender',
   LastName = 'lastName',
-  PrimaryEmail = 'primaryEmail',
 }
 
 export type ArrayControlName = ProfileFormControlName.Emails;
@@ -19,9 +18,7 @@ export interface TranslationsConfig {
   scope?: string;
 }
 
-export type ProfileFormControlValue = Partial<ProfileUpdate> & {
-  primaryEmail?: string;
-}
+export type ProfileFormControlValue = Partial<ProfileUpdate>;
 
 export interface UsernameForm {
   value: string;
