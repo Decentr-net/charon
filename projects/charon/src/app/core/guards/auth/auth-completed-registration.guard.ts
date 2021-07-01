@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, CanLoad, Router, UrlTree } from '@angular/router';
 
-import { AuthService } from '../../auth';
+import { AuthService } from '@core/auth';
+import { UserService } from '@core/services';
 import { AppRoute } from '../../../app-route';
 import { SignUpRoute } from '../../../sign-up';
 
@@ -9,14 +10,18 @@ import { SignUpRoute } from '../../../sign-up';
 export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateChild, CanLoad {
   constructor(
     private authService: AuthService,
+    private userService: UserService,
     private router: Router,
   ) {
   }
 
-  public canActivate(): boolean | UrlTree {
+  public async canActivate(): Promise<boolean | UrlTree> {
     if (this.authService.isLoggedIn) {
-      const user = this.authService.getActiveUserInstant();
-      if (user.registrationCompleted) {
+      const wallet = this.authService.getActiveUserInstant().wallet;
+
+      const profile = await this.userService.getProfile(wallet.address, wallet).toPromise();
+
+      if (profile?.emails?.length) {
         return true;
       }
 
@@ -26,11 +31,11 @@ export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateC
     return this.router.createUrlTree(['/', AppRoute.Welcome]);
   }
 
-  public canActivateChild(): boolean | UrlTree {
+  public canActivateChild(): Promise<boolean | UrlTree> {
     return this.canActivate();
   }
 
-  public canLoad(): boolean | UrlTree {
+  public canLoad(): Promise<boolean | UrlTree> {
     return this.canActivate();
   }
 }

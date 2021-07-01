@@ -48,7 +48,6 @@ export class EmailConfirmationPageService {
             return throwError(error);
         }
       }),
-      mergeMap(() => this.authService.confirmUserEmail(user.id)),
       mergeMap(() => this.userService.waitAccount(user.wallet.address)),
       mapTo(void 0),
     );

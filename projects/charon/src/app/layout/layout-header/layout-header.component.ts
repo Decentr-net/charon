@@ -28,7 +28,7 @@ export class LayoutHeaderComponent {
     public mediaService: MediaService,
   ) {
     this.authService.getActiveUser().pipe(
-      map(user => user && user.registrationCompleted),
+      map(Boolean),
     ).subscribe((isAuthorized) => {
       this.isAuthorized = isAuthorized;
       this.changeDetectorRef.markForCheck();

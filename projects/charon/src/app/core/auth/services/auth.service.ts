@@ -43,14 +43,6 @@ export class AuthService {
     ).toPromise().then();
   }
 
-  public confirmUserEmail(userId: AuthUser['id']): Promise<void> {
-    return this.authStorage.updateUser(userId, { emailConfirmed: true });
-  }
-
-  public completeRegistration(userId: AuthUser['id']): Promise<void> {
-    return this.authStorage.updateUser(userId, { registrationCompleted: true });
-  }
-
   public getActiveUser(): Observable<AuthUser | undefined> {
     return this.activeUser$.asObservable().pipe(
       tap((user) => {
@@ -73,11 +65,9 @@ export class AuthService {
     // TODO: temporary solution to disable birthday
     await this.authStorage.createUser({
       id,
-      emailConfirmed: user.emailConfirmed,
       isModerator: user.isModerator,
       passwordHash,
       primaryEmail: user.primaryEmail,
-      registrationCompleted: user.registrationCompleted,
       wallet: user.wallet,
     });
 
