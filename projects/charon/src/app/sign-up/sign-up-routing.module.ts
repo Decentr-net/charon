@@ -6,7 +6,8 @@ import {
   AuthCompletedRegistrationGuard,
   AuthConfirmedGuard,
   AuthUncompletedRegistrationGuard,
-  AuthUnconfirmedGuard, UnauthGuard,
+  AuthUnconfirmedGuard,
+  UnauthGuard,
 } from '@core/auth';
 import {
   CompleteRegistrationPageComponent,
@@ -48,7 +49,6 @@ const ROUTES: Routes = [
         path: SignUpRoute.Success,
         component: SuccessPageComponent,
         canActivate: [
-          AuthConfirmedGuard,
           AuthCompletedRegistrationGuard,
         ],
       },
