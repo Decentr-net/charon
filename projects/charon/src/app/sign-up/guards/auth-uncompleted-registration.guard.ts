@@ -1,16 +1,14 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, CanLoad, Router, UrlTree } from '@angular/router';
-import { AuthService } from '../services';
-import { COMPLETED_REGISTRATION_REDIRECT_URL, UNAUTHORIZED_REDIRECT_URL } from '../auth.tokens';
+
+import { AuthService } from '@core/auth';
+import { AppRoute } from '../../app-route';
 
 @Injectable()
 export class AuthUncompletedRegistrationGuard implements CanActivate, CanActivateChild, CanLoad {
-
   constructor(
     private authService: AuthService,
     private router: Router,
-    @Inject(COMPLETED_REGISTRATION_REDIRECT_URL) private completedRegistrationRedirectUrl: string,
-    @Inject(UNAUTHORIZED_REDIRECT_URL) private unauthorizedRedirectUrl: string,
   ) {
   }
 
@@ -21,10 +19,10 @@ export class AuthUncompletedRegistrationGuard implements CanActivate, CanActivat
         return true;
       }
 
-      return this.router.createUrlTree([this.completedRegistrationRedirectUrl]);
+      return this.router.createUrlTree(['/']);
     }
 
-    return this.router.createUrlTree([this.unauthorizedRedirectUrl]);
+    return this.router.createUrlTree(['/', AppRoute.Welcome]);
   }
 
   public canActivateChild(): boolean | UrlTree {

@@ -13,7 +13,6 @@ import { NotificationsModule } from '@shared/services/notification';
 import { PDVModule } from '@shared/services/pdv';
 import { ERROR_PROCESSORS, FallbackErrorProcessor } from '@core/notifications';
 import { AppRoute } from '../app-route';
-import { SignUpRoute } from '../sign-up';
 import { AuthModule, AuthService } from './auth';
 import { AuthorizedLayoutModule } from './layout/authorized-layout';
 import { LockModule } from './lock';
@@ -49,14 +48,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
 
 @NgModule({
   imports: [
-    AuthModule.forRoot({
-      authorizedRedirectUrl: `/`,
-      completedRegistrationUrl: `/`,
-      confirmedEmailUrl: `/${AppRoute.SignUp}/${SignUpRoute.CompleteRegistration}`,
-      unauthorizedRedirectUrl: `/${AppRoute.Welcome}`,
-      uncompletedRegistrationUrl: `/${AppRoute.SignUp}/${SignUpRoute.CompleteRegistration}`,
-      unconfirmedEmailUrl: `/${AppRoute.SignUp}/${SignUpRoute.EmailConfirmation}`,
-    }),
+    AuthModule.forRoot(),
     AuthorizedLayoutModule,
     ConfigurationModule,
     CurrencyModule.forRoot({
