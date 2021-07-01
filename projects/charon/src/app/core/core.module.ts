@@ -25,6 +25,7 @@ import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES, MenuService, NetworkSelectorService, NetworkService } from './services';
 import { QuillRootModule } from './quill';
+import { PermissionsService } from './permissions';
 
 export function initAuthFactory(authService: AuthService): () => void {
   return () => authService.init();
@@ -70,7 +71,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     }),
     OverlayModule,
     PDVModule,
-    PermissionsModule.forRoot(),
+    PermissionsModule.forRoot(PermissionsService),
     QuillRootModule,
     SlotModule.forRoot(),
     SvgIconRootModule,

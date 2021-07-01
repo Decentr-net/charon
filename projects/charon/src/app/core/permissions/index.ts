@@ -1,3 +1,2 @@
-export enum UserPermissions {
-  DELETE_POST,
-}
+export * from './permissions.service';
+export * from './permissions';

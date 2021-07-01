@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
-import { delay, mapTo, mergeMap, mergeMapTo } from 'rxjs/operators';
+import { delay, mapTo, mergeMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { createWalletFromMnemonic } from 'decentr-js';
 
@@ -35,9 +35,7 @@ export class ImportRestorePageService {
             'login'
           )));
       }),
-      mergeMapTo(this.userService.getModeratorAddresses()),
-      mergeMap((moderatorAddresses) => this.authService.createUser({
-        isModerator: moderatorAddresses.includes(wallet.address) || undefined,
+      mergeMap(() => this.authService.createUser({
         wallet,
         password,
       })),

@@ -1,7 +1,6 @@
 import { User } from '@shared/services/auth';
 
 export interface AuthUser extends User {
-  isModerator: boolean;
   passwordHash: string;
   primaryEmail?: string; // registrationEmail
 }
