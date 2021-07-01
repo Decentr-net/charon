@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthConfirmedGuard, UnauthGuard } from '@core/auth';
-import { BrowserTabGuard } from '@core/guards';
+import { AuthCompletedRegistrationGuard, BrowserTabGuard, UnauthGuard } from '@core/guards';
 import { MainLayoutComponent, MainLayoutModule } from '../layout/main-layout';
 import { PublicLayoutComponent, PublicLayoutModule } from '../layout/public-layout';
 import { ImportRestorePageComponent, ImportRestorePageType, LoginPageComponent } from './pages';
@@ -21,7 +20,7 @@ const ROUTES: Routes = [
     ],
     canActivate: [
       LoginGuard,
-      AuthConfirmedGuard,
+      AuthCompletedRegistrationGuard,
     ],
   },
   {
@@ -35,7 +34,6 @@ const ROUTES: Routes = [
       },
     ],
     canActivate: [
-      LoginGuard,
       BrowserTabGuard,
       UnauthGuard,
     ],
@@ -53,7 +51,7 @@ const ROUTES: Routes = [
     canActivate: [
       LoginGuard,
       BrowserTabGuard,
-      AuthConfirmedGuard,
+      AuthCompletedRegistrationGuard,
     ],
   },
 ];

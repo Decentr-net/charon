@@ -2,10 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { BrowserTabGuard, MaintenanceGuard, OfflineGuard, SupportedVersionGuard, UpdateGuard } from '@core/guards';
-import {
-  AuthCompletedRegistrationGuard,
-  UnauthGuard,
-} from '@core/auth';
+import { AuthCompletedRegistrationGuard, UnauthGuard } from '@core/guards';
 import { AuthorizedLayoutComponent } from '@core/layout/authorized-layout';
 import { LockGuard } from '@core/lock';
 import { AppRoute } from './app-route';
