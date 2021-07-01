@@ -6,7 +6,9 @@ import { BrowserLocalStorage } from '../../../../../shared/services/browser-stor
 import { PDV_STORAGE_SERVICE } from '../pdv/storage';
 
 interface OldUser extends User, ProfileUpdate {
+  emailConfirmed: boolean;
   primaryUsername: string;
+  registrationCompleted: boolean;
   usernames: string[];
 }
 
@@ -34,6 +36,9 @@ const clearProfilesData = (): Promise<void> => {
         delete user.lastName;
         delete user.primaryUsername;
         delete user.usernames;
+
+        delete user.emailConfirmed;
+        delete user.registrationCompleted;
       });
 
       return users;
