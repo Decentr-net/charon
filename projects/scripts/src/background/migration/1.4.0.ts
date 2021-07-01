@@ -7,6 +7,7 @@ import { PDV_STORAGE_SERVICE } from '../pdv/storage';
 
 interface OldUser extends User, ProfileUpdate {
   emailConfirmed: boolean;
+  isModerator: boolean;
   primaryUsername: string;
   registrationCompleted: boolean;
   usernames: string[];
@@ -38,6 +39,7 @@ const clearProfilesData = (): Promise<void> => {
         delete user.usernames;
 
         delete user.emailConfirmed;
+        delete user.isModerator;
         delete user.registrationCompleted;
       });
 
