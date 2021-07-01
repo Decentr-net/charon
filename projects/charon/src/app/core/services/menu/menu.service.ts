@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { combineLatest, EMPTY, Observable } from 'rxjs';
-import { catchError, distinctUntilChanged, map, pluck, shareReplay, switchMap } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, filter, map, pluck, shareReplay, switchMap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 import { Profile } from 'decentr-js';
@@ -60,6 +60,7 @@ export class MenuService extends MenuBaseService {
     ]);
 
     this.profile$ = this.getProfile().pipe(
+      filter((profile) => !!profile),
       shareReplay(1),
     );
   }

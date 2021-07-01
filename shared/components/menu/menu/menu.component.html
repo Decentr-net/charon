@@ -35,7 +35,7 @@
     >
       <app-avatar
         class="menu__user-avatar"
-        [avatarUrl]="(userProfile$ | async).avatar"
+        [avatarUrl]="(userProfile$ | async)?.avatar"
       ></app-avatar>
 
       <div>
