@@ -1,4 +1,5 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule, Type } from '@angular/core';
+
 import { HasPermissionDirective } from './has-permission';
 import { PermissionsService } from './permissions.service';
 
@@ -11,11 +12,16 @@ import { PermissionsService } from './permissions.service';
   ],
 })
 export class PermissionsModule {
-  public static forRoot(): ModuleWithProviders<PermissionsModule> {
+  public static forRoot(customPermissionsService?: Type<PermissionsService>): ModuleWithProviders<PermissionsModule> {
     return {
       ngModule: PermissionsModule,
       providers: [
-        PermissionsService,
+        customPermissionsService
+          ? {
+            provide: PermissionsService,
+            useClass: customPermissionsService,
+          }
+          : PermissionsService,
       ],
     };
   }
