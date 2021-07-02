@@ -11,7 +11,7 @@ import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { BaseValidationUtil } from '@shared/utils/validation';
 import { getHTMLImagesCount } from '@shared/utils/html';
 import { svgAddImage } from '@shared/svg-icons/add-image';
-import { svgClose } from '@shared/svg-icons/close';
+import { svgClear } from '@shared/svg-icons/clear';
 
 @UntilDestroy()
 @Component({
@@ -55,7 +55,7 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
 
     svgIconRegistry.register([
       svgAddImage,
-      svgClose,
+      svgClear,
     ]);
 
     this.form = this.createForm();

@@ -50,16 +50,11 @@ $hub-post-editor--text-image-uploader-icon-container-size: 44px;
         color: $color-dark-grey;
       }
     }
-
-    .hub-post-editor__preview-image-uploader__icon {
-      font-size: 20px;
-    }
   }
 
   &.mod-filled {
     .hub-post-editor__preview-image-uploader__icon-container {
       align-items: center;
-      background: $color-white;
       border-radius: 100%;
       display: inline-flex;
       justify-content: center;
@@ -76,8 +71,8 @@ $hub-post-editor--text-image-uploader-icon-container-size: 44px;
   cursor: pointer;
   display: inline-flex;
   grid-area: icon;
-  height: $grid-step * 2.5;
-  width: $grid-step * 2.5;
+  height: $grid-step * 3;
+  width: $grid-step * 3;
 }
 
 .hub-post-editor__preview-image-uploader__icon {
