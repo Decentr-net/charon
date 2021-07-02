@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { finalize } from 'rxjs/operators';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
@@ -42,6 +43,7 @@ export class EditProfilePageComponent implements OnInit {
   public form: FormGroup<EditProfileForm>;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private spinnerService: SpinnerService,
@@ -49,6 +51,7 @@ export class EditProfilePageComponent implements OnInit {
     private translocoService: TranslocoService,
     private editProfilePageService: EditProfilePageService,
     private userService: UserService,
+    private router: Router,
   ) {
   }
 
@@ -83,6 +86,10 @@ export class EditProfilePageComponent implements OnInit {
       this.notificationService.success(
         this.translocoService.translate('edit_profile_page.toastr.successful_update', null, 'user'),
       );
+
+      this.router.navigate(['../'], {
+        relativeTo: this.activatedRoute
+      });
     }, (error) => {
       this.notificationService.error(error);
     });
