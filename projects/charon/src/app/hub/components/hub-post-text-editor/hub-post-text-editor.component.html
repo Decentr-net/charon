@@ -6,3 +6,14 @@
   (onSelectionChanged)="onSelectionChanged($event)"
   [placeholder]="translate('hub.hub_post_text_editor.placeholder')"
 ></quill-editor>
+
+<button
+  class="hub-post-text-editor__image-remove-button"
+  type="button"
+  *ngFor="let image of images; let index = index"
+  [style.top.px]="image.offsetTop"
+  [style.left.px]="image.offsetLeft + image.offsetWidth"
+  (click)="removeImage(index)"
+>
+  <svg-icon key="delete"></svg-icon>
+</button>

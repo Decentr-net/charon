@@ -12,8 +12,12 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { fromEvent, merge, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMapTo, takeUntil } from 'rxjs/operators';
 import { ControlValueAccessor, FormControl } from '@ngneat/reactive-forms';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QuillEditorComponent, Range as QuillRange, SelectionChange } from 'ngx-quill';
+
+import { svgDelete } from '@shared/svg-icons/delete';
+import { createFragmentWrappedContainer } from '@shared/utils/html';
 
 @UntilDestroy()
 @Component({
@@ -39,6 +43,8 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
 
   public quillControl: FormControl<string> = new FormControl('');
 
+  public images: HTMLImageElement[];
+
   private quillEditorElement: HTMLElement;
   private quillEditorInstance: any;
 
@@ -47,11 +53,16 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private elementRef: ElementRef<HTMLElement>,
+    private svgIconRegistry: SvgIconRegistry,
   ) {
     super();
   }
 
   public ngOnInit(): void {
+    this.svgIconRegistry.register([
+      svgDelete,
+    ])
+
     fromEvent(document, 'click').pipe(
       filter((event) => {
         return ![this.elementRef.nativeElement, ...this.ignoreSelectionReset || []]
@@ -77,6 +88,7 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
 
     this.disableImagesPaste(quill.root);
     this.initCursorPositionTopTracker(quill.root);
+    this.initImagesTracker();
     this.removeFormattingOnPaste(quill);
   }
 
@@ -84,6 +96,20 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
     if (range) {
       this.selectionRange = range;
     }
+  }
+
+  public removeImage(index: number): void {
+    const value = this.quillControl.value;
+
+    const container = createFragmentWrappedContainer();
+    container.innerHTML = value;
+
+    const image = container.querySelectorAll('img').item(index);
+    if (image) {
+      image.remove();
+    }
+
+    this.writeValue(container.innerHTML);
   }
 
   public writeValue(value: string): void {
@@ -141,6 +167,15 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
       distinctUntilChanged(),
       untilDestroyed(this),
     ).subscribe((y) => this.cursorPositionTopChange.emit(y));
+  }
+
+  private initImagesTracker(): void {
+    this.quillControl.value$.pipe(
+      map(() => this.quillEditorElement.querySelectorAll('img')),
+      untilDestroyed(this),
+    ).subscribe((images) => {
+      this.images = Array.from(images);
+    });
   }
 
   private removeFormattingOnPaste(quill: any): void {
