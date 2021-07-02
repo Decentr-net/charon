@@ -58,7 +58,7 @@ export class ProfileFormComponent extends ControlValueAccessor<ProfileFormContro
   }
 
   public ngOnInit() {
-    this.form.value$
+    this.form.valueChanges
       .pipe(
         untilDestroyed(this),
       )
@@ -108,7 +108,7 @@ export class ProfileFormComponent extends ControlValueAccessor<ProfileFormContro
   }
 
   public writeValue(value: ProfileFormControlValue) {
-    this.formModel.patchForm(this.form, value, { emitEvent: false });
+    this.formModel.patchForm(this.form, value, { emitEvent: true });
   }
 
   private getOuterValue(): ProfileFormControlValue {
