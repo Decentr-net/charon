@@ -6,8 +6,10 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  mergeMap,
   pluck,
   share,
+  startWith,
   switchMap,
 } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
@@ -155,7 +157,10 @@ export class MenuService extends MenuBaseService {
     return this.authService.getActiveUser().pipe(
       pluck('wallet', 'address'),
       distinctUntilChanged(),
-      switchMap((walletAddress) => this.userService.getProfile(walletAddress)),
+      switchMap((walletAddress) => this.userService.onProfileChanged(walletAddress).pipe(
+        startWith(void 0),
+        mergeMap(() => this.userService.getProfile(walletAddress)),
+      )),
       catchError(() => EMPTY),
     );
   }

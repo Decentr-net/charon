@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { catchError, delay, repeat, retryWhen, skipWhile, take } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, delay, filter, mapTo, repeat, retryWhen, skipWhile, take, tap } from 'rxjs/operators';
 import { Account, KeyPair, ModeratorAddressesResponse, Profile, ProfileUpdate, Wallet } from 'decentr-js';
 
 import { NetworkService } from '../network';
@@ -10,6 +10,8 @@ import { UserApiService } from '../api';
   providedIn: 'root',
 })
 export class UserService {
+  private profileChanged$: Subject<Wallet['address']> = new Subject();
+
   constructor(
     private networkService: NetworkService,
     private userApiService: UserApiService,
@@ -64,7 +66,9 @@ export class UserService {
     return this.userApiService.setProfile({
       ...profile,
       birthday: '1911-11-11',
-    }, wallet);
+    }, wallet).pipe(
+      tap(() => this.profileChanged$.next(wallet.address)),
+    );
   }
 
   public resetAccount(
@@ -77,6 +81,13 @@ export class UserService {
       walletAddress,
       initiator,
       privateKey,
+    );
+  }
+
+  public onProfileChanged(walletAddress: Wallet['address']): Observable<void> {
+    return this.profileChanged$.pipe(
+      filter((walletAddressChanged) => walletAddressChanged === walletAddress),
+      mapTo(void 0),
     );
   }
 }
