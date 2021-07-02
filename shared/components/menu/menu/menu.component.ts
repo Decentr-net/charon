@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { MenuService } from '../menu.service';
 import { MenuItem, MenuTranslations, MenuUserItem, MenuUserProfile } from '../menu.definitions';
 import { svgDropdownExpand } from '../../../svg-icons/dropdown-expand';
 
+@UntilDestroy()
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
@@ -13,13 +15,13 @@ import { svgDropdownExpand } from '../../../svg-icons/dropdown-expand';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent implements OnInit {
-  public userProfile$: Observable<MenuUserProfile>;
+  public userProfile: MenuUserProfile;
 
-  public translations$: Observable<MenuTranslations>;
+  public translations: MenuTranslations;
 
   public items$: Observable<MenuItem[][]>;
 
-  public userItem$: Observable<MenuUserItem>;
+  public userItem: MenuUserItem;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -32,12 +34,27 @@ export class MenuComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.userProfile$ = this.menuService.getUserProfile();
+    this.menuService.getUserProfile().pipe(
+      untilDestroyed(this),
+    ).subscribe((userProfile) => {
+      this.userProfile = userProfile;
+      this.changeDetectorRef.detectChanges();
+    });
 
-    this.translations$ = this.menuService.getTranslations();
+    this.menuService.getTranslations().pipe(
+      untilDestroyed(this),
+    ).subscribe((translations) => {
+      this.translations = translations;
+      this.changeDetectorRef.detectChanges();
+    });
 
     this.items$ = this.menuService.getItems();
 
-    this.userItem$ = this.menuService.getUserItem();
+    this.menuService.getUserItem().pipe(
+      untilDestroyed(this),
+    ).subscribe((userItem) => {
+      this.userItem = userItem;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 }
