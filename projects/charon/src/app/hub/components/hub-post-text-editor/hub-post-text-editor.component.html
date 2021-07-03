@@ -9,8 +9,10 @@
 
 <button
   class="hub-post-text-editor__image-remove-button"
-  type="button"
-  *ngFor="let image of images; let index = index"
+  *ngFor="let image of images$ | async; let index = index"
+  app-button
+  color="grey"
+  size="xs"
   [style.top.px]="image.offsetTop"
   [style.left.px]="image.offsetLeft + image.offsetWidth"
   (click)="removeImage(index)"

@@ -41,6 +41,7 @@
   color: $color-negative;
   cursor: pointer;
   display: inline-flex;
-  padding: $grid-step * 1.5;
+  margin-left: $grid-step;
+  padding: $grid-step !important;
   position: absolute;
 }

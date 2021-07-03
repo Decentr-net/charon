@@ -17,6 +17,7 @@ import { HUB_DIRECTIVES } from './directives';
 import { HUB_PAGES } from './pages';
 import { HUB_SERVICES } from './services';
 import { AvatarModule } from '@shared/components/avatar';
+import { ButtonModule } from '@shared/components/button';
 import { AutoFocusModule } from '@shared/directives/auto-focus';
 import { DateAgoModule } from '@shared/pipes/date-ago';
 import { DragScrollModule } from '@shared/directives/drag-scroll';
@@ -50,6 +51,7 @@ import { AuthorizedLayoutModule } from '@core/layout/authorized-layout';
     AvatarModule,
     AuthorizedLayoutModule,
     AutoFocusModule,
+    ButtonModule,
     CoerceTimestampModule,
     CommonModule,
     CutHtmlImagesModule,

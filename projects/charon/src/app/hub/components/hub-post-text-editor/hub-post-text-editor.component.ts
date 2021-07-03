@@ -43,7 +43,7 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
 
   public quillControl: FormControl<string> = new FormControl('');
 
-  public images: HTMLImageElement[];
+  public images$: Observable<HTMLImageElement[]>;
 
   private quillEditorElement: HTMLElement;
   private quillEditorInstance: any;
@@ -165,12 +165,10 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
   }
 
   private initImagesTracker(): void {
-    this.quillControl.value$.pipe(
-      map(() => this.quillEditorElement.querySelectorAll('img')),
-      untilDestroyed(this),
-    ).subscribe((images) => {
-      this.images = Array.from(images);
-    });
+    this.images$ = this.quillControl.value$.pipe(
+      map(() => Array.from(this.quillEditorElement.querySelectorAll('img'))),
+      delay(0),
+    );
   }
 
   private removeFormattingOnPaste(quill: any): void {
