@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { fromEvent, merge, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, switchMapTo, takeUntil } from 'rxjs/operators';
+import { delay, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { ControlValueAccessor, FormControl } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -87,7 +87,7 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
     this.quillEditorInstance = quill.editor;
 
     this.disableImagesPaste(quill.root);
-    this.initCursorPositionTopTracker(quill.root);
+    this.initCursorPositionTopTracker(quill);
     this.initImagesTracker();
     this.removeFormattingOnPaste(quill);
   }
@@ -146,23 +146,18 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
     });
   }
 
-  private initCursorPositionTopTracker(quillElement: HTMLElement): void {
+  private initCursorPositionTopTracker(quill: any): void {
     merge(
-      fromEvent(quillElement, 'selectstart'),
-      fromEvent(quillElement, 'keydown'),
+      this.quillEditorComponent.onSelectionChanged,
+      this.quillEditorComponent.onContentChanged,
     ).pipe(
-      switchMapTo(fromEvent(document, 'selectionchange').pipe(
-        takeUntil(fromEvent(quillElement, 'blur')),
-      )),
-      map(() => document.getSelection().getRangeAt(0)),
-      filter(Boolean),
-      map((range: Range) => {
-        const selectionRect = range.getBoundingClientRect();
-        const quillElementRect = this.quillEditorElement.getBoundingClientRect();
-
-        return selectionRect.bottom > 0
-          ? selectionRect.top - quillElementRect.top
-          : quillElementRect.height - parseInt(getComputedStyle(this.quillEditorElement).lineHeight);
+      delay(0),
+      map(() => quill.selection.savedRange),
+      filter((range) => range),
+      map((range: QuillRange) => {
+        const quillHostRect = this.elementRef.nativeElement.getBoundingClientRect();
+        const quillSelectionRect = quill.selection.getBounds(range.index);
+        return quillSelectionRect.top - quillHostRect.top;
       }),
       distinctUntilChanged(),
       untilDestroyed(this),
