@@ -23,6 +23,13 @@ export class PDVUniqueStore {
         return [pdv.engine, pdv.query].join();
       case PDVType.AdvertiserId:
         return [pdv.advertiser, pdv.name, pdv.value].join();
+      case PDVType.Location:
+        return [
+          pdv.longitude.toFixed(4),
+          pdv.latitude.toFixed(4),
+          pdv.requestedBy.host,
+          pdv.requestedBy.path,
+        ].join();
       default:
         return uuid();
     }
