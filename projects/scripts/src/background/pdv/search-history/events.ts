@@ -1,13 +1,11 @@
 import { Observable } from 'rxjs';
 import { browser, Tabs } from 'webextension-polyfill-ts';
+import { SearchHistoryPDV } from 'decentr-js';
 import OnUpdatedChangeInfoType = Tabs.OnUpdatedChangeInfoType;
 
 import { SEARCH_ENGINES } from './engines';
 
-export interface SearchQuery {
-  engine: string;
-  query: string;
-}
+export type SearchQuery = Pick<SearchHistoryPDV, 'engine' | 'domain' | 'query'>;
 
 export const listenSearchQueries = (): Observable<SearchQuery> => {
   return new Observable((subscriber) => {
@@ -24,10 +22,12 @@ export const listenSearchQueries = (): Observable<SearchQuery> => {
         return;
       }
 
+      const domain = new URL(url).hostname;
       const query = new URL(url).searchParams.get(searchEngine.queryParam);
 
       if (query) {
         subscriber.next({
+          domain,
           query,
           engine: searchEngine.engine,
         });
