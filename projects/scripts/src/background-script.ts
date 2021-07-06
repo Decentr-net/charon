@@ -6,7 +6,7 @@ import { initMigration } from './background/migration';
 import { setRandomNetwork } from './background/network-switch';
 import { initPDVCollection } from './background/pdv';
 import { initProxy } from './background/proxy';
-import { whileApplicationAvailable } from './background/technical';
+import { whileVersionSupported } from './background/technical';
 
 const CURRENT_BROWSER_TYPE: BrowserType = detectBrowser();
 
@@ -27,6 +27,6 @@ const CURRENT_BROWSER_TYPE: BrowserType = detectBrowser();
   pdvUpdateNotifier.start();
 
   initPDVCollection().pipe(
-    whileApplicationAvailable(),
+    whileVersionSupported(),
   ).subscribe(() => pdvUpdateNotifier.notify());
 })();
