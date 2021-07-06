@@ -4,59 +4,59 @@ interface SearchEngineConfig {
 }
 
 enum SearchEngine {
-  Aol = 'aol.com',
-  Archive = 'archive.com',
-  Ask = 'ask.com',
-  Baidu = 'baidu.com',
-  Bing = 'bing.com',
-  DuckDuckGo = 'duckduckgo.com',
-  Ecosia = 'ecosia.org',
-  Google = 'google.com',
-  Yahoo = 'yahoo.com',
-  Yandex = 'yandex.com',
+  Aol = 'aol',
+  Archive = 'archive',
+  Ask = 'ask',
+  Baidu = 'baidu',
+  Bing = 'bing',
+  DuckDuckGo = 'duckduckgo',
+  Ecosia = 'ecosia',
+  Google = 'google',
+  Yahoo = 'yahoo',
+  Yandex = 'yandex',
 }
 
 const createUrlRegex = (engine: string): RegExp => new RegExp(`^(https?:\/\/)(www.)?(search.)?${engine}(\.[a-z]{2,})`);
 
 const SEARCH_ENGINES_CONFIGURATION: Record<SearchEngine, SearchEngineConfig> = {
   [SearchEngine.Aol]: {
-    urlRegex: createUrlRegex('aol'),
+    urlRegex: createUrlRegex(SearchEngine.Aol),
     queryParam: 'q',
   },
   [SearchEngine.Archive]: {
-    urlRegex: createUrlRegex('archive'),
+    urlRegex: createUrlRegex(SearchEngine.Archive),
     queryParam: 'query',
   },
   [SearchEngine.Ask]: {
-    urlRegex: createUrlRegex('ask'),
+    urlRegex: createUrlRegex(SearchEngine.Ask),
     queryParam: 'q',
   },
   [SearchEngine.Baidu]: {
-    urlRegex: createUrlRegex('baidu'),
+    urlRegex: createUrlRegex(SearchEngine.Baidu),
     queryParam: 'wd',
   },
   [SearchEngine.Bing]: {
-    urlRegex: createUrlRegex('bing'),
+    urlRegex: createUrlRegex(SearchEngine.Bing),
     queryParam: 'q',
   },
   [SearchEngine.DuckDuckGo]: {
-    urlRegex: createUrlRegex('duckduckgo'),
+    urlRegex: createUrlRegex(SearchEngine.DuckDuckGo),
     queryParam: 'q',
   },
   [SearchEngine.Ecosia]: {
-    urlRegex: createUrlRegex('ecosia'),
+    urlRegex: createUrlRegex(SearchEngine.Ecosia),
     queryParam: 'q',
   },
   [SearchEngine.Google]: {
-    urlRegex: createUrlRegex('google'),
+    urlRegex: createUrlRegex(SearchEngine.Google),
     queryParam: 'q',
   },
   [SearchEngine.Yahoo]: {
-    urlRegex: createUrlRegex('yahoo'),
+    urlRegex: createUrlRegex(SearchEngine.Yahoo),
     queryParam: 'p',
   },
   [SearchEngine.Yandex]: {
-    urlRegex: createUrlRegex('yandex'),
+    urlRegex: createUrlRegex(SearchEngine.Yandex),
     queryParam: 'text',
   },
 };
