@@ -110,8 +110,9 @@ const initSendPDVBlocks = (): Observable<void> => {
       tap((block) => processedBlocks.add(block.id)),
       mergeMap((block) => sendPDV(user.wallet, block.pDVs).pipe(
         catchError((error) => {
+          configService.forceUpdate();
+
           if (error?.response?.status === 400) {
-            configService.forceUpdate();
             return from(rollbackPDVBlock(user.wallet.address, block.id)).pipe(
               mapTo(EMPTY),
             );
