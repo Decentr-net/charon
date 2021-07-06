@@ -4,7 +4,7 @@ import { initAutoLock } from './background/lock';
 import { initMigration } from './background/migration';
 import { setRandomNetwork } from './background/network-switch';
 import { initPDVCollection } from './background/pdv';
-import { whileApplicationAvailable } from './background/technical';
+import { whileVersionSupported } from './background/technical';
 
 (async () => {
   initMigration();
@@ -19,6 +19,6 @@ import { whileApplicationAvailable } from './background/technical';
   pdvUpdateNotifier.start();
 
   initPDVCollection().pipe(
-    whileApplicationAvailable(),
+    whileVersionSupported(),
   ).subscribe(() => pdvUpdateNotifier.notify());
 })();

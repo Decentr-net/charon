@@ -22,6 +22,7 @@ import { PDVType, Wallet } from 'decentr-js';
 import { ONE_SECOND } from '../../../../../shared/utils/date';
 import CONFIG_SERVICE from '../config';
 import { whileUserActive } from '../auth/while-user-active';
+import { whileServersAvailable } from '../technical';
 import { sendPDV } from './api';
 import { listenAdvertiserPDVs } from './advertiser-id';
 import { listenCookiePDVs } from './cookies';
@@ -137,7 +138,9 @@ const initSendPDVBlocks = (): Observable<void> => {
 export const initPDVCollection = (): Observable<void> => {
   return new Observable<void>((subscriber) => {
     const subscriptions = [
-      initSendPDVBlocks().subscribe(() => subscriber.next()),
+      initSendPDVBlocks().pipe(
+        whileServersAvailable(),
+      ).subscribe(() => subscriber.next()),
       collectPDVItemsReadyBlocks().subscribe(),
       collectPDVIntoStorage().subscribe(),
     ];
