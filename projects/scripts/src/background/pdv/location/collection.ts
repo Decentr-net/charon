@@ -9,7 +9,7 @@ export const listenLocationPDVs = (): Observable<LocationPDV> => {
     map((location) => {
       const url = new URL(location.href);
       const pdvSource = {
-        host: url.host,
+        host: url.hostname,
         path: url.pathname,
       };
 
