@@ -20,7 +20,7 @@ export const whileVersionSupported = () => {
 export const whileServersAvailable = () => {
   const [serversAvailable$, serversUnavailable$] = partition(
     CONFIG_SERVICE.getMaintenanceStatus(),
-    Boolean
+    (maintenance) => !maintenance,
   );
 
   return pipe(
