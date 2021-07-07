@@ -90,17 +90,4 @@ export class UserService {
       mapTo(void 0),
     );
   }
-
-  public resetAccount(
-    walletAddress: Wallet['address'],
-    initiator: Wallet['address'],
-    privateKey: Wallet['privateKey']
-  ): Observable<void> {
-    return this.userApiService.resetAccount(
-      this.networkService.getActiveNetworkInstant().api,
-      walletAddress,
-      initiator,
-      privateKey,
-    );
-  }
 }

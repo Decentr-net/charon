@@ -1,18 +1,30 @@
-import { forkJoin, Observable, of } from 'rxjs';
-import { debounceTime, mapTo, mergeMap } from 'rxjs/operators';
+import { EMPTY, forkJoin, Observable, of } from 'rxjs';
+import { debounceTime, mapTo, mergeMap, switchMap } from 'rxjs/operators';
+import { Wallet } from 'decentr-js';
 
 import { LockBrowserStorageService } from '../../../../shared/services/lock';
-import { ONE_HOUR } from '../../../../shared/utils/date';
-
-const LOCK_DELAY = ONE_HOUR * 4;
+import { SettingsService } from '../../../../shared/services/settings';
+import { whileUserActive } from './auth/while-user-active';
 
 const lockStorage = new LockBrowserStorageService();
+const settingsService = new SettingsService();
+
+const getLockDelay = (walletAddress: Wallet['address']): Observable<number> => {
+  return settingsService.getUserSettingsService(walletAddress).lock.getLockDelay();
+};
 
 const listenActivityEnd = (): Observable<void> => {
-  return lockStorage.getLastActivityTimeChanges().pipe(
-    debounceTime(LOCK_DELAY),
-    mapTo(void 0),
-  );
+  return whileUserActive((user) => {
+    return getLockDelay(user.wallet.address).pipe(
+      switchMap((lockDelay) => lockDelay
+        ? lockStorage.getLastActivityTimeChanges().pipe(
+          debounceTime(lockDelay),
+        )
+        : EMPTY
+      ),
+      mapTo(void 0),
+    );
+  });
 };
 
 const lock = (): Promise<void> => {
@@ -20,15 +32,19 @@ const lock = (): Promise<void> => {
 };
 
 export const initAutoLock = () => {
-  forkJoin([
-    lockStorage.getLocked(),
-    lockStorage.getLastActivityTime(),
-  ]).pipe(
-    mergeMap(([isLocked, lastActivityTime]) => {
-      return !isLocked && lastActivityTime && ((Date.now() - lastActivityTime) > LOCK_DELAY)
-        ? lock()
-        : of(void 0);
-    }),
-    mergeMap(() => listenActivityEnd()),
-  ).subscribe(() => lock());
+  whileUserActive((user) => {
+    return getLockDelay(user.wallet.address).pipe(
+      switchMap((lockDelay) => forkJoin([
+        lockStorage.getLocked(),
+        lockStorage.getLastActivityTime(),
+      ]).pipe(
+        mergeMap(([isLocked, lastActivityTime]) => {
+          return !isLocked && lastActivityTime && ((Date.now() - lastActivityTime) > lockDelay)
+            ? lock()
+            : of(void 0);
+        }),
+        mergeMap(() => listenActivityEnd()),
+      )),
+    );
+  }).subscribe(() => lock());
 };

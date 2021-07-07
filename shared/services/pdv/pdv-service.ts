@@ -23,7 +23,7 @@ import { ConfigService } from '../configuration';
 import { Network, NetworkBrowserStorageService } from '../network-storage';
 import { AdvDdvStatistics, BalanceValueDynamic, PDVStatChartPoint } from './pdv.definitions';
 import { PDVApiService } from './pdv-api.service';
-import { PDVSettings, PDVStorageService } from './pdv-storage.service';
+import { PDVStorageService } from './pdv-storage.service';
 import { PDVUpdateNotifier } from './pdv-update-notifier';
 import { getPDVDayChange, mapPDVStatsToChartPoints } from '../../utils/pdv';
 
@@ -118,14 +118,6 @@ export class PDVService {
           value: pdvRate,
         })),
       )
-  }
-
-  public getUserSettings(walletAddress: Wallet['address']): Observable<PDVSettings> {
-    return this.pdvStorageService.getUserSettingsChanges(walletAddress);
-  }
-
-  public setUserSettings(walletAddress: Wallet['address'], settings: PDVSettings): Promise<void> {
-    return this.pdvStorageService.setUserSettings(walletAddress, settings);
   }
 
   private getActiveUserWallet(): Observable<Wallet> {
