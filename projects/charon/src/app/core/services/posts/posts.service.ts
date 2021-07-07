@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { defer, forkJoin, from, Observable, of } from 'rxjs';
-import { catchError, delay, map, mergeMap, repeatWhen, skipWhile, take, tap } from 'rxjs/operators';
+import { map, mapTo, mergeMap, tap } from 'rxjs/operators';
 import { LikeWeight, Post, PostCreate, PostIdentificationParameters } from 'decentr-js'
 
 import { MessageBus } from '@shared/message-bus';
 import { getArrayUniqueValues } from '@shared/utils/array';
 import { ONE_SECOND } from '@shared/utils/date';
+import { retryTimes } from '@shared/utils/observable';
 import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
 import { PostsApiService, PostsListFilterOptions } from '../api';
@@ -74,7 +75,7 @@ export class PostsService {
 
   public createPost(
     post: PostCreate,
-  ): Observable<CharonAPIMessageBusMap[MessageCode.PostCreate]['response']['messageValue']> {
+  ): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
@@ -82,14 +83,19 @@ export class PostsService {
         walletAddress: wallet.address,
         post: post,
         privateKey: wallet.privateKey
-      })
-      .then(response => {
-        if (!response.success) {
-          throw response.error;
-        }
+      })).pipe(
+        map((response) => {
+          if (!response.success) {
+            throw response.error;
+          }
 
-        return response.messageValue;
-      }));
+          return response.messageValue;
+        }),
+        mergeMap((createdPost) => this.getPost(createdPost).pipe(
+          retryTimes(10, ONE_SECOND),
+          mapTo(void 0),
+        )),
+      );
   }
 
   public likePost(post: Pick<Post, 'owner' | 'uuid'>, likeWeight: LikeWeight): Observable<void> {
@@ -129,12 +135,13 @@ export class PostsService {
           }
         }),
         mergeMap(() => this.getPost({ owner: post.author, uuid: post.postId }).pipe(
-          catchError(() => of(undefined)),
-          repeatWhen((notifier) => notifier.pipe(
-            delay(ONE_SECOND),
-          )),
-          skipWhile((post) => !!post),
-          take(1),
+          map((post) => {
+            if (post) {
+              throw new Error();
+            }
+            return undefined;
+          }),
+          retryTimes(10, ONE_SECOND),
         )),
       );
   }
