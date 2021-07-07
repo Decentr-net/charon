@@ -11,6 +11,7 @@ import { SlotModule } from '@shared/components/slot';
 import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { NotificationsModule } from '@shared/services/notification';
 import { PDVModule } from '@shared/services/pdv';
+import { SettingsModule } from '@shared/services/settings';
 import { ERROR_PROCESSORS, FallbackErrorProcessor } from '@core/notifications';
 import { AppRoute } from '../app-route';
 import { AuthModule, AuthService } from './auth';
@@ -73,6 +74,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     PDVModule,
     PermissionsModule.forRoot(PermissionsService),
     QuillRootModule,
+    SettingsModule.forRoot(),
     SlotModule.forRoot(),
     SvgIconRootModule,
     ToastrModule.forRoot({

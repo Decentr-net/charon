@@ -19,6 +19,7 @@ import {
 } from 'rxjs/operators';
 import { PDVType, Wallet } from 'decentr-js';
 
+import { SettingsService } from '../../../../../shared/services/settings';
 import { ONE_SECOND } from '../../../../../shared/utils/date';
 import CONFIG_SERVICE from '../config';
 import { whileUserActive } from '../auth/while-user-active';
@@ -31,10 +32,10 @@ import { mergePDVsIntoAccumulated, PDV_STORAGE_SERVICE, rollbackPDVBlock } from 
 import { listenLocationPDVs } from './location';
 
 const configService = CONFIG_SERVICE;
-const pdvStorageService = PDV_STORAGE_SERVICE;
+const settingsService = new SettingsService();
 
 const whilePDVAllowed = (pdvType: PDVType, walletAddress: Wallet['address']) => {
-  const settingStatus$ = pdvStorageService.getUserSettingsChanges(walletAddress).pipe(
+  const settingStatus$ = settingsService.getUserSettingsService(walletAddress).pdv.getCollectedPDVTypes().pipe(
     pluck(pdvType),
     distinctUntilChanged(),
   );
