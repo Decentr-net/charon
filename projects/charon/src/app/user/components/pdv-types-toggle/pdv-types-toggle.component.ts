@@ -4,7 +4,7 @@ import { ControlValueAccessor, FormBuilder, FormGroup } from '@ngneat/reactive-f
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PDVType } from 'decentr-js';
 
-import { PDVSettings } from '@shared/services/pdv';
+import { CollectedPDVTypesSettings } from '@shared/services/settings';
 
 @UntilDestroy()
 @Component({
@@ -20,8 +20,8 @@ import { PDVSettings } from '@shared/services/pdv';
     },
   ],
 })
-export class PdvTypesToggleComponent extends ControlValueAccessor<PDVSettings> implements OnInit {
-  public form: FormGroup<PDVSettings>;
+export class PdvTypesToggleComponent extends ControlValueAccessor<CollectedPDVTypesSettings> implements OnInit {
+  public form: FormGroup<CollectedPDVTypesSettings>;
 
   public types: string[];
 
@@ -46,7 +46,7 @@ export class PdvTypesToggleComponent extends ControlValueAccessor<PDVSettings> i
     ).subscribe((value) => this.onChange(value));
   }
 
-  public writeValue(value: PDVSettings): void {
+  public writeValue(value: CollectedPDVTypesSettings): void {
     if (!value) {
       return this.form.reset();
     }

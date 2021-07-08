@@ -4,9 +4,9 @@ import { FormControl } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+import { CollectedPDVTypesSettings, SettingsService } from '@shared/services/settings';
 import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
 import { svgEyeCrossed } from '@shared/svg-icons/eye-crossed';
-import { PDVService, PDVSettings } from '@shared/services/pdv';
 import { AuthService } from '@core/auth';
 
 @UntilDestroy()
@@ -17,11 +17,11 @@ import { AuthService } from '@core/auth';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsPageComponent implements OnInit {
-  public settingsControl = new FormControl<PDVSettings>();
+  public settingsControl = new FormControl<CollectedPDVTypesSettings>();
 
   constructor(
     private authService: AuthService,
-    private pdvService: PDVService,
+    private settingsService: SettingsService,
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register([
@@ -34,17 +34,16 @@ export class SettingsPageComponent implements OnInit {
     this.authService.getActiveUser().pipe(
       pluck('wallet', 'address'),
       distinctUntilChanged(),
-      switchMap((walletAddress) => this.pdvService.getUserSettings(walletAddress)),
+      switchMap((walletAddress) => this.settingsService.getUserSettingsService(walletAddress).pdv.getCollectedPDVTypes()),
       untilDestroyed(this),
     ).subscribe((settings) => {
       this.settingsControl.setValue(settings, { emitEvent: false });
     });
 
     this.settingsControl.valueChanges.pipe(
-      switchMap((settings) => this.pdvService.setUserSettings(
+      switchMap((settings) => this.settingsService.getUserSettingsService(
         this.authService.getActiveUserInstant().wallet.address,
-        settings,
-      )),
+      ).pdv.setCollectedPDVTypes(settings)),
       untilDestroyed(this),
     ).subscribe();
   }
