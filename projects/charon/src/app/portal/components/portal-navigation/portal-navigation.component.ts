@@ -10,6 +10,9 @@ import { NavigationService } from '@core/navigation';
 import { AppRoute } from '../../../app-route';
 import { PortalRoute } from '../../portal-route';
 import { AUTHORIZED_LAYOUT_NAVIGATION_RIGHT_SLOT } from '../../../core/layout/authorized-layout';
+import { BrowserType, detectBrowser } from '@shared/utils/browser';
+
+const CURRENT_BROWSER_TYPE: BrowserType = detectBrowser();
 
 interface LinkDef {
   colorClass: string;
@@ -58,7 +61,7 @@ export class PortalNavigationComponent implements OnInit {
           i18nKey: 'portal.portal_navigation.assets',
           link: ['/', AppRoute.Portal, PortalRoute.Assets],
         },
-        ...vpnSettings.enabled ? [{
+        ...(vpnSettings.enabled && CURRENT_BROWSER_TYPE !== BrowserType.Decentr) ? [{
           colorClass: 'color-primary',
           i18nKey: 'portal.portal_navigation.vpn',
           link: ['/', AppRoute.Portal, PortalRoute.VPN],
