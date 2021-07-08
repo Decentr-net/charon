@@ -77,7 +77,7 @@ export const getActiveProxySettings = (): Observable<ExtensionProxySettings> => 
     map((settings) => ({
       levelOfControl: settings.levelOfControl,
       ...CURRENT_BROWSER_TYPE === BrowserType.Chrome && settings.value?.rules?.singleProxy,
-      ...CURRENT_BROWSER_TYPE === BrowserType.Firefox && {
+      ...CURRENT_BROWSER_TYPE === BrowserType.Firefox && settings.levelOfControl === 'controlled_by_this_extension' && {
         host: settings.value?.http?.split(':')[0],
         port: settings.value?.http?.split(':')[1],
       },
