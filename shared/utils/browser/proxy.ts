@@ -2,6 +2,7 @@ import { defer, Observable } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 import { browser, Types } from 'webextension-polyfill-ts';
 import { BrowserType, detectBrowser } from './browser';
+import { environment } from '../../../environments/environment';
 
 declare const chrome;
 
@@ -114,7 +115,7 @@ const getProxyConfig = (host: string, port: number): unknown => {
             host: host,
             port: port,
           },
-          bypassList: ['*localhost*', '*127.0.0.1*'],
+          bypassList: ['*localhost*', '*127.0.0.1*', `${environment.awsStorage}*`],
         },
       };
     case BrowserType.Firefox:
@@ -123,6 +124,7 @@ const getProxyConfig = (host: string, port: number): unknown => {
         proxyType: 'manual',
         http: `${host}:${port}`,
         socksVersion: 4,
+        passthrough: `localhost, 127.0.0.1, ${new URL(environment.awsStorage).hostname}`,
       };
     default:
       return void 0;
