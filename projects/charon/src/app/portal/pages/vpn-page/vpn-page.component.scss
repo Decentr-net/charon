@@ -49,9 +49,18 @@
     border-radius: $border-radius;
     height: auto;
     min-height: 460px;
+    overflow: hidden;
     padding-bottom: $grid-step * 4;
     width: 375px;
   }
+}
+
+.vpn-page__error-hint-container {
+  background-color: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
 }
 
 .vpn-page__error-hint {
@@ -63,7 +72,6 @@
   position: absolute;
   right: $grid-step;
   top: $grid-step;
-  z-index: 2;
 }
 
 .vpn-page__button-container {
