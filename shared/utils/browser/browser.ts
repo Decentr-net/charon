@@ -2,6 +2,7 @@ import { browser, Tabs } from 'webextension-polyfill-ts';
 
 export enum BrowserType {
   Chrome = 'Chrome',
+  Decentr = 'Decentr',
   Edge = 'Edge',
   Firefox = 'Firefox',
   IE = 'IE',
@@ -25,6 +26,11 @@ export const isOpenedInTab = (): boolean => {
 
 export const detectBrowser = (): BrowserType => {
   const userAgent = window.navigator.userAgent;
+
+  if (userAgent.indexOf('Decentr') > -1) {
+    return BrowserType.Decentr;
+  }
+
 
   if (userAgent.indexOf("Firefox") > -1) {
     return BrowserType.Firefox;
