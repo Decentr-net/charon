@@ -5,7 +5,10 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { Network, NetworkSelectorTranslations } from './network-selector.definitions';
 import { NetworkSelectorService } from './network-selector.service';
-import { svgCheck, svgExpandMore, svgSignal } from '../../svg-icons';
+
+import { svgCheck } from '../../svg-icons/check';
+import { svgExpandMore } from '../../svg-icons/expand-more';
+import { svgSignal } from '../../svg-icons/signal';
 
 @UntilDestroy()
 @Component({

@@ -58,7 +58,7 @@
         appHubImageUploader
         #textImageUploader="appHubImageUploader"
       >
-        <svg-icon class="hub-post-editor__text-image-icon" key="add-image"></svg-icon>
+        <svg-icon class="hub-post-editor__text-image-icon" key="add-image" size="sm"></svg-icon>
       </div>
 
       <div appTypeface="caption">{{ imagesCount$ | async }} / {{ maxImagesCount }}</div>
@@ -87,7 +87,7 @@
         class="hub-post-editor__preview-image-uploader__icon-container"
         (appHubImageUploader)="onTitleImageUpload($event)"
       >
-        <svg-icon class="hub-post-editor__preview-image-uploader__icon" key="add-image"></svg-icon>
+        <svg-icon class="hub-post-editor__preview-image-uploader__icon" key="add-image" size="sm"></svg-icon>
       </div>
 
       <div
@@ -110,7 +110,7 @@
         class="hub-post-editor__preview-image-uploader__icon-container"
         (click)="clearPreviewImage()"
       >
-        <svg-icon class="hub-post-editor__preview-image-uploader__icon" key="close"></svg-icon>
+        <svg-icon class="hub-post-editor__preview-image-uploader__icon" key="clear"></svg-icon>
       </div>
 
       <div

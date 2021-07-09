@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { svgDynamicsNegative, svgDynamicsPositive } from '../../../../../../../shared/svg-icons';
+
+import { svgDynamicsNegative } from '@shared/svg-icons/dynamics-negative';
+import { svgDynamicsPositive } from '@shared/svg-icons/dynamics-positive';
 
 @Component({
   selector: 'app-hub-post-pdv-diagram',

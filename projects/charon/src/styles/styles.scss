@@ -82,7 +82,7 @@ button {
 
     &:before {
       content: '';
-      background: url('../assets/images/icons/info.svg');
+      background: url('/charon/assets/images/icons/info.svg');
       width: 22px;
       height: 22px;
       position: absolute;
@@ -140,7 +140,7 @@ button {
     &:before {
       content: "";
       pointer-events: none;
-      background: url('../assets/images/icons/secured.svg') no-repeat;
+      background: url('/charon/assets/images/icons/secured.svg') no-repeat;
       background-size: contain;
       width: 20px;
       height: 20px;

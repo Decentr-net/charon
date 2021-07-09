@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgReload } from '@shared/svg-icons';
+import { svgReload } from '@shared/svg-icons/reload';
 
 @Component({
   selector: 'button[app-hub-load-more-button]',

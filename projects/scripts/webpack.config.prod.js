@@ -1,10 +1,13 @@
 const { optimize, NormalModuleReplacementPlugin } = require('webpack');
 const webpackMerge = require('webpack-merge');
-const baseConfig = require('./webpack.config.base');
+const { config: baseConfig, manifestPluginFn } = require('./webpack.config.base');
 
 module.exports = webpackMerge(baseConfig, {
   mode: 'production',
   plugins: [
+    manifestPluginFn({
+      "content_security_policy": "script-src 'self'; object-src 'self'",
+    }),
     new optimize.AggressiveMergingPlugin(),
     new optimize.OccurrenceOrderPlugin(),
     new NormalModuleReplacementPlugin(

@@ -1,18 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AuthCompletedRegistrationGuard, UnauthGuard } from '@core/guards';
 import { PublicLayoutComponent, PublicLayoutModule } from '../layout/public-layout';
-import {
-  AuthCompletedRegistrationGuard,
-  AuthConfirmedGuard,
-  AuthUncompletedRegistrationGuard,
-  AuthUnconfirmedGuard, UnauthGuard,
-} from '@core/auth';
+import { AuthConfirmedGuard, AuthUncompletedRegistrationGuard, AuthUnconfirmedGuard, SIGN_UP_GUARDS } from './guards';
 import {
   CompleteRegistrationPageComponent,
   EmailConfirmationPageComponent,
   SignUpPageComponent,
-  SuccessPageComponent
+  SuccessPageComponent,
 } from './pages';
 import { SignUpRoute } from './sign-up-route';
 
@@ -48,7 +44,6 @@ const ROUTES: Routes = [
         path: SignUpRoute.Success,
         component: SuccessPageComponent,
         canActivate: [
-          AuthConfirmedGuard,
           AuthCompletedRegistrationGuard,
         ],
       },
@@ -63,6 +58,9 @@ const ROUTES: Routes = [
   ],
   exports: [
     RouterModule,
+  ],
+  providers: [
+    SIGN_UP_GUARDS,
   ],
 })
 export class SignUpRoutingModule {

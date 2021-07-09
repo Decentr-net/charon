@@ -13,9 +13,9 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LikeWeight } from 'decentr-js';
 
-import { svgLike } from '@shared/svg-icons';
 import { PostsListItem } from '@core/services';
 import { CanLikeState, HubLikesService } from '../../services';
+import { svgLike } from '@shared/svg-icons/like';
 
 @UntilDestroy()
 @Component({
@@ -43,7 +43,9 @@ export class HubPostRatingComponent implements OnInit {
     private hubLikesService: HubLikesService,
     svgIconRegistry: SvgIconRegistry,
   ) {
-    svgIconRegistry.register(svgLike);
+    svgIconRegistry.register([
+      svgLike,
+    ]);
   }
 
   public ngOnInit(): void {

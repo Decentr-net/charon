@@ -11,7 +11,7 @@ import {
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { svgArrowLeft } from '../../../svg-icons';
+import { svgArrowLeft } from '../../../svg-icons/arrow-left';
 import { ExpansionListColumnDefDirective } from '../expansion-list-column';
 import { ExpansionListService } from './expansion-list.service';
 
@@ -56,7 +56,9 @@ export class ExpansionListComponent<T> implements AfterViewInit {
     private expansionListService: ExpansionListService<T>,
     private svgIconRegistry: SvgIconRegistry,
   ) {
-    svgIconRegistry.register(svgArrowLeft);
+    svgIconRegistry.register([
+      svgArrowLeft,
+    ]);
   }
 
   public ngAfterViewInit(): void {

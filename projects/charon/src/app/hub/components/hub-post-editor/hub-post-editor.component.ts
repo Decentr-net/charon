@@ -8,9 +8,10 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PostCreate } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
-import { svgAddImage, svgClose } from '@shared/svg-icons';
 import { BaseValidationUtil } from '@shared/utils/validation';
 import { getHTMLImagesCount } from '@shared/utils/html';
+import { svgAddImage } from '@shared/svg-icons/add-image';
+import { svgClear } from '@shared/svg-icons/clear';
 
 @UntilDestroy()
 @Component({
@@ -54,7 +55,7 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
 
     svgIconRegistry.register([
       svgAddImage,
-      svgClose,
+      svgClear,
     ]);
 
     this.form = this.createForm();

@@ -108,7 +108,7 @@ export class EmailConfirmationPageComponent implements OnInit {
         untilDestroyed(this),
       )
       .subscribe(() => {
-        this.router.navigate([AppRoute.SignUp]);
+        this.router.navigate(['/', AppRoute.SignUp]);
       });
   }
 

@@ -4,6 +4,12 @@
   "description": "Charon Browser Extension",
   "author": "Decentr",
   "content_security_policy": "script-src 'self'; object-src 'self'",
+  "icons": {
+    "16": "assets/icons/16.png",
+    "32": "assets/icons/32.png",
+    "64": "assets/icons/64.png",
+    "128": "assets/icons/128.png"
+  },
   "browser_action": {
     "default_icon": {
       "16": "assets/icons/16.png",
@@ -20,11 +26,13 @@
   "permissions": [
     "clipboardWrite",
     "cookies",
+    "proxy",
     "storage",
     "tabs",
     "unlimitedStorage",
     "<all_urls>",
-    "webRequest"
+    "webRequest",
+    "webRequestBlocking"
   ],
   "content_scripts": [
     {
@@ -44,8 +52,5 @@
     "scripts": [
       "scripts/background-script.js"
     ]
-  },
-  "web_accessible_resources": [
-    "toolbar/index.html"
-  ]
+  }
 }

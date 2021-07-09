@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { filter, map, pluck, take } from 'rxjs/operators';
-import { Observable, ReplaySubject } from 'rxjs';
+import { delay, filter, map, pluck, retryWhen, take } from 'rxjs/operators';
+import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { PDVDataType } from 'decentr-js';
 
 import { Environment } from '../../../environments/environment.definitions';
+import { ONE_SECOND } from '../../utils/date';
 import { ConfigApiService } from './config-api.service';
 import { Config } from './config.definitions';
 
@@ -14,6 +15,8 @@ export class ConfigService {
 
   private readonly configApiService: ConfigApiService = new ConfigApiService(this.environment);
 
+  private configSubscription: Subscription;
+
   constructor(
     private environment: Environment,
   ) {
@@ -22,8 +25,13 @@ export class ConfigService {
   private getConfig(): Observable<Config> {
     if (!this.pendingConfig) {
       this.pendingConfig = true;
+      this.configSubscription?.unsubscribe();
 
-      this.configApiService.getConfig().subscribe(
+      this.configSubscription = this.configApiService.getConfig().pipe(
+        retryWhen((errors) => errors.pipe(
+          delay(ONE_SECOND),
+        )),
+      ).subscribe(
         (config) => this.config$.next(config),
         (error) => this.config$.error(error),
       );
@@ -91,6 +99,12 @@ export class ConfigService {
   public getTheseusUrl(): Observable<string> {
     return this.getConfig().pipe(
       pluck('theseus', 'url'),
+    );
+  }
+
+  public getVPNSettings(): Observable<Config['vpn']> {
+    return this.getConfig().pipe(
+      pluck('vpn'),
     );
   }
 }

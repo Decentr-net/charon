@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EMPTY, from, Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import {
   catchError,
   delay,
@@ -66,11 +66,8 @@ export class PostCreatePageService {
 
         return EMPTY;
       }),
-      mergeMap((createdPost) => from(this.removeDraft()).pipe(
-        mapTo(createdPost),
-      )),
       mergeMap((createdPost) => this.waitPost(createdPost)),
-      tap(() => console.log('created')),
+      mergeMap(() => this.removeDraft()),
       tap(() => {
         this.notificationService.success(
           this.translocoService.translate('notifications.create.success', null, 'hub')

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, HostListener, Output } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgDelete } from '@shared/svg-icons';
+import { svgDelete } from '@shared/svg-icons/delete';
 
 @Component({
   selector: 'app-hub-post-delete-button',

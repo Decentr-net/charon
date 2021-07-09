@@ -9,7 +9,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
-import { svgArrowLeft, svgDecentrHub } from '@shared/svg-icons';
+import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
+import { svgDecentrHub } from '@shared/svg-icons/decentr-hub';
 import { ONE_SECOND } from '@shared/utils/date';
 import { RECEIVER_WALLET_PARAM, TRANSFER_START_AMOUNT, TransferForm } from './transfer-page.definitions';
 import { TransferPageService } from './transfer-page.service';

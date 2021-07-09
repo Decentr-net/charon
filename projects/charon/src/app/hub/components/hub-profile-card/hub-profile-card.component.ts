@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { PublicProfile } from 'decentr-js';
 
-import { svgFollow, svgTopup } from '@shared/svg-icons';
+import { svgFollow } from '@shared/svg-icons/follow';
+import { svgTopup } from '@shared/svg-icons/topup';
 
 export interface HubProfile extends PublicProfile {
   isFollowing: boolean;

@@ -5,7 +5,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { Post } from 'decentr-js';
 
-import { svgEdit, svgLogoFeed } from '@shared/svg-icons';
 import {
   AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT,
   AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT
@@ -15,6 +14,8 @@ import { HubPostsService } from '../../services';
 import { FeedPageService } from './feed-page.service';
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../hub-route';
+import { svgEdit } from '@shared/svg-icons/edit';
+import { svgLogoFeed } from '@shared/svg-icons/logo-feed';
 
 @UntilDestroy()
 @Component({

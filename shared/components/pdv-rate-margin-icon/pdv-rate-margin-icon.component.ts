@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgPdvRateIcon } from '../../svg-icons';
+import { svgPdvRateIcon } from '../../svg-icons/pdv-rate-icon';
 
 @Component({
   selector: 'app-pdv-rate-margin-icon',

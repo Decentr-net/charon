@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { defer, from, Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, repeat, takeWhile, tap } from 'rxjs/operators';
+import { catchError, delay, map, mergeMap, repeatWhen, skipWhile, take, tap } from 'rxjs/operators';
 import { LikeWeight, Post, PostCreate, PostIdentificationParameters } from 'decentr-js'
 
 import { MessageBus } from '@shared/message-bus';
+import { ONE_SECOND } from '@shared/utils/date';
 import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
 import { PostsApiService, PostsListFilterOptions, PostsListResponse } from '../api';
@@ -100,8 +101,11 @@ export class PostsService {
         }),
         mergeMap(() => this.getPost({ owner: post.author, uuid: post.postId }).pipe(
           catchError(() => of(undefined)),
-          repeat(),
-          takeWhile((post) => !!post),
+          repeatWhen((notifier) => notifier.pipe(
+            delay(ONE_SECOND),
+          )),
+          skipWhile((post) => !!post),
+          take(1),
         )),
       );
   }
