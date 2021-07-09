@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { SvgIconsModule } from '@ngneat/svg-icon';
@@ -27,6 +28,7 @@ import { NavigationModule } from '@core/navigation';
 import { PORTAL_COMPONENTS } from './components';
 import { PORTAL_PAGES } from './pages';
 import { PortalRoutingModule } from './portal-routing.module';
+import { SpinnerModule } from '@shared/components/spinner';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,7 @@ import { PortalRoutingModule } from './portal-routing.module';
     HighchartsChartModule,
     MarginLabelModule,
     MatExpansionModule,
+    MatMenuModule,
     MatTooltipModule,
     MicroValueModule,
     NavigationModule,
@@ -57,6 +60,7 @@ import { PortalRoutingModule } from './portal-routing.module';
     PortalRoutingModule,
     ReactiveFormsModule,
     SlotModule,
+    SpinnerModule,
     SvgIconsModule,
     TranslocoModule,
     TypefaceModule,
