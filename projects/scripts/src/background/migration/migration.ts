@@ -4,7 +4,7 @@ import * as packageSettings from '../../../../../package.json';
 import { compareSemver } from '../../../../../shared/utils/number';
 import QUEUE from '../queue';
 import { migrate as migrateTo133 } from './1.3.3';
-import { migrate as migrateTo140 } from './1.4.0';
+import { migrate as migrateTo150 } from './1.5.0';
 
 interface MigrationScriptConfig {
   version: string;
@@ -17,8 +17,8 @@ const SCRIPTS_CONFIGURATION: MigrationScriptConfig[] = [
     script: migrateTo133,
   },
   {
-    version: '1.4.0',
-    script: migrateTo140,
+    version: '1.5.0',
+    script: migrateTo150,
   },
 ];
 
