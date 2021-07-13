@@ -3,6 +3,8 @@ import { catchError, filter, map, mapTo, mergeMap, share, startWith, switchMap, 
 
 import { clearProxy, getActiveProxySettings, isSelfProxyEnabled } from '../../../../../shared/utils/browser';
 import { ONE_SECOND } from '../../../../../shared/utils/date';
+import { compareSemver } from '../../../../../shared/utils/number';
+import * as packageSettings from '../../../../../package.json';
 import CONFIG_SERVICE from '../config';
 import { pingProxyServer } from './ping';
 
@@ -42,10 +44,16 @@ export const handleProxyStatus = (): Observable<void> => {
     filter(Boolean),
   );
 
+  const versionDeprecated$ = checkTimer$.pipe(
+    switchMap(() => CONFIG_SERVICE.getAppMinVersionRequired()),
+    filter((minVersion) => compareSemver(packageSettings.version, minVersion) < 0),
+  );
+
   return merge(
     proxyConfigDisabled$,
     proxyServerDisabled$,
     proxyServerNotAvailable$,
+    versionDeprecated$,
   ).pipe(
     mergeMap(() => clearProxy()),
   );
