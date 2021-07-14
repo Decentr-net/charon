@@ -1,6 +1,6 @@
 {
   "name": "charon",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "scripts": {
     "ng": "ng",
     "analyze:charon": "webpack-bundle-analyzer dist/charon/stats.json",

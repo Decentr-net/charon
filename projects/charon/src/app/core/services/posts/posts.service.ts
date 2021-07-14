@@ -29,7 +29,7 @@ export class PostsService {
       map((response) => ({
         ...response.post,
         author: response.profile,
-        stats: response.stats,
+        stats: response.stats || [],
       }))
     );
   }
@@ -117,7 +117,7 @@ export class PostsService {
       return {
         ...post,
         author: profile,
-        stats: postsListResponse.stats[`${post.owner}/${post.uuid}`],
+        stats: postsListResponse.stats[`${post.owner}/${post.uuid}`] || [],
       };
     });
   }
