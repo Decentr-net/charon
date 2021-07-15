@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { TextFieldModule } from '@angular/cdk/text-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -54,6 +55,7 @@ import { UserRoutingModule } from './user-routing.module';
     RxReactiveFormsModule,
     SlotModule,
     SvgIconsModule,
+    TextFieldModule,
     TranslocoModule,
     TypefaceModule,
     UserRoutingModule,
