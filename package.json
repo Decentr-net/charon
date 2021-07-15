@@ -8,6 +8,7 @@
     "build:chrome:prod": "npm run clean && npm run build:charon:prod && npm run build:scripts:chrome:prod && cross-env BROWSER=chrome npm run pack",
     "build:firefox": "npm run clean && npm run build:charon && npm run build:scripts:firefox",
     "build:firefox:prod": "npm run clean && npm run build:charon:prod && npm run build:scripts:firefox:prod && cross-env BROWSER=firefox npm run pack",
+    "build:all:prod": "npm run clean && npm run build:charon:prod && npm run build:scripts:chrome:prod && cross-env BROWSER=chrome npm run pack_named && npm run build:scripts:firefox:prod && cross-env BROWSER=firefox npm run pack_named",
     "build:charon": "ng build charon",
     "build:charon:prod": "ng build charon --prod",
     "build:charon:stats": "ng build charon --stats-json",
