@@ -65,7 +65,7 @@ export class PostsService {
                   ...profiles[post.owner],
                   postsCount: postsListResponse.profileStats[post.owner].postsCount,
                 },
-                stats: postsListResponse.stats[`${post.owner}/${post.uuid}`],
+                stats: postsListResponse.stats[`${post.owner}/${post.uuid}`] || [],
             }));
           })
         )
