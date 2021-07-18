@@ -60,25 +60,6 @@ $transfer-page--padding: $grid-step * 2;
   gap: $grid-step * 2;
 }
 
-.transfer-page__back-button {
-  background-color: $color-background;
-  border-radius: $border-radius;
-  color: $color-grey;
-  cursor: pointer;
-  display: inline-flex;
-  padding: $grid-step;
-  transition: background-color .3s ease;
-
-  &:hover {
-    background-color: $color-outlines;
-  }
-
-  &.is-disabled {
-    color: $color-light-grey;
-    pointer-events: none;
-  }
-}
-
 .transfer-page__balance {
   align-items: center;
   background-color: rgba($color-primary, 0.08);
@@ -138,27 +119,6 @@ $transfer-page--padding: $grid-step * 2;
 }
 
 .transfer-page__form__action-button {
-  align-items: center;
-  background-color: $color-background;
-  border-radius: $border-radius;
-  cursor: pointer;
-  display: inline-flex;
   height: 48px;
-  justify-content: center;
-  transition: background-color .3s ease;
   width: 160px;
-
-  &:hover {
-    background-color: $color-outlines;
-  }
-
-  &.mod-send:not(:disabled) {
-    background-color: $color-primary;
-    color: $color-white;
-  }
-
-  &:disabled {
-    color: $color-light-grey;
-    pointer-events: none;
-  }
 }

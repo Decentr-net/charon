@@ -16,13 +16,25 @@
         {{ translate('will_be_deleted') }}
       </span>
 
-      <div class="hub-post-delete-button__button hub-post-delete-button__button-cancel" (click)="toggleButton($event)">
+      <button
+        class="hub-post-delete-button__button-cancel"
+        app-button
+        color="grey"
+        size="xs"
+        (click)="toggleButton($event)"
+      >
         {{ translate('cancel') }}
-      </div>
+      </button>
 
-      <div class="hub-post-delete-button__button hub-post-delete-button__button-delete" (click)="onClickDelete()">
+      <button
+        class="hub-post-delete-button__button-delete"
+        app-button
+        color="negative"
+        size="xs"
+        (click)="onClickDelete()"
+      >
         {{ translate('delete') }}
-      </div>
+      </button>
     </ng-template>
   </div>
 </ng-container>

@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 
-import { SpinnerModule } from '../spinner';
 import { TypefaceModule } from '../../directives/typeface';
+import { ButtonModule } from '../button';
+import { SpinnerModule } from '../spinner';
 import { NetworkSelectorComponent } from './network-selector.component';
 import { NetworkSelectorService } from './network-selector.service';
 
@@ -14,6 +15,7 @@ export interface NetworkSelectorModuleConfig {
 
 @NgModule({
   imports: [
+    ButtonModule,
     CommonModule,
     MatMenuModule,
     SpinnerModule,

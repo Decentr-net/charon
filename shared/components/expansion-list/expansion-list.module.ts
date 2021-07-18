@@ -4,6 +4,7 @@ import { SvgIconsModule } from '@ngneat/svg-icon';
 
 import { IntersectionModule } from '../../directives/intersection';
 import { TypefaceModule } from '../../directives/typeface';
+import { ButtonBackModule } from '../button-back';
 import { ExpansionListCellDefDirective } from './expansion-list-cell';
 import { ExpansionListComponent } from './expansion-list';
 import { ExpansionListColumnComponent, ExpansionListColumnDefDirective } from './expansion-list-column';
@@ -22,6 +23,7 @@ import { ExpansionListLoadingDirective } from './expansion-list-loading';
     ExpansionListLoadingDirective,
   ],
   imports: [
+    ButtonBackModule,
     CommonModule,
     IntersectionModule,
     SvgIconsModule,

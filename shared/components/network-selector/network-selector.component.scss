@@ -14,18 +14,8 @@
 }
 
 .network-selector__trigger {
-  align-items: center;
-  background-color: $color-background;
-  border-radius: $border-radius;
+  padding-right: $grid-step * 1.5;
   column-gap: $grid-step / 2;
-  cursor: pointer;
-  display: flex;
-  padding: $grid-step $grid-step * 1.5;
-  transition: background .3s ease;
-
-  &:hover {
-    background: $color-outlines;
-  }
 }
 
 .network-selector__trigger__network-icon {
@@ -33,8 +23,6 @@
 }
 
 .network-selector__trigger__network-name {
-  color: $color-black;
-  font-weight: 500;
   max-width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
