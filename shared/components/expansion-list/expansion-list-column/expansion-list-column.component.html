@@ -3,12 +3,10 @@
   appTypeface="subheader"
 >
   <button
-    class="expansion-list-column__back-btn"
+    app-button-back
     *ngIf="singleDisplayMode && !columnDef.isFirstColumn"
     (click)="back()"
-  >
-    <svg-icon key="arrow-left"></svg-icon>
-  </button>
+  ></button>
 
   <ng-template
     [ngTemplateOutlet]="columnDef.headerCellDef.templateRef"

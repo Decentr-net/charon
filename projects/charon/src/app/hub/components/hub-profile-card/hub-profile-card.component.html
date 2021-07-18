@@ -29,26 +29,30 @@
     <ng-template [ngIf]="!profile.isUserProfile">
       <button
         class="hub-profile-card__button"
+        app-button
+        color="grey"
         [class.is-active]="profile.isFollowing"
         [class.is-updating]="profile.isFollowingUpdating"
         appTypeface="caption"
         (click)="onFollow()"
       >
-        <svg-icon class="hub-profile-card__button-icon" key="follow" size="xs"></svg-icon>
+        <svg-icon key="follow" size="xs"></svg-icon>
 
-        <span class="hub-profile-card__button-label">
+        <span>
           {{ translate(profile.isFollowing ? 'following' : 'follow') }}
         </span>
       </button>
 
       <button
         class="hub-profile-card__button"
+        app-button
+        color="grey"
         appTypeface="caption"
         (click)="onTopUp()"
       >
-        <svg-icon class="hub-profile-card__button-icon" key="topup" size="xs"></svg-icon>
+        <svg-icon key="topup" size="xs"></svg-icon>
 
-        <span class="hub-profile-card__button-label">
+        <span>
           {{ translate('topup') }}
         </span>
       </button>
