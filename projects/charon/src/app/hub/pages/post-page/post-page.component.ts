@@ -1,5 +1,6 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
@@ -8,12 +9,10 @@ import {
 import { Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, pluck, switchMap } from 'rxjs/operators';
-import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Wallet } from 'decentr-js';
 
-import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
 import { AuthService } from '@core/auth';
 import { FollowingService, PostsListItem } from '@core/services';
 import { AppRoute } from '../../../app-route';
@@ -61,11 +60,7 @@ export class PostPageComponent implements OnInit {
     private postPageService: PostPageService,
     private router: Router,
     private translocoService: TranslocoService,
-    svgIconRegistry: SvgIconRegistry,
   ) {
-    svgIconRegistry.register([
-      svgArrowLeft,
-    ]);
   }
 
   public ngOnInit(): void {

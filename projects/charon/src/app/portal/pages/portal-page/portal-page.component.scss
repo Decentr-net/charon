@@ -19,18 +19,3 @@
   height: 40px;
   width: 119px;
 }
-
-.portal-page__copy-wallet-button {
-  background-color: $color-background;
-  border-radius: $border-radius;
-  color: $color-black;
-  cursor: pointer;
-  display: inline-flex;
-  gap: $grid-step;
-  padding: $grid-step * 1.5 $grid-step * 3 $grid-step * 1.5 $grid-step * 2;
-  transition: background-color .3s ease;
-
-  &:hover {
-    background-color: $color-outlines;
-  }
-}
