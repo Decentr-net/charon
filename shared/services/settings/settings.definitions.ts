@@ -1,6 +1,7 @@
 import { Wallet } from 'decentr-js';
 
 export interface UserSettingsStorage {
+  lock: unknown;
   pdv: unknown;
 }
 
