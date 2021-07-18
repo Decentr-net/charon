@@ -43,7 +43,7 @@ export const initAutoLock = () => {
             ? lock()
             : of(void 0);
         }),
-        mergeMap(() => listenActivityEnd()),
+        switchMap(() => listenActivityEnd()),
       )),
     );
   }).subscribe(() => lock());
