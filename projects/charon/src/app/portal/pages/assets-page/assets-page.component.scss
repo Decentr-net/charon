@@ -22,21 +22,6 @@
   display: flex;
 }
 
-.assets-page__add-token-button,
-.assets-page__send-button {
-  align-items: center;
-  border-radius: $border-radius;
-  display: inline-flex;
-  gap: $grid-step;
-  padding: $grid-step $grid-step * 2 $grid-step $grid-step * 1.5;
-}
-
-.assets-page__add-token-button {
-  background: $color-background;
-  color: $color-light-grey;
-  pointer-events: none;
-}
-
 .assets-page__expansion-list__header-count {
   background-color: $color-background;
   border-radius: $border-radius;
@@ -63,12 +48,6 @@
 .assets-page__transactions-header-cell-section {
   align-items: center;
   display: flex;
-}
-
-.assets-page__send-button {
-  background-color: $color-primary;
-  color: $color-white;
-  cursor: pointer;
 }
 
 .assets-page__no-transactions {

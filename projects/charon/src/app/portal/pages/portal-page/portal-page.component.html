@@ -20,13 +20,14 @@
   </a>
 
   <button
-    class="portal-page__copy-wallet-button"
     *appSlot="headerActionsSlot"
-    appTypeface="paragraph"
+    app-button
+    color="grey"
     [cdkCopyToClipboard]="walletAddress$ | async"
     (cdkCopyToClipboardCopied)="onWalletAddressCopied()"
   >
     <svg-icon key="wallet"></svg-icon>
+
     {{ translate('copy_wallet_address') }}
   </button>
 

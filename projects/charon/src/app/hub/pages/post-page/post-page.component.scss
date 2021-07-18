@@ -23,28 +23,6 @@
   width: 4px;
 }
 
-.post-page__navigation-back-button {
-  align-items: center;
-  background-color: $color-background;
-  border-radius: $border-radius;
-  color: $color-grey;
-  cursor: pointer;
-  display: inline-flex;
-  justify-content: center;
-  padding: 8px;
-
-  &:hover {
-    .post-page__navigation-back-button-icon {
-      color: $color-dark-grey;
-    }
-  }
-}
-
-.post-page__navigation-back-button-icon {
-  display: inline-flex;
-  font-size: 24px;
-}
-
 .post-page__category {
   align-items: center;
   cursor: pointer;

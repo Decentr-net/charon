@@ -11,6 +11,8 @@ import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
+import { ButtonBackModule } from '@shared/components/button-back';
+import { ButtonModule } from '@shared/components/button';
 import { ExpansionListModule } from '@shared/components/expansion-list';
 import { FormErrorModule } from '@shared/components/form-error';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
@@ -40,6 +42,8 @@ import { SpinnerModule } from '@shared/components/spinner';
     AuthorizedLayoutModule,
     BindQueryParamsModule,
     BrowserViewModule,
+    ButtonBackModule,
+    ButtonModule,
     ClipboardModule,
     CommonModule,
     FormErrorModule,
