@@ -74,7 +74,7 @@ export class TransferPageComponent implements OnInit {
 
     const transferTime = Date.now() - ONE_SECOND * 5;
 
-    this.transferPageService.transfer(formValue.to, formValue.amount * MICRO_PDV_DIVISOR).pipe(
+    this.transferPageService.transfer(formValue.to, Math.round(formValue.amount * MICRO_PDV_DIVISOR)).pipe(
       catchError(() => {
         this.enablePage();
         return EMPTY;
