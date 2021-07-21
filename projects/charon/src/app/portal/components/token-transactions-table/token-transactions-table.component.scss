@@ -15,7 +15,7 @@
   column-gap: $grid-step;
   display: grid;
   grid-template-areas: 'icon operation amount'
-                       'empty address address';
+                       'empty address fee';
   grid-template-columns: min-content 1fr max-content;
   padding: $grid-step * 1.5 $grid-step * 2;
   row-gap: $grid-step / 2;
@@ -45,6 +45,11 @@
 .token-transactions-table__address {
   color: $color-grey;
   grid-area: address;
+}
+
+.token-transactions-table__fee {
+  color: $color-grey;
+  grid-area: fee;
 }
 
 .token-transactions-table__color-receive {

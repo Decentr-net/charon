@@ -30,6 +30,7 @@ import { PORTAL_COMPONENTS } from './components';
 import { PORTAL_PAGES } from './pages';
 import { PortalRoutingModule } from './portal-routing.module';
 import { SpinnerModule } from '@shared/components/spinner';
+import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { SpinnerModule } from '@shared/components/spinner';
     SlotModule,
     SpinnerModule,
     SvgIconsModule,
+    TextEllipsisModule,
     TranslocoModule,
     TypefaceModule,
   ],

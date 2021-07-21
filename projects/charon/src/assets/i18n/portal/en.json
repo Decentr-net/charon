@@ -28,6 +28,7 @@
     "wallet_address_copied": "The wallet address was copied successfully"
   },
   "token_transactions_table": {
+    "fee": "Fee",
     "from": "From",
     "received": "Received",
     "sent": "Sent",
