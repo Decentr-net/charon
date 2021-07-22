@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   BankCoin,
+  calculateTransferFee,
   TransferData,
   TransferHistory,
   TransferHistoryPaginationOptions,
@@ -8,9 +9,10 @@ import {
   Wallet,
 } from 'decentr-js';
 import { defer, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 
 import { MessageBus } from '@shared/message-bus';
+import { ConfigService } from '@shared/services/configuration';
 import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
 import { AuthService } from '../../auth';
@@ -22,6 +24,7 @@ export class BankService {
   constructor(
     private authService: AuthService,
     private bankApiService: BankApiService,
+    private configService: ConfigService,
     private networkService: NetworkService,
   ) {
   }
@@ -33,6 +36,25 @@ export class BankService {
       map((coins) => {
         return coins.find(({ denom }) => denom === 'udec').amount;
       }),
+    );
+  }
+
+  public getTransferFee(receiver: TransferData['to_address'], amount: TransferData['amount']): Observable<number> {
+    const wallet = this.authService.getActiveUserInstant().wallet;
+
+    const transferData: TransferData = {
+      from_address: wallet.address,
+      to_address: receiver,
+      amount,
+    };
+
+    return this.configService.getChainId().pipe(
+      mergeMap((chainId) => calculateTransferFee(
+        this.networkService.getActiveNetworkInstant().api,
+        chainId,
+        transferData,
+      )),
+      map((fee) => +fee[0].amount),
     );
   }
 

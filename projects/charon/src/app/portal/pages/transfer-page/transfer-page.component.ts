@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnI
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { EMPTY, Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { EMPTY, Observable, of } from 'rxjs';
+import { catchError, debounceTime, map, shareReplay, switchMap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -11,10 +11,10 @@ import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
 import { svgDecentrHub } from '@shared/svg-icons/decentr-hub';
+import { isOpenedInTab } from '@shared/utils/browser';
 import { ONE_SECOND } from '@shared/utils/date';
 import { RECEIVER_WALLET_PARAM, TRANSFER_START_AMOUNT, TransferForm } from './transfer-page.definitions';
 import { TransferPageService } from './transfer-page.service';
-import { isOpenedInTab } from '../../../../../../../shared/utils/browser';
 
 @UntilDestroy()
 @Component({
@@ -38,6 +38,8 @@ export class TransferPageComponent implements OnInit {
   public isOpenedInPopup: boolean = !isOpenedInTab();
 
   public balance$: Observable<number>;
+
+  public fee$: Observable<number>;
 
   public form: FormGroup<TransferForm>;
 
@@ -65,6 +67,13 @@ export class TransferPageComponent implements OnInit {
     this.canSend$ = this.form.status$.pipe(
       map((status) => status === 'VALID'),
     );
+
+    this.fee$ = this.getFeeStream(this.form);
+
+    const amountControl = this.form.get('amount');
+    this.form.setAsyncValidators(   [
+      this.transferPageService.createAsyncAmountValidator(amountControl, this.fee$),
+    ]);
   }
 
   public onSubmit(): void {
@@ -74,7 +83,7 @@ export class TransferPageComponent implements OnInit {
 
     const transferTime = Date.now() - ONE_SECOND * 5;
 
-    this.transferPageService.transfer(formValue.to, Math.round(formValue.amount * MICRO_PDV_DIVISOR)).pipe(
+    this.transferPageService.transfer(formValue.to, this.getUDecAmount(formValue.amount)).pipe(
       catchError(() => {
         this.enablePage();
         return EMPTY;
@@ -93,9 +102,6 @@ export class TransferPageComponent implements OnInit {
           Validators.required,
           Validators.min(TRANSFER_START_AMOUNT),
           Validators.pattern('^((0)|(([1-9])([0-9]+)?)(0+)?)\\.?\\d{0,6}$'),
-        ],
-        [
-          this.transferPageService.createAsyncAmountValidator(),
         ],
       ],
       [RECEIVER_WALLET_PARAM]: [
@@ -122,6 +128,10 @@ export class TransferPageComponent implements OnInit {
     this.changeDetectorRef.markForCheck();
   }
 
+  private getUDecAmount(amount: number): number {
+    return Math.round(amount * MICRO_PDV_DIVISOR);
+  }
+
   private navigateToAssets(transferTime?: number): void {
     this.router.navigate(['../'], {
       relativeTo: this.activatedRoute,
@@ -129,5 +139,20 @@ export class TransferPageComponent implements OnInit {
         lastTransferTime: transferTime,
       },
     });
+  }
+
+  private getFeeStream(form: FormGroup<TransferForm>, defaultValue: number = 0): Observable<number> {
+    return form.value$.pipe(
+      debounceTime(300),
+      switchMap((formValue) => {
+          return +formValue.amount && formValue.to
+            ? this.transferPageService.getTransferFee(formValue.to, this.getUDecAmount(formValue.amount)).pipe(
+              catchError(() => of(defaultValue)),
+            )
+            : of(defaultValue);
+        }
+      ),
+      shareReplay(1),
+    );
   }
 }
