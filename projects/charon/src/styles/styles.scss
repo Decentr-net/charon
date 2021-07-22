@@ -73,36 +73,6 @@ button {
   text-align: left;
 }
 
-.hint-message {
-  color: $color-font-grey;
-
-  .hint-title {
-    position: relative;
-    padding-left: 27px;
-
-    &:before {
-      content: '';
-      background: url('/charon/assets/images/icons/info.svg');
-      width: 22px;
-      height: 22px;
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-  }
-
-  span {
-    color: $color-accent;
-    font-weight: 500;
-    letter-spacing: 1px;
-  }
-
-  p {
-    margin: 1.5rem 0;
-  }
-}
-
 // Form containers
 .input-label {
   margin-bottom: .4rem;

@@ -77,10 +77,6 @@
       },
       "submit": "Save"
     },
-    "hint": {
-      "label": "Hint",
-      "text": "All account information is private and secured by blockchain."
-    },
     "title": "Account details",
     "toastr": {
       "successful_update": "User was successfully updated"

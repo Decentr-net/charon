@@ -91,10 +91,6 @@
       },
       "submit": "Complete registration"
     },
-    "hint": {
-      "label": "Hint",
-      "text": "All account information is private and secured by blockchain."
-    },
     "title": "Profile"
   },
   "email_confirmation_page": {
