@@ -26,9 +26,10 @@
 
   <form
     [formGroup]="form"
-    (ngSubmit)="onSubmit()"
     autocomplete="off"
     appBindQueryParams
+    appSubmitAfterValidation
+    (ngSubmit)="onSubmit()"
   >
     <div class="transfer-page__form__inputs-container">
       <app-transfer-input

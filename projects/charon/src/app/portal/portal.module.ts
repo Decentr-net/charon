@@ -30,6 +30,7 @@ import { PORTAL_COMPONENTS } from './components';
 import { PORTAL_PAGES } from './pages';
 import { PortalRoutingModule } from './portal-routing.module';
 import { SpinnerModule } from '@shared/components/spinner';
+import { SubmitAfterValidationModule } from '@shared/directives/submit-after-validation';
 import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
 
 @NgModule({
@@ -64,6 +65,7 @@ import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
     ReactiveFormsModule,
     SlotModule,
     SpinnerModule,
+    SubmitAfterValidationModule,
     SvgIconsModule,
     TextEllipsisModule,
     TranslocoModule,
