@@ -3,6 +3,8 @@
   [appTypeface]="isOpenedInPopup ? 'caption' : 'paragraph'"
 >
   <ng-content></ng-content>
+
+  <ng-content select="[label-right]"></ng-content>
 </div>
 
 <ng-template [ngIf]="rows > 1" [ngIfThen]="textArea" [ngIfElse]="input"></ng-template>

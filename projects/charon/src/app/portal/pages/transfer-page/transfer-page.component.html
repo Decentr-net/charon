@@ -30,13 +30,18 @@
     autocomplete="off"
     appBindQueryParams
   >
+
     <div class="transfer-page__form__inputs-container">
       <app-transfer-input
         class="transfer-page__form__control-amount"
         formControlName="amount"
         [appTypeface]="isOpenedInPopup ? 'header-4' : 'header-3'"
       >
-        {{ translate('form.amount.label') }}
+        <span>{{ translate('form.amount.label') }}</span>
+
+        <span ngProjectAs="[label-right]">
+          {{ translate('form.amount.fee') }}: {{ fee$ | async | microValue }}
+        </span>
       </app-transfer-input>
 
       <app-form-error

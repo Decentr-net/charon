@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, timer } from 'rxjs';
+import { AbstractControl } from '@angular/forms';
+import { combineLatest, Observable, of, timer } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
   map,
   mergeMapTo,
   pluck,
+  skip,
   switchMap,
   take,
   tap
@@ -21,8 +23,6 @@ import { BankService, UserService } from '@core/services';
 
 @Injectable()
 export class TransferPageService {
-  public balance$: Observable<number>;
-
   constructor(
     private authService: AuthService,
     private bankService: BankService,
@@ -39,6 +39,10 @@ export class TransferPageService {
       switchMap((walletAddress) => this.bankService.getDECBalance(walletAddress)),
       map(parseFloat),
     );
+  }
+
+  public getTransferFee(to: Wallet['address'], amount: number): Observable<number> {
+    return this.bankService.getTransferFee(to, amount.toString());
   }
 
   public createAsyncValidWalletAddressValidator(): AsyncValidatorFn<Wallet['address']> {
@@ -59,18 +63,29 @@ export class TransferPageService {
     };
   }
 
-  public createAsyncAmountValidator(): AsyncValidatorFn<number> {
-    return (control) => {
-      const amount = parseFloat(control.value.toString());
+  public createAsyncAmountValidator(
+    amountControl: AbstractControl,
+    fee$: Observable<number>,
+  ): AsyncValidatorFn<number> {
+    return () => {
+      const amount = parseFloat(amountControl.value.toString());
 
       if (isNaN(amount)) {
         return null;
       }
 
       return timer(300).pipe(
-        mergeMapTo(this.getBalance()),
+        mergeMapTo(combineLatest([
+          this.getBalance(),
+          fee$,
+        ])),
+        // hack to be able to use share()
+        skip(1),
         take(1),
-        map((balance) => balance / MICRO_PDV_DIVISOR >= amount ? null : { insufficient: false }),
+        tap(([balance, fee]) => {
+          const error = (balance - fee) / MICRO_PDV_DIVISOR >= amount ? null : { insufficient: false };
+          amountControl.setErrors(error);
+        }),
       );
     };
   }

@@ -35,7 +35,6 @@
     "to": "To"
   },
   "transfer_page": {
-    "amount": "Amount",
     "cancel": "Cancel",
     "form": {
       "amount": {
@@ -45,6 +44,7 @@
           "pattern": "Incorrect amount format",
           "required": "Amount is required"
         },
+        "fee": "Fee",
         "label": "Amount"
       },
       "to": {
