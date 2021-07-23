@@ -22,9 +22,11 @@ export class PermissionsService<T = string | number> {
   }
 
   public addPermissions(permissions: T | T[]): void {
+    const currentPermissions = this.getPermissionsInstant();
+
     this.permissions$.next([
-      ...this.getPermissionsInstant(),
-      ...coerceArray(permissions),
+      ...currentPermissions,
+      ...excludeArrayValues(coerceArray(permissions), currentPermissions),
     ]);
   }
 

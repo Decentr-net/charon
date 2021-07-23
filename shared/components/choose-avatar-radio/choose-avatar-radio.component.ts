@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs';
 
@@ -25,6 +25,11 @@ export class ChooseAvatarRadioComponent implements AfterViewInit, ControlValueAc
   protected propagateChange: (_: any) => void = noop;
   protected propagateTouch: () => void = noop;
 
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {
+  }
+
   public ngAfterViewInit(): void {
     this.value = this.value || this.avatars[0];
     this.onChange();
@@ -37,6 +42,7 @@ export class ChooseAvatarRadioComponent implements AfterViewInit, ControlValueAc
 
   public writeValue(value: any): void {
     this.value = value;
+    this.changeDetectorRef.detectChanges();
   }
 
   public registerOnChange(fn: any): void {

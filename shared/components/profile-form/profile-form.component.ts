@@ -42,7 +42,6 @@ export class ProfileFormComponent extends ControlValueAccessor<ProfileFormContro
   public readonly gender: typeof Gender = Gender;
 
   public readonly maxAdditionalEmailsCount: number = 9;
-  public readonly maxUsernamesCount: number = 10;
 
   public readonly controlName: typeof ProfileFormControlName = ProfileFormControlName;
 
@@ -58,12 +57,8 @@ export class ProfileFormComponent extends ControlValueAccessor<ProfileFormContro
     return this.formModel.getEmailsFormArray(this.form);
   }
 
-  public get usernameFormArray(): FormArray<UsernameForm> {
-    return this.formModel.getUsernamesFormArray(this.form);
-  }
-
   public ngOnInit() {
-    this.form.value$
+    this.form.valueChanges
       .pipe(
         untilDestroyed(this),
       )
@@ -74,8 +69,6 @@ export class ProfileFormComponent extends ControlValueAccessor<ProfileFormContro
     switch (arrayName) {
       case ProfileFormControlName.Emails:
         return this.emailFormArray.length >= this.maxAdditionalEmailsCount;
-      case ProfileFormControlName.Usernames:
-        return this.usernameFormArray.length >= this.maxUsernamesCount;
       default:
         return false;
     }
@@ -85,8 +78,6 @@ export class ProfileFormComponent extends ControlValueAccessor<ProfileFormContro
     switch (arrayName) {
       case ProfileFormControlName.Emails:
         return this.formModel.addEmail(this.form);
-      case ProfileFormControlName.Usernames:
-        return this.formModel.addUsername(this.form);
     }
   }
 
@@ -94,8 +85,6 @@ export class ProfileFormComponent extends ControlValueAccessor<ProfileFormContro
     switch (arrayName) {
       case ProfileFormControlName.Emails:
         return this.formModel.removeEmail(this.form, index);
-      case ProfileFormControlName.Usernames:
-        return this.formModel.removeUsername(this.form, index);
     }
   }
 
@@ -103,8 +92,6 @@ export class ProfileFormComponent extends ControlValueAccessor<ProfileFormContro
     switch (arrayName) {
       case ProfileFormControlName.Emails:
         return this.formModel.getEmailsFormArray(this.form);
-      case ProfileFormControlName.Usernames:
-        return this.formModel.getUsernamesFormArray(this.form);
       default:
         return undefined;
     }
@@ -121,7 +108,7 @@ export class ProfileFormComponent extends ControlValueAccessor<ProfileFormContro
   }
 
   public writeValue(value: ProfileFormControlValue) {
-    this.formModel.patchForm(this.form, value, { emitEvent: false });
+    this.formModel.patchForm(this.form, value, { emitEvent: true });
   }
 
   private getOuterValue(): ProfileFormControlValue {

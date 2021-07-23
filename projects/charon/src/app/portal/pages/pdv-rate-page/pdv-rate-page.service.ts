@@ -24,7 +24,7 @@ export class PdvRatePageService {
   }
 
   public getPdvChartPoints(): Observable<PdvChartPoint[]> {
-    return this.pdvService.getPDVStatChartPointsLive(false).pipe(
+    return this.pdvService.getPDVStatChartPointsLive().pipe(
       map((chartPoints) => {
         return chartPoints.map((chartPoint) => [chartPoint.date, chartPoint.value]);
       }),

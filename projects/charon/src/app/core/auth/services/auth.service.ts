@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { first, skip, tap } from 'rxjs/operators';
+import { first, skip } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AuthBrowserStorageService } from '@shared/services/auth';
 import { sha256 } from '@shared/utils/crypto';
 import { uuid } from '@shared/utils/uuid';
 import { AuthUser, AuthUserCreate, AuthUserUpdate } from '../models';
-import { PermissionsService } from '@shared/permissions';
-import { UserPermissions } from '../../permissions';
 
 @UntilDestroy()
 @Injectable()
 export class AuthService {
   constructor(
-    private permissionsService: PermissionsService,
+    private router: Router,
   ) {
   }
 
@@ -41,22 +40,8 @@ export class AuthService {
     ).toPromise().then();
   }
 
-  public confirmUserEmail(userId: AuthUser['id']): Promise<void> {
-    return this.authStorage.updateUser(userId, { emailConfirmed: true });
-  }
-
-  public completeRegistration(userId: AuthUser['id']): Promise<void> {
-    return this.authStorage.updateUser(userId, { registrationCompleted: true });
-  }
-
   public getActiveUser(): Observable<AuthUser | undefined> {
-    return this.activeUser$.asObservable().pipe(
-      tap((user) => {
-        if (user?.isModerator) {
-          this.permissionsService.setPermissions(UserPermissions.DELETE_POST);
-        }
-      })
-    );
+    return this.activeUser$.asObservable();
   }
 
   public getActiveUserInstant(): AuthUser | undefined {
@@ -71,17 +56,8 @@ export class AuthService {
     // TODO: temporary solution to disable birthday
     await this.authStorage.createUser({
       id,
-      bio: user.bio,
-      birthday: '1911-11-11',
-      emailConfirmed: user.emailConfirmed,
-      emails: user.emails,
-      gender: user.gender,
-      isModerator: user.isModerator,
       passwordHash,
       primaryEmail: user.primaryEmail,
-      primaryUsername: user.usernames?.[0],
-      registrationCompleted: user.registrationCompleted,
-      usernames: user.usernames,
       wallet: user.wallet,
     });
 
@@ -91,8 +67,6 @@ export class AuthService {
   }
 
   public changeUser(userId: AuthUser['id']): Promise<void> {
-    this.permissionsService.clearPermissions();
-
     return this.authStorage.setActiveUserId(userId);
   }
 
@@ -104,7 +78,9 @@ export class AuthService {
   }
 
   public logout(): Promise<void> {
-    return this.authStorage.removeActiveUserId();
+    return this.authStorage.removeActiveUserId()
+      .then(() => this.router.navigate(['/']))
+      .then();
   }
 
   public async validateCurrentUserPassword(password: string): Promise<boolean> {
@@ -122,15 +98,6 @@ export class AuthService {
     return this.authStorage.updateUser(
       userId,
       {
-        avatar: update.avatar,
-        bio: update.bio,
-        birthday: '1911-11-11',
-        firstName: update.firstName,
-        gender: update.gender,
-        lastName: update.lastName,
-        emails: update.emails,
-        usernames: update.usernames,
-        primaryUsername: update.usernames?.[0],
         ...passwordHash ? { passwordHash} : {},
       });
   }

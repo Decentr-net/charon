@@ -1,0 +1,15 @@
+<form
+  *transloco="let translate; read: 'user.pdv_types_toggle'"
+  [formGroup]="form"
+>
+  <div
+    class="pdv-types-toggle__control"
+    *ngFor="let type of types"
+  >
+    <mat-slide-toggle [formControlName]="type"></mat-slide-toggle>
+
+    <app-pdv-type-icon [type]="type"></app-pdv-type-icon>
+
+    <span appTypeface="paragraph">{{ translate(type) }}</span>
+  </div>
+</form>

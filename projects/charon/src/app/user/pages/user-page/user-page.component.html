@@ -1,0 +1,59 @@
+<app-network-selector
+  *appSlot="headerMetaSlot"
+></app-network-selector>
+
+<ng-container *transloco="let translate; read: 'user.user_page'">
+  <div
+    class="user-page__card"
+  >
+    <router-outlet></router-outlet>
+  </div>
+
+  <div
+    class="user-page__card"
+  >
+    <div
+      class="user-page__wallet-card__title"
+      appTypeface="subheader"
+    >
+      {{ translate('your_wallet') }}
+    </div>
+
+    <ng-container *ngIf="decBalance$ | async as decBalance; else balanceLoading">
+      <div
+        class="user-page__wallet-card__balance"
+        appTypeface="header-3"
+      >
+        {{ decBalance | microValue }} {{ translate('tDEC') }}
+      </div>
+    </ng-container>
+
+    <div class="user-page__wallet-card__actions">
+      <a [routerLink]="transferRoute">
+        <button
+          app-button
+        >
+          <svg-icon key="send"></svg-icon>
+          {{ translate('send') }}
+        </button>
+      </a>
+
+      <button
+        app-button
+        color="grey"
+        [cdkCopyToClipboard]="walletAddress$ | async"
+        (cdkCopyToClipboardCopied)="onWalletAddressCopied()"
+      >
+        <svg-icon key="wallet"></svg-icon>
+        {{ translate('copy_wallet_address') }}
+      </button>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #balanceLoading>
+  <ngx-skeleton-loader
+    class="user-page__skeleton-loader"
+    [theme]="{ height: '80px' }"
+  ></ngx-skeleton-loader>
+</ng-template>

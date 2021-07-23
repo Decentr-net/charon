@@ -25,7 +25,6 @@
     }
   },
   "menu": {
-    "coming_soon": "coming soon",
     "items": {
       "decentr_feed": {
         "description": "Recent activity of people you follow and some actual notifications for you",
@@ -43,7 +42,6 @@
         "description": "Decentr blockchain explorer",
         "title": "dExplorer"
       },
-      "import_account": "Import account",
       "info_and_help": "Info & Help",
       "lock": "Lock account"
     },

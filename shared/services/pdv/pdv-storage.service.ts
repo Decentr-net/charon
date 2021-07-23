@@ -1,10 +1,10 @@
+import { Injectable } from '@angular/core';
 import { defer, Observable } from 'rxjs';
 import { mergeMap, startWith } from 'rxjs/operators';
 import { PDV, Wallet } from 'decentr-js';
 
 import { uuid } from '../../utils/uuid';
 import { BrowserLocalStorage, BrowserStorage } from '../browser-storage';
-import { Injectable } from '@angular/core';
 
 export interface PDVBlock {
   id: string;
@@ -83,5 +83,9 @@ export class PDVStorageService {
 
   public clear(): Promise<void> {
     return this.browserStorage.clear();
+  }
+
+  public clearUserPDV(walletAddress: Wallet['address']): Promise<void> {
+    return this.browserStorage.useSection(walletAddress).clear();
   }
 }

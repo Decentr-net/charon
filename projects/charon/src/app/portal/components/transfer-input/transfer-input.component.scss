@@ -30,6 +30,8 @@ $transfer-input--border-width: 2px;
 
 .transfer-input__label {
   color: $color-grey;
+  display: flex;
+  justify-content: space-between;
 }
 
 .transfer-input {

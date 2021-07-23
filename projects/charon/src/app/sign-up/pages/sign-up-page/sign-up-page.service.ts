@@ -20,7 +20,7 @@ export class SignUpPageService {
   ) {
   }
 
-  public signUp(seedPhrase: string, user: AuthUserCreate): Observable<void> {
+  public signUp(seedPhrase: string, user: Pick<AuthUserCreate, 'primaryEmail' | 'password'>): Observable<void> {
     const wallet = createWalletFromMnemonic(seedPhrase);
 
     return this.userService.createUser(user.primaryEmail, wallet.address).pipe(
@@ -48,13 +48,9 @@ export class SignUpPageService {
         return throwError(errorToThrow);
       }),
       mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
-      mergeMap(() => this.userService.getModeratorAddresses()),
-      mergeMap((moderatorAddresses) => this.authService.createUser({
+      mergeMap(() => this.authService.createUser({
         wallet,
         ...user,
-        emailConfirmed: false,
-        isModerator: moderatorAddresses.includes(wallet.address) || undefined,
-        registrationCompleted: false,
       })),
       mergeMap(id => this.authService.changeUser(id)),
     );

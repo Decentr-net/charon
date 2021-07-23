@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Gender } from 'decentr-js';
+import { Gender, Profile } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { ProfileFormControlValue } from '@shared/components/profile-form';
 import { NotificationService } from '@shared/services/notification';
 import { AuthService } from '@core/auth';
-import { SpinnerService } from '@core/services';
+import { SpinnerService, UserService } from '@core/services';
 import { AppRoute } from '../../../app-route';
 import { SignUpRoute } from '../../sign-up-route';
 import { CompleteRegistrationPageService } from './complete-registration-page.service';
@@ -46,6 +46,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
     private notificationService: NotificationService,
     private router: Router,
     private spinnerService: SpinnerService,
+    private userService: UserService,
   ) {
   }
 
@@ -53,10 +54,17 @@ export class CompleteRegistrationPageComponent implements OnInit {
     this.form = this.createForm();
 
     const user = this.authService.getActiveUserInstant();
-    this.form.patchValue({ profile: {
-      ...user,
-      usernames: [''],
-    }});
+
+    this.userService.getProfile(user.wallet.address, user.wallet).pipe(
+      map((profile) => profile || {} as Profile),
+      untilDestroyed(this),
+    ).subscribe((profile) => {
+      if (!profile.emails?.length && user.primaryEmail) {
+        profile.emails = [user.primaryEmail];
+      }
+
+      this.form.get('profile').patchValue(profile);
+    });
   }
 
   public onSubmit(): void {
@@ -68,7 +76,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
 
     this.spinnerService.showSpinner();
 
-    this.completeRegistrationPageService.updateUser(formValue.profile as Required<ProfileFormControlValue>)
+    this.completeRegistrationPageService.updateUser(formValue.profile)
       .pipe(
         finalize(() => this.spinnerService.hideSpinner()),
         untilDestroyed(this),
@@ -82,7 +90,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
 
   private createForm(): FormGroup<CompleteRegistrationForm> {
     return this.formBuilder.group({
-      profile: [{}],
+      profile: undefined,
     });
   }
 }

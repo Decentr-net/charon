@@ -73,6 +73,7 @@ $hub-post-layout--grid-columns: ($hub-post-layout--column-width * $hub-post-layo
   @include clamp(4);
 
   flex-grow: 1;
+  line-height: 68px;
   font-weight: 700;
   margin-top: $grid-step * 2;
 }

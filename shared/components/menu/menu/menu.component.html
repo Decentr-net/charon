@@ -1,6 +1,5 @@
-<ng-container *ngIf="translations$ | async as translations">
+<ng-container *ngIf="translations && userProfile">
   <div
-    *ngIf="userProfile$ | async as userProfile"
     class="menu__trigger"
     [matMenuTriggerFor]="menuTemplate"
   >
@@ -30,12 +29,12 @@
   >
     <div
       class="menu-popup-items-section menu-popup-item menu__item menu__user-item"
-      *ngIf="userItem$ | async as userItem"
+      *ngIf="userItem"
       (click)="userItem.action && userItem.action()"
     >
       <app-avatar
         class="menu__user-avatar"
-        [avatarUrl]="(userProfile$ | async).avatar"
+        [avatarUrl]="userProfile.avatar"
       ></app-avatar>
 
       <div>
@@ -69,14 +68,6 @@
 
           <span class="menu-popup-item-title">
             <span>{{ item.title }}</span>
-
-            <span
-              class="menu__item-coming-soon"
-              *ngIf="!item.action"
-              appTypeface="caption"
-            >
-              {{ translations.comingSoon }}
-            </span>
           </span>
 
           <div
