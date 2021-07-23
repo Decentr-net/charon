@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, pluck, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, pluck, switchMap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 import { Wallet } from 'decentr-js';
@@ -10,7 +10,7 @@ import { svgWallet } from '@shared/svg-icons/wallet';
 import { NotificationService } from '@shared/services/notification';
 import { AuthService } from '@core/auth';
 import { AUTHORIZED_LAYOUT_HEADER_META_SLOT } from '@core/layout/authorized-layout';
-import { UserService } from '@core/services';
+import { BankService, UserService } from '@core/services';
 import { AppRoute } from '../../../app-route';
 import { PortalRoute } from '../../../portal';
 
@@ -31,6 +31,7 @@ export class UserPageComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private bankService: BankService,
     private notificationService: NotificationService,
     private userService: UserService,
     private translocoService: TranslocoService,
@@ -50,8 +51,7 @@ export class UserPageComponent implements OnInit {
 
     this.decBalance$ = this.walletAddress$.pipe(
       filter((walletAddress) => !!walletAddress),
-      switchMap((walletAddress) => this.userService.getAccount(walletAddress)),
-      map((account) => account.coins[0].amount),
+      switchMap((walletAddress) => this.bankService.getDECBalance(walletAddress)),
     );
   }
 
