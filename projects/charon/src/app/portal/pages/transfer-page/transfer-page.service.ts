@@ -8,10 +8,9 @@ import {
   mapTo,
   mergeMapTo,
   pluck,
-  skip,
   switchMap,
   take,
-  tap
+  tap,
 } from 'rxjs/operators';
 import { AsyncValidatorFn } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
@@ -80,8 +79,6 @@ export class TransferPageService {
           this.getBalance(),
           fee$,
         ])),
-        // hack to be able to use share()
-        skip(1),
         take(1),
         tap(([balance, fee]) => {
           const error = (balance - fee) / MICRO_PDV_DIVISOR >= amount ? null : { insufficient: false };
