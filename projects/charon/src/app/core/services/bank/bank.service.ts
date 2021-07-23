@@ -34,7 +34,7 @@ export class BankService {
 
     return defer(() => this.bankApiService.getCoinBalance(apiUrl, walletAddress)).pipe(
       map((coins) => {
-        return coins.find(({ denom }) => denom === 'udec').amount;
+        return coins.find(({ denom }) => denom === 'udec')?.amount || '0';
       }),
     );
   }
