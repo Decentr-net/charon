@@ -5,6 +5,7 @@ import {
   catchError,
   distinctUntilChanged,
   map,
+  mapTo,
   mergeMapTo,
   pluck,
   skip,
@@ -86,6 +87,7 @@ export class TransferPageService {
           const error = (balance - fee) / MICRO_PDV_DIVISOR >= amount ? null : { insufficient: false };
           amountControl.setErrors(error);
         }),
+        mapTo(null),
       );
     };
   }
