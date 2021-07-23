@@ -3,7 +3,7 @@
     "details": "Details",
     "date": "Date",
     "no_activity": "You have no activity data",
-    "website": "Website"
+    "collected_info": "Collected information"
   },
   "assets_page": {
     "add_token": "Add token",
@@ -28,13 +28,13 @@
     "wallet_address_copied": "The wallet address was copied successfully"
   },
   "token_transactions_table": {
+    "fee": "Fee",
     "from": "From",
     "received": "Received",
     "sent": "Sent",
     "to": "To"
   },
   "transfer_page": {
-    "amount": "Amount",
     "cancel": "Cancel",
     "form": {
       "amount": {
@@ -44,6 +44,7 @@
           "pattern": "Incorrect amount format",
           "required": "Amount is required"
         },
+        "fee": "Fee",
         "label": "Amount"
       },
       "to": {

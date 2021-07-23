@@ -15,7 +15,6 @@ import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 import { HUB_COMPONENTS } from './components';
 import { HUB_DIRECTIVES } from './directives';
 import { HUB_PAGES } from './pages';
-import { HUB_SERVICES } from './services';
 import { AvatarModule } from '@shared/components/avatar';
 import { AutoFocusModule } from '@shared/directives/auto-focus';
 import { DateAgoModule } from '@shared/pipes/date-ago';
@@ -85,7 +84,6 @@ import { AuthorizedLayoutModule } from '@core/layout/authorized-layout';
     TypefaceModule,
   ],
   providers: [
-    HUB_SERVICES,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: 'hub',

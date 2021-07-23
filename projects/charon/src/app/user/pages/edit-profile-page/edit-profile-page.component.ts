@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { finalize } from 'rxjs/operators';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
@@ -11,7 +12,7 @@ import { NotificationService } from '@shared/services/notification';
 import { AppRoute } from '../../../app-route';
 import { AuthService } from '@core/auth';
 import { EditProfilePageService } from './edit-profile-page.service';
-import { SpinnerService } from '@core/services';
+import { SpinnerService, UserService } from '@core/services';
 import { PasswordValidationUtil } from '@shared/utils/validation';
 import { ProfileFormControlValue } from '@shared/components/profile-form';
 
@@ -42,21 +43,28 @@ export class EditProfilePageComponent implements OnInit {
   public form: FormGroup<EditProfileForm>;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private spinnerService: SpinnerService,
     private notificationService: NotificationService,
     private translocoService: TranslocoService,
     private editProfilePageService: EditProfilePageService,
+    private userService: UserService,
+    private router: Router,
   ) {
   }
 
   public ngOnInit(): void {
     this.form = this.createForm();
 
-    const user = this.authService.getActiveUserInstant();
+    const wallet = this.authService.getActiveUserInstant().wallet;
 
-    this.form.get('profile').patchValue(user);
+    this.userService.getProfile(wallet.address, wallet).pipe(
+      untilDestroyed(this),
+    ).subscribe((profile) => {
+      this.form.get('profile').patchValue(profile);
+    });
   }
 
   public onSubmit(): void {
@@ -78,6 +86,10 @@ export class EditProfilePageComponent implements OnInit {
       this.notificationService.success(
         this.translocoService.translate('edit_profile_page.toastr.successful_update', null, 'user'),
       );
+
+      this.router.navigate(['../'], {
+        relativeTo: this.activatedRoute
+      });
     }, (error) => {
       this.notificationService.error(error);
     });
@@ -85,7 +97,7 @@ export class EditProfilePageComponent implements OnInit {
 
   private createForm(): FormGroup<EditProfileForm> {
     return this.formBuilder.group({
-      profile: [{}],
+      profile: undefined,
       confirmPassword: ['', [
         RxwebValidators.compare({ fieldName: 'password' }),
       ]],

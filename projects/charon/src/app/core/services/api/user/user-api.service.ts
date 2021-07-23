@@ -1,11 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Account, Decentr, PublicProfile, Wallet } from 'decentr-js';
+import { defer, Observable } from 'rxjs';
+import { mapTo, mergeMap } from 'rxjs/operators';
+import {
+  Account,
+  getAccount,
+  getModeratorAddresses,
+  getProfile,
+  getProfiles,
+  KeyPair,
+  Profile,
+  ProfileUpdate,
+  resetAccount,
+  setProfile,
+  Wallet,
+} from 'decentr-js';
 
 import { Environment } from '@environments/environment.definitions';
-import { UserPrivate } from '@shared/services/auth';
-import { map, mergeMap } from 'rxjs/operators';
 import { ConfigService } from '@shared/services/configuration';
 
 @Injectable({
@@ -40,36 +51,50 @@ export class UserApiService {
   }
 
   public getAccount(api: string, walletAddress: Wallet['address']): Observable<Account> {
-    return this.createDecentrConnector(api).pipe(
-      mergeMap((decentr) => decentr.profile.getAccount(walletAddress)),
-    );
+    return defer(() => getAccount(api, walletAddress));
   }
 
   public getModeratorAddresses(api: string): Observable<string[]> {
-    return this.createDecentrConnector(api).pipe(
-      mergeMap((decentr) => decentr.community.getModeratorAddresses()),
+    return defer(() => getModeratorAddresses(api));
+  }
+
+  public getProfile(walletAddress: Wallet['address'], keys?: KeyPair): Observable<Profile> {
+    return this.configService.getCerberusUrl().pipe(
+      mergeMap((cerberusUrl) => getProfile(cerberusUrl, walletAddress, keys)),
     );
   }
 
-  public getPrivateProfile(
+  public getProfiles(walletAddresses: Wallet['address'][], keys?: KeyPair): Observable<Record<Wallet['address'], Profile>> {
+    return this.configService.getCerberusUrl().pipe(
+      mergeMap((cerberusUrl) => getProfiles(cerberusUrl, walletAddresses, keys)),
+    );
+  }
+
+  public setProfile(profile: ProfileUpdate, wallet: Wallet): Observable<void> {
+    return this.configService.getCerberusUrl().pipe(
+      mergeMap((cerberusUrl) => setProfile(cerberusUrl, profile, wallet)),
+      mapTo(void 0),
+    );
+  }
+
+  public resetAccount(
     api: string,
     walletAddress: Wallet['address'],
-    privateKey: Wallet['privateKey'],
-  ): Observable<UserPrivate> {
-    return this.createDecentrConnector(api).pipe(
-      mergeMap((decentr) => decentr.profile.getPrivateProfile<UserPrivate>(walletAddress, privateKey)),
-    );
-  }
-
-  public getPublicProfile(api: string, walletAddress: Wallet['address']): Observable<PublicProfile> {
-    return this.createDecentrConnector(api).pipe(
-      mergeMap((decentr) => decentr.profile.getPublicProfile(walletAddress)),
-    );
-  }
-
-  private createDecentrConnector(api: string): Observable<Decentr> {
+    initiator: Wallet['address'],
+    privateKey: Wallet['privateKey']
+  ): Observable<void> {
     return this.configService.getChainId().pipe(
-      map((chainId) => new Decentr(api, chainId)),
+      mergeMap((chainId) => resetAccount(
+        api,
+        chainId,
+        walletAddress,
+        initiator,
+        {
+          broadcast: true,
+          privateKey,
+        }
+      )),
+      mapTo(void 0),
     );
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, Router, UrlTree } from '@angular/router';
 
 import { AuthService } from '@core/auth';
+import { UserService } from '@core/services';
 import { AppRoute } from '../../app-route';
 import { SignUpRoute } from '../sign-up-route';
 
@@ -9,14 +10,18 @@ import { SignUpRoute } from '../sign-up-route';
 export class AuthUnconfirmedGuard implements CanActivate, CanActivateChild {
   constructor(
     private authService: AuthService,
+    private userService: UserService,
     private router: Router,
   ) {
   }
 
-  public canActivate(): boolean | UrlTree {
+  public async canActivate(): Promise<boolean | UrlTree> {
     if (this.authService.isLoggedIn) {
-      const user = this.authService.getActiveUserInstant();
-      if (!user.emailConfirmed) {
+      const wallet = this.authService.getActiveUserInstant().wallet;
+
+      const account = await this.userService.getAccount(wallet.address).toPromise();
+
+      if (!account) {
         return true;
       }
 
@@ -26,7 +31,7 @@ export class AuthUnconfirmedGuard implements CanActivate, CanActivateChild {
     return this.router.createUrlTree(['/', AppRoute.Welcome]);
   }
 
-  public canActivateChild(): boolean | UrlTree {
+  public canActivateChild(): Promise<boolean | UrlTree> {
     return this.canActivate();
   }
 }

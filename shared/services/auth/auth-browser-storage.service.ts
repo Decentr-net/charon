@@ -24,6 +24,10 @@ export class AuthBrowserStorageService<T extends User = User> {
     );
   }
 
+  public setUsers(users: T[]): Promise<void> {
+    return this.browserStorage.set('users', users);
+  }
+
   public async removeUser(id: T['id']): Promise<void> {
     const users = await this.browserStorage.get('users') || [];
     const newUsers = users.filter((user) => user.id !== id);

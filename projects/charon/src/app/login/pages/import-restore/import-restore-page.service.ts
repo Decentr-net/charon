@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { forkJoin, Observable, of, throwError } from 'rxjs';
-import { delay, mapTo, mergeMap, mergeMapTo } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { delay, mapTo, mergeMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { createWalletFromMnemonic } from 'decentr-js';
 
+import { ONE_SECOND } from '@shared/utils/date';
 import { UserService } from '@core/services';
 import { AuthService } from '@core/auth';
 import { LockService } from '@core/lock';
 import { TranslatedError } from '@core/notifications';
-import { ONE_SECOND } from '../../../../../../../shared/utils/date';
 
 @Injectable()
 export class ImportRestorePageService {
@@ -35,19 +35,10 @@ export class ImportRestorePageService {
             'login'
           )));
       }),
-      mergeMapTo(forkJoin([
-        this.userService.getPrivateProfile(wallet.address, wallet.privateKey),
-        this.userService.getPublicProfile(wallet.address),
-        this.userService.getModeratorAddresses(),
-      ])),
-      mergeMap(([privateProfile, publicProfile, moderatorAddresses]) => this.authService.createUser({
-          ...privateProfile,
-          ...publicProfile,
-          isModerator: moderatorAddresses.includes(wallet.address) || undefined,
-          wallet,
-          password,
-          emailConfirmed: true,
-        })),
+      mergeMap(() => this.authService.createUser({
+        wallet,
+        password,
+      })),
       mergeMap((id) => this.authService.changeUser(id)),
       mapTo(void 0),
     );

@@ -43,8 +43,12 @@
       -{{ transaction.amount.amount | microValue }} tDEC
     </div>
 
-    <div class="token-transactions-table__address" appTypeface="caption">
+    <div class="token-transactions-table__address" appTextEllipsis appTypeface="caption">
       {{ translate('to') }}: {{ transaction.recipient }}
+    </div>
+
+    <div class="token-transactions-table__fee" appTypeface="caption">
+      {{ translate('fee') }}: {{ transaction.fee.amount[0].amount | microValue }} tDEC
     </div>
   </ng-template>
 
@@ -60,7 +64,7 @@
       {{ transaction.amount.amount | microValue }} tDEC
     </div>
 
-    <div class="token-transactions-table__address" appTypeface="caption">
+    <div class="token-transactions-table__address" appTextEllipsis appTypeface="caption">
       {{ translate('from') }}: {{ transaction.sender }}
     </div>
   </ng-template>

@@ -12,7 +12,7 @@ export class BroadcastErrorProcessor extends ConcreteErrorProcessor {
   }
 
   public canProcess(error: any): boolean {
-    return error instanceof BroadcastClientError;
+    return error && !!(error as BroadcastClientError).broadcastErrorCode;
   }
 
   public process(error: BroadcastClientError): Observable<string> {

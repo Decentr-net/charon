@@ -81,9 +81,6 @@
         },
         "label": "Last Name"
       },
-      "primary_email": {
-        "label": "Email (primary)"
-      },
       "username": {
         "errors": {
           "minlength": "Length of name should be not less than {{ requiredLength }}",
@@ -93,10 +90,6 @@
         "label": "Nickname (account name)"
       },
       "submit": "Complete registration"
-    },
-    "hint": {
-      "label": "Hint",
-      "text": "All account information is private and secured by blockchain.<br><br>Put the nicknames and e-mail addresses you use, it positively influences on PDV level."
     },
     "title": "Profile"
   },
@@ -150,7 +143,7 @@
     "hint": {
       "label": "*Decentr cannot recover your seed phrase."
     },
-    "subtitle": "You passed the test - keep your seed phrase safe, it's your responsibility!",
+    "subtitle": "Keep your seed phrase safe, it's your responsibility!",
     "tips": {
       "label": "Tips on storing it safely",
       "tip1": "Save a backup in multiple places.",

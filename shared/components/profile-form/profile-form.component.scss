@@ -4,6 +4,20 @@
   display: block;
 }
 
+.input-label {
+  display: flex;
+  max-width: max-content;
+  position: relative;
+}
+
+.input-label__required {
+  &:after {
+    color: $color-red;
+    content: "*";
+    font-weight: 600;
+  }
+}
+
 .radio-container {
   position: relative;
   margin-bottom: 2rem;

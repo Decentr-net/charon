@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { delay, filter, map, pluck, retryWhen, take } from 'rxjs/operators';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
-import { PDVDataType } from 'decentr-js';
 
 import { Environment } from '../../../environments/environment.definitions';
 import { ONE_SECOND } from '../../utils/date';
@@ -81,12 +80,6 @@ export class ConfigService {
   public getPDVCountToSend(): Observable<Pick<Config['cerberus'], 'minPDVCount' | 'maxPDVCount'>> {
     return this.getConfig().pipe(
       map((config) => config.cerberus),
-    );
-  }
-
-  public getRewards(): Observable<Record<PDVDataType, number>> {
-    return this.getConfig().pipe(
-      map((config) => config.cerberus.rewards),
     );
   }
 

@@ -1,6 +1,5 @@
-import { PDVStorageService } from '../../../../../shared/services/pdv';
+import { PDV_STORAGE_SERVICE } from '../pdv/storage';
 
 export const migrate = (): Promise<void> => {
-  const pdvStorage = new PDVStorageService();
-  return pdvStorage.clear();
+  return PDV_STORAGE_SERVICE.clear();
 };

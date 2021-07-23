@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { PublicProfile } from 'decentr-js';
+import { Profile } from 'decentr-js';
 
 import { svgFollow } from '@shared/svg-icons/follow';
 import { svgTopup } from '@shared/svg-icons/topup';
 
-export interface HubProfile extends PublicProfile {
+export interface HubProfile extends Profile {
   isFollowing: boolean;
   isFollowingUpdating: boolean;
   isUserProfile: boolean;
+  profileExists: boolean;
   postsCount: number;
 }
 

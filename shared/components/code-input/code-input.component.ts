@@ -11,12 +11,11 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
-import { BACKSPACE, LEFT_ARROW, RIGHT_ARROW, SPACE } from '@angular/cdk/keycodes';
+import { BACKSPACE, ENTER, LEFT_ARROW, RIGHT_ARROW, SPACE } from '@angular/cdk/keycodes';
 import { fromEvent, noop } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ControlValueAccessor, FormArray, FormControl } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { even } from '@rxweb/reactive-form-validators';
 
 @UntilDestroy()
 @Component({
@@ -96,6 +95,9 @@ export class CodeInputComponent implements OnInit, AfterViewInit, ControlValueAc
     const target = event.target as HTMLInputElement;
 
     switch (event.keyCode) {
+      case ENTER: {
+        break;
+      }
       case BACKSPACE: {
         const hasValue = target.value;
 
@@ -129,6 +131,12 @@ export class CodeInputComponent implements OnInit, AfterViewInit, ControlValueAc
         break;
       }
       default: {
+        if (!(event.keyCode >= 48 && event.keyCode <= 57)
+          && !(event.keyCode >= 65 && event.keyCode <= 90)
+          && !(event.keyCode >= 96 && event.keyCode <= 105)) {
+          break;
+        }
+
         const controlIndex = this.inputElementsRefs.toArray()
           .findIndex((ref) => ref.nativeElement === event.target);
 

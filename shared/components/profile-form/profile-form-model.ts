@@ -27,34 +27,19 @@ export class ProfileFormModel {
     return form.controls.emails as FormArray;
   }
 
-  public getUsernamesFormArray(form: FormGroup<ProfileForm>): FormArray<UsernameForm> {
-    if (!form.controls.usernames) {
-      form.addControl(ProfileFormControlName.Usernames, new FormArray([]));
-    }
-
-    return form.controls.usernames as FormArray;
-  }
 
   public addEmail(form: FormGroup<ProfileForm>): void {
     this.getEmailsFormArray(form).push(
-      this.createEmailGroup([ProfileFormModel.emailUniqueAdditionalValidator(form)]),
+      this.createEmailGroup(),
     );
-  }
-
-  public addUsername(form: FormGroup<ProfileForm>): void {
-    this.getUsernamesFormArray(form).push(this.createUsernameGroup());
   }
 
   public removeEmail(form: FormGroup<ProfileForm>, index: number): void {
     this.getEmailsFormArray(form).removeAt(index);
   }
 
-  public removeUsername(form, index: number): void {
-    this.getUsernamesFormArray(form).removeAt(index);
-  }
-
   public createForm(): FormGroup<ProfileForm> {
-    const form = new FormGroup<ProfileForm>({});
+    const form = new FormGroup({});
 
     const avatarControl = this.createAvatarControl();
     if (avatarControl) {
@@ -83,15 +68,7 @@ export class ProfileFormModel {
       form.addControl(ProfileFormControlName.LastName, lastNameControl);
     }
 
-    const primaryEmailControl = this.createPrimaryEmailControl();
-    if (primaryEmailControl) {
-      form.addControl(ProfileFormControlName.PrimaryEmail, primaryEmailControl);
-    }
-
-    const usernameControl = this.createUsernameControl();
-    if (usernameControl) {
-      this.addUsername(form);
-    }
+    this.addEmail(form);
 
     return form;
   }
@@ -103,21 +80,8 @@ export class ProfileFormModel {
   ): void {
     const patch: ProfileForm = {
       ...value,
-      emails: (value && value.emails || []).map((value) => ({ value })),
-      usernames: (value && value.usernames || []).map((value) => ({ value })),
+      emails: (value?.emails || []).map((value) => ({ value })),
     };
-
-    if (patch.usernames) {
-      const usernamesPatchLength = patch.usernames.length;
-      const usernamesFormArray = this.getUsernamesFormArray(form);
-      while (usernamesFormArray.length !== usernamesPatchLength) {
-        if (usernamesFormArray.length > usernamesPatchLength) {
-          this.removeUsername(form, usernamesFormArray.length - 1);
-        } else {
-          this.addUsername(form);
-        }
-      }
-    }
 
     if (patch.emails) {
       const emailsPatchLength = patch.emails.length;
@@ -131,22 +95,21 @@ export class ProfileFormModel {
       }
     }
 
+    if (!this.getEmailsFormArray(form).length) {
+      this.addEmail(form)
+    }
+
     form.patchValue(patch, options);
   }
 
   public getOuterValue(form: FormGroup<ProfileForm>): ProfileFormControlValue {
     return {
-      ...form.value,
+      ...form.getRawValue(),
       ...form.value.emails
         ? {
           emails: form.value.emails.map(({ value }) => value),
         }
         : undefined,
-      ...form.value.usernames
-        ? {
-          usernames: form.value.usernames.map(({ value }) => value),
-        }
-        : undefined
     }
   }
 
@@ -209,21 +172,13 @@ export class ProfileFormModel {
     );
   }
 
-  protected createPrimaryEmailControl(): FormControl<ProfileForm['primaryEmail']> | undefined {
-    return new FormControl({
-      value: '',
-      disabled: true,
-    });
-  }
-
-  protected createEmailControl(additionalValidators?: ValidatorFn[]): FormControl<EmailForm['value']> | undefined {
+  protected createEmailControl(): FormControl<EmailForm['value']> | undefined {
     return new FormControl(
       '',
       [
         Validators.required,
         RxwebValidators.email(),
         RxwebValidators.unique(),
-        ...additionalValidators,
       ],
     );
   }
@@ -239,34 +194,10 @@ export class ProfileFormModel {
     );
   }
 
-  private createEmailGroup(additionalEmailValidators?: ValidatorFn[]): FormGroup<EmailForm> | undefined {
+  private createEmailGroup(): FormGroup<EmailForm> | undefined {
     return new FormGroup<EmailForm>({
-      [ProfileFormControlName.EmailValue]: this.createEmailControl(additionalEmailValidators),
+      [ProfileFormControlName.EmailValue]: this.createEmailControl(),
     });
-  }
-
-  private createUsernameGroup(): FormGroup<UsernameForm> | undefined {
-    return new FormGroup<UsernameForm>({
-      [ProfileFormControlName.UsernameValue]: this.createUsernameControl(),
-    });
-  }
-
-  protected static emailUniqueAdditionalValidator(form: FormGroup<ProfileForm>): ValidatorFn<string> {
-    return (control) => {
-      const primaryEmail = form.get(ProfileFormControlName.PrimaryEmail);
-
-      if (primaryEmail
-        && primaryEmail.value
-        && control.value
-        && control.value.toLowerCase() === primaryEmail.value.toLowerCase()
-      ) {
-        return {
-          unique: {},
-        };
-      }
-
-      return null;
-    }
   }
 
   protected static nonExistentDate(): ValidatorFn<string> {

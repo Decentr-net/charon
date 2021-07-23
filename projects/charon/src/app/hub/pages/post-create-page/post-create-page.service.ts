@@ -1,20 +1,11 @@
 import { Injectable } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
-import {
-  catchError,
-  delay,
-  finalize,
-  mapTo,
-  mergeMap,
-  retryWhen,
-  tap
-} from 'rxjs/operators';
+import { catchError, finalize, mergeMap, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
-import { Post, PostCreate, Wallet } from 'decentr-js';
+import { PostCreate, Wallet } from 'decentr-js';
 
 import { BrowserLocalStorage } from '@shared/services/browser-storage';
 import { NotificationService } from '@shared/services/notification';
-import { ONE_SECOND } from '@shared/utils/date';
 import { AuthService } from '@core/auth/services';
 import { PostsService, SpinnerService } from '@core/services';
 
@@ -66,7 +57,6 @@ export class PostCreatePageService {
 
         return EMPTY;
       }),
-      mergeMap((createdPost) => this.waitPost(createdPost)),
       mergeMap(() => this.removeDraft()),
       tap(() => {
         this.notificationService.success(
@@ -74,15 +64,6 @@ export class PostCreatePageService {
         );
       }),
       finalize(() => this.spinnerService.hideSpinner()),
-    );
-  }
-
-  private waitPost(postIdentificationParameters: Pick<Post, 'owner' | 'uuid'>): Observable<void> {
-    return this.postsService.getPost(postIdentificationParameters).pipe(
-      retryWhen((errors) => errors.pipe(
-        delay(ONE_SECOND),
-      )),
-      mapTo(void 0),
     );
   }
 }

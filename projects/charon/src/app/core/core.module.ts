@@ -11,6 +11,7 @@ import { SlotModule } from '@shared/components/slot';
 import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { NotificationsModule } from '@shared/services/notification';
 import { PDVModule } from '@shared/services/pdv';
+import { SettingsModule } from '@shared/services/settings';
 import { ERROR_PROCESSORS, FallbackErrorProcessor } from '@core/notifications';
 import { AppRoute } from '../app-route';
 import { AuthModule, AuthService } from './auth';
@@ -25,6 +26,7 @@ import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES, MenuService, NetworkSelectorService, NetworkService } from './services';
 import { QuillRootModule } from './quill';
+import { PermissionsService } from './permissions';
 
 export function initAuthFactory(authService: AuthService): () => void {
   return () => authService.init();
@@ -70,8 +72,9 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     }),
     OverlayModule,
     PDVModule,
-    PermissionsModule.forRoot(),
+    PermissionsModule.forRoot(PermissionsService),
     QuillRootModule,
+    SettingsModule.forRoot(),
     SlotModule.forRoot(),
     SvgIconRootModule,
     ToastrModule.forRoot({
