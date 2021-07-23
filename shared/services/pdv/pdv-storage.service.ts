@@ -84,4 +84,8 @@ export class PDVStorageService {
   public clear(): Promise<void> {
     return this.browserStorage.clear();
   }
+
+  public clearUserPDV(walletAddress: Wallet['address']): Promise<void> {
+    return this.browserStorage.useSection(walletAddress).clear();
+  }
 }

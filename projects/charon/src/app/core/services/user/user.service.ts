@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
-import { catchError, delay, filter, mapTo, repeat, retryWhen, skipWhile, take, tap } from 'rxjs/operators';
+import { catchError, delay, filter, mapTo, mergeMap, repeat, retryWhen, skipWhile, take, tap } from 'rxjs/operators';
 import { Account, KeyPair, ModeratorAddressesResponse, Profile, ProfileUpdate, Wallet } from 'decentr-js';
 
+import { PDVStorageService } from '@shared/services/pdv';
+import { SettingsService } from '@shared/services/settings';
 import { NetworkService } from '../network';
 import { UserApiService } from '../api';
 
@@ -14,6 +16,8 @@ export class UserService {
 
   constructor(
     private networkService: NetworkService,
+    private pdvStorageService: PDVStorageService,
+    private settingsService: SettingsService,
     private userApiService: UserApiService,
   ) {
   }
@@ -81,6 +85,9 @@ export class UserService {
       walletAddress,
       initiator,
       privateKey,
+    ).pipe(
+      mergeMap(() => this.settingsService.getUserSettingsService(walletAddress).clear()),
+      mergeMap(() => this.pdvStorageService.clearUserPDV(walletAddress)),
     );
   }
 

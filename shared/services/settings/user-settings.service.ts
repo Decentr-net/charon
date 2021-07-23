@@ -17,4 +17,8 @@ export class UserSettingsService {
 
     return this.pdvSettingsService;
   }
+
+  public clear(): Promise<void> {
+    return this.userSettingsStorage.clear();
+  }
 }
