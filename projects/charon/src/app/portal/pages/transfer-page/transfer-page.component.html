@@ -40,8 +40,10 @@
       >
         <span>{{ translate('form.amount.label') }}</span>
 
-        <span ngProjectAs="[label-right]">
-          {{ translate('form.amount.fee') }}: {{ fee$ | async | microValue }}
+        <span *ngIf="fee$ | async as fee" ngProjectAs="[label-right]">
+          <ng-container *ngIf="form.valid">
+            {{ translate('form.amount.fee') }}: {{ fee | microValue }}
+          </ng-container>
         </span>
       </app-transfer-input>
 
