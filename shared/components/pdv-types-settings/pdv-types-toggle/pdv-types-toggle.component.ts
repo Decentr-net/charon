@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ControlValueAccessor, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PDVType } from 'decentr-js';
 
-import { CollectedPDVTypesSettings } from '@shared/services/settings';
+import { CollectedPDVTypesSettings } from '../../../services/settings';
+
+export type PDVTypesToggleTranslations = Record<keyof CollectedPDVTypesSettings, string>;
 
 @UntilDestroy()
 @Component({
@@ -21,6 +23,8 @@ import { CollectedPDVTypesSettings } from '@shared/services/settings';
   ],
 })
 export class PdvTypesToggleComponent extends ControlValueAccessor<CollectedPDVTypesSettings> implements OnInit {
+  @Input() public translations: PDVTypesToggleTranslations;
+
   public form: FormGroup<CollectedPDVTypesSettings>;
 
   public types: string[];

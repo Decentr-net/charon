@@ -1,5 +1,5 @@
 <form
-  *transloco="let translate; read: 'user.pdv_types_toggle'"
+  *ngIf="translations"
   [formGroup]="form"
 >
   <div
@@ -10,6 +10,6 @@
 
     <app-pdv-type-icon [type]="type"></app-pdv-type-icon>
 
-    <span appTypeface="paragraph">{{ translate(type) }}</span>
+    <span appTypeface="paragraph">{{ translations[type] }}</span>
   </div>
 </form>

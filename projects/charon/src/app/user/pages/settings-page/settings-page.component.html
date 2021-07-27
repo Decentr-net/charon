@@ -12,28 +12,5 @@
 
   <div class="settings-page__divider"></div>
 
-  <div
-    class="settings-page__content__title"
-    appTypeface="paragraph"
-  >
-    {{ translate('content.title') }}
-  </div>
-
-  <div
-    class="settings-page__content__subtitle"
-    appTypeface="caption"
-  >
-    {{ translate('content.subtitle') }}
-  </div>
-
-  <app-pdv-types-toggle [formControl]="settingsControl"></app-pdv-types-toggle>
-
-  <div
-    class="settings-page__content__warning"
-    appTypeface="caption"
-  >
-    <svg-icon key="eye-crossed" size="xs"></svg-icon>
-
-    {{ translate('content.warning') }}
-  </div>
+  <app-pdv-types-settings [translations]="translations$ | async"></app-pdv-types-settings>
 </ng-container>
