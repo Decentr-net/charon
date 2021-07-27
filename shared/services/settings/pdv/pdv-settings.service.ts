@@ -3,13 +3,16 @@ import { defer, Observable } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 
 import { BrowserStorage } from '../../browser-storage';
+import { BrowserType, detectBrowser } from '../../../utils/browser';
 import { CollectedPDVTypesSettings, PDVSettings } from './pdv-settings.definitions';
 
+const IS_DECENTR_BROWSER = detectBrowser() === BrowserType.Decentr;
+
 const DEFAULT_COLLECTED_PDV_TYPES_SETTINGS: CollectedPDVTypesSettings = {
-  [PDVType.AdvertiserId]: true,
-  [PDVType.Cookie]: true,
-  [PDVType.Location]: true,
-  [PDVType.SearchHistory]: true,
+  [PDVType.AdvertiserId]: IS_DECENTR_BROWSER,
+  [PDVType.Cookie]: IS_DECENTR_BROWSER,
+  [PDVType.Location]: IS_DECENTR_BROWSER,
+  [PDVType.SearchHistory]: IS_DECENTR_BROWSER,
 };
 
 export class PDVSettingsService {
@@ -23,7 +26,10 @@ export class PDVSettingsService {
       mergeMap((settings) => this.storage.onChange('collectedTypes').pipe(
         startWith(settings),
       )),
-      map((settings) => settings || DEFAULT_COLLECTED_PDV_TYPES_SETTINGS),
+      map((settings) => ({
+        ...DEFAULT_COLLECTED_PDV_TYPES_SETTINGS,
+        ...settings,
+      })),
     );
   }
 
