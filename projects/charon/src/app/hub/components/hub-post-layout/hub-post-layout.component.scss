@@ -83,16 +83,6 @@ $hub-post-layout--grid-columns: ($hub-post-layout--column-width * $hub-post-layo
   padding-bottom: $grid-step * 5;
 }
 
-.hub-post-layout__content__main-column {
-  &::ng-deep {
-    img {
-      display: block;
-      margin: $grid-step * 3 auto;
-      max-height: 900px;
-    }
-  }
-}
-
 .hub-post-layout__footer {
   background-color: $color-background;
   width: 100%;

@@ -8,7 +8,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { SvgIconsModule } from '@ngneat/svg-icon';
-import { QuillModule } from 'ngx-quill';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
@@ -31,6 +30,7 @@ import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { RouterLinkScrollAnchorModule } from '@shared/directives/router-link-scroll-anchor';
 import { SlotModule } from '@shared/components/slot';
 import { SpinnerModule } from '@shared/components/spinner';
+import { TextEditorModule } from '@shared/components/text-editor';
 import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
 import { TextClampModule } from '@shared/directives/text-clamp';
 import { CoerceTimestampModule } from '@shared/pipes/coerce-timestamp';
@@ -72,13 +72,13 @@ import { AuthorizedLayoutModule } from '@core/layout/authorized-layout';
     NgxTrimDirectiveModule,
     OverlayModule,
     PdvValueModule,
-    QuillModule,
     ReactiveFormsModule,
     RouterLinkScrollAnchorModule,
     SlotModule,
     SpinnerModule,
     SvgIconsModule,
     TextClampModule,
+    TextEditorModule,
     TextEllipsisModule,
     TranslocoModule,
     TypefaceModule,
