@@ -36,4 +36,16 @@ export class PDVSettingsService {
   public setCollectedPDVTypes(settings: CollectedPDVTypesSettings): Promise<void> {
     return this.storage.set('collectedTypes', settings);
   }
+
+  public getCollectionConfirmed(): Observable<boolean> {
+    return defer(() => this.storage.get('collectionConfirmed')).pipe(
+      mergeMap((value) => this.storage.onChange('collectionConfirmed').pipe(
+        startWith(value),
+      )),
+    );
+  }
+
+  public setCollectionConfirmed(value: boolean): Promise<void> {
+    return this.storage.set('collectionConfirmed', value);
+  }
 }

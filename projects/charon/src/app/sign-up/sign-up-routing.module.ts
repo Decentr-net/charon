@@ -12,6 +12,7 @@ import {
 import {
   CompleteRegistrationPageComponent,
   EmailConfirmationPageComponent,
+  PdvConsentComponent,
   SignUpPageComponent,
   SuccessPageComponent,
 } from './pages';
@@ -43,6 +44,10 @@ const ROUTES: Routes = [
         canActivate: [
           CompleteRegistrationGuard
         ]
+      },
+      {
+        path: SignUpRoute.PDVConsent,
+        component: PdvConsentComponent,
       },
       {
         path: SignUpRoute.Success,
