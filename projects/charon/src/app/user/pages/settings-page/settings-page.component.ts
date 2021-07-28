@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { combineLatest, Observable } from 'rxjs';
-
-import { PDVTypesSettingsTranslations } from '@shared/components/pdv-types-settings/pdv-types-settings';
 import { map } from 'rxjs/operators';
+
+import { PDVTypesSettingsTranslations } from '@shared/components/pdv-types-settings';
 
 @Component({
   selector: 'app-settings-page',

@@ -5,11 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { AuthService } from '../../../core/auth/services';
-import { PDVTypesSettingsTranslations } from '@shared/components/pdv-types-settings/pdv-types-settings';
+import { svgSend } from '@shared/svg-icons/send';
+import { PDVTypesSettingsTranslations } from '@shared/components/pdv-types-settings';
+import { AuthService } from '@core/auth/services';
 import { SettingsService } from '@shared/services/settings';
 import { SignUpRoute } from '../../sign-up-route';
-import { svgSend } from '@shared/svg-icons/send';
 
 @Component({
   selector: 'app-pdv-consent',
