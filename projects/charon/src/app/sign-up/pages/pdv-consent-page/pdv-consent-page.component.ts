@@ -12,12 +12,12 @@ import { SettingsService } from '@shared/services/settings';
 import { SignUpRoute } from '../../sign-up-route';
 
 @Component({
-  selector: 'app-pdv-consent',
-  templateUrl: './pdv-consent.component.html',
-  styleUrls: ['./pdv-consent.component.scss'],
+  selector: 'app-pdv-consent-page',
+  templateUrl: './pdv-consent-page.component.html',
+  styleUrls: ['./pdv-consent-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PdvConsentComponent implements OnInit {
+export class PDVConsentPageComponent implements OnInit {
   public translations$: Observable<PDVTypesSettingsTranslations>;
 
   constructor(
