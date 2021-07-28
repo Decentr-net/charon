@@ -1,5 +1,15 @@
 import { combineLatest, EMPTY, merge, Observable, of, timer } from 'rxjs';
-import { catchError, filter, map, mapTo, mergeMap, share, startWith, switchMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  mapTo,
+  mergeMap,
+  share,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 
 import { clearProxy, getActiveProxySettings, isSelfProxyEnabled } from '../../../../../shared/utils/browser';
 import { ONE_SECOND } from '../../../../../shared/utils/date';
@@ -7,6 +17,7 @@ import { compareSemver } from '../../../../../shared/utils/number';
 import * as packageSettings from '../../../../../package.json';
 import CONFIG_SERVICE from '../config';
 import { pingProxyServer } from './ping';
+import { AuthBrowserStorageService } from '../../../../../shared/services/auth';
 
 export const handleProxyStatus = (): Observable<void> => {
   const checkTimer$ = isSelfProxyEnabled().pipe(
@@ -49,7 +60,12 @@ export const handleProxyStatus = (): Observable<void> => {
     filter((minVersion) => compareSemver(packageSettings.version, minVersion) < 0),
   );
 
+  const isNotAuthorizedInExtension$ = new AuthBrowserStorageService().getActiveUser().pipe(
+    filter((user) => !user),
+  );
+
   return merge(
+    isNotAuthorizedInExtension$,
     proxyConfigDisabled$,
     proxyServerDisabled$,
     proxyServerNotAvailable$,
