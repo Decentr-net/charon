@@ -1,6 +1,7 @@
 @import 'variables';
 
 $border-color: $color-outlines;
+$pdv-consent--card--padding: $grid-step * 2;
 
 :host {
   display: block;
@@ -12,7 +13,7 @@ $border-color: $color-outlines;
   border-radius: $border-radius;
   margin: 0 auto;
   max-width: 580px;
-  padding: $grid-step * 2;
+  padding: $pdv-consent--card--padding;
 }
 
 .pdv-consent__header {
@@ -22,14 +23,14 @@ $border-color: $color-outlines;
 
 .pdv-consent__divider {
   border-bottom: 2px solid $border-color;
-  margin: $grid-step * 2 (-$grid-step * 2);
+  margin: $pdv-consent--card--padding (-$pdv-consent--card--padding);
 }
 
 .pdv-consent__footer {
   display: flex;
   column-gap: $grid-step * 12;
   justify-content: space-between;
-  margin-top: $grid-step * 2;
+  margin-top: $pdv-consent--card--padding;
 }
 
 .pdv-consent__text {
