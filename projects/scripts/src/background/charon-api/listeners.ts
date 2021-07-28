@@ -7,6 +7,7 @@ import {
   deletePost,
   follow,
   likePost,
+  resetAccount,
   transferCoins,
   unfollow,
 } from './api';
@@ -104,6 +105,19 @@ export const initCharonAPIListeners = () => {
       () => unfollow(
         message.body.follower,
         message.body.whom,
+        message.body.privateKey,
+      ),
+      (response) => {
+        message.sendResponse(response);
+      },
+    );
+  });
+
+  messageBus.onMessage(MessageCode.ResetAccount).subscribe((message) => {
+    sendRequest(
+      () => resetAccount(
+        message.body.walletAddress,
+        message.body.initiator,
         message.body.privateKey,
       ),
       (response) => {

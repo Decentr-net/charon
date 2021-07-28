@@ -119,3 +119,20 @@ export const unfollow = (
     )),
   ).toPromise();
 }
+
+export const resetAccount = (
+  walletAddress: Wallet['address'],
+  initiator: Wallet['address'],
+  privateKey: Wallet['privateKey'],
+): Promise<BroadcastResponse<StdTxMessageType.OperationsResetAccount>> => {
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).operations.resetAccount(
+      walletAddress,
+      initiator,
+      {
+        broadcast: true,
+        privateKey,
+      },
+    )),
+  ).toPromise();
+};
