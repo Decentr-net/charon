@@ -1,9 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthCompletedRegistrationGuard, UnauthGuard } from '@core/guards';
+import { AuthCompletedRegistrationGuard } from '@core/guards';
 import { PublicLayoutComponent, PublicLayoutModule } from '../layout/public-layout';
-import { AuthConfirmedGuard, AuthUncompletedRegistrationGuard, AuthUnconfirmedGuard, SIGN_UP_GUARDS } from './guards';
+import {
+  CompleteRegistrationGuard,
+  EmailConfirmationGuard,
+  SIGN_UP_GUARDS,
+  SignUpGuard,
+} from './guards';
 import {
   CompleteRegistrationPageComponent,
   EmailConfirmationPageComponent,
@@ -22,22 +27,21 @@ const ROUTES: Routes = [
         component: SignUpPageComponent,
         pathMatch: 'full',
         canActivate: [
-          UnauthGuard,
+          SignUpGuard,
         ],
       },
       {
         path: SignUpRoute.EmailConfirmation,
         component: EmailConfirmationPageComponent,
         canActivate: [
-          AuthUnconfirmedGuard,
+          EmailConfirmationGuard,
         ],
       },
       {
         path: SignUpRoute.CompleteRegistration,
         component: CompleteRegistrationPageComponent,
         canActivate: [
-          AuthConfirmedGuard,
-          AuthUncompletedRegistrationGuard,
+          CompleteRegistrationGuard
         ]
       },
       {
@@ -47,6 +51,10 @@ const ROUTES: Routes = [
           AuthCompletedRegistrationGuard,
         ],
       },
+      {
+        path: '**',
+        redirectTo: '',
+      }
     ],
   },
 ];
