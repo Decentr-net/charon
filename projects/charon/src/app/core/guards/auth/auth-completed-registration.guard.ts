@@ -4,7 +4,6 @@ import { CanActivate, CanActivateChild, CanLoad, Router, UrlTree } from '@angula
 import { AuthService } from '@core/auth';
 import { UserService } from '@core/services';
 import { AppRoute } from '../../../app-route';
-import { SignUpRoute } from '../../../sign-up';
 
 @Injectable()
 export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateChild, CanLoad {
@@ -15,17 +14,23 @@ export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateC
   ) {
   }
 
+  public static async isAuthFlowCompleted(authService: AuthService, userService: UserService): Promise<boolean> {
+    if (!authService.isLoggedIn) {
+      return false;
+    }
+
+    const wallet = authService.getActiveUserInstant().wallet;
+    const profile = await userService.getProfile(wallet.address, wallet).toPromise();
+
+    return !!profile?.emails?.length;
+  }
+
   public async canActivate(): Promise<boolean | UrlTree> {
     if (this.authService.isLoggedIn) {
-      const wallet = this.authService.getActiveUserInstant().wallet;
+      const isAuthFlowCompleted
+        = await AuthCompletedRegistrationGuard.isAuthFlowCompleted(this.authService, this.userService);
 
-      const profile = await this.userService.getProfile(wallet.address, wallet).toPromise();
-
-      if (profile?.emails?.length) {
-        return true;
-      }
-
-      return this.router.createUrlTree(['/', AppRoute.SignUp, SignUpRoute.CompleteRegistration]);
+      return isAuthFlowCompleted || this.router.createUrlTree(['/', AppRoute.SignUp]);
     }
 
     return this.router.createUrlTree(['/', AppRoute.Welcome]);

@@ -1,13 +1,13 @@
-import { AuthConfirmedGuard } from './auth-confirmed.guard';
-import { AuthUncompletedRegistrationGuard } from './auth-uncompleted-registration.guard';
-import { AuthUnconfirmedGuard } from './auth-unconfirmed.guard';
+import { SignUpGuard } from './sign-up.guard';
+import { EmailConfirmationGuard } from './email-confirmation.guard';
+import { CompleteRegistrationGuard } from './complete-registration.guard';
 
-export * from './auth-confirmed.guard';
-export * from './auth-uncompleted-registration.guard';
-export * from './auth-unconfirmed.guard';
+export * from './complete-registration.guard';
+export * from './email-confirmation.guard';
+export * from './sign-up.guard';
 
 export const SIGN_UP_GUARDS = [
-  AuthConfirmedGuard,
-  AuthUncompletedRegistrationGuard,
-  AuthUnconfirmedGuard,
+  CompleteRegistrationGuard,
+  EmailConfirmationGuard,
+  SignUpGuard,
 ];
