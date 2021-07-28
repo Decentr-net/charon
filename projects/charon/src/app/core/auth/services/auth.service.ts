@@ -83,7 +83,7 @@ export class AuthService {
   }
 
   public logout(): Promise<void> {
-    return this.authStorage.removeActiveUserId()
+    return this.changeUser(undefined).toPromise()
       .then(() => this.router.navigate(['/']))
       .then();
   }
