@@ -25,6 +25,7 @@
   },
   "permissions": [
     "clipboardWrite",
+    "contextMenus",
     "cookies",
     "proxy",
     "storage",
