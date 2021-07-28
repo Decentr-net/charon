@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
-import { delay, mapTo, mergeMap } from 'rxjs/operators';
+import { mapTo, mergeMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { createWalletFromMnemonic } from 'decentr-js';
 
-import { ONE_SECOND } from '@shared/utils/date';
 import { UserService } from '@core/services';
 import { AuthService } from '@core/auth';
 import { LockService } from '@core/lock';
@@ -48,7 +47,6 @@ export class ImportRestorePageService {
     const activeUser = this.authService.getActiveUserInstant();
 
     return this.importUser(seedPhrase, password).pipe(
-      delay(ONE_SECOND / 2), // hack for mozilla
       mergeMap(() => {
         const userId = activeUser && activeUser.id;
         return userId

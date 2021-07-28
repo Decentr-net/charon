@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { UntilDestroy } from '@ngneat/until-destroy';
@@ -41,6 +41,7 @@ export class SignUpPageComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private navigationService: NavigationService,
+    private ngZone: NgZone,
     private notificationService: NotificationService,
     private router: Router,
     private signUpPageService: SignUpPageService,
@@ -73,8 +74,10 @@ export class SignUpPageComponent implements OnInit {
         finalize(() => this.spinnerService.hideSpinner()),
       )
       .subscribe(() => {
-        this.router.navigate([SignUpRoute.EmailConfirmation], {
-          relativeTo: this.activatedRoute,
+        this.ngZone.run(() => {
+          this.router.navigate([SignUpRoute.EmailConfirmation], {
+            relativeTo: this.activatedRoute,
+          });
         });
       }, (error) => {
         this.notificationService.error(error);

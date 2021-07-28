@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { first, skip } from 'rxjs/operators';
+import { BehaviorSubject, defer, Observable } from 'rxjs';
+import { filter, first, mapTo, mergeMapTo, skip } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AuthBrowserStorageService } from '@shared/services/auth';
@@ -66,8 +66,13 @@ export class AuthService {
     return id;
   }
 
-  public changeUser(userId: AuthUser['id']): Promise<void> {
-    return this.authStorage.setActiveUserId(userId);
+  public changeUser(userId: AuthUser['id']): Observable<void> {
+    return defer(() => this.authStorage.setActiveUserId(userId)).pipe(
+      mergeMapTo(this.activeUser$),
+      filter((activeUser) => activeUser?.id === userId),
+      mapTo(void 0),
+      first(),
+    );
   }
 
   public async removeUser(userId: AuthUser['id']): Promise<void> {
