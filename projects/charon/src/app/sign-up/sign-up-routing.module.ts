@@ -6,6 +6,7 @@ import { PublicLayoutComponent, PublicLayoutModule } from '../layout/public-layo
 import {
   CompleteRegistrationGuard,
   EmailConfirmationGuard,
+  PDVConsentGuard,
   SIGN_UP_GUARDS,
   SignUpGuard,
 } from './guards';
@@ -48,6 +49,9 @@ const ROUTES: Routes = [
       {
         path: SignUpRoute.PDVConsent,
         component: PdvConsentComponent,
+        canActivate: [
+          PDVConsentGuard,
+        ]
       },
       {
         path: SignUpRoute.Success,

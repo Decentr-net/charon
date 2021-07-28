@@ -39,7 +39,7 @@ export class SignUpGuard implements CanActivate {
     }
 
     const shouldRedirectToPDVConsent
-      = await PDVConsentGuard.canActivate(this.authService, this.settingsService);
+      = await PDVConsentGuard.canActivate(this.authService, this.userService, this.settingsService);
 
     if (shouldRedirectToPDVConsent) {
       return this.router.createUrlTree([routerState.url, SignUpRoute.PDVConsent]);

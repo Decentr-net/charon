@@ -5,6 +5,7 @@ import { getParentUrlFromSnapshots } from '@shared/utils/routing';
 import { AuthService } from '@core/auth';
 import { UserService } from '@core/services';
 import { EmailConfirmationGuard } from './email-confirmation.guard';
+import { AuthCompletedRegistrationGuard } from '../../core/guards';
 
 @Injectable()
 export class CompleteRegistrationGuard implements CanActivate {
@@ -27,10 +28,9 @@ export class CompleteRegistrationGuard implements CanActivate {
       return false;
     }
 
-    const wallet = authService.getActiveUserInstant().wallet;
-    const profile = await userService.getProfile(wallet.address, wallet).toPromise();
+    const isProfileFilledIn = await AuthCompletedRegistrationGuard.isProfileFilledIn(authService, userService);
 
-    return !profile?.emails?.length;
+    return !isProfileFilledIn;
   }
 
   public async canActivate(
