@@ -11,7 +11,6 @@ import {
   KeyPair,
   Profile,
   ProfileUpdate,
-  resetAccount,
   setProfile,
   Wallet,
 } from 'decentr-js';
@@ -73,27 +72,6 @@ export class UserApiService {
   public setProfile(profile: ProfileUpdate, wallet: Wallet): Observable<void> {
     return this.configService.getCerberusUrl().pipe(
       mergeMap((cerberusUrl) => setProfile(cerberusUrl, profile, wallet)),
-      mapTo(void 0),
-    );
-  }
-
-  public resetAccount(
-    api: string,
-    walletAddress: Wallet['address'],
-    initiator: Wallet['address'],
-    privateKey: Wallet['privateKey']
-  ): Observable<void> {
-    return this.configService.getChainId().pipe(
-      mergeMap((chainId) => resetAccount(
-        api,
-        chainId,
-        walletAddress,
-        initiator,
-        {
-          broadcast: true,
-          privateKey,
-        }
-      )),
       mapTo(void 0),
     );
   }

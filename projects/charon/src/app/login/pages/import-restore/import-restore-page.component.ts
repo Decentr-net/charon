@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgZone, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -54,6 +54,7 @@ export class ImportRestorePageComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private navigationService: NavigationService,
+    private ngZone: NgZone,
     private notificationService: NotificationService,
     private router: Router,
     private spinnerService: SpinnerService,
@@ -101,7 +102,7 @@ export class ImportRestorePageComponent implements OnInit {
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
     ).subscribe(() => {
-      this.router.navigate(['/']);
+      this.ngZone.run(() => this.router.navigate(['/']));
     }, (error) => {
       this.notificationService.error(error);
     });

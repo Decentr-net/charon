@@ -1,0 +1,42 @@
+@import 'variables';
+
+$border-color: $color-outlines;
+$pdv-consent--card--padding: $grid-step * 2;
+
+:host {
+  display: block;
+  padding-top: $grid-step * 5;
+}
+
+.pdv-consent__card {
+  border: 2px solid $border-color;
+  border-radius: $border-radius;
+  margin: 0 auto;
+  max-width: 580px;
+  padding: $pdv-consent--card--padding;
+}
+
+.pdv-consent__header {
+  text-align: center;
+  font-weight: 500;
+}
+
+.pdv-consent__divider {
+  border-bottom: 2px solid $border-color;
+  margin: $pdv-consent--card--padding (-$pdv-consent--card--padding);
+}
+
+.pdv-consent__footer {
+  display: flex;
+  column-gap: $grid-step * 12;
+  justify-content: space-between;
+  margin-top: $pdv-consent--card--padding;
+}
+
+.pdv-consent__text {
+  color: $color-grey;
+}
+
+.pdv-consent__link {
+  color: $color-blue;
+}

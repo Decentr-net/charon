@@ -1,0 +1,27 @@
+<div
+  class="pdv-types-settings__title"
+  appTypeface="paragraph"
+>
+  {{ translations?.title }}
+</div>
+
+<div
+  class="pdv-types-settings__subtitle"
+  appTypeface="caption"
+>
+  {{ translations?.subtitle }}
+</div>
+
+<app-pdv-types-toggle
+  [formControl]="settingsControl"
+  [translations]="translations?.types"
+></app-pdv-types-toggle>
+
+<div
+  class="pdv-types-settings__warning"
+  appTypeface="caption"
+>
+  <svg-icon key="eye-crossed" size="xs"></svg-icon>
+
+  {{ translations?.warning }}
+</div>

@@ -78,5 +78,16 @@ export interface CharonAPIMessageBusMap extends MessageMap {
       success: boolean;
       error?: any;
     };
+  };
+  [MessageCode.ResetAccount]: {
+    body: {
+      walletAddress: Wallet['address'];
+      initiator: Wallet['address'],
+      privateKey: Wallet['address'];
+    };
+    response: {
+      success: boolean;
+      error?: any;
+    };
   }
 }

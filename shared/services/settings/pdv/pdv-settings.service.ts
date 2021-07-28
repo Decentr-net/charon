@@ -23,11 +23,26 @@ export class PDVSettingsService {
       mergeMap((settings) => this.storage.onChange('collectedTypes').pipe(
         startWith(settings),
       )),
-      map((settings) => settings || DEFAULT_COLLECTED_PDV_TYPES_SETTINGS),
+      map((settings) => ({
+        ...DEFAULT_COLLECTED_PDV_TYPES_SETTINGS,
+        ...settings,
+      })),
     );
   }
 
   public setCollectedPDVTypes(settings: CollectedPDVTypesSettings): Promise<void> {
     return this.storage.set('collectedTypes', settings);
+  }
+
+  public getCollectionConfirmed(): Observable<boolean> {
+    return defer(() => this.storage.get('collectionConfirmed')).pipe(
+      mergeMap((value) => this.storage.onChange('collectionConfirmed').pipe(
+        startWith(value),
+      )),
+    );
+  }
+
+  public setCollectionConfirmed(value: boolean): Promise<void> {
+    return this.storage.set('collectionConfirmed', value);
   }
 }

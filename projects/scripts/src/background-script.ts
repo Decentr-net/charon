@@ -7,6 +7,7 @@ import { setRandomNetwork } from './background/network-switch';
 import { initPDVCollection } from './background/pdv';
 import { initProxy } from './background/proxy';
 import { whileVersionSupported } from './background/technical';
+import initContextMenu from './background/context-menu';
 
 const CURRENT_BROWSER_TYPE: BrowserType = detectBrowser();
 
@@ -29,4 +30,6 @@ const CURRENT_BROWSER_TYPE: BrowserType = detectBrowser();
   initPDVCollection().pipe(
     whileVersionSupported(),
   ).subscribe(() => pdvUpdateNotifier.notify());
+
+  initContextMenu();
 })();

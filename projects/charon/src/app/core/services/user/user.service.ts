@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import { defer, Observable, of, Subject } from 'rxjs';
 import { catchError, delay, filter, mapTo, mergeMap, repeat, retryWhen, skipWhile, take, tap } from 'rxjs/operators';
 import { Account, KeyPair, ModeratorAddressesResponse, Profile, ProfileUpdate, Wallet } from 'decentr-js';
 
+import { MessageBus } from '@shared/message-bus';
 import { PDVStorageService } from '@shared/services/pdv';
 import { SettingsService } from '@shared/services/settings';
+import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { MessageCode } from '@scripts/messages';
 import { NetworkService } from '../network';
 import { UserApiService } from '../api';
 
@@ -78,14 +81,20 @@ export class UserService {
   public resetAccount(
     walletAddress: Wallet['address'],
     initiator: Wallet['address'],
-    privateKey: Wallet['privateKey']
+    privateKey: Wallet['privateKey'],
   ): Observable<void> {
-    return this.userApiService.resetAccount(
-      this.networkService.getActiveNetworkInstant().api,
-      walletAddress,
-      initiator,
-      privateKey,
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
+      .sendMessage(MessageCode.ResetAccount, {
+        walletAddress,
+        initiator,
+        privateKey,
+      })
     ).pipe(
+      tap((response) => {
+        if (!response.success) {
+          throw response.error;
+        }
+      }),
       mergeMap(() => this.settingsService.getUserSettingsService(walletAddress).clear()),
       mergeMap(() => this.pdvStorageService.clearUserPDV(walletAddress)),
     );
