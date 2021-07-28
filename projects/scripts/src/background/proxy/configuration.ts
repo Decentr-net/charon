@@ -1,11 +1,13 @@
 import { combineLatest, EMPTY, merge, Observable, of, timer } from 'rxjs';
 import {
   catchError,
+  distinctUntilChanged,
   filter,
   map,
   mapTo,
   mergeMap,
-  share,
+  pluck,
+  share, skip,
   startWith,
   switchMap,
   tap,
@@ -60,12 +62,14 @@ export const handleProxyStatus = (): Observable<void> => {
     filter((minVersion) => compareSemver(packageSettings.version, minVersion) < 0),
   );
 
-  const isNotAuthorizedInExtension$ = new AuthBrowserStorageService().getActiveUser().pipe(
-    filter((user) => !user),
+  const userChanged$ = new AuthBrowserStorageService().getActiveUser().pipe(
+    pluck('wallet', 'address'),
+    distinctUntilChanged(),
+    skip(1),
   );
 
   return merge(
-    isNotAuthorizedInExtension$,
+    userChanged$,
     proxyConfigDisabled$,
     proxyServerDisabled$,
     proxyServerNotAvailable$,
