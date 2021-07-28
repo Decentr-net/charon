@@ -113,6 +113,12 @@
       "account_not_found": "Account not found or activation code is not valid"
     }
   },
+  "pdv_consent": {
+    "confirm": "Confirm",
+    "privacy_link": "our Privacy Policy",
+    "title": "Consent of Cookies",
+    "text": "Full details about the collected data and what we use it for are provided in"
+  },
   "seed_phrase_page": {
     "download_seed_phrase": "Download Seed Phrase",
     "hint": {

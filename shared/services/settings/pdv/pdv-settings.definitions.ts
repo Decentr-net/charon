@@ -4,4 +4,5 @@ export type CollectedPDVTypesSettings = Record<Exclude<PDVType, PDVType.Profile>
 
 export interface PDVSettings {
   collectedTypes: CollectedPDVTypesSettings;
+  collectionConfirmed: boolean;
 }

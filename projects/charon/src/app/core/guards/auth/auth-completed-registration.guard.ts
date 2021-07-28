@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, CanLoad, Router, UrlTree } from '@angular/router';
+import { first } from 'rxjs/operators';
 
+import { SettingsService } from '@shared/services/settings';
 import { AuthService } from '@core/auth';
 import { UserService } from '@core/services';
 import { AppRoute } from '../../../app-route';
@@ -10,12 +12,18 @@ export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateC
   constructor(
     private authService: AuthService,
     private userService: UserService,
+    private settingsService: SettingsService,
     private router: Router,
   ) {
   }
 
-  public static async isAuthFlowCompleted(authService: AuthService, userService: UserService): Promise<boolean> {
-    if (!authService.isLoggedIn) {
+  public static async isProfileFilledIn(
+    authService: AuthService,
+    userService: UserService,
+  ): Promise<boolean> {
+    const isUserCreated = authService.isLoggedIn;
+
+    if (!isUserCreated) {
       return false;
     }
 
@@ -25,15 +33,56 @@ export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateC
     return !!profile?.emails?.length;
   }
 
-  public async canActivate(): Promise<boolean | UrlTree> {
-    if (this.authService.isLoggedIn) {
-      const isAuthFlowCompleted
-        = await AuthCompletedRegistrationGuard.isAuthFlowCompleted(this.authService, this.userService);
+  public static async isPDVCollectionConfirmed(
+    authService: AuthService,
+    settingsService: SettingsService,
+  ): Promise<boolean> {
+    const isUserCreated = authService.isLoggedIn;
 
-      return isAuthFlowCompleted || this.router.createUrlTree(['/', AppRoute.SignUp]);
+    if (!isUserCreated) {
+      return false;
     }
 
-    return this.router.createUrlTree(['/', AppRoute.Welcome]);
+    const walletAddress = authService.getActiveUserInstant().wallet.address;
+
+    return settingsService.getUserSettingsService(walletAddress)
+      .pdv
+      .getCollectionConfirmed()
+      .pipe(
+        first(),
+      )
+      .toPromise();
+  }
+
+  public static async isAuthFlowCompleted(
+    authService: AuthService,
+    userService: UserService,
+    settingsService: SettingsService,
+  ): Promise<boolean> {
+    const isUserCreated = authService.isLoggedIn;
+
+    if (!isUserCreated) {
+      return false;
+    }
+
+    return Promise.all([
+      AuthCompletedRegistrationGuard.isProfileFilledIn(authService, userService),
+      AuthCompletedRegistrationGuard.isPDVCollectionConfirmed(authService, settingsService),
+    ]).then((conditions) => conditions.every(Boolean));
+  }
+
+  public async canActivate(): Promise<boolean | UrlTree> {
+    if (!this.authService.isLoggedIn) {
+      return this.router.createUrlTree(['/', AppRoute.Welcome]);
+    }
+
+    const isAuthFlowCompleted = await AuthCompletedRegistrationGuard.isAuthFlowCompleted(
+      this.authService,
+      this.userService,
+      this.settingsService,
+    );
+
+    return isAuthFlowCompleted || this.router.createUrlTree(['/', AppRoute.SignUp]);
   }
 
   public canActivateChild(): Promise<boolean | UrlTree> {

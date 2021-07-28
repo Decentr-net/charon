@@ -28,9 +28,9 @@ export class CompleteRegistrationGuard implements CanActivate {
       return false;
     }
 
-    const registrationCompleted = await AuthCompletedRegistrationGuard.isAuthFlowCompleted(authService, userService);
+    const isProfileFilledIn = await AuthCompletedRegistrationGuard.isProfileFilledIn(authService, userService);
 
-    return !registrationCompleted;
+    return !isProfileFilledIn;
   }
 
   public async canActivate(

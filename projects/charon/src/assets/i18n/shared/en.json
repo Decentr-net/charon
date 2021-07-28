@@ -1,0 +1,13 @@
+{
+  "pdv_types_settings": {
+    "subtitle": "We use information about the sites you visit in order to transform it into PDV rate.",
+    "title": "Information we can track and transfer into PDV",
+    "warning": "Selected options will directly affect the PDV, the less we track the less will be your PDV."
+  },
+  "pdv_types_toggle": {
+    "advertiserId": "advertiser Id",
+    "cookie": "cookie",
+    "location": "location",
+    "searchHistory": "search history"
+  }
+}

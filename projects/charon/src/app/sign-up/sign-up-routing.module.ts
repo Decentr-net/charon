@@ -6,12 +6,14 @@ import { PublicLayoutComponent, PublicLayoutModule } from '../layout/public-layo
 import {
   CompleteRegistrationGuard,
   EmailConfirmationGuard,
+  PDVConsentGuard,
   SIGN_UP_GUARDS,
   SignUpGuard,
 } from './guards';
 import {
   CompleteRegistrationPageComponent,
   EmailConfirmationPageComponent,
+  PDVConsentPageComponent,
   SignUpPageComponent,
   SuccessPageComponent,
 } from './pages';
@@ -41,7 +43,14 @@ const ROUTES: Routes = [
         path: SignUpRoute.CompleteRegistration,
         component: CompleteRegistrationPageComponent,
         canActivate: [
-          CompleteRegistrationGuard
+          CompleteRegistrationGuard,
+        ]
+      },
+      {
+        path: SignUpRoute.PDVConsent,
+        component: PDVConsentPageComponent,
+        canActivate: [
+          PDVConsentGuard,
         ]
       },
       {

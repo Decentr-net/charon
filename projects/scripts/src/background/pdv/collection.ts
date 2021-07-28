@@ -14,6 +14,7 @@ import {
   repeat,
   repeatWhen,
   retryWhen,
+  switchMap,
   takeUntil,
   tap,
 } from 'rxjs/operators';
@@ -35,9 +36,16 @@ const configService = CONFIG_SERVICE;
 const settingsService = new SettingsService();
 
 const whilePDVAllowed = (pdvType: PDVType, walletAddress: Wallet['address']) => {
-  const settingStatus$ = settingsService.getUserSettingsService(walletAddress).pdv.getCollectedPDVTypes().pipe(
-    pluck(pdvType),
-    distinctUntilChanged(),
+  const pdvSettingsService = settingsService.getUserSettingsService(walletAddress).pdv;
+
+  const settingStatus$ = pdvSettingsService.getCollectionConfirmed().pipe(
+    switchMap((isCollectionConfirmed) => isCollectionConfirmed
+      ? pdvSettingsService.getCollectedPDVTypes().pipe(
+        pluck(pdvType),
+        distinctUntilChanged(),
+      )
+      : of(false)
+    ),
   );
 
   const [allowed$, forbidden$] = partition(settingStatus$, (value: boolean) => value);

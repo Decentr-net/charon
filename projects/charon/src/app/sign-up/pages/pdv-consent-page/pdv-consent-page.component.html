@@ -1,0 +1,43 @@
+<div
+  class="pdv-consent__card"
+  *transloco="let translate; read: 'sign_up.pdv_consent'"
+>
+  <div
+    class="pdv-consent__header"
+    appTypeface="subheader"
+  >
+    {{ translate('title') }}
+  </div>
+
+  <div class="pdv-consent__divider"></div>
+
+  <app-pdv-types-settings [translations]="translations$ | async"></app-pdv-types-settings>
+
+  <div
+    class="pdv-consent__footer"
+    appTypeface="caption"
+  >
+    <div class="pdv-consent__text">
+      {{ translate('text') }}
+
+      <a
+        class="pdv-consent__link"
+        href="https://decentr.net/charon-privacy.html"
+        target="_blank"
+      >
+        {{ translate('privacy_link') }}
+      </a>
+    </div>
+
+    <button
+      app-button
+      color="primary"
+      size="sm"
+      (click)="confirm()"
+    >
+      <svg-icon key="send" size="xs"></svg-icon>
+
+      {{ translate('confirm') }}
+    </button>
+  </div>
+</div>
