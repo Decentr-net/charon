@@ -1,34 +1,43 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, CanLoad, Router, UrlTree } from '@angular/router';
+import { first } from 'rxjs/operators';
 
+import { SettingsService } from '@shared/services/settings';
 import { AuthService } from '@core/auth';
-import { UserService } from '@core/services';
 import { AppRoute } from '../../../app-route';
 
 @Injectable()
 export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateChild, CanLoad {
   constructor(
     private authService: AuthService,
-    private userService: UserService,
+    private settingsService: SettingsService,
     private router: Router,
   ) {
   }
 
-  public static async isAuthFlowCompleted(authService: AuthService, userService: UserService): Promise<boolean> {
+  public static async isAuthFlowCompleted(
+    authService: AuthService,
+    settingsService: SettingsService,
+  ): Promise<boolean> {
     if (!authService.isLoggedIn) {
       return false;
     }
 
-    const wallet = authService.getActiveUserInstant().wallet;
-    const profile = await userService.getProfile(wallet.address, wallet).toPromise();
+    const walletAddress = authService.getActiveUserInstant().wallet.address;
 
-    return !!profile?.emails?.length;
+    return settingsService.getUserSettingsService(walletAddress)
+      .pdv
+      .getCollectionConfirmed()
+      .pipe(
+        first(),
+      )
+      .toPromise();
   }
 
   public async canActivate(): Promise<boolean | UrlTree> {
     if (this.authService.isLoggedIn) {
       const isAuthFlowCompleted
-        = await AuthCompletedRegistrationGuard.isAuthFlowCompleted(this.authService, this.userService);
+        = await AuthCompletedRegistrationGuard.isAuthFlowCompleted(this.authService, this.settingsService);
 
       return isAuthFlowCompleted || this.router.createUrlTree(['/', AppRoute.SignUp]);
     }

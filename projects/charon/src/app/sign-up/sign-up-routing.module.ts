@@ -42,7 +42,7 @@ const ROUTES: Routes = [
         path: SignUpRoute.CompleteRegistration,
         component: CompleteRegistrationPageComponent,
         canActivate: [
-          CompleteRegistrationGuard
+          CompleteRegistrationGuard,
         ]
       },
       {
