@@ -12,8 +12,6 @@ export const removeExtraBlankLines = (element: HTMLElement): void => {
       && !child.querySelector('img')
       && child.tagName.toLowerCase() !== 'img'
     ) {
-      console.log(child);
-      console.log(child.innerHTML);
       child.remove();
     }
   });

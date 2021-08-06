@@ -62,6 +62,7 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
 
     this.imagesCount$ = this.form.get('text').valueChanges.pipe(
       startWith(this.form.get('text').value),
+      map((text) => text || ''),
       distinctUntilChanged((prev, curr) => Math.abs(prev.length - curr.length) < '<img>'.length),
       map(getHTMLImagesCount),
     );

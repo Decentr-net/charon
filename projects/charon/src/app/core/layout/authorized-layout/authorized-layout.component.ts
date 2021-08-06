@@ -41,7 +41,6 @@ export class AuthorizedLayoutComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    console.log(this.contentContainer);
     this.authorizedLayoutNavigationService.getCurrentNavigation().pipe(
       map(Boolean),
       untilDestroyed(this),
