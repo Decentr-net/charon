@@ -5,8 +5,15 @@ export const removeExtraBlankLines = (element: HTMLElement): void => {
     firstChild = element.firstChild;
   }
 
-  Array.from(element.querySelectorAll('*')).forEach((child) => {
-    if (child.previousSibling && !child.previousSibling.textContent && !child.textContent) {
+  Array.from(element.querySelectorAll('*')).forEach((child: Element) => {
+    if (child.previousSibling
+      && !child.previousSibling.textContent
+      && !child.textContent
+      && !child.querySelector('img')
+      && child.tagName.toLowerCase() !== 'img'
+    ) {
+      console.log(child);
+      console.log(child.innerHTML);
       child.remove();
     }
   });
