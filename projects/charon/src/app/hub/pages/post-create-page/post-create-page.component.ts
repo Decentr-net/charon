@@ -9,7 +9,7 @@ import { PostCreate } from 'decentr-js';
 
 import { ONE_SECOND } from '@shared/utils/date';
 import { svgPublish } from '@shared/svg-icons/publish';
-import { AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT } from '@core/layout/authorized-layout';
+import { AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT, AuthorizedLayoutComponent } from '@core/layout/authorized-layout';
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../hub-route';
 import { PostCreatePageService } from './post-create-page.service';
@@ -31,9 +31,8 @@ export class PostCreatePageComponent implements OnInit {
 
   public postControl: FormControl<PostCreate> = new FormControl();
 
-  public invalid$: Observable<boolean>;
-
   constructor(
+    private layout: AuthorizedLayoutComponent,
     private postCreatePageService: PostCreatePageService,
     private router: Router,
     svgIconRegistry: SvgIconRegistry,
@@ -55,6 +54,7 @@ export class PostCreatePageComponent implements OnInit {
 
   public createPost(): void {
     if (this.postControl.invalid) {
+      this.layout.scrollToTop();
       return;
     }
 
