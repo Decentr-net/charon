@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
@@ -8,8 +9,8 @@ import {
   Renderer2,
 } from '@angular/core';
 import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/forms';
-import { combineLatest, merge, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, mapTo, startWith, switchMap } from 'rxjs/operators';
+import { combineLatest, merge } from 'rxjs';
+import { distinctUntilChanged, map, mapTo, startWith, switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
@@ -24,13 +25,15 @@ export class HubPostEditorErrorComponent implements OnInit {
   @Input() public control: AbstractControl;
   @Input() public controlName: string;
   @Input() public i18nControlKey: string;
+  @Input() public position: 'top' | 'bottom' = 'bottom';
 
-  public display$: Observable<boolean>;
+  public display: boolean;
 
   constructor(
     @Optional() private controlContainer: ControlContainer,
     @Optional() private formGroup: FormGroupDirective,
     private elementRef: ElementRef<HTMLElement>,
+    private changeDetectorRef: ChangeDetectorRef,
     private renderer2: Renderer2,
   ) {
   }
@@ -56,22 +59,29 @@ export class HubPostEditorErrorComponent implements OnInit {
       distinctUntilChanged(),
     );
 
-    this.display$ = combineLatest([hasError$, isSubmitted$]).pipe(
+    const display$ = combineLatest([hasError$, isSubmitted$]).pipe(
       map((conditions) => conditions.every(Boolean)),
       distinctUntilChanged(),
     );
 
-    this.display$.pipe(
-      filter(Boolean),
+    display$.pipe(
       untilDestroyed(this),
-    ).subscribe(() => this.updatePosition());
+    ).subscribe((display) => {
+      this.display = display;
+      this.changeDetectorRef.detectChanges();
+      this.updatePosition();
+    });
   }
 
   private updatePosition(): void {
     this.renderer2.setStyle(
       this.elementRef.nativeElement,
       'top',
-      this.anchorElement.offsetTop + this.anchorElement.offsetHeight + 'px',
+      (
+        this.position === 'top'
+          ? -this.elementRef.nativeElement.offsetHeight
+          : this.anchorElement.offsetTop + this.anchorElement.offsetHeight
+      ) + 'px',
     );
 
     this.renderer2.setStyle(
