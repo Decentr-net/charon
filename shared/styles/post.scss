@@ -1,8 +1,10 @@
+@import 'variables';
+
 .post-content {
   img {
     display: block;
     height: auto;
-    margin: auto;
+    margin: $grid-step * 2 auto;
     max-height: 900px;
     max-width: 100%;
   }
