@@ -1,0 +1,17 @@
+<div
+  #editorContainer
+  contenteditable
+></div>
+
+<button
+  class="text-editor__image-remove-button"
+  *ngFor="let image of images$ | async; let index = index"
+  app-button
+  color="grey"
+  size="xs"
+  [style.top.px]="image.offsetTop"
+  [style.left.px]="image.offsetLeft + image.offsetWidth"
+  (click)="removeImage(image)"
+>
+  <svg-icon key="delete"></svg-icon>
+</button>

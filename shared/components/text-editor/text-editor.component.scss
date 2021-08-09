@@ -1,4 +1,19 @@
+@import '../../styles/variables';
+
 :host {
   display: block;
+  position: relative;
   width: 100%;
+}
+
+.text-editor__image-remove-button {
+  align-items: center;
+  background: $color-background;
+  border-radius: $border-radius;
+  color: $color-negative;
+  cursor: pointer;
+  display: inline-flex;
+  margin-left: $grid-step;
+  padding: $grid-step !important;
+  position: absolute;
 }

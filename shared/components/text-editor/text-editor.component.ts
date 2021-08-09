@@ -8,19 +8,22 @@ import {
   Input,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { BehaviorSubject, fromEvent, Observable, Subject } from 'rxjs';
+import { filter, map, startWith, tap } from 'rxjs/operators';
 import { ControlValueAccessor } from '@ngneat/reactive-forms';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+import { svgDelete } from '../../svg-icons/delete';
 import { removeExtraBlankLines } from './text-editor.utils';
 
 @UntilDestroy()
 @Component({
   selector: 'app-text-editor',
-  template: '',
+  templateUrl: 'text-editor.component.html',
   styleUrls: ['./text-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -37,22 +40,32 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
 
   @Output() public readonly cursorPositionTopChange: EventEmitter<number | undefined> = new EventEmitter();
 
-  @HostBinding('attr.contenteditable') public contentEditable = true;
+  @ViewChild('editorContainer', { static: true }) public editorContainerRef: ElementRef<HTMLDivElement>;
+
   @HostBinding('class.post-content') public hasPostContentClass = true;
+
+  public images$: Observable<HTMLImageElement[]>;
 
   private selectionRange: BehaviorSubject<Range> = new BehaviorSubject(void 0);
 
+  private valueAssigned$: Subject<void> = new Subject();
+
   public get element(): HTMLElement {
-    return this.elementRef.nativeElement;
+    return this.editorContainerRef.nativeElement;
   }
 
   constructor(
-    private elementRef: ElementRef<HTMLElement>,
+    private svgIconRegistry: SvgIconRegistry,
   ) {
     super();
   }
 
   public ngOnInit(): void {
+    fromEvent(this.element, 'change').subscribe(console.log);
+    this.svgIconRegistry.register([
+      svgDelete,
+    ]);
+
     this.listenSelectionRange().pipe(
       untilDestroyed(this),
     ).subscribe((selectionRange) => {
@@ -73,6 +86,8 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
       });
     }
 
+    this.images$ = this.listenImages();
+
     fromEvent(this.element, 'input').pipe(
       untilDestroyed(this),
     ).subscribe(() => removeExtraBlankLines(this.element));
@@ -82,8 +97,14 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
     ).subscribe(() => this.emitValue());
   }
 
+  public removeImage(image: HTMLImageElement): void {
+    image.remove();
+    this.emitValue();
+  }
+
   public writeValue(value: string): void {
     this.element.innerHTML = value;
+    this.valueAssigned$.next();
   }
 
   @HostListener('blur')
@@ -136,9 +157,17 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
     );
   }
 
+  private listenImages(): Observable<HTMLImageElement[]> {
+    return this.valueAssigned$.pipe(
+      startWith(void 0),
+      map(() => Array.from(this.element.querySelectorAll('img'))),
+      tap(console.log)
+    );
+  }
+
   private listenSelectionRange(): Observable<Range> {
     return fromEvent(document, 'selectionchange').pipe(
-      filter(() => document.activeElement === this.elementRef.nativeElement),
+      filter(() => document.activeElement === this.element),
       map(() => document.getSelection().getRangeAt(0)),
     );
   }
@@ -155,6 +184,7 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
   }
 
   private emitValue(): void {
+    this.valueAssigned$.next();
     this.onChange(this.element.innerHTML);
   }
 }

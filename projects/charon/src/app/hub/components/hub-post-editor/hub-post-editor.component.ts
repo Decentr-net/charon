@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
+import { distinctUntilChanged, map, pluck } from 'rxjs/operators';
 import { AbstractControl, ControlValueAccessor, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -60,8 +60,8 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
 
     this.form = this.createForm();
 
-    this.imagesCount$ = this.form.get('text').valueChanges.pipe(
-      startWith(this.form.get('text').value),
+    this.imagesCount$ = this.form.value$.pipe(
+      pluck('text'),
       map((text) => text || ''),
       distinctUntilChanged((prev, curr) => Math.abs(prev.length - curr.length) < '<img>'.length),
       map(getHTMLImagesCount),
