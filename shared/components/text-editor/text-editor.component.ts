@@ -86,7 +86,7 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
   @HostListener('blur')
   public onBlur(): void {
     this.onTouched();
-    removeExtraBlankLines(this.element);
+    removeExtraBlankLines(this.element, true);
   }
 
   @HostListener('paste', ['$event'])

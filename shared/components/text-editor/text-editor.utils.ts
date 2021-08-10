@@ -8,10 +8,11 @@ const isImageNode = (node: Node): boolean => (node as Element)?.tagName?.toLower
 
 const isNodeActive = (node: Node): boolean => {
   const activeElement = document.getSelection()?.getRangeAt(0)?.endContainer;
+  console.log(activeElement);
   return node === activeElement || activeElement?.contains(node);
 };
 
-export const removeExtraBlankLines = (element: Element): void => {
+export const removeExtraBlankLines = (element: Element, ignoreSelection = false): void => {
   let firstChild = element.firstChild;
   while (firstChild && !firstChild.textContent) {
     firstChild.remove();
@@ -22,13 +23,13 @@ export const removeExtraBlankLines = (element: Element): void => {
     .filter((child) => !child.childNodes.length);
 
   childrenToCheck
-    .filter((node) => !isNodeActive(node))
+    .filter((node) => ignoreSelection || !isNodeActive(node))
     .forEach((node) => node.textContent = node.textContent.trim());
 
   for (let i = childrenToCheck.length - 1; i > 0; i--) {
     const node = childrenToCheck[i];
 
-    if (isNodeActive(node)) {
+    if (!ignoreSelection && isNodeActive(node)) {
       continue;
     }
 
