@@ -10,7 +10,7 @@
   align-items: center;
   background: $color-background;
   border-radius: $border-radius;
-  color: $color-negative;
+  color: $color-negative !important;
   cursor: pointer;
   display: inline-flex;
   margin-left: $grid-step;

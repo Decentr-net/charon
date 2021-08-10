@@ -11,8 +11,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BehaviorSubject, fromEvent, Observable, Subject } from 'rxjs';
-import { filter, map, startWith, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, fromEvent, Observable, of, Subject } from 'rxjs';
+import { filter, map, mapTo, startWith, switchMap } from 'rxjs/operators';
 import { ControlValueAccessor } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -61,7 +61,6 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
   }
 
   public ngOnInit(): void {
-    fromEvent(this.element, 'change').subscribe(console.log);
     this.svgIconRegistry.register([
       svgDelete,
     ]);
@@ -86,7 +85,7 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
       });
     }
 
-    this.images$ = this.listenImages();
+    this.images$ = this.listenLoadedImages();
 
     fromEvent(this.element, 'input').pipe(
       untilDestroyed(this),
@@ -157,11 +156,20 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
     );
   }
 
-  private listenImages(): Observable<HTMLImageElement[]> {
+  private listenLoadedImages(): Observable<HTMLImageElement[]> {
     return this.valueAssigned$.pipe(
       startWith(void 0),
       map(() => Array.from(this.element.querySelectorAll('img'))),
-      tap(console.log)
+      switchMap((images) => combineLatest(images.map((image) => {
+        return image.complete
+          ? of(image)
+          : fromEvent(image, 'load').pipe(
+            mapTo(image),
+            startWith(void 0),
+          );
+        }),
+      )),
+      map((images) => images.filter(Boolean)),
     );
   }
 
