@@ -14,7 +14,8 @@ import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { ControlValueAccessor } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { removeExtraBlankLines } from '../../utils/html';
+
+import { removeExtraBlankLines } from './text-editor.utils';
 
 @UntilDestroy()
 @Component({
@@ -63,7 +64,10 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
     if (this.imageSource) {
       this.listenImagePaste(this.imageSource).pipe(
         untilDestroyed(this),
-      ).subscribe((image) => this.insertElementAtSelection(image));
+      ).subscribe((image) => {
+        this.insertElementAtSelection(image);
+        removeExtraBlankLines(this.element);
+      });
     }
 
     fromEvent(this.element, 'input').pipe(
@@ -82,6 +86,7 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
   @HostListener('blur')
   public onBlur(): void {
     this.onTouched();
+    removeExtraBlankLines(this.element);
   }
 
   @HostListener('paste', ['$event'])
