@@ -8,7 +8,6 @@ const isImageNode = (node: Node): boolean => (node as Element)?.tagName?.toLower
 
 const isNodeActive = (node: Node): boolean => {
   const activeElement = document.getSelection()?.getRangeAt(0)?.endContainer;
-  console.log(activeElement);
   return node === activeElement || activeElement?.contains(node);
 };
 
