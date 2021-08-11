@@ -1,6 +1,9 @@
 <div
   #editorContainer
   contenteditable
+  (blur)="onBlur()"
+  (input)="onInput()"
+  (paste)="onPaste($event)"
 ></div>
 
 <button

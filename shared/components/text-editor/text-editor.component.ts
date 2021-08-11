@@ -4,7 +4,6 @@ import {
   ElementRef,
   EventEmitter,
   HostBinding,
-  HostListener,
   Input,
   OnInit,
   Output,
@@ -81,19 +80,10 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
         untilDestroyed(this),
       ).subscribe((image) => {
         this.insertElementAtSelection(image);
-        removeExtraBlankLines(this.element);
       });
     }
 
     this.images$ = this.listenLoadedImages();
-
-    fromEvent(this.element, 'input').pipe(
-      untilDestroyed(this),
-    ).subscribe(() => removeExtraBlankLines(this.element));
-
-    fromEvent(this.element, 'input').pipe(
-      untilDestroyed(this),
-    ).subscribe(() => this.emitValue());
   }
 
   public removeImage(image: HTMLImageElement): void {
@@ -106,13 +96,11 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
     this.valueAssigned$.next();
   }
 
-  @HostListener('blur')
   public onBlur(): void {
     this.onTouched();
-    removeExtraBlankLines(this.element, true);
+    this.emitValue();
   }
 
-  @HostListener('paste', ['$event'])
   public onPaste(event: ClipboardEvent): void {
     event.stopPropagation();
     event.preventDefault();
@@ -124,6 +112,10 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
     }
 
     document.execCommand('insertHTML', false, text);
+  }
+
+  public onInput(): void {
+    this.emitValue();
   }
 
   private listenCursorPositionTop(): Observable<number | undefined> {
@@ -160,15 +152,16 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
     return this.valueAssigned$.pipe(
       startWith(void 0),
       map(() => Array.from(this.element.querySelectorAll('img'))),
-      switchMap((images) => combineLatest(images.map((image) => {
-        return image.complete
+      switchMap((images) => images.length
+        ? combineLatest(images.map((image) => image.complete
           ? of(image)
           : fromEvent(image, 'load').pipe(
             mapTo(image),
             startWith(void 0),
-          );
-        }),
-      )),
+          )
+        ))
+        : of([])
+      ),
       map((images) => images.filter(Boolean)),
     );
   }
@@ -192,6 +185,7 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
   }
 
   private emitValue(): void {
+    removeExtraBlankLines(this.element);
     this.valueAssigned$.next();
     this.onChange(this.element.innerHTML);
   }
