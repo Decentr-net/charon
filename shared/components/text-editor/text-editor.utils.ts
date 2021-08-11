@@ -12,12 +12,6 @@ const isNodeActive = (node: Node): boolean => {
 };
 
 export const removeExtraBlankLines = (element: Element, ignoreSelection = false): void => {
-  let firstChild = element.firstChild;
-  while (firstChild && !firstChild.textContent) {
-    firstChild.remove();
-    firstChild = element.firstChild;
-  }
-
   const childrenToCheck = getAllChildNodes(element)
     .filter((child) => !child.childNodes.length);
 
@@ -25,7 +19,7 @@ export const removeExtraBlankLines = (element: Element, ignoreSelection = false)
     .filter((node) => ignoreSelection || !isNodeActive(node))
     .forEach((node) => node.textContent = node.textContent.trim());
 
-  for (let i = childrenToCheck.length - 1; i > 0; i--) {
+  for (let i = childrenToCheck.length - 1; i >= 0; i--) {
     const node = childrenToCheck[i];
 
     if (!ignoreSelection && isNodeActive(node)) {
@@ -34,7 +28,7 @@ export const removeExtraBlankLines = (element: Element, ignoreSelection = false)
 
     if (
       (
-        !childrenToCheck[i - 1].textContent
+        !childrenToCheck[i - 1]?.textContent
         && !node.textContent
         && !isImageNode(node)
       )
