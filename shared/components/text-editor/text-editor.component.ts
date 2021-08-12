@@ -55,7 +55,10 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
   public ngOnInit(): void {
     this.listenSelectionRange().pipe(
       untilDestroyed(this),
-    ).subscribe(this.selectionRange);
+    ).subscribe((selectionRange) => {
+      this.selectionRange.next(selectionRange);
+      this.emitValue();
+    });
 
     this.listenCursorPositionTop().pipe(
       untilDestroyed(this),
