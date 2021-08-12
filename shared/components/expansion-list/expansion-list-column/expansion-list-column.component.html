@@ -4,18 +4,19 @@
 >
   <button
     app-button-back
-    class="expansion-list-column__button-back"
     *ngIf="singleDisplayMode && !columnDef.isFirstColumn"
     (click)="back()"
   ></button>
 
-  <ng-template
-    [ngTemplateOutlet]="columnDef.headerCellDef.templateRef"
-    [ngTemplateOutletContext]="{
-      $implicit: columnDef.getItems() | async,
-      parentItem: columnDef.getParentActiveItem() | async
-    }"
-  ></ng-template>
+  <div class="expansion-list-column__header-cell__content">
+    <ng-template
+      [ngTemplateOutlet]="columnDef.headerCellDef.templateRef"
+      [ngTemplateOutletContext]="{
+        $implicit: columnDef.getItems() | async,
+        parentItem: columnDef.getParentActiveItem() | async
+      }"
+    ></ng-template>
+  </div>
 </div>
 
 <div

@@ -24,14 +24,17 @@
 .expansion-list-column__header-cell {
   align-items: center;
   border-bottom: var(--expansion-list--border);
-  display: flex;
+  column-gap: $grid-step * 2;
+  display: grid;
   font-weight: 500;
+  grid-template-columns: max-content minmax(0, 1fr);
   min-height: 68px;
   padding: 0 $grid-step * 2;
 }
 
-.expansion-list-column__button-back {
-  margin-right: $grid-step * 2;
+.expansion-list-column__header-cell__content {
+  align-items: center;
+  display: flex;
 }
 
 .expansion-list-column__cells-container {

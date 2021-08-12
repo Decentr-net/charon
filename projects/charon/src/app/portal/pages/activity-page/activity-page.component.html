@@ -82,14 +82,17 @@
       </div>
 
       <ng-container appExpansionListColumnDef="pdv">
-        <ng-container *appExpansionListHeaderCellDef="let pdvs; let pdvBLock = parentItem">
+        <ng-container *appExpansionListHeaderCellDef="let pdvs; let pdvBlock = parentItem">
           <ng-container *appBrowserTabView>
             {{ translate('details') }}
           </ng-container>
 
-          <ng-container *appBrowserPopupView>
-            {{ pdvBLock?.title }}
-          </ng-container>
+          <span
+            *appBrowserPopupView
+            appTextEllipsis
+          >
+            {{ pdvBlock?.title }}
+          </span>
 
           <span
             class="activity-page__expansion-list__header-count"
