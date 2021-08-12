@@ -1,5 +1,8 @@
-<div
+<button
   class="network-selector__trigger"
+  app-button
+  color="grey"
+  size="sm"
   [matMenuTriggerFor]="menuTemplate"
 >
   <svg-icon
@@ -8,19 +11,19 @@
     size="xs"
   ></svg-icon>
 
-  <div
+  <span
     class="network-selector__trigger__network-name"
     appTypeface="caption"
   >
     {{ activeNetwork?.name }}
-  </div>
+  </span>
 
   <svg-icon
     class="network-selector__trigger-icon"
     key="expand-more"
     size="xs"
   ></svg-icon>
-</div>
+</button>
 
 <mat-menu
   #menuTemplate

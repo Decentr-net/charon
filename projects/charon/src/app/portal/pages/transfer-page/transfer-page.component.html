@@ -1,11 +1,9 @@
 <ng-container *transloco="let translate; read: 'portal.transfer_page'">
   <div class="transfer-page__header">
-    <a
-      class="transfer-page__back-button"
+    <button
+      app-button-back
       [appNavigateBack]="['../']"
-    >
-      <svg-icon key="arrow-left"></svg-icon>
-    </a>
+    ></button>
 
     <span appTypeface="subheader">
       {{ translate('send') }}
@@ -83,8 +81,9 @@
       appTypeface="paragraph"
     >
       <button
-        type="button"
         class="transfer-page__form__action-button"
+        app-button
+        color="grey"
         [disabled]="isPageDisabled"
         [appNavigateBack]="['../']"
       >
@@ -92,7 +91,10 @@
       </button>
 
       <button
-        class="transfer-page__form__action-button mod-send"
+        class="transfer-page__form__action-button"
+        app-button
+        color="primary"
+        type="submit"
         [disabled]="isPageDisabled || (canSend$ | async) === false"
       >
         {{ translate(isPageDisabled ? 'sending' : 'send') }}

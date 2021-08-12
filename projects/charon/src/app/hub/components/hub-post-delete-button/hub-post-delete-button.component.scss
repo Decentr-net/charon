@@ -41,19 +41,10 @@
   max-width: 200px;
 }
 
-.hub-post-delete-button__button {
-  border-radius: $border-radius;
-  cursor: pointer;
-  padding: $grid-step $grid-step * 1.5;
-}
-
 .hub-post-delete-button__button-cancel {
-  background: $color-background;
-  color: $color-font-base;
   margin-left: $grid-step * 2;
 }
 
 .hub-post-delete-button__button-delete {
-  background: $color-red;
   margin-left: $grid-step;
 }

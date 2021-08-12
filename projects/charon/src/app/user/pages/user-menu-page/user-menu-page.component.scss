@@ -28,6 +28,7 @@
 
 .user-menu-page__menu-block__button {
   border-radius: 0;
+  justify-content: flex-start;
   width: 100%;
 
   & + & {
