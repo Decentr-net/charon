@@ -30,6 +30,10 @@
   padding: 0 $grid-step * 2;
 }
 
+.expansion-list-column__button-back {
+  margin-right: $grid-step * 2;
+}
+
 .expansion-list-column__cells-container {
   overflow: auto;
 }
