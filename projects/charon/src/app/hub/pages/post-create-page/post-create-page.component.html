@@ -1,6 +1,7 @@
 <ng-template [appSlot]="headerActionsSlotName">
   <button
     app-button
+    type="submit"
     *transloco="let translate"
     [attr.form]="formId"
     (click)="createPost()"
