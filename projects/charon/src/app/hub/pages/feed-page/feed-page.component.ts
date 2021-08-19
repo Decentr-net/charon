@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, TrackByFunction } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  TrackByFunction,
+} from '@angular/core';
 import { fromEvent, Observable, timer } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -45,6 +52,7 @@ export class FeedPageComponent implements OnInit {
   private scrollPosition: number;
 
   constructor(
+    private changeDetectorRef: ChangeDetectorRef,
     private elementRef: ElementRef<HTMLElement>,
     private feedPageService: HubPostsService,
     svgIconRegistry: SvgIconRegistry,
@@ -55,7 +63,7 @@ export class FeedPageComponent implements OnInit {
     ]);
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.posts$ = this.feedPageService.posts$;
 
     this.isLoading$ = this.feedPageService.isLoading$;
@@ -80,12 +88,14 @@ export class FeedPageComponent implements OnInit {
 
   public onPostOutletActivate(): void {
     this.isPostOutletActivated = true;
+    this.changeDetectorRef.detectChanges();
 
     this.setScrollTop(0);
   }
 
   public onPostOutletDeactivate(): void {
     this.isPostOutletActivated = false;
+    this.changeDetectorRef.detectChanges();
 
     this.setScrollTop(this.scrollPosition);
   }
