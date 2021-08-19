@@ -27,9 +27,20 @@
   column-gap: $grid-step * 2;
   display: grid;
   font-weight: 500;
-  grid-template-columns: max-content minmax(0, 1fr);
   min-height: 68px;
   padding: 0 $grid-step * 2;
+
+  .expansion-list-column__header-cell__button-back {
+    display: none;
+  }
+
+  &.with-back-button {
+    grid-template-columns: max-content minmax(0, 1fr);
+
+    .expansion-list-column__header-cell__button-back {
+      display: inline-flex;
+    }
+  }
 }
 
 .expansion-list-column__header-cell__content {
