@@ -69,10 +69,10 @@
 
           <span
             class="assets-page__expansion-list__header-count"
-            *ngIf="transactions"
+            *ngIf="totalCount$ | async as totalCount"
             appTypeface="paragraph"
           >
-            {{ transactions[0]?.length }}
+            {{ totalCount }}
           </span>
         </div>
 

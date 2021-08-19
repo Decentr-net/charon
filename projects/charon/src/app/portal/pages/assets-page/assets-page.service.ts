@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { distinctUntilChanged, filter, map, pluck, switchMap, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, mergeMap, pluck, switchMap, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { TransferRole } from 'decentr-js';
+import { TransferHistory, TransferRole } from 'decentr-js';
 
 import { InfiniteLoadingService } from '@shared/utils/infinite-loading';
 import { AuthService } from '@core/auth';
@@ -25,7 +25,10 @@ export class AssetsPageService
   private readonly receivedList: BehaviorSubject<TokenTransaction[]>
     = new BehaviorSubject([]);
 
-  private loadingCount: number = 100;
+  private sentPage: number;
+  private receivedPage: number;
+
+  private loadingCount = 10;
 
   constructor(
     private authService: AuthService,
@@ -39,7 +42,9 @@ export class AssetsPageService
       untilDestroyed(this),
     ).subscribe(() => {
       this.canLoadMoreAsSender.next(true);
+      this.sentPage = undefined;
       this.canLoadMoreAsRecipient.next(true);
+      this.receivedPage = undefined;
     });
   }
 
@@ -82,6 +87,15 @@ export class AssetsPageService
     );
   }
 
+  public getTotalTransactionCount(): Observable<number> {
+    return combineLatest([
+      this.loadHistory('recipient', 1, 1),
+      this.loadHistory('sender', 1, 1),
+    ]).pipe(
+      map(([received, sent]) => received.totalCount + sent.totalCount),
+    );
+  }
+
   protected getNextItems(): Observable<TokenTransaction[]> {
     return combineLatest([
       this.getHistory('recipient'),
@@ -110,25 +124,25 @@ export class AssetsPageService
   private getHistory(role: TransferRole): Observable<TokenTransaction[]> {
     const roleCanLoadMore = this.getRoleCanLoadMore(role);
     const roleList = this.getRoleList(role);
+    const rolePage = this.getRolePage(role);
 
     if (!roleCanLoadMore.value) {
       return of([]);
     }
 
-    const page = roleList.value.length / this.loadingCount + 1;
+    const page$ = rolePage
+      ? of(rolePage - 1)
+      : this.getPagesCount(role);
 
-    return this.bankService.getTransferHistory(
-      this.authService.getActiveUserInstant().wallet.address,
-      role,
-      {
-        page,
-        limit: this.loadingCount,
-      },
-    ).pipe(
-      tap((response) => {
-        if (+roleList.value.length + +response.count >= +response.totalCount) {
+    return page$.pipe(
+      tap((page) => this.setRolePage(role, page)),
+      mergeMap((page) => {
+        if (!page) {
           roleCanLoadMore.next(false);
+          return of({ transactions: [] });
         }
+
+        return this.loadHistory(role, page);
       }),
       map((response) => response.transactions.map((transaction) => ({
         ...transaction,
@@ -155,5 +169,42 @@ export class AssetsPageService
       case 'sender':
         return this.sentList;
     }
+  }
+
+  private getRolePage(role: TransferRole): number {
+    switch (role) {
+      case 'recipient':
+        return this.receivedPage;
+      case 'sender':
+        return this.sentPage;
+    }
+  }
+
+  private setRolePage(role: TransferRole, page: number): void {
+    switch (role) {
+      case 'recipient':
+        this.receivedPage = page;
+        break;
+      case 'sender':
+        this.sentPage = page;
+        break;
+    }
+  }
+
+  private getPagesCount(role: TransferRole): Observable<number> {
+    return this.loadHistory(role).pipe(
+      map((response) => response.pageTotal),
+    );
+  }
+
+  private loadHistory(role: TransferRole, page: number = 1, limit: number = this.loadingCount): Observable<TransferHistory> {
+    return this.bankService.getTransferHistory(
+      this.authService.getActiveUserInstant().wallet.address,
+      role,
+      {
+        page,
+        limit,
+      }
+    );
   }
 }
