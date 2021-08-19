@@ -14,10 +14,10 @@ function getCopyManifestPlugin(specificRules = {}) {
   return new CopyPlugin({
     patterns: [
       {
-        from: join(__dirname, 'manifest.base.json'),
+        from: join(__dirname, 'manifest/base.json'),
         to: join(__dirname, '../../dist/manifest.json'),
         transform(content) {
-          const browserSpecificRules = require(`./${process.env.BROWSER}/manifest.json`);
+          const browserSpecificRules = require(`./manifest/${process.env.BROWSER}.json`);
           const version = require(`../../package.json`).version;
           return extendManifest(content, { ...browserSpecificRules, ...specificRules, version });
         },
