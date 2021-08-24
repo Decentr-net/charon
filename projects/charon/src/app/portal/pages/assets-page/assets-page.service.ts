@@ -28,7 +28,7 @@ export class AssetsPageService
   private sentPage: number;
   private receivedPage: number;
 
-  private loadingCount = 10;
+  private loadingCount = 100;
 
   constructor(
     private authService: AuthService,
