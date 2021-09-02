@@ -1,4 +1,4 @@
-import { PDVUpdateNotifier } from '../../../shared/services/pdv';
+import { PDVUpdateNotifier } from '../../../shared/services/pdv/pdv-update-notifier';
 import { BrowserType, detectBrowser } from '../../../shared/utils/browser';
 import { initMessageListeners } from './background/listeners';
 import { initAutoLock } from './background/lock';
