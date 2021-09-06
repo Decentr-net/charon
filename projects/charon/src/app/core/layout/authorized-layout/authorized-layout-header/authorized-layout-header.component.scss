@@ -8,13 +8,10 @@
   height: 76px;
 
   &:not(.mod-popup-view) {
-    .authorized-layout-header__meta-container {
-      flex-grow: 1;
-      margin: 0 $grid-step * 3.5;
-    }
-
-    .authorized-layout-header__actions-container {
-      margin-right: $grid-step * 3;
+    .authorized-layout-header__section {
+      align-items: center;
+      display: flex;
+      column-gap: $grid-step * 3;
     }
   }
 }
@@ -22,6 +19,7 @@
 .authorized-layout-header__section {
   align-items: center;
   display: flex;
+  column-gap: $grid-step * 2;
 }
 
 .authorized-layout-header__actions-container {

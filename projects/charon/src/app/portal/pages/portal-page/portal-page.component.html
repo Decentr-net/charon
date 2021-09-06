@@ -5,31 +5,37 @@
     class="portal-page__logo"
     *appSlot="headerLogoSlot"
     [routerLink]="['./']"
+    [target]="isOpenedInPopup ? 'blank' : ''"
   >
     <svg-icon
       class="portal-page__logo-icon"
-      *appBrowserTabView
       key="logo-portal"
-    ></svg-icon>
-
-    <svg-icon
-      *appBrowserPopupView
-      fontSize="40px"
-      key="logo-icon-orange"
     ></svg-icon>
   </a>
 
-  <button
+  <div
     *appSlot="headerActionsSlot"
-    app-button
-    color="grey"
     [cdkCopyToClipboard]="walletAddress$ | async"
     (cdkCopyToClipboardCopied)="onWalletAddressCopied()"
   >
-    <svg-icon key="wallet"></svg-icon>
+    <button
+      *appBrowserTabView
+      app-button
+      color="grey"
+    >
+      <svg-icon key="wallet"></svg-icon>
 
-    {{ translate('copy_wallet_address') }}
-  </button>
+      {{ translate('copy_wallet_address') }}
+    </button>
+
+    <button
+      *appBrowserPopupView
+      app-icon-button
+      color="grey"
+    >
+      <svg-icon key="wallet"></svg-icon>
+    </button>
+  </div>
 
   <ng-container *appBrowserTabView>
     <app-network-selector

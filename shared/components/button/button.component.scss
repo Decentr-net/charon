@@ -10,7 +10,11 @@
   justify-content: center;
   transition: background .3s ease;
 
-  &.mod-size {
+  &[app-icon-button] {
+    padding: $grid-step;
+  }
+
+  &:not([app-icon-button]).mod-size {
     &-xs {
       padding: $grid-step $grid-step * 1.5 $grid-step $grid-step * 1.5;
 

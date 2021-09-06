@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input } 
 import { SvgIconComponent } from '@ngneat/svg-icon';
 
 @Component({
-  selector: 'button[app-button]',
+  selector: 'button[app-button], button[app-icon-button]',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
