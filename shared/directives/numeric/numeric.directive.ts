@@ -1,28 +1,64 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, OnInit } from '@angular/core';
+import { fromEvent } from 'rxjs';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Directive({
   selector: 'input[appNumeric]',
 })
-export class NumericDirective {
+export class NumericDirective implements OnInit {
+  private previousValue: string;
+
   constructor(
     private elementRef: ElementRef<HTMLInputElement>,
   ) {
   }
 
-  @HostListener('keydown', ['$event'])
+  public ngOnInit(): void {
+    fromEvent(this.elementRef.nativeElement, 'keydown').pipe(
+      untilDestroyed(this),
+    ).subscribe((event: KeyboardEvent) => {
+      this.onKeydown(event);
+      this.previousValue = this.getValue();
+    });
+  }
+
+  @HostListener('input')
+  public onInput(): void {
+    let value = this.getValue();
+    const valueMatch = new RegExp(/[0-9.]+/).exec(value);
+    value = valueMatch ? valueMatch[0] : '';
+
+    if ([null, ''].includes(value)) {
+      return;
+    }
+
+    if (value === '0' && this.previousValue === '0.') {
+      this.setValue('');
+
+      return;
+    }
+
+    if (['0', '.'].some((key) => key === value)) {
+      this.setValue('0.');
+
+      return;
+    }
+
+    if (value.endsWith('.')) {
+      return;
+    }
+
+    this.setValue(value);
+  }
+
   public onKeydown(event: KeyboardEvent): void {
     const { key, keyCode } = event;
+    const value = this.getValue();
 
     if (key === '.') {
-      const value = this.getValue();
-      if (!value) {
-        this.setValue(0);
-        return;
-      }
-
       if (value.includes('.')) {
-        const newValue = parseInt(value.replace('.', ''));
-        this.setValue(newValue);
+        event.preventDefault();
       }
 
       return;
@@ -32,7 +68,7 @@ export class NumericDirective {
       return;
     }
 
-    if ((event.ctrlKey || event.metaKey) && [65, 67, 88].includes(keyCode)) {
+    if ((event.ctrlKey || event.metaKey) && [65, 67, 86, 88].includes(keyCode)) {
       return;
     }
 
@@ -44,11 +80,6 @@ export class NumericDirective {
       return;
     }
 
-    event.preventDefault();
-  }
-
-  @HostListener('paste', ['$event'])
-  public onPaste(event: ClipboardEvent): void {
     event.preventDefault();
   }
 
