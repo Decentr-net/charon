@@ -1,5 +1,5 @@
 import { merge, Observable, of } from 'rxjs';
-import { catchError, filter, mergeMap, take } from 'rxjs/operators';
+import { catchError, filter, mergeMap, switchMap, take } from 'rxjs/operators';
 import { browser, WebRequest } from 'webextension-polyfill-ts';
 import OnErrorOccurredDetailsType = WebRequest.OnErrorOccurredDetailsType;
 
@@ -29,16 +29,17 @@ const listenRequestsTimeout = (): Observable<void> => {
 
 export const handleProxyErrors = (): Observable<void> => {
   return merge(
-    listenRequestsTimeout(),
+    listenRequestsTimeout().pipe(
+      switchMap(() => getActiveProxySettings().pipe(
+        take(1),
+      )),
+      filter((settings) => settings.levelOfControl === 'controlled_by_this_extension'),
+      mergeMap((settings: ExtensionProxySettings) => pingProxyServer(settings.host)),
+      filter((pingResponse: Response) => !pingResponse.ok),
+      catchError(() => of(void 0)),
+    ),
     listenProxyErrors(),
   ).pipe(
-    mergeMap(() => getActiveProxySettings().pipe(
-      take(1),
-    )),
-    filter((settings) => settings.levelOfControl === 'controlled_by_this_extension'),
-    mergeMap((settings: ExtensionProxySettings) => pingProxyServer(settings.host)),
-    filter((pingResponse: Response) => !pingResponse.ok),
-    catchError(() => of(void 0)),
     mergeMap(() => clearProxy()),
   );
 };
