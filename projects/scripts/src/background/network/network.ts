@@ -1,5 +1,5 @@
 import { of, ReplaySubject, throwError } from 'rxjs';
-import { delay, first, mergeMap, retryWhen } from 'rxjs/operators';
+import { delay, filter, first, mergeMap, retryWhen, switchMap, tap } from 'rxjs/operators';
 
 import CONFIG_SERVICE from '../config';
 import { environment } from '../../../../../environments/environment';
@@ -9,10 +9,11 @@ import { ONE_SECOND } from '../../../../../shared/utils/date';
 
 const configService = CONFIG_SERVICE;
 const blockchainNodeService = new BlockchainNodeService(configService);
+const networkStorage = new NetworkBrowserStorageService();
 
-export const NETWORK_READY_SUBJECT = new ReplaySubject<boolean>();
+export const NETWORK_READY_SUBJECT = new ReplaySubject<boolean>(1);
 
-export const getRandomRest = (): Promise<string> => {
+const getRandomRest = (): Promise<string> => {
   return configService.getRestNodes().pipe(
     mergeMap((nodes) => {
       const random = Math.floor(Math.random() * nodes.length);
@@ -29,9 +30,7 @@ export const getRandomRest = (): Promise<string> => {
   ).toPromise();
 };
 
-export const setRandomNetwork = async (): Promise<void> => {
-  const networkStorage = new NetworkBrowserStorageService();
-
+const setRandomNetwork = async (): Promise<void> => {
   const activeNetwork = await networkStorage.getActiveNetwork().pipe(
     first(),
   ).toPromise();
@@ -60,4 +59,19 @@ export const setRandomNetwork = async (): Promise<void> => {
 
   await networkStorage.setActiveNetwork(defaultNetwork);
   NETWORK_READY_SUBJECT.next();
+};
+
+const handleNetworkReset = () => {
+  NETWORK_READY_SUBJECT.pipe(
+    first(),
+    switchMap(() => networkStorage.getActiveNetwork()),
+    tap(console.log),
+    filter((network) => !network),
+    switchMap(() => setRandomNetwork()),
+  ).subscribe();
+};
+
+export const initNetwork = (): Promise<void> => {
+  handleNetworkReset();
+  return setRandomNetwork();
 };

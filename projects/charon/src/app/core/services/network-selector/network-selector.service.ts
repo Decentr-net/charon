@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, from, Observable, of } from 'rxjs';
-import { first, map, mergeMap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, mergeMap, pluck, switchMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { Environment } from '@environments/environment.definitions';
@@ -30,8 +30,10 @@ export class NetworkSelectorService extends BaseNetworkSelectorService {
   public getNetworks(checkAvailability = true): Observable<Network[]> {
     return from(new MessageBus().sendMessage(MessageCode.NetworkReady)).pipe(
       mergeMap(() => this.networkStorage.getDefaultNetwork()),
-      first(),
-      mergeMap(({ api: remoteApi }) => combineLatest(
+      pluck('api'),
+      distinctUntilChanged(),
+      filter((api) => !!api),
+      switchMap((remoteApi) => combineLatest(
         [
           { key: 'remote', api: remoteApi },
           { key: 'local', api: this.environment.rest.local },
@@ -57,7 +59,9 @@ export class NetworkSelectorService extends BaseNetworkSelectorService {
   public getActiveNetwork(): Observable<Network> {
     return combineLatest([
       this.getNetworks(false),
-      this.networkStorage.getActiveNetwork(),
+      this.networkStorage.getActiveNetwork().pipe(
+        filter((network) => !!network),
+      ),
     ]).pipe(
       map(([networks, activeNetwork]) => {
         return networks.find((network) => network.api === activeNetwork.api);
