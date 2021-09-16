@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BrowserTabGuard, MaintenanceGuard, OfflineGuard, SupportedVersionGuard, UpdateGuard } from '@core/guards';
 import { AuthCompletedRegistrationGuard, UnauthGuard } from '@core/guards';
 import { AuthorizedLayoutComponent } from '@core/layout/authorized-layout';
+import { PublicLayoutComponent } from '@core/layout/public-layout';
 import { LockGuard } from '@core/lock';
 import { AppRoute } from './app-route';
 
@@ -63,6 +64,7 @@ const ROUTES: Routes = [
   },
   {
     path: AppRoute.Welcome,
+    component: PublicLayoutComponent,
     loadChildren: () => import('./welcome/welcome.module').then(m => m.WelcomeModule),
     canLoad: [
       UnauthGuard,
