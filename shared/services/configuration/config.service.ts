@@ -67,12 +67,6 @@ export class ConfigService {
     );
   }
 
-  public getAvailableChainIds(): Observable<Config['network']['chainId'][]> {
-    return this.getMultiConfig().pipe(
-      map((multiConfig) => Object.values(multiConfig).map((config) => config.network.chainId)),
-    );
-  }
-
   public getCerberusUrl(): Observable<string> {
     return this.getConfig().pipe(
       map((config) => config.cerberus.url),

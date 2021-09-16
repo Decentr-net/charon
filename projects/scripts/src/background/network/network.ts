@@ -6,7 +6,7 @@ import { NetworkBrowserStorageService } from '../../../../../shared/services/net
 import { BlockchainNodeService, NodeAvailability } from '../../../../../shared/services/blockchain-node';
 import { ONE_SECOND } from '../../../../../shared/utils/date';
 
-const blockchainNodeService = new BlockchainNodeService(CONFIG_SERVICE);
+const blockchainNodeService = new BlockchainNodeService();
 const networkStorage = new NetworkBrowserStorageService();
 
 const getRandomRest = (): Promise<string> => {
