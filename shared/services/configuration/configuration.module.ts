@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 
+import { NetworkBrowserStorageService } from '../network-storage';
 import { ConfigApiService } from './config-api.service';
 import { ConfigService } from './config.service';
 
@@ -7,6 +8,7 @@ import { ConfigService } from './config.service';
   providers: [
     ConfigApiService,
     ConfigService,
+    NetworkBrowserStorageService,
   ],
 })
 export class ConfigurationModule {

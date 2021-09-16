@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { defer, Observable } from 'rxjs';
 
 import { Environment } from '../../../environments/environment.definitions';
-import { Config } from './config.definitions';
+import {  MultiConfig } from './config.definitions';
 
 @Injectable()
 export class ConfigApiService {
@@ -11,16 +11,16 @@ export class ConfigApiService {
   ) {
   }
 
-  public getConfig(): Observable<Config> {
+  public getConfig(): Observable<MultiConfig> {
     const now = Date.now();
     const headers = {
       'Cache-Control': 'no-cache',
-      'Pragma': 'no-cache',
-      'Expires': '0'
+      Pragma: 'no-cache',
+      Expires: '0'
     };
 
     return defer(() => {
-      return fetch(`${this.environment.awsStorage}/config.json?${now}`, { headers })
+      return fetch(`${this.environment.config}?${now}`, { headers })
         .then((response) => response.json());
     });
   }

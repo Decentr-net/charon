@@ -28,7 +28,7 @@ export class PDVStorageService {
   }
 
   public getUserAccumulatedPDV(walletAddress: Wallet['address']): Promise<PDV[]> {
-    return this.getUserPDVStorage(walletAddress).get('accumulated');
+    return this.getUserPDVStorage(walletAddress).get('accumulated').then((pdvs) => pdvs || []);
   }
 
   public getUserAccumulatedPDVChanges(walletAddress: Wallet['address']): Observable<PDV[]> {

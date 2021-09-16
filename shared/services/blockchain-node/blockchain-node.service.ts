@@ -20,15 +20,15 @@ export class BlockchainNodeService {
 
   public getNodeAvailability(nodeAddress: string, checkChainId: boolean = false): Observable<NodeAvailability> {
     return combineLatest([
-      this.configService.getChainId(),
+      this.configService.getAvailableChainIds(),
       getNodeInfo(nodeAddress),
     ]).pipe(
-      map(([chainId, nodeInfo]) => {
-        return !checkChainId || chainId === nodeInfo.node_info.network
+      map(([chainIds, nodeInfo]) => {
+        return !checkChainId || chainIds.includes(nodeInfo.node_info.network)
           ? NodeAvailability.Available
-          : NodeAvailability.IncorrectChainId
+          : NodeAvailability.IncorrectChainId;
       }),
       catchError(() => of(NodeAvailability.Unavailable)),
-    )
+    );
   }
 }

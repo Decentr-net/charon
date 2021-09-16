@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { delay, filter, map, pluck, retryWhen, take } from 'rxjs/operators';
-import { Observable, ReplaySubject, Subscription } from 'rxjs';
+import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 
 import { Environment } from '../../../environments/environment.definitions';
 import { ONE_SECOND } from '../../utils/date';
 import { ConfigApiService } from './config-api.service';
-import { Config } from './config.definitions';
+import { Config, MultiConfig } from './config.definitions';
+import { NetworkBrowserStorageService } from '../network-storage';
 
 @Injectable()
 export class ConfigService {
@@ -18,6 +19,7 @@ export class ConfigService {
 
   constructor(
     private environment: Environment,
+    private networkBrowserStorageService: NetworkBrowserStorageService,
   ) {
   }
 
@@ -26,10 +28,17 @@ export class ConfigService {
       this.pendingConfig = true;
       this.configSubscription?.unsubscribe();
 
-      this.configSubscription = this.configApiService.getConfig().pipe(
-        retryWhen((errors) => errors.pipe(
-          delay(ONE_SECOND),
-        )),
+      this.configSubscription = combineLatest([
+        this.getMultiConfig().pipe(
+          retryWhen((errors) => errors.pipe(
+            delay(ONE_SECOND),
+          )),
+        ),
+        this.networkBrowserStorageService.getActiveId().pipe(
+          filter((id) => !!id),
+        ),
+      ]).pipe(
+        map(([multiConfig, id]) => multiConfig[id]),
       ).subscribe(
         (config) => this.config$.next(config),
         (error) => this.config$.error(error),
@@ -47,9 +56,20 @@ export class ConfigService {
     this.pendingConfig = false;
   }
 
+  public getMultiConfig(): Observable<MultiConfig> {
+    return this.configApiService.getConfig();
+  }
+
   public getAppMinVersionRequired(): Observable<string> {
     return this.getConfig().pipe(
+
       map(({ minVersion }) => minVersion),
+    );
+  }
+
+  public getAvailableChainIds(): Observable<Config['network']['chainId'][]> {
+    return this.getMultiConfig().pipe(
+      map((multiConfig) => Object.values(multiConfig).map((config) => config.network.chainId)),
     );
   }
 

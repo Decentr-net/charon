@@ -16,7 +16,7 @@ import { NetworkBrowserStorageService } from '../../../../../shared/services/net
 const configService = CONFIG_SERVICE;
 const networkStorage = new NetworkBrowserStorageService();
 
-const getApi = () => networkStorage.getActiveNetworkInstant().api;
+const getApi = () => networkStorage.getActiveAPIInstant();
 
 export const createPost = (
   walletAddress: Wallet['address'],
@@ -101,7 +101,7 @@ export const follow = (
       },
     )),
   ).toPromise();
-}
+};
 
 export const unfollow = (
   follower: Wallet['address'],
@@ -118,7 +118,7 @@ export const unfollow = (
       },
     )),
   ).toPromise();
-}
+};
 
 export const resetAccount = (
   walletAddress: Wallet['address'],
