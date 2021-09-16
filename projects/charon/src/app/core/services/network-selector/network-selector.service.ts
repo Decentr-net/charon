@@ -66,7 +66,6 @@ export class NetworkSelectorService extends BaseNetworkSelectorService {
         map((name) => ({
           id: networkId,
           name,
-          disabled: false,
         })),
       );
   }
