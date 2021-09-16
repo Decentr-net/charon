@@ -1,5 +1,5 @@
 import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, Optional } from '@angular/core';
-import { FormGroupDirective, NgControl } from '@angular/forms';
+import { FormGroupDirective } from '@angular/forms';
 import { EMPTY, merge, Observable } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 
@@ -12,8 +12,6 @@ import { InputComponent } from '../input';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputContainerComponent implements AfterContentInit {
-  @ContentChild(NgControl) public ngControl: NgControl;
-
   @ContentChild(InputComponent) public input: InputComponent;
 
   public showError$: Observable<boolean>;
