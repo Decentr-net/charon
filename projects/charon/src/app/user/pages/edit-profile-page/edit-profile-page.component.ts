@@ -12,9 +12,11 @@ import { NotificationService } from '@shared/services/notification';
 import { AppRoute } from '../../../app-route';
 import { AuthService } from '@core/auth';
 import { EditProfilePageService } from './edit-profile-page.service';
+import { TranslatedError } from '@core/notifications';
 import { SpinnerService, UserService } from '@core/services';
 import { PasswordValidationUtil } from '@shared/utils/validation';
 import { ProfileFormControlValue } from '@shared/components/profile-form';
+import { uppercaseFirstLetter } from '@shared/utils/string';
 
 interface EditProfileForm {
   confirmPassword: string;
@@ -91,7 +93,12 @@ export class EditProfilePageComponent implements OnInit {
         relativeTo: this.activatedRoute
       });
     }, (error) => {
-      this.notificationService.error(error);
+      const errorMessage = error?.response?.data?.error;
+      this.notificationService.error(
+        errorMessage
+          ? new TranslatedError(uppercaseFirstLetter(errorMessage))
+          : error
+      );
     });
   }
 
