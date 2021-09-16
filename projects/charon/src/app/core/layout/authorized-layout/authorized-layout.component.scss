@@ -4,8 +4,9 @@ $popup-side-padding: $grid-step * 2;
 
 :host {
   display: grid;
-  grid-template-rows: max-content 1fr max-content;
+  grid-template-rows: max-content minmax(0, 1fr) max-content;
   height: 100vh;
+  overflow: auto;
 
   &.mod-popup-view {
     height: 600px;
@@ -40,8 +41,4 @@ $popup-side-padding: $grid-step * 2;
   margin: 0 auto;
   padding: 0 $page-side-padding;
   width: $page-width + $page-side-padding * 2;
-}
-
-.authorized-layout__content-container {
-  overflow: auto;
 }
