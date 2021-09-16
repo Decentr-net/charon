@@ -1,15 +1,60 @@
 @import 'variables';
 
-.page-import-account-seed {
-  mat-form-field {
-    &.input-seed-phrase {
-      width: 100%;
-      max-width: 500px;
-      min-height: 5rem;
-    }
-  }
+$import-restore-page--border-color: $color-outlines;
+$import-restore-page--padding: $grid-step * 2;
 
-  .show-seed-phrase {
-    color: #6c6f71;
+:host {
+  display: block;
+  height: 100%;
+  margin: auto;
+  padding-bottom: $grid-step * 5;
+  width: 800px;
+}
+
+.import-restore-page__form {
+  border: 2px solid $import-restore-page--border-color;
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: $import-restore-page--padding;
+}
+
+.import-restore-page__section {
+  & + & {
+    margin-top: $grid-step * 5;
   }
+}
+
+.import-restore-page__section__title {
+  font-weight: 500;
+}
+
+.import-restore-page__section__subtitle {
+  margin-top: $grid-step;
+}
+
+.import-restore-page__inputs-container {
+  column-gap: $grid-step * 2;
+  display: flex;
+}
+
+.import-restore-page__input-container {
+  margin-top: $grid-step;
+  width: 100%;
+}
+
+.import-restore-page__divider {
+  border-bottom: 2px solid $import-restore-page--border-color;
+  margin: auto (-$import-restore-page--padding) $grid-step * 2;
+}
+
+.import-restore-page__actions {
+  column-gap: $grid-step * 1.5;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.import-restore-page__action-button {
+  width: 160px;
 }

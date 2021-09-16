@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnInit, Optional } from '@angular/core';
 import { AbstractControl, ControlContainer } from '@angular/forms';
 import { merge, Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
 
 import { FORM_ERROR_TRANSLOCO_READ } from './form-error.tokens';
 
@@ -46,6 +46,7 @@ export class FormErrorComponent implements OnInit {
           params: firstEntry[1],
         };
       }),
+      distinctUntilChanged(),
     );
   }
 }

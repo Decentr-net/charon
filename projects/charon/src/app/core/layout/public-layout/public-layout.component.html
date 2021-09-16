@@ -1,3 +1,12 @@
+<div class="public-layout__logo-container">
+  <svg-icon
+    class="public-layout__logo"
+    *ngIf="includeLogo$ | async"
+    key="logo"
+    size=""
+  ></svg-icon>
+</div>
+
 <div class="public-layout__content-container">
   <router-outlet></router-outlet>
 </div>

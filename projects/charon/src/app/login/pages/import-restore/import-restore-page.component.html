@@ -1,118 +1,108 @@
-<ng-container *transloco="let translate; read: 'login.import_restore_page'">
-  <div
-    class="container page-import-account-seed"
-    *ngIf="currentPageType$ | async as currentPageType"
-  >
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="btn btn__back" (click)="navigateBack(currentPageType)">
-          < {{ translate('back') }}
-        </div>
-        <div class="page-title page-title__large">
-          {{ translate(currentPageType === pageType.IMPORT_ACCOUNT ? 'import.title': 'restore.title') }}
-        </div>
-        <div class="page-content">
-          {{ translate(currentPageType === pageType.IMPORT_ACCOUNT ? 'import.subtitle': 'restore.subtitle') }}
-        </div>
-      </div>
+<form
+  class="import-restore-page__form"
+  *transloco="let translate; read: 'login.import_restore_page'"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
+  <section class="import-restore-page__section">
+    <div
+      class="import-restore-page__section__title"
+      appTypeface="subheader"
+    >
+      {{ translate('form.seed.title') }}
     </div>
 
-    <form
-      [formGroup]="form"
-      (ngSubmit)="onSubmit(currentPageType)"
-      *transloco="let translate; read: 'login.import_restore_page.form'"
+    <div
+      class="import-restore-page__section__subtitle"
+      appTypeface="paragraph"
     >
-      <div class="row">
-        <div class="input-container col-xs-12">
-          <div class="input-label">{{ translate('seed.label') }}</div>
+      {{ translate('form.seed.subtitle') }}
+    </div>
 
-          <mat-form-field *ngIf="isSeedPhraseVisible"
-                          class="input-seed-phrase"
-                          appearance="outline">
-          <textarea matInput
-                    rows="3"
-                    name="seedPhrase"
-                    formControlName="seedPhrase"
-                    placeholder="Separate each word with a single space">
-          </textarea>
+    <app-input-container class="import-restore-page__input-container">
+      <app-input
+        class="import-restore-page__input"
+        type="password"
+        formControlName="seedPhrase"
+      >
+        <ng-container ngProjectAs="[label]">
+          {{ translate('form.seed.label') }}
+        </ng-container>
+      </app-input>
 
-            <mat-error>
-              <app-form-error controlName="seedPhrase" i18nControlKey="seed"></app-form-error>
-            </mat-error>
-          </mat-form-field>
+      <app-form-error controlName="seedPhrase" i18nControlKey="seed"></app-form-error>
+    </app-input-container>
+  </section>
 
-          <mat-form-field *ngIf="!isSeedPhraseVisible"
-                          class="input-seed-phrase"
-                          appearance="outline">
-            <input matInput
-                   type="password"
-                   name="seedPhrase"
-                   formControlName="seedPhrase"
-                   placeholder="Separate each word with a single space">
+  <section class="import-restore-page__section">
+    <div
+      class="import-restore-page__section__title"
+      appTypeface="subheader"
+    >
+      {{ translate('form.password.title') }}
+    </div>
 
-            <mat-error>
-              <app-form-error controlName="seedPhrase" i18nControlKey="seed"></app-form-error>
-            </mat-error>
-          </mat-form-field>
-        </div>
+    <div
+      class="import-restore-page__section__subtitle"
+      appTypeface="paragraph"
+    >
+      {{ translate('form.password.subtitle') }}
+    </div>
 
-        <div class="checkbox-container col-xs-12">
-          <mat-checkbox class="show-seed-phrase"
-                        (change)="toggleSeedPhraseVisibility()"
-                        [checked]="isSeedPhraseVisible">
-            {{ translate('seed.show') }}
-          </mat-checkbox>
-        </div>
+    <div class="import-restore-page__inputs-container">
+      <app-input-container class="import-restore-page__input-container">
+        <app-input
+          class="import-restore-page__input"
+          type="password"
+          formControlName="password"
+        >
+          <ng-container ngProjectAs="[label]">
+            {{ translate('form.password.label') }}
+          </ng-container>
+        </app-input>
 
-        <div class="input-container col-xs-12">
-          <div class="input-label">{{ translate('password.label') }}</div>
-          <mat-form-field class="input-control"
-                          appearance="outline">
-            <input matInput
-                   type="password"
-                   name="password"
-                   formControlName="password"
-                   placeholder="">
+        <app-form-error controlName="password"></app-form-error>
+      </app-input-container>
 
-            <mat-error>
-              <app-form-error controlName="password"></app-form-error>
-            </mat-error>
-          </mat-form-field>
-        </div>
+      <app-input-container class="import-restore-page__input-container">
+        <app-input
+          class="import-restore-page__input"
+          type="password"
+          [eye]="false"
+          formControlName="confirmPassword"
+        >
+          <ng-container ngProjectAs="[label]">
+            {{ translate('form.confirm_password.label') }}
+          </ng-container>
+        </app-input>
 
-        <div class="input-container col-xs-12">
-          <div class="input-label">{{ translate('confirm_password.label') }}</div>
-          <mat-form-field class="input-control"
-                          appearance="outline">
-            <input matInput
-                   type="password"
-                   name="confirmPassword"
-                   formControlName="confirmPassword"
-                   placeholder="">
+        <app-form-error controlName="confirmPassword" i18nControlKey="confirm_password"></app-form-error>
+      </app-input-container>
+    </div>
+  </section>
 
-            <mat-error>
-              <app-form-error controlName="confirmPassword" i18nControlKey="confirm_password"></app-form-error>
-            </mat-error>
-          </mat-form-field>
-        </div>
-      </div>
+  <div class="import-restore-page__divider"></div>
 
-      <div class="row">
-        <div class="col-xs-12">
-          <button
-            *transloco="let translate; read: 'login.import_restore_page'"
-            class="btn btn__small"
-            mat-flat-button
-            color="accent"
-            [disabled]="form.invalid"
-          >
-            {{ currentPageType === pageType.IMPORT_ACCOUNT
-              ? translate('import.submit')
-              : translate('restore.submit')
-            }}
-          </button>
-        </div>
-      </div>
-    </form>
+  <div class="import-restore-page__actions">
+    <button
+      class="import-restore-page__action-button"
+      app-button
+      color="grey"
+      size="md"
+      (click)="navigateBack()"
+    >
+      {{ translate('back') }}
+    </button>
+
+    <button
+      class="import-restore-page__action-button"
+      app-button
+      [disabled]="disabled"
+      color="primary"
+      size="md"
+      type="submit"
+    >
+      {{ translate('submit') }}
+    </button>
   </div>
-</ng-container>
+</form>

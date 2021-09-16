@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BrowserTabGuard, MaintenanceGuard, OfflineGuard, SupportedVersionGuard, UpdateGuard } from '@core/guards';
 import { AuthCompletedRegistrationGuard, UnauthGuard } from '@core/guards';
 import { AuthorizedLayoutComponent } from '@core/layout/authorized-layout';
-import { PublicLayoutComponent } from '@core/layout/public-layout';
+import { PUBLIC_LAYOUT_INCLUDE_LOGO_KEY, PublicLayoutComponent } from '@core/layout/public-layout';
 import { LockGuard } from '@core/lock';
 import { AppRoute } from './app-route';
 
@@ -16,6 +16,10 @@ const ROUTES: Routes = [
   },
   {
     path: AppRoute.Login,
+    component: PublicLayoutComponent,
+    data: {
+      [PUBLIC_LAYOUT_INCLUDE_LOGO_KEY]: true,
+    },
     loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
     canActivate: [
       SupportedVersionGuard,
