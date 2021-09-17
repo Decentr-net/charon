@@ -14,7 +14,6 @@ import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/valida
 import { ImportRestorePageService } from './import-restore-page.service';
 import { NavigationService } from '@core/navigation';
 import { SpinnerService } from '@core/services';
-import { WelcomeRoute } from '../../../welcome/welcome-route';
 
 export enum ImportRestorePageType {
   IMPORT_ACCOUNT = 'import-account',
@@ -82,7 +81,7 @@ export class ImportRestorePageComponent implements OnInit {
 
   public navigateBack(pageType: ImportRestorePageType): void {
     const urlToNavigate = (pageType === ImportRestorePageType.IMPORT_ACCOUNT)
-      ? [AppRoute.Welcome, WelcomeRoute.NewUser]
+      ? [AppRoute.Welcome]
       : [AppRoute.Login];
 
     this.navigationService.back(urlToNavigate);

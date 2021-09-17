@@ -1,29 +1,65 @@
 <div
-  class="container page-welcome"
+  class="welcome-page__card"
   *transloco="let translate; read: 'welcome.welcome_page'"
 >
-  <div class="row text-center">
-    <div class="col-xs-12">
-      <div class="logo-icon">
-        <img src="assets/images/logo-icon.svg" alt="Decentr">
-      </div>
+  <div
+    class="welcome-page__title"
+    appTypeface="subheader"
+  >
+    {{ translate('title.log_in_to') }}
 
-      <div class="page-title">
-        {{ translate('title') }}
-      </div>
+    <svg-icon key="logo-icon" size="lg"></svg-icon>
 
-      <div class="page-content">
-        {{ translate('subtitle.line1') }}
-        <br/>
-        {{ translate('subtitle.line2') }}
-      </div>
-
-      <button class="btn btn__middle"
-              mat-flat-button
-              color="accent"
-              [routerLink]="[welcomeRoute.NewUser]">
-        {{ translate('get_started') }}
-      </button>
-    </div>
+    {{ translate('title.decentr') }}
   </div>
+
+  <a
+    class="welcome-page__button mod-blue"
+    [routerLink]="['/', appRoute.Login, loginRoute.Import]"
+  >
+    <svg-icon
+      class="welcome-page__button__icon"
+      key="seed-phrase"
+      size="xl"
+    ></svg-icon>
+
+    <div
+      class="welcome-page__button__title"
+      appTypeface="subheader"
+    >
+      {{ translate('log_in.title') }}
+    </div>
+
+    <div
+      class="welcome-page__button__subtitle"
+      appTypeface="paragraph"
+    >
+      {{ translate('log_in.subtitle') }}
+    </div>
+  </a>
+
+  <a
+    class="welcome-page__button mod-green"
+    [routerLink]="['/', appRoute.SignUp]"
+  >
+    <svg-icon
+      class="welcome-page__button__icon"
+      key="new-user"
+      size="xl"
+    ></svg-icon>
+
+    <div
+      class="welcome-page__button__title"
+      appTypeface="subheader"
+    >
+      {{ translate('sign_up.title') }}
+    </div>
+
+    <div
+      class="welcome-page__button__subtitle"
+      appTypeface="paragraph"
+    >
+      {{ translate('sign_up.subtitle') }}
+    </div>
+  </a>
 </div>

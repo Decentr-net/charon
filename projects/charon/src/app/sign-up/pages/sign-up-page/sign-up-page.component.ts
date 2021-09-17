@@ -11,7 +11,6 @@ import { NavigationService } from '@core/navigation';
 import { SpinnerService } from '@core/services';
 import { SignUpPageService } from './sign-up-page.service';
 import { SignUpRoute } from '../../sign-up-route';
-import { WelcomeRoute } from '../../../welcome/welcome-route';
 
 enum SignUpTab {
   AccountForm,
@@ -54,7 +53,7 @@ export class SignUpPageComponent implements OnInit {
   }
 
   public navigateBack(): void {
-    this.navigationService.back([AppRoute.Welcome, WelcomeRoute.NewUser]);
+    this.navigationService.back([AppRoute.Welcome]);
   }
 
   public onSubmitAccountForm(accountData: AccountData): void {

@@ -1,0 +1,14 @@
+@import 'variables';
+
+:host {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) max-content;
+  height: 100vh;
+  overflow: auto;
+}
+
+.public-layout__content-container {
+  margin: 0 auto;
+  padding: 0 $page-side-padding;
+  width: $page-width;
+}
