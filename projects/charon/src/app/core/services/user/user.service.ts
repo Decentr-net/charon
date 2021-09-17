@@ -35,14 +35,14 @@ export class UserService {
 
   public getAccount(walletAddress: string): Observable<Account | undefined> {
     return this.userApiService.getAccount(
-      this.networkService.getActiveNetworkInstant().api,
+      this.networkService.getActiveNetworkAPIInstant(),
       walletAddress,
     );
   }
 
   public getModeratorAddresses(): Observable<ModeratorAddressesResponse> {
     return this.userApiService.getModeratorAddresses(
-      this.networkService.getActiveNetworkInstant().api,
+      this.networkService.getActiveNetworkAPIInstant(),
     ).pipe(
       catchError(() => of([])),
     );

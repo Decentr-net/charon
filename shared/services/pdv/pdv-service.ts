@@ -20,7 +20,7 @@ import { whileDocumentVisible } from '../../utils/document';
 import { exponentialToFixed } from '../../utils/number';
 import { AuthBrowserStorageService } from '../auth';
 import { ConfigService } from '../configuration';
-import { Network, NetworkBrowserStorageService } from '../network-storage';
+import { NetworkBrowserStorageService } from '../network-storage';
 import { AdvDdvStatistics, BalanceValueDynamic, PDVStatChartPoint } from './pdv.definitions';
 import { PDVApiService } from './pdv-api.service';
 import { PDVStorageService } from './pdv-storage.service';
@@ -127,11 +127,8 @@ export class PDVService {
     );
   }
 
-  private getActiveNetworkApi(): Observable<Network['api']> {
-    return this.networkBrowserStorageService.getActiveNetwork().pipe(
-      pluck('api'),
-      filter((api) => !!api),
-    );
+  private getActiveNetworkApi(): Observable<string> {
+    return this.networkBrowserStorageService.getActiveAPI();
   }
 
   private createBalanceLiveObservable(): Observable<string> {

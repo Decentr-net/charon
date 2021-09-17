@@ -1,5 +1,3 @@
-import { PDVType } from 'decentr-js';
-
 export interface VPNServer {
   address: string;
   country: string;
@@ -30,3 +28,5 @@ export interface Config {
     url: string;
   };
 }
+
+export type MultiConfig = Record<string, Config>;

@@ -30,7 +30,7 @@ export class BankService {
   }
 
   public getDECBalance(walletAddress: Wallet['address']): Observable<BankCoin['amount']> {
-    const apiUrl = this.networkService.getActiveNetworkInstant().api;
+    const apiUrl = this.networkService.getActiveNetworkAPIInstant();
 
     return defer(() => this.bankApiService.getCoinBalance(apiUrl, walletAddress)).pipe(
       map((coins) => {
@@ -50,7 +50,7 @@ export class BankService {
 
     return this.configService.getChainId().pipe(
       mergeMap((chainId) => calculateTransferFee(
-        this.networkService.getActiveNetworkInstant().api,
+        this.networkService.getActiveNetworkAPIInstant(),
         chainId,
         transferData,
       )),
@@ -82,7 +82,7 @@ export class BankService {
     role: TransferRole,
     paginationOptions?: TransferHistoryPaginationOptions,
   ): Observable<TransferHistory> {
-    const apiUrl = this.networkService.getActiveNetworkInstant().api;
+    const apiUrl = this.networkService.getActiveNetworkAPIInstant();
 
     return defer(() => this.bankApiService.getTransferHistory(
       apiUrl,
