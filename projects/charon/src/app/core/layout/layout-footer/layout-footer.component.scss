@@ -3,7 +3,6 @@
 :host {
   background-color: $color-black;
   display: block;
-  padding: $grid-step * 1.5 0;
   width: 100%;
 }
 
@@ -12,7 +11,7 @@
   color: $color-white;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin: 0 auto;
+  margin: $grid-step * 1.5 auto;
   padding: 0 $page-side-padding;
   width: $page-width + $page-side-padding * 2;
 }
