@@ -43,8 +43,6 @@ interface ImportRestoreForm {
 export class ImportRestorePageComponent implements OnInit {
   public pageType: typeof ImportRestorePageType = ImportRestorePageType;
 
-  public isSeedPhraseVisible = false;
-
   public currentPageType: ImportRestorePageType;
 
   public form: FormGroup<ImportRestoreForm>;
@@ -110,10 +108,6 @@ export class ImportRestorePageComponent implements OnInit {
     }, (error) => {
       this.notificationService.error(error);
     });
-  }
-
-  public toggleSeedPhraseVisibility(): void {
-    this.isSeedPhraseVisible = !this.isSeedPhraseVisible;
   }
 
   private createForm(): FormGroup<ImportRestoreForm> {

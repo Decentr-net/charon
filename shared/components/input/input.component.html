@@ -26,7 +26,7 @@
     (ngModelChange)="onValueChange($event)"
     (blur)="onTouched()"
     [attr.type]="type ==='password' && valueSecured ? 'password' : 'text'"
-    trim
+    trim="blur"
   ></textarea>
 </ng-template>
 
@@ -37,6 +37,6 @@
     (ngModelChange)="onValueChange($event)"
     (blur)="onTouched()"
     [type]="type ==='password' && valueSecured ? 'password' : 'text'"
-    trim
+    trim="blur"
   >
 </ng-template>
