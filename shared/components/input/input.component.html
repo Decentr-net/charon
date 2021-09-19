@@ -21,6 +21,7 @@
 <ng-template #textArea>
   <textarea
     class="input mod-textarea"
+    cdkTextareaAutosize
     [rows]="rows"
     [ngModel]="value"
     (ngModelChange)="onValueChange($event)"

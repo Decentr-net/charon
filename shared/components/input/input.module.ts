@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TextFieldModule } from '@angular/cdk/text-field';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
@@ -20,6 +21,7 @@ import { InputComponent } from './input.component';
     FormsModule,
     NgxTrimDirectiveModule,
     SvgIconsModule,
+    TextFieldModule,
     TranslocoModule,
     TypefaceModule,
   ],
