@@ -1,44 +1,36 @@
 {
   "import_restore_page": {
     "back": "Back",
-    "errors": {
-      "account_not_found": "Account not found"
-    },
     "form": {
       "confirm_password": {
-        "label": "Confirm password",
         "errors": {
           "compare": "Passwords should be equal",
           "required": "Password is required"
-        }
+        },
+        "label": "Repeat password"
       },
       "password": {
-        "label": "New password (min 8 chars)",
         "errors": {
           "minlength": "Minimum length of password: {{ requiredLength }}",
           "required": "Password is required",
           "strength": "Password should contain at least 1 element of: lowercase, uppercase letter, number, special char"
-        }
+        },
+        "label": "Password",
+        "subtitle": "At least 8 symbols that you’ll use to log in to your account.",
+        "title": "Create a new password"
       },
       "seed": {
-        "label": "Seed phrase",
         "errors": {
-          "length": "Seed phrases should contain 24 words",
+          "exists": "Invalid seed phrase. Please check every word and divide them with space",
+          "length": "Seed phrase should contain 24 words",
           "required": "Seed phrase is required"
         },
-        "show": "Show seed phrase"
+        "label": "Your seed phrase",
+        "subtitle": "Enter all the words from you seed phrase dividing it with spaces.",
+        "title": "Log in with seed phrase"
       }
     },
-    "import": {
-      "submit": "IMPORT",
-      "subtitle": "Enter your secret 24 word phrase in the field below to import your account.",
-      "title": "Import an account with a seed phrase"
-    },
-    "restore": {
-      "submit": "RESTORE",
-      "subtitle": "Enter your secret 24 word phrase in the field below to restore your account.",
-      "title": "Restore an account with a seed phrase"
-    }
+    "submit": "Log in"
   },
   "login_page": {
     "form": {

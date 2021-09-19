@@ -2,7 +2,7 @@
 
 :host {
   display: grid;
-  grid-template-rows: minmax(0, 1fr) max-content;
+  grid-template-rows: max-content minmax(0, 1fr) max-content;
   height: 100vh;
   overflow: auto;
 }
@@ -10,5 +10,12 @@
 .public-layout__content-container {
   margin: 0 auto;
   padding: 0 $page-side-padding;
-  width: $page-width;
+  width: $page-width + $page-side-padding * 2;
+}
+
+.public-layout__logo {
+  display: block;
+  height: 40px;
+  margin: $grid-step * 5 auto;
+  width: 147px;
 }

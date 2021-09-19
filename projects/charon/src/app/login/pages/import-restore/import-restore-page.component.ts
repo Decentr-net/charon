@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, NgZone, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { finalize, pluck, share } from 'rxjs/operators';
+import { finalize, pluck } from 'rxjs/operators';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { NotificationService } from '@shared/services/notification';
@@ -43,9 +43,7 @@ interface ImportRestoreForm {
 export class ImportRestorePageComponent implements OnInit {
   public pageType: typeof ImportRestorePageType = ImportRestorePageType;
 
-  public isSeedPhraseVisible = false;
-
-  public currentPageType$: Observable<ImportRestorePageType>;
+  public currentPageType: ImportRestorePageType;
 
   public form: FormGroup<ImportRestoreForm>;
 
@@ -57,17 +55,22 @@ export class ImportRestorePageComponent implements OnInit {
     private notificationService: NotificationService,
     private router: Router,
     private spinnerService: SpinnerService,
+    private svgIconRegistry: SvgIconRegistry,
     private pageService: ImportRestorePageService,
   ) {
   }
 
-  ngOnInit(): void {
+  public get disabled(): boolean {
+    return this.form?.status !== 'VALID';
+  }
+
+  public ngOnInit(): void {
     this.form = this.createForm();
 
-    this.currentPageType$ = this.activatedRoute.data.pipe(
+    this.activatedRoute.data.pipe(
       pluck('pageType'),
-      share(),
-    );
+      untilDestroyed(this),
+    ).subscribe((currentPageType) => this.currentPageType = currentPageType);
 
     const seedPhraseControl = this.form.get('seedPhrase');
     seedPhraseControl.valueChanges
@@ -79,19 +82,19 @@ export class ImportRestorePageComponent implements OnInit {
       });
   }
 
-  public navigateBack(pageType: ImportRestorePageType): void {
-    const urlToNavigate = (pageType === ImportRestorePageType.IMPORT_ACCOUNT)
+  public navigateBack(): void {
+    const urlToNavigate = (this.currentPageType === ImportRestorePageType.IMPORT_ACCOUNT)
       ? [AppRoute.Welcome]
       : [AppRoute.Login];
 
     this.navigationService.back(urlToNavigate);
   }
 
-  public onSubmit(pageType: ImportRestorePageType): void {
+  public onSubmit(): void {
     const { seedPhrase, password } = this.form.getRawValue();
     const trimmedSeedPhrase = seedPhrase.trim();
 
-    const method = pageType === ImportRestorePageType.IMPORT_ACCOUNT
+    const method = this.currentPageType === ImportRestorePageType.IMPORT_ACCOUNT
       ? this.pageService.importUser(trimmedSeedPhrase, password)
       : this.pageService.restoreUser(trimmedSeedPhrase, password);
 
@@ -107,25 +110,33 @@ export class ImportRestorePageComponent implements OnInit {
     });
   }
 
-  public toggleSeedPhraseVisibility(): void {
-    this.isSeedPhraseVisible = !this.isSeedPhraseVisible;
-  }
-
   private createForm(): FormGroup<ImportRestoreForm> {
     return this.formBuilder.group({
-      confirmPassword: ['', [
-        Validators.required,
-        RxwebValidators.compare({ fieldName: 'password' }),
-      ]],
-      password: ['', [
-        Validators.required,
-        Validators.minLength(8),
-        PasswordValidationUtil.validatePasswordStrength,
-      ]],
-      seedPhrase: ['', [
-        Validators.required,
-        BaseValidationUtil.isSeedPhraseCorrect,
-      ]],
+      confirmPassword: [
+        '',
+        [
+          Validators.required,
+          RxwebValidators.compare({ fieldName: 'password' }),
+        ],
+      ],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          PasswordValidationUtil.validatePasswordStrength,
+        ],
+      ],
+      seedPhrase: [
+        '',
+        [
+          Validators.required,
+          BaseValidationUtil.isSeedPhraseCorrect,
+        ],
+        [
+          this.pageService.createSeedAsyncValidator(),
+        ],
+      ],
     });
   }
 }
