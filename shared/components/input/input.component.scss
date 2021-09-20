@@ -19,6 +19,12 @@
       color: $color-light-grey;
     }
   }
+
+  &.is-empty {
+    .input__eye {
+      color: $color-light-grey;
+    }
+  }
 }
 
 .input__label {

@@ -36,9 +36,17 @@ export class InputComponent extends ControlValueAccessor<string> implements OnIn
   @HostBinding('class.is-disabled')
   public isDisabled = false;
 
+  @HostBinding('class.typeface-paragraph')
+  public typefaceParagraph = true;
+
   public isOpenedInPopup: boolean = !isOpenedInTab();
 
   public value: string;
+
+  @HostBinding('class.is-empty')
+  public get empty(): boolean {
+    return !this.value;
+  }
 
   public valueSecured = true;
 
@@ -86,7 +94,8 @@ export class InputComponent extends ControlValueAccessor<string> implements OnIn
   }
 
   public onValueChange(newValue: string): void {
-    this.onChange(newValue);
+    this.value = newValue;
+    this.onChange(this.value);
   }
 
   public registerOnTouched(fn: () => void): void {
