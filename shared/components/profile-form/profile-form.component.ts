@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 import { AbstractControl, ControlValueAccessor, FormArray, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Gender } from 'decentr-js';
 
 import { ProfileFormModel } from './profile-form-model';
 import {
@@ -12,8 +11,10 @@ import {
   ProfileFormControlName,
   ProfileFormControlValue,
   TranslationsConfig,
-  UsernameForm,
 } from './profile-form.definitions';
+import { TranslocoService } from '@ngneat/transloco';
+import { GenderSelectorTranslations } from '../controls';
+import { Observable } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -39,14 +40,15 @@ export class ProfileFormComponent extends ControlValueAccessor<ProfileFormContro
 
   public readonly form: FormGroup<ProfileForm>;
 
-  public readonly gender: typeof Gender = Gender;
-
   public readonly maxAdditionalEmailsCount: number = 9;
 
   public readonly controlName: typeof ProfileFormControlName = ProfileFormControlName;
 
+  public genderTranslations$: Observable<GenderSelectorTranslations>;
+
   constructor(
     private formModel: ProfileFormModel,
+    private translocoService: TranslocoService,
   ) {
     super();
 
@@ -57,12 +59,15 @@ export class ProfileFormComponent extends ControlValueAccessor<ProfileFormContro
     return this.formModel.getEmailsFormArray(this.form);
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.form.valueChanges
       .pipe(
         untilDestroyed(this),
       )
       .subscribe(() => this.onChange(this.getOuterValue()));
+
+    this.genderTranslations$ = this.translocoService
+      .selectTranslateObject(`${this.translationsConfig.read}.gender`);
   }
 
   public isArrayControlsLimitExceeded(arrayName: ArrayControlName): boolean {
@@ -88,7 +93,7 @@ export class ProfileFormComponent extends ControlValueAccessor<ProfileFormContro
     }
   }
 
-  public getArrayControl(arrayName: ArrayControlName): FormArray<EmailForm | UsernameForm> {
+  public getArrayControl(arrayName: ArrayControlName): FormArray<EmailForm> {
     switch (arrayName) {
       case ProfileFormControlName.Emails:
         return this.formModel.getEmailsFormArray(this.form);
@@ -107,7 +112,7 @@ export class ProfileFormComponent extends ControlValueAccessor<ProfileFormContro
     return null;
   }
 
-  public writeValue(value: ProfileFormControlValue) {
+  public writeValue(value: ProfileFormControlValue): void {
     this.formModel.patchForm(this.form, value, { emitEvent: true });
   }
 

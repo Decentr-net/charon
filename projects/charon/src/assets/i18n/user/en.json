@@ -1,83 +1,11 @@
 {
   "edit_profile_page": {
-    "back": "< Back",
-    "form": {
-      "avatar": {
-        "label": "Profile Picture"
-      },
-      "bio": {
-        "errors": {
-          "maxlength": "The maximum length of biography is {{requiredLength}} characters"
-        },
-        "label": "Biography"
-      },
-      "birthday": {
-        "errors": {
-          "exists": "Invalid date",
-          "invalidFormat": "Not valid format",
-          "maxDate": "Maximum date is {{value}}",
-          "minDate": "Minimal date is {{value}}",
-          "required": "Birth date is required"
-        },
-        "label": "Birth Date"
-      },
-      "confirm_password": {
-        "label": "Confirm password",
-        "errors": {
-          "compare": "Passwords should be equal",
-          "required": "Password is required"
-        }
-      },
-      "email": {
-        "errors": {
-          "email": "Enter valid email",
-          "required": "Email is required",
-          "unique": "This email has already been added"
-        },
-        "label": "E-mail"
-      },
-      "first_name": {
-        "errors": {
-          "maxlength": "The maximum length of First Name is {{ requiredLength }} characters",
-          "required": "First Name is required"
-        },
-        "label": "First Name"
-      },
-      "gender": {
-        "errors": {
-          "required": "Gender is required"
-        },
-        "female": "Female",
-        "label": "Gender",
-        "male": "Male"
-      },
-      "last_name": {
-        "errors": {
-          "maxlength": "The maximum length of Last Name is {{ requiredLength }} characters",
-          "required": "Last Name is required"
-        },
-        "label": "Last Name"
-      },
-      "username": {
-        "errors": {
-          "maxlength": "The maximum length of Nickname is {{ requiredLength }} characters",
-          "minlength": "Length of Nickname should be not less than {{ requiredLength }}",
-          "required": "Nickname is required",
-          "unique": "This nickname has already been added"
-        },
-        "label": "Nickname (account name)"
-      },
-      "password": {
-        "errors": {
-          "minlength": "Minimum length of password: {{ requiredLength }}",
-          "required": "Password is required",
-          "strength": "Password should contain at least 1 element of: lowercase, uppercase letter, number, special char"
-        },
-        "label": "New password (min 8 chars)"
-      },
-      "submit": "Save"
+    "back": "Back",
+    "submit": "Save",
+    "password": {
+      "title": "Create a new password"
     },
-    "title": "Account details",
+    "title": "User settings",
     "toastr": {
       "successful_update": "User was successfully updated"
     }

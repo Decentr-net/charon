@@ -13,7 +13,7 @@ import { TypefaceModule } from '@shared/directives/typeface';
 import { ButtonModule } from '@shared/components/button';
 import { FormErrorModule } from '@shared/components/form-error';
 import { InputContainerModule } from '@shared/components/input-container';
-import { InputModule } from '@shared/components/input';
+import { InputModule } from '@shared/components/controls/input';
 import { LOGIN_PAGES } from './pages';
 import { LoginRoutingModule } from './login-routing.module';
 

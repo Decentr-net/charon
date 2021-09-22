@@ -1,9 +1,15 @@
-import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, Optional } from '@angular/core';
-import { FormGroupDirective } from '@angular/forms';
+import {
+  AfterContentInit,
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  Optional
+} from '@angular/core';
 import { EMPTY, merge, Observable } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 
-import { InputComponent } from '../input';
+import { SubmitSourceDirective } from '../../directives/submit-source';
+import { InputContainerControl } from './input-container-control';
 
 @Component({
   selector: 'app-input-container',
@@ -12,18 +18,18 @@ import { InputComponent } from '../input';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputContainerComponent implements AfterContentInit {
-  @ContentChild(InputComponent) public input: InputComponent;
+  @ContentChild(InputContainerControl) public input: InputContainerControl;
 
   public showError$: Observable<boolean>;
 
   constructor(
-    @Optional() private form: FormGroupDirective,
+    @Optional() private submitSource: SubmitSourceDirective,
   ) {
   }
 
   public ngAfterContentInit(): void {
     this.showError$ = merge(
-      this.form ? this.form.ngSubmit : EMPTY,
+      this.submitSource ? this.submitSource.ngSubmit : EMPTY,
       this.input.touched,
     ).pipe(
       mapTo(true),

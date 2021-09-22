@@ -28,7 +28,7 @@ interface CompleteRegistrationForm {
     CompleteRegistrationPageService,
     {
       provide: FORM_ERROR_TRANSLOCO_READ,
-      useValue: 'sign_up.complete_registration.form',
+      useValue: 'core.profile_form',
     },
   ],
 })

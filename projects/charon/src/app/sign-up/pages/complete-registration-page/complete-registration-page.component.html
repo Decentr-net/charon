@@ -1,29 +1,71 @@
-<div class="row" *transloco="let translate; read: 'sign_up.complete_registration'">
-  <div class="col-xs-7">
-    <div class="page-title page-title__large">
-      {{ translate('title') }}
-    </div>
-    <form
-      autocomplete="off"
-      [formGroup]="form"
-      (ngSubmit)="onSubmit()"
-      *transloco="let translate; read: 'sign_up.complete_registration.form'"
-    >
-      <app-profile-form
-        formControlName="profile"
-        [translationsConfig]="{
-          read: 'sign_up.complete_registration.form'
-        }"
-      ></app-profile-form>
+<!--<div class="row" *transloco="let translate; read: 'sign_up.complete_registration'">-->
+<!--  <div class="col-xs-7">-->
+<!--    <div class="page-title page-title__large">-->
+<!--      {{ translate('title') }}-->
+<!--    </div>-->
+<!--    <form-->
+<!--      autocomplete="off"-->
+<!--      [formGroup]="form"-->
+<!--      (ngSubmit)="onSubmit()"-->
+<!--      *transloco="let translate; read: 'sign_up.complete_registration.form'"-->
+<!--    >-->
+<!--      <app-profile-form-->
+<!--        formControlName="profile"-->
+<!--        [translationsConfig]="{-->
+<!--          read: 'sign_up.complete_registration.form'-->
+<!--        }"-->
+<!--      ></app-profile-form>-->
 
+<!--      <button-->
+<!--        class="btn btn__small"-->
+<!--        mat-flat-button-->
+<!--        color="accent"-->
+<!--        [disabled]="form.invalid"-->
+<!--      >-->
+<!--        {{ translate('submit') }}-->
+<!--      </button>-->
+<!--    </form>-->
+<!--  </div>-->
+<!--</div>-->
+
+<div
+  class="complete-registration-page__card"
+  *transloco="let translate; read: 'sign_up.complete_registration'"
+>
+  <div
+    class="complete-registration-page__title"
+    appTypeface="subheader"
+  >
+    {{ translate('title') }}
+  </div>
+
+  <div class="complete-registration-page__divider"></div>
+
+  <form
+    autocomplete="off"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    appSubmitSource
+  >
+    <app-profile-form
+      formControlName="profile"
+      [translationsConfig]="{
+        read: 'core.profile_form',
+        scope: 'core'
+      }"
+    ></app-profile-form>
+
+    <div class="complete-registration-page__divider"></div>
+
+    <div class="complete-registration-page__actions-container">
       <button
-        class="btn btn__small"
-        mat-flat-button
-        color="accent"
-        [disabled]="form.invalid"
+        class="complete-registration-page__action-button"
+        app-button
+        type="submit"
       >
         {{ translate('submit') }}
       </button>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
+

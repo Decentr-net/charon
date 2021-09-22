@@ -37,65 +37,8 @@
     "submit": "Done"
   },
   "complete_registration": {
-    "form": {
-      "avatar": {
-        "label": "Profile Picture"
-      },
-      "bio": {
-        "errors": {
-          "maxlength": "The maximum length of biography is {{requiredLength}} characters"
-        },
-        "label": "Biography"
-      },
-      "birthday": {
-        "errors": {
-          "exists": "Invalid date",
-          "invalidFormat": "Not valid format",
-          "maxDate": "Maximum date is {{value}}",
-          "minDate": "Minimal date is {{value}}",
-          "required": "Birth date is required"
-        },
-        "label": "Birth Date"
-      },
-      "email": {
-        "errors": {
-          "email": "Enter valid email",
-          "required": "Email is required",
-          "unique": "This email has already been added"
-        },
-        "label": "E-mail"
-      },
-      "first_name": {
-        "errors": {
-          "required": "First Name is required"
-        },
-        "label": "First Name"
-      },
-      "gender": {
-        "errors": {
-          "required": "Gender is required"
-        },
-        "female": "Female",
-        "label": "Gender",
-        "male": "Male"
-      },
-      "last_name": {
-        "errors": {
-          "required": "Last Name is required"
-        },
-        "label": "Last Name"
-      },
-      "username": {
-        "errors": {
-          "minlength": "Length of name should be not less than {{ requiredLength }}",
-          "required": "Nickname is required",
-          "unique": "This nickname has already been added"
-        },
-        "label": "Nickname (account name)"
-      },
-      "submit": "Complete registration"
-    },
-    "title": "Profile"
+    "submit": "Save",
+    "title": "User settings"
   },
   "email_confirmation_page": {
     "form": {
