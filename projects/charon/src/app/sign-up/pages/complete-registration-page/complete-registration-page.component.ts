@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { finalize, map } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Gender, Profile } from 'decentr-js';
+import { Profile } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { ProfileFormControlValue } from '@shared/components/profile-form';
@@ -34,8 +34,6 @@ interface CompleteRegistrationForm {
 })
 export class CompleteRegistrationPageComponent implements OnInit {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
-
-  public gender: typeof Gender = Gender;
 
   public form: FormGroup<CompleteRegistrationForm>;
 
