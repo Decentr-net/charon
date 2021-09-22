@@ -26,10 +26,10 @@ export class NetworkSelectorService extends BaseNetworkSelectorService {
   }
 
   public getNetworks(checkAvailability = true): Observable<Network[]> {
-    return this.configService.getMultiConfig().pipe(
-      switchMap((multiConfig) => combineLatest(
-        Object.keys(multiConfig).map((networkId) => this.getOptionConfig(networkId))),
-      ),
+    return this.configService.getNetworkIds().pipe(
+      switchMap((networkIds) => {
+        return combineLatest(networkIds.map((networkId) => this.getOptionConfig(networkId)));
+      }),
     );
   }
 

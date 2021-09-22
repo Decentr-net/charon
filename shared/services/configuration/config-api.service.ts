@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { defer, Observable } from 'rxjs';
 
 import { Environment } from '../../../environments/environment.definitions';
-import {  MultiConfig } from './config.definitions';
+import { Config } from './config.definitions';
 
 @Injectable()
 export class ConfigApiService {
@@ -11,7 +11,7 @@ export class ConfigApiService {
   ) {
   }
 
-  public getConfig(): Observable<MultiConfig> {
+  public getConfig(): Observable<Config> {
     const now = Date.now();
     const headers = {
       'Cache-Control': 'no-cache',

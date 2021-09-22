@@ -31,12 +31,12 @@ const setNetworkId = async (): Promise<void> => {
     first(),
   ).toPromise();
 
-  const networks = await CONFIG_SERVICE.getMultiConfig().pipe(
+  const networkIds = await CONFIG_SERVICE.getNetworkIds().pipe(
     first(),
   ).toPromise();
 
-  if (!activeNetworkId || !networks[activeNetworkId]) {
-    activeNetworkId = Object.keys(networks)[0];
+  if (!activeNetworkId || !networkIds.includes(activeNetworkId)) {
+    activeNetworkId = networkIds[1];
   }
 
   return networkStorage.setActiveId(activeNetworkId);

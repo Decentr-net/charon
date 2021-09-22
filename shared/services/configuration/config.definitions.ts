@@ -5,14 +5,13 @@ export interface VPNServer {
   title: string;
 }
 
-export interface Config {
+export interface Network {
   cerberus: {
     minPDVCount: number;
     maxPDVCount: number;
     url: string;
   };
   maintenance: boolean;
-  minVersion: string;
   network: {
     chainId: string;
     rest: string[];
@@ -20,6 +19,11 @@ export interface Config {
   theseus: {
     url: string;
   };
+}
+
+export interface Config {
+  minVersion: string;
+  networks: Record<string, Network>;
   vpn: {
     enabled: boolean;
     servers: VPNServer[];
@@ -28,5 +32,3 @@ export interface Config {
     url: string;
   };
 }
-
-export type MultiConfig = Record<string, Config>;
