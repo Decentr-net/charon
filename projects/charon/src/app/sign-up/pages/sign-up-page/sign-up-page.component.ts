@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, NgZone, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { UntilDestroy } from '@ngneat/until-destroy';
@@ -28,8 +28,6 @@ enum SignUpTab {
   ],
 })
 export class SignUpPageComponent implements OnInit {
-  @HostBinding('class.container') public readonly useContainerClass: boolean = true;
-
   public activeTab: SignUpTab = SignUpTab.SeedPhrase;
   public tab: typeof SignUpTab = SignUpTab;
 

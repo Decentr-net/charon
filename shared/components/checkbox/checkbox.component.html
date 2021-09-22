@@ -1,0 +1,14 @@
+<div
+  class="checkbox__input"
+  (click)="toggle()"
+>
+  <svg-icon
+    *ngIf="value"
+    key="check"
+    size="xs"
+  ></svg-icon>
+</div>
+
+<div class="checkbox__label">
+  <ng-content></ng-content>
+</div>

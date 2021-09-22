@@ -1,3 +1,33 @@
+@import 'variables';
+
 :host {
   display: block;
+  height: 100%;
+  padding-bottom: $grid-step * 5;
+}
+
+.sign-up-page__card {
+  border: 2px solid $color-outlines;
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: auto;
+  padding: $grid-step * 2;
+  width: 792px;
+}
+
+.sign-up-page__card__title {
+  font-weight: 500;
+}
+
+.sign-up-page__card__step {
+  color: $color-grey;
+  margin-left: $grid-step / 2;
+}
+
+.sign-up-page__card__divider {
+  background: $color-outlines;
+  height: 2px;
+  margin: $grid-step * 2 (-$grid-step * 2);
 }

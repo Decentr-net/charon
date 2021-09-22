@@ -8,7 +8,7 @@ import { SvgIconComponent } from '@ngneat/svg-icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
-  @Input() public color: 'negative' | 'primary' | 'grey' = 'primary';
+  @Input() public color: 'negative' | 'primary' | 'grey' | 'white' = 'primary';
 
   @Input() public size: 'xs' | 'sm' | 'md' = 'md';
 

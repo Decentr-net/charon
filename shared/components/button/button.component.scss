@@ -63,6 +63,15 @@
         background: $color-outlines;
       }
     }
+
+    &-white {
+      background: $color-white;
+      color: $color-black;
+
+      &:hover {
+        background: $color-outlines;
+      }
+    }
   }
 
   &:disabled {

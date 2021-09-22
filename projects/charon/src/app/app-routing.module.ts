@@ -27,6 +27,10 @@ const ROUTES: Routes = [
   },
   {
     path: AppRoute.SignUp,
+    component: PublicLayoutComponent,
+    data: {
+      [PUBLIC_LAYOUT_INCLUDE_LOGO_KEY]: true,
+    },
     loadChildren: () => import('./sign-up/sign-up.module').then(m => m.SignUpModule),
     canActivate: [
       SupportedVersionGuard,
