@@ -44,6 +44,7 @@
     <div class="profile-form__inputs-container">
       <app-input-container class="profile-form__input-container">
         <app-input
+          [maxlength]="20"
           [formControlName]="controlName.FirstName"
         >
           <ng-container ngProjectAs="[label]">{{ translate('first_name.label') }}</ng-container>
@@ -54,6 +55,7 @@
 
       <app-input-container class="profile-form__input-container">
         <app-input
+          [maxlength]="20"
           [formControlName]="controlName.LastName"
         >
           <ng-container ngProjectAs="[label]">{{ translate('last_name.label') }}</ng-container>
