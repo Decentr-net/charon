@@ -103,11 +103,11 @@
     "title": "Create new account"
   },
   "success_page": {
-    "done": "ALL DONE",
+    "done": "Done",
     "hint": {
       "label": "*Decentr cannot recover your seed phrase."
     },
-    "subtitle": "Keep your seed phrase safe, it's your responsibility!",
+    "subtitle": "Keep your seed phrase safe and remember that's the only key to all you have on Decentr.",
     "tips": {
       "label": "Tips on storing it safely",
       "tip1": "Save a backup in multiple places.",
@@ -115,6 +115,6 @@
       "tip3": "Be careful of phishing! Decentr will never spontaneously ask for your seed phrase.",
       "tip4": "If you ever have questions or see something fishy, email <a href='mailto:support@decentr.net'>support@decentr.net</a>."
     },
-    "title": "Congratulations"
+    "title": "Congratulations, you're all set!"
   }
 }
