@@ -1,0 +1,15 @@
+<div
+  class="avatar-selector__avatar-container"
+  *ngFor="let avatar of avatars"
+  [class.is-active]="avatar === value"
+>
+  <app-avatar
+    class="avatar-selector__avatar"
+    [avatarUrl]="avatar"
+    (click)="select(avatar)"
+  ></app-avatar>
+
+  <div class="avatar-selector__check-icon-container">
+    <svg-icon key="check" fontSize="inherit"></svg-icon>
+  </div>
+</div>

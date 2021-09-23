@@ -5,23 +5,40 @@ import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { FormArray, FormControl, FormGroup, ValidatorFn } from '@ngneat/reactive-forms';
 
 import { BaseValidationUtil } from '../../utils/validation';
+import { parseDateValue } from '../controls';
 import {
   EmailForm,
   ProfileForm,
   ProfileFormControlName,
   ProfileFormControlValue,
-  UsernameForm
 } from './profile-form.definitions';
-import { parseDateValue } from '../date-input';
 
 @Injectable()
 export class ProfileFormModel {
   constructor(private datePipe: DatePipe) {
   }
 
+  protected static nonExistentDate(): ValidatorFn<string> {
+    return (control) => {
+      const parsedDate = parseDateValue(control.value || '');
+      const realDate = new Date(control.value);
+
+      if (parsedDate.year !== realDate.getFullYear()
+        || parsedDate.month !== realDate.getMonth()
+        || parsedDate.day !== realDate.getDate()
+      ) {
+        return {
+          exists: false,
+        };
+      }
+
+      return null;
+    };
+  }
+
   public getEmailsFormArray(form: FormGroup<ProfileForm>): FormArray<EmailForm> {
     if (!form.controls.emails) {
-      form.addControl(ProfileFormControlName.Emails, new FormArray([]))
+      form.addControl(ProfileFormControlName.Emails, new FormArray([]));
     }
 
     return form.controls.emails as FormArray;
@@ -51,7 +68,10 @@ export class ProfileFormModel {
       form.addControl(ProfileFormControlName.Bio, bioControl);
     }
 
-    // TODO: temporary solution to disable birthday
+    const birthdayControl = this.createBirthdayControl();
+    if (birthdayControl) {
+      form.addControl(ProfileFormControlName.Birthday, birthdayControl);
+    }
 
     const genderControl = this.createGenderControl();
     if (genderControl) {
@@ -80,7 +100,7 @@ export class ProfileFormModel {
   ): void {
     const patch: ProfileForm = {
       ...value,
-      emails: (value?.emails || []).map((value) => ({ value })),
+      emails: (value?.emails || []).map((email) => ({ value: email })),
     };
 
     if (patch.emails) {
@@ -96,7 +116,7 @@ export class ProfileFormModel {
     }
 
     if (!this.getEmailsFormArray(form).length) {
-      this.addEmail(form)
+      this.addEmail(form);
     }
 
     form.patchValue(patch, options);
@@ -105,12 +125,12 @@ export class ProfileFormModel {
   public getOuterValue(form: FormGroup<ProfileForm>): ProfileFormControlValue {
     return {
       ...form.getRawValue(),
-      ...form.value.emails
+      ...form.getRawValue().emails
         ? {
-          emails: form.value.emails.map(({ value }) => value),
+          emails: form.getRawValue().emails.map(({ value }) => value),
         }
         : undefined,
-    }
+    };
   }
 
   protected createAvatarControl(): FormControl<ProfileForm['avatar']> | undefined {
@@ -123,7 +143,7 @@ export class ProfileFormModel {
 
   protected createBioControl(): FormControl<ProfileForm['bio']> | undefined {
     return new FormControl(
-      null,
+      '',
       [
         Validators.maxLength(70),
       ],
@@ -137,7 +157,6 @@ export class ProfileFormModel {
       '',
       [
         Validators.required,
-        BaseValidationUtil.isFrDateFormatCorrect,
         BaseValidationUtil.minDate('1901-01-01'),
         BaseValidationUtil.maxDate(this.datePipe.transform(prevYearLastDay, 'yyyy-MM-dd')),
         ProfileFormModel.nonExistentDate(),
@@ -174,21 +193,13 @@ export class ProfileFormModel {
 
   protected createEmailControl(): FormControl<EmailForm['value']> | undefined {
     return new FormControl(
-      '',
+      {
+        value: '',
+        disabled: true,
+      },
       [
         Validators.required,
         RxwebValidators.email(),
-        RxwebValidators.unique(),
-      ],
-    );
-  }
-
-  protected createUsernameControl(): FormControl<UsernameForm['value']> | undefined {
-    return new FormControl(
-      '',
-      [
-        Validators.required,
-        Validators.minLength(3),
         RxwebValidators.unique(),
       ],
     );
@@ -198,23 +209,5 @@ export class ProfileFormModel {
     return new FormGroup<EmailForm>({
       [ProfileFormControlName.EmailValue]: this.createEmailControl(),
     });
-  }
-
-  protected static nonExistentDate(): ValidatorFn<string> {
-    return (control) => {
-      const parsedDate = parseDateValue(control.value || '');
-      const realDate = new Date(control.value);
-
-      if (parsedDate.year !== realDate.getFullYear()
-        || parsedDate.month !== realDate.getMonth()
-        || parsedDate.day !== realDate.getDate()
-      ) {
-        return {
-          exists: false,
-        };
-      }
-
-      return null;
-    }
   }
 }

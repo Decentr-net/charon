@@ -1,80 +1,30 @@
-@import 'variables';
+@import '../../styles/variables';
 
 :host {
   display: block;
 }
 
-.input-label {
+.profile-form__section {
+  & + & {
+    margin-top: $grid-step * 5;
+  }
+}
+
+.profile-form__section__title {
+  font-weight: 500;
+}
+
+.profile-form__section__subtitle {
+  margin-top: $grid-step;
+}
+
+.profile-form__inputs-container {
+  column-gap: $grid-step * 2;
   display: flex;
-  max-width: max-content;
-  position: relative;
+  margin-top: $grid-step * 2;
+  width: 100%;
 }
 
-.input-label__required {
-  &:after {
-    color: $color-red;
-    content: "*";
-    font-weight: 600;
-  }
-}
-
-.radio-container {
-  position: relative;
-  margin-bottom: 2rem;
-
-  .input-label {
-    margin-bottom: 0.6rem;
-  }
-
-  .mat-error {
-    font-size: 75%;
-    margin-top: 0.6666666667em;
-    padding: 0 1em;
-    position: absolute;
-    box-sizing: border-box;
-    width: 100%;
-    overflow: hidden;
-  }
-}
-
-.button {
-  &__add,
-  &__remove {
-    cursor: pointer;
-    border: 1px solid $color-accent;
-    border-radius: 4px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    position: relative;
-    margin-left: 1rem;
-    margin-top: -4px;
-    vertical-align: middle;
-
-    &:before,
-    &:after {
-      content: "";
-      position: absolute;
-    }
-
-    &:before {
-      width: 22px;
-      height: 2px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: $color-accent;
-    }
-  }
-
-  &__add {
-    &:after {
-      width: 2px;
-      height: 22px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: $color-accent;
-    }
-  }
+.profile-form__input-container {
+  width: 100%;
 }

@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
-import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { finalize } from 'rxjs/operators';
-import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -14,12 +12,10 @@ import { AuthService } from '@core/auth';
 import { EditProfilePageService } from './edit-profile-page.service';
 import { TranslatedError } from '@core/notifications';
 import { SpinnerService, UserService } from '@core/services';
-import { PasswordValidationUtil } from '@shared/utils/validation';
 import { ProfileFormControlValue } from '@shared/components/profile-form';
 import { uppercaseFirstLetter } from '@shared/utils/string';
 
 interface EditProfileForm {
-  confirmPassword: string;
   password: string;
   profile: ProfileFormControlValue;
 }
@@ -34,7 +30,7 @@ interface EditProfileForm {
     EditProfilePageService,
     {
       provide: FORM_ERROR_TRANSLOCO_READ,
-      useValue: 'user.edit_profile_page.form',
+      useValue: 'core.profile_form',
     },
   ],
 })
@@ -105,13 +101,7 @@ export class EditProfilePageComponent implements OnInit {
   private createForm(): FormGroup<EditProfileForm> {
     return this.formBuilder.group({
       profile: undefined,
-      confirmPassword: ['', [
-        RxwebValidators.compare({ fieldName: 'password' }),
-      ]],
-      password: ['', [
-        Validators.minLength(8),
-        PasswordValidationUtil.validatePasswordStrength,
-      ]],
+      password: '',
     });
   }
 }

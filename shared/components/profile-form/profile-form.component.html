@@ -1,169 +1,132 @@
 <form
-  #ngForm="ngForm"
   autocomplete="off"
   [formGroup]="form"
   *transloco="let translate; read: translationsConfig.read; scope: translationsConfig.scope"
 >
-  <div class="row">
-    <div class="radio-container col-xs-12">
-      <div class="input-label">{{ translate('avatar.label') }}</div>
-
-      <app-choose-avatar-radio [formControlName]="controlName.Avatar"></app-choose-avatar-radio>
-    </div>
-
-    <div class="input-container col-xs-12">
-      <div class="input-label input-label__required">{{ translate('first_name.label') }}</div>
-
-      <mat-form-field
-        class="input-control"
-        appearance="outline"
-      >
-        <input
-          matInput
-          [formControlName]="controlName.FirstName"
-          maxlength="20"
-          trim="blur"
-        >
-
-        <mat-error>
-          <app-form-error [controlName]="controlName.FirstName" i18nControlKey="first_name"></app-form-error>
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-    <div class="input-container col-xs-12">
-      <div class="input-label input-label__required">{{ translate('last_name.label') }}</div>
-
-      <mat-form-field
-        class="input-control"
-        appearance="outline"
-      >
-        <input
-          matInput
-          [formControlName]="controlName.LastName"
-          maxlength="20"
-          trim="blur"
-        >
-
-        <mat-error>
-          <app-form-error [controlName]="controlName.LastName" i18nControlKey="last_name"></app-form-error>
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-    <div class="radio-container col-xs-12">
-      <div class="input-label">{{ translate('gender.label') }}</div>
-      <mat-radio-group
-        [formControlName]="controlName.Gender"
-      >
-        <mat-radio-button [value]="gender.Male">
-          {{ translate('gender.male') }}
-        </mat-radio-button>
-
-        <mat-radio-button [value]="gender.Female">
-          {{ translate('gender.female') }}
-        </mat-radio-button>
-      </mat-radio-group>
-
-      <mat-error *ngIf="ngForm.submitted">
-        <app-form-error [controlName]="controlName.Gender"></app-form-error>
-      </mat-error>
-    </div>
-
-    <!-- TODO: temporary solution to disable birthday -->
-
-    <div class="input-container col-xs-12">
-      <div class="input-label">{{ translate('bio.label') }}</div>
-
-      <mat-form-field
-        class="input-control"
-        appearance="outline"
-      >
-        <textarea
-          matInput
-          cdkTextareaAutosize
-          [formControlName]="controlName.Bio"
-          trim="blur"
-        ></textarea>
-
-        <mat-error>
-          <app-form-error [controlName]="controlName.Bio"></app-form-error>
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-    <ng-container
-      *ngFor="let email of getArrayControl(controlName.Emails).controls; let index = index;"
-      [ngTemplateOutlet]="emailControl"
-      [ngTemplateOutletContext]="{
-        $implicit: email.get(controlName.EmailValue),
-        index: index,
-        label: translate('email.label')
-      }"
-    ></ng-container>
-  </div>
-</form>
-
-<ng-template
-  #emailControl
-  let-control
-  let-index="index"
-  let-label="label"
->
-  <div class="input-container col-xs-12">
-    <div class="input-label input-label__required">{{ label }} {{ index + 1 }}</div>
-
-    <mat-form-field
-      class="input-control icon-protected"
-      appearance="outline"
+  <section class="profile-form__section">
+    <div
+      class="profile-form__section__title"
+      appTypeface="subheader"
     >
-      <input
-        matInput
-        type="email"
-        [formControl]="control"
-        trim="blur"
+      {{ translate('avatar.title') }}
+    </div>
+
+    <div
+      class="profile-form__section__subtitle"
+      appTypeface="paragraph"
+    >
+      {{ translate('avatar.subtitle') }}
+    </div>
+
+    <div class="profile-form__inputs-container">
+      <app-avatar-selector
+        class="profile-form__avatar-selector"
+        [formControlName]="controlName.Avatar"
+      ></app-avatar-selector>
+    </div>
+  </section>
+
+  <section class="profile-form__section">
+    <div
+      class="profile-form__section__title"
+      appTypeface="subheader"
+    >
+      {{ translate('personal_info.title') }}
+    </div>
+
+    <div
+      class="profile-form__section__subtitle"
+      appTypeface="paragraph"
+    >
+      {{ translate('personal_info.subtitle') }}
+    </div>
+
+    <div class="profile-form__inputs-container">
+      <app-input-container class="profile-form__input-container">
+        <app-input
+          [formControlName]="controlName.FirstName"
+        >
+          <ng-container ngProjectAs="[label]">{{ translate('first_name.label') }}</ng-container>
+        </app-input>
+
+        <app-form-error [controlName]="controlName.FirstName" i18nControlKey="first_name"></app-form-error>
+      </app-input-container>
+
+      <app-input-container class="profile-form__input-container">
+        <app-input
+          [formControlName]="controlName.LastName"
+        >
+          <ng-container ngProjectAs="[label]">{{ translate('last_name.label') }}</ng-container>
+        </app-input>
+
+        <app-form-error [controlName]="controlName.LastName" i18nControlKey="last_name"></app-form-error>
+      </app-input-container>
+    </div>
+
+    <div class="profile-form__inputs-container">
+      <app-input-container class="profile-form__input-container">
+        <app-input
+          [maxlength]="70"
+          [rows]="2"
+          [formControlName]="controlName.Bio"
+          [placeholder]="translate('bio.placeholder')"
+        >
+          <ng-container ngProjectAs="[label]">{{ translate('bio.label') }}</ng-container>
+        </app-input>
+
+        <app-form-error [controlName]="controlName.Bio"></app-form-error>
+      </app-input-container>
+    </div>
+
+    <div class="profile-form__inputs-container">
+      <app-input-container class="profile-form__input-container">
+        <app-date-input
+          [formControlName]="controlName.Birthday"
+        >
+          <ng-container ngProjectAs="[label]">{{ translate('birthday.label') }}</ng-container>
+        </app-date-input>
+
+        <app-form-error [controlName]="controlName.Birthday"></app-form-error>
+      </app-input-container>
+
+      <app-input-container class="profile-form__input-container">
+        <app-gender-selector
+          [formControlName]="controlName.Gender"
+          [translations]="genderTranslations$ | async"
+          [placeholder]="(genderTranslations$ | async)?.placeholder"
+        >
+          <ng-container ngProjectAs="[label]">{{ translate('gender.label') }}</ng-container>
+        </app-gender-selector>
+
+        <app-form-error [controlName]="controlName.Gender"></app-form-error>
+      </app-input-container>
+    </div>
+  </section>
+
+  <section class="profile-form__section">
+    <div
+      class="profile-form__section__title"
+      appTypeface="subheader"
+    >
+      {{ translate('email.title') }}
+    </div>
+
+    <div class="profile-form__inputs-container" [formArrayName]="controlName.Emails">
+      <app-input-container
+        class="profile-form__input-container"
+        formGroupName="0"
       >
+        <app-input
+          [formControlName]="controlName.EmailValue"
+        >
+          <ng-container ngProjectAs="[label]">{{ translate('email.label') }}</ng-container>
+        </app-input>
 
-      <mat-error>
-        <app-form-error [control]="control" i18nControlKey="email"></app-form-error>
-      </mat-error>
-    </mat-form-field>
-
-    <ng-container
-      [ngTemplateOutlet]="arrayControls"
-      [ngTemplateOutletContext]="{
-        $implicit: controlName.Emails,
-        controlsLimit: maxAdditionalEmailsCount,
-        index: index
-      }"
-    ></ng-container>
-  </div>
-</ng-template>
-
-<ng-template
-  #arrayControls
-  let-arrayName
-  let-controlsLimit="controlsLimit"
-  let-index="index"
->
-  <ng-template
-    [ngIf]="!index"
-    [ngIfThen]="addBtn"
-    [ngIfElse]="removeBtn"
-  ></ng-template>
-
-  <ng-template #addBtn>
-    <div
-      *ngIf="getArrayControl(arrayName).length < controlsLimit"
-      class="button__add"
-      (click)="addArrayControl(arrayName)"
-    ></div>
-  </ng-template>
-
-  <ng-template #removeBtn>
-    <div
-      class="button__remove"
-      (click)="removeArrayControl(arrayName, index)"
-    ></div>
-  </ng-template>
-</ng-template>
+        <app-form-error
+          [controlName]="controlName.EmailValue"
+          i18nControlKey="email"
+        ></app-form-error>
+      </app-input-container>
+    </div>
+  </section>
+</form>

@@ -2,9 +2,31 @@
 
 :host {
   display: block;
-  margin-top: 4rem;
+  padding-bottom: $grid-step * 5;
+}
 
-  form {
-    margin-top: 3rem;
-  }
+.complete-registration-page__card {
+  border: 2px solid $color-outlines;
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  padding: $grid-step * 2;
+  width: 792px;
+}
+
+.complete-registration-page__divider {
+  background: $color-outlines;
+  flex-shrink: 0;
+  height: 2px;
+  margin: $grid-step * 2 (-$grid-step * 2);
+}
+
+.complete-registration-page__actions-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.complete-registration-page__action-button {
+  width: 160px;
 }

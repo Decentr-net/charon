@@ -56,6 +56,89 @@
     "default_network": "The default network for Decs transactions is Decentr Main Network.",
     "title": "Networks"
   },
+  "profile_form": {
+    "avatar": {
+      "subtitle": "It will appear on your posts and comments across Decentr.",
+      "title": "Your profile picture"
+    },
+    "bio": {
+      "errors": {
+        "maxlength": "The maximum length of biography is {{requiredLength}} characters"
+      },
+      "label": "Biography",
+      "placeholder": "Something that represents you best and allows others to form some opinion about who you are or who you want to be."
+    },
+    "birthday": {
+      "errors": {
+        "exists": "Invalid date",
+        "invalidFormat": "Not valid format",
+        "maxDate": "Maximum date is {{value}}",
+        "minDate": "Minimal date is {{value}}",
+        "required": "Birth date is required"
+      },
+      "label": "Your birth date"
+    },
+    "confirm_password": {
+      "label": "Repeat password",
+      "errors": {
+        "compare": "Passwords should be equal",
+        "required": "Password is required"
+      }
+    },
+    "email": {
+      "errors": {
+        "email": "Enter valid email",
+        "required": "Email is required",
+        "unique": "This email has already been added"
+      },
+      "label": "Email",
+      "title": "Connected email"
+    },
+    "first_name": {
+      "errors": {
+        "maxlength": "The maximum length of First Name is {{ requiredLength }} characters",
+        "required": "First Name is required"
+      },
+      "label": "First Name"
+    },
+    "gender": {
+      "errors": {
+        "required": "Gender is required"
+      },
+      "female": "Female",
+      "label": "Gender",
+      "male": "Male",
+      "placeholder": "Select a gender"
+    },
+    "last_name": {
+      "errors": {
+        "maxlength": "The maximum length of Last Name is {{ requiredLength }} characters",
+        "required": "Last Name is required"
+      },
+      "label": "Last Name"
+    },
+    "username": {
+      "errors": {
+        "maxlength": "The maximum length of Nickname is {{ requiredLength }} characters",
+        "minlength": "Length of Nickname should be not less than {{ requiredLength }}",
+        "required": "Nickname is required",
+        "unique": "This nickname has already been added"
+      },
+      "label": "Nickname (account name)"
+    },
+    "password": {
+      "errors": {
+        "minlength": "Minimum length of password: {{ requiredLength }}",
+        "required": "Password is required",
+        "strength": "Password should contain at least 1 element of: lowercase, uppercase letter, number, special char"
+      },
+      "label": "Password"
+    },
+    "personal_info": {
+      "subtitle": "Something that will allow others to identify you better than simple image.",
+      "title": "Personal info"
+    }
+  },
   "notifications": {
     "broadcast_error": {
       "1": "Something went wrong",
