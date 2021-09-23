@@ -11,12 +11,14 @@ import {
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { TranslocoService } from '@ngneat/transloco';
 
-import { svgEye } from '../../../../../../../shared/svg-icons/eye';
-import { svgEyeCrossed } from '../../../../../../../shared/svg-icons/eye-crossed';
-import { svgLoud } from '../../../../../../../shared/svg-icons/loud';
-import { svgCopy } from '../../../../../../../shared/svg-icons/copy';
-import { svgDownload } from '../../../../../../../shared/svg-icons/download';
+import { svgEye } from '@shared/svg-icons/eye';
+import { svgEyeCrossed } from '@shared/svg-icons/eye-crossed';
+import { svgLoud } from '@shared/svg-icons/loud';
+import { svgCopy } from '@shared/svg-icons/copy';
+import { svgDownload } from '@shared/svg-icons/download';
+import { NotificationService } from '@shared/services/notification';
 
 @Component({
   selector: 'app-seed-phrase',
@@ -36,6 +38,8 @@ export class SeedPhraseComponent implements OnInit {
   public securedSeedPhrase: string;
 
   constructor(
+    private notificationService: NotificationService,
+    private translocoService: TranslocoService,
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register([
@@ -53,6 +57,12 @@ export class SeedPhraseComponent implements OnInit {
 
   public downloadSeedPhrase(): void {
     this.exportAsPDF(this.pdfTemplate.nativeElement);
+  }
+
+  public onSeedPhraseCopied(): void {
+    this.notificationService.success(
+      this.translocoService.translate('sign_up.seed_phrase_page.seed_copied')
+    );
   }
 
   private exportAsPDF(pdfTemplate: HTMLElement): void {

@@ -41,6 +41,7 @@
         app-button
         color="white"
         [cdkCopyToClipboard]="seedPhrase"
+        (cdkCopyToClipboardCopied)="onSeedPhraseCopied()"
       >
         <svg-icon key="copy"></svg-icon>
 
