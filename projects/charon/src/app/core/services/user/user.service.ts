@@ -72,7 +72,6 @@ export class UserService {
   public setProfile(profile: ProfileUpdate, wallet: Wallet): Observable<void> {
     return this.userApiService.setProfile({
       ...profile,
-      birthday: '1911-11-11',
     }, wallet).pipe(
       tap(() => this.profileChanged$.next(wallet.address)),
     );
