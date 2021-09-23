@@ -21,4 +21,9 @@
   cursor: pointer;
   height: 16px;
   width: 16px;
+
+  &.is-active {
+    background-color: $color-blue;
+    color: $color-white;
+  }
 }
