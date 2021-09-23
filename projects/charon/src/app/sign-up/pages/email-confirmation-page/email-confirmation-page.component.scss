@@ -1,37 +1,96 @@
+@import 'variables';
+
 :host {
   display: block;
-  margin-top: 70px;
+  height: 100%;
+  padding-bottom: $grid-step * 5;
 }
 
-p {
-  margin-bottom: 1rem;
+.email-confirmation-page__card {
+  border: 2px solid $color-outlines;
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: auto;
+  padding: $grid-step * 2;
+  text-align: center;
+  width: 792px;
 }
 
-.email-confirmation-page__form {
-  margin-top: 2rem;
-  width: min-content;
+.email-confirmation-page__card__wait-icon {
+  color: $color-blue;
+  height: 96px;
+  margin: 0 auto $grid-step * 2;
+  width: 96px;
 }
 
-.email-confirmation-page__form-header,
-.email-confirmation-page__form-footer {
+.email-confirmation-page__card__title {
+  font-weight: 500;
+  margin-bottom: $grid-step;
+}
+
+.email-confirmation-page__card__header {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.email-confirmation-page__card__sent {
+  margin-bottom: $grid-step;
+}
+
+.email-confirmation-page__card__sent-email {
+  font-weight: 500;
+}
+
+.email-confirmation-page__card__ensure {
+  color: $color-grey;
+}
+
+.email-confirmation-page__card__code-input {
+  justify-content: center;
+  margin: $grid-step * 5 auto;
+}
+
+.email-confirmation-page__card__resend-code-label {
+  color: $color-grey;
+}
+
+.email-confirmation-page__card__resend-code-button {
+  background: transparent;
+  color: $color-blue;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 0;
+
+  &.mod-disabled {
+    color: $color-grey;
+    cursor: not-allowed;
+  }
+}
+
+.email-confirmation-page__card__divider {
+  background: $color-outlines;
+  height: 2px;
+  margin: $grid-step * 2 (-$grid-step * 2);
+}
+
+.email-confirmation-page__card__actions {
   align-items: center;
   display: flex;
   justify-content: space-between;
 }
 
-.email-confirmation-page__form-header {
-  color: #aeaeae;
-  font-size: 0.8rem;
-  height: 2.25rem;
-  margin-bottom: 1.5rem;
-}
-
-.email-confirmation-page__form-footer {
-  margin-top: 1.5rem;
-}
-
-.email-confirmation-page__form-resend-btn {
-  font-size: 13px;
-  font-weight: 400;
+.email-confirmation-page__card__back-button {
+  background: transparent;
+  color: $color-blue;
+  cursor: pointer;
+  font-weight: 500;
   padding: 0;
+}
+
+.email-confirmation-page__card__submit-button {
+  width: 160px;
 }

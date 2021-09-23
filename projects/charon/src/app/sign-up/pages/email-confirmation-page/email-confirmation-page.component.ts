@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { NotificationService } from '@shared/services/notification';
@@ -13,6 +14,7 @@ import { SpinnerService } from '@core/services';
 import { AppRoute } from '../../../app-route';
 import { SignUpRoute } from '../../sign-up-route';
 import { EmailConfirmationPageService } from './email-confirmation-page.service';
+import { svgEmailConfirmationWait } from '@shared/svg-icons/email-confirmation-wait';
 
 interface CodeForm {
   code: string;
@@ -51,10 +53,15 @@ export class EmailConfirmationPageComponent implements OnInit {
     private notificationService: NotificationService,
     private router: Router,
     private spinnerService: SpinnerService,
+    private svgIconRegistry: SvgIconRegistry,
   ) {
   }
 
   public ngOnInit(): void {
+    this.svgIconRegistry.register([
+      svgEmailConfirmationWait,
+    ]);
+
     this.codeForm = this.createForm();
 
     this.email = this.authService.getActiveUserInstant().primaryEmail;

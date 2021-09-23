@@ -1,17 +1,16 @@
-<mat-form-field
+<div
   class="code-input__field"
-  appearance="outline"
   *ngFor="let control of formArray.controls; trackBy: trackByElem"
 >
   <input
     #inputElement
+    appTypeface="header-4"
     autocomplete="off"
     class="code-input__input"
     maxlength="1"
     [formControl]="control"
-    matInput
     (blur)="onTouched()"
     (input)="onInput($event)"
     (paste)="onPaste($event)"
   >
-</mat-form-field>
+</div>
