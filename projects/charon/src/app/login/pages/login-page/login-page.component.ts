@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { LoginRoute } from '../../login-route';
 import { LoginPageService } from './login-page.service';
+import { isOpenedInTab } from '../../../../../../../shared/utils/browser';
 
 interface LoginForm {
   password: string;
@@ -26,6 +27,9 @@ interface LoginForm {
 export class LoginPageComponent implements OnInit {
   public readonly loginRoute: typeof LoginRoute = LoginRoute;
   public form: FormGroup<LoginForm>;
+
+  @HostBinding('class.mod-tab-view')
+  public isOpenedInTab = isOpenedInTab();
 
   constructor(
     private loginPageService: LoginPageService,

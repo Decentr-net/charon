@@ -1,77 +1,79 @@
 @import 'variables';
 
-.page-login {
-  padding-top: 3.5rem;
-  padding-left: 1.75rem;
-  padding-right: 1.75rem;
-  color: #AEAEAE;
+:host {
+  display: block;
+  padding: 0 $grid-step * 2 $grid-step * 2;
 
-  a {
-    color: $color-accent;
-    text-decoration: none;
+  &.mod-tab-view {
+    padding: 0;
 
-    &:hover {
-      text-decoration: underline;
+    .login-page__card {
+      border: 2px solid $color-outlines;
+    }
+
+    .login-page__input-container {
+      width: 372px;
+    }
+
+    .login-page__hint {
+      margin-top: 0;
+    }
+
+    .login-page__submit-button {
+      width: 160px;
     }
   }
+}
 
-  .logo-icon {
-    margin-bottom: 2rem;
+.login-page__card {
+  align-items: center;
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  max-width: 792px;
+}
 
-    img {
-      width: 110px;
-    }
-  }
+.login-page__title {
+  font-weight: 500;
+  margin-top: $grid-step * 2;
+}
 
-  .page-title {
-    font-weight: 600;
-    color: #333333;
-    letter-spacing: 1px;
-  }
+.login-page__subtitle {
+  color: $color-grey
+}
 
-  .page-subtitle {
-    margin-bottom: 3.25rem;
-    font-size: 15px;
-  }
+.login-page__input-container {
+  margin-bottom: $grid-step;
+  margin-top: $grid-step * 2;
+  width: 100%;
+}
 
-  .restore-account {
-    font-size: 15px;
-    margin-top: 1.5rem;
-  }
+.login-page__hint {
+  color: $color-grey;
+  margin-top: $grid-step * 2;
+  text-align: center;
+}
 
-  form {
-    max-width: 400px;
-    margin: 0 auto;
+.login-page__restore-link {
+  color: $color-primary;
+}
 
-    .input-label {
-      font-size: 12px;
-    }
+.login-page__divider {
+  background-color: $color-outlines;
+  flex-shrink: 0;
+  height: 2px;
+  margin-top: $grid-step * 5;
+  width: 100%;
+}
 
-    ::ng-deep {
-      .mat-form-field-infix {
-        border-top: 0;
-      }
-    }
+.login-page__actions-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: $grid-step * 2;
+  width: 100%;
+}
 
-    .input-container {
-      margin-bottom: .5rem;
-    }
-
-    mat-form-field {
-      width: 100%;
-    }
-
-    button {
-      min-height: 60px;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: .5px;
-
-      &:disabled {
-        background: $color-accent;
-        color: #ffffff;
-        opacity: .5;
-      }
-    }
-  }
+.login-page__submit-button {
+  width: 100%;
 }

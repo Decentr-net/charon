@@ -1,62 +1,142 @@
-<div class="container page-login" *transloco="let translate; read: 'login.login_page'">
-  <div class="row text-center">
-    <div class="col-xs-12">
-      <div class="logo-icon">
-        <img src="assets/images/logo-icon.svg" alt="Decentr">
-      </div>
-
-      <div class="page-title">
-        {{ translate('title') }}
-      </div>
-
-      <div class="page-subtitle">
-        {{ translate('subtitle') }}
-      </div>
-    </div>
+<form
+  class="login-page__card"
+  *transloco="let translate; read: 'login.login_page'"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  appSubmitSource
+>
+  <div
+    *appBrowserTabView
+    class="login-page__title"
+    appTypeface="subheader"
+  >
+    {{ translate('title') }}
   </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <form
-        [formGroup]="form"
-        (ngSubmit)="onSubmit()"
-      >
-        <div class="row">
-          <div class="input-container col-xs-12">
-            <div class="input-label">{{ translate('form.password.label') }}</div>
 
-            <mat-form-field class="input-control"
-                            color="accent">
-              <input matInput
-                     appAutoFocus
-                     type="password"
-                     name="password"
-                     formControlName="password"
-                     placeholder="">
-
-              <mat-error>
-                <app-form-error controlName="password"></app-form-error>
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-12">
-            <button class="btn btn__full-width"
-                    mat-flat-button
-                    color="accent"
-                    [disabled]="form.invalid">
-              {{ translate('form.submit') }}
-            </button>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="restore-account">
-              <a [routerLink]="[loginRoute.Restore]">{{ translate('restore') }}</a> {{ translate('with_seed') }}
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
+  <div
+    *appBrowserPopupView
+    class="login-page__subtitle"
+    appTypeface="paragraph"
+  >
+    {{ translate('subtitle') }}
   </div>
-</div>
+
+  <app-input-container class="login-page__input-container">
+    <app-input
+      type="password"
+      formControlName="password"
+    >
+      <ng-container ngProjectAs="[label]">
+        {{ translate('form.password.label') }}
+      </ng-container>
+    </app-input>
+
+    <app-form-error controlName="password"></app-form-error>
+  </app-input-container>
+
+  <ng-container *appBrowserTabView>
+    <div class="login-page__hint">
+      <div appTypeface="paragraph">{{ translate('forgot_password') }}</div>
+
+      <ng-container [ngTemplateOutlet]="restore"></ng-container>
+    </div>
+
+    <div class="login-page__divider"></div>
+
+    <div class="login-page__actions-container">
+      <ng-container [ngTemplateOutlet]="submitButton"></ng-container>
+    </div>
+  </ng-container>
+
+  <ng-container *appBrowserPopupView>
+    <ng-container [ngTemplateOutlet]="submitButton"></ng-container>
+
+    <div class="login-page__hint">
+      <ng-container [ngTemplateOutlet]="restore"></ng-container>
+    </div>
+  </ng-container>
+
+  <ng-template #restore>
+    <a
+      class="login-page__restore-link"
+      [routerLink]="[loginRoute.Restore]"
+      appTypeface="paragraph"
+    >
+      {{ translate('restore') }}
+    </a>
+    {{ translate('with_seed') }}
+  </ng-template>
+
+  <ng-template #submitButton>
+    <button
+      class="login-page__submit-button"
+      app-button
+      type="submit"
+    >
+      {{ translate('form.submit') }}
+    </button>
+  </ng-template>
+</form>
+
+<!--<div class="container page-login" *transloco="let translate; read: 'login.login_page'">-->
+<!--  <div class="row text-center">-->
+<!--    <div class="col-xs-12">-->
+<!--      <div class="logo-icon">-->
+<!--        <img src="assets/images/logo-icon.svg" alt="Decentr">-->
+<!--      </div>-->
+
+<!--      <div class="page-title">-->
+<!--        {{ translate('title') }}-->
+<!--      </div>-->
+
+<!--      <div class="page-subtitle">-->
+<!--        {{ translate('subtitle') }}-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="row">-->
+<!--    <div class="col-xs-12">-->
+<!--      <form-->
+<!--        [formGroup]="form"-->
+<!--        (ngSubmit)="onSubmit()"-->
+<!--      >-->
+<!--        <div class="row">-->
+<!--          <div class="input-container col-xs-12">-->
+<!--            <div class="input-label">{{ translate('form.password.label') }}</div>-->
+
+<!--            <mat-form-field class="input-control"-->
+<!--                            color="accent">-->
+<!--              <input matInput-->
+<!--                     appAutoFocus-->
+<!--                     type="password"-->
+<!--                     name="password"-->
+<!--                     formControlName="password"-->
+<!--                     placeholder="">-->
+
+<!--              <mat-error>-->
+<!--                <app-form-error controlName="password"></app-form-error>-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="row">-->
+<!--          <div class="col-xs-12">-->
+<!--            <button class="btn btn__full-width"-->
+<!--                    mat-flat-button-->
+<!--                    color="accent"-->
+<!--                    [disabled]="form.invalid">-->
+<!--              {{ translate('form.submit') }}-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="row">-->
+<!--          <div class="col-xs-12">-->
+<!--            <div class="restore-account">-->
+<!--              <a [routerLink]="[loginRoute.Restore]">{{ translate('restore') }}</a> {{ translate('with_seed') }}-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->

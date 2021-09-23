@@ -41,11 +41,12 @@
           "required": "Password is required"
         }
       },
-      "submit": "UNLOCK"
+      "submit": "Unlock"
     },
-    "restore": "Restore Your Account",
-    "subtitle": "The decentralized data market",
-    "title": "Let's Decentr!",
+    "forgot_password": "Forgot your password?",
+    "restore": "Restore your account",
+    "subtitle": "Your extension is locked",
+    "title": "Unlock your account",
     "with_seed": "with Seed Phrase"
   }
 }
