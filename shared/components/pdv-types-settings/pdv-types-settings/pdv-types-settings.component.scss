@@ -15,9 +15,9 @@
 
 .pdv-types-settings__warning {
   align-items: center;
-  background: rgba($color-negative, .12);
+  background: rgba($color-positive, .12);
   border-radius: $border-radius;
-  color: $color-negative;
+  color: $color-positive;
   column-gap: $grid-step;
   display: flex;
   margin-top: $grid-step * 2;
