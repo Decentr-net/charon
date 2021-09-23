@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { ProfileUpdate } from 'decentr-js';
 
@@ -22,7 +22,12 @@ export class EditProfilePageService {
       password: undefined,
     };
 
-    return this.updateRemoteProfile(remoteUpdate).pipe(
+    return this.userService.getProfile(user.wallet.address, user.wallet).pipe(
+      mergeMap((oldProfile) => {
+        return this.areProfilesIdentical(oldProfile, remoteUpdate)
+          ? of(void 0)
+          : this.updateRemoteProfile(remoteUpdate);
+      }),
       mergeMap(() => this.authService.updateUser(user.id, update)),
     );
   }
@@ -34,5 +39,15 @@ export class EditProfilePageService {
       update,
       user.wallet,
     );
+  }
+
+  private areProfilesIdentical(profileA: ProfileUpdate, profileB: ProfileUpdate): boolean {
+    return profileA.bio === profileB.bio
+      && profileA.avatar === profileB.avatar
+      && JSON.stringify(profileA.emails) === JSON.stringify(profileB.emails)
+      && profileA.gender === profileB.gender
+      && profileA.birthday === profileB.birthday
+      && profileA.firstName === profileB.firstName
+      && profileA.lastName === profileB.lastName;
   }
 }
