@@ -17,6 +17,7 @@ import { InputModule } from '@shared/components/controls/input';
 import { PdvTypesSettingsModule } from '@shared/components/pdv-types-settings';
 import { ProfileFormModule } from '@shared/components/profile-form';
 import { SubmitSourceModule } from '@shared/directives/submit-source';
+import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
 import { TypefaceModule } from '@shared/directives/typeface';
 import { MicroValueModule } from '@shared/pipes/micro-value';
 import { SIGN_UP_COMPONENTS } from './components';
@@ -49,6 +50,7 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     SignUpRoutingModule,
     SubmitSourceModule,
     SvgIconsModule,
+    TextEllipsisModule,
     TranslocoModule,
     TypefaceModule,
   ],
