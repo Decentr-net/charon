@@ -31,18 +31,18 @@ export class SignUpGuard implements CanActivate {
       return this.router.createUrlTree([routerState.url, SignUpRoute.EmailConfirmation]);
     }
 
-    const shouldRedirectToCompleteRegistration
-      = await CompleteRegistrationGuard.canActivate(this.authService, this.userService);
-
-    if (shouldRedirectToCompleteRegistration) {
-      return this.router.createUrlTree([routerState.url, SignUpRoute.CompleteRegistration]);
-    }
-
     const shouldRedirectToPDVConsent
       = await PDVConsentGuard.canActivate(this.authService, this.userService, this.settingsService);
 
     if (shouldRedirectToPDVConsent) {
       return this.router.createUrlTree([routerState.url, SignUpRoute.PDVConsent]);
+    }
+
+    const shouldRedirectToCompleteRegistration
+      = await CompleteRegistrationGuard.canActivate(this.authService, this.userService, this.settingsService);
+
+    if (shouldRedirectToCompleteRegistration) {
+      return this.router.createUrlTree([routerState.url, SignUpRoute.CompleteRegistration]);
     }
 
     return this.router.createUrlTree(['/']);

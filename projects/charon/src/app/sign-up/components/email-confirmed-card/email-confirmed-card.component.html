@@ -1,0 +1,33 @@
+<ng-container *transloco="let translate; read: 'sign_up.email_confirmed_card'">
+  <svg-icon
+    class="email-confirmed-card__icon"
+    key="email-confirmed"
+  ></svg-icon>
+
+  <div
+    class="email-confirmed-card__title"
+    appTypeface="subheader"
+  >
+    {{ translate('title') }}
+  </div>
+
+  <div
+    class="email-confirmed-card__subtitle"
+    appTypeface="paragraph"
+  >
+    {{ translate('subtitle.beforeEmail') }}
+
+    <span class="email-confirmed-card__email">
+      {{ email$ | async }}
+    </span>
+
+    {{ translate('subtitle.afterEmail') }}
+  </div>
+
+  <div
+    class="email-confirmed-card__hint"
+    appTypeface="paragraph"
+  >
+    {{ translate('hint') }}
+  </div>
+</ng-container>

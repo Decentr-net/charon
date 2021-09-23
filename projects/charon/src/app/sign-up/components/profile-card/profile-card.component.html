@@ -1,0 +1,34 @@
+<ng-container *ngIf="profile$ | async as profile">
+  <app-avatar
+    class="profile-card__avatar"
+    [avatarUrl]="profile.avatar"
+  ></app-avatar>
+
+  <div
+    class="profile-card__name"
+    appTypeface="header-4"
+  >
+    {{ profile.firstName }} {{ profile.lastName }}
+  </div>
+
+  <div
+    class="profile-card__balance"
+    appTypeface="paragraph"
+  >
+    <svg-icon
+      class="profile-card__balance__icon"
+      key="wallet"
+    ></svg-icon>
+
+    <span>
+      {{ balance$ | async | microValue }} tDEC
+    </span>
+  </div>
+
+  <div
+    class="profile-card__bio"
+    appTypeface="paragraph"
+  >
+    {{ profile.bio }}
+  </div>
+</ng-container>
