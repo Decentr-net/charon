@@ -1,0 +1,24 @@
+@import '../../styles/variables';
+
+:host {
+  align-items: center;
+  column-gap: $grid-step;
+  display: inline-flex;
+
+  &.is-invalid {
+    &.is-submitted,
+    &.is-touched {
+      .checkbox__input {
+        border: 1px solid $color-negative;
+      }
+    }
+  }
+}
+
+.checkbox__input {
+  background: $color-outlines;
+  border-radius: $grid-step / 2;
+  cursor: pointer;
+  height: 16px;
+  width: 16px;
+}

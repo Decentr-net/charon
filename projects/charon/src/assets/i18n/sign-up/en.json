@@ -1,9 +1,10 @@
 {
   "back": "< Back",
   "account_form_page": {
+    "back": "Back",
     "form": {
       "confirm_password": {
-        "label": "Confirm password",
+        "label": "Repeat password",
         "errors": {
           "compare": "Passwords should be equal",
           "required": "Password is required"
@@ -14,7 +15,9 @@
           "email": "Enter valid email",
           "required": "Email is required"
         },
-        "label": "E-mail"
+        "label": "Email",
+        "subtitle": "We’ll use this email to sent the confirmation code, so be sure you have an access for it.",
+        "title": "Connect your email"
       },
       "password": {
         "errors": {
@@ -22,15 +25,16 @@
           "required": "Password is required",
           "strength": "Password should contain at least 1 element of: lowercase, uppercase letter, number, special char"
         },
-        "label": "New password (min 8 chars)"
+        "label": "New password (min 8 chars)",
+        "subtitle": "We’ll use this email to sent the confirmation code, so be sure you have an access for it.",
+        "title": "Create a new password"
       },
-      "submit": "Next",
       "terms_of_use": {
         "link": "Terms of Use",
-        "have_read": "I have read and agree to the"
+        "have_read": "I have read and agree to"
       }
     },
-    "title": "Create Profile"
+    "submit": "Done"
   },
   "complete_registration": {
     "form": {
@@ -120,29 +124,28 @@
     "text": "Full details about the collected data and what we use it for are provided in"
   },
   "seed_phrase_page": {
-    "download_seed_phrase": "Download Seed Phrase",
-    "hint": {
-      "text1": "Store your seed phrase in a password manager like 1Password.",
-      "text2": "Write this phrase on a piece of paper and store in a secure location. If you want even more security, write it down on multiple pieces of paper and store each in 2&nbsp;-&nbsp;3 different locations.",
-      "text3": "Download the PDF file with Seed Phrase and keep it stored safely on an external encrypted hard drive or storage medium.",
-      "text4": "We can't recover your Seed Phrase for you. If you lose it, you won't be able to back up your account.",
-      "label": "Seed Phrase is the only way to recover your profile and wallet with DEC balance so take it seriously.",
-      "title": "Lose once never get back"
-    },
+    "back": "Back",
+    "copy": "Copy",
+    "download_pdf": "Download .pdf",
     "next": "Next",
-    "reveal": "Click here to reveal secret words",
-    "subtitle": "Your secret backup phrase (seed phrase) makes it easy to back up and restore your account.",
-    "title": "Secret Backup Phrase",
+    "print": "Print",
+    "seed_label": "Your seed phrase",
+    "subtitle": "It is the only way to import or restore your account, so copy, download, print and store it safely!",
+    "title": "Store your seed phrase",
     "warning": {
-      "label": "WARNING",
-      "text": "Never disclose your backup phrase. Anyone with this phrase can take your DECs forever."
+      "label": "Never share your seed phrase with anyone.",
+      "text1": "Anyone with this phrase can take your Decs forever.",
+      "text2": "We won’t be able to recover it or return your account and wallet to you.",
+      "text3": "If you’ll lose the seed phrase you’ll lose your account forever."
     }
   },
   "sign_up_page": {
     "errors": {
       "account_conflict": "A wallet has already been created for this email or wallet address",
       "too_many_requests": "Too many requests"
-    }
+    },
+    "step": "step",
+    "title": "Create new account"
   },
   "success_page": {
     "done": "ALL DONE",

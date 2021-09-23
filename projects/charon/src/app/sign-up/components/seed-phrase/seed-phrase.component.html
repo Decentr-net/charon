@@ -1,79 +1,103 @@
-<div class="row" *transloco="let translate; read: 'sign_up.seed_phrase_page'">
-  <div class="col-xs-7">
-    <div class="page-title page-title__large">
-      {{ translate('title') }}
-    </div>
-    <div class="row">
-      <div class="view-seed-phrase col-xs-10">
-        <p>
-          {{ translate('subtitle') }}
-        </p>
-        <p>
-          <strong>{{ translate('warning.label') }}:</strong> {{ translate('warning.text') }}
-        </p>
+<ng-container *transloco="let translate; read: 'sign_up.seed_phrase_page'">
+  <section>
 
-        <div class="seed-phrase-words" [class.is-visible]="isSeedPhraseVisible">
-          <div class="phrase">
-            {{seedPhrase}}
-          </div>
-          <div *ngIf="!isSeedPhraseVisible"
-               (click)="showSeedPhrase()"
-               class="overlay">
-            <div class="icon">
-              <svg height="512pt" viewBox="-64 0 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="m336 192h-16v-64c0-70.59375-57.40625-128-128-128s-128 57.40625-128 128v64h-16c-26.453125 0-48 21.523438-48 48v224c0 26.476562 21.546875 48 48 48h288c26.453125 0 48-21.523438 48-48v-224c0-26.476562-21.546875-48-48-48zm-229.332031-64c0-47.0625 38.269531-85.332031 85.332031-85.332031s85.332031 38.269531 85.332031 85.332031v64h-170.664062zm0 0"/>
-              </svg>
-            </div>
-            {{ translate('reveal') }}
-          </div>
-        </div>
+  <div
+    class="seed-phrase__title"
+    appTypeface="subheader"
+  >
+    {{ translate('title') }}
+  </div>
+
+  <div
+    class="seed-phrase__subtitle"
+    appTypeface="paragraph"
+  >
+    {{ translate('subtitle') }}
+  </div>
+
+  <div class="seed-phrase__seed-container">
+    <div
+      class="seed-phrase__seed-container__label"
+      appTypeface="paragraph"
+    >
+      {{ translate('seed_label') }}
+    </div>
+
+    <div
+      class="seed-phrase__seed-container__seed"
+      appTypeface="paragraph"
+    >
+      <div>{{ isSeedPhraseVisible ? seedPhrase : securedSeedPhrase }}</div>
+
+      <svg-icon
+        class="seed-phrase__seed-container__toggle-icon"
+        [key]="isSeedPhraseVisible ? 'eye' : 'eye-crossed'"
+        (click)="toggleSeedVisibility()"
+      ></svg-icon>
+    </div>
+
+    <div class="seed-phrase__seed-container__actions">
+      <button
+        app-button
+        color="white"
+        [cdkCopyToClipboard]="seedPhrase"
+      >
+        <svg-icon key="copy"></svg-icon>
+
+        {{ translate('copy') }}
+      </button>
+
+      <button
+        app-button
+        color="white"
+        (click)="downloadSeedPhrase()"
+      >
+        <svg-icon key="download"></svg-icon>
+
+        {{ translate('download_pdf') }}
+      </button>
+    </div>
+  </div>
+
+  <div class="seed-phrase__warning" appTypeface="paragraph">
+    <svg-icon key="loud"></svg-icon>
+
+    <div>
+      <div class="seed-phrase__warning__label">{{ translate('warning.label') }}</div>
+
+      <div class="seed-phrase__warning__text">
+        <div>{{ translate('warning.text1') }}</div>
+        <div>{{ translate('warning.text2') }}</div>
+        <div>{{ translate('warning.text3') }}</div>
       </div>
     </div>
+  </div>
+  </section>
 
-    <div class="row">
-      <div class="col-xs-12">
-        <button
-          class="btn btn__small seed-phrase__download-seed-phrase"
-          mat-flat-button
-          color="accent"
-          [disabled]="!isSeedPhraseVisible"
-          (click)="downloadSeedPhrase()"
-        >
-          {{ translate('download_seed_phrase') }}
-        </button>
+  <section>
+    <div class="seed-phrase__divider"></div>
 
-        <button
-          class="btn btn__small"
-          mat-flat-button
-          color="accent"
-          [disabled]="!isSeedPhraseVisible"
-          (click)="onNext()"
-        >
-          {{ translate('next') }}
-        </button>
-      </div>
+    <div class="seed-phrase__actions">
+      <button
+        class="seed-phrase__action-button"
+        app-button
+        color="grey"
+        (click)="onBack()"
+      >
+        {{ translate('back') }}
+      </button>
+
+      <button
+        class="seed-phrase__action-button"
+        app-button
+        (click)="onNext()"
+      >
+        {{ translate('next') }}
+      </button>
     </div>
-  </div>
+  </section>
+</ng-container>
 
-  <div class="col-xs-5">
-    <ng-container *ngTemplateOutlet="hint"></ng-container>
-  </div>
-
-  <ng-template #hint>
-    <div class="seed-phrase__hint-container">
-      <div class="seed-phrase__hint-title">{{ translate('hint.title') }}</div>
-      <div class="seed-phrase__hint-label">{{ translate('hint.label') }}</div>
-      <ul class="seed-phrase__hint-text">
-        <li>{{ translate('hint.text1') }}</li>
-        <li [innerHTML]="translate('hint.text2')"></li>
-        <li>{{ translate('hint.text3') }}</li>
-        <li>{{ translate('hint.text4') }}</li>
-      </ul>
-    </div>
-  </ng-template>
-
-  <div #pdfTemplate class="seed-phrase__pdf-template">
-    <svg-icon class="seed-phrase__pdf-template-icon" key="logo"></svg-icon>
-  </div>
+<div #pdfTemplate class="seed-phrase__pdf-template">
+  <svg-icon class="seed-phrase__pdf-template-icon" key="logo"></svg-icon>
 </div>

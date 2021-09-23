@@ -1,108 +1,79 @@
 @import 'variables';
 
 :host {
-  .view-seed-phrase {
-    p {
-      margin: 1.5rem 0;
-    }
-
-    .seed-phrase-words {
-      position: relative;
-      border: 1px solid $grey-border-color;
-      border-radius: 4px;
-      padding: $grid-step * 3;
-      max-width: 355px;
-      font-size: 20px;
-      text-align: center;
-      margin: 2.5rem 0;
-      color: #565656;
-
-      &.is-visible {
-        .phrase {
-          filter: unset;
-        }
-
-        .overlay {
-          display: none;
-        }
-      }
-
-      .phrase {
-        filter: blur(5px);
-      }
-
-      .overlay {
-        position: absolute;
-        border-radius: 4px;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0, 0, 0, 0.65);
-        color: #ffffff;
-        font-size: .8rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        cursor: pointer;
-
-        .icon {
-          max-width: 25px;
-          max-height: 25px;
-          fill: #ffffff;
-          margin-bottom: .5rem;
-
-          ::ng-deep {
-            svg {
-              width: 100%;
-              height: 100%;
-            }
-          }
-        }
-      }
-    }
-  }
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
 }
 
-.seed-phrase__download-seed-phrase {
-  margin-right: 16px;
+.seed-phrase__title {
+  font-weight: 500;
 }
 
-.seed-phrase__hint-container {
-  background: $color-light-red;
-  border-radius: $border-radius;
+.seed-phrase__subtitle {
+  margin-top: $grid-step;
+}
+
+.seed-phrase__seed-container {
+  background: $color-background;
+  color: $color-black;
   padding: $grid-step * 2;
-}
-
-.seed-phrase__hint-title {
-  color: $color-red;
-  font-weight: 600;
-}
-
-.seed-phrase__hint-label {
   margin-top: $grid-step * 2;
 }
 
-.seed-phrase__hint-text {
-  list-style: none;
+.seed-phrase__seed-container__label {
+  color: $color-grey;
+}
 
-  li {
-    margin-left: $grid-step * 2;
-    margin-top: $grid-step * 2;
-    position: relative;
+.seed-phrase__seed-container__seed {
+  column-gap: $grid-step * 2;
+  display: flex;
+}
 
-    &:before {
-      color: $color-red;
-      content: '*';
-      font-size: 20px;
-      font-weight: 600;
-      left: -16px;
-      position: absolute;
-    }
-  }
+.seed-phrase__seed-container__toggle-icon {
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.seed-phrase__seed-container__actions {
+  column-gap: $grid-step * 1.5;
+  display: flex;
+  margin-top: $grid-step * 3;
+}
+
+.seed-phrase__warning {
+  background: rgba($color-negative, 0.08);
+  border-radius: $border-radius;
+  color: $color-negative;
+  column-gap: $grid-step;
+  display: flex;
+  margin-top: $grid-step * 3;
+  padding: $grid-step * 2;
+}
+
+.seed-phrase__warning__label {
+  font-weight: 700;
+}
+
+.seed-phrase__warning__text {
+  color: $color-black;
+}
+
+.seed-phrase__divider {
+  background: $color-outlines;
+  height: 2px;
+  margin: $grid-step * 2 (-$grid-step * 2);
+}
+
+.seed-phrase__actions {
+  column-gap: $grid-step * 1.5;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.seed-phrase__action-button {
+  width: 160px;
 }
 
 .seed-phrase__pdf-template {
