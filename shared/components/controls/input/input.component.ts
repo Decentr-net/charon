@@ -17,7 +17,7 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 
 import { svgEyeCrossed } from '../../../svg-icons/eye-crossed';
 import { svgEye } from '../../../svg-icons/eye';
-import { BrowserType, detectBrowser, isOpenedInTab } from '../../../utils/browser';
+import { BrowserType, detectBrowser } from '../../../utils/browser';
 import { SubmitSourceDirective } from '../../../directives/submit-source';
 import { InputContainerControl } from '../../input-container';
 import { CustomControl } from '../custom-control';
@@ -51,8 +51,6 @@ export class InputComponent extends CustomControl<string> implements OnInit {
 
   @HostBinding('class.typeface-paragraph')
   public typefaceParagraph = true;
-
-  public isOpenedInPopup: boolean = !isOpenedInTab();
 
   public valueSecured = true;
 

@@ -3,13 +3,20 @@
 :host {
   display: grid;
   grid-template-rows: max-content minmax(0, 1fr) max-content;
-  min-height: 100vh;
+
+  &.mod-tab-view {
+    min-height: 100vh;
+
+    .public-layout__logo {
+      margin: $grid-step * 5 auto;
+    }
+  }
 }
 
 .public-layout__logo {
   display: block;
   height: 40px;
-  margin: $grid-step * 5 auto;
+  margin: $grid-step * 2 auto;
   width: 147px;
 }
 
