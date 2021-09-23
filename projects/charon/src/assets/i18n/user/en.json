@@ -7,6 +7,9 @@
     },
     "title": "User settings",
     "toastr": {
+      "errors": {
+        "429": "Too many requests. Try again later"
+      },
       "successful_update": "User was successfully updated"
     }
   },

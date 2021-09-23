@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { finalize } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { StatusCodes } from 'http-status-codes';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { NotificationService } from '@shared/services/notification';
@@ -13,7 +15,6 @@ import { EditProfilePageService } from './edit-profile-page.service';
 import { TranslatedError } from '@core/notifications';
 import { SpinnerService, UserService } from '@core/services';
 import { ProfileFormControlValue } from '@shared/components/profile-form';
-import { uppercaseFirstLetter } from '@shared/utils/string';
 
 interface EditProfileForm {
   password: string;
@@ -78,6 +79,20 @@ export class EditProfilePageComponent implements OnInit {
       ...formValue.profile,
       password: formValue.password,
     }).pipe(
+      catchError((error) => {
+        switch (error?.response?.status) {
+          case StatusCodes.TOO_MANY_REQUESTS:
+            return throwError(new TranslatedError(
+              this.translocoService.translate(
+                `edit_profile_page.toastr.errors.${StatusCodes.TOO_MANY_REQUESTS}`,
+                null,
+                'user',
+              ),
+            ));
+          default:
+            return throwError(error);
+        }
+      }),
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
     ).subscribe(() => {
@@ -89,12 +104,7 @@ export class EditProfilePageComponent implements OnInit {
         relativeTo: this.activatedRoute
       });
     }, (error) => {
-      const errorMessage = error?.response?.data?.error;
-      this.notificationService.error(
-        errorMessage
-          ? new TranslatedError(uppercaseFirstLetter(errorMessage))
-          : error
-      );
+      this.notificationService.error(error);
     });
   }
 
