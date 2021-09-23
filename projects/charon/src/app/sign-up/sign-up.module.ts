@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 import { AvatarModule } from '@shared/components/avatar';
 import { ButtonModule } from '@shared/components/button';
@@ -43,6 +44,7 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     InputModule,
     MatButtonModule,
     MicroValueModule,
+    NgxSkeletonLoaderModule,
     ProfileFormModule,
     PdvTypesSettingsModule,
     ReactiveFormsModule,

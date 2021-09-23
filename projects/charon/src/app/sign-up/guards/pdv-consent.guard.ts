@@ -6,7 +6,6 @@ import { getParentUrlFromSnapshots } from '@shared/utils/routing';
 import { AuthService } from '@core/auth';
 import { AuthCompletedRegistrationGuard } from '@core/guards';
 import { UserService } from '@core/services';
-import { EmailConfirmationGuard } from './email-confirmation.guard';
 
 @Injectable()
 export class PDVConsentGuard implements CanActivate {
@@ -27,10 +26,9 @@ export class PDVConsentGuard implements CanActivate {
       return false;
     }
 
-    const emailUnconfirmed
-      = await EmailConfirmationGuard.canActivate(authService, userService);
+    const isProfileFilledIn = await AuthCompletedRegistrationGuard.isProfileFilledIn(authService, userService);
 
-    if (emailUnconfirmed) {
+    if (!isProfileFilledIn) {
       return false;
     }
 

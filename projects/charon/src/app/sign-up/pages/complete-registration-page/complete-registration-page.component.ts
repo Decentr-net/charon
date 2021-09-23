@@ -80,7 +80,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
         untilDestroyed(this),
       )
       .subscribe(() => {
-        this.router.navigate([AppRoute.SignUp, SignUpRoute.Success]);
+        this.router.navigate([AppRoute.SignUp, SignUpRoute.PDVConsent]);
       }, (error) => {
         this.notificationService.error(error);
       });

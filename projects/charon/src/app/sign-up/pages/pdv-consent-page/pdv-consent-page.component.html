@@ -3,22 +3,16 @@
   *transloco="let translate; read: 'sign_up.pdv_consent'"
 >
   <section>
-    <ng-container *ngIf="hasProfile$ | async; else emailConfirmed">
-      <div
-        class="pdv-consent__title"
-        appTypeface="subheader"
-      >
-        {{ translate('title') }}
-      </div>
+    <div
+      class="pdv-consent__title"
+      appTypeface="subheader"
+    >
+      {{ translate('title') }}
+    </div>
 
-      <app-profile-card
-        class="pdv-consent__profile-card"
-      ></app-profile-card>
-    </ng-container>
-
-    <ng-template #emailConfirmed>
-      <app-email-confirmed-card></app-email-confirmed-card>
-    </ng-template>
+    <app-profile-card
+      class="pdv-consent__profile-card"
+    ></app-profile-card>
 
     <app-pdv-types-settings
       class="pdv-consent__settings"

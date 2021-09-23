@@ -1,6 +1,10 @@
 @import 'variables';
 
 :host {
+  display: block;
+}
+
+.profile-card__container {
   align-items: center;
   background: $color-background;
   border-radius: $border-radius;

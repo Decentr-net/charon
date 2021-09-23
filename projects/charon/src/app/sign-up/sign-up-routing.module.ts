@@ -19,46 +19,46 @@ import {
 import { SignUpRoute } from './sign-up-route';
 
 const ROUTES: Routes = [
-    {
-      path: '',
-      component: SignUpPageComponent,
-      pathMatch: 'full',
-      canActivate: [
-        SignUpGuard,
-      ],
-    },
-    {
-      path: SignUpRoute.EmailConfirmation,
-      component: EmailConfirmationPageComponent,
-      canActivate: [
-        EmailConfirmationGuard,
-      ],
-    },
-    {
-      path: SignUpRoute.PDVConsent,
-      component: PDVConsentPageComponent,
-      canActivate: [
-        PDVConsentGuard,
-      ]
-    },
-    {
-      path: SignUpRoute.CompleteRegistration,
-      component: CompleteRegistrationPageComponent,
-      canActivate: [
-        CompleteRegistrationGuard,
-      ]
-    },
-    {
-      path: SignUpRoute.Success,
-      component: SuccessPageComponent,
-      canActivate: [
-        AuthCompletedRegistrationGuard,
-      ],
-    },
-    {
-      path: '**',
-      redirectTo: '',
-    }
+  {
+    path: '',
+    component: SignUpPageComponent,
+    pathMatch: 'full',
+    canActivate: [
+      SignUpGuard,
+    ],
+  },
+  {
+    path: SignUpRoute.EmailConfirmation,
+    component: EmailConfirmationPageComponent,
+    canActivate: [
+      EmailConfirmationGuard,
+    ],
+  },
+  {
+    path: SignUpRoute.CompleteRegistration,
+    component: CompleteRegistrationPageComponent,
+    canActivate: [
+      CompleteRegistrationGuard,
+    ]
+  },
+  {
+    path: SignUpRoute.PDVConsent,
+    component: PDVConsentPageComponent,
+    canActivate: [
+      PDVConsentGuard,
+    ]
+  },
+  {
+    path: SignUpRoute.Success,
+    component: SuccessPageComponent,
+    canActivate: [
+      AuthCompletedRegistrationGuard,
+    ],
+  },
+  {
+    path: '**',
+    redirectTo: '',
+  }
 ];
 
 @NgModule({

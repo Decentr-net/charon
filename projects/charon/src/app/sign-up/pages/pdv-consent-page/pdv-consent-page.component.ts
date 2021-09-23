@@ -53,7 +53,7 @@ export class PDVConsentPageComponent implements OnInit {
     const walletAddress = this.authService.getActiveUserInstant().wallet.address;
 
     this.settingsService.getUserSettingsService(walletAddress).pdv.setCollectionConfirmed(true).then(() => {
-      return this.router.navigate(['../', SignUpRoute.CompleteRegistration], { relativeTo: this.activatedRoute });
+      return this.router.navigate(['../', SignUpRoute.Success], { relativeTo: this.activatedRoute });
     });
   }
 }

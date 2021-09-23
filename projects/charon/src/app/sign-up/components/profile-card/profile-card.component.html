@@ -1,4 +1,7 @@
-<ng-container *ngIf="profile$ | async as profile">
+<div
+  class="profile-card__container"
+  *ngIf="profile$ | async as profile; else loader"
+>
   <app-avatar
     class="profile-card__avatar"
     [avatarUrl]="profile.avatar"
@@ -32,4 +35,10 @@
   >
     {{ profile.bio }}
   </div>
-</ng-container>
+</div>
+
+<ng-template #loader>
+  <ngx-skeleton-loader
+    [theme]="{ height: '80px' }"
+  ></ngx-skeleton-loader>
+</ng-template>
