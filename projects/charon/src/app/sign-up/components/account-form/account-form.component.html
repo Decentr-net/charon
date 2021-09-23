@@ -45,36 +45,12 @@
       {{ translate('password.title') }}
     </div>
 
-    <div class="account-form__inputs-container">
-      <app-input-container class="account-form__input-container">
-        <app-input
-          class="account-form__input"
-          type="password"
-          formControlName="password"
-        >
-          <ng-container ngProjectAs="[label]">
-            {{ translate('password.label') }}
-          </ng-container>
-        </app-input>
-
-        <app-form-error controlName="password"></app-form-error>
-      </app-input-container>
-
-      <app-input-container class="account-form__input-container">
-        <app-input
-          class="account-form__input"
-          type="password"
-          [eye]="false"
-          formControlName="confirmPassword"
-        >
-          <ng-container ngProjectAs="[label]">
-            {{ translate('confirm_password.label') }}
-          </ng-container>
-        </app-input>
-
-        <app-form-error controlName="confirmPassword" i18nControlKey="confirm_password"></app-form-error>
-      </app-input-container>
-    </div>
+    <app-password-form
+      class="account-form__password-form"
+      [translationsConfig]="{ read: 'sign_up.account_form_page.form' }"
+      formControlName="password"
+      [required]="true"
+    ></app-password-form>
 
     <app-input-container class="account-form__input-container">
       <app-checkbox

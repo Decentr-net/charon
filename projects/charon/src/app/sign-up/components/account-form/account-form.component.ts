@@ -4,7 +4,6 @@ import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
-import { PasswordValidationUtil } from '@shared/utils/validation';
 
 export interface AccountData {
   email: string;
@@ -13,7 +12,6 @@ export interface AccountData {
 
 interface AccountForm extends AccountData {
   agreeTerms: boolean;
-  confirmPassword: string;
 }
 
 @Component({
@@ -62,19 +60,11 @@ export class AccountFormComponent implements OnInit {
       agreeTerms: [false, [
         Validators.requiredTrue,
       ]],
-      confirmPassword: ['', [
-        Validators.required,
-        RxwebValidators.compare({ fieldName: 'password' }),
-      ]],
       email: ['', [
         Validators.required,
         RxwebValidators.email(),
       ]],
-      password: ['', [
-        Validators.required,
-        Validators.minLength(8),
-        PasswordValidationUtil.validatePasswordStrength,
-      ]],
+      password: [''],
     });
   }
 }

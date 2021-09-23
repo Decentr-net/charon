@@ -31,17 +31,17 @@ export class PasswordFormComponent extends ControlValueAccessor<string> implemen
 
   @Input() public required = false;
 
-  public readonly form: FormGroup<PasswordForm>;
+  public form: FormGroup<PasswordForm>;
 
   constructor(
     private formBuilder: FormBuilder,
   ) {
     super();
-
-    this.form = this.createForm();
   }
 
   public ngOnInit(): void {
+    this.form = this.createForm();
+
     this.form.valueChanges.pipe(
       untilDestroyed(this),
     ).subscribe((formValue) => {
