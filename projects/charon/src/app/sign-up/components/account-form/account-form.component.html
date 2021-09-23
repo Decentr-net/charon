@@ -76,19 +76,23 @@
       </app-input-container>
     </div>
 
-    <app-checkbox
-      class="account-form__checkbox"
-      formControlName="agreeTerms"
-    >
-      {{ translate('terms_of_use.have_read') }}
-      <a
-        class="account-form__link"
-        href="https://decentr.net/terms.html"
-        target="_blank"
+    <app-input-container class="account-form__input-container">
+      <app-checkbox
+        class="account-form__checkbox"
+        formControlName="agreeTerms"
       >
-        {{ translate('terms_of_use.link') }}
-      </a>
-    </app-checkbox>
+        {{ translate('terms_of_use.have_read') }}
+        <a
+          class="account-form__link"
+          href="https://decentr.net/terms.html"
+          target="_blank"
+        >
+          {{ translate('terms_of_use.link') }}
+        </a>
+      </app-checkbox>
+
+      <app-form-error controlName="agreeTerms" i18nControlKey="terms_of_use"></app-form-error>
+    </app-input-container>
   </section>
 </form>
 

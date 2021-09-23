@@ -31,7 +31,10 @@
       },
       "terms_of_use": {
         "link": "Terms of Use",
-        "have_read": "I have read and agree to"
+        "have_read": "I have read and agree to",
+        "errors": {
+          "required": "Please agree to Terms of Use"
+        }
       }
     },
     "submit": "Done"
