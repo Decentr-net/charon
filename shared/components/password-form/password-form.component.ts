@@ -39,8 +39,16 @@ export class PasswordFormComponent extends ControlValueAccessor<string> implemen
     super();
   }
 
+  public get passwordControl(): AbstractControl<string> {
+    return this.form?.get('password');
+  }
+
   public ngOnInit(): void {
     this.form = this.createForm();
+
+    this.passwordControl.valueChanges.pipe(
+      untilDestroyed(this),
+    ).subscribe(() => this.form.get('confirmPassword').updateValueAndValidity({ onlySelf: true }));
 
     this.form.valueChanges.pipe(
       untilDestroyed(this),
@@ -68,7 +76,6 @@ export class PasswordFormComponent extends ControlValueAccessor<string> implemen
       confirmPassword: [
         '',
         [
-          ...this.required ? [Validators.required] : [],
           RxwebValidators.compare({ fieldName: 'password' }),
         ],
       ],
