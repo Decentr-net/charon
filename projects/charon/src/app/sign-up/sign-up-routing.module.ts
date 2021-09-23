@@ -35,17 +35,17 @@ const ROUTES: Routes = [
       ],
     },
     {
-      path: SignUpRoute.CompleteRegistration,
-      component: CompleteRegistrationPageComponent,
-      canActivate: [
-        CompleteRegistrationGuard,
-      ]
-    },
-    {
       path: SignUpRoute.PDVConsent,
       component: PDVConsentPageComponent,
       canActivate: [
         PDVConsentGuard,
+      ]
+    },
+    {
+      path: SignUpRoute.CompleteRegistration,
+      component: CompleteRegistrationPageComponent,
+      canActivate: [
+        CompleteRegistrationGuard,
       ]
     },
     {

@@ -7,6 +7,7 @@ import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
+import { AvatarModule } from '@shared/components/avatar';
 import { ButtonModule } from '@shared/components/button';
 import { CheckboxModule } from '@shared/components/controls/checkbox';
 import { CodeInputModule } from '@shared/components/code-input';
@@ -17,6 +18,7 @@ import { PdvTypesSettingsModule } from '@shared/components/pdv-types-settings';
 import { ProfileFormModule } from '@shared/components/profile-form';
 import { SubmitSourceModule } from '@shared/directives/submit-source';
 import { TypefaceModule } from '@shared/directives/typeface';
+import { MicroValueModule } from '@shared/pipes/micro-value';
 import { SIGN_UP_COMPONENTS } from './components';
 import { SIGN_UP_PAGES } from './pages';
 import { SIGN_UP_SERVICES } from './services';
@@ -28,6 +30,7 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     SIGN_UP_PAGES,
   ],
   imports: [
+    AvatarModule,
     CheckboxModule,
     ClipboardModule,
     ButtonModule,
@@ -38,6 +41,7 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     InputContainerModule,
     InputModule,
     MatButtonModule,
+    MicroValueModule,
     ProfileFormModule,
     PdvTypesSettingsModule,
     ReactiveFormsModule,

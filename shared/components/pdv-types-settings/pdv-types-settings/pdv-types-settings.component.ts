@@ -29,6 +29,8 @@ export interface PDVTypesSettingsTranslations {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PdvTypesSettingsComponent implements OnInit {
+  @Input() public font: 'default' | 'large' = 'default';
+
   @Input() public translations: PDVTypesSettingsTranslations;
 
   public settingsControl = new FormControl<CollectedPDVTypesSettings>();
@@ -58,7 +60,7 @@ export class PdvTypesSettingsComponent implements OnInit {
       this.settingsControl.valueChanges,
     ]).pipe(
       switchMap(([user, settings]) => {
-        return this.settingsService.getUserSettingsService(user.wallet.address).pdv.setCollectedPDVTypes(settings)
+        return this.settingsService.getUserSettingsService(user.wallet.address).pdv.setCollectedPDVTypes(settings);
       }),
       untilDestroyed(this),
     ).subscribe();

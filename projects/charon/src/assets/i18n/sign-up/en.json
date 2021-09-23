@@ -60,11 +60,18 @@
       "account_not_found": "Account not found or activation code is not valid"
     }
   },
+  "email_confirmed_card": {
+    "hint": "You can change it later in user settings if you need it.",
+    "subtitle": {
+      "afterEmail": "email.",
+      "beforeEmail": "Now your user profile is connected with"
+    },
+    "title": "Perfect, your email is confirmed!"
+  },
   "pdv_consent": {
     "confirm": "Confirm",
-    "privacy_link": "our Privacy Policy",
-    "title": "Consent of Cookies",
-    "text": "Full details about the collected data and what we use it for are provided in"
+    "hint": "You’ll be able to change it later in user settings page.",
+    "title": "You’re successfully Logged in as"
   },
   "seed_phrase_page": {
     "back": "Back",

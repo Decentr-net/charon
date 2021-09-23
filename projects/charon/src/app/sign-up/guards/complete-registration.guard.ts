@@ -2,42 +2,46 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 
 import { getParentUrlFromSnapshots } from '@shared/utils/routing';
+import { SettingsService } from '@shared/services/settings';
 import { AuthService } from '@core/auth';
+import { AuthCompletedRegistrationGuard } from '@core/guards';
 import { UserService } from '@core/services';
-import { EmailConfirmationGuard } from './email-confirmation.guard';
-import { AuthCompletedRegistrationGuard } from '../../core/guards';
 
 @Injectable()
 export class CompleteRegistrationGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private userService: UserService,
+    private settingsService: SettingsService,
     private router: Router,
   ) {
   }
 
-  public static async canActivate(authService: AuthService, userService: UserService): Promise<boolean> {
+  public static async canActivate(
+    authService: AuthService,
+    userService: UserService,
+    settingsService: SettingsService,
+  ): Promise<boolean> {
     if (!authService.isLoggedIn) {
       return false;
     }
 
-    const emailUnconfirmed
-      = await EmailConfirmationGuard.canActivate(authService, userService);
+    const isPDVCollectionConfirmed = await AuthCompletedRegistrationGuard
+      .isPDVCollectionConfirmed(authService, settingsService);
 
-    if (emailUnconfirmed) {
+    if (!isPDVCollectionConfirmed) {
       return false;
     }
 
-    const isProfileFilledIn = await AuthCompletedRegistrationGuard.isProfileFilledIn(authService, userService);
-
-    return !isProfileFilledIn;
+    return AuthCompletedRegistrationGuard.isProfileFilledIn(authService, userService)
+      .then((isProfileFilledIn) => !isProfileFilledIn);
   }
 
   public async canActivate(
     route: ActivatedRouteSnapshot,
     routerState: RouterStateSnapshot,
   ): Promise<boolean | UrlTree> {
-    const canActivate = await CompleteRegistrationGuard.canActivate(this.authService, this.userService);
+    const canActivate = await CompleteRegistrationGuard.canActivate(this.authService, this.userService, this.settingsService);
 
     return canActivate || this.router.createUrlTree([getParentUrlFromSnapshots(route, routerState)]);
   }

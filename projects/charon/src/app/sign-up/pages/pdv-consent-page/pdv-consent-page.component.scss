@@ -5,20 +5,37 @@ $pdv-consent--card--padding: $grid-step * 2;
 
 :host {
   display: block;
-  padding-top: $grid-step * 5;
+  height: 100%;
+  padding-bottom: $grid-step * 5;
 }
 
 .pdv-consent__card {
   border: 2px solid $border-color;
   border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
   margin: 0 auto;
-  max-width: 580px;
   padding: $pdv-consent--card--padding;
+  width: 792px;
 }
 
-.pdv-consent__header {
-  text-align: center;
+.pdv-consent__title {
   font-weight: 500;
+}
+
+.pdv-consent__profile-card {
+  margin-top: $grid-step * 2;
+}
+
+.pdv-consent__settings {
+  margin-top: $grid-step * 5;
+}
+
+.pdv-consent__hint {
+  color: $color-grey;
+  margin-top: $grid-step;
 }
 
 .pdv-consent__divider {
@@ -26,17 +43,11 @@ $pdv-consent--card--padding: $grid-step * 2;
   margin: $pdv-consent--card--padding (-$pdv-consent--card--padding);
 }
 
-.pdv-consent__footer {
+.pdv-consent__actions-container {
   display: flex;
-  column-gap: $grid-step * 12;
-  justify-content: space-between;
-  margin-top: $pdv-consent--card--padding;
+  justify-content: flex-end;
 }
 
-.pdv-consent__text {
-  color: $color-grey;
-}
-
-.pdv-consent__link {
-  color: $color-blue;
+.pdv-consent__action-button {
+  width: 160px;
 }

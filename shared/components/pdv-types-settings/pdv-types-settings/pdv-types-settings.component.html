@@ -1,13 +1,13 @@
 <div
   class="pdv-types-settings__title"
-  appTypeface="paragraph"
+  [appTypeface]="font === 'default' ? 'paragraph' : 'subheader'"
 >
   {{ translations?.title }}
 </div>
 
 <div
   class="pdv-types-settings__subtitle"
-  appTypeface="caption"
+  [appTypeface]="font === 'default' ? 'caption' : 'paragraph'"
 >
   {{ translations?.subtitle }}
 </div>
