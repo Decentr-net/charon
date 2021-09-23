@@ -58,7 +58,11 @@ export class BankService {
     );
   }
 
-  public transferCoins(receiver: TransferData['to_address'], amount: TransferData['amount']): Observable<void> {
+  public transferCoins(
+    receiver: TransferData['to_address'],
+    amount: TransferData['amount'],
+    comment?: string,
+  ): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
@@ -67,6 +71,7 @@ export class BankService {
           from_address: wallet.address,
           to_address: receiver,
           amount,
+          comment,
         },
         privateKey: wallet.privateKey,
       })

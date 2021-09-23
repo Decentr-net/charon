@@ -32,7 +32,7 @@ import { TransferPageService } from './transfer-page.service';
 })
 export class TransferPageComponent implements OnInit {
   @HostBinding('class.is-disabled')
-  public isPageDisabled: boolean = false;
+  public isPageDisabled = false;
 
   @HostBinding('class.mod-popup-view')
   public isOpenedInPopup: boolean = !isOpenedInTab();
@@ -83,7 +83,11 @@ export class TransferPageComponent implements OnInit {
 
     const transferTime = Date.now() - ONE_SECOND * 5;
 
-    this.transferPageService.transfer(formValue.to, this.getUDecAmount(formValue.amount)).pipe(
+    this.transferPageService.transfer(
+      formValue.to,
+      this.getUDecAmount(formValue.amount),
+      formValue.comment || '',
+    ).pipe(
       catchError(() => {
         this.enablePage();
         return EMPTY;
@@ -113,7 +117,8 @@ export class TransferPageComponent implements OnInit {
           this.transferPageService.createAsyncValidWalletAddressValidator(),
         ],
       ],
-    })
+      comment: '',
+    });
   }
 
   private disablePage(): void {

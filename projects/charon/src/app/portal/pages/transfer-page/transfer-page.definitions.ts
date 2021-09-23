@@ -5,6 +5,7 @@ export const RECEIVER_WALLET_PARAM = 'to';
 export interface TransferForm {
   amount: number;
   [RECEIVER_WALLET_PARAM]: Wallet['address'];
+  comment: string;
 }
 
 export const TRANSFER_START_AMOUNT = 0.000001;
