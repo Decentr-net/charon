@@ -1,9 +1,10 @@
 <form
   [attr.id]="formId"
   class="account-form__form"
+  *transloco="let translate; read: 'sign_up.account_form_page.form'"
   [formGroup]="form"
   (ngSubmit)="onSubmit()"
-  *transloco="let translate; read: 'sign_up.account_form_page.form'"
+  appSubmitSource
 >
   <section class="account-form__section">
     <div
