@@ -46,15 +46,16 @@
         "errors": {
           "required": "Code is required"
         }
-      },
-      "label": "Activation code",
-      "register_new_account": "Register New Account",
-      "resend_code": "Resend a code",
-      "submit": "Confirm"
+      }
     },
-    "open": "Please enter the code to complete your registration, it is a mandatory step.",
-    "sent_to": "Confirmation code has been sent to",
-    "title": "E-mail Confirmation",
+    "did_not_get_code": "Didn't get the letter or couldn't find it?",
+    "ensure": "Just want to ensure we deal with real people.",
+    "register_new_account": "Back to login screen",
+    "resend_code": "Resend confirmation code",
+    "resend_code_will_able": "It will be possible to resend the code in {{ time }} sec.",
+    "sent": "We've send you the confirmation code to the",
+    "submit": "Confirm",
+    "title": "Please confirm your email",
     "errors": {
       "account_conflict": "Account already confirmed",
       "account_not_found": "Account not found or activation code is not valid"

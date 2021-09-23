@@ -1,67 +1,86 @@
-<div class="row" *transloco="let translate; read: 'sign_up.email_confirmation_page'">
-  <div class="col-xs-12">
-    <div class="page-title page-title__large">
+<form
+  class="email-confirmation-page__card"
+  *transloco="let translate; read: 'sign_up.email_confirmation_page'"
+  [formGroup]="codeForm"
+  (ngSubmit)="confirm()"
+>
+  <div class="email-confirmation-page__card__header">
+    <svg-icon
+      class="email-confirmation-page__card__wait-icon"
+      key="email-confirmation-wait"
+    ></svg-icon>
+
+    <div
+      class="email-confirmation-page__card__title"
+      appTypeface="subheader"
+    >
       {{ translate('title') }}
     </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <p>{{ translate('sent_to') }} <strong>{{ email }}</strong></p>
-        <p>{{ translate('open') }}</p>
+
+    <div appTypeface="paragraph">
+
+      <div class="email-confirmation-page__card__sent">
+        {{ translate('sent') }}
+
+        <span class="email-confirmation-page__card__sent-email">
+          {{ email }}.
+        </span>
       </div>
+
+      <p class="email-confirmation-page__card__ensure">
+        {{ translate('ensure') }}
+      </p>
     </div>
 
-    <form
-      class="email-confirmation-page__form"
-      *transloco="let translate; read: 'sign_up.email_confirmation_page.form'"
-      [formGroup]="codeForm"
-      (ngSubmit)="confirm()"
-    >
-      <div class="row">
-        <div class="email-confirmation-page__form-header col-xs-12">
-          <div class="email-confirmation-page__form-label">{{ translate('label') }}</div>
+    <app-code-input
+      class="email-confirmation-page__card__code-input"
+      [autofocus]="true"
+      [length]="6"
+      formControlName="code"
+    ></app-code-input>
 
-          <button
-            type="button"
-            *ngIf="!secondsLeftToResend; else timer"
-            mat-button
-            disableRipple
-            class="email-confirmation-page__form-resend-btn"
-            color="accent"
-            (click)="sendEmail()"
-          >
-            {{ translate('resend_code') }}
-          </button>
-
-          <ng-template #timer>
-            {{ secondsLeftToResend }}
-          </ng-template>
+    <div class="email-confirmation-page__card__resend-code">
+      <div class="email-confirmation-page__card__resend-code-label" appTypeface="paragraph">
+        <div *ngIf="!secondsLeftToResend; else timer">
+          {{ translate('did_not_get_code') }}
         </div>
 
-        <div class="col-xs-12">
-          <app-code-input [autofocus]="true" [length]="6" formControlName="code"></app-code-input>
-        </div>
-        <div class="email-confirmation-page__form-footer col-xs-12">
-          <button
-            class="btn btn__small"
-            type="submit"
-            mat-flat-button
-            color="accent"
-            [disabled]="codeForm.invalid"
-          >
-            {{ translate('submit') }}
-          </button>
-
-          <button
-            class="btn btn__small"
-            type="button"
-            mat-button
-            color="accent"
-            (click)="registerNewAccount()"
-          >
-            {{ translate('register_new_account') }}
-          </button>
-        </div>
+        <ng-template #timer>
+          {{ translate('resend_code_will_able', { time: secondsLeftToResend }) }}
+        </ng-template>
       </div>
-    </form>
+
+      <button
+        type="button"
+        class="email-confirmation-page__card__resend-code-button"
+        [class.mod-disabled]="secondsLeftToResend"
+        (click)="!secondsLeftToResend && sendEmail()"
+        appTypeface="paragraph"
+      >
+        {{ translate('resend_code') }}
+      </button>
+    </div>
   </div>
-</div>
+
+  <div class="email-confirmation-page__card__divider"></div>
+
+  <div class="email-confirmation-page__card__actions">
+    <button
+      class="email-confirmation-page__card__back-button"
+      type="button"
+      (click)="registerNewAccount()"
+    >
+      {{ translate('register_new_account') }}
+    </button>
+
+    <button
+      class="email-confirmation-page__card__submit-button"
+      type="submit"
+      [disabled]="codeForm.invalid"
+      app-button
+      size="md"
+    >
+      {{ translate('submit') }}
+    </button>
+  </div>
+</form>
