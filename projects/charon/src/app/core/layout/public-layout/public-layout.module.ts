@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 
+import { BrowserViewModule } from '@shared/directives/browser-view';
 import { LayoutFooterModule } from '../layout-footer';
 import { PublicLayoutComponent } from './public-layout.component';
 
@@ -11,6 +12,7 @@ import { PublicLayoutComponent } from './public-layout.component';
     PublicLayoutComponent,
   ],
   imports: [
+    BrowserViewModule,
     CommonModule,
     LayoutFooterModule,
     RouterModule,
