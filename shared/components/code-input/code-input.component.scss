@@ -1,20 +1,26 @@
+@import '../../styles/variables';
+
 :host {
-  font-size: 0.1rem;
   display: flex;
 }
 
 .code-input__field {
-  height: 3rem;
-  width: 3rem;
-
   & + & {
-    margin-left: 1rem;
+    margin-left: $grid-step;
   }
 }
 
 .code-input__input {
-  font-size: 1.6rem;
-  height: 2.8rem;
+  background-color: $color-background;
+  border: 1px solid transparent;
+  border-radius: $border-radius;
+  height: 78px;
   text-align: center;
-  width: 3rem;
+  width: 72px;
+
+  &.ng-touched {
+    &.ng-invalid {
+      border: 1px solid $color-red;
+    }
+  }
 }
