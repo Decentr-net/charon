@@ -3,6 +3,7 @@
   *transloco="let translate; read: 'login.import_restore_page'"
   [formGroup]="form"
   (ngSubmit)="onSubmit()"
+  appSubmitSource
 >
   <section class="import-restore-page__section">
     <div
@@ -98,7 +99,6 @@
     <button
       class="import-restore-page__action-button"
       app-button
-      [disabled]="disabled"
       color="primary"
       size="md"
       type="submit"

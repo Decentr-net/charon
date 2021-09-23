@@ -60,10 +60,6 @@ export class ImportRestorePageComponent implements OnInit {
   ) {
   }
 
-  public get disabled(): boolean {
-    return this.form?.status !== 'VALID';
-  }
-
   public ngOnInit(): void {
     this.form = this.createForm();
 
@@ -91,6 +87,10 @@ export class ImportRestorePageComponent implements OnInit {
   }
 
   public onSubmit(): void {
+    if (this.form.invalid) {
+      return;
+    }
+
     const { seedPhrase, password } = this.form.getRawValue();
     const trimmedSeedPhrase = seedPhrase.trim();
 

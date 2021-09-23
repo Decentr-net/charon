@@ -16,6 +16,7 @@ import { InputContainerModule } from '@shared/components/input-container';
 import { InputModule } from '@shared/components/controls/input';
 import { LOGIN_PAGES } from './pages';
 import { LoginRoutingModule } from './login-routing.module';
+import { SubmitSourceModule } from '../../../../../shared/directives/submit-source';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { LoginRoutingModule } from './login-routing.module';
     MatInputModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
+    SubmitSourceModule,
     SvgIconsModule,
     TranslocoModule,
     TypefaceModule,
