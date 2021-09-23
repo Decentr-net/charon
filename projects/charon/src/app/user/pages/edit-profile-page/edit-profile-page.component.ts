@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
@@ -17,6 +17,7 @@ import { SpinnerService, UserService } from '@core/services';
 import { ProfileFormControlValue } from '@shared/components/profile-form';
 
 interface EditProfileForm {
+  oldPassword: string;
   password: string;
   profile: ProfileFormControlValue;
 }
@@ -52,6 +53,10 @@ export class EditProfilePageComponent implements OnInit {
     private userService: UserService,
     private router: Router,
   ) {
+  }
+
+  public get passwordControl(): AbstractControl<string> {
+    return this.form?.get('password');
   }
 
   public ngOnInit(): void {
@@ -111,6 +116,13 @@ export class EditProfilePageComponent implements OnInit {
   private createForm(): FormGroup<EditProfileForm> {
     return this.formBuilder.group({
       profile: undefined,
+      oldPassword: [
+        '',
+        [],
+        [
+          this.editProfilePageService.createCurrentPasswordValidAsyncValidator(),
+        ],
+      ],
       password: '',
     });
   }

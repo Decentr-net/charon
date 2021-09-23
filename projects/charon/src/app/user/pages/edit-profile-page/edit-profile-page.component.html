@@ -15,6 +15,7 @@
     autocomplete="off"
     [formGroup]="form"
     (ngSubmit)="onSubmit()"
+    appSubmitSource
   >
     <app-profile-form
       formControlName="profile"
@@ -30,12 +31,30 @@
       {{ translate('password.title') }}
     </div>
 
-    <app-password-form
-      formControlName="password"
-      [translationsConfig]="{
-        read: 'core.profile_form'
-      }"
-    ></app-password-form>
+    <div class="edit-profile-page__password-form">
+      <app-input-container
+        class="password-form__old-password-container"
+      >
+        <app-input
+          type="password"
+          formControlName="oldPassword"
+          [required]="!!passwordControl?.value"
+        >
+          <ng-container ngProjectAs="[label]">
+            {{ translate('old_password.label') }}
+          </ng-container>
+        </app-input>
+
+        <app-form-error controlName="oldPassword" i18nControlKey="password"></app-form-error>
+      </app-input-container>
+
+      <app-password-form
+        formControlName="password"
+        [translationsConfig]="{
+          read: 'core.profile_form'
+        }"
+      ></app-password-form>
+    </div>
 
     <div class="edit-profile-page__divider"></div>
 

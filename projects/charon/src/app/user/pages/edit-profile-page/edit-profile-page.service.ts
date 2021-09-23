@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import { AsyncValidatorFn } from '@ngneat/reactive-forms';
 import { ProfileUpdate } from 'decentr-js';
 
 import { AuthService, AuthUserUpdate } from '@core/auth';
@@ -12,6 +13,22 @@ export class EditProfilePageService {
     private authService: AuthService,
     private userService: UserService,
   ) {
+  }
+
+  public createCurrentPasswordValidAsyncValidator(): AsyncValidatorFn<string> {
+    return async (control) => {
+      if (!control.value) {
+        return null;
+      }
+
+      const validPassword = await this.authService.validateCurrentUserPassword(control.value);
+
+      return validPassword
+        ? null
+        : {
+          invalid: true,
+        };
+    };
   }
 
   public editProfile(update: ProfileUpdate & AuthUserUpdate): Observable<void> {

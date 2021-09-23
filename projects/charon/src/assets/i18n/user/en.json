@@ -3,7 +3,10 @@
     "back": "Cancel",
     "submit": "Save",
     "password": {
-      "title": "Create a new password"
+      "title": "Set new password"
+    },
+    "old_password": {
+      "label": "Old password"
     },
     "title": "User settings",
     "toastr": {

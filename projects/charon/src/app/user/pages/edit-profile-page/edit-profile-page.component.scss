@@ -26,6 +26,16 @@
   margin-bottom: $grid-step * 2;
 }
 
+.edit-profile-page__password-form {
+  column-gap: $grid-step * 2;
+  display: flex;
+}
+
+.password-form__old-password-container {
+  flex-shrink: 0;
+  width: calc((100% - #{$grid-step} * 4) / 3);
+}
+
 .edit-profile-page__divider {
   background: $color-outlines;
   flex-shrink: 0;
