@@ -7,6 +7,7 @@
 }
 
 .input-container__error {
+  padding-left: $grid-step * 2;
   min-height: 16px;
   visibility: hidden;
 
