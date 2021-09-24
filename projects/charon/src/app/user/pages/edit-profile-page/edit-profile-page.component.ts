@@ -6,6 +6,7 @@ import { catchError, finalize } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { StatusCodes } from 'http-status-codes';
+import { Profile } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { NotificationService } from '@shared/services/notification';
@@ -42,6 +43,8 @@ export class EditProfilePageComponent implements OnInit {
   public appRoute: typeof AppRoute = AppRoute;
   public form: FormGroup<EditProfileForm>;
 
+  public profile: Profile;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
@@ -59,6 +62,12 @@ export class EditProfilePageComponent implements OnInit {
     return this.form?.get('password');
   }
 
+  public get hasChanges(): boolean {
+    return this.profile
+      && (!this.editProfilePageService.areProfilesIdentical(this.form.getRawValue().profile, this.profile)
+        || !!this.form.getRawValue().password);
+  }
+
   public ngOnInit(): void {
     this.form = this.createForm();
 
@@ -67,6 +76,7 @@ export class EditProfilePageComponent implements OnInit {
     this.userService.getProfile(wallet.address, wallet).pipe(
       untilDestroyed(this),
     ).subscribe((profile) => {
+      this.profile = profile;
       this.form.get('profile').patchValue(profile);
     });
   }

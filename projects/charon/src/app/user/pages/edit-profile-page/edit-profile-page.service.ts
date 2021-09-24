@@ -58,7 +58,7 @@ export class EditProfilePageService {
     );
   }
 
-  private areProfilesIdentical(profileA: ProfileUpdate, profileB: ProfileUpdate): boolean {
+  public areProfilesIdentical(profileA: ProfileUpdate, profileB: ProfileUpdate): boolean {
     return profileA.bio === profileB.bio
       && profileA.avatar === profileB.avatar
       && JSON.stringify(profileA.emails) === JSON.stringify(profileB.emails)
