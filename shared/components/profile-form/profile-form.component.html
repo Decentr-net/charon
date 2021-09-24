@@ -47,7 +47,7 @@
           [maxlength]="20"
           [formControlName]="controlName.FirstName"
         >
-          <ng-container ngProjectAs="[label]">{{ translate('first_name.label') }}</ng-container>
+          <ng-container ngProjectAs="[label]">{{ translate('first_name.label') }}*</ng-container>
         </app-input>
 
         <app-form-error [controlName]="controlName.FirstName" i18nControlKey="first_name"></app-form-error>
@@ -58,7 +58,7 @@
           [maxlength]="20"
           [formControlName]="controlName.LastName"
         >
-          <ng-container ngProjectAs="[label]">{{ translate('last_name.label') }}</ng-container>
+          <ng-container ngProjectAs="[label]">{{ translate('last_name.label') }}*</ng-container>
         </app-input>
 
         <app-form-error [controlName]="controlName.LastName" i18nControlKey="last_name"></app-form-error>
@@ -85,7 +85,7 @@
         <app-date-input
           [formControlName]="controlName.Birthday"
         >
-          <ng-container ngProjectAs="[label]">{{ translate('birthday.label') }}</ng-container>
+          <ng-container ngProjectAs="[label]">{{ translate('birthday.label') }}*</ng-container>
         </app-date-input>
 
         <app-form-error [controlName]="controlName.Birthday"></app-form-error>
@@ -97,7 +97,7 @@
           [translations]="genderTranslations$ | async"
           [placeholder]="(genderTranslations$ | async)?.placeholder"
         >
-          <ng-container ngProjectAs="[label]">{{ translate('gender.label') }}</ng-container>
+          <ng-container ngProjectAs="[label]">{{ translate('gender.label') }}*</ng-container>
         </app-gender-selector>
 
         <app-form-error [controlName]="controlName.Gender"></app-form-error>
@@ -121,7 +121,7 @@
         <app-input
           [formControlName]="controlName.EmailValue"
         >
-          <ng-container ngProjectAs="[label]">{{ translate('email.label') }}</ng-container>
+          <ng-container ngProjectAs="[label]">{{ translate('email.label') }}*</ng-container>
         </app-input>
 
         <app-form-error
