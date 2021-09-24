@@ -15,6 +15,7 @@
   justify-content: space-between;
   margin: auto;
   padding: $grid-step * 2;
+  text-align: center;
   width: 792px;
 }
 
@@ -36,12 +37,10 @@
 .success-page__title {
   font-weight: 500;
   margin-bottom: $grid-step;
-  text-align: center;
 }
 
 .success-page__subtitle {
-  margin-bottom: $grid-step * 3;
-  text-align: center;
+  margin-bottom: $grid-step * 2;
 }
 
 .success-page__divider {
@@ -61,12 +60,5 @@
 
 .success-page__tips-list {
   list-style: none;
-  padding: $grid-step 0;
-
-  li {
-    &:before {
-      content: "•";
-      padding-right: $grid-step / 2;
-    }
-  }
+  margin-bottom: $grid-step * 2;
 }

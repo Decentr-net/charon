@@ -105,15 +105,13 @@
   "success_page": {
     "done": "Done",
     "hint": {
-      "label": "*Decentr cannot recover your seed phrase."
+      "label": "Decentr can't recover your seed phrase!"
     },
     "subtitle": "Keep your seed phrase safe and remember that's the only key to all you have on Decentr.",
     "tips": {
-      "label": "Tips on storing it safely",
-      "tip1": "Save a backup in multiple places.",
-      "tip2": "Never share the phrase with anyone.",
-      "tip3": "Be careful of phishing! Decentr will never spontaneously ask for your seed phrase.",
-      "tip4": "If you ever have questions or see something fishy, email <a href='mailto:support@decentr.net'>support@decentr.net</a>."
+      "tip1": "Save backup in multiple places and never share the phrase with anyone.",
+      "tip2": "Be careful of fishing! Decentr will never spontaneously ask for your seed phrase.",
+      "tip3": "If you ever have questions or see something fishy, email <a href='mailto:support@decentr.net'>support@decentr.net</a>."
     },
     "title": "Congratulations, you're all set!"
   }

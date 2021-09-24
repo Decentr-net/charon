@@ -22,14 +22,14 @@
       {{ translate('subtitle') }}
     </div>
 
-    <div class="success-page__tips">
-      {{ translate('tips.label') }}:
-
-      <ul appTypeface="paragraph" class="success-page__tips-list">
+    <div
+      class="success-page__tips"
+      appTypeface="caption"
+    >
+      <ul class="success-page__tips-list">
         <li>{{ translate('tips.tip1') }}</li>
         <li>{{ translate('tips.tip2') }}</li>
-        <li>{{ translate('tips.tip3') }}</li>
-        <li [innerHTML]="translate('tips.tip4')"></li>
+        <li [innerHTML]="translate('tips.tip3')"></li>
       </ul>
 
       <p>
