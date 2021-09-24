@@ -193,10 +193,7 @@ export class ProfileFormModel {
 
   protected createEmailControl(): FormControl<EmailForm['value']> | undefined {
     return new FormControl(
-      {
-        value: '',
-        disabled: true,
-      },
+      '',
       [
         Validators.required,
         RxwebValidators.email(),
