@@ -29,6 +29,7 @@
 .edit-profile-page__password-form {
   column-gap: $grid-step * 2;
   display: flex;
+  margin-top: $grid-step;
 }
 
 .password-form__old-password-container {

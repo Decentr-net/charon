@@ -11,12 +11,10 @@
       },
       "password": {
         "errors": {
-          "minlength": "Minimum length of password: {{ requiredLength }}",
           "required": "Password is required",
-          "strength": "Password should contain at least 1 element of: lowercase, uppercase letter, number, special char"
+          "password": "Password is too weak"
         },
         "label": "Password",
-        "subtitle": "At least 8 symbols that you’ll use to log in to your account.",
         "title": "Create a new password"
       },
       "seed": {

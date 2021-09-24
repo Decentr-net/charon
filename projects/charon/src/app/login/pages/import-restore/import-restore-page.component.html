@@ -44,18 +44,17 @@
       {{ translate('form.password.title') }}
     </div>
 
-    <div
+    <app-password-validation-state
       class="import-restore-page__section__subtitle"
-      appTypeface="paragraph"
-    >
-      {{ translate('form.password.subtitle') }}
-    </div>
+      [password]="passwordControl.value"
+      [translationsConfig]="{ read: 'shared.password.validation_state', scope: 'shared' }"
+    ></app-password-validation-state>
 
     <app-password-form
       class="import-restore-page__field"
       formControlName="password"
       [required]="true"
-      [translationsConfig]="{ read: 'login.import_restore_page.form' }"
+      [translationsConfig]="{ read: 'core.profile_form', scope: 'core' }"
     ></app-password-form>
   </section>
 

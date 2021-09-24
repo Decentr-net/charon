@@ -15,7 +15,7 @@ import { CodeInputModule } from '@shared/components/code-input';
 import { FormErrorModule } from '@shared/components/form-error';
 import { InputContainerModule } from '@shared/components/input-container';
 import { InputModule } from '@shared/components/controls/input';
-import { PasswordFormModule } from '@shared/components/password-form';
+import { PasswordModule } from '@shared/components/password';
 import { PdvTypesSettingsModule } from '@shared/components/pdv-types-settings';
 import { ProfileFormModule } from '@shared/components/profile-form';
 import { SubmitSourceModule } from '@shared/directives/submit-source';
@@ -46,7 +46,7 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     MatButtonModule,
     MicroValueModule,
     NgxSkeletonLoaderModule,
-    PasswordFormModule,
+    PasswordModule,
     ProfileFormModule,
     PdvTypesSettingsModule,
     ReactiveFormsModule,

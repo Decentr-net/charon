@@ -21,23 +21,9 @@
   margin-top: $grid-step;
 }
 
-.account-form__inputs-container {
-  column-gap: $grid-step * 2;
-  display: flex;
-  margin-top: $grid-step;
-}
-
-.account-form__input-container {
-  width: 100%;
-}
-
-.account-form__input {
+.account-form__form-field {
   margin-top: $grid-step;
   width: 100%;
-}
-
-.account-form__password-form {
-  margin-top: $grid-step;
 }
 
 .account-form__checkbox {
