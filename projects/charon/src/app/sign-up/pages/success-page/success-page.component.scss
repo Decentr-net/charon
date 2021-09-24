@@ -26,9 +26,11 @@
 }
 
 .success-page__icon {
-  height: 96px;
+  $icon-sie: 96px;
+
+  height: $icon-sie;
   margin: 0 auto $grid-step * 2;
-  width: 96px;
+  width: $icon-sie;
 }
 
 .success-page__title {
@@ -62,12 +64,9 @@
   padding: $grid-step 0;
 
   li {
-    font-size: 16px;
-    line-height: 24px;
-
     &:before {
       content: "•";
-      padding-right: 5px;
+      padding-right: $grid-step / 2;
     }
   }
 }
