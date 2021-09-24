@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnInit, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnInit, Optional } from '@angular/core';
 import { AbstractControl, ControlContainer } from '@angular/forms';
-import { merge, Observable } from 'rxjs';
-import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
+import { merge, Observable, ReplaySubject } from 'rxjs';
+import { distinctUntilChanged, map, mapTo, startWith, switchMap } from 'rxjs/operators';
 
 import { FORM_ERROR_TRANSLOCO_READ } from './form-error.tokens';
 
@@ -11,7 +11,7 @@ import { FORM_ERROR_TRANSLOCO_READ } from './form-error.tokens';
   templateUrl: './form-error.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormErrorComponent implements OnInit {
+export class FormErrorComponent implements OnInit, OnChanges {
   @Input() public control: AbstractControl;
   @Input() public controlName: string;
   @Input() public i18nControlKey: string;
@@ -19,23 +19,30 @@ export class FormErrorComponent implements OnInit {
   public translocoRead: string;
   public error$: Observable<{ key: string; params: any }> | null;
 
+  private innerControl: ReplaySubject<AbstractControl> = new ReplaySubject(1);
+
   constructor(
     @Optional() private controlContainer: ControlContainer,
     @Inject(FORM_ERROR_TRANSLOCO_READ) public translocoFormScope: string,
   ) {
   }
 
+  public ngOnChanges(): void {
+    this.innerControl.next(this.control || this.controlContainer.control.get(this.controlName.toString()));
+  }
+
   public ngOnInit(): void {
     this.translocoRead = `${this.translocoFormScope}.${this.i18nControlKey || this.controlName}.errors`;
 
-    const control = this.control || this.controlContainer.control.get(this.controlName.toString());
-
-    this.error$ = merge(
-      control.statusChanges,
-      control.valueChanges,
-    ).pipe(
-      startWith(void 0),
-      map(() => {
+    this.error$ = this.innerControl.pipe(
+      switchMap((control) => merge(
+        control.statusChanges,
+        control.valueChanges,
+      ).pipe(
+        startWith(void 0),
+        mapTo(control),
+      )),
+      map((control) => {
         if (!control.errors) {
           return null;
         }
