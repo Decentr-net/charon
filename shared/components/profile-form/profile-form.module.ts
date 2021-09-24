@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -30,7 +30,6 @@ import { ProfileFormModel } from './profile-form-model';
     ProfileFormComponent,
   ],
   providers: [
-    DatePipe,
     {
       provide: ProfileFormModel,
       useClass: ProfileFormModel,

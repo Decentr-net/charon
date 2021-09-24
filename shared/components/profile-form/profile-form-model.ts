@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { Validators } from '@angular/forms';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { FormArray, FormControl, FormGroup, ValidatorFn } from '@ngneat/reactive-forms';
@@ -15,9 +14,6 @@ import {
 
 @Injectable()
 export class ProfileFormModel {
-  constructor(private datePipe: DatePipe) {
-  }
-
   protected static nonExistentDate(): ValidatorFn<string> {
     return (control) => {
       const parsedDate = parseDateValue(control.value || '');
@@ -151,14 +147,17 @@ export class ProfileFormModel {
   }
 
   protected createBirthdayControl(): FormControl<ProfileForm['birthday']> | undefined {
-    const prevYearLastDay = new Date(new Date().getFullYear(), 0, 0);
+    const dateParseFn = (value) => {
+      const dateObj = parseDateValue(value);
+      return new Date(dateObj.year, dateObj.month, dateObj.day);
+    };
 
     return new FormControl(
       '',
       [
         Validators.required,
-        BaseValidationUtil.minDate('1901-01-01'),
-        BaseValidationUtil.maxDate(this.datePipe.transform(prevYearLastDay, 'yyyy-MM-dd')),
+        BaseValidationUtil.minDate(new Date(1901, 0, 1), dateParseFn),
+        BaseValidationUtil.maxDate(new Date(new Date().getFullYear(), 0, 0), dateParseFn),
         ProfileFormModel.nonExistentDate(),
       ],
     );
