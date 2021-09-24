@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
-import { AbstractControl, ControlValueAccessor, FormArray, FormGroup } from '@ngneat/reactive-forms';
+import { Observable } from 'rxjs';
+import { AbstractControl, ControlValueAccessor, FormArray, FormControl, FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { ProfileFormModel } from './profile-form-model';
@@ -12,9 +14,7 @@ import {
   ProfileFormControlValue,
   TranslationsConfig,
 } from './profile-form.definitions';
-import { TranslocoService } from '@ngneat/transloco';
 import { GenderSelectorTranslations } from '../controls';
-import { Observable } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -57,6 +57,10 @@ export class ProfileFormComponent extends ControlValueAccessor<ProfileFormContro
 
   public get emailFormArray(): FormArray<EmailForm> {
     return this.formModel.getEmailsFormArray(this.form);
+  }
+
+  public get primaryEmailControl(): FormControl<string> {
+    return this.emailFormArray.get([0, ProfileFormControlName.EmailValue]) as FormControl<string>;
   }
 
   public ngOnInit(): void {

@@ -113,19 +113,18 @@
       {{ translate('email.title') }}
     </div>
 
-    <div class="profile-form__inputs-container" [formArrayName]="controlName.Emails">
+    <div class="profile-form__inputs-container">
       <app-input-container
         class="profile-form__input-container"
-        formGroupName="0"
       >
         <app-input
-          [formControlName]="controlName.EmailValue"
+          [formControl]="primaryEmailControl"
         >
           <ng-container ngProjectAs="[label]">{{ translate('email.label') }}*</ng-container>
         </app-input>
 
         <app-form-error
-          [controlName]="controlName.EmailValue"
+          [control]="primaryEmailControl"
           i18nControlKey="email"
         ></app-form-error>
       </app-input-container>
