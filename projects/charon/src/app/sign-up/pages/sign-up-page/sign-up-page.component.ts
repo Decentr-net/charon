@@ -51,7 +51,13 @@ export class SignUpPageComponent implements OnInit {
   }
 
   public navigateBack(): void {
-    this.navigationService.back([AppRoute.Welcome]);
+    switch (this.activeTab) {
+      case SignUpTab.AccountForm:
+        this.activeTab = SignUpTab.SeedPhrase;
+        break;
+      default:
+        this.navigationService.back([AppRoute.Welcome]);
+    }
   }
 
   public onSubmitAccountForm(accountData: AccountData): void {
