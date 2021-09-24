@@ -1,8 +1,4 @@
-import {
-  AbstractControl,
-  FormControl,
-  ValidationErrors,
-} from '@angular/forms';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { ValidatorFn } from '@ngneat/reactive-forms';
 
 import { getHTMLImagesCount } from '../../html';
@@ -25,24 +21,13 @@ export class BaseValidationUtil {
     return isInvalid ? { length: true } : null;
   }
 
-  static isFrDateFormatCorrect(control: FormControl): ValidationErrors | null {
-    if (!control.value) {
-      return null;
-    }
-
-    // Date format fr-CA (yyyy{-/}mm{-/}dd): \b(\d{4})([\/\-])(0[1-9]|1[012])\2(0[1-9]|[12]\d|3[01])
-    const datePattern = new RegExp(`\\b(\\d{4})([\\/\\-])(0[1-9]|1[012])\\2(0[1-9]|[12]\\d|3[01])`);
-
-    return !control.value.match(datePattern) ? { invalidFormat: true } : null;
-  }
-
   static minDate(minDate: string): ValidatorFn<string> {
     return (control) => {
       return new Date(minDate) > new Date(control.value)
         ? {
           minDate: { value: minDate },
         }
-        : null
+        : null;
     };
   }
 
@@ -52,7 +37,7 @@ export class BaseValidationUtil {
         ? {
           maxDate: { value: maxDate },
         }
-        : null
+        : null;
     };
   }
 
@@ -71,7 +56,7 @@ export class BaseValidationUtil {
           },
         }
         : null;
-    }
+    };
   }
 
   static maxStringBytes(maxBytes: number): ValidatorFn<string> {
@@ -90,7 +75,7 @@ export class BaseValidationUtil {
           },
         }
         : null;
-    }
+    };
   }
 
   static maxHTMLImages(maxImages: number): ValidatorFn<string> {
@@ -109,6 +94,6 @@ export class BaseValidationUtil {
           },
         }
         : null;
-    }
+    };
   }
 }
