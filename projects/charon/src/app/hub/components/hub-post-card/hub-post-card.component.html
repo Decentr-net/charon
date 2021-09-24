@@ -6,7 +6,8 @@
   >
     <img
       class="hub-post-card__image"
-      [src]="post.previewImage"
+      (error)="imgSrc = post.previewImage"
+      [src]="imgSrc"
       [alt]="post.previewImage"
     >
   </div>
