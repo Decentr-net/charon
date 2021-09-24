@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, NgZone, OnInit } from '@angular/cor
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, pluck } from 'rxjs/operators';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -56,6 +56,10 @@ export class ImportRestorePageComponent implements OnInit {
     private svgIconRegistry: SvgIconRegistry,
     private pageService: ImportRestorePageService,
   ) {
+  }
+
+  public get passwordControl(): AbstractControl<string> {
+    return this.form.get('password');
   }
 
   public ngOnInit(): void {

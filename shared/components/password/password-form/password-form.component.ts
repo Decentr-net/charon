@@ -4,8 +4,12 @@ import { AbstractControl, ControlValueAccessor, FormBuilder, FormGroup } from '@
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 
-import { PasswordValidationUtil } from '../../utils/validation';
-import { PasswordForm, TranslationsConfig } from './password-form.definitions';
+import { PASSWORD_VALIDATION, PasswordTranslationsConfig } from '../password.definitions';
+
+export interface PasswordForm {
+  password: string;
+  confirmPassword: string;
+}
 
 @UntilDestroy()
 @Component({
@@ -27,7 +31,7 @@ import { PasswordForm, TranslationsConfig } from './password-form.definitions';
   ],
 })
 export class PasswordFormComponent extends ControlValueAccessor<string> implements OnInit, Validator {
-  @Input() public translationsConfig: TranslationsConfig;
+  @Input() public translationsConfig: PasswordTranslationsConfig;
 
   @Input() public required = false;
 
@@ -53,7 +57,7 @@ export class PasswordFormComponent extends ControlValueAccessor<string> implemen
     this.form.valueChanges.pipe(
       untilDestroyed(this),
     ).subscribe((formValue) => {
-      this.form.valid ? this.onChange(formValue.password) : this.onChange('');
+      this.onChange(formValue.password);
     });
   }
 
@@ -83,8 +87,9 @@ export class PasswordFormComponent extends ControlValueAccessor<string> implemen
         '',
         [
           ...this.required ? [Validators.required] : [],
-          Validators.minLength(8),
-          PasswordValidationUtil.validatePasswordStrength,
+          RxwebValidators.password({
+            validation: PASSWORD_VALIDATION,
+          }),
         ],
       ],
     });

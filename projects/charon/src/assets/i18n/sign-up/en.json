@@ -21,9 +21,8 @@
       },
       "password": {
         "errors": {
-          "minlength": "Minimum length of password: {{ requiredLength }}",
           "required": "Password is required",
-          "strength": "Password should contain at least 1 element of: lowercase, uppercase letter, number, special char"
+          "password": "Password is too weak"
         },
         "label": "New password (min 8 chars)",
         "subtitle": "We’ll use this email to sent the confirmation code, so be sure you have an access for it.",

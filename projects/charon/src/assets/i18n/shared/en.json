@@ -1,4 +1,15 @@
 {
+  "password": {
+    "validation_state": {
+      "at_least": "At least",
+      "end": "that you will use to unlock your account",
+      "special": "special character",
+      "digit": "digit",
+      "lower": "lowercase letter",
+      "symbols": "symbols",
+      "upper": "capital letter"
+    }
+  },
   "pdv_types_settings": {
     "subtitle": "We’ll use information about the sites you visit in order to transform it into a PDV rate.\nPDV rate affects lots of aspects of your life in Decentr. We recommend to check them all.",
     "title": "Check information we can track and transfer into PDV",

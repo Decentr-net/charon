@@ -13,7 +13,7 @@ import { ButtonModule } from '@shared/components/button';
 import { FormErrorModule } from '@shared/components/form-error';
 import { InputContainerModule } from '@shared/components/input-container';
 import { InputModule } from '@shared/components/controls/input';
-import { PasswordFormModule } from '@shared/components/password-form';
+import { PasswordModule } from '@shared/components/password';
 import { LOGIN_PAGES } from './pages';
 import { LoginRoutingModule } from './login-routing.module';
 
@@ -30,7 +30,7 @@ import { LoginRoutingModule } from './login-routing.module';
     InputContainerModule,
     InputModule,
     LoginRoutingModule,
-    PasswordFormModule,
+    PasswordModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
     SubmitSourceModule,

@@ -21,20 +21,18 @@
       {{ translate('email.subtitle') }}
     </div>
 
-    <div class="account-form__inputs-container">
-      <app-input-container class="account-form__input-container">
-        <app-input
-          class="account-form__input"
-          formControlName="email"
-        >
-          <ng-container ngProjectAs="[label]">
-            {{ translate('email.label') }}
-          </ng-container>
-        </app-input>
+    <app-input-container class="account-form__form-field">
+      <app-input
+        class="account-form__input"
+        formControlName="email"
+      >
+        <ng-container ngProjectAs="[label]">
+          {{ translate('email.label') }}
+        </ng-container>
+      </app-input>
 
-        <app-form-error controlName="email" i18nControlKey="email"></app-form-error>
-      </app-input-container>
-    </div>
+      <app-form-error controlName="email" i18nControlKey="email"></app-form-error>
+    </app-input-container>
   </section>
 
   <section class="account-form__section">
@@ -45,16 +43,21 @@
       {{ translate('password.title') }}
     </div>
 
+    <app-password-validation-state
+      class="account-form__section__subtitle"
+      [password]="passwordControl.value"
+      [translationsConfig]="{ read: 'shared.password.validation_state', scope: 'shared' }"
+    ></app-password-validation-state>
+
     <app-password-form
-      class="account-form__password-form"
-      [translationsConfig]="{ read: 'sign_up.account_form_page.form' }"
+      class="account-form__form-field"
+      [translationsConfig]="{ read: 'core.profile_form', scope: 'core' }"
       formControlName="password"
       [required]="true"
     ></app-password-form>
 
-    <app-input-container class="account-form__input-container">
+    <app-input-container class="account-form__form-field">
       <app-checkbox
-        class="account-form__checkbox"
         formControlName="agreeTerms"
       >
         {{ translate('terms_of_use.have_read') }}

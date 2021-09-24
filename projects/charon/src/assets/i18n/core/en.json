@@ -129,9 +129,8 @@
     "password": {
       "errors": {
         "invalid": "Invalid password",
-        "minlength": "Minimum length of password: {{ requiredLength }}",
-        "required": "Password is required",
-        "strength": "Password should contain at least 1 element of: lowercase, uppercase letter, number, special char"
+        "password": "Password is too weak",
+        "required": "Password is required"
       },
       "label": "Password"
     },

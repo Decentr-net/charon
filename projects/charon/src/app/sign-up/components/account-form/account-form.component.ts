@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 
@@ -37,6 +37,10 @@ export class AccountFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
   ) {
+  }
+
+  public get passwordControl(): AbstractControl<string> {
+    return this.form.get('password');
   }
 
   ngOnInit(): void {
