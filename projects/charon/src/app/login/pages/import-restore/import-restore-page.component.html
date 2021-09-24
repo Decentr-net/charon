@@ -20,7 +20,7 @@
       {{ translate('form.seed.subtitle') }}
     </div>
 
-    <app-input-container class="import-restore-page__input-container">
+    <app-input-container class="import-restore-page__field">
       <app-input
         class="import-restore-page__input"
         type="password"
@@ -51,36 +51,12 @@
       {{ translate('form.password.subtitle') }}
     </div>
 
-    <div class="import-restore-page__inputs-container">
-      <app-input-container class="import-restore-page__input-container">
-        <app-input
-          class="import-restore-page__input"
-          type="password"
-          formControlName="password"
-        >
-          <ng-container ngProjectAs="[label]">
-            {{ translate('form.password.label') }}
-          </ng-container>
-        </app-input>
-
-        <app-form-error controlName="password"></app-form-error>
-      </app-input-container>
-
-      <app-input-container class="import-restore-page__input-container">
-        <app-input
-          class="import-restore-page__input"
-          type="password"
-          [eye]="false"
-          formControlName="confirmPassword"
-        >
-          <ng-container ngProjectAs="[label]">
-            {{ translate('form.confirm_password.label') }}
-          </ng-container>
-        </app-input>
-
-        <app-form-error controlName="confirmPassword" i18nControlKey="confirm_password"></app-form-error>
-      </app-input-container>
-    </div>
+    <app-password-form
+      class="import-restore-page__field"
+      formControlName="password"
+      [required]="true"
+      [translationsConfig]="{ read: 'login.import_restore_page.form' }"
+    ></app-password-form>
   </section>
 
   <div class="import-restore-page__divider"></div>

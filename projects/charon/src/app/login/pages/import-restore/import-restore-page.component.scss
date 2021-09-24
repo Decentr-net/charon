@@ -34,12 +34,7 @@ $import-restore-page--padding: $grid-step * 2;
   margin-top: $grid-step;
 }
 
-.import-restore-page__inputs-container {
-  column-gap: $grid-step * 2;
-  display: flex;
-}
-
-.import-restore-page__input-container {
+.import-restore-page__field {
   margin-top: $grid-step;
   width: 100%;
 }

@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, NgZone, OnInit } from '@angular/cor
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, pluck } from 'rxjs/operators';
-import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -10,7 +9,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NotificationService } from '@shared/services/notification';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { AppRoute } from '../../../app-route';
-import { BaseValidationUtil, PasswordValidationUtil } from '@shared/utils/validation';
+import { BaseValidationUtil } from '@shared/utils/validation';
 import { ImportRestorePageService } from './import-restore-page.service';
 import { NavigationService } from '@core/navigation';
 import { SpinnerService } from '@core/services';
@@ -21,7 +20,6 @@ export enum ImportRestorePageType {
 }
 
 interface ImportRestoreForm {
-  confirmPassword: string;
   password: string;
   seedPhrase: string;
 }
@@ -112,21 +110,7 @@ export class ImportRestorePageComponent implements OnInit {
 
   private createForm(): FormGroup<ImportRestoreForm> {
     return this.formBuilder.group({
-      confirmPassword: [
-        '',
-        [
-          Validators.required,
-          RxwebValidators.compare({ fieldName: 'password' }),
-        ],
-      ],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-          PasswordValidationUtil.validatePasswordStrength,
-        ],
-      ],
+      password: '',
       seedPhrase: [
         '',
         [
