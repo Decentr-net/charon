@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, skip, switchMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { Environment } from '@environments/environment.definitions';
 import {
@@ -13,6 +14,7 @@ import { BlockchainNodeService } from '@shared/services/blockchain-node';
 import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { ConfigService } from '@shared/services/configuration';
 
+@UntilDestroy()
 @Injectable()
 export class NetworkSelectorService extends BaseNetworkSelectorService {
   constructor(
@@ -23,6 +25,11 @@ export class NetworkSelectorService extends BaseNetworkSelectorService {
     private translocoService: TranslocoService,
   ) {
     super();
+
+    this.networkStorage.getActiveId().pipe(
+      skip(1),
+      untilDestroyed(this),
+    ).subscribe(() => location.reload());
   }
 
   public getNetworks(checkAvailability = true): Observable<Network[]> {
