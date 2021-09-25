@@ -74,7 +74,7 @@
   "pdv_consent": {
     "confirm": "Confirm",
     "hint": "You’ll be able to change it later in user settings page.",
-    "title": "You’re successfully Logged in as"
+    "title": "You’re successfully logged in as"
   },
   "seed_phrase_page": {
     "back": "Back",

@@ -10,7 +10,7 @@ import { CollectedPDVTypesSettings } from '../../../services/settings';
 import { PDVTypesToggleTranslations } from '../pdv-types-toggle';
 import { SettingsService } from '../../../services/settings';
 import { svgArrowLeft } from '../../../svg-icons/arrow-left';
-import { svgEyeCrossed } from '../../../svg-icons/eye-crossed';
+import { svgSpeedometer } from '../../../svg-icons/speedometer';
 
 const authBrowserStorageService = new AuthBrowserStorageService();
 
@@ -41,7 +41,7 @@ export class PdvTypesSettingsComponent implements OnInit {
   ) {
     svgIconRegistry.register([
       svgArrowLeft,
-      svgEyeCrossed,
+      svgSpeedometer,
     ]);
   }
 

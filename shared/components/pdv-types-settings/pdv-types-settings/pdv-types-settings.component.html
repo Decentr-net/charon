@@ -8,9 +8,8 @@
 <div
   class="pdv-types-settings__subtitle"
   [appTypeface]="font === 'default' ? 'caption' : 'paragraph'"
->
-  {{ translations?.subtitle }}
-</div>
+  [innerHTML]="translations?.subtitle"
+></div>
 
 <app-pdv-types-toggle
   [formControl]="settingsControl"
@@ -21,7 +20,11 @@
   class="pdv-types-settings__warning"
   appTypeface="caption"
 >
-  <svg-icon key="eye-crossed" size="xs"></svg-icon>
+  <svg-icon
+    class="pdv-types-settings__warning-icon"
+    key="speedometer"
+    size="xs"
+  ></svg-icon>
 
   {{ translations?.warning }}
 </div>
