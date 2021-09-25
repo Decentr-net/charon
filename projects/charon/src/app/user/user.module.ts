@@ -11,6 +11,7 @@ import { AvatarModule } from '@shared/components/avatar';
 import { ButtonModule } from '@shared/components/button';
 import { ButtonBackModule } from '@shared/components/button-back';
 import { ConfirmationDialogModule } from '@shared/components/confirmation-dialog';
+import { CurrencySymbolModule } from '@shared/components/currency-symbol';
 import { FormErrorModule } from '@shared/components/form-error';
 import { InputContainerModule } from '@shared/components/input-container';
 import { InputModule } from '@shared/components/controls';
@@ -36,6 +37,7 @@ import { UserRoutingModule } from './user-routing.module';
     ClipboardModule,
     CommonModule,
     ConfirmationDialogModule,
+    CurrencySymbolModule,
     FormErrorModule,
     InputContainerModule,
     InputModule,

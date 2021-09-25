@@ -40,7 +40,7 @@
     <div class="token-transactions-table__operation">{{ translate('sent') }}</div>
 
     <div class="token-transactions-table__amount token-transactions-table__color-send">
-      -{{ transaction.amount.amount | microValue }} tDEC
+      -{{ transaction.amount.amount | microValue }} <app-currency-symbol></app-currency-symbol>
     </div>
 
     <div class="token-transactions-table__address" appTextEllipsis appTypeface="caption">
@@ -48,7 +48,8 @@
     </div>
 
     <div class="token-transactions-table__fee" appTypeface="caption">
-      {{ translate('fee') }}: {{ transaction.fee.amount[0].amount | microValue }} tDEC
+      {{ translate('fee') }}: {{ transaction.fee.amount[0].amount | microValue }}
+      <app-currency-symbol></app-currency-symbol>
     </div>
   </ng-template>
 
@@ -61,7 +62,7 @@
     <div class="token-transactions-table__operation">{{ translate('received') }}</div>
 
     <div class="token-transactions-table__amount token-transactions-table__color-receive">
-      {{ transaction.amount.amount | microValue }} tDEC
+      {{ transaction.amount.amount | microValue }} <app-currency-symbol></app-currency-symbol>
     </div>
 
     <div class="token-transactions-table__address" appTextEllipsis appTypeface="caption">

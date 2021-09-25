@@ -12,6 +12,7 @@ import { AvatarModule } from '@shared/components/avatar';
 import { ButtonModule } from '@shared/components/button';
 import { CheckboxModule } from '@shared/components/controls/checkbox';
 import { CodeInputModule } from '@shared/components/code-input';
+import { CurrencySymbolModule } from '@shared/components/currency-symbol';
 import { FormErrorModule } from '@shared/components/form-error';
 import { InputContainerModule } from '@shared/components/input-container';
 import { InputModule } from '@shared/components/controls/input';
@@ -34,11 +35,12 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
   ],
   imports: [
     AvatarModule,
+    ButtonModule,
     CheckboxModule,
     ClipboardModule,
-    ButtonModule,
     CodeInputModule,
     CommonModule,
+    CurrencySymbolModule,
     FormErrorModule,
     FormsModule,
     InputContainerModule,

@@ -5,8 +5,8 @@ import { browser } from 'webextension-polyfill-ts';
 import { isSelfProxyEnabled } from '../../../../../shared/utils/browser';
 
 const PROXY_AUTH_CREDENTIALS = {
-  username: '',
-  password: '',
+  username: 'user-decentr',
+  password: 'D>$en!rsdj343vs1p[db#',
 };
 
 const createAuthRequestHandler = (): Observable<void> => {

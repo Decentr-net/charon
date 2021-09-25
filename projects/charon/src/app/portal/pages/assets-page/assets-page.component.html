@@ -41,7 +41,7 @@
     >
       <svg-icon key="decentr-hub"></svg-icon>
       {{ asset.balance | microValue }}
-      {{ asset.token }}
+      <app-currency-symbol></app-currency-symbol>
     </div>
 
     <ng-container *appExpansionListLoading>

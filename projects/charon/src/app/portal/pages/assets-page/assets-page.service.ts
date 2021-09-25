@@ -66,7 +66,6 @@ export class AssetsPageService
       map((balance) => ([
         {
           balance,
-          token: 'tDEC',
           transactions: combineLatest([
             this.isLoading$,
             this.list$,

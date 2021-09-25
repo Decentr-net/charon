@@ -22,7 +22,6 @@
   "user_page": {
     "copy_wallet_address": "Copy wallet address",
     "send": "Send",
-    "tDEC": "tDEC",
     "wallet_address_copied": "The wallet address was copied successfully",
     "your_wallet": "Your wallet"
   },

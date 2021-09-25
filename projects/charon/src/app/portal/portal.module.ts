@@ -13,6 +13,7 @@ import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
 import { ButtonBackModule } from '@shared/components/button-back';
 import { ButtonModule } from '@shared/components/button';
+import { CurrencySymbolModule } from '@shared/components/currency-symbol';
 import { ExpansionListModule } from '@shared/components/expansion-list';
 import { FormErrorModule } from '@shared/components/form-error';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
@@ -48,6 +49,7 @@ import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
     ButtonModule,
     ClipboardModule,
     CommonModule,
+    CurrencySymbolModule,
     FormErrorModule,
     FormsModule,
     HighchartsChartModule,
