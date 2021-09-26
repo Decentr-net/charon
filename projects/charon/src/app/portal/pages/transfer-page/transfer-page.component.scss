@@ -104,6 +104,11 @@ $transfer-page--padding: $grid-step * 2;
   transform: rotate(180deg);
 }
 
+.transfer-page__form__memo-icon {
+  color: $color-light-grey;
+  cursor: pointer;
+}
+
 .transfer-page__form__error {
   min-height: 16px;
   margin-top: $grid-step;
