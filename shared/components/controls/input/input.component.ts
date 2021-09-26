@@ -76,7 +76,7 @@ export class InputComponent extends CustomControl<string> implements OnInit {
   }
 
   public get useTextArea(): boolean {
-    return this.rows > 1 && !(this.browser === BrowserType.Firefox && this.type === 'password');
+    return this.rows > 1 && !(this.browser === BrowserType.Firefox && this.type === 'password' && this.valueSecured);
   }
 
   public ngOnInit(): void {
