@@ -9,8 +9,10 @@
     <div
       class="import-restore-page__section__title"
       appTypeface="subheader"
+      [ngSwitch]="currentPageType"
     >
-      {{ translate('form.seed.title') }}
+      <ng-container *ngSwitchCase="pageType.IMPORT_ACCOUNT">{{ translate('import.title') }}</ng-container>
+      <ng-container *ngSwitchDefault>{{ translate('restore.title') }}</ng-container>
     </div>
 
     <div
@@ -77,8 +79,10 @@
       color="primary"
       size="md"
       type="submit"
+      [ngSwitch]="currentPageType"
     >
-      {{ translate('submit') }}
+      <ng-container *ngSwitchCase="pageType.IMPORT_ACCOUNT">{{ translate('import.submit') }}</ng-container>
+      <ng-container *ngSwitchDefault>{{ translate('restore.submit') }}</ng-container>
     </button>
   </div>
 </form>

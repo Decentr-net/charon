@@ -28,7 +28,14 @@
         "title": "Log in with seed phrase"
       }
     },
-    "submit": "Log in"
+    "import": {
+      "submit": "Log in",
+      "title": "Log in with seed phrase"
+    },
+    "restore": {
+      "submit": "Restore",
+      "title": "Restore an account with seed phrase"
+    }
   },
   "login_page": {
     "form": {
