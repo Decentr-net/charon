@@ -64,8 +64,6 @@
   }
 
   &.mod-textarea {
-    height: 3em;
-
     &[type=password] {
       -webkit-text-security: disc;
     }
