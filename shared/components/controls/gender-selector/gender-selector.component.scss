@@ -23,12 +23,6 @@
       pointer-events: none;
     }
   }
-
-  &.is-empty {
-    .input__eye {
-      color: $color-light-grey;
-    }
-  }
 }
 
 .input__label {
@@ -42,27 +36,4 @@
   display: flex;
   font-weight: 500;
   justify-content: space-between;
-}
-
-.input__eye {
-  color: $color-black;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.input {
-  background-color: inherit;
-  color: $color-black;
-  font: inherit;
-  padding: 0;
-  resize: none;
-  width: 100%;
-
-  &.mod-textarea {
-    height: 3em;
-
-    &[type=password] {
-      -webkit-text-security: disc;
-    }
-  }
 }
