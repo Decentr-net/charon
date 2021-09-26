@@ -40,7 +40,12 @@
   },
   "complete_registration": {
     "submit": "Save",
-    "title": "User settings"
+    "title": "User settings",
+    "toastr": {
+      "errors": {
+        "429": "Too many requests. Try again later"
+      }
+    }
   },
   "email_confirmation_page": {
     "form": {
