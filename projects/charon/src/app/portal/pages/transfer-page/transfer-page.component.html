@@ -65,14 +65,6 @@
         [appTypeface]="isOpenedInPopup ? 'paragraph' : 'subheader'"
       >
         {{ translate('form.to.label') }}
-
-        <svg-icon
-          class="transfer-page__form__memo-icon"
-          key="memo"
-          size="md"
-          [title]="translate('form.memo.title')"
-          (click)="openMemoPopup()"
-        ></svg-icon>
       </app-transfer-input>
 
       <div class="transfer-page__form__error transfer-page__form__error-to">
@@ -82,6 +74,15 @@
           appTypeface="caption"
         ></app-form-error>
       </div>
+
+      <app-input
+        class="transfer-page__form__control-memo"
+        [maxlength]="100"
+        [rows]="2"
+        formControlName="comment"
+      >
+        <span ngProjectAs="[label]">{{ translate('form.memo.label') }}</span>
+      </app-input>
     </div>
 
     <div
@@ -108,24 +109,5 @@
         {{ translate(isPageDisabled ? 'sending' : 'send') }}
       </button>
     </div>
-
-    <ng-template #memo>
-      <app-input
-        [maxlength]="100"
-        [rows]="3"
-        formControlName="comment"
-      >
-        <span ngProjectAs="[label]">{{ translate('form.memo.label') }}</span>
-      </app-input>
-
-      <mat-dialog-actions align="end">
-        <button
-          app-button
-          mat-dialog-close
-        >
-          {{ translate('form.memo.button') }}
-        </button>
-      </mat-dialog-actions>
-    </ng-template>
   </form>
 </ng-container>

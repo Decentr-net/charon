@@ -112,10 +112,6 @@ export class TransferPageComponent implements OnInit {
     });
   }
 
-  public openMemoPopup(): void {
-    this.matDialog.open(this.memoTemplate);
-  }
-
   private createForm(): FormGroup<TransferForm> {
     return this.formBuilder.group<TransferForm>({
       amount: [

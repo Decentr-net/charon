@@ -58,9 +58,7 @@
         "placeholder": "Enter wallet address"
       },
       "memo": {
-        "button": "Ok",
-        "label": "Enter memo",
-        "title": "Add memo"
+        "label": "Memo"
       }
     },
     "notifications": {

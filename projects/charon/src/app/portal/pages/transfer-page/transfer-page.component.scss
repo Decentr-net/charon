@@ -25,7 +25,7 @@ $transfer-page--padding: $grid-step * 2;
     }
 
     .transfer-page__form__control-to {
-      margin-top: $grid-step * 2;
+      margin-top: $grid-step;
     }
 
     .transfer-page__form__actions-container {
@@ -77,7 +77,8 @@ $transfer-page--padding: $grid-step * 2;
   display: grid;
   column-gap: $grid-step * 2;
   grid-template-areas: 'amount icon to'
-                       'error-amount empty error-to';
+                       'error-amount empty error-to'
+                       'memo memo memo';
   grid-template-columns: 1fr max-content 1fr;
   padding-bottom: $grid-step;
 }
@@ -96,6 +97,12 @@ $transfer-page--padding: $grid-step * 2;
 
 .transfer-page__form__error-to {
   grid-area: error-to;
+}
+
+.transfer-page__form__control-memo {
+  grid-area: memo;
+  margin-bottom: $grid-step * 2;
+  margin-top: $grid-step;
 }
 
 .transfer-page__form__icon {

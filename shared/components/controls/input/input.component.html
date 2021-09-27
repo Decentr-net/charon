@@ -1,6 +1,7 @@
 <div
   class="input__label"
   appTypeface="paragraph"
+  [appTypeface]="isOpenedInPopup ? 'caption' : 'paragraph'"
 >
   <ng-content select="[label]"></ng-content>
 
