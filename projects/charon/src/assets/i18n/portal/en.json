@@ -30,6 +30,7 @@
   "token_transactions_table": {
     "fee": "Fee",
     "from": "From",
+    "memo": "Memo",
     "received": "Received",
     "sent": "Sent",
     "to": "To"

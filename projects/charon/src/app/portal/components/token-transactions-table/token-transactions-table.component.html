@@ -28,6 +28,14 @@
           ></ng-template>
         </ng-template>
       </ng-container>
+
+      <div
+        *ngIf="transaction.comment"
+        class="token-transactions-table__memo"
+        appTypeface="caption"
+      >
+        {{ translate('memo') }}: {{ transaction.comment }}
+      </div>
     </div>
   </ng-container>
 
