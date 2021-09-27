@@ -27,23 +27,22 @@
     autocomplete="off"
     appBindQueryParams
     appSubmitAfterValidation
-    (ngSubmit)="onSubmit()"
   >
 
     <div class="transfer-page__form__inputs-container">
-      <app-transfer-input
+      <app-input
         class="transfer-page__form__control-amount"
         formControlName="amount"
         [appTypeface]="isOpenedInPopup ? 'header-4' : 'header-3'"
       >
-        <span>{{ translate('form.amount.label') }}</span>
+        <span ngProjectAs="[label]">{{ translate('form.amount.label') }}</span>
 
         <span *ngIf="fee$ | async as fee" ngProjectAs="[label-right]">
           <ng-container *ngIf="form.valid">
             {{ translate('form.amount.fee') }}: {{ fee | microValue }}
           </ng-container>
         </span>
-      </app-transfer-input>
+      </app-input>
 
       <app-form-error
         class="transfer-page__form__error transfer-page__form__error-amount"
@@ -58,14 +57,16 @@
         size="xl"
       ></svg-icon>
 
-      <app-transfer-input
+      <app-input
         class="transfer-page__form__control-to"
-        [rows]="2"
+        rows="2"
+        [resize]="false"
         formControlName="to"
         [appTypeface]="isOpenedInPopup ? 'paragraph' : 'subheader'"
+        [placeholder]="translate('form.to.placeholder')"
       >
-        {{ translate('form.to.label') }}
-      </app-transfer-input>
+        <span ngProjectAs="[label]">{{ translate('form.to.label') }}</span>
+      </app-input>
 
       <div class="transfer-page__form__error transfer-page__form__error-to">
         <app-form-error
@@ -103,7 +104,7 @@
         class="transfer-page__form__action-button"
         app-button
         color="primary"
-        type="submit"
+        (click)="onSubmit()"
         [disabled]="isPageDisabled || (canSend$ | async) === false"
       >
         {{ translate(isPageDisabled ? 'sending' : 'send') }}

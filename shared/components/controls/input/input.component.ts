@@ -38,6 +38,8 @@ import { CustomControl } from '../custom-control';
 export class InputComponent extends CustomControl<string> implements OnInit {
   @Input() public rows = 1;
 
+  @Input() public resize = true;
+
   @Input() public type: 'text' | 'password' = 'text';
 
   @Input() public eye = true;

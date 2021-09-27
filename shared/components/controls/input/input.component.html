@@ -23,8 +23,9 @@
   <textarea
     #textareaElement
     class="input mod-textarea"
-    cdkTextareaAutosize
+    [cdkTextareaAutosize]="resize"
     [cdkAutosizeMinRows]="rows"
+    [rows]="rows"
     [maxlength]="maxlength"
     [placeholder]="placeholder || ''"
     [ngModel]="value"
