@@ -16,6 +16,7 @@ import { ButtonModule } from '@shared/components/button';
 import { CurrencySymbolModule } from '@shared/components/currency-symbol';
 import { ExpansionListModule } from '@shared/components/expansion-list';
 import { FormErrorModule } from '@shared/components/form-error';
+import { InputModule } from '@shared/components/controls/input';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
 import { PdvTypeIconModule } from '@shared/components/pdv-type-icon';
 import { SlotModule } from '@shared/components/slot';
@@ -53,6 +54,7 @@ import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
     FormErrorModule,
     FormsModule,
     HighchartsChartModule,
+    InputModule,
     MarginLabelModule,
     MatExpansionModule,
     MatMenuModule,

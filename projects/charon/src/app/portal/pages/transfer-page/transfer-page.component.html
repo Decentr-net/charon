@@ -74,6 +74,15 @@
           appTypeface="caption"
         ></app-form-error>
       </div>
+
+      <app-input
+        class="transfer-page__form__control-memo"
+        [maxlength]="100"
+        [rows]="2"
+        formControlName="comment"
+      >
+        <span ngProjectAs="[label]">{{ translate('form.memo.label') }}</span>
+      </app-input>
     </div>
 
     <div

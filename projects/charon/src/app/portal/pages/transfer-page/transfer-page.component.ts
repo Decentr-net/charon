@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  OnInit,
+} from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
@@ -71,7 +77,7 @@ export class TransferPageComponent implements OnInit {
     this.fee$ = this.getFeeStream(this.form);
 
     const amountControl = this.form.get('amount');
-    this.form.setAsyncValidators(   [
+    this.form.setAsyncValidators([
       this.transferPageService.createAsyncAmountValidator(amountControl, this.fee$),
     ]);
   }
@@ -117,7 +123,12 @@ export class TransferPageComponent implements OnInit {
           this.transferPageService.createAsyncValidWalletAddressValidator(),
         ],
       ],
-      comment: '',
+      comment: [
+        '',
+        {
+          updateOn: 'blur',
+        },
+      ],
     });
   }
 
