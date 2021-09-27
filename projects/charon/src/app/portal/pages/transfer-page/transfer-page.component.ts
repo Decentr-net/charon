@@ -4,15 +4,12 @@ import {
   Component,
   HostBinding,
   OnInit,
-  TemplateRef,
-  ViewChild
 } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, debounceTime, map, share, switchMap } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -20,7 +17,6 @@ import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
 import { svgDecentrHub } from '@shared/svg-icons/decentr-hub';
-import { svgMemo } from '@shared/svg-icons/memo';
 import { isOpenedInTab } from '@shared/utils/browser';
 import { ONE_SECOND } from '@shared/utils/date';
 import { RECEIVER_WALLET_PARAM, TRANSFER_START_AMOUNT, TransferForm } from './transfer-page.definitions';
@@ -47,8 +43,6 @@ export class TransferPageComponent implements OnInit {
   @HostBinding('class.mod-popup-view')
   public isOpenedInPopup: boolean = !isOpenedInTab();
 
-  @ViewChild('memo') public memoTemplate: TemplateRef<void>;
-
   public balance$: Observable<number>;
 
   public fee$: Observable<number>;
@@ -61,7 +55,6 @@ export class TransferPageComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private changeDetectorRef: ChangeDetectorRef,
     private formBuilder: FormBuilder,
-    private matDialog: MatDialog,
     private router: Router,
     private svgIconRegistry: SvgIconRegistry,
     private transferPageService: TransferPageService,
@@ -69,7 +62,6 @@ export class TransferPageComponent implements OnInit {
     svgIconRegistry.register([
       svgArrowLeft,
       svgDecentrHub,
-      svgMemo,
     ]);
   }
 
