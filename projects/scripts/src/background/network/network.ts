@@ -1,5 +1,15 @@
-import { defer, of, throwError } from 'rxjs';
-import { delay, distinctUntilChanged, first, mergeMap, retryWhen, startWith, switchMap, tap } from 'rxjs/operators';
+import { defer, Observable, of, throwError } from 'rxjs';
+import {
+  delay,
+  distinctUntilChanged,
+  first,
+  mapTo,
+  mergeMap,
+  retryWhen,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 
 import CONFIG_SERVICE from '../config';
 import { MessageBus } from '../../../../../shared/message-bus';
@@ -12,7 +22,7 @@ const blockchainNodeService = new BlockchainNodeService();
 const messageBus = new MessageBus();
 const networkStorage = new NetworkBrowserStorageService();
 
-const getRandomRest = (): Promise<string> => {
+const getRandomRest = (): Observable<string> => {
   return defer(() => messageBus.onMessageSync(MessageCode.ApplicationStarted).pipe(
     tap(() => CONFIG_SERVICE.forceUpdate()),
     startWith(void 0),
@@ -30,7 +40,6 @@ const getRandomRest = (): Promise<string> => {
       )),
     )),
   )).pipe(
-
     mergeMap((nodes) => {
       const random = Math.floor(Math.random() * nodes.length);
       const node = nodes[random];
@@ -43,7 +52,7 @@ const getRandomRest = (): Promise<string> => {
       delay(ONE_SECOND),
     )),
     first(),
-  ).toPromise();
+  );
 };
 
 const setNetworkId = async (): Promise<void> => {
@@ -62,9 +71,11 @@ const setNetworkId = async (): Promise<void> => {
   return networkStorage.setActiveId(activeNetworkId);
 };
 
-const setRandomNetwork = async (): Promise<void> => {
-  return getRandomRest()
-    .then((api) => networkStorage.setActiveAPI(api));
+const setRandomNetwork = (): Observable<void> => {
+  return getRandomRest().pipe(
+    tap((api) => networkStorage.setActiveAPI(api)),
+    mapTo(void 0),
+  );
 };
 
 const handleNetworkIdChange = () => {
