@@ -1,4 +1,4 @@
-import { of, throwError } from 'rxjs';
+import { defer, of, throwError } from 'rxjs';
 import { delay, distinctUntilChanged, first, mergeMap, retryWhen, switchMap } from 'rxjs/operators';
 
 import CONFIG_SERVICE from '../config';
@@ -10,7 +10,19 @@ const blockchainNodeService = new BlockchainNodeService();
 const networkStorage = new NetworkBrowserStorageService();
 
 const getRandomRest = (): Promise<string> => {
-  return CONFIG_SERVICE.getRestNodes().pipe(
+  return defer(() => CONFIG_SERVICE.getMaintenanceStatus().pipe(
+    switchMap((isMaintenance) => {
+      if (isMaintenance) {
+        CONFIG_SERVICE.forceUpdate();
+        return throwError(new Error());
+      }
+
+      return CONFIG_SERVICE.getRestNodes();
+    }),
+  )).pipe(
+    retryWhen((errors) => errors.pipe(
+      delay(ONE_SECOND),
+    )),
     mergeMap((nodes) => {
       const random = Math.floor(Math.random() * nodes.length);
       const node = nodes[random];
@@ -20,7 +32,7 @@ const getRandomRest = (): Promise<string> => {
       );
     }),
     retryWhen((errors) => errors.pipe(
-      delay(ONE_SECOND / 2),
+      delay(ONE_SECOND),
     )),
     first(),
   ).toPromise();
