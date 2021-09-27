@@ -118,6 +118,7 @@ const ROUTES: Routes = [
     ],
     data: {
       i18nPageKey: 'maintenance_page',
+      isNetworkSelectorVisible: true,
     },
   },
   {

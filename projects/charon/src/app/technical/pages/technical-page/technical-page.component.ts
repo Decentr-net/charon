@@ -12,12 +12,15 @@ import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
 })
 export class TechnicalPageComponent {
   public i18nPageKey: string;
+  public isNetworkSelectorVisible: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     svgIconRegistry: SvgIconRegistry,
   ) {
     this.i18nPageKey = this.activatedRoute.snapshot.data['i18nPageKey'];
+    this.isNetworkSelectorVisible = this.activatedRoute.snapshot.data['isNetworkSelectorVisible'];
+
     svgIconRegistry.register([
       svgLogoIcon,
     ]);

@@ -36,7 +36,7 @@ const setNetworkId = async (): Promise<void> => {
   ).toPromise();
 
   if (!activeNetworkId || !networkIds.includes(activeNetworkId)) {
-    activeNetworkId = networkIds[1];
+    activeNetworkId = networkIds[0];
   }
 
   return networkStorage.setActiveId(activeNetworkId);
