@@ -29,17 +29,16 @@ const listenRequestsTimeout = (): Observable<void> => {
 
 export const handleProxyErrors = (): Observable<void> => {
   return merge(
-    listenRequestsTimeout().pipe(
-      switchMap(() => getActiveProxySettings().pipe(
-        take(1),
-      )),
-      filter((settings) => settings.levelOfControl === 'controlled_by_this_extension'),
-      mergeMap((settings: ExtensionProxySettings) => pingProxyServer(settings.host)),
-      filter((pingResponse: Response) => !pingResponse.ok),
-      catchError(() => of(void 0)),
-    ),
+    listenRequestsTimeout(),
     listenProxyErrors(),
   ).pipe(
+    switchMap(() => getActiveProxySettings().pipe(
+      take(1),
+    )),
+    filter((settings) => settings.levelOfControl === 'controlled_by_this_extension'),
+    mergeMap((settings: ExtensionProxySettings) => pingProxyServer(settings.host)),
+    filter((pingResponse: Response) => !pingResponse.ok),
+    catchError(() => of(void 0)),
     mergeMap(() => clearProxy()),
   );
 };
