@@ -28,6 +28,7 @@ import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES, MenuService, NetworkSelectorService, NetworkService } from './services';
 import { QuillRootModule } from './quill';
 import { PermissionsService } from './permissions';
+import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 
 export function initAuthFactory(authService: AuthService): () => void {
   return () => authService.init();
@@ -67,6 +68,8 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     NetworkSelectorModule.forRoot({
       service: NetworkSelectorService,
     }),
+    NgxGoogleAnalyticsModule.forRoot(environment.ga),
+    NgxGoogleAnalyticsRouterModule,
     NotificationsModule.forRoot({
       errorProcessors: ERROR_PROCESSORS,
       fallbackErrorProcessor: FallbackErrorProcessor,
