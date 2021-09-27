@@ -6,7 +6,7 @@ module.exports = webpackMerge(baseConfig, {
   mode: 'production',
   plugins: [
     manifestPluginFn({
-      "content_security_policy": "script-src 'self'; object-src 'self'",
+      "content_security_policy": "script-src 'self' https://www.googletagmanager.com; object-src 'self'",
     }),
     new optimize.AggressiveMergingPlugin(),
     new optimize.OccurrenceOrderPlugin(),
