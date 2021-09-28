@@ -16,7 +16,7 @@
           "required": "Email is required"
         },
         "label": "Email",
-        "subtitle": "We’ll use this email to sent the confirmation code, so be sure you have an access for it.",
+        "subtitle": "We’ll use this email to sent the confirmation code, so be sure you have an access to it.",
         "title": "Connect your email"
       },
       "password": {
@@ -25,7 +25,7 @@
           "password": "Password is too weak"
         },
         "label": "New password (min 8 chars)",
-        "subtitle": "We’ll use this email to sent the confirmation code, so be sure you have an access for it.",
+        "subtitle": "We’ll use this email to sent the confirmation code, so be sure you have an access to it.",
         "title": "Create a new password"
       },
       "terms_of_use": {
@@ -57,7 +57,7 @@
     },
     "did_not_get_code": "Didn't get the letter or couldn't find it?",
     "ensure": "Just want to ensure we deal with real people.",
-    "register_new_account": "Back to login screen",
+    "register_new_account": "Register new account",
     "resend_code": "Resend confirmation code",
     "resend_code_will_able": "It will be possible to resend the code in {{ time }} sec.",
     "sent": "We've send you the confirmation code to the",

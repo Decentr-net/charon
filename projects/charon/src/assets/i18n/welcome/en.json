@@ -22,7 +22,7 @@
       "title": "Log in with seed phrase"
     },
     "sign_up": {
-      "subtitle": "Create new user and wallet and got a seed phrase to verify yourself during next logins.",
+      "subtitle": "Create new user and wallet and get a seed phrase to verify yourself during next logins.",
       "title": "Create new user"
     }
   }

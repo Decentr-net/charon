@@ -11,7 +11,7 @@
     }
   },
   "pdv_types_settings": {
-    "subtitle": "We’ll use information about the sites you visit in order to transform it into a PDV rate.<br>PDV rate affects lots of aspects of your life in Decentr. We recommend to check them all.",
+    "subtitle": "We’ll use information about the sites you visit in order to transform it into a PDV rate.<br>PDV rate affects lots of aspects of your life in Decentr. We recommend to enable them all.",
     "title": "Check information we can track and transfer into PDV",
     "warning": "Selected options will directly affect the PDV, the less we track the less will be your PDV."
   },
