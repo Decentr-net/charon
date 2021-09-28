@@ -135,6 +135,7 @@
     }
   },
   "hub_posts_page": {
+    "no_posts": "There are no posts created",
     "top_posts": "Top posts"
   },
   "hub_overview_page": {

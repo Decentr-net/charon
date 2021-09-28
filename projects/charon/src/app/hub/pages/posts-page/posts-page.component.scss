@@ -12,7 +12,13 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
 
 .posts-page__spinner {
   display: block;
-  margin: $page-side-padding auto;
+  margin: $grid-step * 8 auto;
+}
+
+.posts-page__no-posts {
+  color: $color-grey;
+  margin-top: $grid-step * 8;
+  text-align: center;
 }
 
 .posts-page__container {
