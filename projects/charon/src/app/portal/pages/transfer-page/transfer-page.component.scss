@@ -93,6 +93,7 @@ $transfer-page--padding: $grid-step * 2;
 
 .transfer-page__form__control-to {
   grid-area: to;
+  height: 100%;
 }
 
 .transfer-page__form__error-to {
