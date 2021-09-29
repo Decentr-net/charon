@@ -1,10 +1,51 @@
 @import 'variables';
 
 :host {
-  display: block;
-  margin-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
 
-  .account-form {
-    margin-top: 3rem;
+.account-form__section {
+  & + & {
+    margin-top: $grid-step * 5;
   }
+}
+
+.account-form__section__title {
+  font-weight: 500;
+}
+
+.account-form__section__subtitle {
+  margin-top: $grid-step;
+}
+
+.account-form__form-field {
+  margin-top: $grid-step;
+  width: 100%;
+}
+
+.account-form__checkbox {
+  margin-top: $grid-step;
+}
+
+.account-form__link {
+  color: $color-primary;
+}
+
+.account-form__divider {
+  background: $color-outlines;
+  height: 2px;
+  margin: $grid-step * 2 (-$grid-step * 2);
+}
+
+.account-form__actions {
+  column-gap: $grid-step * 1.5;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.account-form__action-button {
+  width: 160px;
 }

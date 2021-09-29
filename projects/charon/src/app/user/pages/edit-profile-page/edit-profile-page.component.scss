@@ -1,9 +1,55 @@
+@import 'variables';
+
 :host {
-  background: #ffffff;
   display: block;
-  padding-bottom: 1rem;
+  padding: $grid-step * 5 0;
 }
 
-.page-title {
-  margin-bottom: 1rem;
+.edit-profile-page__card {
+  border: 2px solid $color-outlines;
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: auto;
+  padding: $grid-step * 2;
+  width: 792px;
+}
+
+.edit-profile-page__title {
+  font-weight: 500;
+}
+
+.edit-profile-page__password-title {
+  font-weight: 500;
+  margin-top: $grid-step * 5;
+  margin-bottom: $grid-step * 2;
+}
+
+.edit-profile-page__password-form {
+  column-gap: $grid-step * 2;
+  display: flex;
+  margin-top: $grid-step;
+}
+
+.password-form__old-password-container {
+  flex-shrink: 0;
+  width: calc((100% - #{$grid-step} * 4) / 3);
+}
+
+.edit-profile-page__divider {
+  background: $color-outlines;
+  flex-shrink: 0;
+  height: 2px;
+  margin: $grid-step * 2 (-$grid-step * 2);
+}
+
+.edit-profile-page__actions-container {
+  column-gap: $grid-step * 2;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.edit-profile-page__action-button {
+  width: 160px;
 }

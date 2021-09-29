@@ -1,30 +1,27 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
 import { TranslocoModule } from '@ngneat/transloco';
-import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
-import { ChooseAvatarRadioModule } from '../choose-avatar-radio';
-import { DateInputModule } from '../date-input';
+import { TypefaceModule } from '../../directives/typeface';
+import { AvatarSelectorModule, DateInputModule, GenderSelectorModule, InputModule } from '../controls';
 import { FormErrorModule } from '../form-error';
+import { InputContainerModule } from '../input-container';
 import { ProfileFormComponent } from './profile-form.component';
 import { ProfileFormModel } from './profile-form-model';
 
 @NgModule({
   imports: [
-    ChooseAvatarRadioModule,
+    AvatarSelectorModule,
     CommonModule,
     DateInputModule,
     FormErrorModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatRadioModule,
-    NgxTrimDirectiveModule,
+    GenderSelectorModule,
+    InputContainerModule,
+    InputModule,
     ReactiveFormsModule,
     TranslocoModule,
+    TypefaceModule,
   ],
   declarations: [
     ProfileFormComponent,
@@ -33,7 +30,6 @@ import { ProfileFormModel } from './profile-form-model';
     ProfileFormComponent,
   ],
   providers: [
-    DatePipe,
     {
       provide: ProfileFormModel,
       useClass: ProfileFormModel,

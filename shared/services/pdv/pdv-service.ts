@@ -20,7 +20,7 @@ import { whileDocumentVisible } from '../../utils/document';
 import { exponentialToFixed } from '../../utils/number';
 import { AuthBrowserStorageService } from '../auth';
 import { ConfigService } from '../configuration';
-import { Network, NetworkBrowserStorageService } from '../network-storage';
+import { NetworkBrowserStorageService } from '../network-storage';
 import { AdvDdvStatistics, BalanceValueDynamic, PDVStatChartPoint } from './pdv.definitions';
 import { PDVApiService } from './pdv-api.service';
 import { PDVStorageService } from './pdv-storage.service';
@@ -117,7 +117,7 @@ export class PDVService {
           dayMargin: getPDVDayChange(pdvRateHistory, +pdvRate),
           value: pdvRate,
         })),
-      )
+      );
   }
 
   private getActiveUserWallet(): Observable<Wallet> {
@@ -127,10 +127,8 @@ export class PDVService {
     );
   }
 
-  private getActiveNetworkApi(): Observable<Network['api']> {
-    return this.networkBrowserStorageService.getActiveNetwork().pipe(
-      pluck('api'),
-    );
+  private getActiveNetworkApi(): Observable<string> {
+    return this.networkBrowserStorageService.getActiveAPI();
   }
 
   private createBalanceLiveObservable(): Observable<string> {
@@ -145,10 +143,11 @@ export class PDVService {
         startWith(void 0),
       ),
     ]).pipe(
-      switchMap(([walletAddress, networkApi]) => this.pdvApiService.getBalance(networkApi, walletAddress)),
+      switchMap(([walletAddress, networkApi]) => this.pdvApiService.getBalance(networkApi, walletAddress).pipe(
+        catchError(() => EMPTY),
+      )),
       map(exponentialToFixed),
       distinctUntilChanged(),
-      catchError(() => EMPTY),
     );
   }
 

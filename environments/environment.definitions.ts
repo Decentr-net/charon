@@ -1,12 +1,7 @@
 export abstract class Environment {
-  abstract awsStorage: string;
+  abstract avatars: string;
+  abstract config: string;
   abstract currencyApi: string;
-  abstract image: {
-    api: string;
-    apiKey: string;
-  };
+  abstract ga: string;
   abstract production: boolean;
-  abstract rest: {
-    local: string;
-  };
 }

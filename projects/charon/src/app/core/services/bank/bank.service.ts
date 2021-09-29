@@ -30,7 +30,7 @@ export class BankService {
   }
 
   public getDECBalance(walletAddress: Wallet['address']): Observable<BankCoin['amount']> {
-    const apiUrl = this.networkService.getActiveNetworkInstant().api;
+    const apiUrl = this.networkService.getActiveNetworkAPIInstant();
 
     return defer(() => this.bankApiService.getCoinBalance(apiUrl, walletAddress)).pipe(
       map((coins) => {
@@ -50,7 +50,7 @@ export class BankService {
 
     return this.configService.getChainId().pipe(
       mergeMap((chainId) => calculateTransferFee(
-        this.networkService.getActiveNetworkInstant().api,
+        this.networkService.getActiveNetworkAPIInstant(),
         chainId,
         transferData,
       )),
@@ -58,7 +58,11 @@ export class BankService {
     );
   }
 
-  public transferCoins(receiver: TransferData['to_address'], amount: TransferData['amount']): Observable<void> {
+  public transferCoins(
+    receiver: TransferData['to_address'],
+    amount: TransferData['amount'],
+    comment?: string,
+  ): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
@@ -67,6 +71,7 @@ export class BankService {
           from_address: wallet.address,
           to_address: receiver,
           amount,
+          comment,
         },
         privateKey: wallet.privateKey,
       })
@@ -82,7 +87,7 @@ export class BankService {
     role: TransferRole,
     paginationOptions?: TransferHistoryPaginationOptions,
   ): Observable<TransferHistory> {
-    const apiUrl = this.networkService.getActiveNetworkInstant().api;
+    const apiUrl = this.networkService.getActiveNetworkAPIInstant();
 
     return defer(() => this.bankApiService.getTransferHistory(
       apiUrl,

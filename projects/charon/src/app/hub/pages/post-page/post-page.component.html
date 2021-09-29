@@ -5,13 +5,11 @@
     [headerBackgroundImage]="'url(' + post.previewImage + ')'"
   >
     <div class="post-page__header" ngProjectAs="[category]">
-      <a
-        class="post-page__navigation-back-button"
+      <button
+        app-button-back
         [appNavigateBack]="['/', appRoute.Hub]"
         [appNavigateBackStartsWith]="['/', appRoute.Hub]"
-      >
-        <svg-icon class="post-page__navigation-back-button-icon" key="arrow-left"></svg-icon>
-      </a>
+      ></button>
 
       <div
         class="post-page__category"

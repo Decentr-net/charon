@@ -1,0 +1,39 @@
+@import '../../../styles/variables';
+
+:host {
+  background-color: $color-background;
+  border-radius: $border-radius;
+  display: block;
+  padding: $grid-step * 2;
+  width: 100%;
+
+  &.is-invalid {
+    &.is-submitted,
+    &.is-touched {
+      .input__label {
+        color: $color-negative;
+      }
+    }
+  }
+
+  &.is-disabled {
+    .input__label,
+    .input {
+      color: $color-light-grey;
+      pointer-events: none;
+    }
+  }
+}
+
+.input__label {
+  color: $color-grey;
+  display: flex;
+  justify-content: space-between;
+}
+
+.input__container {
+  column-gap: $grid-step * 2;
+  display: flex;
+  font-weight: 500;
+  justify-content: space-between;
+}

@@ -1,9 +1,10 @@
 {
   "back": "< Back",
   "account_form_page": {
+    "back": "Back",
     "form": {
       "confirm_password": {
-        "label": "Confirm password",
+        "label": "Repeat password",
         "errors": {
           "compare": "Passwords should be equal",
           "required": "Password is required"
@@ -14,84 +15,37 @@
           "email": "Enter valid email",
           "required": "Email is required"
         },
-        "label": "E-mail"
+        "label": "Email",
+        "subtitle": "We’ll use this email to sent the confirmation code, so be sure you have an access to it.",
+        "title": "Connect your email"
       },
       "password": {
         "errors": {
-          "minlength": "Minimum length of password: {{ requiredLength }}",
           "required": "Password is required",
-          "strength": "Password should contain at least 1 element of: lowercase, uppercase letter, number, special char"
+          "password": "Password is too weak"
         },
-        "label": "New password (min 8 chars)"
+        "label": "New password (min 8 chars)",
+        "subtitle": "We’ll use this email to sent the confirmation code, so be sure you have an access to it.",
+        "title": "Create a new password"
       },
-      "submit": "Next",
       "terms_of_use": {
         "link": "Terms of Use",
-        "have_read": "I have read and agree to the"
+        "have_read": "I have read and agree to",
+        "errors": {
+          "required": "Please agree to Terms of Use"
+        }
       }
     },
-    "title": "Create Profile"
+    "submit": "Done"
   },
   "complete_registration": {
-    "form": {
-      "avatar": {
-        "label": "Profile Picture"
-      },
-      "bio": {
-        "errors": {
-          "maxlength": "The maximum length of biography is {{requiredLength}} characters"
-        },
-        "label": "Biography"
-      },
-      "birthday": {
-        "errors": {
-          "exists": "Invalid date",
-          "invalidFormat": "Not valid format",
-          "maxDate": "Maximum date is {{value}}",
-          "minDate": "Minimal date is {{value}}",
-          "required": "Birth date is required"
-        },
-        "label": "Birth Date"
-      },
-      "email": {
-        "errors": {
-          "email": "Enter valid email",
-          "required": "Email is required",
-          "unique": "This email has already been added"
-        },
-        "label": "E-mail"
-      },
-      "first_name": {
-        "errors": {
-          "required": "First Name is required"
-        },
-        "label": "First Name"
-      },
-      "gender": {
-        "errors": {
-          "required": "Gender is required"
-        },
-        "female": "Female",
-        "label": "Gender",
-        "male": "Male"
-      },
-      "last_name": {
-        "errors": {
-          "required": "Last Name is required"
-        },
-        "label": "Last Name"
-      },
-      "username": {
-        "errors": {
-          "minlength": "Length of name should be not less than {{ requiredLength }}",
-          "required": "Nickname is required",
-          "unique": "This nickname has already been added"
-        },
-        "label": "Nickname (account name)"
-      },
-      "submit": "Complete registration"
-    },
-    "title": "Profile"
+    "submit": "Save",
+    "title": "User settings",
+    "toastr": {
+      "errors": {
+        "429": "Too many requests. Try again later"
+      }
+    }
   },
   "email_confirmation_page": {
     "form": {
@@ -99,64 +53,71 @@
         "errors": {
           "required": "Code is required"
         }
-      },
-      "label": "Activation code",
-      "register_new_account": "Register New Account",
-      "resend_code": "Resend a code",
-      "submit": "Confirm"
+      }
     },
-    "open": "Please enter the code to complete your registration, it is a mandatory step.",
-    "sent_to": "Confirmation code has been sent to",
-    "title": "E-mail Confirmation",
+    "did_not_get_code": "Didn't get the letter or couldn't find it?",
+    "ensure": "Just want to ensure we deal with real people.",
+    "register_new_account": "Register new account",
+    "resend_code": "Resend confirmation code",
+    "resend_code_will_able": "It will be possible to resend the code in {{ time }} sec.",
+    "sent": "We've send you the confirmation code to the",
+    "submit": "Confirm",
+    "title": "Please confirm your email",
     "errors": {
       "account_conflict": "Account already confirmed",
       "account_not_found": "Account not found or activation code is not valid"
     }
   },
+  "email_confirmed_card": {
+    "hint": "You can change it later in user settings if you need it.",
+    "subtitle": {
+      "afterEmail": "email.",
+      "beforeEmail": "Now your user profile is connected with"
+    },
+    "title": "Perfect, your email is confirmed!"
+  },
   "pdv_consent": {
     "confirm": "Confirm",
-    "privacy_link": "our Privacy Policy",
-    "title": "Consent of Cookies",
-    "text": "Full details about the collected data and what we use it for are provided in"
+    "hint": "You’ll be able to change it later in user settings page.",
+    "title": "You’re successfully logged in as"
   },
   "seed_phrase_page": {
-    "download_seed_phrase": "Download Seed Phrase",
-    "hint": {
-      "text1": "Store your seed phrase in a password manager like 1Password.",
-      "text2": "Write this phrase on a piece of paper and store in a secure location. If you want even more security, write it down on multiple pieces of paper and store each in 2&nbsp;-&nbsp;3 different locations.",
-      "text3": "Download the PDF file with Seed Phrase and keep it stored safely on an external encrypted hard drive or storage medium.",
-      "text4": "We can't recover your Seed Phrase for you. If you lose it, you won't be able to back up your account.",
-      "label": "Seed Phrase is the only way to recover your profile and wallet with DEC balance so take it seriously.",
-      "title": "Lose once never get back"
-    },
+    "back": "Back",
+    "copy": "Copy",
+    "download_pdf": "Download .pdf",
     "next": "Next",
-    "reveal": "Click here to reveal secret words",
-    "subtitle": "Your secret backup phrase (seed phrase) makes it easy to back up and restore your account.",
-    "title": "Secret Backup Phrase",
+    "print": "Print",
+    "seed_copied": "The seed phrase was copied successfully",
+    "seed_label": "Your seed phrase",
+    "subtitle": "It is the only way to import or restore your account, so copy, download, print and store it safely!",
+    "title": "Store your seed phrase",
     "warning": {
-      "label": "WARNING",
-      "text": "Never disclose your backup phrase. Anyone with this phrase can take your DECs forever."
+      "label": "Never share your seed phrase with anyone.",
+      "text1": "Anyone with this phrase can take your Decs forever.",
+      "text2": "We won’t be able to recover it or return your account and wallet to you.",
+      "text3": "If you’ll lose the seed phrase you’ll lose your account forever."
     }
   },
   "sign_up_page": {
     "errors": {
       "account_conflict": "A wallet has already been created for this email or wallet address",
+      "invalid_email": "Invalid email",
       "too_many_requests": "Too many requests"
-    }
+    },
+    "step": "step",
+    "title": "Create new account"
   },
   "success_page": {
-    "done": "ALL DONE",
+    "done": "Done",
     "hint": {
-      "label": "*Decentr cannot recover your seed phrase."
+      "label": "Decentr can't recover your seed phrase!"
     },
-    "subtitle": "Keep your seed phrase safe, it's your responsibility!",
+    "subtitle": "Keep your seed phrase safe and remember that's the only key to all you have on Decentr.",
     "tips": {
-      "label": "Tips on storing it safely",
-      "tip1": "Save a backup in multiple places.",
-      "tip2": "Never share the phrase with anyone.",
-      "tip3": "Be careful of phishing! Decentr will never spontaneously ask for your seed phrase.",
-      "tip4": "If you ever have questions or see something fishy, email <a href='mailto:support@decentr.net'>support@decentr.net</a>."
+      "tip1": "Save backup in multiple places and never share the phrase with anyone.",
+      "tip2": "Be careful of fishing! Decentr will never spontaneously ask for your seed phrase.",
+      "tip3": "If you ever have questions or see something fishy, email <a href='mailto:support@decentr.net'>support@decentr.net</a>."
     },
-    "title": "Congratulations"
+    "title": "Congratulations, you're all set!"
   }
 }

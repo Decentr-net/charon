@@ -12,13 +12,15 @@
 </ng-template>
 
 <ng-template [appSlot]="headerActionsSlotName">
-  <app-hub-header-action-button
+  <button
+    app-button
     *transloco="let translate"
-    [icon]="'edit'"
     [routerLink]="['/', appRoute.Hub, hubRoute.PostCreate]"
   >
-    {{ translate('hub.posts.new') }}
-  </app-hub-header-action-button>
+    <svg-icon key="edit"></svg-icon>
+
+    <span>{{ translate('hub.posts.new') }}</span>
+  </button>
 </ng-template>
 
 <app-hub-feed-navigation *ngIf="!isPostOutletActivated"></app-hub-feed-navigation>

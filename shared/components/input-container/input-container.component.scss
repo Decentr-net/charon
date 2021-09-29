@@ -1,0 +1,17 @@
+@import '../../styles/variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  row-gap: $grid-step;
+}
+
+.input-container__error {
+  padding-left: $grid-step * 2;
+  min-height: 16px;
+  visibility: hidden;
+
+  &.is-visible {
+    visibility: visible;
+  }
+}

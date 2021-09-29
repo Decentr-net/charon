@@ -15,12 +15,12 @@ export class ConfigApiService {
     const now = Date.now();
     const headers = {
       'Cache-Control': 'no-cache',
-      'Pragma': 'no-cache',
-      'Expires': '0'
+      Pragma: 'no-cache',
+      Expires: '0'
     };
 
     return defer(() => {
-      return fetch(`${this.environment.awsStorage}/config.json?${now}`, { headers })
+      return fetch(`${this.environment.config}?${now}`, { headers })
         .then((response) => response.json());
     });
   }

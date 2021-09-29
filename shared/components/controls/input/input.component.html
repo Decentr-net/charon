@@ -1,0 +1,53 @@
+<div
+  class="input__label"
+  appTypeface="paragraph"
+  [appTypeface]="isOpenedInPopup ? 'caption' : 'paragraph'"
+>
+  <ng-content select="[label]"></ng-content>
+
+  <ng-content select="[label-right]"></ng-content>
+</div>
+
+<div class="input__container">
+  <ng-template [ngIf]="useTextArea" [ngIfThen]="textArea" [ngIfElse]="input"></ng-template>
+
+  <svg-icon
+    class="input__eye"
+    *ngIf="type === 'password' && eye"
+    [key]="valueSecured ? 'eye-crossed' : 'eye'"
+    (click)="onEyeClick()"
+  ></svg-icon>
+</div>
+
+<ng-template #textArea>
+  <textarea
+    #textareaElement
+    class="input mod-textarea"
+    [cdkTextareaAutosize]="resize"
+    [cdkAutosizeMinRows]="rows"
+    [rows]="rows"
+    [maxlength]="maxlength"
+    [placeholder]="placeholder || ''"
+    [ngModel]="value"
+    (ngModelChange)="onValueChange($event)"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+    [attr.type]="type ==='password' && valueSecured ? 'password' : 'text'"
+    trim="blur"
+  ></textarea>
+</ng-template>
+
+<ng-template #input>
+  <input
+    #inputElement
+    class="input"
+    [placeholder]="placeholder || ''"
+    [maxlength]="maxlength"
+    [type]="type ==='password' && valueSecured ? 'password' : 'text'"
+    [ngModel]="value"
+    (ngModelChange)="onValueChange($event)"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+    trim="blur"
+  >
+</ng-template>

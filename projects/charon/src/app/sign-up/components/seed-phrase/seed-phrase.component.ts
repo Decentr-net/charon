@@ -1,9 +1,24 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { TranslocoService } from '@ngneat/transloco';
 
-import { svgLogo } from '@shared/svg-icons/logo';
+import { svgEye } from '@shared/svg-icons/eye';
+import { svgEyeCrossed } from '@shared/svg-icons/eye-crossed';
+import { svgLoud } from '@shared/svg-icons/loud';
+import { svgCopy } from '@shared/svg-icons/copy';
+import { svgDownload } from '@shared/svg-icons/download';
+import { NotificationService } from '@shared/services/notification';
 
 @Component({
   selector: 'app-seed-phrase',
@@ -11,28 +26,46 @@ import { svgLogo } from '@shared/svg-icons/logo';
   styleUrls: ['./seed-phrase.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SeedPhraseComponent {
+export class SeedPhraseComponent implements OnInit {
   @Input() public seedPhrase: string;
 
+  @Output() public readonly back: EventEmitter<void> = new EventEmitter();
   @Output() public readonly next: EventEmitter<void> = new EventEmitter();
 
   @ViewChild('pdfTemplate', { static: false }) public pdfTemplate: ElementRef<HTMLElement>;
 
   public isSeedPhraseVisible = false;
+  public securedSeedPhrase: string;
 
   constructor(
+    private notificationService: NotificationService,
+    private translocoService: TranslocoService,
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register([
-      svgLogo,
+      svgCopy,
+      svgDownload,
+      svgEye,
+      svgEyeCrossed,
+      svgLoud,
     ]);
+  }
+
+  public ngOnInit(): void {
+    this.securedSeedPhrase = this.seedPhrase.replace(/\w/g, '•');
   }
 
   public downloadSeedPhrase(): void {
     this.exportAsPDF(this.pdfTemplate.nativeElement);
   }
 
-  public exportAsPDF(pdfTemplate: HTMLElement): void {
+  public onSeedPhraseCopied(): void {
+    this.notificationService.success(
+      this.translocoService.translate('sign_up.seed_phrase_page.seed_copied')
+    );
+  }
+
+  private exportAsPDF(pdfTemplate: HTMLElement): void {
     html2canvas(pdfTemplate).then((canvas) => {
       const pdf = new jsPDF('p', 'px', 'a4');
       const contentDataURL = canvas.toDataURL('image/png');
@@ -54,11 +87,15 @@ export class SeedPhraseComponent {
     });
   }
 
+  public onBack(): void {
+    this.back.emit();
+  }
+
   public onNext(): void {
     this.next.emit();
   }
 
-  public showSeedPhrase(): void {
-    this.isSeedPhraseVisible = true;
+  public toggleSeedVisibility(): void {
+    this.isSeedPhraseVisible = !this.isSeedPhraseVisible;
   }
 }

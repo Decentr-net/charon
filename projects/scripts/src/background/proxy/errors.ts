@@ -1,5 +1,5 @@
 import { merge, Observable, of } from 'rxjs';
-import { catchError, filter, mergeMap, take } from 'rxjs/operators';
+import { catchError, filter, mergeMap, switchMap, take } from 'rxjs/operators';
 import { browser, WebRequest } from 'webextension-polyfill-ts';
 import OnErrorOccurredDetailsType = WebRequest.OnErrorOccurredDetailsType;
 
@@ -32,7 +32,7 @@ export const handleProxyErrors = (): Observable<void> => {
     listenRequestsTimeout(),
     listenProxyErrors(),
   ).pipe(
-    mergeMap(() => getActiveProxySettings().pipe(
+    switchMap(() => getActiveProxySettings().pipe(
       take(1),
     )),
     filter((settings) => settings.levelOfControl === 'controlled_by_this_extension'),

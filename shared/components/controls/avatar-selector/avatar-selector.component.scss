@@ -1,0 +1,39 @@
+@import '../../../styles/variables';
+
+:host {
+  column-gap: $grid-step;
+  display: flex;
+}
+
+.avatar-selector__avatar-container {
+  position: relative;
+
+  &.is-active {
+    border-color: $color-primary;
+
+    .avatar-selector__check-icon-container {
+      display: inline-flex;
+    }
+
+    .avatar-selector__avatar {
+      border-color: $color-primary;
+    }
+  }
+}
+
+.avatar-selector__avatar {
+  border: 2px solid transparent;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.avatar-selector__check-icon-container {
+  background: $color-primary;
+  border-radius: 100%;
+  bottom: 0;
+  color: $color-white;
+  display: none;
+  font-size: 16px;
+  right: 0;
+  position: absolute;
+}

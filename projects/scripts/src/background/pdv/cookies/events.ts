@@ -14,7 +14,7 @@ export const listenCookiesSet = (filter: Partial<Cookie> = {}): Observable<Cooki
 
       const cookie = changeInfo.cookie;
 
-      if (!cookie.value) {
+      if (!cookie.value || !cookie.name) {
         return;
       }
 
@@ -31,4 +31,4 @@ export const listenCookiesSet = (filter: Partial<Cookie> = {}): Observable<Cooki
 
     return () => browser.cookies.onChanged.removeListener(listener);
   });
-}
+};

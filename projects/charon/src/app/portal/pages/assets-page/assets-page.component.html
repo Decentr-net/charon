@@ -17,8 +17,15 @@
       {{ translate('tokens') }}
 
       <div class="assets-page__tokens-header-cell__actions">
-        <button class="assets-page__add-token-button" appTypeface="caption">
+        <button
+          app-button
+          color="grey"
+          size="sm"
+          disabled
+          appTypeface="caption"
+        >
           <svg-icon key="add" size="xs"></svg-icon>
+
           {{ translate('add_token') }}
         </button>
 
@@ -34,7 +41,7 @@
     >
       <svg-icon key="decentr-hub"></svg-icon>
       {{ asset.balance | microValue }}
-      {{ asset.token }}
+      <app-currency-symbol></app-currency-symbol>
     </div>
 
     <ng-container *appExpansionListLoading>
@@ -62,10 +69,10 @@
 
           <span
             class="assets-page__expansion-list__header-count"
-            *ngIf="transactions"
+            *ngIf="totalCount$ | async as totalCount"
             appTypeface="paragraph"
           >
-            {{ transactions[0]?.length }}
+            {{ totalCount }}
           </span>
         </div>
 
@@ -104,11 +111,13 @@
 
   <ng-template #sendButton>
     <button
-      class="assets-page__send-button"
+      app-button
+      size="sm"
       [routerLink]="['./', portalRoute.Transfer]"
       appTypeface="caption"
     >
       <svg-icon key="send" size="xs"></svg-icon>
+
       {{ translate('send') }}
     </button>
   </ng-template>

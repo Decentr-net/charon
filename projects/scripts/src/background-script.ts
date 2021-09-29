@@ -1,9 +1,9 @@
-import { PDVUpdateNotifier } from '../../../shared/services/pdv';
+import { PDVUpdateNotifier } from '../../../shared/services/pdv/pdv-update-notifier';
 import { BrowserType, detectBrowser } from '../../../shared/utils/browser';
 import { initMessageListeners } from './background/listeners';
 import { initAutoLock } from './background/lock';
 import { initMigration } from './background/migration';
-import { setRandomNetwork } from './background/network-switch';
+import { initNetwork } from './background/network';
 import { initPDVCollection } from './background/pdv';
 import { initProxy } from './background/proxy';
 import { whileVersionSupported } from './background/technical';
@@ -18,7 +18,7 @@ const CURRENT_BROWSER_TYPE: BrowserType = detectBrowser();
     initProxy();
   }
 
-  await setRandomNetwork();
+  await initNetwork();
 
   initAutoLock();
 

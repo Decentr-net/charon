@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { delay, filter, map, pluck, retryWhen, take } from 'rxjs/operators';
-import { Observable, ReplaySubject, Subscription } from 'rxjs';
+import { delay, filter, map, retryWhen, take } from 'rxjs/operators';
+import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 
 import { Environment } from '../../../environments/environment.definitions';
 import { ONE_SECOND } from '../../utils/date';
 import { ConfigApiService } from './config-api.service';
-import { Config } from './config.definitions';
+import { Config, Network } from './config.definitions';
+import { NetworkBrowserStorageService } from '../network-storage';
 
 @Injectable()
 export class ConfigService {
@@ -18,6 +19,7 @@ export class ConfigService {
 
   constructor(
     private environment: Environment,
+    private networkBrowserStorageService: NetworkBrowserStorageService,
   ) {
   }
 
@@ -42,6 +44,18 @@ export class ConfigService {
     );
   }
 
+  private getNetworkConfig(): Observable<Network> {
+    return combineLatest([
+      this.getConfig(),
+      this.networkBrowserStorageService.getActiveId().pipe(
+        filter((id) => !!id),
+      ),
+    ]).pipe(
+      map(([config, networkId]) => config.networks[networkId]),
+      take(1),
+    );
+  }
+
   public forceUpdate(): void {
     this.config$.next(void 0);
     this.pendingConfig = false;
@@ -49,36 +63,43 @@ export class ConfigService {
 
   public getAppMinVersionRequired(): Observable<string> {
     return this.getConfig().pipe(
+
       map(({ minVersion }) => minVersion),
     );
   }
 
   public getCerberusUrl(): Observable<string> {
-    return this.getConfig().pipe(
+    return this.getNetworkConfig().pipe(
       map((config) => config.cerberus.url),
     );
   }
 
   public getChainId(): Observable<string> {
-    return this.getConfig().pipe(
-      map(({ network }) => network.chainId),
+    return this.getNetworkConfig().pipe(
+      map((config) => config.network.chainId),
     );
   }
 
   public getMaintenanceStatus(): Observable<boolean> {
+    return this.getNetworkConfig().pipe(
+      map(({ maintenance}) => maintenance),
+    );
+  }
+
+  public getNetworkIds(): Observable<string[]> {
     return this.getConfig().pipe(
-      map(({maintenance}) => maintenance),
+      map((config) => Object.keys(config.networks)),
     );
   }
 
   public getRestNodes(): Observable<string[]> {
-    return this.getConfig().pipe(
-      map(({ network }) => network.rest),
+    return this.getNetworkConfig().pipe(
+      map((config) => config.network.rest),
     );
   }
 
-  public getPDVCountToSend(): Observable<Pick<Config['cerberus'], 'minPDVCount' | 'maxPDVCount'>> {
-    return this.getConfig().pipe(
+  public getPDVCountToSend(): Observable<Pick<Network['cerberus'], 'minPDVCount' | 'maxPDVCount'>> {
+    return this.getNetworkConfig().pipe(
       map((config) => config.cerberus),
     );
   }
@@ -90,14 +111,14 @@ export class ConfigService {
   }
 
   public getTheseusUrl(): Observable<string> {
-    return this.getConfig().pipe(
-      pluck('theseus', 'url'),
+    return this.getNetworkConfig().pipe(
+      map((config) => config.theseus.url),
     );
   }
 
   public getVPNSettings(): Observable<Config['vpn']> {
     return this.getConfig().pipe(
-      pluck('vpn'),
+      map(({ vpn }) => vpn),
     );
   }
 }

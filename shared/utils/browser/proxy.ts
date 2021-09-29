@@ -112,10 +112,10 @@ const getProxyConfig = (host: string, port: number): unknown => {
         rules: {
           singleProxy: {
             scheme: 'http',
-            host: host,
-            port: port,
+            host,
+            port,
           },
-          bypassList: ['*localhost*', '*127.0.0.1*', `${environment.awsStorage}*`],
+          bypassList: ['*localhost*', '*127.0.0.1*', `${environment.config}*`],
         },
       };
     case BrowserType.Firefox:
@@ -124,16 +124,16 @@ const getProxyConfig = (host: string, port: number): unknown => {
         proxyType: 'manual',
         http: `${host}:${port}`,
         socksVersion: 4,
-        passthrough: `localhost, 127.0.0.1, ${new URL(environment.awsStorage).hostname}`,
+        passthrough: `localhost, 127.0.0.1, ${new URL(environment.config).hostname}`,
       };
     default:
       return void 0;
   }
-}
+};
 
 export const clearProxy = (): Promise<void> => {
   return clearProxySettings();
-}
+};
 
 export const setProxy = (host: string, port: number): Promise<void> => {
   return setProxySettings({

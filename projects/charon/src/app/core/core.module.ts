@@ -4,6 +4,8 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
+import { MessageCode } from '@scripts/messages';
+import { MessageBus } from '@shared/message-bus';
 import { CurrencyModule } from '@shared/services/currency';
 import { MenuModule } from '@shared/components/menu';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
@@ -22,11 +24,13 @@ import { CORE_GUARDS } from './guards';
 import { INTERCEPTORS_PROVIDERS } from './interceptors';
 import { NavigationModule, NavigationService } from './navigation';
 import { PermissionsModule } from '@shared/permissions';
+import { PublicLayoutModule } from './layout/public-layout';
 import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES, MenuService, NetworkSelectorService, NetworkService } from './services';
 import { QuillRootModule } from './quill';
 import { PermissionsService } from './permissions';
+import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 
 export function initAuthFactory(authService: AuthService): () => void {
   return () => authService.init();
@@ -66,6 +70,8 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     NetworkSelectorModule.forRoot({
       service: NetworkSelectorService,
     }),
+    NgxGoogleAnalyticsModule.forRoot(environment.ga),
+    NgxGoogleAnalyticsRouterModule,
     NotificationsModule.forRoot({
       errorProcessors: ERROR_PROCESSORS,
       fallbackErrorProcessor: FallbackErrorProcessor,
@@ -73,6 +79,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     OverlayModule,
     PDVModule,
     PermissionsModule.forRoot(PermissionsService),
+    PublicLayoutModule,
     QuillRootModule,
     SettingsModule.forRoot(),
     SlotModule.forRoot(),
@@ -121,5 +128,7 @@ export class CoreModule {
     if (parentModule) {
       throw new Error('CoreModule has already been loaded. Import CoreModule in the AppModule only.');
     }
+
+    new MessageBus().sendMessage(MessageCode.ApplicationStarted);
   }
 }

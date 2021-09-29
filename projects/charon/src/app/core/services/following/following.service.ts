@@ -38,7 +38,7 @@ export class FollowingService {
           if (!response.success) {
             throw response.error;
           }
-        })
+        });
     });
   }
 
@@ -66,7 +66,7 @@ export class FollowingService {
 
   public getFollowees(follower: Wallet['address']): Observable<Wallet['address'][]> {
     return this.followingApiService.getFollowees(
-      this.networkService.getActiveNetworkInstant().api,
+      this.networkService.getActiveNetworkAPIInstant(),
       follower,
     );
   }

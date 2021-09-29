@@ -6,7 +6,8 @@
   >
     <img
       class="hub-post-card__image"
-      [src]="post.previewImage"
+      (error)="imgSrc = post.previewImage"
+      [src]="imgSrc"
       [alt]="post.previewImage"
     >
   </div>
@@ -36,7 +37,7 @@
 
     <div
       class="hub-post-card__content"
-      [innerHTML]="post.text | appCutHtmlImages"
+      [innerHTML]="post.text | appTextContent"
       appTextClamp
       appTypeface="paragraph"
     ></div>

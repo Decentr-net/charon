@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BrowserTabGuard, MaintenanceGuard, OfflineGuard, SupportedVersionGuard, UpdateGuard } from '@core/guards';
 import { AuthCompletedRegistrationGuard, UnauthGuard } from '@core/guards';
 import { AuthorizedLayoutComponent } from '@core/layout/authorized-layout';
+import { PUBLIC_LAYOUT_INCLUDE_LOGO_KEY, PublicLayoutComponent } from '@core/layout/public-layout';
 import { LockGuard } from '@core/lock';
 import { AppRoute } from './app-route';
 
@@ -15,6 +16,10 @@ const ROUTES: Routes = [
   },
   {
     path: AppRoute.Login,
+    component: PublicLayoutComponent,
+    data: {
+      [PUBLIC_LAYOUT_INCLUDE_LOGO_KEY]: true,
+    },
     loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
     canActivate: [
       SupportedVersionGuard,
@@ -22,6 +27,10 @@ const ROUTES: Routes = [
   },
   {
     path: AppRoute.SignUp,
+    component: PublicLayoutComponent,
+    data: {
+      [PUBLIC_LAYOUT_INCLUDE_LOGO_KEY]: true,
+    },
     loadChildren: () => import('./sign-up/sign-up.module').then(m => m.SignUpModule),
     canActivate: [
       SupportedVersionGuard,
@@ -63,6 +72,7 @@ const ROUTES: Routes = [
   },
   {
     path: AppRoute.Welcome,
+    component: PublicLayoutComponent,
     loadChildren: () => import('./welcome/welcome.module').then(m => m.WelcomeModule),
     canLoad: [
       UnauthGuard,
@@ -108,6 +118,7 @@ const ROUTES: Routes = [
     ],
     data: {
       i18nPageKey: 'maintenance_page',
+      isNetworkSelectorVisible: true,
     },
   },
   {

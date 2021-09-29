@@ -135,10 +135,14 @@
     }
   },
   "hub_posts_page": {
+    "no_posts": "There are no posts created",
     "top_posts": "Top posts"
   },
   "hub_overview_page": {
     "highest_pdv_analytics": "Highest PDV Analytics"
+  },
+  "hub_related_posts": {
+    "no_posts": "There are no more posts on this theme"
   },
   "hub_simple_text_editor": {
     "image_limit_reached": "Image limit reached"

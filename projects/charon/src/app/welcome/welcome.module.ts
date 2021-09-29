@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { InlineSVGModule } from 'ng-inline-svg';
+import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
+import { TypefaceModule } from '@shared/directives/typeface';
 import { WELCOME_PAGES } from './pages';
 import { WelcomeRoutingModule } from './welcome-routing.module';
 
@@ -12,10 +11,9 @@ import { WelcomeRoutingModule } from './welcome-routing.module';
     WELCOME_PAGES,
   ],
   imports: [
-    InlineSVGModule,
-    MatButtonModule,
-    MatCardModule,
+    SvgIconsModule,
     TranslocoModule,
+    TypefaceModule,
     WelcomeRoutingModule,
   ],
   providers: [

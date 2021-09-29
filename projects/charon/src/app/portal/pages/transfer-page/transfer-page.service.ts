@@ -89,8 +89,8 @@ export class TransferPageService {
     };
   }
 
-  public transfer(to: Wallet['address'], amount: number): Observable<void> {
-    return this.bankService.transferCoins(to, amount.toString()).pipe(
+  public transfer(to: Wallet['address'], amount: number, comment?: string): Observable<void> {
+    return this.bankService.transferCoins(to, amount.toString(), comment).pipe(
       tap(() => {
         this.notificationService.success(
           this.translocoService.translate('transfer_page.notifications.success', null, 'portal'),

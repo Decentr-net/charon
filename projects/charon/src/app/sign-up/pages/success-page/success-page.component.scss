@@ -1,34 +1,64 @@
-.page-successful-registration {
-  margin-top: 4.5rem;
+@import 'variables';
 
-  .image-congratulation {
-    width: 80px;
-    margin-bottom: 1rem;
-  }
+:host {
+  display: block;
+  height: 100%;
+  padding-bottom: $grid-step * 5;
+}
 
-  .page-subtitle {
-    font-weight: 500;
-    letter-spacing: 1px;
-    margin: 2rem 0 1rem;
-  }
+.success-page__card {
+  border: 2px solid $color-outlines;
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  margin: auto;
+  padding: $grid-step * 2;
+  text-align: center;
+  width: 792px;
+}
 
-  ul {
-    list-style: none;
-    padding: 0;
+.success-page__card__header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
 
-    li {
-      font-size: 13px;
-      line-height: 1.5rem;
+.success-page__icon {
+  $icon-sie: 96px;
 
-      &:before {
-        content: "•";
-        padding-right: 5px;
-      }
-    }
-  }
+  height: $icon-sie;
+  margin: 0 auto $grid-step * 2;
+  width: $icon-sie;
+}
 
-  .notice {
-    font-size: 13px;
-    margin: 1.5rem 0;
-  }
+.success-page__title {
+  font-weight: 500;
+  margin-bottom: $grid-step;
+}
+
+.success-page__subtitle {
+  margin-bottom: $grid-step * 2;
+}
+
+.success-page__divider {
+  background: $color-outlines;
+  height: 2px;
+  margin: $grid-step * 2 (-$grid-step * 2);
+}
+
+.success-page__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.success-page__tips {
+  color: $color-grey;
+}
+
+.success-page__tips-list {
+  list-style: none;
+  margin-bottom: $grid-step * 2;
 }

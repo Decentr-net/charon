@@ -7,9 +7,14 @@
   column-gap: $grid-step;
   cursor: pointer;
   font-weight: 500;
+  justify-content: center;
   transition: background .3s ease;
 
-  &.mod-size {
+  &[app-icon-button] {
+    padding: $grid-step;
+  }
+
+  &:not([app-icon-button]).mod-size {
     &-xs {
       padding: $grid-step $grid-step * 1.5 $grid-step $grid-step * 1.5;
 
@@ -52,6 +57,15 @@
 
     &-grey {
       background: $color-background;
+      color: $color-black;
+
+      &:hover {
+        background: $color-outlines;
+      }
+    }
+
+    &-white {
+      background: $color-white;
       color: $color-black;
 
       &:hover {

@@ -6,7 +6,6 @@ import { HubDashboardComponent } from './hub-dashboard/hub-dashboard.component';
 import { HubDdvStatisticsComponent } from './hub-ddv-statistics';
 import { HubPostDeleteButtonComponent } from './hub-post-delete-button';
 import { HubFeedPostsComponent } from './hub-feed-posts';
-import { HubHeaderActionButtonComponent } from './hub-header-action-button';
 import { HubHeaderStatsMetaComponent } from './hub-header-stats-meta';
 import { HubInfinitePostsContainerComponent } from './hub-infinite-posts-container';
 import { HubLoadMoreButtonComponent } from './hub-load-more-button';
@@ -38,7 +37,6 @@ export const HUB_COMPONENTS = [
   HubDdvStatisticsComponent,
   HubPostDeleteButtonComponent,
   HubFeedPostsComponent,
-  HubHeaderActionButtonComponent,
   HubHeaderStatsMetaComponent,
   HubInfinitePostsContainerComponent,
   HubLoadMoreButtonComponent,

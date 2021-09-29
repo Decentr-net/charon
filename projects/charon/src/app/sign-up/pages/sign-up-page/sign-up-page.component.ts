@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, NgZone, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { UntilDestroy } from '@ngneat/until-destroy';
@@ -11,7 +11,6 @@ import { NavigationService } from '@core/navigation';
 import { SpinnerService } from '@core/services';
 import { SignUpPageService } from './sign-up-page.service';
 import { SignUpRoute } from '../../sign-up-route';
-import { WelcomeRoute } from '../../../welcome/welcome-route';
 
 enum SignUpTab {
   AccountForm,
@@ -29,8 +28,6 @@ enum SignUpTab {
   ],
 })
 export class SignUpPageComponent implements OnInit {
-  @HostBinding('class.container') public readonly useContainerClass: boolean = true;
-
   public activeTab: SignUpTab = SignUpTab.SeedPhrase;
   public tab: typeof SignUpTab = SignUpTab;
 
@@ -54,7 +51,13 @@ export class SignUpPageComponent implements OnInit {
   }
 
   public navigateBack(): void {
-    this.navigationService.back([AppRoute.Welcome, WelcomeRoute.NewUser]);
+    switch (this.activeTab) {
+      case SignUpTab.AccountForm:
+        this.activeTab = SignUpTab.SeedPhrase;
+        break;
+      default:
+        this.navigationService.back([AppRoute.Welcome]);
+    }
   }
 
   public onSubmitAccountForm(accountData: AccountData): void {

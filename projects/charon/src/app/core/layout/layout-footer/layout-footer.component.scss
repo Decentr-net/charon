@@ -13,7 +13,7 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: $grid-step * 1.5 auto;
   padding: 0 $page-side-padding;
-  width: $page-width + $page-side-padding * 2;
+  max-width: $page-width + $page-side-padding * 2;
 }
 
 .layout-footer__logo {

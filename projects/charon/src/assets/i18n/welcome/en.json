@@ -13,11 +13,17 @@
     "title": "New to Decentr?"
   },
   "welcome_page": {
-    "get_started": "Get Started",
-    "subtitle": {
-      "line1": "Connecting you to Decentr and Decentralized Web.",
-      "line2": "We are happy you join us."
+    "title": {
+      "decentr": "Decentr",
+      "log_in_to": "Log in to"
     },
-    "title": "Welcome to Decentr"
+    "log_in": {
+      "subtitle": "Import your existing account and wallet with seed phrase you’ve got during first sign up.",
+      "title": "Log in with seed phrase"
+    },
+    "sign_up": {
+      "subtitle": "Create new user and wallet and get a seed phrase to verify yourself during next logins.",
+      "title": "Create new user"
+    }
   }
 }

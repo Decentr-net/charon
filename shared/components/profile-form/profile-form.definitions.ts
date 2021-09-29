@@ -20,10 +20,6 @@ export interface TranslationsConfig {
 
 export type ProfileFormControlValue = ProfileUpdate;
 
-export interface UsernameForm {
-  value: string;
-}
-
 export interface EmailForm {
   value: string;
 }

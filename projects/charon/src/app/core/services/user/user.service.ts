@@ -35,14 +35,14 @@ export class UserService {
 
   public getAccount(walletAddress: string): Observable<Account | undefined> {
     return this.userApiService.getAccount(
-      this.networkService.getActiveNetworkInstant().api,
+      this.networkService.getActiveNetworkAPIInstant(),
       walletAddress,
     );
   }
 
   public getModeratorAddresses(): Observable<ModeratorAddressesResponse> {
     return this.userApiService.getModeratorAddresses(
-      this.networkService.getActiveNetworkInstant().api,
+      this.networkService.getActiveNetworkAPIInstant(),
     ).pipe(
       catchError(() => of([])),
     );
@@ -72,7 +72,6 @@ export class UserService {
   public setProfile(profile: ProfileUpdate, wallet: Wallet): Observable<void> {
     return this.userApiService.setProfile({
       ...profile,
-      birthday: '1911-11-11',
     }, wallet).pipe(
       tap(() => this.profileChanged$.next(wallet.address)),
     );

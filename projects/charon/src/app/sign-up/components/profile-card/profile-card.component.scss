@@ -1,0 +1,49 @@
+@import 'variables';
+
+:host {
+  display: block;
+}
+
+.profile-card__container {
+  align-items: center;
+  background: $color-background;
+  border-radius: $border-radius;
+  column-gap: $grid-step;
+  display: grid;
+  grid-template-areas: 'avatar name balance'
+                       'empty bio bio';
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
+  padding: $grid-step * 2;
+}
+
+.profile-card__avatar {
+  grid-area: avatar;
+  height: 54px;
+  min-width: 54px;
+}
+
+.profile-card__name {
+  font-weight: 500;
+  grid-area: name;
+}
+
+.profile-card__balance {
+  align-items: center;
+  background-color: rgba($color-primary, 0.08);
+  border-radius: $border-radius;
+  column-gap: $grid-step;
+  display: inline-flex;
+  font-weight: 500;
+  height: min-content;
+  grid-area: balance;
+  padding: $grid-step $grid-step * 2;
+}
+
+.profile-card__balance__icon {
+  color: $color-primary;
+}
+
+.profile-card__bio {
+  color: $color-grey;
+  grid-area: bio;
+}

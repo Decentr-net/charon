@@ -25,7 +25,7 @@ $transfer-page--padding: $grid-step * 2;
     }
 
     .transfer-page__form__control-to {
-      margin-top: $grid-step * 2;
+      margin-top: $grid-step;
     }
 
     .transfer-page__form__actions-container {
@@ -60,25 +60,6 @@ $transfer-page--padding: $grid-step * 2;
   gap: $grid-step * 2;
 }
 
-.transfer-page__back-button {
-  background-color: $color-background;
-  border-radius: $border-radius;
-  color: $color-grey;
-  cursor: pointer;
-  display: inline-flex;
-  padding: $grid-step;
-  transition: background-color .3s ease;
-
-  &:hover {
-    background-color: $color-outlines;
-  }
-
-  &.is-disabled {
-    color: $color-light-grey;
-    pointer-events: none;
-  }
-}
-
 .transfer-page__balance {
   align-items: center;
   background-color: rgba($color-primary, 0.08);
@@ -96,7 +77,8 @@ $transfer-page--padding: $grid-step * 2;
   display: grid;
   column-gap: $grid-step * 2;
   grid-template-areas: 'amount icon to'
-                       'error-amount empty error-to';
+                       'error-amount empty error-to'
+                       'memo memo memo';
   grid-template-columns: 1fr max-content 1fr;
   padding-bottom: $grid-step;
 }
@@ -111,16 +93,28 @@ $transfer-page--padding: $grid-step * 2;
 
 .transfer-page__form__control-to {
   grid-area: to;
+  height: 100%;
 }
 
 .transfer-page__form__error-to {
   grid-area: error-to;
 }
 
+.transfer-page__form__control-memo {
+  grid-area: memo;
+  margin-bottom: $grid-step * 2;
+  margin-top: $grid-step;
+}
+
 .transfer-page__form__icon {
   color: $color-light-grey;
   font-size: 48px;
   transform: rotate(180deg);
+}
+
+.transfer-page__form__memo-icon {
+  color: $color-light-grey;
+  cursor: pointer;
 }
 
 .transfer-page__form__error {
@@ -138,27 +132,6 @@ $transfer-page--padding: $grid-step * 2;
 }
 
 .transfer-page__form__action-button {
-  align-items: center;
-  background-color: $color-background;
-  border-radius: $border-radius;
-  cursor: pointer;
-  display: inline-flex;
   height: 48px;
-  justify-content: center;
-  transition: background-color .3s ease;
   width: 160px;
-
-  &:hover {
-    background-color: $color-outlines;
-  }
-
-  &.mod-send:not(:disabled) {
-    background-color: $color-primary;
-    color: $color-white;
-  }
-
-  &:disabled {
-    color: $color-light-grey;
-    pointer-events: none;
-  }
 }

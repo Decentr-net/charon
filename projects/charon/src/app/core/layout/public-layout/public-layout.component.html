@@ -1,0 +1,17 @@
+<div class="public-layout__logo-container">
+  <svg-icon
+    class="public-layout__logo"
+    *ngIf="includeLogo$ | async"
+    key="logo"
+    size=""
+  ></svg-icon>
+</div>
+
+<div>
+  <router-outlet></router-outlet>
+</div>
+
+<app-layout-footer
+  *appBrowserTabView
+  class="public-layout__footer"
+></app-layout-footer>

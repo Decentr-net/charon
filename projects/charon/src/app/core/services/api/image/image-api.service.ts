@@ -1,24 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
+import { KeyPair, saveImage, SaveImageResponse } from 'decentr-js';
 
-import { Environment } from '@environments/environment.definitions';
-import { UploadImageResponse } from './image-api.definitions';
+import { ConfigService } from '@shared/services/configuration';
 
 @Injectable()
 export class ImageApiService {
   constructor(
-    private environment: Environment,
-    private httpClient: HttpClient,
+    private configService: ConfigService,
   ) {
   }
 
-  public upload(image: File): Observable<UploadImageResponse> {
-    const formData = new FormData();
-    formData.append('image', image);
-
-    const url = `${this.environment.image.api}?key=${this.environment.image.apiKey}`;
-
-    return this.httpClient.post<UploadImageResponse>(url, formData);
+  public upload(image: File, keyPair: KeyPair): Observable<SaveImageResponse> {
+    return this.configService.getCerberusUrl().pipe(
+      mergeMap((cerberusUrl) => saveImage(cerberusUrl, image, keyPair)),
+    );
   }
 }

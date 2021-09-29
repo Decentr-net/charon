@@ -1,71 +1,78 @@
 <ng-template [appSlot]="headerActionsSlotName">
-  <app-hub-header-action-button
+  <button
+    app-button
     *transloco="let translate"
-    [icon]="'edit'"
     [routerLink]="['/', appRoute.Hub, hubRoute.PostCreate]"
   >
-    {{ translate('hub.posts.new') }}
-  </app-hub-header-action-button>
+    <svg-icon key="edit"></svg-icon>
+
+    <span>{{ translate('hub.posts.new') }}</span>
+  </button>
 </ng-template>
 
-<ng-template [ngIf]="!isPostOutletActivated">
-  <app-hub-navigation></app-hub-navigation>
+<ng-container *transloco="let translate; read: 'hub.hub_posts_page'">
+  <ng-template [ngIf]="!isPostOutletActivated">
+    <app-hub-navigation></app-hub-navigation>
 
-  <app-spinner
-    class="posts-page__spinner"
-    *ngIf="!posts?.length"
-  ></app-spinner>
+    <ng-template [ngIf]="(isLoading$ | async) === false && posts?.length === 0">
+      <div class="posts-page__no-posts">{{ translate('no_posts') }}</div>
+    </ng-template>
 
-  <div class="posts-page__container">
-    <div class="posts-page__section-top">
-      <div class="posts-page__posts-grid-container">
-        <app-hub-post-card
-          class="posts-page__post-card"
-          *ngFor="let post of posts | slice : 0 : 8; trackBy: trackByPostId"
-          [post]="post"
-          [disableCategory]="!!postsCategory"
-          [routerLink]="postLinkFn(post)"
-        ></app-hub-post-card>
+    <app-spinner
+      class="posts-page__spinner"
+      *ngIf="(isLoading$ | async) && posts?.length === 0"
+    ></app-spinner>
+
+    <div class="posts-page__container">
+      <div class="posts-page__section-top">
+        <div class="posts-page__posts-grid-container">
+          <app-hub-post-card
+            class="posts-page__post-card"
+            *ngFor="let post of posts | slice : 0 : 8; trackBy: trackByPostId"
+            [post]="post"
+            [disableCategory]="!!postsCategory"
+            [routerLink]="postLinkFn(post)"
+          ></app-hub-post-card>
+        </div>
+      </div>
+
+      <div class="posts-page__section-left">
+        <app-hub-infinite-posts-container
+          *ngIf="posts?.length > 0"
+          [canLoadMore]="canLoadMore$ | async"
+          [isLoading]="isLoading$ | async"
+          [useIntersection]="true"
+          (loadMore)="loadMore()"
+        >
+          <app-hub-post-card
+            class="posts-page__post-card posts-page__horizontal-post"
+            *ngFor="let post of posts | slice : 8; trackBy: trackByPostId"
+            [post]="post"
+            [disableCategory]="!!postsCategory"
+            [routerLink]="postLinkFn(post)"
+            [orientation]="'horizontal'"
+          ></app-hub-post-card>
+        </app-hub-infinite-posts-container>
+      </div>
+
+      <div class="posts-page__section-right">
+        <ng-container *ngIf="posts?.length > 0">
+          <div
+            class="posts-page__top-posts__header"
+            appTypeface="subheader"
+          >
+            {{ translate('top_posts') }}
+          </div>
+
+          <app-hub-top-posts
+            [category]="postsCategory"
+            [routerLinkFn]="postLinkFn"
+          ></app-hub-top-posts>
+        </ng-container>
       </div>
     </div>
-
-    <div class="posts-page__section-left">
-      <app-hub-infinite-posts-container
-        *ngIf="posts?.length > 0"
-        [canLoadMore]="canLoadMore$ | async"
-        [isLoading]="isLoading$ | async"
-        [useIntersection]="true"
-        (loadMore)="loadMore()"
-      >
-        <app-hub-post-card
-          class="posts-page__post-card posts-page__horizontal-post"
-          *ngFor="let post of posts | slice : 8; trackBy: trackByPostId"
-          [post]="post"
-          [disableCategory]="!!postsCategory"
-          [routerLink]="postLinkFn(post)"
-          [orientation]="'horizontal'"
-        ></app-hub-post-card>
-      </app-hub-infinite-posts-container>
-    </div>
-
-    <div class="posts-page__section-right">
-      <ng-container *ngIf="posts?.length > 0">
-        <div
-          class="posts-page__top-posts__header"
-          *transloco="let translate; read: 'hub.hub_posts_page'"
-          appTypeface="subheader"
-        >
-          {{ translate('top_posts') }}
-        </div>
-
-        <app-hub-top-posts
-          [category]="postsCategory"
-          [routerLinkFn]="postLinkFn"
-        ></app-hub-top-posts>
-      </ng-container>
-    </div>
-  </div>
-</ng-template>
+  </ng-template>
+</ng-container>
 
 <router-outlet
   (activate)="onPostOutletActivate()"

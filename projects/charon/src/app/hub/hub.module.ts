@@ -17,6 +17,8 @@ import { HUB_DIRECTIVES } from './directives';
 import { HUB_PAGES } from './pages';
 import { AvatarModule } from '@shared/components/avatar';
 import { AutoFocusModule } from '@shared/directives/auto-focus';
+import { ButtonBackModule } from '@shared/components/button-back';
+import { ButtonModule } from '@shared/components/button';
 import { DateAgoModule } from '@shared/pipes/date-ago';
 import { DragScrollModule } from '@shared/directives/drag-scroll';
 import { FormErrorModule } from '@shared/components/form-error';
@@ -25,14 +27,13 @@ import { LineChartModule } from '@shared/components/line-chart';
 import { MarginLabelModule } from '@shared/components/margin-label';
 import { MenuModule } from '@shared/components/menu';
 import { MouseWheelHorizontalScrollModule } from '@shared/directives/mouse-wheel-horizontal-scroll';
-import { CutHtmlImagesModule } from '@shared/pipes/cut-html-images';
-import { FirstParagraphModule } from '@shared/pipes/first-paragraph';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { RouterLinkScrollAnchorModule } from '@shared/directives/router-link-scroll-anchor';
 import { SlotModule } from '@shared/components/slot';
 import { SpinnerModule } from '@shared/components/spinner';
 import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
 import { TextClampModule } from '@shared/directives/text-clamp';
+import { TextContentModule } from '@shared/pipes/text-content';
 import { CoerceTimestampModule } from '@shared/pipes/coerce-timestamp';
 import { TypefaceModule } from '@shared/directives/typeface';
 import { IntersectionModule } from '@shared/directives/intersection';
@@ -49,12 +50,12 @@ import { AuthorizedLayoutModule } from '@core/layout/authorized-layout';
     AvatarModule,
     AuthorizedLayoutModule,
     AutoFocusModule,
+    ButtonBackModule,
+    ButtonModule,
     CoerceTimestampModule,
     CommonModule,
-    CutHtmlImagesModule,
     DateAgoModule,
     DragScrollModule,
-    FirstParagraphModule,
     FormErrorModule,
     FormsModule,
     HubRoutingModule,
@@ -79,6 +80,7 @@ import { AuthorizedLayoutModule } from '@core/layout/authorized-layout';
     SpinnerModule,
     SvgIconsModule,
     TextClampModule,
+    TextContentModule,
     TextEllipsisModule,
     TranslocoModule,
     TypefaceModule,

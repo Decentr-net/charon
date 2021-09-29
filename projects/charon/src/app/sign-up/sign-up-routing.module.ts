@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthCompletedRegistrationGuard } from '@core/guards';
-import { PublicLayoutComponent, PublicLayoutModule } from '../layout/public-layout';
 import {
   CompleteRegistrationGuard,
   EmailConfirmationGuard,
@@ -22,55 +21,48 @@ import { SignUpRoute } from './sign-up-route';
 const ROUTES: Routes = [
   {
     path: '',
-    component: PublicLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: SignUpPageComponent,
-        pathMatch: 'full',
-        canActivate: [
-          SignUpGuard,
-        ],
-      },
-      {
-        path: SignUpRoute.EmailConfirmation,
-        component: EmailConfirmationPageComponent,
-        canActivate: [
-          EmailConfirmationGuard,
-        ],
-      },
-      {
-        path: SignUpRoute.CompleteRegistration,
-        component: CompleteRegistrationPageComponent,
-        canActivate: [
-          CompleteRegistrationGuard,
-        ]
-      },
-      {
-        path: SignUpRoute.PDVConsent,
-        component: PDVConsentPageComponent,
-        canActivate: [
-          PDVConsentGuard,
-        ]
-      },
-      {
-        path: SignUpRoute.Success,
-        component: SuccessPageComponent,
-        canActivate: [
-          AuthCompletedRegistrationGuard,
-        ],
-      },
-      {
-        path: '**',
-        redirectTo: '',
-      }
+    component: SignUpPageComponent,
+    pathMatch: 'full',
+    canActivate: [
+      SignUpGuard,
     ],
   },
+  {
+    path: SignUpRoute.EmailConfirmation,
+    component: EmailConfirmationPageComponent,
+    canActivate: [
+      EmailConfirmationGuard,
+    ],
+  },
+  {
+    path: SignUpRoute.CompleteRegistration,
+    component: CompleteRegistrationPageComponent,
+    canActivate: [
+      CompleteRegistrationGuard,
+    ]
+  },
+  {
+    path: SignUpRoute.PDVConsent,
+    component: PDVConsentPageComponent,
+    canActivate: [
+      PDVConsentGuard,
+    ]
+  },
+  {
+    path: SignUpRoute.Success,
+    component: SuccessPageComponent,
+    canActivate: [
+      AuthCompletedRegistrationGuard,
+    ],
+  },
+  {
+    path: '**',
+    redirectTo: '',
+  }
 ];
 
 @NgModule({
   imports: [
-    PublicLayoutModule,
     RouterModule.forChild(ROUTES),
   ],
   exports: [

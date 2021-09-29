@@ -1,14 +1,9 @@
 import { Environment } from './environment.definitions';
 
 export const environment: Environment = {
-  awsStorage: 'https://tf-decentr-public-testnet.s3.us-east-2.amazonaws.com',
+  avatars: 'https://public.decentr.xyz/avatars',
+  config: 'https://public.decentr.xyz/config.json',
   currencyApi: 'https://api.coingecko.com/api/v3',
-  image: {
-    api: 'https://api.imgbb.com/1/upload',
-    apiKey: '4fbcace4986794505b9df6421d21228c',
-  },
+  ga: 'G-Z0B0MBVZ40',
   production: true,
-  rest: {
-    local: 'http://localhost:1317',
-  },
 };

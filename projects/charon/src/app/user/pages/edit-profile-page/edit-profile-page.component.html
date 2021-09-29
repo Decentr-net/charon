@@ -1,77 +1,86 @@
-<div class="row" *transloco="let translate; read: 'user.edit_profile_page'">
-  <div class="col-xs-12">
-    <div class="btn btn__back" [appNavigateBack]="['/']">
-      {{ translate('back') }}
-    </div>
+<div
+  class="edit-profile-page__card"
+  *transloco="let translate; read: 'user.edit_profile_page'"
+>
+  <div
+    class="edit-profile-page__title"
+    appTypeface="subheader"
+  >
+    {{ translate('title') }}
   </div>
 
-  <div class="col-xs-7">
-    <div class="page-title page-title__large">
-      {{ translate('title') }}
-    </div>
+  <div class="edit-profile-page__divider"></div>
 
-    <form
-      autocomplete="off"
-      [formGroup]="form"
-      (ngSubmit)="onSubmit()"
-      *transloco="let translate; read: 'user.edit_profile_page.form'"
+  <form
+    autocomplete="off"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    appSubmitSource
+  >
+    <app-profile-form
+      formControlName="profile"
+      [translationsConfig]="{
+        read: 'core.profile_form'
+      }"
+    ></app-profile-form>
+
+    <div
+      class="edit-profile-page__password-title"
+      appTypeface="subheader"
     >
-      <app-profile-form
-        formControlName="profile"
+      {{ translate('password.title') }}
+    </div>
+
+    <app-password-validation-state
+      [password]="passwordControl.value"
+      [translationsConfig]="{ read: 'shared.password.validation_state', scope: 'shared' }"
+    ></app-password-validation-state>
+
+    <div class="edit-profile-page__password-form">
+      <app-input-container
+        class="password-form__old-password-container"
+      >
+        <app-input
+          type="password"
+          formControlName="oldPassword"
+          [required]="!!passwordControl?.value"
+        >
+          <ng-container ngProjectAs="[label]">
+            {{ translate('old_password.label') }}
+          </ng-container>
+        </app-input>
+
+        <app-form-error controlName="oldPassword" i18nControlKey="password"></app-form-error>
+      </app-input-container>
+
+      <app-password-form
+        formControlName="password"
         [translationsConfig]="{
-          read: 'user.edit_profile_page.form'
+          read: 'core.profile_form'
         }"
-      ></app-profile-form>
+      ></app-password-form>
+    </div>
 
-      <div class="row">
-        <div class="input-container col-xs-12">
-          <div class="input-label">{{ translate('password.label') }}</div>
+    <div class="edit-profile-page__divider"></div>
 
-          <mat-form-field
-            class="input-control"
-            appearance="outline"
-          >
-            <input
-              matInput
-              type="password"
-              formControlName="password"
-            >
+    <div class="edit-profile-page__actions-container">
+      <button
+        class="edit-profile-page__action-button"
+        app-button
+        color="grey"
+        [routerLink]="['../']"
+      >
+        {{ translate('back') }}
+      </button>
 
-            <mat-error>
-              <app-form-error controlName="password"></app-form-error>
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="input-container col-xs-12">
-          <div class="input-label">{{ translate('confirm_password.label') }}</div>
-          <mat-form-field
-            class="input-control"
-            appearance="outline"
-          >
-            <input
-              matInput
-              type="password"
-              formControlName="confirmPassword"
-            >
-
-            <mat-error >
-              <app-form-error controlName="confirmPassword" i18nControlKey="confirm_password"></app-form-error>
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="col-xs-12">
-          <button
-            class="btn btn__small"
-            mat-flat-button
-            color="accent"
-            [disabled]="form.invalid"
-          >
-            {{ translate('submit') }}
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
+      <button
+        class="edit-profile-page__action-button"
+        app-button
+        type="submit"
+        [disabled]="!hasChanges"
+      >
+        {{ translate('submit') }}
+      </button>
+    </div>
+  </form>
 </div>

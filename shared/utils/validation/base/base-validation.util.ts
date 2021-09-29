@@ -1,8 +1,4 @@
-import {
-  AbstractControl,
-  FormControl,
-  ValidationErrors,
-} from '@angular/forms';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { ValidatorFn } from '@ngneat/reactive-forms';
 
 import { getHTMLImagesCount } from '../../html';
@@ -25,34 +21,23 @@ export class BaseValidationUtil {
     return isInvalid ? { length: true } : null;
   }
 
-  static isFrDateFormatCorrect(control: FormControl): ValidationErrors | null {
-    if (!control.value) {
-      return null;
-    }
-
-    // Date format fr-CA (yyyy{-/}mm{-/}dd): \b(\d{4})([\/\-])(0[1-9]|1[012])\2(0[1-9]|[12]\d|3[01])
-    const datePattern = new RegExp(`\\b(\\d{4})([\\/\\-])(0[1-9]|1[012])\\2(0[1-9]|[12]\\d|3[01])`);
-
-    return !control.value.match(datePattern) ? { invalidFormat: true } : null;
-  }
-
-  static minDate(minDate: string): ValidatorFn<string> {
+  static minDate(minDate: Date, parseFn?: (value) => Date): ValidatorFn<string> {
     return (control) => {
-      return new Date(minDate) > new Date(control.value)
+      return new Date(minDate) > (parseFn ? parseFn(control.value) : new Date(control.value))
         ? {
-          minDate: { value: minDate },
+          minDate: { value: BaseValidationUtil.dateToString(minDate) },
         }
-        : null
+        : null;
     };
   }
 
-  static maxDate(maxDate: string): ValidatorFn<string> {
+  static maxDate(maxDate: Date, parseFn?: (value) => Date): ValidatorFn<string> {
     return (control) => {
-      return new Date(maxDate) < new Date(control.value)
+      return new Date(maxDate) < (parseFn ? parseFn(control.value) : new Date(control.value))
         ? {
-          maxDate: { value: maxDate },
+          maxDate: { value: BaseValidationUtil.dateToString(maxDate) },
         }
-        : null
+        : null;
     };
   }
 
@@ -71,7 +56,7 @@ export class BaseValidationUtil {
           },
         }
         : null;
-    }
+    };
   }
 
   static maxStringBytes(maxBytes: number): ValidatorFn<string> {
@@ -90,7 +75,7 @@ export class BaseValidationUtil {
           },
         }
         : null;
-    }
+    };
   }
 
   static maxHTMLImages(maxImages: number): ValidatorFn<string> {
@@ -109,6 +94,14 @@ export class BaseValidationUtil {
           },
         }
         : null;
-    }
+    };
+  }
+
+  private static dateToString(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+
+    return [year, month, day].join('-');
   }
 }

@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
-import { PasswordValidationUtil } from '@shared/utils/validation';
 
 export interface AccountData {
   email: string;
@@ -13,7 +12,6 @@ export interface AccountData {
 
 interface AccountForm extends AccountData {
   agreeTerms: boolean;
-  confirmPassword: string;
 }
 
 @Component({
@@ -29,17 +27,28 @@ interface AccountForm extends AccountData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountFormComponent implements OnInit {
+  @Output() public back: EventEmitter<AccountData> = new EventEmitter();
   @Output() public submitted: EventEmitter<AccountData> = new EventEmitter();
 
   public form: FormGroup<AccountForm>;
+
+  public formId = 'SIGN_UP_ACCOUNT_FORM';
 
   constructor(
     private formBuilder: FormBuilder,
   ) {
   }
 
+  public get passwordControl(): AbstractControl<string> {
+    return this.form.get('password');
+  }
+
   ngOnInit(): void {
     this.form = this.createForm();
+  }
+
+  public onBack(): void {
+    this.back.emit();
   }
 
   onSubmit(): void {
@@ -55,19 +64,11 @@ export class AccountFormComponent implements OnInit {
       agreeTerms: [false, [
         Validators.requiredTrue,
       ]],
-      confirmPassword: ['', [
-        Validators.required,
-        RxwebValidators.compare({ fieldName: 'password' }),
-      ]],
       email: ['', [
         Validators.required,
         RxwebValidators.email(),
       ]],
-      password: ['', [
-        Validators.required,
-        Validators.minLength(8),
-        PasswordValidationUtil.validatePasswordStrength,
-      ]],
+      password: [''],
     });
   }
 }

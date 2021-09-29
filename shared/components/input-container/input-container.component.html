@@ -1,0 +1,9 @@
+<ng-content></ng-content>
+
+<div
+  class="input-container__error"
+  appTypeface="caption"
+  [class.is-visible]="showError$ | async"
+>
+  <ng-content select="app-form-error"></ng-content>
+</div>

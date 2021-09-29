@@ -31,7 +31,7 @@
 
   <div
     class="vpn-page__active-vpn-container"
-    *ngIf="!isLoading && activeServer$ | async as activeServer; else vpnSelector"
+    *ngIf="isActive; else vpnSelector"
   >
     <span appTypeface="caption">
       {{ translate('browsing_securely_from') }}
@@ -40,11 +40,11 @@
     <div class="vpn-page__active-vpn-region">
       <svg-icon
         class="vpn-page__active-vpn-region-icon"
-        [key]="activeServer?.country"
+        [key]="activeServer.country"
       ></svg-icon>
 
       <span>
-        {{ activeServer.title }}
+        {{ activeServer.title || activeServer.address }}
       </span>
     </div>
   </div>

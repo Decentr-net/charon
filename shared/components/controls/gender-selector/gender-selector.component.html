@@ -1,0 +1,25 @@
+<div
+  class="input__label"
+  [appTypeface]="isOpenedInPopup ? 'caption' : 'paragraph'"
+>
+  <ng-content select="[label]"></ng-content>
+
+  <ng-content select="[label-right]"></ng-content>
+</div>
+
+<div class="input__container">
+  <mat-select
+    [ngModel]="value"
+    (ngModelChange)="onValueChange($event)"
+    [placeholder]="placeholder || ''"
+  >
+    <mat-option [value]="gender.Male">
+      {{ translations[gender.Male] }}
+    </mat-option>
+
+    <mat-option [value]="gender.Female">
+      {{ translations[gender.Female] }}
+    </mat-option>
+  </mat-select>
+</div>
+

@@ -1,5 +1,8 @@
-<div
+<button
   class="network-selector__trigger"
+  app-button
+  color="grey"
+  size="sm"
   [matMenuTriggerFor]="menuTemplate"
 >
   <svg-icon
@@ -8,19 +11,19 @@
     size="xs"
   ></svg-icon>
 
-  <div
+  <span
     class="network-selector__trigger__network-name"
     appTypeface="caption"
   >
     {{ activeNetwork?.name }}
-  </div>
+  </span>
 
   <svg-icon
     class="network-selector__trigger-icon"
     key="expand-more"
     size="xs"
   ></svg-icon>
-</div>
+</button>
 
 <mat-menu
   #menuTemplate
@@ -40,8 +43,7 @@
       <div class="menu-popup-items-section">
         <div
           class="network-selector__menu__item menu-popup-item"
-          [class.is-active]="network.name === activeNetwork.name"
-          [class.is-disabled]="network.disabled"
+          [class.is-active]="network.id === activeNetwork.id"
           *ngFor="let network of networks; trackBy: trackByName"
           (click)="switchNetwork(network)"
         >

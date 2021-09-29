@@ -1,67 +1,51 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, from, Observable, of } from 'rxjs';
-import { first, map, mergeMap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map, skip, switchMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { Environment } from '@environments/environment.definitions';
 import {
-  Network as NetworkSelectorNetwork,
+  Network,
   NetworkSelectorService as BaseNetworkSelectorService,
   NetworkSelectorTranslations,
 } from '@shared/components/network-selector';
-import { MessageBus } from '@shared/message-bus';
-import { BlockchainNodeService, NodeAvailability } from '@shared/services/blockchain-node';
-import { Network as NetworkWithApi, NetworkBrowserStorageService } from '@shared/services/network-storage';
-import { MessageCode } from '@scripts/messages';
+import { BlockchainNodeService } from '@shared/services/blockchain-node';
+import { NetworkBrowserStorageService } from '@shared/services/network-storage';
+import { ConfigService } from '@shared/services/configuration';
 
-export type Network = NetworkWithApi & NetworkSelectorNetwork;
-
+@UntilDestroy()
 @Injectable()
 export class NetworkSelectorService extends BaseNetworkSelectorService {
   constructor(
     private blockchainNodeService: BlockchainNodeService,
     private environment: Environment,
-    private networkStorage: NetworkBrowserStorageService<Network>,
+    private configService: ConfigService,
+    private networkStorage: NetworkBrowserStorageService,
     private translocoService: TranslocoService,
   ) {
     super();
+
+    this.networkStorage.getActiveId().pipe(
+      skip(1),
+      untilDestroyed(this),
+    ).subscribe(() => location.reload());
   }
 
   public getNetworks(checkAvailability = true): Observable<Network[]> {
-    return from(new MessageBus().sendMessage(MessageCode.NetworkReady)).pipe(
-      mergeMap(() => this.networkStorage.getDefaultNetwork()),
-      first(),
-      mergeMap(({ api: remoteApi }) => combineLatest(
-        [
-          { key: 'remote', api: remoteApi },
-          { key: 'local', api: this.environment.rest.local },
-        ].map(({ key, api }) => {
-          return combineLatest([
-            this.translocoService
-              .selectTranslate(`network_selector.network.${key}`, null, 'core'),
-            checkAvailability
-              ? this.blockchainNodeService.getNodeAvailability(api, true)
-              : of(NodeAvailability.Available),
-          ]).pipe(
-            map(([name, available]) => ({
-              name,
-              api,
-              disabled: available !== NodeAvailability.Available,
-            })),
-          );
-        }),
-      )),
+    return this.configService.getNetworkIds().pipe(
+      switchMap((networkIds) => {
+        return combineLatest(networkIds.map((networkId) => this.getOptionConfig(networkId)));
+      }),
     );
   }
 
   public getActiveNetwork(): Observable<Network> {
     return combineLatest([
-      this.getNetworks(false),
-      this.networkStorage.getActiveNetwork(),
+      this.getNetworks(),
+      this.networkStorage.getActiveId(),
     ]).pipe(
-      map(([networks, activeNetwork]) => {
-        return networks.find((network) => network.api === activeNetwork.api);
-      }),
+      map(([networks, activeNetworkId]) => networks.find(({ id }) => id === activeNetworkId)),
     );
   }
 
@@ -80,6 +64,16 @@ export class NetworkSelectorService extends BaseNetworkSelectorService {
   }
 
   public setActiveNetwork(network: Network): Promise<void> {
-    return this.networkStorage.setActiveNetwork(network);
+    return this.networkStorage.setActiveId(network.id);
+  }
+
+  private getOptionConfig(networkId: string): Observable<Network> {
+    return this.translocoService.selectTranslate(`network_selector.network.${networkId}`, null, 'core')
+      .pipe(
+        map((name) => ({
+          id: networkId,
+          name,
+        })),
+      );
   }
 }

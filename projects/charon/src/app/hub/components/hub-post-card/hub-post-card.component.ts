@@ -4,6 +4,7 @@ import {
   ElementRef,
   Input,
   OnChanges,
+  OnInit,
   Renderer2,
   SimpleChanges,
 } from '@angular/core';
@@ -20,14 +21,16 @@ const DEFAULT_ORIENTATION = 'vertical';
   styleUrls: ['./hub-post-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HubPostCardComponent implements OnChanges {
+export class HubPostCardComponent implements OnChanges, OnInit {
   @Input() public post: PostsListItem;
 
   @Input() public orientation: 'horizontal' | 'vertical';
 
   @Input() public includeVerticalImagePadding: boolean = false;
 
-  @Input() public disableCategory: boolean = false
+  @Input() public disableCategory: boolean = false;
+
+  public imgSrc: string;
 
   constructor(
     private renderer: Renderer2,
@@ -39,6 +42,10 @@ export class HubPostCardComponent implements OnChanges {
     svgIconRegistry.register([
       svgTrash,
     ]);
+  }
+
+  public ngOnInit(): void {
+    this.imgSrc = `${this.post.previewImage}/thumb`;
   }
 
   public ngOnChanges({ orientation }: SimpleChanges): void {

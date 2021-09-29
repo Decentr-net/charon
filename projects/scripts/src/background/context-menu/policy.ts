@@ -10,7 +10,6 @@ const openPolicyPage = () => {
 
 const init = () => {
   browser.contextMenus.create({
-    id: 'privacy',
     title: 'Privacy policy',
     contexts: [
       'browser_action',

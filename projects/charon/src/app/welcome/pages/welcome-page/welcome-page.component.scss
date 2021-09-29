@@ -1,19 +1,62 @@
-.page-welcome {
-  padding-top: 11rem;
+@import 'variables';
 
-  .logo-icon {
-    margin-bottom: 5rem;
+:host {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
-    img {
-      width: 136px;
+.welcome-page__card {
+  border: 2px solid $color-outlines;
+  border-radius: $border-radius;
+  margin: auto;
+  padding: $grid-step * 5 $grid-step * 3;
+  width: 436px;
+}
+
+.welcome-page__title {
+  align-items: center;
+  column-gap: $grid-step;
+  display: flex;
+  font-weight: 700;
+  justify-content: center;
+  margin-bottom: $grid-step * 3;
+}
+
+.welcome-page__button {
+  border-radius: $border-radius;
+  color: $color-black;
+  display: block;
+  padding: $grid-step * 3;
+
+  & + & {
+    margin-top: $grid-step * 2;
+  }
+
+  &.mod-blue {
+    background: rgba($color-primary, 0.08);
+
+    .welcome-page__button__icon {
+      color: $color-primary;
     }
   }
 
-  .page-title {
-    margin-bottom: 2rem;
-  }
+  &.mod-green {
+    background: rgba($color-green, 0.08);
 
-  .page-content {
-    margin-bottom: 3rem;
+    .welcome-page__button__icon {
+      color: $color-green;
+    }
   }
+}
+
+.welcome-page__button__title {
+  font-weight: 700;
+  margin-top: $grid-step * 1.5;
+}
+
+.welcome-page__button__subtitle {
+  color: $color-grey;
+  margin-top: $grid-step;
 }

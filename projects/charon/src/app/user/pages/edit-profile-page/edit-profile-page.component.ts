@@ -1,23 +1,24 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
-import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { finalize } from 'rxjs/operators';
-import { RxwebValidators } from '@rxweb/reactive-form-validators';
+import { AbstractControl, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { throwError } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { StatusCodes } from 'http-status-codes';
+import { Profile } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { NotificationService } from '@shared/services/notification';
 import { AppRoute } from '../../../app-route';
 import { AuthService } from '@core/auth';
 import { EditProfilePageService } from './edit-profile-page.service';
+import { TranslatedError } from '@core/notifications';
 import { SpinnerService, UserService } from '@core/services';
-import { PasswordValidationUtil } from '@shared/utils/validation';
 import { ProfileFormControlValue } from '@shared/components/profile-form';
 
 interface EditProfileForm {
-  confirmPassword: string;
+  oldPassword: string;
   password: string;
   profile: ProfileFormControlValue;
 }
@@ -32,7 +33,7 @@ interface EditProfileForm {
     EditProfilePageService,
     {
       provide: FORM_ERROR_TRANSLOCO_READ,
-      useValue: 'user.edit_profile_page.form',
+      useValue: 'core.profile_form',
     },
   ],
 })
@@ -41,6 +42,8 @@ export class EditProfilePageComponent implements OnInit {
 
   public appRoute: typeof AppRoute = AppRoute;
   public form: FormGroup<EditProfileForm>;
+
+  public profile: Profile;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -55,6 +58,16 @@ export class EditProfilePageComponent implements OnInit {
   ) {
   }
 
+  public get passwordControl(): AbstractControl<string> {
+    return this.form?.get('password');
+  }
+
+  public get hasChanges(): boolean {
+    return this.profile
+      && (!this.editProfilePageService.areProfilesIdentical(this.form.getRawValue().profile, this.profile)
+        || !!this.form.getRawValue().password);
+  }
+
   public ngOnInit(): void {
     this.form = this.createForm();
 
@@ -63,6 +76,7 @@ export class EditProfilePageComponent implements OnInit {
     this.userService.getProfile(wallet.address, wallet).pipe(
       untilDestroyed(this),
     ).subscribe((profile) => {
+      this.profile = profile;
       this.form.get('profile').patchValue(profile);
     });
   }
@@ -80,6 +94,20 @@ export class EditProfilePageComponent implements OnInit {
       ...formValue.profile,
       password: formValue.password,
     }).pipe(
+      catchError((error) => {
+        switch (error?.response?.status) {
+          case StatusCodes.TOO_MANY_REQUESTS:
+            return throwError(new TranslatedError(
+              this.translocoService.translate(
+                `edit_profile_page.toastr.errors.${StatusCodes.TOO_MANY_REQUESTS}`,
+                null,
+                'user',
+              ),
+            ));
+          default:
+            return throwError(error);
+        }
+      }),
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
     ).subscribe(() => {
@@ -98,13 +126,14 @@ export class EditProfilePageComponent implements OnInit {
   private createForm(): FormGroup<EditProfileForm> {
     return this.formBuilder.group({
       profile: undefined,
-      confirmPassword: ['', [
-        RxwebValidators.compare({ fieldName: 'password' }),
-      ]],
-      password: ['', [
-        Validators.minLength(8),
-        PasswordValidationUtil.validatePasswordStrength,
-      ]],
+      oldPassword: [
+        '',
+        [],
+        [
+          this.editProfilePageService.createCurrentPasswordValidAsyncValidator(),
+        ],
+      ],
+      password: '',
     });
   }
 }

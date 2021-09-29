@@ -1,11 +1,13 @@
-<ng-container *ngIf="(posts$ | async) as posts">
-  <ng-container *ngIf="posts.length > 0; else loader">
-    <app-hub-post-card
-      class="hub-related-posts__post-card"
-      *ngFor="let post of posts; trackBy: trackByPostId"
-      [post]="post"
-      [routerLink]="routerLinkFn(post)"
-    ></app-hub-post-card>
+<ng-container *ngIf="(isLoading$ | async) === false; else loader">
+  <ng-container *ngIf="posts$ | async as posts">
+    <div *ngIf="posts.length; else noPosts">
+      <app-hub-post-card
+        class="hub-related-posts__post-card"
+        *ngFor="let post of posts; trackBy: trackByPostId"
+        [post]="post"
+        [routerLink]="routerLinkFn(post)"
+      ></app-hub-post-card>
+    </div>
   </ng-container>
 </ng-container>
 
@@ -18,4 +20,13 @@
       width: '300px'
     }"
   ></ngx-skeleton-loader>
+</ng-template>
+
+<ng-template #noPosts>
+  <div
+    *transloco="let translate;"
+    class="hub-related-posts__no-posts"
+  >
+    {{ translate('hub.hub_related_posts.no_posts') }}
+  </div>
 </ng-template>

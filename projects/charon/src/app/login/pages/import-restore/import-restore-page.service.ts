@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, of, throwError } from 'rxjs';
-import { mapTo, mergeMap } from 'rxjs/operators';
+import { Observable, of, throwError, timer } from 'rxjs';
+import { catchError, map, mapTo, mergeMap, switchMapTo, tap } from 'rxjs/operators';
+import { AsyncValidatorFn } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { createWalletFromMnemonic } from 'decentr-js';
 
@@ -55,5 +56,22 @@ export class ImportRestorePageService {
       }),
       mergeMap(() => this.lockService.unlock()),
     );
+  }
+
+  public createSeedAsyncValidator(): AsyncValidatorFn<string> {
+    return (control) => {
+      if (!control.value) {
+        return of(null);
+      }
+
+      const wallet = createWalletFromMnemonic(control.value);
+
+      return timer(300).pipe(
+        switchMapTo(this.userService.getAccount(wallet.address)),
+        catchError(() => of(undefined)),
+        map((account) => account ? null : { exists: false }),
+        tap((error) => control.setErrors(error)),
+      );
+    };
   }
 }

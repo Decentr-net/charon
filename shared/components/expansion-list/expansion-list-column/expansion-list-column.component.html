@@ -1,22 +1,23 @@
 <div
   class="expansion-list-column__header-cell"
+  [class.with-back-button]="singleDisplayMode && !columnDef.isFirstColumn"
   appTypeface="subheader"
 >
   <button
-    class="expansion-list-column__back-btn"
+    app-button-back
     *ngIf="singleDisplayMode && !columnDef.isFirstColumn"
     (click)="back()"
-  >
-    <svg-icon key="arrow-left"></svg-icon>
-  </button>
+  ></button>
 
-  <ng-template
-    [ngTemplateOutlet]="columnDef.headerCellDef.templateRef"
-    [ngTemplateOutletContext]="{
-      $implicit: columnDef.getItems() | async,
-      parentItem: columnDef.getParentActiveItem() | async
-    }"
-  ></ng-template>
+  <div class="expansion-list-column__header-cell__content">
+    <ng-template
+      [ngTemplateOutlet]="columnDef.headerCellDef.templateRef"
+      [ngTemplateOutletContext]="{
+        $implicit: columnDef.getItems() | async,
+        parentItem: columnDef.getParentActiveItem() | async
+      }"
+    ></ng-template>
+  </div>
 </div>
 
 <div

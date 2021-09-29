@@ -3,7 +3,13 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Config, ConfigService } from '@shared/services/configuration';
-import { clearProxy, ExtensionProxySettings, getActiveProxySettings, setProxy } from '@shared/utils/browser';
+import {
+  clearProxy,
+  ExtensionProxySettings,
+  getActiveProxySettings,
+  isSelfProxyEnabled,
+  setProxy,
+} from '@shared/utils/browser';
 
 @Injectable()
 export class ProxyService {
@@ -30,5 +36,9 @@ export class ProxyService {
 
   public setProxy(host: string, port: number): Promise<void> {
     return setProxy(host, port);
+  }
+
+  public isSelfProxyEnabled(): Observable<boolean> {
+    return isSelfProxyEnabled();
   }
 }

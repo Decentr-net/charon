@@ -1,20 +1,25 @@
-<a
-  class="authorized-layout-header__logo"
-  *appSlotContainer="logoSlotName"
-  [routerLink]="['./']"
->
-  <svg-icon
-    class="authorized-layout-header__logo-icon"
-    key="logo"
-  ></svg-icon>
-</a>
+<div class="authorized-layout-header__section">
+  <a
+    class="authorized-layout-header__logo"
+    *appSlotContainer="logoSlotName"
+    [routerLink]="['./']"
+    [target]="isOpenedInPopup ? 'blank' : ''"
+  >
+    <svg-icon
+      class="authorized-layout-header__logo-icon"
+      key="logo"
+    ></svg-icon>
+  </a>
 
-<div class="authorized-layout-header__meta-container">
-  <ng-container *appSlotContainer="metaSlotName; rootElement: elementRef.nativeElement"></ng-container>
+  <div class="authorized-layout-header__meta-container">
+    <ng-container *appSlotContainer="metaSlotName; rootElement: elementRef.nativeElement"></ng-container>
+  </div>
 </div>
 
-<div class="authorized-layout-header__actions-container">
-  <ng-template [appSlotContainer]="actionsSlotName"></ng-template>
-</div>
+<div class="authorized-layout-header__section">
+  <div class="authorized-layout-header__actions-container">
+    <ng-template [appSlotContainer]="actionsSlotName"></ng-template>
+  </div>
 
-<app-menu></app-menu>
+  <app-menu></app-menu>
+</div>

@@ -1,55 +1,52 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, from, Observable } from 'rxjs';
-import { mergeMap, startWith } from 'rxjs/operators';
+import { filter, mergeMap, startWith } from 'rxjs/operators';
 
 import { BrowserLocalStorage, BrowserStorage } from '../browser-storage';
 
-export interface Network {
+export interface NetworkStorage {
+  id: string;
   api: string;
 }
 
-export interface NetworkStorage<T> {
-  active: T;
-  default: T;
-}
-
 @Injectable()
-export class NetworkBrowserStorageService<T extends Network = Network> {
-  private readonly browserStorage: BrowserStorage<NetworkStorage<T>>
+export class NetworkBrowserStorageService {
+  private readonly browserStorage: BrowserStorage<NetworkStorage>
     = BrowserLocalStorage.getInstance().useSection('network');
 
-  private readonly activeNetwork$: BehaviorSubject<T> = new BehaviorSubject(undefined);
+  private readonly activeAPI$: BehaviorSubject<NetworkStorage['api']> = new BehaviorSubject(undefined);
 
   constructor() {
-    this.getActiveNetwork().subscribe(this.activeNetwork$);
+    this.getActiveAPI().subscribe(this.activeAPI$);
   }
 
-  public getActiveNetwork(): Observable<T | undefined> {
-    return from(this.browserStorage.get('active')).pipe(
-      mergeMap((activeNetwork) => this.browserStorage.onChange('active').pipe(
-        startWith(activeNetwork),
+  public getActiveAPI(): Observable<string> {
+    return from(this.browserStorage.get('api')).pipe(
+      mergeMap((api) => this.browserStorage.onChange('api').pipe(
+        startWith(api),
+      )),
+      filter((api) => !!api),
+    );
+  }
+
+  public getActiveAPIInstant(): NetworkStorage['api'] {
+    return this.activeAPI$.value;
+  }
+
+  public setActiveAPI(api: string): Promise<void> {
+    return this.browserStorage.set('api', api);
+  }
+
+  public getActiveId(): Observable<NetworkStorage['id']> {
+    return from(this.browserStorage.get('id')).pipe(
+      mergeMap((id) => this.browserStorage.onChange('id').pipe(
+        startWith(id),
       )),
     );
   }
 
-  public getActiveNetworkInstant(): T {
-    return this.activeNetwork$.value;
-  }
-
-  public setActiveNetwork(network: T): Promise<void> {
-    return this.browserStorage.set('active', network);
-  }
-
-  public getDefaultNetwork(): Observable<T | undefined> {
-    return from(this.browserStorage.get('default')).pipe(
-      mergeMap((activeNetwork) => this.browserStorage.onChange('default').pipe(
-        startWith(activeNetwork),
-      )),
-    );
-  }
-
-  public setDefaultNetwork(network: T): Promise<void> {
-    return this.browserStorage.set('default', network);
+  public setActiveId(id: NetworkStorage['id']): Promise<void> {
+    return this.browserStorage.set('id', id);
   }
 
   public clear(): Promise<void> {

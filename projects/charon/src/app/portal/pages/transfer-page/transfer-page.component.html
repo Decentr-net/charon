@@ -1,11 +1,9 @@
 <ng-container *transloco="let translate; read: 'portal.transfer_page'">
   <div class="transfer-page__header">
-    <a
-      class="transfer-page__back-button"
+    <button
+      app-button-back
       [appNavigateBack]="['../']"
-    >
-      <svg-icon key="arrow-left"></svg-icon>
-    </a>
+    ></button>
 
     <span appTypeface="subheader">
       {{ translate('send') }}
@@ -20,38 +18,38 @@
         class="transfer-page__balance-icon"
         key="decentr-hub"
       ></svg-icon>
-      {{ balance | microValue }} tDEC
+      {{ balance | microValue }} <app-currency-symbol></app-currency-symbol>
     </div>
   </div>
 
   <form
     [formGroup]="form"
     autocomplete="off"
-    appBindQueryParams
     appSubmitAfterValidation
-    (ngSubmit)="onSubmit()"
   >
 
     <div class="transfer-page__form__inputs-container">
-      <app-transfer-input
-        class="transfer-page__form__control-amount"
-        formControlName="amount"
-        [appTypeface]="isOpenedInPopup ? 'header-4' : 'header-3'"
-      >
-        <span>{{ translate('form.amount.label') }}</span>
+      <ng-container formGroupName="data" appBindQueryParams>
+        <app-input
+          class="transfer-page__form__control-amount"
+          formControlName="amount"
+          [appTypeface]="isOpenedInPopup ? 'header-4' : 'header-3'"
+        >
+          <span ngProjectAs="[label]">{{ translate('form.amount.label') }}</span>
 
-        <span *ngIf="fee$ | async as fee" ngProjectAs="[label-right]">
-          <ng-container *ngIf="form.valid">
-            {{ translate('form.amount.fee') }}: {{ fee | microValue }}
-          </ng-container>
-        </span>
-      </app-transfer-input>
+          <span *ngIf="fee$ | async as fee" ngProjectAs="[label-right]">
+            <ng-container *ngIf="form.valid">
+              {{ translate('form.amount.fee') }}: {{ fee | microValue }}
+            </ng-container>
+          </span>
+        </app-input>
 
-      <app-form-error
-        class="transfer-page__form__error transfer-page__form__error-amount"
-        controlName="amount"
-        appTypeface="caption"
-      ></app-form-error>
+        <app-form-error
+          class="transfer-page__form__error transfer-page__form__error-amount"
+          controlName="amount"
+          appTypeface="caption"
+        ></app-form-error>
+      </ng-container>
 
       <svg-icon
         *appBrowserTabView
@@ -60,22 +58,35 @@
         size="xl"
       ></svg-icon>
 
-      <app-transfer-input
-        class="transfer-page__form__control-to"
-        [rows]="2"
-        formControlName="to"
-        [appTypeface]="isOpenedInPopup ? 'paragraph' : 'subheader'"
-      >
-        {{ translate('form.to.label') }}
-      </app-transfer-input>
+      <ng-container formGroupName="data">
+        <app-input
+          class="transfer-page__form__control-to"
+          rows="2"
+          [resize]="false"
+          formControlName="to"
+          [appTypeface]="isOpenedInPopup ? 'paragraph' : 'subheader'"
+          [placeholder]="translate('form.to.placeholder')"
+        >
+          <span ngProjectAs="[label]">{{ translate('form.to.label') }}</span>
+        </app-input>
 
-      <div class="transfer-page__form__error transfer-page__form__error-to">
-        <app-form-error
-          *ngIf="form.get('to').touched"
-          controlName="to"
-          appTypeface="caption"
-        ></app-form-error>
-      </div>
+        <div class="transfer-page__form__error transfer-page__form__error-to">
+          <app-form-error
+            *ngIf="form.get(['data', 'to']).touched"
+            controlName="to"
+            appTypeface="caption"
+          ></app-form-error>
+        </div>
+      </ng-container>
+
+      <app-input
+        class="transfer-page__form__control-memo"
+        [maxlength]="100"
+        [rows]="2"
+        formControlName="comment"
+      >
+        <span ngProjectAs="[label]">{{ translate('form.memo.label') }}</span>
+      </app-input>
     </div>
 
     <div
@@ -83,8 +94,9 @@
       appTypeface="paragraph"
     >
       <button
-        type="button"
         class="transfer-page__form__action-button"
+        app-button
+        color="grey"
         [disabled]="isPageDisabled"
         [appNavigateBack]="['../']"
       >
@@ -92,7 +104,10 @@
       </button>
 
       <button
-        class="transfer-page__form__action-button mod-send"
+        class="transfer-page__form__action-button"
+        app-button
+        color="primary"
+        (click)="onSubmit()"
         [disabled]="isPageDisabled || (canSend$ | async) === false"
       >
         {{ translate(isPageDisabled ? 'sending' : 'send') }}

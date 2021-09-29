@@ -11,4 +11,9 @@
   <div class="technical-page__title">
     {{ translate(i18nPageKey + '.title') }}
   </div>
+
+  <app-network-selector
+    class="technical-page__network-selector"
+    *ngIf="isNetworkSelectorVisible"
+  ></app-network-selector>
 </div>

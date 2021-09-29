@@ -39,6 +39,8 @@ export class AssetsPageComponent
 
   public lastTransferTime: number;
 
+  public totalCount$: Observable<number>;
+
   constructor(
     private assetsPageService: AssetsPageService,
     private router: Router,
@@ -56,6 +58,8 @@ export class AssetsPageComponent
 
   public ngOnInit(): void {
     this.assetsList$ = this.assetsPageService.getAssets();
+
+    this.totalCount$ = this.assetsPageService.getTotalTransactionCount();
   }
 
   private getLastTransferTime(navigation: Navigation): number | undefined {

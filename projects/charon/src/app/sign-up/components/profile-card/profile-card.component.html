@@ -1,0 +1,44 @@
+<div
+  class="profile-card__container"
+  *ngIf="profile$ | async as profile; else loader"
+>
+  <app-avatar
+    class="profile-card__avatar"
+    [avatarUrl]="profile.avatar"
+  ></app-avatar>
+
+  <div
+    class="profile-card__name"
+    appTextEllipsis
+    appTypeface="header-4"
+  >
+    {{ profile.firstName }} {{ profile.lastName }}
+  </div>
+
+  <div
+    class="profile-card__balance"
+    appTypeface="paragraph"
+  >
+    <svg-icon
+      class="profile-card__balance__icon"
+      key="wallet"
+    ></svg-icon>
+
+    <span>
+      {{ balance$ | async | microValue }} <app-currency-symbol></app-currency-symbol>
+    </span>
+  </div>
+
+  <div
+    class="profile-card__bio"
+    appTypeface="paragraph"
+  >
+    {{ profile.bio }}
+  </div>
+</div>
+
+<ng-template #loader>
+  <ngx-skeleton-loader
+    [theme]="{ height: '80px' }"
+  ></ngx-skeleton-loader>
+</ng-template>

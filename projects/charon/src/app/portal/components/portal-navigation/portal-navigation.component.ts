@@ -6,7 +6,6 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgWidescreen } from '@shared/svg-icons/widescreen';
 import { ConfigService } from '@shared/services/configuration';
-import { NavigationService } from '@core/navigation';
 import { AppRoute } from '../../../app-route';
 import { PortalRoute } from '../../portal-route';
 import { AUTHORIZED_LAYOUT_NAVIGATION_RIGHT_SLOT } from '../../../core/layout/authorized-layout';
@@ -34,7 +33,6 @@ export class PortalNavigationComponent implements OnInit {
 
   constructor(
     private configService: ConfigService,
-    private navigationService: NavigationService,
     private router: Router,
     svgIconRegistry: SvgIconRegistry,
   ) {
@@ -68,10 +66,5 @@ export class PortalNavigationComponent implements OnInit {
         }] : [],
       ]),
     );
-  }
-
-  public expandView(): void {
-    this.navigationService.openInNewTab(this.router.url);
-    window.close();
   }
 }

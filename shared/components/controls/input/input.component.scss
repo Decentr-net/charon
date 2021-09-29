@@ -1,0 +1,72 @@
+@import '../../../styles/variables';
+
+:host {
+  background-color: $color-background;
+  border-radius: $border-radius;
+  display: block;
+  padding: $grid-step * 2;
+  width: 100%;
+
+  &.is-invalid {
+    &.is-submitted,
+    &.is-touched {
+      .input__label {
+        color: $color-negative;
+      }
+    }
+  }
+
+  &.is-disabled {
+    .input__label,
+    .input {
+      color: $color-light-grey;
+      pointer-events: none;
+    }
+  }
+
+  &.is-empty {
+    .input__eye {
+      color: $color-light-grey;
+    }
+  }
+}
+
+.input__label {
+  color: $color-grey;
+  display: flex;
+  justify-content: space-between;
+}
+
+.input__container {
+  column-gap: $grid-step * 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) min-content;
+  justify-content: space-between;
+}
+
+.input__eye {
+  color: $color-black;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.input {
+  background-color: inherit;
+  color: $color-black;
+  font: inherit;
+  font-weight: 500;
+  padding: 0;
+  resize: none;
+  width: 100%;
+
+  &::placeholder {
+    color: $color-grey;
+    font-weight: normal;
+  }
+
+  &.mod-textarea {
+    &[type=password] {
+      -webkit-text-security: disc;
+    }
+  }
+}
