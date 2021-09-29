@@ -101,6 +101,7 @@
   "sign_up_page": {
     "errors": {
       "account_conflict": "A wallet has already been created for this email or wallet address",
+      "invalid_email": "Invalid email",
       "too_many_requests": "Too many requests"
     },
     "step": "step",

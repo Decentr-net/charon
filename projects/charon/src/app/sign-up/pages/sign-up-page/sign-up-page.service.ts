@@ -28,6 +28,11 @@ export class SignUpPageService {
         let errorToThrow: Error;
 
         switch (error.status) {
+          case StatusCodes.BAD_REQUEST:
+            errorToThrow = new TranslatedError(
+              this.translocoService.translate('sign_up_page.errors.invalid_email', null, 'sign-up')
+            );
+            break;
           case StatusCodes.CONFLICT: {
             errorToThrow = new TranslatedError(
               this.translocoService.translate('sign_up_page.errors.account_conflict', null, 'sign-up')
