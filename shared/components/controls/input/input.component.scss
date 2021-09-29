@@ -39,7 +39,8 @@
 
 .input__container {
   column-gap: $grid-step * 2;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) min-content;
   justify-content: space-between;
 }
 
