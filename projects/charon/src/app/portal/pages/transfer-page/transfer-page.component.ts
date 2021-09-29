@@ -19,7 +19,12 @@ import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
 import { svgDecentrHub } from '@shared/svg-icons/decentr-hub';
 import { isOpenedInTab } from '@shared/utils/browser';
 import { ONE_SECOND } from '@shared/utils/date';
-import { RECEIVER_WALLET_PARAM, TRANSFER_START_AMOUNT, TransferForm } from './transfer-page.definitions';
+import {
+  RECEIVER_WALLET_PARAM,
+  TRANSFER_START_AMOUNT,
+  TransferForm,
+  TransferFormData,
+} from './transfer-page.definitions';
 import { TransferPageService } from './transfer-page.service';
 
 @UntilDestroy()
@@ -76,8 +81,8 @@ export class TransferPageComponent implements OnInit {
 
     this.fee$ = this.getFeeStream(this.form);
 
-    const amountControl = this.form.get('amount');
-    this.form.setAsyncValidators([
+    const amountControl = this.form.get(['data', 'amount']);
+    this.form.get('data').setAsyncValidators([
       this.transferPageService.createAsyncAmountValidator(amountControl, this.fee$),
     ]);
   }
@@ -90,8 +95,8 @@ export class TransferPageComponent implements OnInit {
     const transferTime = Date.now() - ONE_SECOND * 5;
 
     this.transferPageService.transfer(
-      formValue.to,
-      this.getUDecAmount(formValue.amount),
+      formValue.data.to,
+      this.getUDecAmount(formValue.data.amount),
       formValue.comment || '',
     ).pipe(
       catchError(() => {
@@ -106,23 +111,25 @@ export class TransferPageComponent implements OnInit {
 
   private createForm(): FormGroup<TransferForm> {
     return this.formBuilder.group<TransferForm>({
-      amount: [
-        TRANSFER_START_AMOUNT,
-        [
-          Validators.required,
-          Validators.min(TRANSFER_START_AMOUNT),
-          Validators.pattern('^((0)|(([1-9])([0-9]+)?)(0+)?)\\.?\\d{0,6}$'),
+      data: this.formBuilder.group<TransferFormData>({
+        amount: [
+          TRANSFER_START_AMOUNT,
+          [
+            Validators.required,
+            Validators.min(TRANSFER_START_AMOUNT),
+            Validators.pattern('^((0)|(([1-9])([0-9]+)?)(0+)?)\\.?\\d{0,6}$'),
+          ],
         ],
-      ],
-      [RECEIVER_WALLET_PARAM]: [
-        '',
-        [
-          Validators.required,
+        [RECEIVER_WALLET_PARAM]: [
+          '',
+          [
+            Validators.required,
+          ],
+          [
+            this.transferPageService.createAsyncValidWalletAddressValidator(),
+          ],
         ],
-        [
-          this.transferPageService.createAsyncValidWalletAddressValidator(),
-        ],
-      ],
+      }),
       comment: [
         '',
         {
@@ -161,11 +168,14 @@ export class TransferPageComponent implements OnInit {
     return form.value$.pipe(
       debounceTime(300),
       switchMap((formValue) => {
-          return +formValue.amount && formValue.to
-            ? this.transferPageService.getTransferFee(formValue.to, this.getUDecAmount(formValue.amount)).pipe(
-              catchError(() => of(defaultValue)),
-            )
-            : of(defaultValue);
+        const amount = formValue.data.amount;
+        const to = formValue.data.to;
+
+        return +amount && to
+          ? this.transferPageService.getTransferFee(to, this.getUDecAmount(amount)).pipe(
+            catchError(() => of(defaultValue)),
+          )
+          : of(defaultValue);
         }
       ),
       share(),
