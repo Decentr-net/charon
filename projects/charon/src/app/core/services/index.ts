@@ -3,6 +3,7 @@ import { BankService } from './bank';
 import { FollowingService } from './following';
 import { ImageUploaderService } from './image-uploader';
 import { MediaService } from './media';
+import { NetworkSelectorService } from './network-selector';
 import { NetworkService } from './network';
 import { PostsService } from './posts';
 import { ProxyService } from './proxy';
@@ -27,6 +28,7 @@ export const CORE_SERVICES = [
   FollowingService,
   ImageUploaderService,
   MediaService,
+  NetworkSelectorService,
   NetworkService,
   PostsService,
   ProxyService,

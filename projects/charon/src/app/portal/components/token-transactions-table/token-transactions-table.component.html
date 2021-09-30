@@ -45,7 +45,14 @@
       key="send"
     ></svg-icon>
 
-    <div class="token-transactions-table__operation">{{ translate('sent') }}</div>
+    <div class="token-transactions-table__operation">
+      {{ translate('sent') }}
+
+      <ng-container
+        [ngTemplateOutlet]="actionsTemplate"
+        [ngTemplateOutletContext]="{ $implicit: transaction.hash }"
+      ></ng-container>
+    </div>
 
     <div class="token-transactions-table__amount token-transactions-table__color-send">
       -{{ transaction.amount.amount | microValue }} <app-currency-symbol></app-currency-symbol>
@@ -67,7 +74,14 @@
       key="receive"
     ></svg-icon>
 
-    <div class="token-transactions-table__operation">{{ translate('received') }}</div>
+    <div class="token-transactions-table__operation">
+      {{ translate('received') }}
+
+      <ng-container
+        [ngTemplateOutlet]="actionsTemplate"
+        [ngTemplateOutletContext]="{ $implicit: transaction.hash }"
+      ></ng-container>
+    </div>
 
     <div class="token-transactions-table__amount token-transactions-table__color-receive">
       {{ transaction.amount.amount | microValue }} <app-currency-symbol></app-currency-symbol>
@@ -75,6 +89,27 @@
 
     <div class="token-transactions-table__address" appTextEllipsis appTypeface="caption">
       {{ translate('from') }}: {{ transaction.sender }}
+    </div>
+  </ng-template>
+
+  <ng-template #actionsTemplate let-txhash>
+    <div class="token-transactions-table__operation__actions">
+      <div
+        class="token-transactions-table__operation__action"
+        [cdkCopyToClipboard]="txhash"
+        (cdkCopyToClipboardCopied)="onTxHashCopied()"
+        [title]="translate('copy_tx')"
+      >
+        <svg-icon key="copy" size="xs"></svg-icon>
+      </div>
+
+      <a
+        class="token-transactions-table__operation__action"
+        [appTransactionLink]="txhash"
+        [title]="translate('open_link')"
+      >
+        <svg-icon key="link" size="xs"></svg-icon>
+      </a>
     </div>
   </ng-template>
 </ng-container>

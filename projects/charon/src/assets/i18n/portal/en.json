@@ -28,12 +28,15 @@
     "wallet_address_copied": "The wallet address was copied successfully"
   },
   "token_transactions_table": {
+    "copy_tx": "Copy transaction hash",
     "fee": "Fee",
     "from": "From",
     "memo": "Memo",
+    "open_link": "View on dExplorer",
     "received": "Received",
     "sent": "Sent",
-    "to": "To"
+    "to": "To",
+    "wallet_address_copied": "The transaction hash was copied successfully"
   },
   "transfer_page": {
     "cancel": "Cancel",

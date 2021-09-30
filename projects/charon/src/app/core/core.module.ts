@@ -8,7 +8,7 @@ import { MessageCode } from '@scripts/messages';
 import { MessageBus } from '@shared/message-bus';
 import { CurrencyModule } from '@shared/services/currency';
 import { MenuModule } from '@shared/components/menu';
-import { NetworkSelectorModule } from '@shared/components/network-selector';
+import { NetworkSelectorModule, NetworkSelectorService as BaseNetworkSelectorService } from '@shared/components/network-selector';
 import { SlotModule } from '@shared/components/slot';
 import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { NotificationsModule } from '@shared/services/notification';
@@ -66,9 +66,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       service: MenuService,
     }),
     NavigationModule,
-    NetworkSelectorModule.forRoot({
-      service: NetworkSelectorService,
-    }),
+    NetworkSelectorModule,
     NotificationsModule.forRoot({
       errorProcessors: ERROR_PROCESSORS,
       fallbackErrorProcessor: FallbackErrorProcessor,
@@ -92,6 +90,10 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     CORE_GUARDS,
     CORE_SERVICES,
     INTERCEPTORS_PROVIDERS,
+    {
+      provide: BaseNetworkSelectorService,
+      useExisting: NetworkSelectorService,
+    },
     {
       provide: NetworkBrowserStorageService,
       useClass: NetworkBrowserStorageService,
