@@ -6,7 +6,6 @@ import { PDVApiService } from './pdv-api.service';
 import { PDVService } from './pdv-service';
 import { PDVStorageService } from './pdv-storage.service';
 import { AuthBrowserStorageService } from '../auth';
-import { NetworkBrowserStorageService } from '../network-storage';
 
 @NgModule({
   imports: [
@@ -15,7 +14,6 @@ import { NetworkBrowserStorageService } from '../network-storage';
   ],
   providers: [
     AuthBrowserStorageService,
-    NetworkBrowserStorageService,
 
     PDVApiService,
     PDVService,

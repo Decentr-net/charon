@@ -31,6 +31,8 @@
 }
 
 .token-transactions-table__operation {
+  column-gap: $grid-step;
+  display: flex;
   font-weight: 500;
   grid-area: operation;
 }
@@ -64,4 +66,20 @@
 
 .token-transactions-table__color-send {
   color: $color-negative;
+}
+
+.token-transactions-table__operation__actions {
+  display: flex;
+  column-gap: $grid-step / 2;
+}
+
+.token-transactions-table__operation__action {
+  align-items: center;
+  background-color: $color-background;
+  border-radius: 8px;
+  color: $color-grey;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  padding: $grid-step / 2;
 }
