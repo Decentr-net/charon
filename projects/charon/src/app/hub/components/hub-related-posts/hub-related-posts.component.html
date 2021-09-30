@@ -1,13 +1,13 @@
 <ng-container *ngIf="(isLoading$ | async) === false; else loader">
   <ng-container *ngIf="posts$ | async as posts">
-    <div *ngIf="posts.length; else noPosts">
+    <ng-container *ngIf="posts.length; else noPosts">
       <app-hub-post-card
         class="hub-related-posts__post-card"
         *ngFor="let post of posts; trackBy: trackByPostId"
         [post]="post"
         [routerLink]="routerLinkFn(post)"
       ></app-hub-post-card>
-    </div>
+    </ng-container>
   </ng-container>
 </ng-container>
 
