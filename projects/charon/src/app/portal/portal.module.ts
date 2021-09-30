@@ -31,6 +31,7 @@ import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { AuthorizedLayoutModule } from '@core/layout/authorized-layout';
 import { NavigationModule } from '@core/navigation';
 import { PORTAL_COMPONENTS } from './components';
+import { PORTAL_DIRECTIVES } from './directives';
 import { PORTAL_PAGES } from './pages';
 import { PortalRoutingModule } from './portal-routing.module';
 import { SpinnerModule } from '@shared/components/spinner';
@@ -41,6 +42,7 @@ import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
   declarations: [
     PORTAL_COMPONENTS,
     PORTAL_PAGES,
+    PORTAL_DIRECTIVES,
   ],
   imports: [
     AuthorizedLayoutModule,

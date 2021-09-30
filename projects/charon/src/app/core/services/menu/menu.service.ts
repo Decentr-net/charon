@@ -26,6 +26,7 @@ import {
 
 import { PDVService } from '@shared/services/pdv';
 import { isOpenedInTab } from '@shared/utils/browser';
+import { Environment } from '@environments/environment.definitions';
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../../hub';
 import { LockService } from '../../lock';
@@ -41,7 +42,6 @@ import { svgLogoIconPink } from '@shared/svg-icons/logo-icon-pink';
 import { svgLogoIconGreen } from '@shared/svg-icons/logo-icon-green';
 
 const DECENTR_SITE_URL = 'https://decentr.net/';
-const DECENTR_EXPLORER_SITE_URL = 'https://explorer.decentr.net';
 
 @Injectable()
 export class MenuService extends MenuBaseService {
@@ -49,6 +49,7 @@ export class MenuService extends MenuBaseService {
 
   constructor(
     private authService: AuthService,
+    private environment: Environment,
     private navigationService: NavigationService,
     private pdvService: PDVService,
     private lockService: LockService,
@@ -112,7 +113,7 @@ export class MenuService extends MenuBaseService {
           ],
           [
             {
-              action: () => window.open(DECENTR_EXPLORER_SITE_URL, '_blank'),
+              action: () => window.open(this.environment.explorer, '_blank'),
               description: itemsTranslationsObject['decentr_explorer']['description'],
               iconKey: svgLogoIconGreen.name,
               title: itemsTranslationsObject['decentr_explorer']['title'],
