@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { filter, first, mapTo } from 'rxjs/operators';
-import { merge } from 'rxjs';
+import { merge, Observable } from 'rxjs';
 
 import { ConfigService } from '@shared/services/configuration';
 import { NetworkBrowserStorageService } from '@shared/services/network-storage';
@@ -22,6 +22,10 @@ export class NetworkService {
       mapTo(void 0),
       first(),
     ).toPromise();
+  }
+
+  public getActiveNetworkAPI(): Observable<string> {
+    return this.networkStorage.getActiveAPI();
   }
 
   public getActiveNetworkAPIInstant(): string {

@@ -9,7 +9,7 @@ import {
   Wallet,
 } from 'decentr-js';
 import { defer, Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, switchMap, take } from 'rxjs/operators';
 
 import { MessageBus } from '@shared/message-bus';
 import { ConfigService } from '@shared/services/configuration';
@@ -87,13 +87,14 @@ export class BankService {
     role: TransferRole,
     paginationOptions?: TransferHistoryPaginationOptions,
   ): Observable<TransferHistory> {
-    const apiUrl = this.networkService.getActiveNetworkAPIInstant();
-
-    return defer(() => this.bankApiService.getTransferHistory(
-      apiUrl,
-      walletAddress,
-      role,
-      paginationOptions,
-    ));
+    return this.networkService.getActiveNetworkAPI().pipe(
+      take(1),
+      switchMap((apiUrl) => this.bankApiService.getTransferHistory(
+        apiUrl,
+        walletAddress,
+        role,
+        paginationOptions,
+      )),
+    );
   }
 }

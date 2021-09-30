@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, from, Observable } from 'rxjs';
-import { filter, mergeMap, startWith } from 'rxjs/operators';
+import { distinctUntilChanged, filter, mergeMap, startWith } from 'rxjs/operators';
 
 import { BrowserLocalStorage, BrowserStorage } from '../browser-storage';
 
@@ -26,6 +26,7 @@ export class NetworkBrowserStorageService {
         startWith(api),
       )),
       filter((api) => !!api),
+      distinctUntilChanged(),
     );
   }
 
