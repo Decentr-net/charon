@@ -36,7 +36,7 @@ export class TransactionLinkDirective implements OnInit {
       map(([network, transactionId]) => `${this.environment.explorer}/transactions/${transactionId}?networkId=${network.id}`),
       untilDestroyed(this),
     ).subscribe((src) => {
-      this.renderer.setAttribute(this.elementRef.nativeElement, 'src', src);
+      this.renderer.setAttribute(this.elementRef.nativeElement, 'href', src);
     });
   }
 }
