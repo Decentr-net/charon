@@ -76,8 +76,8 @@
 .token-transactions-table__operation__action {
   align-items: center;
   background-color: $color-background;
-  border-radius: $border-radius;
-  color: $color-black;
+  border-radius: 8px;
+  color: $color-grey;
   cursor: pointer;
   display: flex;
   justify-content: center;
