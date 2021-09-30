@@ -17,7 +17,7 @@ export class ProfileFormModel {
   protected static nonExistentDate(): ValidatorFn<string> {
     return (control) => {
       const parsedDate = parseDateValue(control.value || '');
-      const realDate = new Date(control.value);
+      const realDate = new Date(parsedDate.year, parsedDate.month, parsedDate.day);
 
       if (parsedDate.year !== realDate.getFullYear()
         || parsedDate.month !== realDate.getMonth()
