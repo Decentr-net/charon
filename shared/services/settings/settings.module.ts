@@ -9,6 +9,6 @@ export class SettingsModule {
       providers: [
         SettingsService,
       ],
-    }
+    };
   }
 }

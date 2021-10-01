@@ -89,5 +89,5 @@ export interface CharonAPIMessageBusMap extends MessageMap {
       success: boolean;
       error?: any;
     };
-  }
+  };
 }

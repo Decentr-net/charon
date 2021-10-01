@@ -69,6 +69,10 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
   private x: d3.ScaleTime<number, number>;
   private y: d3.ScaleLinear<number, number>;
 
+  private bisectDate = d3.bisector((d: ChartPoint): Date => {
+    return new Date(d.date);
+  }).center;
+
   constructor(
     private cdRef: ChangeDetectorRef,
   ) {
@@ -121,10 +125,10 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
     const svgDefs = this.svg.append('defs');
 
     const whiteChartGradient = svgDefs.append('linearGradient')
-      .attr("x1", "0%")
-      .attr("x2", "0%")
-      .attr("y1", "0%")
-      .attr("y2", "100%")
+      .attr('x1', '0%')
+      .attr('x2', '0%')
+      .attr('y1', '0%')
+      .attr('y2', '100%')
       .attr('id', 'whiteChartGradient');
 
     whiteChartGradient.append('stop')
@@ -175,11 +179,7 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  private bisectDate = d3.bisector((d: ChartPoint): Date => {
-    return new Date(d.date);
-  }).center;
-
-  public onMouseEnter = (event: MouseEvent): void => {
+  public onMouseEnter = (): void => {
     if (this.showHoverLine) {
       this.hoverLine.append('line')
         .attr('class', 'hover-line')
@@ -199,7 +199,7 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
     }
 
     this.cdRef.detectChanges();
-  };
+  }
 
   public onMouseMove = (event: MouseEvent): void => {
     const positionX = d3.pointer(event)[0];
@@ -239,11 +239,11 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
     }
 
     this.cdRef.detectChanges();
-  };
+  }
 
   public onMouseLeave = (): void => {
     this.clearHoverItems();
-  };
+  }
 
   private clearHoverItems(): void {
     if (this.showHoverLine) {
@@ -303,7 +303,7 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
       .attr('height', this.containerHeight)
       .select('.overlay')
       .attr('width', this.width)
-      .attr('height', this.height + this.margin.top + this.margin.bottom)
+      .attr('height', this.height + this.margin.top + this.margin.bottom);
   }
 
   private updateAxis(): void {
@@ -335,10 +335,14 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  private updateAxisData = (elem, options) => elem
-    .call(options);
+  private updateAxisData(elem, options): void {
+    elem
+      .call(options);
+  }
 
-  private updateChartData = (elem, option) => elem
-    .data([this.data])
-    .attr('d', option);
+  private updateChartData(elem, option): void {
+    return elem
+      .data([this.data])
+      .attr('d', option);
+  }
 }

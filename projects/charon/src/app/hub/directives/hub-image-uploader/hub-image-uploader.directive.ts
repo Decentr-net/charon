@@ -32,6 +32,14 @@ export class HubImageUploaderDirective implements OnInit {
   ) {
   }
 
+  private static createImageInput(): HTMLInputElement {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = IMAGE_ACCEPT_FORMATS;
+
+    return input;
+  }
+
   public ngOnInit(): void {
     this.imageInput = HubImageUploaderDirective.createImageInput();
 
@@ -85,13 +93,5 @@ export class HubImageUploaderDirective implements OnInit {
     return this.imageUploader.upload(image).pipe(
       finalize(() => this.spinnerService.hideSpinner()),
     );
-  }
-
-  private static createImageInput(): HTMLInputElement {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = IMAGE_ACCEPT_FORMATS;
-
-    return input;
   }
 }

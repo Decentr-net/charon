@@ -13,7 +13,12 @@ export class PdvValuePipe implements PipeTransform {
   ) {
   }
 
-  public transform(value: string | number, convertToMu: boolean = false, digitsInfo: string = '1.6', digitsInfoMicro: string = '1.0-1'): string {
+  public transform(
+    value: string | number,
+    convertToMu: boolean = false,
+    digitsInfo: string = '1.6',
+    digitsInfoMicro: string = '1.0-1',
+  ): string {
     return Number(value) === 0
       ? '0'
       : convertToMu

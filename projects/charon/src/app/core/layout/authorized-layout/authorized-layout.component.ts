@@ -20,7 +20,7 @@ export const AUTHORIZED_LAYOUT_FOOTER_SLOT = Symbol('AUTHORIZED_LAYOUT_FOOTER_SL
 export class AuthorizedLayoutComponent implements OnInit {
   @HostBinding('class.mod-popup-view') public isOpenedInPopup: boolean;
 
-  public readonly footerSlotName: Symbol = AUTHORIZED_LAYOUT_FOOTER_SLOT;
+  public readonly footerSlotName: symbol = AUTHORIZED_LAYOUT_FOOTER_SLOT;
 
   public hasNavigation: boolean;
 

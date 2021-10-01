@@ -136,7 +136,7 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
 
         return selectionRect.bottom > 0
           ? selectionRect.top - quillElementRect.top
-          : quillElementRect.height - parseInt(getComputedStyle(this.quillEditorElement).lineHeight);
+          : quillElementRect.height - parseInt(getComputedStyle(this.quillEditorElement).lineHeight, 10);
       }),
       distinctUntilChanged(),
       untilDestroyed(this),

@@ -19,7 +19,8 @@ export class MouseWheelHorizontalScrollDirective implements OnInit {
     fromEvent(this.mouseWheelHorizontalScrollElement, 'wheel').pipe(
       untilDestroyed(this),
     ).subscribe((event: WheelEvent) => {
-      this.mouseWheelHorizontalScrollElement.scrollLeft = this.mouseWheelHorizontalScrollElement.scrollLeft + event.deltaY * (event.deltaMode ? 30 : 1);
-    })
+      this.mouseWheelHorizontalScrollElement.scrollLeft
+        = this.mouseWheelHorizontalScrollElement.scrollLeft + event.deltaY * (event.deltaMode ? 30 : 1);
+    });
   }
 }

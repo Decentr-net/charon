@@ -11,6 +11,6 @@ export class SettingsService {
     = BrowserLocalStorage.getInstance().useSection<SettingsStorage>('settings');
 
   public getUserSettingsService(walletAddress: Wallet['address']): UserSettingsService {
-    return new UserSettingsService(this.settingsStorage.useSection(walletAddress))
+    return new UserSettingsService(this.settingsStorage.useSection(walletAddress));
   }
 }

@@ -7,9 +7,9 @@ import { ONE_MINUTE } from '../../utils/date';
 const messageCode = 'CHARON_PDV_UPDATE';
 
 export class PDVUpdateNotifier {
-  private readonly resetTimer$: Subject<void> = new Subject();
-
   private static readonly messageBus = new MessageBus();
+
+  private readonly resetTimer$: Subject<void> = new Subject();
 
   private timerSubscription: Subscription;
 

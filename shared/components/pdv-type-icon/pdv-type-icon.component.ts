@@ -10,7 +10,7 @@ const PDV_TYPE_ICON_MAP: Record<PDVType, string> = {
   [PDVType.Location]: 'location',
   [PDVType.Profile]: 'profile',
   [PDVType.SearchHistory]: 'search-history',
-}
+};
 
 @Component({
   selector: 'app-pdv-type-icon',

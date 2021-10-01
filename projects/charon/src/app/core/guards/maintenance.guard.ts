@@ -1,7 +1,7 @@
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, UrlTree } from '@angular/router';
 import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { ConfigService } from '@shared/services/configuration';
 
@@ -13,7 +13,7 @@ export class MaintenanceGuard implements CanActivate {
   ) {
   }
 
-  canActivate() {
+  public canActivate(): Observable<boolean | UrlTree> {
     this.configService.forceUpdate();
 
     return this.configService.getMaintenanceStatus().pipe(

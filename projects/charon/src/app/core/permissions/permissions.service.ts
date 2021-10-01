@@ -30,7 +30,7 @@ export class PermissionsService extends BasePermissionsService<UserPermissions> 
           ? this.userService.getModeratorAddresses().pipe(
             map((moderatorAddresses) => moderatorAddresses.includes(walletAddress)),
           )
-          : of(false)
+          : of(false);
       }),
       untilDestroyed(this),
     ).subscribe((isModerator) => {

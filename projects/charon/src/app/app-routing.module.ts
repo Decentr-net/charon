@@ -6,6 +6,7 @@ import { AuthCompletedRegistrationGuard, UnauthGuard } from '@core/guards';
 import { AuthorizedLayoutComponent } from '@core/layout/authorized-layout';
 import { PUBLIC_LAYOUT_INCLUDE_LOGO_KEY, PublicLayoutComponent } from '@core/layout/public-layout';
 import { LockGuard } from '@core/lock';
+import { TechnicalPageRouteData } from './technical/pages';
 import { AppRoute } from './app-route';
 
 const ROUTES: Routes = [
@@ -119,7 +120,7 @@ const ROUTES: Routes = [
     data: {
       i18nPageKey: 'maintenance_page',
       isNetworkSelectorVisible: true,
-    },
+    } as TechnicalPageRouteData,
   },
   {
     path: AppRoute.Offline,

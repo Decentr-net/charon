@@ -43,6 +43,27 @@ import { svgLogoIconGreen } from '@shared/svg-icons/logo-icon-green';
 
 const DECENTR_SITE_URL = 'https://decentr.net/';
 
+interface MenuItemsTranslations {
+  decentr_hub: {
+    description: string;
+    title: string;
+  };
+  decentr_feed: {
+    description: string;
+    title: string;
+  };
+  decentr_portal: {
+    description: string;
+    title: string;
+  };
+  decentr_explorer: {
+    description: string;
+    title: string;
+  };
+  lock: string;
+  info_and_help: string;
+}
+
 @Injectable()
 export class MenuService extends MenuBaseService {
   private profile$: Observable<Profile>;
@@ -80,7 +101,7 @@ export class MenuService extends MenuBaseService {
     return this.profile$.pipe(
       map((profile) => ({
         avatar: profile.avatar,
-        title: `${profile.firstName} ${profile.lastName ? profile.lastName.slice(0,1) + '.' : ''}`,
+        title: `${profile.firstName} ${profile.lastName ? profile.lastName.slice(0, 1) + '.' : ''}`,
       })),
     );
   }
@@ -88,49 +109,49 @@ export class MenuService extends MenuBaseService {
   public getItems(): Observable<MenuItem[][]> {
     return this.translocoService.selectTranslateObject('menu.items', null, 'core')
       .pipe(
-        map((itemsTranslationsObject) => [
+        map((itemsTranslationsObject: MenuItemsTranslations) => [
           [
             {
               action: () => this.router.navigate(['/', AppRoute.Hub]),
-              description: itemsTranslationsObject['decentr_hub']['description'],
+              description: itemsTranslationsObject.decentr_hub.description,
               iconKey: svgDecentrHub.name,
-              title: itemsTranslationsObject['decentr_hub']['title'],
+              title: itemsTranslationsObject.decentr_hub.title,
             },
             {
               action: () => this.router.navigate(['/', AppRoute.Hub, HubRoute.Feed]),
-              description: itemsTranslationsObject['decentr_feed']['description'],
+              description: itemsTranslationsObject.decentr_feed.description,
               iconKey: svgLogoIconPink.name,
-              title: itemsTranslationsObject['decentr_feed']['title'],
+              title: itemsTranslationsObject.decentr_feed.title,
             },
             {
               action: () => isOpenedInTab()
                 ? this.router.navigate(['/', AppRoute.Portal])
                 : this.navigationService.openInNewTab(`/${AppRoute.Portal}`),
-              description: itemsTranslationsObject['decentr_portal']['description'],
+              description: itemsTranslationsObject.decentr_portal.description,
               iconKey: svgLogoIconOrange.name,
-              title: itemsTranslationsObject['decentr_portal']['title'],
+              title: itemsTranslationsObject.decentr_portal.title,
             },
           ],
           [
             {
               action: () => window.open(this.environment.explorer, '_blank'),
-              description: itemsTranslationsObject['decentr_explorer']['description'],
+              description: itemsTranslationsObject.decentr_explorer.description,
               iconKey: svgLogoIconGreen.name,
-              title: itemsTranslationsObject['decentr_explorer']['title'],
+              title: itemsTranslationsObject.decentr_explorer.title,
             },
           ],
           [
             {
               action: () => this.lockService.lock(),
               iconKey: svgLockAccount.name,
-              title: itemsTranslationsObject['lock'],
+              title: itemsTranslationsObject.lock,
             },
           ],
           [
             {
               action: () => window.open(DECENTR_SITE_URL, '_blank'),
               iconKey: svgInformation.name,
-              title: itemsTranslationsObject['info_and_help'],
+              title: itemsTranslationsObject.info_and_help,
             },
           ]
         ])
@@ -159,7 +180,7 @@ export class MenuService extends MenuBaseService {
       pluck('wallet', 'address'),
       distinctUntilChanged(),
       switchMap((walletAddress) => this.userService.onProfileChanged(walletAddress).pipe(
-        startWith(void 0),
+        startWith(0),
         mergeMap(() => this.userService.getProfile(walletAddress)),
       )),
       catchError(() => EMPTY),

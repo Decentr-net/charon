@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, UrlTree } from '@angular/router';
 import { catchError, map, pluck } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { ConfigService } from '@shared/services/configuration';
 import { AppRoute } from '../../app-route';
@@ -18,7 +18,7 @@ export class VpnGuard implements CanActivate {
   ) {
   }
 
-  canActivate() {
+  public canActivate(): Observable<boolean | UrlTree> {
     this.configService.forceUpdate();
 
     return this.configService.getVPNSettings().pipe(

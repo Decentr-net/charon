@@ -34,7 +34,7 @@ export abstract class CustomControl<T> extends ControlValueAccessor<T> implement
       this.submitSource?.ngSubmit || EMPTY,
       this.touched,
     ).pipe(
-      startWith(void 0),
+      startWith(0),
       untilDestroyed(this),
     ).subscribe(() => {
       this.value

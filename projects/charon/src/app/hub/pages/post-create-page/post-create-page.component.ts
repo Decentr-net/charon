@@ -31,8 +31,6 @@ export class PostCreatePageComponent implements OnInit {
 
   public postControl: FormControl<PostCreate> = new FormControl();
 
-  public invalid$: Observable<boolean>;
-
   constructor(
     private postCreatePageService: PostCreatePageService,
     private router: Router,
@@ -43,7 +41,7 @@ export class PostCreatePageComponent implements OnInit {
     ]);
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     from(this.postCreatePageService.getDraft()).pipe(
       untilDestroyed(this),
     ).subscribe((draft) => this.postControl.setValue(draft));
