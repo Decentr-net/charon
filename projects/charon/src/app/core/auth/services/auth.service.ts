@@ -53,7 +53,6 @@ export class AuthService {
 
     const passwordHash = await AuthService.encryptPassword(user.password);
 
-    // TODO: temporary solution to disable birthday
     await this.authStorage.createUser({
       id,
       passwordHash,
@@ -95,7 +94,6 @@ export class AuthService {
   }
 
   public async updateUser(userId: AuthUser['id'], update: AuthUserUpdate): Promise<void> {
-    // TODO: temporary solution to disable birthday
     const passwordHash = update.password
       ? await AuthService.encryptPassword(update.password)
       : undefined;
