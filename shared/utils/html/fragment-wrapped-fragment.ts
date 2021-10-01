@@ -4,4 +4,4 @@ export const createFragmentWrappedContainer = (): HTMLDivElement => {
   fragment.appendChild(container);
 
   return container;
-}
+};

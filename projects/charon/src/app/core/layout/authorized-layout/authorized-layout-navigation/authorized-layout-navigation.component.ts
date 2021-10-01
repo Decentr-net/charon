@@ -15,7 +15,7 @@ export const AUTHORIZED_LAYOUT_NAVIGATION_RIGHT_SLOT = Symbol('AUTHORIZED_LAYOUT
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthorizedLayoutNavigationComponent implements OnInit {
-  public readonly rightSlotName: Symbol = AUTHORIZED_LAYOUT_NAVIGATION_RIGHT_SLOT;
+  public readonly rightSlotName: symbol = AUTHORIZED_LAYOUT_NAVIGATION_RIGHT_SLOT;
 
   public linksDefs$: Observable<AuthorizedLayoutNavigationLinkDefDirective[]>;
 

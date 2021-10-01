@@ -23,7 +23,7 @@ export class HasPermissionDirective<T> implements OnInit {
   ) {
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.permissions$.pipe(
       switchMap((permissions) => this.permissionService.hasPermissions(permissions)),
       untilDestroyed(this),

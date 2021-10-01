@@ -16,6 +16,8 @@ import { PostsListItem, PostsService, SpinnerService } from '@core/services';
 import { HubLikesService } from './hub-likes.service';
 
 export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
+  private static deleteNotifier$: Subject<PostsListItem['uuid']> = new Subject();
+
   protected readonly likesService: HubLikesService;
   protected readonly notificationService: NotificationService;
   protected readonly postsService: PostsService;
@@ -32,8 +34,6 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
 
   private readonly dispose$: Subject<void> = new Subject();
   private readonly stopLoading$: Subject<void> = new Subject<void>();
-
-  private static deleteNotifier$: Subject<PostsListItem['uuid']> = new Subject();
 
   protected constructor(injector: Injector) {
     this.likesService = injector.get(HubLikesService);
@@ -118,7 +118,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
       takeUntil(this.dispose$),
       finalize(() => this.spinnerService.hideSpinner()),
     );
-  };
+  }
 
   public getPost(postId: T['uuid']): T {
     return this.posts.value.find((post) => post.uuid === postId);
@@ -163,8 +163,8 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
       return;
     }
 
-    const post = this.posts.value[postIndex];
-    const newPost = updateFn(post);
+    const postToUpdate = this.posts.value[postIndex];
+    const newPost = updateFn(postToUpdate);
 
     this.posts.next([
       ...this.posts.value.slice(0, postIndex),

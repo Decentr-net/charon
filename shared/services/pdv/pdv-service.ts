@@ -140,7 +140,7 @@ export class PDVService {
       this.getActiveNetworkApi(),
       PDVUpdateNotifier.listen().pipe(
         whileDocumentVisible(),
-        startWith(void 0),
+        startWith(0),
       ),
     ]).pipe(
       switchMap(([walletAddress, networkApi]) => this.pdvApiService.getBalance(networkApi, walletAddress).pipe(

@@ -24,7 +24,7 @@ export class NotificationsModule {
           }]
           : []
       ]
-    }
+    };
   }
 
   public static forChild(config?: {
@@ -33,7 +33,7 @@ export class NotificationsModule {
     return {
       ngModule: NotificationsModule,
       providers: this.getErrorProcessorsProviders(config?.errorProcessors || []),
-    }
+    };
   }
 
   private static getErrorProcessorsProviders(errorProcessors: Type<ErrorProcessor> | Type<ErrorProcessor>[]): ClassProvider[] {

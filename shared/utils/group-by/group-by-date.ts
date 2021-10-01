@@ -4,14 +4,14 @@ export type GroupedByDate<T> = {
 }[];
 
 export const groupByDate = <T>(items: T[], dateGetter: (item: T) => Date | number | string): GroupedByDate<T> => {
-  const groupMap = items.reduce((groupMap, item) => {
+  const groupMap = items.reduce((map, item) => {
     const timestamp = new Date(dateGetter(item)).setHours(0, 0, 0, 0);
-    const group = groupMap.get(timestamp);
-    return groupMap.set(timestamp, [...group ? group : [], item]);
+    const itemsGroup = map.get(timestamp);
+    return map.set(timestamp, [...itemsGroup ? itemsGroup : [], item]);
   }, new Map());
 
   const group = [];
-  groupMap.forEach((items, timestamp) => group.push({ items, timestamp }));
+  groupMap.forEach((groupItems, timestamp) => group.push({ items: groupItems, timestamp }));
 
   return group;
-}
+};

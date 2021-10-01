@@ -10,7 +10,7 @@ export const documentVisibility = (): { visible$: Observable<void>, invisible$: 
   );
 
   return { visible$, invisible$ };
-}
+};
 
 export const whileDocumentVisible = <T>(): OperatorFunction<T, T> => {
   const { visible$, invisible$ } = documentVisibility();
@@ -19,4 +19,4 @@ export const whileDocumentVisible = <T>(): OperatorFunction<T, T> => {
     takeUntil(invisible$),
     repeatWhen(() => visible$),
   );
-}
+};

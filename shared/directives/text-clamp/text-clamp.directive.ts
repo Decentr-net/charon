@@ -15,7 +15,7 @@ export class TextClampDirective implements OnInit {
   ) {
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     const element = this.elementRef.nativeElement;
 
     observeResize(element)

@@ -28,13 +28,13 @@ export class HubRelatedPostsComponent implements OnInit {
   @Input() public set displayCount(value: number) {
     this.hubRelatedPostsService.setLoadingCount(value + 1);
     this.postsCount = value;
-  };
+  }
 
   @Input() public set excludeID(value: Post['uuid']) {
     this.excludeID$.next(value);
   }
 
-  @Input() public routerLinkFn: (post: Post) => string[] = () => ['./'];
+  @Input() public routerLinkFn: (post: Post) => string[];
 
   public isLoading$: Observable<boolean>;
   public posts$: Observable<PostsListItem[]>;
@@ -60,5 +60,7 @@ export class HubRelatedPostsComponent implements OnInit {
     this.isLoading$ = this.hubRelatedPostsService.isLoading$;
 
     this.hubRelatedPostsService.loadInitialPosts();
+
+    this.routerLinkFn = this.routerLinkFn || (() => ['./']);
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
@@ -11,8 +11,8 @@ import { PdvChartPoint } from '../../components/pdv-rate-chart';
 
 interface FilterButton {
   amount: number;
-  dateType: DateAmountType,
-  label: string
+  dateType: DateAmountType;
+  label: string;
 }
 
 @Component({
@@ -24,7 +24,7 @@ interface FilterButton {
     PdvRatePageService,
   ],
 })
-export class PdvRatePageComponent {
+export class PdvRatePageComponent implements OnInit {
   @HostBinding('class.mod-popup-view')
   public readonly isOpenedInPopup: boolean = !isOpenedInTab();
 
@@ -66,7 +66,7 @@ export class PdvRatePageComponent {
     );
   }
 
-  public setFilter(button: FilterButton) {
+  public setFilter(button: FilterButton): void {
     this.activeFilter$.next(button);
   }
 

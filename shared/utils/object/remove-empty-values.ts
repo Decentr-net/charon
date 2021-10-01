@@ -2,8 +2,8 @@ const valueIsEmpty = (value: any): boolean => {
   return typeof value === 'undefined'
     || value === null
     || (value as string) === ''
-    || typeof value === 'object' && !Object.keys(value).length
-}
+    || typeof value === 'object' && !Object.keys(value).length;
+};
 
 export const removeEmptyValues = <T extends object>(target: T): T => {
   if (typeof target !== 'object') {
@@ -19,4 +19,4 @@ export const removeEmptyValues = <T extends object>(target: T): T => {
     });
 
   return result;
-}
+};

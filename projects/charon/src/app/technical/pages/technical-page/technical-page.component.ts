@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
+import { TechnicalPageRouteData } from './technical-page.definitons';
 
 @Component({
   selector: 'app-technical-page',
@@ -12,14 +13,16 @@ import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
 })
 export class TechnicalPageComponent {
   public i18nPageKey: string;
-  public isNetworkSelectorVisible: string;
+  public isNetworkSelectorVisible: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     svgIconRegistry: SvgIconRegistry,
   ) {
-    this.i18nPageKey = this.activatedRoute.snapshot.data['i18nPageKey'];
-    this.isNetworkSelectorVisible = this.activatedRoute.snapshot.data['isNetworkSelectorVisible'];
+    const routeData = this.activatedRoute.snapshot.data as TechnicalPageRouteData;
+
+    this.i18nPageKey = routeData.i18nPageKey;
+    this.isNetworkSelectorVisible = routeData.isNetworkSelectorVisible;
 
     svgIconRegistry.register([
       svgLogoIcon,

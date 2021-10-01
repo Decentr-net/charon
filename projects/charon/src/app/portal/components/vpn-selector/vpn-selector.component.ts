@@ -48,12 +48,14 @@ export class VpnSelectorComponent extends ControlValueAccessor<VPNServer> {
   public chooseServer(server: VPNServer, emit: boolean = true): void {
     this.activeServer = server;
 
-    emit && this.onChange(this.activeServer);
+    if (emit) {
+      this.onChange(this.activeServer);
+    }
   }
 
   public trackByHost: TrackByFunction<VPNServer> = ({}, { address }) => address;
 
-  public writeValue(server: VPNServer) {
+  public writeValue(server: VPNServer): void {
     this.chooseServer(server, false);
 
     this.changeDetectorRef.markForCheck();

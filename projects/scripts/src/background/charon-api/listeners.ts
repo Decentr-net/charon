@@ -35,7 +35,7 @@ const sendRequest = <K extends keyof StdTxMessageValueMap>(
         error,
       }),
     );
-}
+};
 
 export const initCharonAPIListeners = () => {
   const messageBus = new MessageBus<CharonAPIMessageBusMap>();

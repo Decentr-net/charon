@@ -42,13 +42,13 @@ export class HubPostEditorErrorComponent implements OnInit {
       control.statusChanges,
       control.valueChanges,
     ).pipe(
-      startWith(void 0),
+      startWith(0),
       map(() => !!control.errors),
       distinctUntilChanged(),
     );
 
     const isSubmitted$ = control.statusChanges.pipe(
-      startWith(void 0),
+      startWith(0),
       switchMap(() => this.formGroup.ngSubmit.pipe(
         mapTo(true),
         startWith(false),

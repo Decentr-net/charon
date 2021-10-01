@@ -31,7 +31,7 @@ export class HubFeedPostsComponent implements OnInit {
   constructor(private hubPostsService: HubPostsService) {
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.posts$ = this.hubPostsService.posts$.pipe(
       shareReplay(1),
     );

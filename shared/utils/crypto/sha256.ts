@@ -11,4 +11,4 @@ export const sha256 = async (target: string): Promise<string> => {
   const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
   return hashHex;
-}
+};

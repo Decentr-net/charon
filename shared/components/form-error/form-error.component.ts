@@ -39,7 +39,7 @@ export class FormErrorComponent implements OnInit, OnChanges {
         control.statusChanges,
         control.valueChanges,
       ).pipe(
-        startWith(void 0),
+        startWith(0),
         mapTo(control),
       )),
       map((control) => {

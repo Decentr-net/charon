@@ -25,13 +25,13 @@ export const getFirstParagraph = (
       }
 
       const element = nodeToCheck.cloneNode() as Element;
-      const html = getFirstParagraph(nodeToCheckAsElement.innerHTML, { skipLineBreak: true });
-      if (!html.length && !target.textContent.length) {
+      const newHtml = getFirstParagraph(nodeToCheckAsElement.innerHTML, { skipLineBreak: true });
+      if (!newHtml.length && !target.textContent.length) {
         nodeToCheck = nodeToCheck.nextSibling;
         continue;
       }
 
-      element.innerHTML = html;
+      element.innerHTML = newHtml;
       target.appendChild(element);
 
       if (element.innerHTML < nodeToCheckAsElement.innerHTML) {
@@ -43,4 +43,4 @@ export const getFirstParagraph = (
   }
 
   return target.innerHTML + (source.textContent > target.textContent ? '...' : '');
-}
+};

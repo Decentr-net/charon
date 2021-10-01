@@ -1,1 +1,1 @@
-export * from './hub-statistics-card.component'
+export * from './hub-statistics-card.component';

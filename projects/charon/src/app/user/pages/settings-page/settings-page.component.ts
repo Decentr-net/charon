@@ -21,9 +21,9 @@ export class SettingsPageComponent {
       this.translocoService.selectTranslateObject('pdv_types_settings', null, 'shared'),
       this.translocoService.selectTranslateObject('pdv_types_toggle', null, 'shared'),
     ]).pipe(
-      map(([pdv_types_settings, pdv_types_toggle]) => ({
-        ...pdv_types_settings,
-        types: pdv_types_toggle,
+      map(([pdvTypesSettings, pdvTypesToggle]) => ({
+        ...pdvTypesSettings,
+        types: pdvTypesToggle,
       })),
     );
   }
