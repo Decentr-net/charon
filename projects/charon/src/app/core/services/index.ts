@@ -2,7 +2,6 @@ import { CORE_API_SERVICES } from './api';
 import { BankService } from './bank';
 import { FollowingService } from './following';
 import { ImageUploaderService } from './image-uploader';
-import { MediaService } from './media';
 import { NetworkSelectorService } from './network-selector';
 import { NetworkService } from './network';
 import { PostsService } from './posts';
@@ -13,7 +12,6 @@ import { UserService } from './user';
 export * from './bank';
 export * from './following';
 export * from './image-uploader';
-export * from './media';
 export * from './menu';
 export * from './network';
 export * from './network-selector';
@@ -27,7 +25,6 @@ export const CORE_SERVICES = [
   BankService,
   FollowingService,
   ImageUploaderService,
-  MediaService,
   NetworkSelectorService,
   NetworkService,
   PostsService,
