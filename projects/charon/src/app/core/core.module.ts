@@ -16,6 +16,7 @@ import { PDVModule } from '@shared/services/pdv';
 import { SettingsModule } from '@shared/services/settings';
 import { ERROR_PROCESSORS, FallbackErrorProcessor } from '@core/notifications';
 import { AppRoute } from '../app-route';
+import { AnalyticsModule } from './analytics';
 import { AuthModule, AuthService } from './auth';
 import { AuthorizedLayoutModule } from './layout/authorized-layout';
 import { LockModule } from './lock';
@@ -53,6 +54,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
 
 @NgModule({
   imports: [
+    AnalyticsModule,
     AuthModule.forRoot(),
     AuthorizedLayoutModule,
     ConfigurationModule,
