@@ -71,8 +71,7 @@
                   "maximumWarning": "6kb",
                   "maximumError": "10kb"
                 }
-              ],
-              "scripts": ["projects/scripts/ga.js"]
+              ]
             }
           }
         },

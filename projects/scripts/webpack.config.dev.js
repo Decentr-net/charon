@@ -5,7 +5,7 @@ module.exports = webpackMerge(baseConfig, {
   mode: 'development',
   plugins: [
     manifestPluginFn({
-      "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+      "content_security_policy": "script-src 'self' 'unsafe-eval' https://ssl.google-analytics.com; object-src 'self'",
     }),
   ],
 });
