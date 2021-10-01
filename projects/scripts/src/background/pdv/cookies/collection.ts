@@ -5,10 +5,7 @@ import { map } from 'rxjs/operators';
 import { listenCookiesSet } from './events';
 
 export const listenCookiePDVs = (): Observable<CookiePDV> => {
-  return listenCookiesSet({
-    httpOnly: false,
-    session: false,
-  }).pipe(
+  return listenCookiesSet().pipe(
     map((cookie) => {
       const domainMatch = cookie.domain.match(/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*$/);
       const domain = domainMatch && domainMatch[0] || cookie.domain;
@@ -31,4 +28,4 @@ export const listenCookiePDVs = (): Observable<CookiePDV> => {
       };
     }),
   );
-}
+};
