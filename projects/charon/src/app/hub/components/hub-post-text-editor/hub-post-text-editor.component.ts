@@ -9,11 +9,14 @@ import {
   Output, ViewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { fromEvent, merge, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, switchMapTo, takeUntil } from 'rxjs/operators';
+import { combineLatest, fromEvent, merge, Observable, of } from 'rxjs';
+import { distinctUntilChanged, filter, map, mapTo, startWith, switchMap, switchMapTo, takeUntil } from 'rxjs/operators';
 import { ControlValueAccessor, FormControl } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QuillEditorComponent, Range as QuillRange, SelectionChange } from 'ngx-quill';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
+
+import { svgDelete } from '@shared/svg-icons/delete';
 
 @UntilDestroy()
 @Component({
@@ -44,14 +47,21 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
 
   private selectionRange: QuillRange;
 
+  public images: HTMLImageElement[];
+
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private elementRef: ElementRef<HTMLElement>,
+    private svgIconRegistry: SvgIconRegistry,
   ) {
     super();
   }
 
   public ngOnInit(): void {
+    this.svgIconRegistry.register([
+      svgDelete,
+    ]);
+
     fromEvent(document, 'click').pipe(
       filter((event) => {
         return ![this.elementRef.nativeElement, ...this.ignoreSelectionReset || []]
@@ -77,6 +87,7 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
 
     this.disableImagesPaste(quill.root);
     this.initCursorPositionTopTracker(quill.root);
+    this.listenImages(quill.root);
     this.removeFormattingOnPaste(quill);
   }
 
@@ -84,6 +95,10 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
     if (range) {
       this.selectionRange = range;
     }
+  }
+
+  public removeImage(image: HTMLImageElement): void {
+    image.remove();
   }
 
   public writeValue(value: string): void {
@@ -139,6 +154,27 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
       distinctUntilChanged(),
       untilDestroyed(this),
     ).subscribe((y) => this.cursorPositionTopChange.emit(y));
+  }
+
+  private listenImages(quillElement: HTMLElement): void {
+    this.quillControl.value$.pipe(
+      map(() => Array.from(quillElement.querySelectorAll('img'))),
+      switchMap((images) => images.length
+        ? combineLatest(images.map((image) => image.complete
+          ? of(image)
+          : fromEvent(image, 'load').pipe(
+            mapTo(image),
+            startWith(0),
+          )
+        ))
+        : of([])
+      ),
+      map((images) => images.filter(Boolean)),
+      untilDestroyed(this),
+    ).subscribe((images) => {
+      this.images = images;
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   private removeFormattingOnPaste(quill: any): void {
