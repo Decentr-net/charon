@@ -105,18 +105,16 @@ export class HubPostTextEditorComponent extends ControlValueAccessor<string> imp
     fromEvent<ClipboardEvent>(element, 'paste').pipe(
       untilDestroyed(this),
     ).subscribe((event) => {
-      const items = event.clipboardData.items;
+      event.stopPropagation();
+      event.preventDefault();
 
-      if (!items?.length) {
+      const text = event.clipboardData.getData('text/plain');
+
+      if (!text.length) {
         return;
       }
 
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].type.indexOf('image') > -1) {
-          event.preventDefault();
-          break;
-        }
-      }
+      document.execCommand('insertHTML', false, text);
     });
   }
 
