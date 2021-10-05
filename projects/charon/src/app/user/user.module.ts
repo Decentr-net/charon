@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
@@ -49,6 +50,7 @@ import { UserRoutingModule } from './user-routing.module';
     InputModule,
     MarginLabelModule,
     MatDialogModule,
+    MatSelectModule,
     MicroValueModule,
     NavigationModule,
     NetworkSelectorModule,

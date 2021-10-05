@@ -16,6 +16,20 @@
       "successful_update": "User was successfully updated"
     }
   },
+  "lock_delay_settings": {
+    "select": {
+      "label": "Autolock automatically in",
+      "values": {
+        "1m": "1 minute",
+        "5m": "5 minutes",
+        "1h": "1 hour",
+        "48h": "48 hours",
+        "never": "Never"
+      }
+    },
+    "subtitle": "If you won’t open Charon extension at least once within chosen period, we’ll lock Charon until you’ll log in with your password again.",
+    "title": "Autolock"
+  },
   "restore_seed_dialog": {
     "close": "Close",
     "form": {
