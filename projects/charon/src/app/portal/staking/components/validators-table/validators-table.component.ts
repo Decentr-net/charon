@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, TrackByFunction } from '@angular/core';
 
-import { ValidatorDefinition } from '../../pages/validators-page/validators-page.definitions';
+import { ValidatorDefinition } from '../../models';
 
 @Component({
   selector: 'app-validators-table',
