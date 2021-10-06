@@ -1,0 +1,12 @@
+@import '../../styles/variables';
+
+:host {
+  display: block;
+}
+
+.tooltip__container {
+  background-color: $color-black;
+  border-radius: $border-radius;
+  color: $color-white;
+  padding: $grid-step $grid-step * 1.5;
+}

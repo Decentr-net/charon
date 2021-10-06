@@ -1,0 +1,13 @@
+<ng-container
+  *transloco="let translate"
+>
+  <svg-icon
+    class="validator-jailed__icon"
+    key="jailed"
+    [size]="isBig ? 'md' : 'xs'"
+  ></svg-icon>
+
+  <div [appTypeface]="isBig ? 'paragraph' : 'caption'">
+    <ng-content></ng-content>
+  </div>
+</ng-container>

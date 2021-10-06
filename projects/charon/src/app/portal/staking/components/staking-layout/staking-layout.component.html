@@ -1,0 +1,13 @@
+<div class="info-card__head">
+  <div class="info-card__title" appTypeface="subheader">
+    <ng-content select="[card-title]"></ng-content>
+  </div>
+
+  <div class="info-card__actions-container">
+    <ng-content select="[card-show-more]"></ng-content>
+  </div>
+</div>
+
+<div class="info-card__divider" *ngIf="contentDivider"></div>
+
+<ng-content select="[card-body]"></ng-content>

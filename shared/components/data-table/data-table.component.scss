@@ -1,0 +1,47 @@
+@import '../../styles/variables';
+
+:host {
+  display: block;
+  overflow: auto;
+
+  &::ng-deep {
+    a {
+      color: $color-primary;
+
+      &:hover {
+        color: $color-primary-hover;
+      }
+    }
+  }
+}
+
+.data-table__table {
+  width: 100%;
+}
+
+.data-table__header-row {
+  border-bottom: 2px solid $color-outlines;
+  color: $color-grey;
+}
+
+.data-table__header-row__cell {
+  font-weight: 500;
+  padding: $grid-step $grid-step * 2 $grid-step / 2;
+}
+
+.data-table__row {
+  transition: background-color .3s ease-in-out;
+
+  & + & {
+    border-top: 1px solid $color-outlines;
+  }
+
+  &:hover {
+    background-color: $color-background;
+  }
+}
+
+.data-table__row__cell {
+  padding: $grid-step $grid-step * 2;
+  vertical-align: middle;
+}
