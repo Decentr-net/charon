@@ -7,6 +7,7 @@ import { NetworkService } from './network';
 import { PostsService } from './posts';
 import { ProxyService } from './proxy';
 import { SpinnerService } from './spinner';
+import { StakingService } from './staking';
 import { UserService } from './user';
 
 export * from './bank';
@@ -18,6 +19,7 @@ export * from './network-selector';
 export * from './posts';
 export * from './proxy';
 export * from './spinner';
+export * from './staking';
 export * from './user';
 
 export const CORE_SERVICES = [
@@ -30,5 +32,6 @@ export const CORE_SERVICES = [
   PostsService,
   ProxyService,
   SpinnerService,
+  StakingService,
   UserService,
 ];
