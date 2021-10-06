@@ -33,8 +33,10 @@ export class ValidatorsPageService {
         .find((delegation) => delegation.validator_address === validator.operator_address)
         ?.balance.amount,
       details: validator.description.details,
+      jailed: validator.jailed,
       name: validator.description.moniker,
       status: validator.status,
+      tokens: validator.tokens,
       votingPower: +validator.tokens / pool.bonded_tokens,
       website: validator.description.website,
     };

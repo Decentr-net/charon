@@ -1,0 +1,18 @@
+<ng-container *appBrowserTabView>
+  <svg-icon
+    [key]="validatorStatusName.toLowerCase()"
+  ></svg-icon>
+
+  <span
+    class="validator-status__label"
+  >
+    {{ validatorStatusName }}
+  </span>
+</ng-container>
+
+<ng-container *appBrowserPopupView>
+  <svg-icon
+    [key]="validatorStatusName.toLowerCase()"
+    [appTooltip]="validatorStatusName"
+  ></svg-icon>
+</ng-container>
