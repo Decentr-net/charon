@@ -1,0 +1,16 @@
+@import 'variables';
+
+:host {
+  align-items: center;
+  background-color: rgba($color-red, .08);
+  border-radius: $border-radius;
+  color: $color-red;
+  column-gap: $grid-step / 2;
+  display: inline-flex;
+  padding: $grid-step / 2 $grid-step $grid-step / 2 $grid-step / 2;
+
+  &.mod-big {
+    column-gap: $grid-step;
+    padding: $grid-step $grid-step * 2 $grid-step $grid-step * 1.5;
+  }
+}
