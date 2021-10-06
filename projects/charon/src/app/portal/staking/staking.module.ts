@@ -12,13 +12,11 @@ import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TooltipModule } from '@shared/components/tooltip';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TypefaceModule } from '@shared/directives/typeface';
-import { ValidatorJailedComponent } from './components/validator-jailed/validator-jailed.component';
 
 @NgModule({
   declarations: [
     STAKING_COMPONENTS,
     STAKING_PAGES,
-    ValidatorJailedComponent,
   ],
   imports: [
     BrowserViewModule,

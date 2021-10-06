@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { ValidatorDefinition } from '../../models';
 import { ValidatorsPageService } from './validators-page.service';
-import { ValidatorDefinition } from './validators-page.definitions';
 
 @Component({
   selector: 'app-validators-page',
