@@ -1,0 +1,50 @@
+import { Injectable } from '@angular/core';
+import { forkJoin, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Delegation, Pool, Validator, ValidatorStatus } from 'decentr-js';
+
+import { StakingApiService } from '../api';
+import { NetworkService } from '../network';
+import { AuthService } from '../../auth';
+
+@Injectable()
+export class StakingService {
+  constructor(
+    private authService: AuthService,
+    private stakingApiService: StakingApiService,
+    private networkService: NetworkService,
+  ) {
+  }
+
+  public getDelegations(): Promise<Delegation[]>{
+    return this.stakingApiService.getDelegations(
+      this.networkService.getActiveNetworkAPIInstant(),
+      this.authService.getActiveUserInstant().wallet.address,
+    );
+  }
+
+  public getPool(): Promise<Pool> {
+    return this.stakingApiService.getPool(
+      this.networkService.getActiveNetworkAPIInstant(),
+    );
+  }
+
+  public getValidators(): Observable<Validator[]> {
+    const api = this.networkService.getActiveNetworkAPIInstant();
+
+    return forkJoin([
+      this.stakingApiService.getValidators(api),
+      this.stakingApiService.getValidators(api, { status: ValidatorStatus.Unbonding }),
+      this.stakingApiService.getValidators(api, { status: ValidatorStatus.Unbonded }),
+    ]).pipe(
+      map(([bonded, unbonding, unbonded]) => [...bonded, ...unbonding, ...unbonded]),
+    );
+  }
+
+  public getValidatorByAddress(address: Validator['operator_address']): Promise<Validator> {
+    return this.stakingApiService.getValidator(
+      this.networkService.getActiveNetworkAPIInstant(),
+      address,
+    );
+  }
+}
