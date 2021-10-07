@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, defer, forkJoin, Observable } from 'rxjs';
-import { map, pluck, switchMap, tap } from 'rxjs/operators';
+import { map, pluck, switchMap } from 'rxjs/operators';
 import { calculateCreateDelegationFee, Delegation, Pool, Validator, ValidatorStatus } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
@@ -114,7 +114,6 @@ export class StakingService {
       this.networkService.getActiveNetworkAPI(),
     ]).pipe(
       switchMap(([walletAddress, api]) => this.stakingApiService.getDelegations(api, walletAddress)),
-      tap(console.log),
     );
   }
 
@@ -136,7 +135,6 @@ export class StakingService {
   public getPool(): Observable<Pool> {
     return this.networkService.getActiveNetworkAPI().pipe(
       switchMap((api) => this.stakingApiService.getPool(api)),
-      tap(console.log),
     );
   }
 
@@ -156,7 +154,6 @@ export class StakingService {
         ...unbonding ? unbonding : [],
         ...unbonded ? unbonded : [],
       ]),
-      tap(console.log),
     );
   }
 
