@@ -1,10 +1,10 @@
 <app-data-table
-  *transloco="let translate"
+  *transloco="let translate; read: 'staking.validators_table'"
   [data]="data"
   [trackBy]="trackByAddress"
 >
   <div
-    *dataTableColumnDef="let validator; name: 'Validator'"
+    *dataTableColumnDef="let validator; name: translate('validator')"
     class="validators-table__validator"
   >
     <a [routerLink]="[validator.address]">
@@ -15,11 +15,11 @@
       *ngIf="validator.jailed"
       class="validators-table__validator-jailed"
     >
-      jailed
+      {{ translate('jailed') }}
     </app-validator-jailed>
   </div>
 
-  <ng-container *dataTableColumnDef="let validator; name: 'Voting power'">
+  <ng-container *dataTableColumnDef="let validator; name: translate('voting_power')">
     {{ validator.tokens | microValue : '1.0-0' }}
 
     <div
@@ -31,16 +31,18 @@
   </ng-container>
 
   <app-validator-status
-    *dataTableColumnDef="let validator; name: 'Status'"
+    *dataTableColumnDef="let validator; name: translate('status')"
     [status]="validator.status"
     class="validators-table__validator-status"
   ></app-validator-status>
 
-  <ng-container *dataTableColumnDef="let validator; name: 'Commission'">
+  <ng-container *dataTableColumnDef="let validator; name: translate('commission')">
     {{ validator.commission | percent }}
   </ng-container>
 
-  <ng-container *dataTableColumnDef="let validator; name: 'Delegated, DEC'">
-    {{ (validator.delegated | microValue) || '—' }}
+  <ng-container *dataTableColumnDef="let validator; name: translate('delegated')">
+    <div [class.mod-empty]="!+validator.delegated">
+      {{ +(validator.delegated | microValue) || '0' }}
+    </div>
   </ng-container>
 </app-data-table>
