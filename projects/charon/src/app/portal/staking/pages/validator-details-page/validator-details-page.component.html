@@ -101,6 +101,7 @@
           app-button
           color="grey"
           (click)="navigateTo(stakingRoute.Undelegate)"
+          [disabled]="!+validatorDetails.delegated"
         >
           {{ translate('actions.undelegate') }}
         </button>
@@ -110,6 +111,7 @@
           app-button
           color="grey"
           (click)="navigateTo(stakingRoute.Redelegate)"
+          [disabled]="!+validatorDetails.delegated"
         >
 
           {{ translate('actions.redelegate') }}
