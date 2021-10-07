@@ -1,0 +1,135 @@
+<app-staking-layout [contentDivider]="true">
+  <ng-container ngProjectAs="[card-title]">
+    <button
+      class="validator-details__back-link"
+      app-button-back
+      [routerLink]="['../']"
+    ></button>
+
+    Validator details
+  </ng-container>
+
+  <ng-container ngProjectAs="[card-body]" *ngIf="validatorDetails$ | async as validatorDetails; else tablesLoading;">
+    <div class="validator-details__description">
+      <div class="validator-details__description__title">
+        <span
+          class="validator-details__moniker"
+          [appTypeface]="isTabView ? 'header-4' : 'subheader'"
+        >
+          {{ validatorDetails.name }}
+        </span>
+
+        <app-validator-status
+          [status]="validatorDetails.status"
+          [filled]="true"
+        ></app-validator-status>
+      </div>
+
+      <div
+        class="validator-details__description__details"
+        *ngIf="validatorDetails.details as details"
+        appTypeface="paragraph"
+      >
+        {{ details }}
+      </div>
+
+      <app-validator-jailed
+        *ngIf="validatorDetails.jailed"
+        class="validator-details__jailed"
+        [isBig]="true"
+      >
+        This validator is currently being jailed!
+      </app-validator-jailed>
+    </div>
+
+    <div class="validator-details__divider"></div>
+
+    <app-details-table class="validator-details__address">
+      <ng-template [appDetailsTableCellDef]="'Operator address'">
+        {{ validatorDetails.address }}
+      </ng-template>
+    </app-details-table>
+
+    <div class="validator-details__divider"></div>
+
+    <app-details-table class="validator-details__details-table">
+      <ng-template [appDetailsTableCellDef]="'Website'">
+        <a [appLink]="validatorDetails.website"></a>
+      </ng-template>
+
+      <ng-template [appDetailsTableCellDef]="'Voting power'">
+        {{ validatorDetails.tokens | microValue : '1.0-0' }}
+
+        <div
+          class="validator-details__details-table__voting-power-percent"
+          appTypeface="caption"
+        >
+          {{ validatorDetails.votingPower | percent : '1.0-2' }}
+        </div>
+      </ng-template>
+
+      <ng-template [appDetailsTableCellDef]="'Commission'">
+        {{ validatorDetails.commission | percent }}
+      </ng-template>
+    </app-details-table>
+
+    <div class="validator-details__divider mod-wide"></div>
+
+    <div class="validator-details__actions">
+      <div
+        class="validator-details__actions-delegated"
+        appTypeface="subheader"
+      >
+        <div class="validator-details__actions-delegated-label">
+          Delegated
+        </div>
+
+        <div
+          class="validator-details__actions-delegated-value"
+          [class.mod-empty]="!validatorDetails.delegated"
+        >
+          {{ (validatorDetails.delegated | microValue) || '0' }} DEC
+        </div>
+      </div>
+
+      <div class="validator-details__actions-buttons">
+        <button
+          class="validator-details__actions-buttons__button"
+          app-button
+          color="grey"
+          (click)="navigateTo(stakingRoute.Undelegate)"
+        >
+          Undelegate
+        </button>
+
+        <button
+          class="validator-details__actions-buttons__button"
+          app-button
+          color="grey"
+          (click)="navigateTo(stakingRoute.Redelegate)"
+        >
+          Redelegate
+        </button>
+
+        <button
+          class="validator-details__actions-buttons__button"
+          app-button
+          (click)="navigateTo(stakingRoute.Delegate)"
+        >
+          Delegate
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</app-staking-layout>
+
+<ng-template #tablesLoading>
+  <ngx-skeleton-loader
+    class="validator-details__loading"
+    count="6"
+    [theme]="{
+      height: '40px',
+      width: '100%'
+    }"
+  ></ngx-skeleton-loader>
+</ng-template>

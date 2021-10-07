@@ -1,6 +1,14 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { EMPTY, Observable } from 'rxjs';
+import { catchError, mergeMap } from 'rxjs/operators';
 
+import { isOpenedInTab } from '../../../../../../../../shared/utils/browser';
+import { StakingRoute } from '../../staking-route';
 import { ValidatorDetailsPageService } from './validator-details-page.service';
+import { ValidatorDefinition } from '../../models';
+import { AppRoute } from '../../../../app-route';
+import { PortalRoute } from '../../../portal-route';
 
 @Component({
   selector: 'app-validator-details-page',
@@ -11,5 +19,36 @@ import { ValidatorDetailsPageService } from './validator-details-page.service';
     ValidatorDetailsPageService,
   ],
 })
-export class ValidatorDetailsPageComponent {
+export class ValidatorDetailsPageComponent implements OnInit {
+  public isTabView = isOpenedInTab();
+
+  public stakingRoute: typeof StakingRoute = StakingRoute;
+
+  public validatorDetails$: Observable<ValidatorDefinition>;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private validatorDetailsPageService: ValidatorDetailsPageService,
+  ) {
+  }
+
+  public ngOnInit(): void {
+    this.validatorDetails$ = this.activatedRoute.params.pipe(
+      mergeMap((params) => this.validatorDetailsPageService.getValidator(params.validatorAddressParam)),
+      catchError(() => {
+        this.router.navigate(['/', AppRoute.Portal, PortalRoute.Staking], {
+          skipLocationChange: true,
+        });
+
+        return EMPTY;
+      }),
+    );
+  }
+
+  public navigateTo(route: StakingRoute): void {
+    this.router.navigate([route], {
+      relativeTo: this.activatedRoute,
+    });
+  }
 }

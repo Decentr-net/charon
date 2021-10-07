@@ -8,9 +8,11 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ButtonModule } from '@shared/components/button';
 import { ButtonBackModule } from '@shared/components/button-back';
 import { DataTableModule } from '@shared/components/data-table';
+import { DetailsTableModule } from '@shared/components/details-table';
 import { InputContainerModule } from '@shared/components/input-container';
 import { TooltipModule } from '@shared/components/tooltip';
 import { InputModule } from '@shared/components/controls';
+import { LinkModule } from '@shared/directives/link';
 import { BrowserViewModule } from '@shared/directives/browser-view';
 import { SubmitSourceModule } from '@shared/directives/submit-source';
 import { TypefaceModule } from '@shared/directives/typeface';
@@ -30,8 +32,10 @@ import { StakingRoutingModule } from './staking-routing.module';
     BrowserViewModule,
     CommonModule,
     DataTableModule,
+    DetailsTableModule,
     InputContainerModule,
     InputModule,
+    LinkModule,
     MicroValueModule,
     NgxSkeletonLoaderModule,
     ReactiveFormsModule,
