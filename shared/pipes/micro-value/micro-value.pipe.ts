@@ -15,7 +15,7 @@ export class MicroValuePipe implements PipeTransform {
 
   public transform(value: string | number, digitsInfo: string = '1.6'): string {
     return typeof value === 'number' || typeof value === 'string'
-      ? this.decimalPipe.transform(Number(value) / MICRO_PDV_DIVISOR, digitsInfo).replace(',', '')
+      ? this.decimalPipe.transform(Number(value) / MICRO_PDV_DIVISOR, digitsInfo).replace(/,/g, '')
       : '';
   }
 }
