@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Delegation, Pool, Validator } from 'decentr-js';
 
@@ -15,7 +15,7 @@ export class ValidatorDetailsPageService {
   }
 
   public getValidator(address: Validator['operator_address']): Observable<ValidatorDefinition> {
-    return forkJoin([
+    return combineLatest([
       this.stakingService.getValidator(address),
       this.stakingService.getPool(),
       this.stakingService.getDelegations(),

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { defer, forkJoin, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { combineLatest, defer, forkJoin, Observable } from 'rxjs';
+import { map, pluck, switchMap, tap } from 'rxjs/operators';
 import { calculateCreateDelegationFee, Delegation, Pool, Validator, ValidatorStatus } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
@@ -106,51 +106,63 @@ export class StakingService {
       );
   }
 
-  public getDelegations(): Promise<Delegation[]>{
-    return this.stakingApiService.getDelegations(
-      this.networkService.getActiveNetworkAPIInstant(),
-      this.authService.getActiveUserInstant().wallet.address,
+  public getDelegations(): Observable<Delegation[]>{
+    return combineLatest([
+      this.authService.getActiveUser().pipe(
+        pluck('wallet', 'address'),
+      ),
+      this.networkService.getActiveNetworkAPI(),
+    ]).pipe(
+      switchMap(([walletAddress, api]) => this.stakingApiService.getDelegations(api, walletAddress)),
+      tap(console.log),
     );
   }
 
-  public getValidatorDelegation(validatorAddress: Validator['operator_address']): Promise<Delegation> {
-    return this.stakingApiService.getValidatorDelegation(
-      this.networkService.getActiveNetworkAPIInstant(),
-      validatorAddress,
-      this.authService.getActiveUserInstant().wallet.address,
+  public getValidatorDelegation(validatorAddress: Validator['operator_address']): Observable<Delegation> {
+    return combineLatest([
+      this.authService.getActiveUser().pipe(
+        pluck('wallet', 'address'),
+      ),
+      this.networkService.getActiveNetworkAPI(),
+    ]).pipe(
+      switchMap(([walletAddress, api]) => this.stakingApiService.getValidatorDelegation(
+        api,
+        validatorAddress,
+        walletAddress,
+      )),
     );
   }
 
-  public getPool(): Promise<Pool> {
-    return this.stakingApiService.getPool(
-      this.networkService.getActiveNetworkAPIInstant(),
+  public getPool(): Observable<Pool> {
+    return this.networkService.getActiveNetworkAPI().pipe(
+      switchMap((api) => this.stakingApiService.getPool(api)),
+      tap(console.log),
     );
   }
 
   public getValidators(onlyBonded: boolean = false): Observable<Validator[]> {
-    const api = this.networkService.getActiveNetworkAPIInstant();
-
-    return forkJoin([
-      this.stakingApiService.getValidators(api),
-      ...onlyBonded
-        ? []
-        : [
-          this.stakingApiService.getValidators(api, { status: ValidatorStatus.Unbonding }),
-          this.stakingApiService.getValidators(api, { status: ValidatorStatus.Unbonded }),
-        ],
-    ]).pipe(
+    return this.networkService.getActiveNetworkAPI().pipe(
+      switchMap((api) => forkJoin([
+        this.stakingApiService.getValidators(api),
+        ...onlyBonded
+          ? []
+          : [
+            this.stakingApiService.getValidators(api, { status: ValidatorStatus.Unbonding }),
+            this.stakingApiService.getValidators(api, { status: ValidatorStatus.Unbonded }),
+          ],
+      ])),
       map(([bonded, unbonding, unbonded]) => [
         ...bonded,
         ...unbonding ? unbonding : [],
         ...unbonded ? unbonded : [],
       ]),
+      tap(console.log),
     );
   }
 
-  public getValidator(address: Validator['operator_address']): Promise<Validator> {
-    return this.stakingApiService.getValidator(
-      this.networkService.getActiveNetworkAPIInstant(),
-      address,
+  public getValidator(address: Validator['operator_address']): Observable<Validator> {
+    return this.networkService.getActiveNetworkAPI().pipe(
+      switchMap((api) => this.stakingApiService.getValidator(api, address)),
     );
   }
 }
