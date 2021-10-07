@@ -89,9 +89,9 @@
 
         <div
           class="validator-details__actions-delegated-value"
-          [class.mod-empty]="!validatorDetails.delegated"
+          [class.mod-empty]="!+validatorDetails.delegated"
         >
-          {{ (validatorDetails.delegated | microValue) || '0' }}&nbsp;<app-currency-symbol></app-currency-symbol>
+          {{ +(validatorDetails.delegated | microValue) || '0' }}&nbsp;<app-currency-symbol></app-currency-symbol>
         </div>
       </div>
 

@@ -1,6 +1,8 @@
-<app-staking-layout>
+<app-staking-layout
+  *transloco="let translate; read: 'staking.validators_page'"
+>
   <ng-container ngProjectAs="[card-title]">
-    Validators
+    {{ translate('title') }}
   </ng-container>
 
   <app-validators-table

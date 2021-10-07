@@ -42,6 +42,18 @@
     "jailed": "This validator is currently being jailed!",
     "title": "Validator details"
   },
+  "validators_page": {
+    "title": "Validators"
+  },
+  "validators_table": {
+    "commission": "Commission",
+    "delegated": "Delegated",
+    "jailed": "jailed",
+    "operator_address": "Operator address",
+    "status": "Status",
+    "validator": "Validator",
+    "voting_power": "Voting power"
+  },
   "undelegate_page": {
     "actions": {
       "undelegate_all": "Undelegate all",
