@@ -76,7 +76,7 @@ export class PDVService {
     ]).pipe(
       map(([pDVs, rewards]) => (pDVs || []).reduce((acc, pdv) => acc + rewards[pdv.type] || 0, 0)),
       map((estimatedBalance) => this.microValuePipe.transform(estimatedBalance)),
-      map((balance) => balance || '0'),
+      map((balance) => balance ? balance.toString() : '0'),
       startWith('0'),
       distinctUntilChanged(),
     );
