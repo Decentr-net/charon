@@ -9,5 +9,6 @@ export enum MessageCode {
   CoinTransfer = 'CHARON_COIN_TRANSFER',
   Location = 'CHARON_LOCATION',
   ResetAccount = 'CHARON_RESET_ACCOUNT',
+  Undelegate = 'CHARON_UNDELEGATE',
   Unfollow = 'CHARON_UNFOLLOW',
 }

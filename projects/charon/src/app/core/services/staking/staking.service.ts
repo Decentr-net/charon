@@ -39,9 +39,37 @@ export class StakingService {
     );
   }
 
+  public createUndelegation(validatorAddress: Validator['operator_address'], amount: string): Observable<void> {
+    const wallet = this.authService.getActiveUserInstant().wallet;
+
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
+      .sendMessage(MessageCode.Undelegate, {
+        amount,
+        validatorAddress,
+        walletAddress: wallet.address,
+        privateKey: wallet.privateKey,
+      })).pipe(
+        map((response) => {
+          if (!response.success) {
+            throw response.error;
+          }
+
+          return void 0;
+        }),
+      );
+  }
+
   public getDelegations(): Promise<Delegation[]>{
     return this.stakingApiService.getDelegations(
       this.networkService.getActiveNetworkAPIInstant(),
+      this.authService.getActiveUserInstant().wallet.address,
+    );
+  }
+
+  public getValidatorDelegation(validatorAddress: Validator['operator_address']): Promise<Delegation> {
+    return this.stakingApiService.getValidatorDelegation(
+      this.networkService.getActiveNetworkAPIInstant(),
+      validatorAddress,
       this.authService.getActiveUserInstant().wallet.address,
     );
   }

@@ -2,7 +2,17 @@ import { BroadcastResponse, BroadcastSuccessResponse, StdTxMessageValue, StdTxMe
 
 import { MessageBus } from '../../../../../shared/message-bus';
 import { MessageCode } from '../../messages';
-import { createPost, delegate, deletePost, follow, likePost, resetAccount, transferCoins, unfollow, } from './api';
+import {
+  createPost,
+  delegate,
+  deletePost,
+  follow,
+  likePost,
+  resetAccount,
+  transferCoins,
+  undelegate,
+  unfollow,
+} from './api';
 import QUEUE, { QueuePriority } from '../queue';
 import { CharonAPIMessageBusMap } from './message-bus-map';
 
@@ -121,6 +131,20 @@ export const initCharonAPIListeners = () => {
   messageBus.onMessage(MessageCode.Delegate).subscribe((message) => {
     sendRequest(
       () => delegate(
+        message.body.walletAddress,
+        message.body.validatorAddress,
+        message.body.amount,
+        message.body.privateKey,
+      ),
+      (response) => {
+        message.sendResponse(response);
+      },
+    );
+  });
+
+  messageBus.onMessage(MessageCode.Undelegate).subscribe((message) => {
+    sendRequest(
+      () => undelegate(
         message.body.walletAddress,
         message.body.validatorAddress,
         message.body.amount,

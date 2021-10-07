@@ -163,3 +163,27 @@ export const delegate = (
     )),
   ).toPromise();
 };
+
+export const undelegate = (
+  walletAddress: Wallet['address'],
+  validatorAddress: Validator['operator_address'],
+  amount: string,
+  privateKey: Wallet['privateKey'],
+): Promise<BroadcastResponse<StdTxMessageType.CosmosUndelegate>> => {
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).staking.createUnbondingDelegation(
+      {
+        delegator_address: walletAddress,
+        validator_address: validatorAddress,
+        amount: {
+          amount,
+          denom: DENOM,
+        },
+      },
+      {
+        broadcast: true,
+        privateKey,
+      },
+    )),
+  ).toPromise();
+};

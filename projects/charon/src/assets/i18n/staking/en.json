@@ -25,5 +25,35 @@
       "title": "Staking will lock your funds for 21+ days",
       "subtitle": "You will need to undelegate in order for your staked assets to be liquid again.\nThis process will take 21 days to complete."
     }
+  },
+  "undelegate_page": {
+    "actions": {
+      "undelegate_all": "Undelegate all",
+      "submit": "Undelegate"
+    },
+    "form": {
+      "amount": {
+        "errors": {
+          "insufficient": "Insufficient funds",
+          "min": "Minimum value is {{ min }}",
+          "pattern": "Incorrect amount format",
+          "required": "Amount is required"
+        },
+        "balance": "Available",
+        "label": "Undelegate amount"
+      },
+      "validator_address": {
+        "label": "From validator"
+      }
+    },
+    "hint": {
+      "title": "Trying to switch validators?",
+      "subtitle": "Use the ‘Redelegate’ feature to instantly stake your assets to another validator."
+    },
+    "title": "Delegate",
+    "warning": {
+      "title": "Once the unbonding period begins you will:",
+      "subtitle": "- not receive staking rewards\n- not be able to cancel the unbonding\n- need to wait 21 days for the amount to be liquid"
+    }
   }
 }
