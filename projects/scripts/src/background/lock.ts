@@ -4,7 +4,7 @@ import { debounceTime, mapTo, mergeMap } from 'rxjs/operators';
 import { LockBrowserStorageService } from '../../../../shared/services/lock';
 import { ONE_HOUR } from '../../../../shared/utils/date';
 
-const LOCK_DELAY = ONE_HOUR * 4;
+const LOCK_DELAY = ONE_HOUR * 48;
 
 const lockStorage = new LockBrowserStorageService();
 
