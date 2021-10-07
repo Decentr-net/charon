@@ -28,6 +28,7 @@
 
 .redelegate-page__direction-icon {
   color: $color-light-grey;
+  transform: rotate(180deg);
 }
 
 .redelegate-page__form__validator-control {
