@@ -18,7 +18,7 @@
         class="transfer-page__balance-icon"
         key="decentr-hub"
       ></svg-icon>
-      {{ balance | microValue }}&nbsp;<app-currency-symbol></app-currency-symbol>
+      {{ balance | microValue | numberFormat : null : true }}&nbsp;<app-currency-symbol></app-currency-symbol>
     </div>
   </div>
 
@@ -39,7 +39,7 @@
 
           <span *ngIf="fee$ | async as fee" ngProjectAs="[label-right]">
             <ng-container *ngIf="form.valid">
-              {{ translate('form.amount.fee') }}: {{ fee | microValue }}
+              {{ translate('form.amount.fee') }}: {{ fee | microValue | numberFormat : null : true }}
             </ng-container>
           </span>
         </app-input>

@@ -25,7 +25,7 @@
     ></svg-icon>
 
     <span>
-      {{ balance$ | async | microValue }}&nbsp;<app-currency-symbol></app-currency-symbol>
+      {{ balance$ | async | microValue | numberFormat : null : true }}&nbsp;<app-currency-symbol></app-currency-symbol>
     </span>
   </div>
 

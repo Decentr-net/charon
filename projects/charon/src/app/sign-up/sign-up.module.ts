@@ -16,6 +16,7 @@ import { CurrencySymbolModule } from '@shared/components/currency-symbol';
 import { FormErrorModule } from '@shared/components/form-error';
 import { InputContainerModule } from '@shared/components/input-container';
 import { InputModule } from '@shared/components/controls/input';
+import { NumberFormatModule } from '@shared/pipes/number-format';
 import { PasswordModule } from '@shared/components/password';
 import { PdvTypesSettingsModule } from '@shared/components/pdv-types-settings';
 import { ProfileFormModule } from '@shared/components/profile-form';
@@ -47,6 +48,7 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     InputModule,
     MatButtonModule,
     MicroValueModule,
+    NumberFormatModule,
     NgxSkeletonLoaderModule,
     PasswordModule,
     ProfileFormModule,

@@ -24,7 +24,7 @@
         class="user-page__wallet-card__balance"
         appTypeface="header-3"
       >
-        {{ decBalance | microValue }}&nbsp;<app-currency-symbol></app-currency-symbol>
+        {{ decBalance | microValue | numberFormat : null : true }}&nbsp;<app-currency-symbol></app-currency-symbol>
       </div>
     </ng-container>
 

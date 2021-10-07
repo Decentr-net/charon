@@ -55,7 +55,7 @@
     </div>
 
     <div class="token-transactions-table__amount token-transactions-table__color-send">
-      -{{ transaction.amount.amount | microValue }} <app-currency-symbol></app-currency-symbol>
+      -{{ transaction.amount.amount | microValue | numberFormat : null : true }} <app-currency-symbol></app-currency-symbol>
     </div>
 
     <div class="token-transactions-table__address" appTextEllipsis appTypeface="caption">
@@ -63,7 +63,7 @@
     </div>
 
     <div class="token-transactions-table__fee" appTypeface="caption">
-      {{ translate('fee') }}: {{ transaction.fee.amount[0].amount | microValue }}
+      {{ translate('fee') }}: {{ transaction.fee.amount[0].amount | microValue | numberFormat : null : true }}
       <app-currency-symbol></app-currency-symbol>
     </div>
   </ng-template>
@@ -84,7 +84,7 @@
     </div>
 
     <div class="token-transactions-table__amount token-transactions-table__color-receive">
-      {{ transaction.amount.amount | microValue }} <app-currency-symbol></app-currency-symbol>
+      {{ transaction.amount.amount | microValue | numberFormat : null : true }} <app-currency-symbol></app-currency-symbol>
     </div>
 
     <div class="token-transactions-table__address" appTextEllipsis appTypeface="caption">
