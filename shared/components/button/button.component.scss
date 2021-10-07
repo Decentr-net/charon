@@ -9,6 +9,7 @@
   font-weight: 500;
   justify-content: center;
   transition: background .3s ease;
+  user-select: none;
 
   &[app-icon-button] {
     padding: $grid-step;
