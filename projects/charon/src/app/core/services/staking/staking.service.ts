@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable } from 'rxjs';
+import { defer, forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Delegation, Pool, Validator, ValidatorStatus } from 'decentr-js';
 
+import { MessageBus } from '@shared/message-bus';
+import { MessageCode } from '@scripts/messages';
+import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { AuthService } from '../../auth';
 import { StakingApiService } from '../api';
 import { NetworkService } from '../network';
-import { AuthService } from '../../auth';
 
 @Injectable()
 export class StakingService {
@@ -14,6 +17,26 @@ export class StakingService {
     private stakingApiService: StakingApiService,
     private networkService: NetworkService,
   ) {
+  }
+
+  public createDelegation(validatorAddress: Validator['operator_address'], amount: string): Observable<void> {
+    const wallet = this.authService.getActiveUserInstant().wallet;
+
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
+      .sendMessage(MessageCode.Delegate, {
+        amount,
+        validatorAddress,
+        walletAddress: wallet.address,
+        privateKey: wallet.privateKey
+      })).pipe(
+        map((response) => {
+          if (!response.success) {
+            throw response.error;
+          }
+
+          return void 0;
+        }),
+    );
   }
 
   public getDelegations(): Promise<Delegation[]>{
@@ -41,7 +64,7 @@ export class StakingService {
     );
   }
 
-  public getValidatorByAddress(address: Validator['operator_address']): Promise<Validator> {
+  public getValidator(address: Validator['operator_address']): Promise<Validator> {
     return this.stakingApiService.getValidator(
       this.networkService.getActiveNetworkAPIInstant(),
       address,

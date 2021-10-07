@@ -17,7 +17,6 @@
   }
 
   &.is-disabled {
-    .input__label,
     .input {
       color: $color-light-grey;
       pointer-events: none;
@@ -27,6 +26,12 @@
   &.is-empty {
     .input__eye {
       color: $color-light-grey;
+    }
+  }
+
+  &.has-eye {
+    .input__container {
+      grid-template-columns: minmax(0, 1fr) min-content;
     }
   }
 }
@@ -40,8 +45,12 @@
 .input__container {
   column-gap: $grid-step * 2;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) min-content;
+  grid-template-columns: minmax(0, 1fr);
   justify-content: space-between;
+
+  &:not(:last-child) {
+    margin-bottom: $grid-step;
+  }
 }
 
 .input__eye {
@@ -57,6 +66,7 @@
   font-weight: 500;
   padding: 0;
   resize: none;
+  text-align: inherit;
   width: 100%;
 
   &::placeholder {
@@ -68,5 +78,15 @@
     &[type=password] {
       -webkit-text-security: disc;
     }
+  }
+}
+
+.input__footer {
+  color: $color-grey;
+  display: none;
+
+  &.mod-visible {
+    display: block;
+    margin-top: $grid-step;
   }
 }
