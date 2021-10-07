@@ -1,0 +1,94 @@
+<app-staking-layout
+  *transloco="let translate; read: 'staking.redelegate_page'"
+  [contentDivider]="true"
+>
+  <div
+    class="redelegate-page__header"
+    ngProjectAs="[card-title]"
+  >
+    <button
+      app-button-back
+      [routerLink]="['../']"
+    ></button>
+
+    {{ translate('title') }} {{ fromValidatorName$ | async }}
+  </div>
+
+  <div
+    ngProjectAs="[card-body]"
+  >
+    <form
+      #ngForm="ngForm"
+      class="redelegate-page__form"
+      [formGroup]="form"
+      appSubmitSource
+    >
+      <app-input-container
+        class="redelegate-page__form__input-container"
+      >
+        <app-input
+          class="redelegate-page__form__amount-control"
+          formControlName="amount"
+          appTypeface="header-3"
+        >
+          <span ngProjectAs="[label]">{{ translate('form.amount.label') }}</span>
+
+          <span ngProjectAs="[label-right]">
+            {{ translate('form.amount.balance') }}: {{ delegatedAmount$ | async | microValue }} DEC
+          </span>
+        </app-input>
+
+        <app-form-error controlName="amount"></app-form-error>
+      </app-input-container>
+
+      <svg-icon
+        class="redelegate-page__direction-icon"
+        key="arrow-left"
+        size="xl"
+      ></svg-icon>
+
+      <app-input-container
+        class="redelegate-page__form__input-container"
+      >
+        <app-select
+          class="redelegate-page__form__validator-control"
+          formControlName="toValidator"
+          [placeholder]="translate('form.to_validator.placeholder')"
+          [options]="validatorsFilteredOptions$ | async"
+          [displayWithFn]="displayWithFn"
+          appTypeface="subheader"
+        >
+          <span ngProjectAs="[label]">{{ translate('form.to_validator.label') }}</span>
+
+          <span
+            ngProjectAs="[footer]"
+            *ngIf="toValidatorCommission$ | async as toValidatorCommission"
+          >
+            {{ translate('form.to_validator.commission') }} {{ toValidatorCommission | percent }}
+          </span>
+        </app-select>
+
+        <app-form-error controlName="toValidator" i18nControlKey="to_validator"></app-form-error>
+      </app-input-container>
+    </form>
+
+    <div class="redelegate-page__actions">
+      <button
+        class="redelegate-page__actions__button"
+        app-button
+        color="grey"
+        (click)="redelegateAll()"
+      >
+        {{ translate('actions.redelegate_all') }}
+      </button>
+
+      <button
+        class="redelegate-page__actions__button"
+        app-button
+        (click)="onSubmit()"
+      >
+        {{ translate('actions.submit') }}
+      </button>
+    </div>
+  </div>
+</app-staking-layout>

@@ -39,6 +39,31 @@ export class StakingService {
     );
   }
 
+  public createRedelegation(
+    fromValidatorAddress: Validator['operator_address'],
+    toValidatorAddress: Validator['operator_address'],
+    amount: string,
+  ): Observable<void> {
+    const wallet = this.authService.getActiveUserInstant().wallet;
+
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
+      .sendMessage(MessageCode.Redelegate, {
+        amount,
+        fromValidatorAddress,
+        toValidatorAddress,
+        walletAddress: wallet.address,
+        privateKey: wallet.privateKey,
+      })).pipe(
+      map((response) => {
+        if (!response.success) {
+          throw response.error;
+        }
+
+        return void 0;
+      }),
+    );
+  }
+
   public createUndelegation(validatorAddress: Validator['operator_address'], amount: string): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
@@ -80,15 +105,23 @@ export class StakingService {
     );
   }
 
-  public getValidators(): Observable<Validator[]> {
+  public getValidators(onlyBonded: boolean = false): Observable<Validator[]> {
     const api = this.networkService.getActiveNetworkAPIInstant();
 
     return forkJoin([
       this.stakingApiService.getValidators(api),
-      this.stakingApiService.getValidators(api, { status: ValidatorStatus.Unbonding }),
-      this.stakingApiService.getValidators(api, { status: ValidatorStatus.Unbonded }),
+      ...onlyBonded
+        ? []
+        : [
+          this.stakingApiService.getValidators(api, { status: ValidatorStatus.Unbonding }),
+          this.stakingApiService.getValidators(api, { status: ValidatorStatus.Unbonded }),
+        ],
     ]).pipe(
-      map(([bonded, unbonding, unbonded]) => [...bonded, ...unbonding, ...unbonded]),
+      map(([bonded, unbonding, unbonded]) => [
+        ...bonded,
+        ...unbonding ? unbonding : [],
+        ...unbonded ? unbonded : [],
+      ]),
     );
   }
 

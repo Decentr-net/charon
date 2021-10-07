@@ -1,0 +1,55 @@
+<div>
+  <div
+    class="input__label"
+    [appTypeface]="isOpenedInPopup ? 'caption' : 'paragraph'"
+  >
+    <ng-content select="[label]"></ng-content>
+
+    <ng-content select="[label-right]"></ng-content>
+  </div>
+
+  <div class="input__container" (click)="openAutocomplete()">
+    <input
+      #inputElement
+      class="input"
+      type="text"
+      [placeholder]="placeholder"
+      [ngModel]="value"
+      (ngModelChange)="onValueChange($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      [matAutocomplete]="auto"
+    >
+
+    <svg-icon
+      class="input__container__icon"
+      key="dropdown-expand"
+    ></svg-icon>
+
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      [displayWith]="displayWithFn"
+    >
+      <mat-option *ngFor="let option of options" [value]="option.value">
+        <span class="input__option">
+          <span>{{ option.label }}</span>
+
+          <span
+            class="input__option-meta"
+            *ngIf="option.meta"
+          >
+            {{ option.meta }}
+          </span>
+        </span>
+      </mat-option>
+    </mat-autocomplete>
+  </div>
+</div>
+<div
+  #footer
+  class="input__footer"
+  [class.mod-visible]="footer.childNodes.length > 0"
+  [appTypeface]="isOpenedInPopup ? 'caption' : 'paragraph'"
+>
+  <ng-content select="[footer]"></ng-content>
+</div>

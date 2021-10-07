@@ -8,6 +8,7 @@ export enum MessageCode {
   PostLike = 'CHARON_POST_LIKE',
   CoinTransfer = 'CHARON_COIN_TRANSFER',
   Location = 'CHARON_LOCATION',
+  Redelegate = 'CHARON_REDELEGATE',
   ResetAccount = 'CHARON_RESET_ACCOUNT',
   Undelegate = 'CHARON_UNDELEGATE',
   Unfollow = 'CHARON_UNFOLLOW',

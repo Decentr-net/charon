@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import {
   DelegatePageComponent,
+  RedelegatePageComponent,
   UndelegatePageComponent,
   ValidatorDetailsPageComponent,
   ValidatorsPageComponent,
@@ -22,6 +23,10 @@ const ROUTES: Routes = [
   {
     path: `:${StakingRoute.ValidatorAddressParam}/${StakingRoute.Delegate}`,
     component: DelegatePageComponent,
+  },
+  {
+    path: `:${StakingRoute.ValidatorAddressParam}/${StakingRoute.Redelegate}`,
+    component: RedelegatePageComponent,
   },
   {
     path: `:${StakingRoute.ValidatorAddressParam}/${StakingRoute.Undelegate}`,

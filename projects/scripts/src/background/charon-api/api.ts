@@ -164,6 +164,32 @@ export const delegate = (
   ).toPromise();
 };
 
+export const redelegate = (
+  walletAddress: Wallet['address'],
+  fromValidatorAddress: Validator['operator_address'],
+  toValidatorAddress: Validator['operator_address'],
+  amount: string,
+  privateKey: Wallet['privateKey'],
+): Promise<BroadcastResponse<StdTxMessageType.CosmosBeginRedelegate>> => {
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).staking.createRedelegation(
+      {
+        delegator_address: walletAddress,
+        validator_src_address: fromValidatorAddress,
+        validator_dst_address: toValidatorAddress,
+        amount: {
+          amount,
+          denom: DENOM,
+        },
+      },
+      {
+        broadcast: true,
+        privateKey,
+      },
+    )),
+  ).toPromise();
+};
+
 export const undelegate = (
   walletAddress: Wallet['address'],
   validatorAddress: Validator['operator_address'],

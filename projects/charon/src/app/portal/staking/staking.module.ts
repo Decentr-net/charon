@@ -11,6 +11,7 @@ import { CurrencySymbolModule } from '@shared/components/currency-symbol';
 import { DataTableModule } from '@shared/components/data-table';
 import { DetailsTableModule } from '@shared/components/details-table';
 import { InputContainerModule } from '@shared/components/input-container';
+import { SelectModule } from '@shared/components/controls/select';
 import { TooltipModule } from '@shared/components/tooltip';
 import { InputModule } from '@shared/components/controls';
 import { LinkModule } from '@shared/directives/link';
@@ -21,6 +22,7 @@ import { MicroValueModule } from '@shared/pipes/micro-value';
 import { STAKING_COMPONENTS } from './components';
 import { STAKING_PAGES } from './pages';
 import { StakingRoutingModule } from './staking-routing.module';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,7 @@ import { StakingRoutingModule } from './staking-routing.module';
     STAKING_PAGES,
   ],
   imports: [
+    MatAutocompleteModule,
     ButtonModule,
     ButtonBackModule,
     BrowserViewModule,
@@ -41,6 +44,7 @@ import { StakingRoutingModule } from './staking-routing.module';
     MicroValueModule,
     NgxSkeletonLoaderModule,
     ReactiveFormsModule,
+    SelectModule,
     StakingRoutingModule,
     SvgIconsModule,
     SubmitSourceModule,

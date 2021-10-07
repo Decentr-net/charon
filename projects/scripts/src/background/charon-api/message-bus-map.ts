@@ -103,6 +103,19 @@ export interface CharonAPIMessageBusMap extends MessageMap {
       error?: any;
     };
   };
+  [MessageCode.Redelegate]: {
+    body: {
+      amount: string;
+      privateKey: Wallet['privateKey'];
+      fromValidatorAddress: Validator['operator_address'];
+      toValidatorAddress: Validator['operator_address'];
+      walletAddress: Wallet['address'];
+    },
+    response: {
+      success: boolean;
+      error?: any;
+    };
+  };
   [MessageCode.Undelegate]: {
     body: {
       amount: string;

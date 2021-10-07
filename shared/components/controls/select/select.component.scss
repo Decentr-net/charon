@@ -1,0 +1,76 @@
+@import '../../../styles/variables';
+
+:host {
+  background-color: $color-background;
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: $grid-step * 2;
+  width: 100%;
+
+  &.is-invalid {
+    &.is-submitted,
+    &.is-touched {
+      .input__label {
+        color: $color-negative;
+      }
+    }
+  }
+
+  &.is-disabled {
+    .input {
+      color: $color-light-grey;
+      pointer-events: none;
+    }
+  }
+}
+
+.input__label {
+  color: $color-grey;
+  display: flex;
+  justify-content: space-between;
+}
+
+.input__container {
+  align-items: center;
+  display: flex;
+}
+
+.input {
+  background-color: inherit;
+  color: $color-black;
+  font: inherit;
+  font-weight: 500;
+  padding: 0;
+  width: 100%;
+
+  &::placeholder {
+    color: $color-grey;
+    font-weight: normal;
+  }
+}
+
+.input__container__icon {
+  flex-shrink: 0;
+}
+
+.input__option {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.input__option-meta {
+  color: $color-grey;
+}
+
+.input__footer {
+  color: $color-grey;
+  display: none;
+
+  &.mod-visible {
+    display: block;
+    margin-top: $grid-step;
+  }
+}

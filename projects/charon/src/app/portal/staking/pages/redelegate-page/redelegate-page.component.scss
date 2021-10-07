@@ -1,0 +1,52 @@
+@import 'variables';
+
+:host {
+  display: block;
+  padding-bottom: $grid-step * 2;
+}
+
+.redelegate-page__header {
+  column-gap: $grid-step * 2;
+  display: flex;
+}
+
+.redelegate-page__form {
+  align-items: center;
+  column-gap: $grid-step * 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr);
+}
+
+.redelegate-page__form__input-container {
+  height: 100%;
+}
+
+.redelegate-page__form__amount-control {
+  height: 100%;
+  text-align: end;
+}
+
+.redelegate-page__direction-icon {
+  color: $color-light-grey;
+}
+
+.redelegate-page__form__validator-control {
+  grid-area: validator;
+  height: 100%;
+}
+
+.redelegate-page__info {
+  grid-area: info;
+}
+
+.redelegate-page__actions {
+  align-items: flex-end;
+  column-gap: $grid-step * 1.5;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: $grid-step;
+}
+
+.redelegate-page__actions__button {
+  height: min-content;
+}

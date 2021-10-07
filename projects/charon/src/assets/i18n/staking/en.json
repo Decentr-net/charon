@@ -54,6 +54,34 @@
     "validator": "Validator",
     "voting_power": "Voting power"
   },
+  "redelegate_page": {
+    "actions": {
+      "redelegate_all": "Redelegate all",
+      "submit": "Redelegate"
+    },
+    "form": {
+      "amount": {
+        "errors": {
+          "insufficient": "Insufficient funds",
+          "min": "Minimum value is {{ min }}",
+          "pattern": "Incorrect amount format",
+          "required": "Amount is required"
+        },
+        "balance": "Available",
+        "label": "Redelegate amount"
+      },
+      "to_validator": {
+        "errors": {
+          "isValidator": "Please, choose a validator",
+          "required": "Validator is required"
+        },
+        "commission": "Commission",
+        "label": "To validator",
+        "placeholder": "Search or choose validator"
+      }
+    },
+    "title": "Redelegate from"
+  },
   "undelegate_page": {
     "actions": {
       "undelegate_all": "Undelegate all",
