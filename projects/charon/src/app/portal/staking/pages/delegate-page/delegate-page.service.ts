@@ -40,7 +40,7 @@ export class DelegatePageService {
 
   public getDelegationFee(
     validatorAddress: Validator['operator_address'],
-    amount: string,
+    amount: number,
   ): Observable<number> {
     return this.stakingService.getDelegationFee(validatorAddress, amount);
   }

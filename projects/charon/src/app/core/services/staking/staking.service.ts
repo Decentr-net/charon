@@ -50,7 +50,7 @@ export class StakingService {
     );
   }
 
-  public getDelegationFee(validatorAddress: Validator['operator_address'], amount: string): Observable<number> {
+  public getDelegationFee(validatorAddress: Validator['operator_address'], amount: number): Observable<number> {
     return this.configService.getChainId().pipe(
       switchMap((chainId) => calculateCreateDelegationFee(
         this.networkService.getActiveNetworkAPIInstant(),
@@ -59,7 +59,7 @@ export class StakingService {
           delegator_address: this.authService.getActiveUserInstant().wallet.address,
           validator_address: validatorAddress,
           amount: {
-            amount,
+            amount: amount.toString(),
             denom: DENOM,
           },
         },

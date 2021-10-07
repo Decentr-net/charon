@@ -28,7 +28,6 @@ import { SpinnerService } from '@core/services';
 import { StakingRoute } from '../../staking-route';
 import { DelegatePageService } from './delegate-page.service';
 
-
 export interface DelegateForm {
   amount: string;
   validatorAddress: Validator['operator_address'];
@@ -86,7 +85,7 @@ export class DelegatePageComponent implements OnInit {
       debounceTime(300),
       switchMap((formValue) => this.delegatePageService.getDelegationFee(
         formValue.validatorAddress,
-        (+formValue.amount * MICRO_PDV_DIVISOR).toString(),
+        +formValue.amount * MICRO_PDV_DIVISOR,
       ).pipe(
         catchError(() => '-'),
       )),
@@ -119,17 +118,24 @@ export class DelegatePageComponent implements OnInit {
   }
 
   public delegateAll(): void {
+    this.spinnerService.showSpinner();
+
     const amountControl = this.form.get('amount');
 
     combineLatest([
       this.balance$,
-      this.fee$,
+      this.form.value$.pipe(
+        pluck('validatorAddress'),
+      ),
     ]).pipe(
       take(1),
-      map(([balance, fee]) => (balance - +fee) / MICRO_PDV_DIVISOR),
+      switchMap(([balance, validatorAddress]) => this.delegatePageService.getDelegationFee(validatorAddress, balance).pipe(
+        map((fee) => (balance - +fee) / MICRO_PDV_DIVISOR),
+      )),
       filter((allTokens) => amountControl.value !== allTokens),
+      finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
-    ).subscribe((allTokens) => this.form.get('amount').setValue(allTokens));
+    ).subscribe((allTokens) => amountControl.setValue(allTokens));
   }
 
   public onSubmit(): void {
