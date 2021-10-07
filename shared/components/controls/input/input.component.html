@@ -19,6 +19,15 @@
   ></svg-icon>
 </div>
 
+<div
+  #footer
+  class="input__footer"
+  [class.mod-visible]="footer.childNodes.length > 0"
+  [appTypeface]="isOpenedInPopup ? 'caption' : 'paragraph'"
+>
+  <ng-content select="[footer]"></ng-content>
+</div>
+
 <ng-template #textArea>
   <textarea
     #textareaElement

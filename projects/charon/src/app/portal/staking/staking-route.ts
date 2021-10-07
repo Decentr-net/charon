@@ -1,3 +1,4 @@
 export enum StakingRoute {
-  ValidatorParam = 'validatorParam',
+  Delegate = 'delegate',
+  ValidatorAddressParam = 'validatorAddressParam',
 }

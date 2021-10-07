@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ValidatorDetailsPageComponent, ValidatorsPageComponent } from './pages';
+import { DelegatePageComponent, ValidatorDetailsPageComponent, ValidatorsPageComponent } from './pages';
 import { StakingRoute } from './staking-route';
 
 const ROUTES: Routes = [
@@ -11,8 +11,12 @@ const ROUTES: Routes = [
     component: ValidatorsPageComponent,
   },
   {
-    path: `:${StakingRoute.ValidatorParam}`,
+    path: `:${StakingRoute.ValidatorAddressParam}`,
     component: ValidatorDetailsPageComponent,
+  },
+  {
+    path: `:${StakingRoute.ValidatorAddressParam}/${StakingRoute.Delegate}`,
+    component: DelegatePageComponent,
   },
 ];
 
