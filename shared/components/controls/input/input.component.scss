@@ -47,6 +47,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   justify-content: space-between;
+  margin-top: $grid-step;
 
   &:not(:last-child) {
     margin-bottom: $grid-step;

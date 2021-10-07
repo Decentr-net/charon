@@ -13,6 +13,7 @@
           "required": "Amount is required"
         },
         "balance": "Balance",
+        "fee": "Fee",
         "label": "Delegate amount"
       },
       "validator_name": {

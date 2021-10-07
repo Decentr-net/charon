@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, defer, Observable, timer } from 'rxjs';
-import { map, mapTo, mergeMapTo, pluck, switchMap, take, tap } from 'rxjs/operators';
+import { map, mapTo, pluck, switchMap, take, tap } from 'rxjs/operators';
+import { ValidatorFn } from '@ngneat/reactive-forms';
 import { Validator } from 'decentr-js';
 
+import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { AuthService } from '@core/auth';
 import { BankService, NetworkService, StakingService } from '@core/services';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ValidatorFn } from '@ngneat/reactive-forms';
-import { MICRO_PDV_DIVISOR } from '../../../../../../../../shared/pipes/micro-value';
-import { AbstractControl } from '@angular/forms';
 
 @Injectable()
 export class DelegatePageService {
@@ -22,6 +22,10 @@ export class DelegatePageService {
   ) {
   }
 
+  public get minDelegateAmount(): number {
+    return 1 / MICRO_PDV_DIVISOR;
+  }
+
   public getBalance(): Observable<number> {
     return combineLatest([
       this.authService.getActiveUser().pipe(
@@ -32,6 +36,13 @@ export class DelegatePageService {
       switchMap(([walletAddress]) => this.bankService.getDECBalance(walletAddress)),
       map((balance) => +balance)
     );
+  }
+
+  public getDelegationFee(
+    validatorAddress: Validator['operator_address'],
+    amount: string,
+  ): Observable<number> {
+    return this.stakingService.getDelegationFee(validatorAddress, amount);
   }
 
   public getValidator(address: Validator['operator_address']): Observable<Validator> {
@@ -54,6 +65,7 @@ export class DelegatePageService {
   public createAsyncAmountValidator(
     amountControl: AbstractControl,
     balance$: Observable<number>,
+    fee$: Observable<number | string>,
   ): ValidatorFn<string> {
     return () => {
       const amount = parseFloat(amountControl.value.toString());
@@ -63,10 +75,13 @@ export class DelegatePageService {
       }
 
       return timer(300).pipe(
-        mergeMapTo(balance$),
+        switchMap(() => combineLatest([
+          balance$,
+          fee$,
+        ])),
         take(1),
-        tap((balance) => {
-          const error = balance / MICRO_PDV_DIVISOR >= amount ? null : { insufficient: false };
+        tap(([balance, fee]) => {
+          const error = (balance - +fee) / MICRO_PDV_DIVISOR >= amount ? null : { insufficient: false };
           amountControl.setErrors(error);
         }),
         mapTo(null),

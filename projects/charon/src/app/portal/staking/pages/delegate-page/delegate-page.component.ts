@@ -1,8 +1,19 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { EMPTY, Observable } from 'rxjs';
-import { catchError, finalize, pluck, share, shareReplay, switchMap, take } from 'rxjs/operators';
+import { combineLatest, EMPTY, Observable } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  filter,
+  finalize,
+  map,
+  pluck,
+  share,
+  shareReplay,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { Validator } from 'decentr-js';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
@@ -45,8 +56,9 @@ export class DelegatePageComponent implements OnInit {
 
   public form: FormGroup<DelegateForm>;
 
+  public fee$: Observable<number | string>;
+
   public validatorCommission$: Observable<Validator['commission']['commission_rates']['rate']>;
-  public validatorName$: Observable<Validator['description']['moniker']>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -70,9 +82,19 @@ export class DelegatePageComponent implements OnInit {
       shareReplay(1),
     );
 
+    this.fee$ = this.form.value$.pipe(
+      debounceTime(300),
+      switchMap((formValue) => this.delegatePageService.getDelegationFee(
+        formValue.validatorAddress,
+        (+formValue.amount * MICRO_PDV_DIVISOR).toString(),
+      ).pipe(
+        catchError(() => '-'),
+      )),
+    );
+
     const amountControl = this.form.get('amount');
     this.form.setAsyncValidators([
-      this.delegatePageService.createAsyncAmountValidator(amountControl, this.balance$),
+      this.delegatePageService.createAsyncAmountValidator(amountControl, this.balance$, this.fee$),
     ]);
 
     const validatorAddress$ = this.activatedRoute.params.pipe(
@@ -88,20 +110,26 @@ export class DelegatePageComponent implements OnInit {
       pluck('commission', 'commission_rates', 'rate'),
     );
 
-    this.validatorName$ = validator$.pipe(
-      pluck('description', 'moniker'),
-    );
-
-    validatorAddress$.pipe(
+    validator$.pipe(
       untilDestroyed(this),
-    ).subscribe((validatorAddress) => this.form.get('validatorAddress').setValue(validatorAddress));
+    ).subscribe((validator) => {
+      this.form.get('validatorAddress').setValue(validator.operator_address);
+      this.form.get('validatorName').setValue(validator.description.moniker);
+    });
   }
 
   public delegateAll(): void {
-    this.balance$.pipe(
+    const amountControl = this.form.get('amount');
+
+    combineLatest([
+      this.balance$,
+      this.fee$,
+    ]).pipe(
       take(1),
+      map(([balance, fee]) => (balance - +fee) / MICRO_PDV_DIVISOR),
+      filter((allTokens) => amountControl.value !== allTokens),
       untilDestroyed(this),
-    ).subscribe((balance) => this.form.get('amount').setValue(balance / MICRO_PDV_DIVISOR));
+    ).subscribe((allTokens) => this.form.get('amount').setValue(allTokens));
   }
 
   public onSubmit(): void {
@@ -133,10 +161,10 @@ export class DelegatePageComponent implements OnInit {
   private createForm(): FormGroup<DelegateForm> {
     return this.formBuilder.group({
       amount: [
-        '0',
+        this.delegatePageService.minDelegateAmount.toString(),
         [
           Validators.required,
-          Validators.min(1 / MICRO_PDV_DIVISOR),
+          Validators.min(this.delegatePageService.minDelegateAmount),
           Validators.pattern('^((0)|(([1-9])([0-9]+)?)(0+)?)\\.?\\d{0,6}$'),
         ],
       ],
