@@ -7,6 +7,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 import { ButtonModule } from '@shared/components/button';
 import { ButtonBackModule } from '@shared/components/button-back';
+import { CurrencySymbolModule } from '@shared/components/currency-symbol';
 import { DataTableModule } from '@shared/components/data-table';
 import { DetailsTableModule } from '@shared/components/details-table';
 import { InputContainerModule } from '@shared/components/input-container';
@@ -31,6 +32,7 @@ import { StakingRoutingModule } from './staking-routing.module';
     ButtonBackModule,
     BrowserViewModule,
     CommonModule,
+    CurrencySymbolModule,
     DataTableModule,
     DetailsTableModule,
     InputContainerModule,

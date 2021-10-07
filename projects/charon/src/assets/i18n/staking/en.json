@@ -26,6 +26,22 @@
       "subtitle": "You will need to undelegate in order for your staked assets to be liquid again.\nThis process will take 21 days to complete."
     }
   },
+  "validator_details": {
+    "actions": {
+      "delegate": "Delegate",
+      "redelegate": "Redelegate",
+      "undelegate": "Undelegate"
+    },
+    "details_table": {
+      "commission": "Commission",
+      "operator_address": "Operator address",
+      "voting_power": "Voting power",
+      "website": "Website"
+    },
+    "delegated": "Delegated",
+    "jailed": "This validator is currently being jailed!",
+    "title": "Validator details"
+  },
   "undelegate_page": {
     "actions": {
       "undelegate_all": "Undelegate all",
@@ -50,7 +66,7 @@
       "title": "Trying to switch validators?",
       "subtitle": "Use the ‘Redelegate’ feature to instantly stake your assets to another validator."
     },
-    "title": "Delegate",
+    "title": "Undelegate",
     "warning": {
       "title": "Once the unbonding period begins you will:",
       "subtitle": "- not receive staking rewards\n- not be able to cancel the unbonding\n- need to wait 21 days for the amount to be liquid"
