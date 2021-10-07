@@ -96,7 +96,7 @@ export class UndelegatePageService {
 
   public createAsyncBalanceValidator(
     amountControl: AbstractControl,
-    fee$: Observable<number | string>,
+    fee$: Observable<number>,
   ): ValidatorFn<string> {
     return () => {
       const amount = parseFloat(amountControl.value.toString());
@@ -112,8 +112,9 @@ export class UndelegatePageService {
         ])),
         take(1),
         tap(([balance, fee]) => {
-          const error = (balance - +fee) / MICRO_PDV_DIVISOR >= amount ? null : { insufficientBalance: false };
-          amountControl.setErrors(error);
+          const error = (balance - fee) / MICRO_PDV_DIVISOR >= amount ? null : { insufficientBalance: false };
+          const amountErrors = amountControl.errors || error;
+          amountControl.setErrors(amountErrors);
         }),
         mapTo(null),
       );

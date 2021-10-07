@@ -52,7 +52,7 @@ export class StakingService {
 
   public getDelegationFee(validatorAddress: Validator['operator_address'], amount: number): Observable<number> {
     return this.configService.getChainId().pipe(
-      switchMap((chainId) => calculateCreateDelegationFee(
+      switchMap((chainId) => defer(() => calculateCreateDelegationFee(
         this.networkService.getActiveNetworkAPIInstant(),
         chainId,
         {
@@ -63,7 +63,7 @@ export class StakingService {
             denom: DENOM,
           },
         },
-      )),
+      ))),
       map((fee) => +fee[0]?.amount),
     );
   }
@@ -115,7 +115,7 @@ export class StakingService {
 
   public getUndelegationFee(validatorAddress: Validator['operator_address'], amount: string): Observable<number> {
     return this.configService.getChainId().pipe(
-      switchMap((chainId) => calculateCreateUnbondingDelegationFee(
+      switchMap((chainId) => defer(() => calculateCreateUnbondingDelegationFee(
         this.networkService.getActiveNetworkAPIInstant(),
         chainId,
         {
@@ -126,7 +126,7 @@ export class StakingService {
             denom: DENOM,
           },
         },
-      )),
+      ))),
       map((fee) => +fee[0]?.amount),
     );
   }

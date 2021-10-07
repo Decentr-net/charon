@@ -1,8 +1,18 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { EMPTY, Observable } from 'rxjs';
-import { catchError, debounceTime, finalize, pluck, share, shareReplay, switchMap, take } from 'rxjs/operators';
+import { EMPTY, Observable, of } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  finalize,
+  pluck,
+  share,
+  shareReplay,
+  startWith,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { Validator } from 'decentr-js';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
@@ -44,7 +54,7 @@ export class UndelegatePageComponent implements OnInit {
 
   public form: FormGroup<UndelegateForm>;
 
-  public fee$: Observable<number | string>;
+  public fee$: Observable<number>;
 
   public validatorCommission$: Observable<Validator['commission']['commission_rates']['rate']>;
 
@@ -75,13 +85,14 @@ export class UndelegatePageComponent implements OnInit {
 
     this.form = this.createForm(this.delegatedAmount$);
 
-    this.fee$ = this.form.value$.pipe(
+    this.fee$ = this.form.valueChanges.pipe(
       debounceTime(300),
+      startWith(this.form.getRawValue()),
       switchMap((formValue) => this.undelegatePageService.getUndelegationFee(
         formValue.validatorAddress,
         (+formValue.amount * MICRO_PDV_DIVISOR).toString(),
       ).pipe(
-        catchError(() => '-'),
+        catchError(() => of(0)),
       )),
     );
 
