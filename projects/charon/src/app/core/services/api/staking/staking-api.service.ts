@@ -3,7 +3,7 @@ import {
   Delegation,
   getDelegations,
   getPool,
-  getValidator,
+  getValidator, getValidatorDelegations,
   getValidators,
   Pool,
   Validator,
@@ -15,6 +15,14 @@ import {
 export class StakingApiService {
   public getDelegations(api: string, walletAddress: Wallet['address']): Promise<Delegation[]> {
     return getDelegations(api, walletAddress);
+  }
+
+  public getValidatorDelegation(
+    api: string,
+    validatorAddress: Validator['operator_address'],
+    walletAddress: Wallet['address'],
+  ): Promise<Delegation> {
+    return getValidatorDelegations(api, validatorAddress, walletAddress).catch(() => void 0);
   }
 
   public getPool(api: string): Promise<Pool> {
