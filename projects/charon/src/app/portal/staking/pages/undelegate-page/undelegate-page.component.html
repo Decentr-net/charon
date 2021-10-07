@@ -37,6 +37,10 @@
             {{ translate('form.amount.balance') }}: {{ delegatedAmount$ | async | microValue }}
             <app-currency-symbol></app-currency-symbol>
           </span>
+
+          <span ngProjectAs="[footer]">
+            {{ translate('form.amount.fee') }}: {{ (fee$ | async | microValue) || '-' }} <app-currency-symbol></app-currency-symbol>
+          </span>
         </app-input>
 
         <app-form-error controlName="amount"></app-form-error>
@@ -53,8 +57,7 @@
       >
         <app-input
           class="undelegate-page__form__validator-control"
-          formControlName="validatorAddress"
-          [placeholder]="validatorName$ | async"
+          formControlName="validatorName"
           [rows]="2"
           appTypeface="subheader"
         >

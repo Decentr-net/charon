@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, defer, forkJoin, Observable } from 'rxjs';
 import { map, pluck, switchMap } from 'rxjs/operators';
-import { calculateCreateDelegationFee, Delegation, Pool, Validator, ValidatorStatus } from 'decentr-js';
+import {
+  calculateCreateDelegationFee,
+  calculateCreateUnbondingDelegationFee,
+  Delegation,
+  Pool,
+  Validator,
+  ValidatorStatus
+} from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
 import { ConfigService } from '@shared/services/configuration';
@@ -104,6 +111,24 @@ export class StakingService {
           return void 0;
         }),
       );
+  }
+
+  public getUndelegationFee(validatorAddress: Validator['operator_address'], amount: string): Observable<number> {
+    return this.configService.getChainId().pipe(
+      switchMap((chainId) => calculateCreateUnbondingDelegationFee(
+        this.networkService.getActiveNetworkAPIInstant(),
+        chainId,
+        {
+          delegator_address: this.authService.getActiveUserInstant().wallet.address,
+          validator_address: validatorAddress,
+          amount: {
+            amount,
+            denom: DENOM,
+          },
+        },
+      )),
+      map((fee) => +fee[0]?.amount),
+    );
   }
 
   public getDelegations(): Observable<Delegation[]>{

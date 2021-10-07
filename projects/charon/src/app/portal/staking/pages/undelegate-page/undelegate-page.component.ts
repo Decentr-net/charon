@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/
 import { NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { EMPTY, Observable } from 'rxjs';
-import { catchError, finalize, pluck, share, shareReplay, switchMap, take } from 'rxjs/operators';
+import { catchError, debounceTime, finalize, pluck, share, shareReplay, switchMap, take } from 'rxjs/operators';
 import { Validator } from 'decentr-js';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
@@ -44,8 +44,9 @@ export class UndelegatePageComponent implements OnInit {
 
   public form: FormGroup<UndelegateForm>;
 
+  public fee$: Observable<number | string>;
+
   public validatorCommission$: Observable<Validator['commission']['commission_rates']['rate']>;
-  public validatorName$: Observable<Validator['description']['moniker']>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -63,8 +64,6 @@ export class UndelegatePageComponent implements OnInit {
       svgSpeedometer,
     ]);
 
-    this.form = this.createForm();
-
     const validatorAddress$ = this.activatedRoute.params.pipe(
       pluck(StakingRoute.ValidatorAddressParam),
     );
@@ -74,9 +73,21 @@ export class UndelegatePageComponent implements OnInit {
       shareReplay(1),
     );
 
+    this.form = this.createForm(this.delegatedAmount$);
+
+    this.fee$ = this.form.value$.pipe(
+      debounceTime(300),
+      switchMap((formValue) => this.undelegatePageService.getUndelegationFee(
+        formValue.validatorAddress,
+        (+formValue.amount * MICRO_PDV_DIVISOR).toString(),
+      ).pipe(
+        catchError(() => '-'),
+      )),
+    );
+
     const amountControl = this.form.get('amount');
     this.form.setAsyncValidators([
-      this.undelegatePageService.createAsyncAmountValidator(amountControl, this.delegatedAmount$),
+      this.undelegatePageService.createAsyncBalanceValidator(amountControl, this.fee$),
     ]);
 
     const validator$ = validatorAddress$.pipe(
@@ -88,20 +99,19 @@ export class UndelegatePageComponent implements OnInit {
       pluck('commission', 'commission_rates', 'rate'),
     );
 
-    this.validatorName$ = validator$.pipe(
-      pluck('description', 'moniker'),
-    );
-
-    validatorAddress$.pipe(
+    validator$.pipe(
       untilDestroyed(this),
-    ).subscribe((validatorAddress) => this.form.get('validatorAddress').setValue(validatorAddress));
+    ).subscribe((validator) => {
+      this.form.get('validatorAddress').setValue(validator.operator_address);
+      this.form.get('validatorName').setValue(validator.description.moniker);
+    });
   }
 
   public undelegateAll(): void {
     this.delegatedAmount$.pipe(
       take(1),
       untilDestroyed(this),
-    ).subscribe((balance) => this.form.get('amount').setValue(balance / MICRO_PDV_DIVISOR));
+    ).subscribe((delegatedAmount) => this.form.get('amount').setValue(delegatedAmount / MICRO_PDV_DIVISOR));
   }
 
   public onSubmit(): void {
@@ -130,15 +140,23 @@ export class UndelegatePageComponent implements OnInit {
     });
   }
 
-  private createForm(): FormGroup<UndelegateForm> {
+  private createForm(
+    delegatedAmount$: Observable<number>,
+  ): FormGroup<UndelegateForm> {
     return this.formBuilder.group({
       amount: [
-        '0',
+        this.undelegatePageService.minUnelegateAmount.toString(),
         [
           Validators.required,
-          Validators.min(1 / MICRO_PDV_DIVISOR),
+          Validators.min(this.undelegatePageService.minUnelegateAmount),
           Validators.pattern('^((0)|(([1-9])([0-9]+)?)(0+)?)\\.?\\d{0,6}$'),
         ],
+        [
+          this.undelegatePageService.createAsyncAmountValidator(delegatedAmount$),
+        ],
+      ],
+      validatorName: [
+        { value: '', disabled: true },
       ],
       validatorAddress: [
         { value: '', disabled: true },

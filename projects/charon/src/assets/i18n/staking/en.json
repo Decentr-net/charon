@@ -92,11 +92,13 @@
       "amount": {
         "errors": {
           "insufficient": "Insufficient funds",
+          "insufficientBalance": "Insufficient funds to pay fee",
           "min": "Minimum value is {{ min }}",
           "pattern": "Incorrect amount format",
           "required": "Amount is required"
         },
         "balance": "Available",
+        "fee": "Fee",
         "label": "Undelegate amount"
       },
       "validator_address": {

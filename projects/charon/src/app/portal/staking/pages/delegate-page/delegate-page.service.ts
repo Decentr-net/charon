@@ -34,7 +34,7 @@ export class DelegatePageService {
       this.networkService.getActiveNetworkAPI(),
     ]).pipe(
       switchMap(([walletAddress]) => this.bankService.getDECBalance(walletAddress)),
-      map((balance) => +balance)
+      map((balance) => +balance),
     );
   }
 
