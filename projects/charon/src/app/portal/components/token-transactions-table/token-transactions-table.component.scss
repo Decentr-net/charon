@@ -43,6 +43,7 @@
 
 .token-transactions-table__amount {
   grid-area: amount;
+  text-align: right;
 }
 
 .token-transactions-table__address {
@@ -53,6 +54,7 @@
 .token-transactions-table__fee {
   color: $color-grey;
   grid-area: fee;
+  text-align: right;
 }
 
 .token-transactions-table__memo {
