@@ -61,7 +61,7 @@
       </ng-template>
 
       <ng-template [appDetailsTableCellDef]="translate('details_table.voting_power')">
-        {{ validatorDetails.tokens | microValue : '1.0-0' }}
+        {{ validatorDetails.tokens | microValue | numberFormat : '1.0-0' : true }}
 
         <div
           class="validator-details__details-table__voting-power-percent"
@@ -91,7 +91,7 @@
           class="validator-details__actions-delegated-value"
           [class.mod-empty]="!+validatorDetails.delegated"
         >
-          {{ +(validatorDetails.delegated | microValue) || '0' }}&nbsp;<app-currency-symbol></app-currency-symbol>
+          {{ validatorDetails.delegated && (validatorDetails.delegated | microValue | numberFormat : null : true) || '0' }}&nbsp;<app-currency-symbol></app-currency-symbol>
         </div>
       </div>
 

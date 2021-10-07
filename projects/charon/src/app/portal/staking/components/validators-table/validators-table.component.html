@@ -20,7 +20,7 @@
   </div>
 
   <ng-container *dataTableColumnDef="let validator; name: translate('voting_power')">
-    {{ validator.tokens | microValue : '1.0-0' }}
+    {{ validator.tokens | microValue | numberFormat : '1.0-0' : true }}
 
     <div
       class="validators-table__voting-power-percent"
@@ -42,7 +42,7 @@
 
   <ng-container *dataTableColumnDef="let validator; name: translate('delegated')">
     <div [class.mod-empty]="!+validator.delegated">
-      {{ +(validator.delegated | microValue) || '0' }}
+      {{ validator.delegated && (validator.delegated | microValue | numberFormat : null : true) || '0' }}
     </div>
   </ng-container>
 </app-data-table>

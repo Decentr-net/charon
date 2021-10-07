@@ -34,12 +34,12 @@
           <span ngProjectAs="[label]">{{ translate('form.amount.label') }}</span>
 
           <span ngProjectAs="[label-right]">
-            {{ translate('form.amount.balance') }}: {{ delegatedAmount$ | async | microValue }}
+            {{ translate('form.amount.balance') }}: {{ delegatedAmount$ | async | microValue | numberFormat : null : true }}
             <app-currency-symbol></app-currency-symbol>
           </span>
 
           <span ngProjectAs="[footer]">
-            {{ translate('form.amount.fee') }}: {{ (fee$ | async | microValue) || '-' }} <app-currency-symbol></app-currency-symbol>
+            {{ translate('form.amount.fee') }}: {{ (fee$ | async | microValue | numberFormat : null : true) || '-' }} <app-currency-symbol></app-currency-symbol>
           </span>
         </app-input>
 

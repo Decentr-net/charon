@@ -19,6 +19,7 @@ import { BrowserViewModule } from '@shared/directives/browser-view';
 import { SubmitSourceModule } from '@shared/directives/submit-source';
 import { TypefaceModule } from '@shared/directives/typeface';
 import { MicroValueModule } from '@shared/pipes/micro-value';
+import { NumberFormatModule } from '@shared/pipes/number-format';
 import { STAKING_COMPONENTS } from './components';
 import { STAKING_PAGES } from './pages';
 import { StakingRoutingModule } from './staking-routing.module';
@@ -43,6 +44,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     LinkModule,
     MicroValueModule,
     NgxSkeletonLoaderModule,
+    NumberFormatModule,
     ReactiveFormsModule,
     SelectModule,
     StakingRoutingModule,
