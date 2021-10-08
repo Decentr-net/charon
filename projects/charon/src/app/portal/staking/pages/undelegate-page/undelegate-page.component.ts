@@ -170,7 +170,7 @@ export class UndelegatePageComponent implements OnInit {
         { value: '', disabled: true },
       ],
       validatorAddress: [
-        { value: '', disabled: true },
+        '',
       ],
     });
   }
