@@ -8,7 +8,7 @@
     <ng-content select="[label-right]"></ng-content>
   </div>
 
-  <div class="input__container" (click)="openAutocomplete()">
+  <div class="input__container">
     <input
       #inputElement
       class="input"
@@ -19,9 +19,19 @@
       (focus)="onFocus()"
       (blur)="onBlur()"
       [matAutocomplete]="auto"
+      [class.mod-text]="value"
     >
 
     <svg-icon
+      *ngIf="value"
+      class="input__container__icon-close"
+      key="close"
+      size="sm"
+      (click)="clearValue()"
+    ></svg-icon>
+
+    <svg-icon
+      *ngIf="!value"
       class="input__container__icon"
       key="dropdown-expand"
     ></svg-icon>

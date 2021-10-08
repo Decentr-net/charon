@@ -10,14 +10,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { timer } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
 import { isOpenedInTab } from '../../../utils/browser';
 import { SubmitSourceDirective } from '../../../directives/submit-source';
+import { svgClose } from '../../../svg-icons/close';
 import { svgDropdownExpand } from '../../../svg-icons/dropdown-expand';
 import { InputContainerControl } from '../../input-container';
 import { CustomControl } from '../custom-control';
@@ -45,8 +43,6 @@ export class SelectComponent<T> extends CustomControl<string> implements OnInit 
 
   @ViewChild('inputElement') public inputElement: ElementRef<HTMLElement>;
 
-  @ViewChild(MatAutocompleteTrigger) public trigger: MatAutocompleteTrigger;
-
   private isFocused: boolean;
 
   public isOpenedInPopup: boolean = !isOpenedInTab();
@@ -70,6 +66,7 @@ export class SelectComponent<T> extends CustomControl<string> implements OnInit 
 
   public ngOnInit(): void {
     this.svgIconRegistry.register([
+      svgClose,
       svgDropdownExpand,
     ]);
 
@@ -85,15 +82,12 @@ export class SelectComponent<T> extends CustomControl<string> implements OnInit 
     this.onTouched();
   }
 
-  public openAutocomplete(): void {
-    timer(0).pipe(
-      filter(() => this.trigger.panelOpen),
-      untilDestroyed(this),
-    ).subscribe(() => this.trigger.openPanel());
-  }
-
   public onValueChange(date: string): void {
     this.value = date;
     this.onChange(this.value);
+  }
+
+  public clearValue(): void {
+    this.onValueChange(undefined);
   }
 }
