@@ -39,7 +39,7 @@
       "voting_power": "Voting power",
       "website": "Website"
     },
-    "delegated": "Delegated",
+    "delegated": "Delegated:",
     "jailed": "This validator is currently being jailed!",
     "title": "Validator details"
   },
