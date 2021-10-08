@@ -95,6 +95,7 @@
       <button
         class="redelegate-page__actions__button"
         app-button
+        [disabled]="redelegationFromAvailableTime || redelegationToAvailableTime"
         (click)="onSubmit()"
       >
         {{ translate('actions.submit') }}
