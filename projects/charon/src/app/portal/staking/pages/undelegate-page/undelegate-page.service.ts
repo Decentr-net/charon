@@ -114,7 +114,7 @@ export class UndelegatePageService {
         ])),
         take(1),
         tap(([balance, fee]) => {
-          const error = (balance - fee) / MICRO_PDV_DIVISOR >= amount ? null : { insufficientBalance: false };
+          const error = balance > fee ? null : { insufficientBalance: false };
           const amountErrors = amountControl.errors || error;
           amountControl.setErrors(amountErrors);
         }),
