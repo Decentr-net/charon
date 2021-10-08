@@ -86,12 +86,15 @@ export class UndelegatePageComponent implements OnInit {
 
     this.fee$ = this.form.value$.pipe(
       debounceTime(300),
-      switchMap((formValue) => this.undelegatePageService.getUndelegationFee(
-        formValue.validatorAddress,
-        (+formValue.amount * MICRO_PDV_DIVISOR).toString(),
-      ).pipe(
-        catchError(() => of(0)),
-      )),
+      switchMap((formValue) => formValue.validatorAddress
+        ? this.undelegatePageService.getUndelegationFee(
+            formValue.validatorAddress,
+            (+formValue.amount * MICRO_PDV_DIVISOR).toString(),
+          ).pipe(
+            catchError(() => of(0)),
+          )
+        : of(0)
+      ),
       share(),
     );
 

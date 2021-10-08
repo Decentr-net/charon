@@ -96,13 +96,16 @@ export class RedelegatePageComponent implements OnInit {
 
     this.fee$ = this.form.value$.pipe(
       debounceTime(300),
-      switchMap((formValue) => this.redelegatePageService.getRedelegationFee(
-        formValue.fromValidatorAddress,
-        formValue.toValidator?.operator_address,
-        (+formValue.amount * MICRO_PDV_DIVISOR).toString(),
-      ).pipe(
-        catchError(() => of(0)),
-      )),
+      switchMap((formValue) => formValue.fromValidatorAddress && formValue.toValidator?.operator_address
+        ? this.redelegatePageService.getRedelegationFee(
+            formValue.fromValidatorAddress,
+            formValue.toValidator?.operator_address,
+            (+formValue.amount * MICRO_PDV_DIVISOR).toString(),
+          ).pipe(
+            catchError(() => of(0)),
+          )
+        : of(0)
+      ),
       share(),
     );
 

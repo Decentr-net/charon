@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, EMPTY, Observable } from 'rxjs';
+import { combineLatest, EMPTY, Observable, of } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -55,7 +55,7 @@ export class DelegatePageComponent implements OnInit {
 
   public form: FormGroup<DelegateForm>;
 
-  public fee$: Observable<number | string>;
+  public fee$: Observable<number>;
 
   public validatorCommission$: Observable<Validator['commission']['commission_rates']['rate']>;
 
@@ -83,12 +83,15 @@ export class DelegatePageComponent implements OnInit {
 
     this.fee$ = this.form.value$.pipe(
       debounceTime(300),
-      switchMap((formValue) => this.delegatePageService.getDelegationFee(
-        formValue.validatorAddress,
-        +formValue.amount * MICRO_PDV_DIVISOR,
-      ).pipe(
-        catchError(() => '0'),
-      )),
+      switchMap((formValue) => formValue.validatorAddress
+        ? this.delegatePageService.getDelegationFee(
+            formValue.validatorAddress,
+            +formValue.amount * MICRO_PDV_DIVISOR,
+          ).pipe(
+            catchError(() => of(0)),
+          )
+        : of(0),
+      ),
       share(),
     );
 
