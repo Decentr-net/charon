@@ -30,7 +30,7 @@ export class InputContainerComponent implements AfterContentInit {
   public ngAfterContentInit(): void {
     this.showError$ = merge(
       this.submitSource ? this.submitSource.ngSubmit : EMPTY,
-      this.input.touched,
+      this.input?.touched || EMPTY,
     ).pipe(
       mapTo(true),
     );

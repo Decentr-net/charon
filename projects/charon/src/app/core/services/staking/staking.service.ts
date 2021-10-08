@@ -200,7 +200,7 @@ export class StakingService {
   }
 
   public getRedelegationFromAvailableTime(fromValidator: Validator['operator_address']): Observable<number | undefined> {
-    return this.getRedelegationsTimes({ validator_from: fromValidator }).pipe(
+    return this.getRedelegationsTimes({ validator_to: fromValidator }).pipe(
       map((times) => times.sort((left, right) => right - left)),
       map((sortedTimesDesc) => sortedTimesDesc[0]),
     );

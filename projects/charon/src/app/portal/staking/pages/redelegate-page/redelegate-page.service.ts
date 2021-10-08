@@ -151,18 +151,18 @@ export class RedelegatePageService {
     };
   }
 
-  private getRedelegationFromAvailableTime(fromValidator: Validator['operator_address']): Observable<number | undefined> {
-    return this.stakingService.getRedelegationFromAvailableTime({ validator_from: fromValidator });
+  public getRedelegationFromAvailableTime(fromValidator: Validator['operator_address']): Observable<number | undefined> {
+    return this.stakingService.getRedelegationFromAvailableTime(fromValidator);
   }
 
-  private getRedelegationFromToAvailableTime(
+  public getRedelegationFromToAvailableTime(
     fromValidator: Validator['operator_address'],
     toValidator: Validator['operator_address'],
   ): Observable<number | undefined> {
     return this.stakingService.getRedelegationFromToAvailableTime(fromValidator, toValidator);
   }
 
-  private getMaxRedelegationEntries(): Observable<number> {
+  public getMaxRedelegationEntries(): Observable<number> {
     return this.stakingService.getStakingParameters().pipe(
       map((params) => params.max_entries),
     );

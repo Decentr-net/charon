@@ -34,11 +34,14 @@
           <span ngProjectAs="[label]">{{ translate('form.amount.label') }}</span>
 
           <span ngProjectAs="[label-right]">
-            {{ translate('form.amount.balance') }}: {{ delegatedAmount$ | async | microValue | numberFormat : null : true }} <app-currency-symbol></app-currency-symbol>
+            {{ translate('form.amount.balance') }}
+            : {{ delegatedAmount$ | async | microValue | numberFormat : null : true }}
+            <app-currency-symbol></app-currency-symbol>
           </span>
 
           <span ngProjectAs="[footer]">
-            {{ translate('form.amount.fee') }}: {{ (fee$ | async | microValue) || '-' }} <app-currency-symbol></app-currency-symbol>
+            {{ translate('form.amount.fee') }}: {{ (fee$ | async | microValue) || '-' }}
+            <app-currency-symbol></app-currency-symbol>
           </span>
         </app-input>
 
@@ -55,6 +58,7 @@
         class="redelegate-page__form__input-container"
       >
         <app-select
+          *ngIf="(redelegationFromMinTime$ | async) === undefined; else redelegationError"
           class="redelegate-page__form__validator-control"
           formControlName="toValidator"
           [placeholder]="translate('form.to_validator.placeholder')"
@@ -97,3 +101,32 @@
     </div>
   </div>
 </app-staking-layout>
+
+<ng-template #redelegationError>
+  <div class="redelegate-page__form__error-container">
+    <svg-icon
+      class="redelegate-page__form__error-icon"
+      key="redelegate"
+    ></svg-icon>
+
+    <div
+      class="redelegate-page__form__error-title"
+      appTypeface="paragraph"
+    >
+      Redelegation to this validator already in progress
+<!--      Limit of simultaneous redelegations is reached-->
+    </div>
+
+    <div
+      class="redelegate-page__form__error-text"
+      appTypeface="paragraph"
+    >
+      First redelegation to this validator must complete before next redelegation.<br>
+      Redelegation will be available after <b>{{ redelegationFromMinTime$ | async | date : 'MMMM d, y, h:mm:ss' }}</b>
+
+<!--      At least one redelegation to this validator must complete before next redelegation.<br>-->
+<!--      Redelegation will be available after <b>{{ redelegationFromMinTime$ | async | date : 'MMMM d, y, h:mm:ss' }}</b>-->
+    </div>
+  </div>
+</ng-template>
+

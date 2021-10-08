@@ -11,7 +11,7 @@ import {
   shareReplay,
   startWith,
   switchMap,
-  take
+  take,
 } from 'rxjs/operators';
 import { Validator } from 'decentr-js';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
@@ -20,6 +20,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
+import { svgRedelegate } from '@shared/svg-icons/redelegate';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { SelectOption } from '@shared/components/controls/select';
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
@@ -59,6 +60,8 @@ export class RedelegatePageComponent implements OnInit {
 
   public fromValidatorName$: Observable<Validator['description']['moniker']>;
 
+  public redelegationFromMinTime$: Observable<number>;
+
   public toValidatorCommission$: Observable<Validator['commission']['commission_rates']['rate']>;
 
   public validatorsFilteredOptions$: Observable<SelectOption<Validator>[]>;
@@ -77,10 +80,16 @@ export class RedelegatePageComponent implements OnInit {
   public ngOnInit(): void {
     this.svgIconRegistry.register([
       svgArrowLeft,
+      svgRedelegate,
     ]);
 
     const validatorAddress$ = this.activatedRoute.params.pipe(
       pluck(StakingRoute.ValidatorAddressParam),
+    );
+
+    this.redelegationFromMinTime$ = validatorAddress$.pipe(
+      switchMap((validatorAddress) => this.redelegatePageService.getRedelegationFromAvailableTime(validatorAddress)),
+      startWith(undefined),
     );
 
     this.fromValidatorName$ = validatorAddress$.pipe(
@@ -99,12 +108,12 @@ export class RedelegatePageComponent implements OnInit {
       debounceTime(300),
       switchMap((formValue) => formValue.fromValidatorAddress && formValue.toValidator?.operator_address
         ? this.redelegatePageService.getRedelegationFee(
-            formValue.fromValidatorAddress,
-            formValue.toValidator?.operator_address,
-            (+formValue.amount * MICRO_PDV_DIVISOR).toString(),
-          ).pipe(
-            catchError(() => of(0)),
-          )
+          formValue.fromValidatorAddress,
+          formValue.toValidator?.operator_address,
+          (+formValue.amount * MICRO_PDV_DIVISOR).toString(),
+        ).pipe(
+          catchError(() => of(0)),
+        )
         : of(0)
       ),
     );
