@@ -17,7 +17,9 @@
 }
 
 .user-page__wallet-card__title {
+  display: flex;
   font-weight: 500;
+  justify-content: space-between;
   margin-bottom: $grid-step * 2;
 }
 

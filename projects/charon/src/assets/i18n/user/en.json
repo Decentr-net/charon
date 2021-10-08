@@ -21,6 +21,7 @@
   },
   "user_page": {
     "copy_wallet_address": "Copy wallet address",
+    "delegate": "Delegate",
     "send": "Send",
     "wallet_address_copied": "The wallet address was copied successfully",
     "your_wallet": "Your wallet"

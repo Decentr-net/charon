@@ -5,6 +5,7 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 import { Wallet } from 'decentr-js';
 
+import { svgDelegate } from '@shared/svg-icons/delegate';
 import { svgSend } from '@shared/svg-icons/send';
 import { svgWallet } from '@shared/svg-icons/wallet';
 import { NotificationService } from '@shared/services/notification';
@@ -27,6 +28,8 @@ export class UserPageComponent implements OnInit {
 
   public transferRoute: string[] = ['/', AppRoute.Portal, PortalRoute.Assets, PortalRoute.Transfer];
 
+  public stakingRoute: string[] = ['/', AppRoute.Portal, PortalRoute.Staking];
+
   public readonly headerMetaSlot = AUTHORIZED_LAYOUT_HEADER_META_SLOT;
 
   constructor(
@@ -38,6 +41,7 @@ export class UserPageComponent implements OnInit {
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register([
+      svgDelegate,
       svgSend,
       svgWallet,
     ]);
