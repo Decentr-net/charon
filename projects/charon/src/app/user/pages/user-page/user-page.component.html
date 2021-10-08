@@ -3,10 +3,19 @@
 ></app-network-selector>
 
 <ng-container *transloco="let translate; read: 'user.user_page'">
-  <div
-    class="user-page__card"
-  >
-    <router-outlet></router-outlet>
+  <div>
+    <div
+      class="user-page__card"
+    >
+      <router-outlet></router-outlet>
+    </div>
+
+    <div
+      class="user-page__card__app-version"
+      appTypeface="caption"
+    >
+      {{ translate('charon_version') }} {{ appVersion }}
+    </div>
   </div>
 
   <div

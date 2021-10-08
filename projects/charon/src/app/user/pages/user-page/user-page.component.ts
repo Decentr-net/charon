@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, pluck, switchMap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 import { Wallet } from 'decentr-js';
 
+import { version } from '../../../../../../../package.json';
 import { svgDelegate } from '@shared/svg-icons/delegate';
 import { svgSend } from '@shared/svg-icons/send';
 import { svgWallet } from '@shared/svg-icons/wallet';
@@ -22,6 +23,8 @@ import { PortalRoute } from '../../../portal';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserPageComponent implements OnInit {
+  @HostBinding('attr.version') public appVersion: string = version;
+
   public decBalance$: Observable<string>;
 
   public walletAddress$: Observable<Wallet['address']>;

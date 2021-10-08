@@ -20,6 +20,7 @@
     "title": "Account settings"
   },
   "user_page": {
+    "charon_version": "Charon version:",
     "copy_wallet_address": "Copy wallet address",
     "delegate": "Delegate",
     "send": "Send",
