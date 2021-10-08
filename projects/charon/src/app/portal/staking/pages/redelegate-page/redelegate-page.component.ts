@@ -219,6 +219,7 @@ export class RedelegatePageComponent implements OnInit {
         return EMPTY;
       }),
       switchMap(() => this.currencySymbolService.getSymbol()),
+      take(1),
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
     ).subscribe((currencySymbol) => {
