@@ -44,7 +44,7 @@
     "title": "Validator details"
   },
   "validators_page": {
-    "show_only_active": "Show only active",
+    "show_only_active": "Only active validators",
     "title": "Validators"
   },
   "validators_table": {
