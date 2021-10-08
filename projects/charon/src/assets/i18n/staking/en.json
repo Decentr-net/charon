@@ -17,7 +17,7 @@
         "label": "Delegate amount"
       },
       "validator_name": {
-        "commission": "Commission",
+        "commission": "Withdrawal commission",
         "label": "To validator"
       }
     },
@@ -79,7 +79,7 @@
           "isValidator": "Please, choose a validator",
           "required": "Validator is required"
         },
-        "commission": "Commission",
+        "commission": "Withdrawal commission",
         "label": "To validator",
         "placeholder": "Search or choose validator"
       }
@@ -105,6 +105,7 @@
         "label": "Undelegate amount"
       },
       "validator_address": {
+        "commission": "Withdrawal commission",
         "label": "From validator"
       }
     },

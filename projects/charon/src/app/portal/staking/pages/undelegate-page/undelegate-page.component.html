@@ -62,6 +62,13 @@
           appTypeface="subheader"
         >
           <span ngProjectAs="[label]">{{ translate('form.validator_address.label') }}</span>
+
+          <span
+            ngProjectAs="[footer]"
+            *ngIf="validatorCommission$ | async as validatorCommission"
+          >
+            {{ translate('form.validator_address.commission') }} {{ validatorCommission | percent }}
+          </span>
         </app-input>
       </app-input-container>
 
