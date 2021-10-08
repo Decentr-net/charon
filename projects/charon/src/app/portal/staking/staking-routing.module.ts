@@ -8,6 +8,7 @@ import {
   ValidatorDetailsPageComponent,
   ValidatorsPageComponent,
 } from './pages';
+import { ExistingValidatorGuard, STAKING_GUARDS } from './guards';
 import { StakingRoute } from './staking-route';
 
 const ROUTES: Routes = [
@@ -18,19 +19,28 @@ const ROUTES: Routes = [
   },
   {
     path: `:${StakingRoute.ValidatorAddressParam}`,
-    component: ValidatorDetailsPageComponent,
-  },
-  {
-    path: `:${StakingRoute.ValidatorAddressParam}/${StakingRoute.Delegate}`,
-    component: DelegatePageComponent,
-  },
-  {
-    path: `:${StakingRoute.ValidatorAddressParam}/${StakingRoute.Redelegate}`,
-    component: RedelegatePageComponent,
-  },
-  {
-    path: `:${StakingRoute.ValidatorAddressParam}/${StakingRoute.Undelegate}`,
-    component: UndelegatePageComponent,
+    canActivate: [
+      ExistingValidatorGuard,
+    ],
+    children: [
+      {
+        path: '',
+        component: ValidatorDetailsPageComponent,
+        pathMatch: 'full',
+      },
+      {
+        path: StakingRoute.Delegate,
+        component: DelegatePageComponent,
+      },
+      {
+        path: StakingRoute.Redelegate,
+        component: RedelegatePageComponent,
+      },
+      {
+        path: StakingRoute.Undelegate,
+        component: UndelegatePageComponent,
+      },
+    ],
   },
 ];
 
@@ -42,6 +52,7 @@ const ROUTES: Routes = [
     RouterModule,
   ],
   providers: [
+    STAKING_GUARDS,
   ],
 })
 export class StakingRoutingModule {
