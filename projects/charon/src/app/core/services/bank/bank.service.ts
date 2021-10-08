@@ -30,12 +30,9 @@ export class BankService {
   }
 
   public getDECBalance(walletAddress: Wallet['address']): Observable<BankCoin['amount']> {
-    const apiUrl = this.networkService.getActiveNetworkAPIInstant();
-
-    return defer(() => this.bankApiService.getCoinBalance(apiUrl, walletAddress)).pipe(
-      map((coins) => {
-        return coins.find(({ denom }) => denom === 'udec')?.amount || '0';
-      }),
+    return this.networkService.getActiveNetworkAPI().pipe(
+      switchMap((apiUrl) => this.bankApiService.getCoinBalance(apiUrl, walletAddress)),
+      map((coins) => coins.find(({ denom }) => denom === 'udec')?.amount || '0'),
     );
   }
 
