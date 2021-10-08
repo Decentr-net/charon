@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, defer, Observable, timer } from 'rxjs';
-import { map, mapTo, pluck, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
+import { filter, map, mapTo, pluck, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
 import { ValidatorFn } from '@ngneat/reactive-forms';
 import { Validator } from 'decentr-js';
 
@@ -31,6 +31,7 @@ export class UndelegatePageService {
     return combineLatest([
       this.authService.getActiveUser().pipe(
         pluck('wallet', 'address'),
+        filter((walletAddress) => !!walletAddress),
       ),
       this.networkService.getActiveNetworkAPI(),
     ]).pipe(
@@ -43,6 +44,7 @@ export class UndelegatePageService {
     return combineLatest([
       this.authService.getActiveUser().pipe(
         pluck('wallet', 'address'),
+        filter((walletAddress) => !!walletAddress),
       ),
       this.networkService.getActiveNetworkAPI(),
     ]).pipe(

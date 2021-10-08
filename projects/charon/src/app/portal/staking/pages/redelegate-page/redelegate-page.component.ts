@@ -165,7 +165,6 @@ export class RedelegatePageComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    console.log(this.form);
     if (this.form.invalid) {
       this.ngForm.onSubmit(void 0);
       return;
