@@ -3,9 +3,13 @@ import {
   Delegation,
   getDelegations,
   getPool,
-  getValidator, getValidatorDelegations,
+  getRedelegations,
+  getValidator,
+  getValidatorDelegations,
   getValidators,
   Pool,
+  Redelegation,
+  RedelegationsFilterParameters,
   Validator,
   ValidatorsFilterParameters,
   Wallet,
@@ -27,6 +31,10 @@ export class StakingApiService {
 
   public getPool(api: string): Promise<Pool> {
     return getPool(api);
+  }
+
+  public getRedelegations(api: string, filter?: RedelegationsFilterParameters): Promise<Redelegation[]> {
+    return getRedelegations(api, filter);
   }
 
   public getValidators(api: string, filter?: ValidatorsFilterParameters): Promise<Validator[]> {

@@ -7,8 +7,9 @@ import {
   calculateCreateUnbondingDelegationFee,
   Delegation,
   Pool,
+  Redelegation,
   Validator,
-  ValidatorStatus
+  ValidatorStatus,
 } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
@@ -178,6 +179,32 @@ export class StakingService {
         validatorAddress,
         walletAddress,
       )),
+    );
+  }
+
+  public getRedelegations(toValidator: Validator['operator_address']): Observable<Redelegation[]> {
+    return combineLatest([
+      this.authService.getActiveUser().pipe(
+        pluck('wallet', 'address'),
+      ),
+      this.networkService.getActiveNetworkAPI(),
+    ]).pipe(
+      switchMap(([walletAddress, api]) => this.stakingApiService.getRedelegations(
+        api,
+        {
+          delegator: walletAddress,
+          validator_to: toValidator,
+        },
+      )),
+    );
+  }
+
+  public getRedelegationAvailableTime(fromValidator: Validator['operator_address']): Observable<number | undefined> {
+    return this.getRedelegations(fromValidator).pipe(
+      map((redelegation) => redelegation[0]?.entries || []),
+      map((entries) => entries.map((entry) => Date.parse(entry.completion_time))),
+      map((times) => times.sort((left, right) => right - left)),
+      map((sortedTimesDesc) => sortedTimesDesc[0]),
     );
   }
 
