@@ -7,7 +7,7 @@ import {
   calculateCreateUnbondingDelegationFee,
   Delegation,
   Pool,
-  Redelegation,
+  Redelegation, RedelegationsFilterParameters, StakingParameters,
   Validator,
   ValidatorStatus,
 } from 'decentr-js';
@@ -182,7 +182,7 @@ export class StakingService {
     );
   }
 
-  public getRedelegations(toValidator: Validator['operator_address']): Observable<Redelegation[]> {
+  public getRedelegations(filter?: Omit<RedelegationsFilterParameters, 'delegator'>): Observable<Redelegation[]> {
     return combineLatest([
       this.authService.getActiveUser().pipe(
         pluck('wallet', 'address'),
@@ -192,18 +192,29 @@ export class StakingService {
       switchMap(([walletAddress, api]) => this.stakingApiService.getRedelegations(
         api,
         {
+          ...filter,
           delegator: walletAddress,
-          validator_to: toValidator,
         },
       )),
     );
   }
 
-  public getRedelegationAvailableTime(fromValidator: Validator['operator_address']): Observable<number | undefined> {
-    return this.getRedelegations(fromValidator).pipe(
-      map((redelegation) => redelegation[0]?.entries || []),
-      map((entries) => entries.map((entry) => Date.parse(entry.completion_time))),
+  public getRedelegationFromAvailableTime(fromValidator: Validator['operator_address']): Observable<number | undefined> {
+    return this.getRedelegationsTimes({ validator_from: fromValidator }).pipe(
       map((times) => times.sort((left, right) => right - left)),
+      map((sortedTimesDesc) => sortedTimesDesc[0]),
+    );
+  }
+
+  public getRedelegationFromToAvailableTime(
+    fromValidator: Validator['operator_address'],
+    toValidator: Validator['operator_address'],
+  ): Observable<number | undefined> {
+    return this.getRedelegationsTimes({
+      validator_from: fromValidator,
+      validator_to: toValidator,
+    }).pipe(
+      map((times) => times.sort((left, right) => left - right)),
       map((sortedTimesDesc) => sortedTimesDesc[0]),
     );
   }
@@ -236,6 +247,21 @@ export class StakingService {
   public getValidator(address: Validator['operator_address']): Observable<Validator> {
     return this.networkService.getActiveNetworkAPI().pipe(
       switchMap((api) => this.stakingApiService.getValidator(api, address)),
+    );
+  }
+
+  public getStakingParameters(): Observable<StakingParameters> {
+    return this.networkService.getActiveNetworkAPI().pipe(
+      switchMap((api) => this.stakingApiService.getStakingParameters(api)),
+    );
+  }
+
+  private getRedelegationsTimes(filter?: Omit<RedelegationsFilterParameters, 'delegator'>): Observable<number[]> {
+    return this.getRedelegations(filter).pipe(
+      map((redelegations) => redelegations
+        .reduce((acc, item) => [...acc, ...item.entries], [])
+      ),
+      map((entries) => entries.map((entry) => Date.parse(entry.completion_time))),
     );
   }
 }

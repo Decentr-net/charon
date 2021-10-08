@@ -4,12 +4,14 @@ import {
   getDelegations,
   getPool,
   getRedelegations,
+  getStakingParameters,
   getValidator,
   getValidatorDelegations,
   getValidators,
   Pool,
   Redelegation,
   RedelegationsFilterParameters,
+  StakingParameters,
   Validator,
   ValidatorsFilterParameters,
   Wallet,
@@ -43,5 +45,9 @@ export class StakingApiService {
 
   public getValidator(api: string, address: Validator['operator_address']): Promise<Validator> {
     return getValidator(api, address);
+  }
+
+  public getStakingParameters(api: string): Promise<StakingParameters> {
+    return getStakingParameters(api);
   }
 }
