@@ -17,6 +17,7 @@ import {
 import { Validator } from 'decentr-js';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
@@ -66,6 +67,7 @@ export class DelegatePageComponent implements OnInit {
     private notificationService: NotificationService,
     private spinnerService: SpinnerService,
     private svgIconRegistry: SvgIconRegistry,
+    private translocoService: TranslocoService,
   ) {
   }
 
@@ -162,7 +164,13 @@ export class DelegatePageComponent implements OnInit {
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
     ).subscribe(() => {
-      this.notificationService.success('Successfully delegated');
+      this.notificationService.success(
+        this.translocoService.translate(
+        'staking.delegate_page.notification.success',
+        { amount: formValue.amount, validator: formValue.validatorName },
+        ),
+      );
+
       this.delegatePageService.navigateBack();
     });
   }

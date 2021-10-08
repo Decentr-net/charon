@@ -21,6 +21,9 @@
         "label": "To validator"
       }
     },
+    "notification": {
+      "success": "{{ amount }} successfully delegated to {{ validator }}"
+    },
     "title": "Delegate",
     "warning": {
       "title": "Staking will lock your funds for 21+ days",
@@ -84,6 +87,9 @@
         "placeholder": "Search or choose validator"
       }
     },
+    "notification": {
+      "success": "{{ amount }} successfully redelegated to {{ validator }}"
+    },
     "title": "Redelegate from"
   },
   "undelegate_page": {
@@ -112,6 +118,9 @@
     "hint": {
       "title": "Trying to switch validators?",
       "subtitle": "Use the ‘Redelegate’ feature to instantly stake your assets to another validator."
+    },
+    "notification": {
+      "success": "{{ amount }} successfully undelegated from {{ validator }}"
     },
     "title": "Undelegate",
     "warning": {

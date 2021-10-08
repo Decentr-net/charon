@@ -16,6 +16,7 @@ import {
 import { Validator } from 'decentr-js';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
@@ -69,6 +70,7 @@ export class RedelegatePageComponent implements OnInit {
     private notificationService: NotificationService,
     private spinnerService: SpinnerService,
     private svgIconRegistry: SvgIconRegistry,
+    private translocoService: TranslocoService,
   ) {
   }
 
@@ -186,7 +188,13 @@ export class RedelegatePageComponent implements OnInit {
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
     ).subscribe(() => {
-      this.notificationService.success('Successfully undelegated');
+      this.notificationService.success(
+        this.translocoService.translate(
+          'staking.redelegate_page.notification.success',
+          { amount: formValue.amount, validator: formValue.toValidator.description.moniker },
+        ),
+      );
+
       this.redelegatePageService.navigateBack();
     });
   }
