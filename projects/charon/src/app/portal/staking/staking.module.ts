@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
@@ -23,7 +25,6 @@ import { NumberFormatModule } from '@shared/pipes/number-format';
 import { STAKING_COMPONENTS } from './components';
 import { STAKING_PAGES } from './pages';
 import { StakingRoutingModule } from './staking-routing.module';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     InputContainerModule,
     InputModule,
     LinkModule,
+    MatSlideToggleModule,
     MicroValueModule,
     NgxSkeletonLoaderModule,
     NumberFormatModule,

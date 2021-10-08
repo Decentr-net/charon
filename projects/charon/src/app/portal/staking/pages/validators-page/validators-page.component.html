@@ -5,6 +5,13 @@
     {{ translate('title') }}
   </ng-container>
 
+  <mat-slide-toggle
+    ngProjectAs="[card-show-more]"
+    [formControl]="onlyBondedFormControl"
+  >
+    {{ translate('show_only_active') }}
+  </mat-slide-toggle>
+
   <app-validators-table
     class="validators-page__table"
     ngProjectAs="[card-body]"
