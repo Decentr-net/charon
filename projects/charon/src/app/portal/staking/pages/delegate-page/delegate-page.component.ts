@@ -134,7 +134,7 @@ export class DelegatePageComponent implements OnInit {
     ]).pipe(
       take(1),
       switchMap(([balance, validatorAddress]) => this.delegatePageService.getDelegationFee(validatorAddress, balance).pipe(
-        map((fee) => (balance - +fee) / MICRO_PDV_DIVISOR),
+        map((fee) => (balance - Math.ceil(+fee)) / MICRO_PDV_DIVISOR),
       )),
       filter((allTokens) => amountControl.value !== allTokens),
       finalize(() => this.spinnerService.hideSpinner()),
