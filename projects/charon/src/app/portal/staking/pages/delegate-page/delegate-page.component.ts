@@ -20,6 +20,7 @@ import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+import { CurrencySymbolService } from '@shared/components/currency-symbol';
 import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
 import { svgSpeedometer } from '@shared/svg-icons/speedometer';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
@@ -62,6 +63,7 @@ export class DelegatePageComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private currencySymbolService: CurrencySymbolService,
     private delegatePageService: DelegatePageService,
     private formBuilder: FormBuilder,
     private notificationService: NotificationService,
@@ -161,13 +163,18 @@ export class DelegatePageComponent implements OnInit {
         this.notificationService.error(error);
         return EMPTY;
       }),
+      switchMap(() => this.currencySymbolService.getSymbol()),
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
-    ).subscribe(() => {
+    ).subscribe((currencySymbol) => {
       this.notificationService.success(
         this.translocoService.translate(
-        'staking.delegate_page.notification.success',
-        { amount: formValue.amount, validator: formValue.validatorName },
+          'staking.delegate_page.notification.success',
+          {
+            amount: formValue.amount,
+            validator: formValue.validatorName,
+            currencySymbol,
+          },
         ),
       );
 

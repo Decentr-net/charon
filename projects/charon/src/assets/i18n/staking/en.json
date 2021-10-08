@@ -22,7 +22,7 @@
       }
     },
     "notification": {
-      "success": "{{ amount }} successfully delegated to {{ validator }}"
+      "success": "{{ amount }} {{ currencySymbol }} successfully delegated to {{ validator }}"
     },
     "title": "Delegate",
     "warning": {
@@ -98,7 +98,7 @@
       }
     },
     "notification": {
-      "success": "{{ amount }} successfully redelegated to {{ validator }}"
+      "success": "{{ amount }} {{ currencySymbol }} successfully redelegated to {{ validator }}"
     },
     "title": "Redelegate from"
   },
@@ -130,7 +130,7 @@
       "subtitle": "Use the ‘Redelegate’ feature to instantly stake your assets to another validator."
     },
     "notification": {
-      "success": "{{ amount }} successfully undelegated from {{ validator }}"
+      "success": "{{ amount }} {{ currencySymbol }} successfully undelegated from {{ validator }}"
     },
     "title": "Undelegate"
   }
