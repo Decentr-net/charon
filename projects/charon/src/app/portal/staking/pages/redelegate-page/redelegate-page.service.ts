@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, defer, Observable, timer } from 'rxjs';
-import { map, pluck, shareReplay, switchMap, switchMapTo, take } from 'rxjs/operators';
+import { map, mapTo, pluck, shareReplay, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
 import { ValidatorFn } from '@ngneat/reactive-forms';
 import { Validator } from 'decentr-js';
 
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { AuthService } from '@core/auth';
 import { BankService, NetworkService, StakingService } from '@core/services';
-
 
 @Injectable()
 export class RedelegatePageService {
@@ -32,6 +32,18 @@ export class RedelegatePageService {
     return 1 / MICRO_PDV_DIVISOR;
   }
 
+  public getBalance(): Observable<number> {
+    return combineLatest([
+      this.authService.getActiveUser().pipe(
+        pluck('wallet', 'address'),
+      ),
+      this.networkService.getActiveNetworkAPI(),
+    ]).pipe(
+      switchMap(([walletAddress]) => this.bankService.getDECBalance(walletAddress)),
+      map((balance) => +balance),
+    );
+  }
+
   public getDelegatedAmount(validatorAddress: Validator['operator_address']): Observable<number> {
     return combineLatest([
       this.authService.getActiveUser().pipe(
@@ -50,6 +62,14 @@ export class RedelegatePageService {
 
   public getValidators(): Observable<Validator[]> {
     return this.validators$;
+  }
+
+  public getRedelegationFee(
+    fromValidatorAddress: Validator['operator_address'],
+    toValidatorAddress: Validator['operator_address'],
+    amount: string,
+  ): Observable<number> {
+    return this.stakingService.getRedelegationFee(fromValidatorAddress, toValidatorAddress, amount);
   }
 
   public redelegate(
@@ -71,7 +91,7 @@ export class RedelegatePageService {
   }
 
   public createAsyncAmountValidator(
-    balance$: Observable<number>,
+    delegatedAmount$: Observable<number>,
   ): ValidatorFn<string> {
     return (amountControl) => {
       const amount = parseFloat(amountControl.value.toString());
@@ -81,11 +101,38 @@ export class RedelegatePageService {
       }
 
       return timer(300).pipe(
-        switchMapTo(balance$),
+        switchMapTo(delegatedAmount$),
         take(1),
-        map((balance) => {
-          return balance / MICRO_PDV_DIVISOR >= amount ? null : { insufficient: false };
+        map((delegatedAmount) => {
+          return delegatedAmount / MICRO_PDV_DIVISOR >= amount ? null : { insufficient: false };
         }),
+      );
+    };
+  }
+
+  public createAsyncBalanceValidator(
+    amountControl: AbstractControl,
+    fee$: Observable<number>,
+  ): ValidatorFn<string> {
+    return () => {
+      const amount = parseFloat(amountControl.value.toString());
+
+      if (isNaN(amount)) {
+        return null;
+      }
+
+      return timer(300).pipe(
+        switchMap(() => combineLatest([
+          this.getBalance(),
+          fee$,
+        ])),
+        take(1),
+        tap(([balance, fee]) => {
+          const error = (balance - fee) / MICRO_PDV_DIVISOR >= amount ? null : { insufficientBalance: false };
+          const amountErrors = amountControl.errors || error;
+          amountControl.setErrors(amountErrors);
+        }),
+        mapTo(null),
       );
     };
   }

@@ -1,8 +1,18 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, EMPTY, Observable } from 'rxjs';
-import { catchError, finalize, map, pluck, shareReplay, startWith, switchMap, take } from 'rxjs/operators';
+import { combineLatest, EMPTY, Observable, of } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  finalize,
+  map,
+  pluck,
+  shareReplay,
+  startWith,
+  switchMap,
+  take
+} from 'rxjs/operators';
 import { Validator } from 'decentr-js';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
@@ -44,6 +54,8 @@ export class RedelegatePageComponent implements OnInit {
 
   public form: FormGroup<RedelegateForm>;
 
+  public fee$: Observable<number>;
+
   public fromValidatorName$: Observable<Validator['description']['moniker']>;
 
   public toValidatorCommission$: Observable<Validator['commission']['commission_rates']['rate']>;
@@ -80,6 +92,23 @@ export class RedelegatePageComponent implements OnInit {
     );
 
     this.form = this.createForm(this.delegatedAmount$);
+
+    this.fee$ = this.form.valueChanges.pipe(
+      debounceTime(300),
+      startWith(this.form.getRawValue()),
+      switchMap((formValue) => this.redelegatePageService.getRedelegationFee(
+        formValue.fromValidatorAddress,
+        formValue.toValidator?.operator_address,
+        (+formValue.amount * MICRO_PDV_DIVISOR).toString(),
+      ).pipe(
+        catchError(() => of(0)),
+      )),
+    );
+
+    const amountControl = this.form.get('amount');
+    this.form.setAsyncValidators([
+      this.redelegatePageService.createAsyncBalanceValidator(amountControl, this.fee$),
+    ]);
 
     validatorAddress$.pipe(
       untilDestroyed(this),
@@ -176,7 +205,7 @@ export class RedelegatePageComponent implements OnInit {
         ],
       ],
       fromValidatorAddress: [
-        { value: '', disabled: true },
+        '',
       ],
       toValidator: [
         null,

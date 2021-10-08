@@ -3,6 +3,7 @@ import { combineLatest, defer, forkJoin, Observable } from 'rxjs';
 import { map, pluck, switchMap } from 'rxjs/operators';
 import {
   calculateCreateDelegationFee,
+  calculateCreateRedelegationFee,
   calculateCreateUnbondingDelegationFee,
   Delegation,
   Pool,
@@ -90,6 +91,29 @@ export class StakingService {
 
         return void 0;
       }),
+    );
+  }
+
+  public getRedelegationFee(
+    fromValidatorAddress: Validator['operator_address'],
+    toValidatorAddress: Validator['operator_address'],
+    amount: string,
+  ): Observable<number> {
+    return this.configService.getChainId().pipe(
+      switchMap((chainId) => defer(() => calculateCreateRedelegationFee(
+        this.networkService.getActiveNetworkAPIInstant(),
+        chainId,
+        {
+          delegator_address: this.authService.getActiveUserInstant().wallet.address,
+          validator_src_address: fromValidatorAddress,
+          validator_dst_address: toValidatorAddress,
+          amount: {
+            amount: amount.toString(),
+            denom: DENOM,
+          },
+        },
+      ))),
+      map((fee) => +fee[0]?.amount),
     );
   }
 
