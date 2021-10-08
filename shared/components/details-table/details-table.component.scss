@@ -1,0 +1,31 @@
+@import '../../styles/variables';
+
+:host {
+  display: flex;
+  font-weight: 500;
+
+  &:not(.mod-tab-view) {
+    display: block;
+
+    .details-table__divider {
+      display: none;
+    }
+  }
+}
+
+.details-table__cell {
+  padding: $grid-step 0;
+  width: 100%;
+  word-break: break-word;
+}
+
+.details-table__cell__title {
+  color: $color-grey;
+}
+
+.details-table__divider {
+  background-color: $color-outlines;
+  flex-shrink: 0;
+  margin: 0 $grid-step * 3;
+  width: 2px;
+}

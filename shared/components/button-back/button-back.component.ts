@@ -4,7 +4,7 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { svgArrowLeft } from '../../svg-icons/arrow-left';
 
 @Component({
-  selector: 'button[app-button-back]',
+  selector: 'button[app-button-back], a[app-button-back]',
   templateUrl: './button-back.component.html',
   styleUrls: ['./button-back.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

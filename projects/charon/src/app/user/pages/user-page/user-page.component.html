@@ -3,10 +3,19 @@
 ></app-network-selector>
 
 <ng-container *transloco="let translate; read: 'user.user_page'">
-  <div
-    class="user-page__card"
-  >
-    <router-outlet></router-outlet>
+  <div>
+    <div
+      class="user-page__card"
+    >
+      <router-outlet></router-outlet>
+    </div>
+
+    <div
+      class="user-page__card__app-version"
+      appTypeface="caption"
+    >
+      {{ translate('charon_version') }} {{ appVersion }}
+    </div>
   </div>
 
   <div
@@ -17,6 +26,18 @@
       appTypeface="subheader"
     >
       {{ translate('your_wallet') }}
+
+      <button
+        app-button
+        color="grey"
+        size="xs"
+        appTypeface="caption"
+        [cdkCopyToClipboard]="walletAddress$ | async"
+        (cdkCopyToClipboardCopied)="onWalletAddressCopied()"
+      >
+        <svg-icon key="wallet" size="xs"></svg-icon>
+        {{ translate('copy_wallet_address') }}
+      </button>
     </div>
 
     <ng-container *ngIf="decBalance$ | async as decBalance; else balanceLoading">
@@ -38,15 +59,15 @@
         </button>
       </a>
 
-      <button
-        app-button
-        color="grey"
-        [cdkCopyToClipboard]="walletAddress$ | async"
-        (cdkCopyToClipboardCopied)="onWalletAddressCopied()"
-      >
-        <svg-icon key="wallet"></svg-icon>
-        {{ translate('copy_wallet_address') }}
-      </button>
+      <a [routerLink]="stakingRoute">
+        <button
+          app-button
+          color="grey"
+        >
+          <svg-icon key="delegate"></svg-icon>
+          {{ translate('delegate') }}
+        </button>
+      </a>
     </div>
   </div>
 </ng-container>

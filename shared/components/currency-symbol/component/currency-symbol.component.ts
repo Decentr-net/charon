@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NetworkBrowserStorageService } from '../../services/network-storage';
-import { map } from 'rxjs/operators';
+
+import { CurrencySymbolService } from '../currency-symbol.service';
 
 @Component({
   selector: 'app-currency-symbol',
@@ -13,22 +13,11 @@ export class CurrencySymbolComponent implements OnInit {
   public symbol$: Observable<string>;
 
   constructor(
-    private networkBrowserStorageService: NetworkBrowserStorageService
+    private currencySymbolService: CurrencySymbolService,
   ) {
   }
 
   public ngOnInit(): void {
-    this.symbol$ = this.networkBrowserStorageService.getActiveId().pipe(
-      map((networkId) => {
-        switch (networkId) {
-          case 'testnet': {
-            return 'tDEC';
-          }
-          default: {
-            return 'DEC';
-          }
-        }
-      }),
-    );
+    this.symbol$ = this.currencySymbolService.getSymbol();
   }
 }

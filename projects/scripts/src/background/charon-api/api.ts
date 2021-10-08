@@ -6,6 +6,7 @@ import {
   PostIdentificationParameters,
   StdTxMessageType,
   TransferData,
+  Validator,
   Wallet,
 } from 'decentr-js';
 import { mergeMap } from 'rxjs/operators';
@@ -15,6 +16,8 @@ import { NetworkBrowserStorageService } from '../../../../../shared/services/net
 
 const configService = CONFIG_SERVICE;
 const networkStorage = new NetworkBrowserStorageService();
+
+const DENOM = 'udec';
 
 const getApi = () => networkStorage.getActiveAPIInstant();
 
@@ -129,6 +132,80 @@ export const resetAccount = (
     mergeMap((chainId) => new Decentr(getApi(), chainId).operations.resetAccount(
       walletAddress,
       initiator,
+      {
+        broadcast: true,
+        privateKey,
+      },
+    )),
+  ).toPromise();
+};
+
+export const delegate = (
+  walletAddress: Wallet['address'],
+  validatorAddress: Validator['operator_address'],
+  amount: string,
+  privateKey: Wallet['privateKey'],
+): Promise<BroadcastResponse<StdTxMessageType.CosmosDelegate>> => {
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).staking.createDelegation(
+      {
+        delegator_address: walletAddress,
+        validator_address: validatorAddress,
+        amount: {
+          amount,
+          denom: DENOM,
+        },
+      },
+      {
+        broadcast: true,
+        privateKey,
+      },
+    )),
+  ).toPromise();
+};
+
+export const redelegate = (
+  walletAddress: Wallet['address'],
+  fromValidatorAddress: Validator['operator_address'],
+  toValidatorAddress: Validator['operator_address'],
+  amount: string,
+  privateKey: Wallet['privateKey'],
+): Promise<BroadcastResponse<StdTxMessageType.CosmosBeginRedelegate>> => {
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).staking.createRedelegation(
+      {
+        delegator_address: walletAddress,
+        validator_src_address: fromValidatorAddress,
+        validator_dst_address: toValidatorAddress,
+        amount: {
+          amount,
+          denom: DENOM,
+        },
+      },
+      {
+        broadcast: true,
+        privateKey,
+      },
+    )),
+  ).toPromise();
+};
+
+export const undelegate = (
+  walletAddress: Wallet['address'],
+  validatorAddress: Validator['operator_address'],
+  amount: string,
+  privateKey: Wallet['privateKey'],
+): Promise<BroadcastResponse<StdTxMessageType.CosmosUndelegate>> => {
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).staking.createUnbondingDelegation(
+      {
+        delegator_address: walletAddress,
+        validator_address: validatorAddress,
+        amount: {
+          amount,
+          denom: DENOM,
+        },
+      },
       {
         broadcast: true,
         privateKey,

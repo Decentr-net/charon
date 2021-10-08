@@ -1,0 +1,32 @@
+<app-staking-layout
+  *transloco="let translate; read: 'staking.validators_page'"
+>
+  <ng-container ngProjectAs="[card-title]">
+    {{ translate('title') }}
+  </ng-container>
+
+  <mat-slide-toggle
+    ngProjectAs="[card-show-more]"
+    [formControl]="onlyBondedFormControl"
+  >
+    {{ translate('show_only_active') }}
+  </mat-slide-toggle>
+
+  <app-validators-table
+    class="validators-page__table"
+    ngProjectAs="[card-body]"
+    *ngIf="validators$ | async as validators; else tablesLoading;"
+    [data]="validators"
+  ></app-validators-table>
+</app-staking-layout>
+
+<ng-template #tablesLoading>
+  <ngx-skeleton-loader
+    class="validators-page__loading"
+    count="10"
+    [theme]="{
+      height: '40px',
+      width: '100%'
+    }"
+  ></ngx-skeleton-loader>
+</ng-template>

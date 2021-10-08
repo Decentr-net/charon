@@ -1,0 +1,48 @@
+<app-data-table
+  *transloco="let translate; read: 'staking.validators_table'"
+  [data]="data"
+  [trackBy]="trackByAddress"
+>
+  <div
+    *dataTableColumnDef="let validator; name: translate('validator')"
+    class="validators-table__validator"
+  >
+    <a [routerLink]="[validator.address]">
+      {{ validator.name }}
+    </a>
+
+    <app-validator-jailed
+      *ngIf="validator.jailed"
+      class="validators-table__validator-jailed"
+    >
+      {{ translate('jailed') }}
+    </app-validator-jailed>
+  </div>
+
+  <ng-container *dataTableColumnDef="let validator; name: translate('voting_power')">
+    {{ validator.tokens | microValue | numberFormat : '1.0-0' : true }}
+
+    <div
+      class="validators-table__voting-power-percent"
+      appTypeface="caption"
+    >
+      {{ validator.votingPower | percent : '1.0-2' }}
+    </div>
+  </ng-container>
+
+  <app-validator-status
+    *dataTableColumnDef="let validator; name: translate('status')"
+    [status]="validator.status"
+    class="validators-table__validator-status"
+  ></app-validator-status>
+
+  <ng-container *dataTableColumnDef="let validator; name: translate('commission')">
+    {{ validator.commission | percent }}
+  </ng-container>
+
+  <ng-container *dataTableColumnDef="let validator; name: translate('delegated')">
+    <div [class.mod-empty]="!+validator.delegated">
+      {{ validator.delegated && (validator.delegated | microValue | numberFormat : null : true) || '0' }}
+    </div>
+  </ng-container>
+</app-data-table>
