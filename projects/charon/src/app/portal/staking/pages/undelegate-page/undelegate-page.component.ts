@@ -95,7 +95,6 @@ export class UndelegatePageComponent implements OnInit {
           )
         : of(0)
       ),
-      share(),
     );
 
     const amountControl = this.form.get('amount');
