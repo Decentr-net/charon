@@ -55,14 +55,6 @@
     margin-top: $grid-step;
   }
 
-  &.mod-warning {
-    background-color: rgba($color-red, 0.12);
-
-    .undelegate-page__info__block__icon {
-      color: $color-red;
-    }
-  }
-
   &.mod-hint {
     background-color: rgba($color-blue, 0.12);
 

@@ -26,8 +26,8 @@
     },
     "title": "Delegate",
     "warning": {
-      "title": "Staking will lock your funds for 21+ days",
-      "subtitle": "You will need to undelegate in order for your staked assets to be liquid again.\nThis process will take 21 days to complete."
+      "title": "Staking will lock your funds",
+      "subtitle": "You will need to undelegate in order for your staked assets to be liquid again."
     }
   },
   "validator_details": {
@@ -132,10 +132,6 @@
     "notification": {
       "success": "{{ amount }} successfully undelegated from {{ validator }}"
     },
-    "title": "Undelegate",
-    "warning": {
-      "title": "Once the unbonding period begins you will:",
-      "subtitle": "- not receive staking rewards\n- not be able to cancel the unbonding\n- need to wait 21 days for the amount to be liquid"
-    }
+    "title": "Undelegate"
   }
 }
