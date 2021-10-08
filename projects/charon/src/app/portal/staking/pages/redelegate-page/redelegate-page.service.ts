@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, defer, Observable, timer } from 'rxjs';
+import { combineLatest, Observable, timer } from 'rxjs';
 import { filter, map, mapTo, pluck, shareReplay, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
 import { ValidatorFn } from '@ngneat/reactive-forms';
 import { Validator } from 'decentr-js';
@@ -59,7 +59,7 @@ export class RedelegatePageService {
   }
 
   public getValidator(address: Validator['operator_address']): Observable<Validator> {
-    return defer(() => this.stakingService.getValidator(address));
+    return this.stakingService.getValidator(address);
   }
 
   public getValidators(): Observable<Validator[]> {
@@ -155,16 +155,10 @@ export class RedelegatePageService {
     return this.stakingService.getRedelegationFromAvailableTime(fromValidator);
   }
 
-  public getRedelegationFromToAvailableTime(
+  public getRedelegationToAvailableTime(
     fromValidator: Validator['operator_address'],
     toValidator: Validator['operator_address'],
   ): Observable<number | undefined> {
-    return this.stakingService.getRedelegationFromToAvailableTime(fromValidator, toValidator);
-  }
-
-  public getMaxRedelegationEntries(): Observable<number> {
-    return this.stakingService.getStakingParameters().pipe(
-      map((params) => params.max_entries),
-    );
+    return this.stakingService.getRedelegationToAvailableTime(fromValidator, toValidator);
   }
 }

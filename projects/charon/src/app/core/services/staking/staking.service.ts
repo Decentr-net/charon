@@ -7,7 +7,9 @@ import {
   calculateCreateUnbondingDelegationFee,
   Delegation,
   Pool,
-  Redelegation, RedelegationsFilterParameters, StakingParameters,
+  Redelegation,
+  RedelegationsFilterParameters,
+  StakingParameters,
   Validator,
   ValidatorStatus,
 } from 'decentr-js';
@@ -206,14 +208,20 @@ export class StakingService {
     );
   }
 
-  public getRedelegationFromToAvailableTime(
+  public getRedelegationToAvailableTime(
     fromValidator: Validator['operator_address'],
     toValidator: Validator['operator_address'],
   ): Observable<number | undefined> {
-    return this.getRedelegationsTimes({
-      validator_from: fromValidator,
-      validator_to: toValidator,
-    }).pipe(
+    return combineLatest([
+      this.getRedelegationsTimes({
+        validator_from: fromValidator,
+        validator_to: toValidator,
+      }),
+      this.getStakingParameters().pipe(
+        pluck('max_entries')
+      ),
+    ]).pipe(
+      map(([times, maxEntries]) => times.length >= maxEntries ? times : []),
       map((times) => times.sort((left, right) => left - right)),
       map((sortedTimesDesc) => sortedTimesDesc[0]),
     );

@@ -64,6 +64,16 @@
       "redelegate_all": "Redelegate all",
       "submit": "Redelegate"
     },
+    "extended_errors": {
+      "in_progress": {
+        "title": "Redelegation to this validator already in progress",
+        "text": "First redelegations to the source validator must complete before next redelegation.\nRedelegation will be available after:"
+      },
+      "limit": {
+        "title": "Limit of simultaneous redelegations is reached",
+        "text": "At least one redelegation to this validator must complete before next redelegation.\nRedelegation will be available after:"
+      }
+    },
     "form": {
       "amount": {
         "errors": {

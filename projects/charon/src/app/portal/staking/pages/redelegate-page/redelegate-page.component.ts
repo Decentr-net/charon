@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, EMPTY, Observable, of } from 'rxjs';
@@ -60,14 +60,17 @@ export class RedelegatePageComponent implements OnInit {
 
   public fromValidatorName$: Observable<Validator['description']['moniker']>;
 
-  public redelegationFromMinTime$: Observable<number>;
-
   public toValidatorCommission$: Observable<Validator['commission']['commission_rates']['rate']>;
 
   public validatorsFilteredOptions$: Observable<SelectOption<Validator>[]>;
 
+  public redelegationFromAvailableTime: number | undefined;
+
+  public redelegationToAvailableTime: number | undefined;
+
   constructor(
     private activatedRoute: ActivatedRoute,
+    private changeDetectorRef: ChangeDetectorRef,
     private redelegatePageService: RedelegatePageService,
     private formBuilder: FormBuilder,
     private notificationService: NotificationService,
@@ -87,10 +90,13 @@ export class RedelegatePageComponent implements OnInit {
       pluck(StakingRoute.ValidatorAddressParam),
     );
 
-    this.redelegationFromMinTime$ = validatorAddress$.pipe(
+    validatorAddress$.pipe(
       switchMap((validatorAddress) => this.redelegatePageService.getRedelegationFromAvailableTime(validatorAddress)),
-      startWith(undefined),
-    );
+      untilDestroyed(this),
+    ).subscribe((redelegationFromAvailableTime) => {
+      this.redelegationFromAvailableTime = redelegationFromAvailableTime;
+      this.changeDetectorRef.markForCheck();
+    });
 
     this.fromValidatorName$ = validatorAddress$.pipe(
       switchMap((validatorAddress: string) => this.redelegatePageService.getValidator(validatorAddress)),
@@ -103,6 +109,22 @@ export class RedelegatePageComponent implements OnInit {
     );
 
     this.form = this.createForm(this.delegatedAmount$);
+
+    combineLatest([
+      this.form.value$.pipe(
+        pluck('toValidator', 'operator_address'),
+      ),
+      validatorAddress$,
+    ]).pipe(
+      switchMap(([toValidator, fromValidator]) => toValidator
+        ? this.redelegatePageService.getRedelegationToAvailableTime(fromValidator, toValidator)
+        : of(undefined)
+      ),
+      untilDestroyed(this),
+    ).subscribe((redelegationToAvailableTime) => {
+      this.redelegationToAvailableTime = redelegationToAvailableTime;
+      this.changeDetectorRef.markForCheck();
+    });
 
     this.fee$ = this.form.value$.pipe(
       debounceTime(300),

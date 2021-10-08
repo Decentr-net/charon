@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, defer, Observable, timer } from 'rxjs';
+import { combineLatest, Observable, timer } from 'rxjs';
 import { filter, map, mapTo, pluck, switchMap, take, tap } from 'rxjs/operators';
 import { ValidatorFn } from '@ngneat/reactive-forms';
 import { Validator } from 'decentr-js';
@@ -47,7 +47,7 @@ export class DelegatePageService {
   }
 
   public getValidator(address: Validator['operator_address']): Observable<Validator> {
-    return defer(() => this.stakingService.getValidator(address));
+    return this.stakingService.getValidator(address);
   }
 
   public delegate(validatorAddress: Validator['operator_address'], amount: string): Observable<void> {

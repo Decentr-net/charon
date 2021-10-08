@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, defer, Observable, timer } from 'rxjs';
+import { combineLatest, Observable, timer } from 'rxjs';
 import { filter, map, mapTo, pluck, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
 import { ValidatorFn } from '@ngneat/reactive-forms';
 import { Validator } from 'decentr-js';
@@ -9,7 +9,6 @@ import { Validator } from 'decentr-js';
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { AuthService } from '@core/auth';
 import { BankService, NetworkService, StakingService } from '@core/services';
-
 
 @Injectable()
 export class UndelegatePageService {
@@ -60,7 +59,7 @@ export class UndelegatePageService {
   }
 
   public getValidator(address: Validator['operator_address']): Observable<Validator> {
-    return defer(() => this.stakingService.getValidator(address));
+    return this.stakingService.getValidator(address);
   }
 
   public undelegate(validatorAddress: Validator['operator_address'], amount: string): Observable<void> {

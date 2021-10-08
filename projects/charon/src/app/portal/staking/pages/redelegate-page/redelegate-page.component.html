@@ -28,6 +28,7 @@
       >
         <app-input
           class="redelegate-page__form__amount-control"
+          *ngIf="!redelegationToAvailableTime; else redelegationLimitReached"
           formControlName="amount"
           appTypeface="header-3"
         >
@@ -58,8 +59,8 @@
         class="redelegate-page__form__input-container"
       >
         <app-select
-          *ngIf="(redelegationFromMinTime$ | async) === undefined; else redelegationError"
           class="redelegate-page__form__validator-control"
+          *ngIf="!redelegationFromAvailableTime; else redelegationInProgress"
           formControlName="toValidator"
           [placeholder]="translate('form.to_validator.placeholder')"
           [options]="validatorsFilteredOptions$ | async"
@@ -100,33 +101,51 @@
       </button>
     </div>
   </div>
+
+  <ng-template #redelegationInProgress>
+    <ng-container
+      [ngTemplateOutlet]="extendedError"
+      [ngTemplateOutletContext]="{
+        i18nRead: 'staking.redelegate_page.extended_errors.in_progress',
+        time: redelegationFromAvailableTime
+      }"
+    ></ng-container>
+  </ng-template>
+
+  <ng-template #redelegationLimitReached>
+    <ng-container
+      [ngTemplateOutlet]="extendedError"
+      [ngTemplateOutletContext]="{
+        i18nRead: 'staking.redelegate_page.extended_errors.limit',
+        time: redelegationToAvailableTime
+      }"
+    ></ng-container>
+  </ng-template>
+
+  <ng-template #extendedError let-i18nRead="i18nRead" let-time="time">
+    <div
+      *transloco="let translate; read: i18nRead"
+      class="redelegate-page__form__error-container"
+    >
+      <svg-icon
+        class="redelegate-page__form__error-icon"
+        key="redelegate"
+      ></svg-icon>
+
+      <div
+        class="redelegate-page__form__error-title"
+        appTypeface="paragraph"
+      >
+        {{ translate('title') }}
+      </div>
+
+      <div
+        class="redelegate-page__form__error-text"
+        appTypeface="paragraph"
+      >
+        {{ translate('text') }}&nbsp;<b>{{ time | date : 'd MMMM y, HH:mm:ss' }}</b>
+      </div>
+    </div>
+  </ng-template>
 </app-staking-layout>
-
-<ng-template #redelegationError>
-  <div class="redelegate-page__form__error-container">
-    <svg-icon
-      class="redelegate-page__form__error-icon"
-      key="redelegate"
-    ></svg-icon>
-
-    <div
-      class="redelegate-page__form__error-title"
-      appTypeface="paragraph"
-    >
-      Redelegation to this validator already in progress
-<!--      Limit of simultaneous redelegations is reached-->
-    </div>
-
-    <div
-      class="redelegate-page__form__error-text"
-      appTypeface="paragraph"
-    >
-      First redelegation to this validator must complete before next redelegation.<br>
-      Redelegation will be available after <b>{{ redelegationFromMinTime$ | async | date : 'MMMM d, y, h:mm:ss' }}</b>
-
-<!--      At least one redelegation to this validator must complete before next redelegation.<br>-->
-<!--      Redelegation will be available after <b>{{ redelegationFromMinTime$ | async | date : 'MMMM d, y, h:mm:ss' }}</b>-->
-    </div>
-  </div>
-</ng-template>
 
