@@ -93,9 +93,8 @@ export class RedelegatePageComponent implements OnInit {
 
     this.form = this.createForm(this.delegatedAmount$);
 
-    this.fee$ = this.form.valueChanges.pipe(
+    this.fee$ = this.form.value$.pipe(
       debounceTime(300),
-      startWith(this.form.getRawValue()),
       switchMap((formValue) => this.redelegatePageService.getRedelegationFee(
         formValue.fromValidatorAddress,
         formValue.toValidator?.operator_address,

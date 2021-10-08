@@ -9,7 +9,6 @@ import {
   pluck,
   share,
   shareReplay,
-  startWith,
   switchMap,
   take,
 } from 'rxjs/operators';
@@ -85,9 +84,8 @@ export class UndelegatePageComponent implements OnInit {
 
     this.form = this.createForm(this.delegatedAmount$);
 
-    this.fee$ = this.form.valueChanges.pipe(
+    this.fee$ = this.form.value$.pipe(
       debounceTime(300),
-      startWith(this.form.getRawValue()),
       switchMap((formValue) => this.undelegatePageService.getUndelegationFee(
         formValue.validatorAddress,
         (+formValue.amount * MICRO_PDV_DIVISOR).toString(),

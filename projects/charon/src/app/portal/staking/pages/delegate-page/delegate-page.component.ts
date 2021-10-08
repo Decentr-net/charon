@@ -87,7 +87,7 @@ export class DelegatePageComponent implements OnInit {
         formValue.validatorAddress,
         +formValue.amount * MICRO_PDV_DIVISOR,
       ).pipe(
-        catchError(() => '-'),
+        catchError(() => '0'),
       )),
     );
 
