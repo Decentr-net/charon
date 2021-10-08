@@ -89,6 +89,7 @@ export class DelegatePageComponent implements OnInit {
       ).pipe(
         catchError(() => '0'),
       )),
+      share(),
     );
 
     const amountControl = this.form.get('amount');

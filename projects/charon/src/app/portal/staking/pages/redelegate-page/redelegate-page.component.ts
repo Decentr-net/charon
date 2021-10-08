@@ -8,6 +8,7 @@ import {
   finalize,
   map,
   pluck,
+  share,
   shareReplay,
   startWith,
   switchMap,
@@ -102,6 +103,7 @@ export class RedelegatePageComponent implements OnInit {
       ).pipe(
         catchError(() => of(0)),
       )),
+      share(),
     );
 
     const amountControl = this.form.get('amount');
