@@ -10,7 +10,6 @@
   align-items: center;
   display: flex;
   height: 100%;
-  justify-content: space-between;
   overflow-x: auto;
   scrollbar-width: none;
   width: 100%;
@@ -18,11 +17,6 @@
   &::-webkit-scrollbar {
     display: none;
   }
-}
-
-.authorized-layout-navigation__links-container {
-  display: flex;
-  height: 100%;
 }
 
 .authorized-layout-navigation__link {

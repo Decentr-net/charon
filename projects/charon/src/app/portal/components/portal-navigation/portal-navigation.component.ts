@@ -8,7 +8,6 @@ import { svgWidescreen } from '@shared/svg-icons/widescreen';
 import { ConfigService } from '@shared/services/configuration';
 import { AppRoute } from '../../../app-route';
 import { PortalRoute } from '../../portal-route';
-import { AUTHORIZED_LAYOUT_NAVIGATION_RIGHT_SLOT } from '../../../core/layout/authorized-layout';
 import { BrowserType, detectBrowser } from '@shared/utils/browser';
 
 const CURRENT_BROWSER_TYPE: BrowserType = detectBrowser();
@@ -28,8 +27,6 @@ interface LinkDef {
 export class PortalNavigationComponent implements OnInit {
 
   public links$: Observable<LinkDef[]>;
-
-  public readonly navigationRightSlot = AUTHORIZED_LAYOUT_NAVIGATION_RIGHT_SLOT;
 
   constructor(
     private configService: ConfigService,
