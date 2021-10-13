@@ -24,6 +24,7 @@
     <app-input
       type="password"
       formControlName="password"
+      testId="password"
     >
       <ng-container ngProjectAs="[label]">
         {{ translate('form.password.label') }}
@@ -60,6 +61,7 @@
       class="login-page__restore-link"
       [routerLink]="[loginRoute.Restore]"
       appTypeface="paragraph"
+      appTestId="restore-account"
     >
       {{ translate('restore') }}
     </a>
@@ -71,6 +73,7 @@
       class="login-page__submit-button"
       app-button
       type="submit"
+      appTestId="unlock"
     >
       {{ translate('form.submit') }}
     </button>

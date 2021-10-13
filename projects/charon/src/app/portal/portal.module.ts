@@ -11,6 +11,7 @@ import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
+import { AutomationModule } from '@shared/directives/automation';
 import { ButtonBackModule } from '@shared/components/button-back';
 import { ButtonModule } from '@shared/components/button';
 import { CurrencySymbolModule } from '@shared/components/currency-symbol';
@@ -25,6 +26,9 @@ import { BrowserViewModule } from '@shared/directives/browser-view';
 import { NumericModule } from '@shared/directives/numeric';
 import { NumberFormatModule } from '@shared/pipes/number-format';
 import { IntersectionModule } from '@shared/directives/intersection';
+import { SpinnerModule } from '@shared/components/spinner';
+import { SubmitAfterValidationModule } from '@shared/directives/submit-after-validation';
+import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
 import { TypefaceModule } from '@shared/directives/typeface';
 import { MarginLabelModule } from '@shared/components/margin-label';
 import { MicroValueModule } from '@shared/pipes/micro-value';
@@ -35,9 +39,6 @@ import { PORTAL_COMPONENTS } from './components';
 import { PORTAL_DIRECTIVES } from './directives';
 import { PORTAL_PAGES } from './pages';
 import { PortalRoutingModule } from './portal-routing.module';
-import { SpinnerModule } from '@shared/components/spinner';
-import { SubmitAfterValidationModule } from '@shared/directives/submit-after-validation';
-import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
   ],
   imports: [
     AuthorizedLayoutModule,
+    AutomationModule,
     BindQueryParamsModule,
     BrowserViewModule,
     ButtonBackModule,

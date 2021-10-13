@@ -12,12 +12,19 @@
     [ngModel]="value"
     (ngModelChange)="onValueChange($event)"
     [placeholder]="placeholder || ''"
+    appTestId="select-gender"
   >
-    <mat-option [value]="gender.Male">
+    <mat-option
+      [value]="gender.Male"
+      appTestId="male"
+    >
       {{ translations[gender.Male] }}
     </mat-option>
 
-    <mat-option [value]="gender.Female">
+    <mat-option
+      [value]="gender.Female"
+      appTestId="female"
+    >
       {{ translations[gender.Female] }}
     </mat-option>
   </mat-select>

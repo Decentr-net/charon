@@ -33,6 +33,7 @@
         cdkAutosizeMaxRows="4"
         trim="blur"
         appAutoFocus
+        appTestId="title"
         (keydown.enter)="preventEvent($event)"
       ></textarea>
 
@@ -58,6 +59,7 @@
         class="hub-post-editor__text-image-icon-container"
         appHubImageUploader
         #textImageUploader="appHubImageUploader"
+        appTestId="upload-img"
       >
         <svg-icon class="hub-post-editor__text-image-icon" key="add-image" size="sm"></svg-icon>
       </div>
@@ -73,6 +75,7 @@
           [ignoreSelectionReset]="[textImageUploaderElement]"
           (cursorPositionTopChange)="onTextCursorPositionChange($event)"
           [placeholder]="translate('text.placeholder')"
+          [testId]="'text-editor'"
           formControlName="text"
           appTypeface="paragraph"
         ></app-text-editor>
@@ -90,6 +93,7 @@
     <div class="hub-post-editor__preview-image-uploader mod-empty">
       <div
         class="hub-post-editor__preview-image-uploader__icon-container"
+        appTestId="title-img"
         (appHubImageUploader)="onTitleImageUpload($event)"
       >
         <svg-icon class="hub-post-editor__preview-image-uploader__icon" key="add-image" size="sm"></svg-icon>
@@ -98,6 +102,7 @@
       <div
         class="hub-post-editor__preview-image-uploader__title"
         appTypeface="paragraph"
+        appTestId="title-img"
         (appHubImageUploader)="onTitleImageUpload($event)"
       >
         {{ translate('image_uploader.empty.title') }}
@@ -130,6 +135,7 @@
         {{ translate('image_uploader.filled.subtitle.or') }}
         <span
           class="hub-post-editor__preview-image-uploader__subtitle-clickable"
+          appTestId="upload-img"
           (appHubImageUploader)="onTitleImageUpload($event)"
         >
           {{ translate('image_uploader.filled.subtitle.change') }}

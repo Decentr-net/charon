@@ -8,6 +8,7 @@
     [ngModel]="value"
     (ngModelChange)="onCategorySelect($event)"
     [placeholder]="translate('hub.hub_category_select.placeholder')"
+    appTestId="post-topic"
   >
     <mat-select-trigger>
       <ng-template

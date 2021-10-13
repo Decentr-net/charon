@@ -8,6 +8,7 @@ import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
+import { AutomationModule } from '@shared/directives/automation';
 import { AvatarModule } from '@shared/components/avatar';
 import { ButtonModule } from '@shared/components/button';
 import { CheckboxModule } from '@shared/components/controls/checkbox';
@@ -35,6 +36,7 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     SIGN_UP_PAGES,
   ],
   imports: [
+    AutomationModule,
     AvatarModule,
     ButtonModule,
     CheckboxModule,

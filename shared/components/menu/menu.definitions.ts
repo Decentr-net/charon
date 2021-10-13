@@ -10,6 +10,7 @@ export interface MenuUserProfile {
 interface MenuItemBase {
   action?: () => void;
   title: string;
+  testId?: string;
 }
 
 export interface MenuUserItem extends MenuItemBase {

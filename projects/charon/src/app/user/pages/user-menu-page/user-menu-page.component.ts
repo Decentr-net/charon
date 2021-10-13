@@ -95,10 +95,12 @@ export class UserMenuPageComponent implements OnInit {
         ...translations,
         cancel: {
           label: translations.cancel,
+          testId: 'cancel-delete',
         },
         confirm: {
           icon: svgDelete.name,
           label: translations.confirm,
+          testId: 'confirm-delete',
         },
         alert: true,
       })),

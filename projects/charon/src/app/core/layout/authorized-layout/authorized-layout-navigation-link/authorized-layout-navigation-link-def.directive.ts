@@ -14,6 +14,8 @@ export class AuthorizedLayoutNavigationLinkDefDirective implements OnInit, OnDes
 
   @Input('appAuthorizedLayoutNavigationLinkDefExact') public exact: boolean = true;
 
+  @Input('appAuthorizedLayoutNavigationLinkDefTestId') public testId: string;
+
   constructor(
     private navigationDef: AuthorizedLayoutNavigationDefDirective,
     public templateRef: TemplateRef<void>,

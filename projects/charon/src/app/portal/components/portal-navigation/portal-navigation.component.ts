@@ -16,6 +16,7 @@ interface LinkDef {
   colorClass: string;
   link: string[];
   i18nKey: string;
+  testId?: string;
 }
 
 @Component({
@@ -45,26 +46,31 @@ export class PortalNavigationComponent implements OnInit {
           colorClass: 'color-primary',
           i18nKey: 'portal.portal_navigation.pdv_rate',
           link: ['/', AppRoute.Portal, PortalRoute.PDVRate],
+          testId: 'pdv-rate',
         },
         {
           colorClass: 'color-primary',
           i18nKey: 'portal.portal_navigation.activity',
           link: ['/', AppRoute.Portal, PortalRoute.Activity],
+          testId: 'activity',
         },
         {
           colorClass: 'color-primary',
           i18nKey: 'portal.portal_navigation.assets',
           link: ['/', AppRoute.Portal, PortalRoute.Assets],
+          testId: 'assets',
         },
         ...(vpnSettings.enabled && CURRENT_BROWSER_TYPE !== BrowserType.Decentr) ? [{
           colorClass: 'color-primary',
           i18nKey: 'portal.portal_navigation.vpn',
           link: ['/', AppRoute.Portal, PortalRoute.VPN],
+          testId: 'vpn',
         }] : [],
         {
           colorClass: 'color-primary',
           i18nKey: 'portal.portal_navigation.staking',
           link: ['/', AppRoute.Portal, PortalRoute.Staking],
+          testId: 'staking',
         },
       ]),
     );

@@ -27,6 +27,7 @@
         class="import-restore-page__input"
         type="password"
         rows="2"
+        [testId]="'seed-phrase'"
         formControlName="seedPhrase"
       >
         <ng-container ngProjectAs="[label]">
@@ -68,6 +69,7 @@
       app-button
       color="grey"
       size="md"
+      appTestId="back-to-welcome"
       (click)="navigateBack()"
     >
       {{ translate('back') }}
@@ -80,6 +82,7 @@
       size="md"
       type="submit"
       [ngSwitch]="currentPageType"
+      appTestId="login-button"
     >
       <ng-container *ngSwitchCase="pageType.IMPORT_ACCOUNT">{{ translate('import.submit') }}</ng-container>
       <ng-container *ngSwitchDefault>{{ translate('restore.submit') }}</ng-container>

@@ -9,6 +9,7 @@
     <button
       app-button-back
       [routerLink]="['../']"
+      appTestId="back-validator"
     ></button>
 
     {{ translate('title') }}
@@ -31,6 +32,7 @@
           *ngIf="!undelegationAvailableTime; else undelegationLimitReached"
           formControlName="amount"
           appTypeface="header-3"
+          testId="undelegate_amount"
         >
           <span ngProjectAs="[label]">{{ translate('form.amount.label') }}</span>
 
@@ -109,6 +111,7 @@
           app-button
           [disabled]="undelegationAvailableTime"
           (click)="onSubmit()"
+          appTestId="undelegate-confirm"
         >
           {{ translate('actions.submit') }}
         </button>

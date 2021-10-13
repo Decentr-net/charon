@@ -46,6 +46,7 @@
         <app-input
           [maxlength]="20"
           [formControlName]="controlName.FirstName"
+          [testId]="'first-name'"
         >
           <ng-container ngProjectAs="[label]">{{ translate('first_name.label') }}*</ng-container>
         </app-input>
@@ -57,6 +58,7 @@
         <app-input
           [maxlength]="20"
           [formControlName]="controlName.LastName"
+          [testId]="'last-name'"
         >
           <ng-container ngProjectAs="[label]">{{ translate('last_name.label') }}*</ng-container>
         </app-input>
@@ -72,6 +74,7 @@
           [rows]="2"
           [formControlName]="controlName.Bio"
           [placeholder]="translate('bio.placeholder')"
+          [testId]="'bio'"
         >
           <ng-container ngProjectAs="[label]">{{ translate('bio.label') }}</ng-container>
         </app-input>
@@ -84,6 +87,7 @@
       <app-input-container class="profile-form__input-container">
         <app-date-input
           [formControlName]="controlName.Birthday"
+          [testId]="'birthday'"
         >
           <ng-container ngProjectAs="[label]">{{ translate('birthday.label') }}*</ng-container>
         </app-date-input>
@@ -119,6 +123,7 @@
       >
         <app-input
           [formControl]="primaryEmailControl"
+          [testId]="'email'"
         >
           <ng-container ngProjectAs="[label]">{{ translate('email.label') }}*</ng-container>
         </app-input>

@@ -9,6 +9,7 @@
     <button
       app-button-back
       [routerLink]="['../']"
+      appTestId="back-validator"
     ></button>
 
     {{ translate('title') }}
@@ -30,6 +31,7 @@
           class="delegate-page__form__amount-control"
           formControlName="amount"
           appTypeface="header-3"
+          testId="delegate_amount"
         >
           <span ngProjectAs="[label]">{{ translate('form.amount.label') }}</span>
 
@@ -104,6 +106,7 @@
           class="delegate-page__actions__button"
           app-button
           (click)="onSubmit()"
+          appTestId="delegate-confirm"
         >
           {{ translate('actions.submit') }}
         </button>

@@ -7,6 +7,7 @@
       class="validator-details__back-link"
       app-button-back
       [routerLink]="['../../../']"
+      appTestId="back-to-staking"
     ></a>
 
     {{ translate('title') }}
@@ -102,6 +103,7 @@
           color="grey"
           (click)="navigateTo(stakingRoute.Undelegate)"
           [disabled]="!+validatorDetails.delegated"
+          appTestId="undelegate"
         >
           {{ translate('actions.undelegate') }}
         </button>
@@ -112,8 +114,8 @@
           color="grey"
           (click)="navigateTo(stakingRoute.Redelegate)"
           [disabled]="!+validatorDetails.delegated"
+          appTestId="redelegate"
         >
-
           {{ translate('actions.redelegate') }}
         </button>
 
@@ -122,6 +124,7 @@
           app-button
           (click)="navigateTo(stakingRoute.Delegate)"
           [disabled]="validatorDetails.jailed"
+          appTestId="delegate"
         >
           {{ translate('actions.delegate') }}
         </button>

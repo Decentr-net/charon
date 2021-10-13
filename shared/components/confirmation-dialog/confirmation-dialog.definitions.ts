@@ -1,6 +1,7 @@
 export type ConfirmationDialogButtonConfig = {
   icon?: string;
   label: string;
+  testId?: string;
 };
 
 export interface ConfirmationDialogConfig {

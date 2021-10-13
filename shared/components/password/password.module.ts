@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import { AutomationModule } from '../../directives/automation';
 import { TypefaceModule } from '../../directives/typeface';
 import { FormErrorModule } from '../form-error';
 import { InputContainerModule } from '../input-container';
@@ -13,6 +14,7 @@ import { PasswordValidationStateComponent } from './password-validation-state';
 
 @NgModule({
   imports: [
+    AutomationModule,
     CommonModule,
     FormErrorModule,
     InputContainerModule,

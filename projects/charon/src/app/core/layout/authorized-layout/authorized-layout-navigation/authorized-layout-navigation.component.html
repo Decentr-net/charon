@@ -12,6 +12,7 @@
     routerLinkActive="is-active"
     [routerLinkActiveOptions]="{ exact: linkDef.exact }"
     [dot]="linkDef.dot"
+    [appTestId]="linkDef.testId"
     appRouterLinkScrollAnchor
   >
     <ng-template [ngTemplateOutlet]="linkDef.templateRef"></ng-template>

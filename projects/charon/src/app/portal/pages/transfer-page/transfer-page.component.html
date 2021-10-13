@@ -3,6 +3,7 @@
     <button
       app-button-back
       [appNavigateBack]="['../']"
+      appTestId="back-to-assets"
     ></button>
 
     <span appTypeface="subheader">
@@ -34,6 +35,7 @@
           class="transfer-page__form__control-amount"
           formControlName="amount"
           [appTypeface]="isOpenedInPopup ? 'header-4' : 'header-3'"
+          testId="amount-field"
         >
           <span ngProjectAs="[label]">{{ translate('form.amount.label') }}</span>
 
@@ -66,6 +68,7 @@
           formControlName="to"
           [appTypeface]="isOpenedInPopup ? 'paragraph' : 'subheader'"
           [placeholder]="translate('form.to.placeholder')"
+          testId="wd-field"
         >
           <span ngProjectAs="[label]">{{ translate('form.to.label') }}</span>
         </app-input>
@@ -84,6 +87,7 @@
         [maxlength]="100"
         [rows]="2"
         formControlName="comment"
+        testId="memo-field"
       >
         <span ngProjectAs="[label]">{{ translate('form.memo.label') }}</span>
       </app-input>
@@ -99,6 +103,7 @@
         color="grey"
         [disabled]="isPageDisabled"
         [appNavigateBack]="['../']"
+        appTestId="cancel-send"
       >
         {{ translate('cancel') }}
       </button>
@@ -109,6 +114,7 @@
         color="primary"
         (click)="onSubmit()"
         [disabled]="isPageDisabled || (canSend$ | async) === false"
+        appTestId="send"
       >
         {{ translate(isPageDisabled ? 'sending' : 'send') }}
       </button>

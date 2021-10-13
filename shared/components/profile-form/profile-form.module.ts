@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import { AutomationModule } from '../../directives/automation';
 import { TypefaceModule } from '../../directives/typeface';
 import { AvatarSelectorModule, DateInputModule, GenderSelectorModule, InputModule } from '../controls';
 import { FormErrorModule } from '../form-error';
@@ -12,6 +13,7 @@ import { ProfileFormModel } from './profile-form-model';
 
 @NgModule({
   imports: [
+    AutomationModule,
     AvatarSelectorModule,
     CommonModule,
     DateInputModule,

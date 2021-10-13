@@ -9,6 +9,7 @@
     <button
       app-button-back
       [routerLink]="['../']"
+      appTestId="back-validator"
     ></button>
 
     {{ translate('title') }} {{ fromValidatorName$ | async }}
@@ -31,6 +32,7 @@
           *ngIf="!redelegationToAvailableTime; else redelegationLimitReached"
           formControlName="amount"
           appTypeface="header-3"
+          appTestId="redelegate_amount"
         >
           <span ngProjectAs="[label]">{{ translate('form.amount.label') }}</span>
 
@@ -66,6 +68,7 @@
           [options]="validatorsFilteredOptions$ | async"
           [displayWithFn]="displayWithFn"
           appTypeface="subheader"
+          appTestId="redelegate_validator"
         >
           <span ngProjectAs="[label]">{{ translate('form.to_validator.label') }}</span>
 
@@ -97,6 +100,7 @@
         app-button
         [disabled]="redelegationFromAvailableTime || redelegationToAvailableTime"
         (click)="onSubmit()"
+        appTestId="redelegate-confirm"
       >
         {{ translate('actions.submit') }}
       </button>

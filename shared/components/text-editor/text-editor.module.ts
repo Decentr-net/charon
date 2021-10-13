@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 
+import { AutomationModule } from '../../directives/automation';
 import { ButtonModule } from '../button';
 import { TextEditorComponent } from './text-editor.component';
 
@@ -11,6 +12,7 @@ import { TextEditorComponent } from './text-editor.component';
     TextEditorComponent,
   ],
   imports: [
+    AutomationModule,
     ButtonModule,
     CommonModule,
     FormsModule,

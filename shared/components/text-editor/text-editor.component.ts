@@ -43,6 +43,8 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
 
   @Input() public placeholder: string;
 
+  @Input() public testId: string;
+
   @Output() public readonly cursorPositionTopChange: EventEmitter<number | undefined> = new EventEmitter();
 
   @ViewChild('editor', { static: true }) public readonly editor: ElementRef<HTMLElement>;

@@ -6,6 +6,7 @@ import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
 import { AutoFocusModule } from '@shared/directives/auto-focus';
+import { AutomationModule } from '@shared/directives/automation';
 import { BrowserViewModule } from '@shared/directives/browser-view';
 import { SubmitSourceModule } from '@shared/directives/submit-source';
 import { TypefaceModule } from '@shared/directives/typeface';
@@ -23,6 +24,7 @@ import { LoginRoutingModule } from './login-routing.module';
   ],
   imports: [
     AutoFocusModule,
+    AutomationModule,
     BrowserViewModule,
     ButtonModule,
     CommonModule,

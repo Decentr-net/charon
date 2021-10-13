@@ -145,6 +145,7 @@ export class MenuService extends MenuBaseService {
               action: () => this.lockService.lock(),
               iconKey: svgLock.name,
               title: itemsTranslationsObject.lock,
+              testId: 'lock-account',
             },
           ],
           [
@@ -167,6 +168,7 @@ export class MenuService extends MenuBaseService {
         pdvValue,
         action: () => this.router.navigate(['/', AppRoute.User]),
         title: user.title,
+        testId: 'user-menu',
       })),
     );
   }

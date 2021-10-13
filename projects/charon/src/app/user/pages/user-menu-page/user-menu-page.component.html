@@ -26,6 +26,7 @@
       app-button
       color="grey"
       appTypeface="paragraph"
+      appTestId="edit-account"
       [routerLink]="['./', userRoute.Edit]"
     >
       <svg-icon key="edit"></svg-icon>
@@ -38,6 +39,7 @@
       app-button
       color="grey"
       appTypeface="paragraph"
+      appTestId="setting"
       [routerLink]="['./', userRoute.Settings]"
     >
       <svg-icon key="settings"></svg-icon>
@@ -71,6 +73,7 @@
       app-button
       color="grey"
       appTypeface="paragraph"
+      appTestId="lock-account"
       (click)="lockAccount()"
     >
       <svg-icon key="lock"></svg-icon>
@@ -92,6 +95,7 @@
       app-button
       color="grey"
       appTypeface="paragraph"
+      appTestId="delete-account"
       (click)="requestDeleteConfirmation()"
     >
       <svg-icon key="delete"></svg-icon>

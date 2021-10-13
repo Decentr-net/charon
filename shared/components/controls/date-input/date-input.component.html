@@ -15,6 +15,7 @@
     [(ngModel)]="value"
     (ngModelChange)="onValueChange($event)"
     [inputMask]="dateInputMask"
+    [appTestId]="testId"
     (focus)="onFocus()"
     (blur)="onBlur()"
   />

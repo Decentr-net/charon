@@ -32,6 +32,7 @@
         color="grey"
         size="xs"
         appTypeface="caption"
+        appTestId="copy-wd"
         [cdkCopyToClipboard]="walletAddress$ | async"
         (cdkCopyToClipboardCopied)="onWalletAddressCopied()"
       >
@@ -53,6 +54,7 @@
       <a [routerLink]="transferRoute">
         <button
           app-button
+          appTestId="send-token"
         >
           <svg-icon key="send"></svg-icon>
           {{ translate('send') }}
@@ -63,6 +65,7 @@
         <button
           app-button
           color="grey"
+          appTestId="go-to-staking"
         >
           <svg-icon key="delegate"></svg-icon>
           {{ translate('delegate') }}

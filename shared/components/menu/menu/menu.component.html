@@ -2,6 +2,7 @@
   <div
     class="menu__trigger"
     [matMenuTriggerFor]="menuTemplate"
+    appTestId="app-menu"
   >
     <app-avatar
       class="menu__user-avatar"
@@ -30,6 +31,7 @@
     <div
       class="menu-popup-items-section menu-popup-item menu__item menu__user-item"
       *ngIf="userItem"
+      [appTestId]="userItem.testId"
       (click)="userItem.action && userItem.action()"
     >
       <app-avatar
@@ -62,6 +64,7 @@
           class="menu-popup-item menu__item"
           [attr.data-id]="item.title | lowercase"
           [class.is-disabled]="!item.action"
+          [appTestId]="item.testId"
           (click)="item.action && item.action()"
         >
           <svg-icon class="menu-popup-item-icon menu__item-icon" [key]="item.iconKey"></svg-icon>

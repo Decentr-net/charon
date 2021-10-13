@@ -48,6 +48,8 @@ export class InputComponent extends CustomControl<string> implements OnInit {
 
   @Input() public maxlength = -1;
 
+  @Input() public testId: string;
+
   @ViewChild('inputElement') public inputElement: ElementRef<HTMLElement>;
   @ViewChild('textareaElement') public textareaElement: ElementRef<HTMLElement>;
 

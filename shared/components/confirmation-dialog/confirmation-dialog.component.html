@@ -20,6 +20,7 @@
     class="confirmation-dialog__button"
     app-button
     color="grey"
+    [appTestId]="config.cancel.testId"
     mat-dialog-close
   >
     <svg-icon
@@ -33,6 +34,7 @@
   <button
     app-button
     [color]="config.alert ? 'negative' : 'primary'"
+    [appTestId]="config.confirm.testId"
     [mat-dialog-close]="true"
   >
     <svg-icon

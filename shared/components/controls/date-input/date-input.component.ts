@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef, HostListener,
+  ElementRef, HostListener, Input,
   OnInit,
   Optional,
   Renderer2, ViewChild,
@@ -30,6 +30,8 @@ import { CustomControl } from '../custom-control';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DateInputComponent extends CustomControl<string> implements OnInit {
+  @Input() public testId: string;
+
   @ViewChild('inputElement') public inputElement: ElementRef<HTMLElement>;
 
   public isOpenedInPopup: boolean = !isOpenedInTab();

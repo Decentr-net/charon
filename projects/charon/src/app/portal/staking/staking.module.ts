@@ -7,6 +7,7 @@ import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
+import { AutomationModule } from '@shared/directives/automation';
 import { ButtonModule } from '@shared/components/button';
 import { ButtonBackModule } from '@shared/components/button-back';
 import { CurrencySymbolModule } from '@shared/components/currency-symbol';
@@ -32,6 +33,7 @@ import { StakingRoutingModule } from './staking-routing.module';
     STAKING_PAGES,
   ],
   imports: [
+    AutomationModule,
     MatAutocompleteModule,
     ButtonModule,
     ButtonBackModule,
