@@ -8,12 +8,15 @@
   width: $page-width + $page-side-padding * 2;
 }
 
+.user-page__section {
+  width: 100%;
+}
+
 .user-page__card {
   border: 2px solid $color-outlines;
   border-radius: $border-radius;
   height: min-content;
   padding: $grid-step * 2;
-  width: 100%;
 }
 
 .user-page__card__app-version {
