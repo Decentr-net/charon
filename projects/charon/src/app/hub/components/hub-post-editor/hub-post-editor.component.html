@@ -67,12 +67,15 @@
 
     <ng-container ngProjectAs="[contentMainColumn]">
       <div #textEditorContainerElement>
-        <app-hub-post-text-editor
+        <app-text-editor
+          class="hub-post-editor__editor"
           [imageSource]="textImageUploader.uploaded"
           [ignoreSelectionReset]="[textImageUploaderElement]"
           (cursorPositionTopChange)="onTextCursorPositionChange($event)"
+          [placeholder]="translate('text.placeholder')"
           formControlName="text"
-        ></app-hub-post-text-editor>
+          appTypeface="paragraph"
+        ></app-text-editor>
       </div>
 
       <app-hub-post-editor-error

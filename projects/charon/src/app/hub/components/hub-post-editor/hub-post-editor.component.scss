@@ -101,9 +101,10 @@ $hub-post-editor--text-image-uploader-icon-container-size: 44px;
   position: absolute;
   right: 0;
   row-gap: $grid-step;
+  top: 100%;
 
   &.mod-moved {
-    margin-top: -$hub-post-editor--text-image-uploader-icon-container-size / 4;
+    margin-top: calc(-#{$hub-post-editor--text-image-uploader-icon-container-size / 4 });
   }
 
   &.mod-limit-reached {
@@ -138,4 +139,8 @@ $hub-post-editor--text-image-uploader-icon-container-size: 44px;
     display: inline-flex;
     font-size: $grid-step * 2.5;
   }
+}
+
+.hub-post-editor__editor {
+  min-height: 12em;
 }
