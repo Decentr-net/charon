@@ -5,13 +5,14 @@ import {
   getPool,
   getRedelegations,
   getStakingParameters,
+  getUnbondingDelegations,
   getValidator,
-  getValidatorDelegations,
   getValidators,
   Pool,
   Redelegation,
   RedelegationsFilterParameters,
   StakingParameters,
+  UnbondingDelegation,
   Validator,
   ValidatorsFilterParameters,
   Wallet,
@@ -25,14 +26,22 @@ export class StakingApiService {
 
   public getValidatorDelegation(
     api: string,
+    delegatorAddress: Wallet['address'],
     validatorAddress: Validator['operator_address'],
-    walletAddress: Wallet['address'],
   ): Promise<Delegation> {
-    return getValidatorDelegations(api, validatorAddress, walletAddress).catch(() => void 0);
+    return getDelegations(api, delegatorAddress, validatorAddress).catch(() => void 0);
   }
 
   public getPool(api: string): Promise<Pool> {
     return getPool(api);
+  }
+
+  public getValidatorUndelegation(
+    api: string,
+    delegatorAddress: Wallet['address'],
+    fromValidatorAddress: Validator['operator_address'],
+  ): Promise<UnbondingDelegation> {
+    return getUnbondingDelegations(api, delegatorAddress, fromValidatorAddress);
   }
 
   public getRedelegations(api: string, filter?: RedelegationsFilterParameters): Promise<Redelegation[]> {

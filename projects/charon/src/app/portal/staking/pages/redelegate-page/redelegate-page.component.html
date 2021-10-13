@@ -124,29 +124,13 @@
   </ng-template>
 
   <ng-template #extendedError let-i18nRead="i18nRead" let-time="time">
-    <div
+    <app-staking-extended-error
       *transloco="let translate; read: i18nRead"
-      class="redelegate-page__form__error-container"
-    >
-      <svg-icon
-        class="redelegate-page__form__error-icon"
-        key="redelegate"
-      ></svg-icon>
-
-      <div
-        class="redelegate-page__form__error-title"
-        appTypeface="paragraph"
-      >
-        {{ translate('title') }}
-      </div>
-
-      <div
-        class="redelegate-page__form__error-text"
-        appTypeface="paragraph"
-      >
-        {{ translate('text') }}&nbsp;<b>{{ time | date : 'd MMMM y, HH:mm:ss' }}</b>
-      </div>
-    </div>
+      [icon]="'redelegate'"
+      [title]="translate('title')"
+      [text]="translate('text')"
+      [availableTime]="time"
+    ></app-staking-extended-error>
   </ng-template>
 </app-staking-layout>
 

@@ -107,6 +107,12 @@
       "undelegate_all": "Undelegate all",
       "submit": "Undelegate"
     },
+    "extended_errors": {
+      "limit": {
+        "title": "Limit of simultaneous undelegations is reached",
+        "text": "At least one undelegation from this validator must complete before next undelegation.\nUndelegation will be available after:"
+      }
+    },
     "form": {
       "amount": {
         "errors": {

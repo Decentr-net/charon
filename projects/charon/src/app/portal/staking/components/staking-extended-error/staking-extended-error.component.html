@@ -1,0 +1,18 @@
+<svg-icon
+  class="staking-extended-error__error-icon"
+  [key]="icon"
+></svg-icon>
+
+<div
+  class="staking-extended-error__error-title"
+  appTypeface="paragraph"
+>
+  {{ title }}
+</div>
+
+<div
+  class="staking-extended-error__error-text"
+  appTypeface="paragraph"
+>
+  {{ text }}&nbsp;<b>{{ availableTime | date : 'd MMMM y, HH:mm:ss' }}</b>
+</div>
