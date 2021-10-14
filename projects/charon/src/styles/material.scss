@@ -1,0 +1,55 @@
+@import 'variables';
+
+// Mat-toggle
+.mat-slide-toggle {
+  .mat-slide-toggle-ripple {
+    transform: translate(calc(-50% - 2px), calc(-50% - 10px));
+    top: 50% !important;
+    left: 50% !important;
+    height: 22px !important;
+    width: 22px !important;
+  }
+
+  // Disabled background
+  .mat-slide-toggle-bar {
+    background-color: $color-grey !important;
+    width: 32px;
+    height: 20px;
+    border-radius: 10px;
+    border: 0;
+  }
+
+  .mat-slide-toggle-thumb {
+    background-color: $color-white;
+    transform: translateY(-50%);
+    box-shadow: none;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    border: 0;
+  }
+
+  .mat-slide-toggle-thumb-container {
+    top: 50%;
+    transform: translateX(2px);
+    cursor: pointer;
+  }
+
+  &.mat-checked {
+    .mat-slide-toggle-bar {
+      background-color: $color-primary !important;
+    }
+
+    .mat-slide-toggle-thumb {
+      background-color: #ffffff !important;
+    }
+
+    .mat-ripple-element {
+      background-color: $color-primary !important;
+    }
+
+    .mat-slide-toggle-thumb-container {
+      transform: translate3d(14px, 0, 0) !important;
+    }
+  }
+}
