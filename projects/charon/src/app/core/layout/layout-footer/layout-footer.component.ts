@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
+import { svgDiscord } from '@shared/svg-icons/discord';
 import { svgGithub } from '@shared/svg-icons/github';
 import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
 import { svgMedium } from '@shared/svg-icons/medium';
@@ -43,12 +44,18 @@ export class LayoutFooterComponent {
       title: 'Medium',
       url: 'https://decentrnet.medium.com/',
     },
+    {
+      iconKey: svgDiscord.name,
+      title: 'Discord',
+      url: 'https://discord.gg/VMUt7yw92B',
+    },
   ];
 
   constructor(
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register([
+      svgDiscord,
       svgGithub,
       svgLogoIcon,
       svgMedium,
