@@ -3,6 +3,7 @@
 // Mat-toggle
 .mat-slide-toggle {
   .mat-slide-toggle-ripple {
+    border-radius: 50%;
     transform: translate(calc(-50% - 2px), calc(-50% - 10px));
     top: 50% !important;
     left: 50% !important;
