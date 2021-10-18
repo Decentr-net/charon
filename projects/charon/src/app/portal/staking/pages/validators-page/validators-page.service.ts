@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Delegation, Pool, Validator } from 'decentr-js';
+import { Delegation, DelegatorRewards, Pool, Validator } from 'decentr-js';
 
+import { buildValidatorDefinition } from '../../utils';
+import { AuthService } from '@core/auth/services';
+import { DistributionService } from '@core/services/distribution';
 import { StakingService } from '@core/services/staking';
 import { ValidatorDefinition } from '../../models';
-import { buildValidatorDefinition } from '../../utils';
 
 @Injectable()
 export class ValidatorsPageService {
   constructor(
+    private authService: AuthService,
+    private distributionService: DistributionService,
     private stakingService: StakingService,
   ) {
   }
@@ -19,10 +23,14 @@ export class ValidatorsPageService {
       this.stakingService.getValidators(),
       this.stakingService.getPool(),
       this.stakingService.getDelegations(),
+      this.distributionService.getDelegatorRewards(),
     ]).pipe(
-      map(([validators, pool, delegations]: [Validator[], Pool, Delegation[]]) => {
-        return validators.map((validator) => buildValidatorDefinition(validator, pool, delegations));
-      }),
+      map(([validators, pool, delegations, delegatorRewards]: [
+        Validator[],
+        Pool,
+        Delegation[],
+        DelegatorRewards
+      ]) => validators.map((validator) => buildValidatorDefinition(validator, pool, delegations, delegatorRewards))),
     );
   }
 }

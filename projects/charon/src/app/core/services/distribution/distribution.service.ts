@@ -22,7 +22,6 @@ export class DistributionService {
   }
 
   public getDelegatorRewards(
-    delegatorAddress: Wallet['address'],
     validatorAddress?: Validator['operator_address'],
   ): Observable<DelegatorRewards | DenomAmount[]> {
     return combineLatest([
@@ -37,6 +36,12 @@ export class DistributionService {
         validatorAddress,
       )),
     )
+  }
+
+  public getTotalDelegatorRewards(): Observable<number> {
+    return this.getDelegatorRewards().pipe(
+      map((rewards: DelegatorRewards) => +rewards?.total[0]?.amount || 0),
+    );
   }
 
   public calculateWithdrawDelegatorRewardsFee(

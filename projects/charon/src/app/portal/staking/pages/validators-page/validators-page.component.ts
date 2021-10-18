@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { FormControl } from '@ngneat/reactive-forms';
 import { ValidatorStatus } from 'decentr-js';
 
+import { DistributionService } from '@core/services/distribution';
 import { ValidatorDefinition } from '../../models';
 import { ValidatorsPageService } from './validators-page.service';
 
@@ -19,9 +20,12 @@ import { ValidatorsPageService } from './validators-page.service';
 export class ValidatorsPageComponent implements OnInit {
   public validators$: Observable<ValidatorDefinition[]>;
 
+  public totalDelegatorRewards$: Observable<number>;
+
   public onlyBondedFormControl: FormControl<boolean> = new FormControl(false);
 
   constructor(
+    private distributionService: DistributionService,
     private validatorsPageService: ValidatorsPageService,
   ) {
   }
@@ -35,5 +39,7 @@ export class ValidatorsPageComponent implements OnInit {
         return validators.filter(({ status }) => !onlyBonded || status === ValidatorStatus.Bonded);
       }),
     );
+
+    this.totalDelegatorRewards$ = this.distributionService.getTotalDelegatorRewards();
   }
 }

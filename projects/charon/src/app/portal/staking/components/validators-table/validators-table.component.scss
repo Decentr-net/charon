@@ -22,6 +22,26 @@
   color: $color-grey;
 }
 
+.validators-table__reward-and-delegated {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.validators-table__reward {
+  align-items: center;
+  background-color: rgba($color-blue, .12);
+  border-radius: $border-radius;
+  color: $color-blue;
+  display: flex;
+  font-weight: 500;
+  margin-right: $grid-step;
+  padding: $grid-step / 2 $grid-step * 1.5 $grid-step / 2 $grid-step;
+}
+
+.validators-table__reward-icon {
+  margin-right: $grid-step / 2;
+}
+
 .validators-table__voting-power-percent-loading {
   display: flex;
 }

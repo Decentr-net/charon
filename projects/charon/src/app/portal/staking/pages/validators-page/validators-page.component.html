@@ -10,6 +10,10 @@
     [formControl]="onlyBondedFormControl"
   >
     {{ translate('show_only_active') }}
+
+    <ng-container *ngIf="totalDelegatorRewards$ | async as totalDelegatorRewards">
+      {{ totalDelegatorRewards | microValue | numberFormat : '1.0-6' : true }}
+    </ng-container>
   </mat-slide-toggle>
 
   <app-validators-table

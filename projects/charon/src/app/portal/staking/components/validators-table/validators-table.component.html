@@ -47,8 +47,24 @@
       id: translate('delegated')
     "
   >
-    <div [class.mod-empty]="!+validator.delegated">
-      {{ validator.delegated && (validator.delegated | microValue | numberFormat : null : true) || '0' }}
+    <div class="validators-table__reward-and-delegated">
+      <div
+        *ngIf="validator.reward"
+        class="validators-table__reward"
+        appTypeface="caption"
+      >
+        <svg-icon
+          class="validators-table__reward-icon"
+          key="piggy-bank"
+          size="xs"
+        ></svg-icon>
+
+        {{ validator.reward | microValue | numberFormat : '1.0-6' : true }}
+      </div>
+
+      <div [class.mod-empty]="!+validator.delegated">
+        {{ validator.delegated && (validator.delegated | microValue | numberFormat : null : true) || '0' }}
+      </div>
     </div>
   </ng-container>
 </app-data-table>

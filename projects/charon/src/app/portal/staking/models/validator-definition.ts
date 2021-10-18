@@ -7,6 +7,7 @@ export interface ValidatorDefinition {
   details: Validator['description']['details'];
   jailed: Validator['jailed'];
   name: Validator['description']['moniker'];
+  reward: number,
   status: Validator['status'];
   tokens: Validator['tokens'];
   website: Validator['description']['website'];
