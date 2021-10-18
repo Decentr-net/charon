@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, defer, forkJoin, Observable } from 'rxjs';
-import { map, pluck, switchMap } from 'rxjs/operators';
+import { combineLatest, defer, forkJoin, Observable, of } from 'rxjs';
+import { catchError, map, pluck, switchMap } from 'rxjs/operators';
 import {
   calculateCreateDelegationFee,
   calculateCreateRedelegationFee,
@@ -128,9 +128,15 @@ export class StakingService {
       ),
       this.networkService.getActiveNetworkAPI(),
     ]).pipe(
-      switchMap(([walletAddress, api]) => {
+      switchMap(([walletAddress, api]) => defer(() => {
         return this.stakingApiService.getValidatorUndelegation(api, walletAddress, fromValidator);
-      }),
+      }).pipe(
+        catchError(() => of({
+          delegator_address: walletAddress,
+          validator_address: fromValidator,
+          entries: [],
+        })),
+      )),
     );
   }
 
@@ -218,12 +224,14 @@ export class StakingService {
       ),
       this.networkService.getActiveNetworkAPI(),
     ]).pipe(
-      switchMap(([walletAddress, api]) => this.stakingApiService.getRedelegations(
+      switchMap(([walletAddress, api]) => defer(() => this.stakingApiService.getRedelegations(
         api,
         {
           ...filter,
           delegator: walletAddress,
         },
+      )).pipe(
+        catchError(() => of([])),
       )),
     );
   }

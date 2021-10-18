@@ -45,7 +45,7 @@ export class StakingApiService {
   }
 
   public getRedelegations(api: string, filter?: RedelegationsFilterParameters): Promise<Redelegation[]> {
-    return getRedelegations(api, filter).catch(() => []);
+    return getRedelegations(api, filter);
   }
 
   public getValidators(api: string, filter?: ValidatorsFilterParameters): Promise<Validator[]> {
