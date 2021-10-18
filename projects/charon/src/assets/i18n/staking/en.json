@@ -47,8 +47,10 @@
     "title": "Validator details"
   },
   "validators_page": {
+    "reward": "Reward",
     "show_only_active": "Only active validators",
-    "title": "Validators"
+    "title": "Validators",
+    "withdraw": "Withdraw"
   },
   "validators_table": {
     "commission": "Commission",

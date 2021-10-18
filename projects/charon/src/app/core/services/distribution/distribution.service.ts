@@ -5,7 +5,7 @@ import { calculateWithdrawDelegatorRewardsFee, DelegatorRewards, DenomAmount, Va
 
 import { AuthService } from '../../auth';
 import { DistributionApiService } from '../api';
-import { NetworkService } from '../../services';
+import { NetworkService } from '../network';
 import { ConfigService } from '@shared/services/configuration';
 import { MessageBus } from '@shared/message-bus';
 import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';

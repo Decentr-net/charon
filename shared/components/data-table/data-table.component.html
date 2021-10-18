@@ -10,6 +10,7 @@
   >
     <th
       class="data-table__header-row__cell"
+      [style.textAlign]="column.align"
       cdk-header-cell
       *cdkHeaderCellDef
       appTypeface="caption"
@@ -19,6 +20,7 @@
 
     <td
       class="data-table__row__cell"
+      [style.textAlign]="column.align"
       cdk-cell
       *cdkCellDef="let item"
       appTypeface="paragraph"

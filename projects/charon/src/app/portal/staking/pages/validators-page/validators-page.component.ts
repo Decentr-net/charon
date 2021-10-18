@@ -7,6 +7,9 @@ import { ValidatorStatus } from 'decentr-js';
 import { DistributionService } from '@core/services/distribution';
 import { ValidatorDefinition } from '../../models';
 import { ValidatorsPageService } from './validators-page.service';
+import { StakingRoute } from '../../staking-route';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { svgGetCoin } from '@shared/svg-icons/get-coin';
 
 @Component({
   selector: 'app-validators-page',
@@ -18,6 +21,8 @@ import { ValidatorsPageService } from './validators-page.service';
   ],
 })
 export class ValidatorsPageComponent implements OnInit {
+  public stakingRoute: typeof StakingRoute = StakingRoute;
+
   public validators$: Observable<ValidatorDefinition[]>;
 
   public totalDelegatorRewards$: Observable<number>;
@@ -26,11 +31,16 @@ export class ValidatorsPageComponent implements OnInit {
 
   constructor(
     private distributionService: DistributionService,
+    private svgIconRegistry: SvgIconRegistry,
     private validatorsPageService: ValidatorsPageService,
   ) {
   }
 
   public ngOnInit(): void {
+    this.svgIconRegistry.register([
+      svgGetCoin,
+    ]);
+
     this.validators$ = combineLatest([
       this.validatorsPageService.getValidators(),
       this.onlyBondedFormControl.value$,

@@ -5,16 +5,41 @@
     {{ translate('title') }}
   </ng-container>
 
-  <mat-slide-toggle
+  <div
+    class="validators-page__header-section"
     ngProjectAs="[card-show-more]"
-    [formControl]="onlyBondedFormControl"
   >
-    {{ translate('show_only_active') }}
+    <mat-slide-toggle [formControl]="onlyBondedFormControl">
+      {{ translate('show_only_active') }}
+    </mat-slide-toggle>
 
-    <ng-container *ngIf="totalDelegatorRewards$ | async as totalDelegatorRewards">
-      {{ totalDelegatorRewards | microValue | numberFormat : '1.0-6' : true }}
-    </ng-container>
-  </mat-slide-toggle>
+    <div class="validators-page__header-section__divider"></div>
+
+    <div
+      *ngIf="totalDelegatorRewards$ | async as totalDelegatorRewards; else totalDelegatorRewardsLoading"
+      class="validators-page__header-section__withdraw"
+      appTypeface="paragraph"
+    >
+      {{ translate('reward') }}: {{ totalDelegatorRewards | microValue | numberFormat : '1.0-6' : true }}
+      <app-currency-symbol></app-currency-symbol>
+    </div>
+
+    <a [routerLink]="stakingRoute.Withdraw">
+      <button
+        class="validators-page__header-section__withdraw-button"
+        appTypeface="caption"
+        app-button
+        [light]="true"
+        size="xs"
+      >
+        <svg-icon
+          key="get-coin"
+          size="xs"
+        ></svg-icon>
+        {{ translate('withdraw') }}
+      </button>
+    </a>
+  </div>
 
   <app-validators-table
     class="validators-page__table"
@@ -31,6 +56,17 @@
     [theme]="{
       height: '40px',
       width: '100%'
+    }"
+  ></ngx-skeleton-loader>
+</ng-template>
+
+<ng-template #totalDelegatorRewardsLoading>
+  <ngx-skeleton-loader
+    [theme]="{
+      display: 'flex',
+      height: '24px',
+      marginBottom: '0px',
+      width: '170px'
     }"
   ></ngx-skeleton-loader>
 </ng-template>

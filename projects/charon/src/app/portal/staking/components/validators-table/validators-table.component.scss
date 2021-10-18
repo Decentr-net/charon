@@ -23,8 +23,8 @@
 }
 
 .validators-table__reward-and-delegated {
-  display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  display: inline-flex;
 }
 
 .validators-table__reward {
@@ -32,7 +32,7 @@
   background-color: rgba($color-blue, .12);
   border-radius: $border-radius;
   color: $color-blue;
-  display: flex;
+  display: inline-flex;
   font-weight: 500;
   margin-right: $grid-step;
   padding: $grid-step / 2 $grid-step * 1.5 $grid-step / 2 $grid-step;

@@ -9,6 +9,26 @@
   margin: 0 (-$grid-step * 2);
 }
 
+.validators-page__header-section {
+  display: flex;
+  align-items: center;
+  column-gap: $grid-step * 2;
+}
+
+.validators-page__header-section__divider {
+  background-color: $color-outlines;
+  flex-shrink: 0;
+  height: 32px;
+  width: 2px;
+}
+
+.validators-page__header-section__withdraw-button {
+  color: $color-blue;
+  column-gap: $grid-step / 2;
+}
+
 .validators-page__loading {
+  display: block;
+  margin-top: $grid-step * 2;
   width: 100%;
 }

@@ -17,10 +17,10 @@ export const buildValidatorDefinition = (
     details: validator.description.details,
     jailed: validator.jailed,
     name: validator.description.moniker,
-    reward: +delegatorRewards.rewards
-      .find((delegatorReward) => {
-        return delegatorReward.validator_address === validator.operator_address && delegatorReward?.reward?.length;
-      })?.reward[0].amount,
+    reward: +(delegatorRewards.rewards || [])
+        .find((delegatorReward) => {
+          return delegatorReward.validator_address === validator.operator_address && delegatorReward?.reward?.length;
+        })?.reward[0]?.amount || 0,
     status: validator.status,
     tokens: validator.tokens,
     votingPower: +validator.tokens / pool.bonded_tokens,
