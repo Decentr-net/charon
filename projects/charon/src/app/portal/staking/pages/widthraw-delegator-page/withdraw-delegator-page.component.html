@@ -22,24 +22,74 @@
         (itemClick)="onItemClick($event)"
       ></app-withdraw-delegator-table>
 
-      <div class="withdraw-delegator-page__actions">
-        <button
-          class="withdraw-delegator-page__actions__button"
-          app-button
-          color="grey"
-          (click)="chooseAll(validators)"
-        >
-          {{ translate('actions.choose_all') }}
-        </button>
+      <div class="withdraw-delegator-page__divider"></div>
 
-        <button
-          class="withdraw-delegator-page__actions__button"
-          app-button
-          (click)="onSubmit()"
-          [disabled]="!selectedItems.length"
-        >
-          {{ translate('actions.withdraw') }}
-        </button>
+      <div class="withdraw-delegator-page__footer">
+        <div class="withdraw-delegator-page__footer__meta-section">
+          <div
+            class="withdraw-delegator-page__footer-withdraw"
+            appTypeface="paragraph"
+          >
+            <div
+              *ngIf="!selectedItems.length"
+              class="withdraw-delegator-page__footer-withdraw__select"
+            >
+              {{ translate('select') }}
+            </div>
+
+            <ng-container *ngIf="selectedItems.length">
+              <div class="withdraw-delegator-page__footer-withdraw__label">
+                {{ translate('withdraw') }}:
+              </div>
+
+              <div class="withdraw-delegator-page__footer-withdraw__value">
+                {{ selectedItemsRewards | microValue | numberFormat : '1.0-6' : true | appCurrencySymbol | async }}
+              </div>
+            </ng-container>
+
+            <div
+              *ngIf="totalDelegatorRewards$ | async as totalDelegatorRewards"
+              class="withdraw-delegator-page__footer-withdraw__available"
+            >
+              {{ translate('available', {
+              amount: (totalDelegatorRewards | microValue | numberFormat : '1.0-6' : true | appCurrencySymbol | async) || '0'
+            }) }}
+            </div>
+          </div>
+
+          <ng-container *ngIf="selectedItems.length">
+            <div class="withdraw-delegator-page__footer__divider"></div>
+
+            <div class="withdraw-delegator-page__footer-fee">
+              <div class="withdraw-delegator-page__footer-fee__label">
+                {{ translate('fee') }}:
+              </div>
+
+              {{ selectedItemsRewards | microValue | numberFormat : '1.0-6' : true | appCurrencySymbol | async }}
+            </div>
+
+          </ng-container>
+        </div>
+
+        <div class="withdraw-delegator-page__actions">
+          <button
+            class="withdraw-delegator-page__actions__button"
+            app-button
+            color="grey"
+            (click)="chooseAll(validators)"
+          >
+            {{ translate('actions.choose_all') }}
+          </button>
+
+          <button
+            class="withdraw-delegator-page__actions__button"
+            app-button
+            (click)="onSubmit()"
+            [disabled]="!selectedItems.length"
+          >
+            {{ translate('actions.withdraw') }}
+          </button>
+        </div>
       </div>
     </ng-container>
   </ng-container>

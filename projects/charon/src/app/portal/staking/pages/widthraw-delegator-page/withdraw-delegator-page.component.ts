@@ -40,6 +40,10 @@ export class WithdrawDelegatorPageComponent implements OnInit {
   ) {
   }
 
+  public get selectedItemsRewards(): number {
+    return this.selectedItems.reduce((sum, item) => sum + item.reward, 0);
+  }
+
   public ngOnInit(): void {
     this.validators$ = this.withdrawDelegatorPageService.getValidators();
 

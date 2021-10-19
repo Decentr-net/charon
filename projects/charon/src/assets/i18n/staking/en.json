@@ -148,8 +148,10 @@
       "withdraw": "Withdraw"
     },
     "available": "of {{ amount }} available",
+    "fee": "Fee",
+    "select": "Select validators to withdraw the rewards",
     "title": "Withdraw rewards",
-    "withdraw": "Withdraw:"
+    "withdraw": "Withdraw"
   },
   "withdraw_delegator_table": {
     "delegated": "Delegated",
