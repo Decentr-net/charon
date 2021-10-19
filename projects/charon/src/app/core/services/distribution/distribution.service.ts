@@ -45,14 +45,15 @@ export class DistributionService {
   }
 
   public calculateWithdrawDelegatorRewardsFee(
-    delegatorAddress: Wallet['address'],
     fromValidatorAddress?: Validator['operator_address'],
   ): Observable<number> {
+    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
+
     return this.configService.getChainId().pipe(
       switchMap((chainId) => defer(() => calculateWithdrawDelegatorRewardsFee(
         this.networkService.getActiveNetworkAPIInstant(),
         chainId,
-        delegatorAddress,
+        walletAddress,
         fromValidatorAddress,
       ))),
       map((fee) => +fee[0].amount),

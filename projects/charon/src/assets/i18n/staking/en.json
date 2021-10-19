@@ -149,6 +149,9 @@
     },
     "available": "of {{ amount }} available",
     "fee": "Fee",
+    "notification": {
+      "success": "{{ amount }} {{ currencySymbol }} successfully withdrawn"
+    },
     "select": "Select validators to withdraw the rewards",
     "title": "Withdraw rewards",
     "withdraw": "Withdraw"

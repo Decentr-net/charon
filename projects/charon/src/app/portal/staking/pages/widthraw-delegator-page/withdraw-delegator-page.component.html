@@ -18,7 +18,7 @@
       <app-withdraw-delegator-table
         class="withdraw-delegator-page__table"
         [data]="validators"
-        [selectedItems]="selectedItems"
+        [selectedItems]="selectedItems$.value"
         (itemClick)="onItemClick($event)"
       ></app-withdraw-delegator-table>
 
@@ -31,19 +31,19 @@
             appTypeface="paragraph"
           >
             <div
-              *ngIf="!selectedItems.length"
+              *ngIf="!selectedItems$.value.length"
               class="withdraw-delegator-page__footer-withdraw__select"
             >
               {{ translate('select') }}
             </div>
 
-            <ng-container *ngIf="selectedItems.length">
+            <ng-container *ngIf="selectedItems$.value.length">
               <div class="withdraw-delegator-page__footer-withdraw__label">
                 {{ translate('withdraw') }}:
               </div>
 
               <div class="withdraw-delegator-page__footer-withdraw__value">
-                {{ selectedItemsRewards | microValue | numberFormat : '1.0-6' : true | appCurrencySymbol | async }}
+                {{ selectedItemsRewards$ | async | microValue | numberFormat : '1.0-6' : true | appCurrencySymbol | async }}
               </div>
             </ng-container>
 
@@ -57,7 +57,7 @@
             </div>
           </div>
 
-          <ng-container *ngIf="selectedItems.length">
+          <ng-container *ngIf="selectedItems$.value.length">
             <div class="withdraw-delegator-page__footer__divider"></div>
 
             <div class="withdraw-delegator-page__footer-fee">
@@ -65,7 +65,7 @@
                 {{ translate('fee') }}:
               </div>
 
-              {{ selectedItemsRewards | microValue | numberFormat : '1.0-6' : true | appCurrencySymbol | async }}
+              {{ fee$ | async | microValue | numberFormat : '1.0-6' : true | appCurrencySymbol | async }}
             </div>
 
           </ng-container>
@@ -85,7 +85,7 @@
             class="withdraw-delegator-page__actions__button"
             app-button
             (click)="onSubmit()"
-            [disabled]="!selectedItems.length"
+            [disabled]="!selectedItems$.value.length"
           >
             {{ translate('actions.withdraw') }}
           </button>

@@ -10,8 +10,13 @@
   </ng-container>
 
   <div
-    *dataTableColumnDef="let validator; name: translate('reward'); align: 'right'"
-    [class.mod-empty]="validator.reward < 1"
+    *dataTableColumnDef="
+      let validator;
+      name: translate('reward') | appCurrencySymbol : true | async;
+      id: 'reward';
+      align: 'right'
+    "
+    [class.mod-empty]="validator.reward <= 1"
   >
     <span
       [appTooltip]="validator.reward | microValue | numberFormat : '1.0-13' : true"
@@ -21,7 +26,12 @@
   </div>
 
   <ng-container
-    *dataTableColumnDef="let validator; name: translate('delegated'); align: 'right'"
+    *dataTableColumnDef="
+      let validator;
+      name: translate('delegated') | appCurrencySymbol : true | async;
+      id: 'delegated';
+      align: 'right'
+    "
     [class.mod-empty]="!+validator.delegated"
   >
     {{ validator.delegated && (validator.delegated | microValue | numberFormat : null : true) || '0' }}
