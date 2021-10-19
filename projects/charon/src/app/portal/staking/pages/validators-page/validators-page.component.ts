@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, share } from 'rxjs/operators';
 import { FormControl } from '@ngneat/reactive-forms';
 import { ValidatorStatus } from 'decentr-js';
 
@@ -50,6 +50,8 @@ export class ValidatorsPageComponent implements OnInit {
       }),
     );
 
-    this.totalDelegatorRewards$ = this.distributionService.getTotalDelegatorRewards();
+    this.totalDelegatorRewards$ = this.distributionService.getTotalDelegatorRewards().pipe(
+      share(),
+    );
   }
 }

@@ -1,0 +1,29 @@
+<app-data-table
+  *transloco="let translate; read: 'staking.withdraw_delegator_table'"
+  [data]="data"
+  [trackBy]="trackByAddress"
+  [selectedItems]="selectedItems"
+  (itemClick)="onItemClick($event)"
+>
+  <ng-container *dataTableColumnDef="let validator; name: translate('validator'); width: '20%'">
+    {{ validator.name }}
+  </ng-container>
+
+  <div
+    *dataTableColumnDef="let validator; name: translate('reward'); align: 'right'"
+    [class.mod-empty]="validator.reward < 1"
+  >
+    <span
+      [appTooltip]="validator.reward | microValue | numberFormat : '1.0-13' : true"
+    >
+      {{ validator.reward | microValue | numberFormat : '1.0-6' : true }}
+    </span>
+  </div>
+
+  <ng-container
+    *dataTableColumnDef="let validator; name: translate('delegated'); align: 'right'"
+    [class.mod-empty]="!+validator.delegated"
+  >
+    {{ validator.delegated && (validator.delegated | microValue | numberFormat : null : true) || '0' }}
+  </ng-container>
+</app-data-table>

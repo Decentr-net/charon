@@ -53,6 +53,7 @@
         *ngIf="validator.reward"
         class="validators-table__reward"
         appTypeface="caption"
+        [appTooltip]="validator.reward | microValue | numberFormat : '1.0-10' : true"
       >
         <svg-icon
           class="validators-table__reward-icon"

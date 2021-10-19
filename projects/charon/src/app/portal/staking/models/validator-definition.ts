@@ -13,3 +13,5 @@ export interface ValidatorDefinition {
   website: Validator['description']['website'];
   votingPower: number;
 }
+
+export type ValidatorDefinitionShort = Pick<ValidatorDefinition, 'address' | 'delegated' | 'name' | 'reward'>

@@ -3,6 +3,7 @@ import { StakingLayoutComponent } from './staking-layout';
 import { ValidatorJailedComponent } from './validator-jailed';
 import { ValidatorStatusComponent } from './validator-status';
 import { ValidatorsTableComponent } from './validators-table';
+import { WithdrawDelegatorTableComponent } from './withdraw-delegator-table';
 
 export const STAKING_COMPONENTS = [
   StakingExtendedErrorComponent,
@@ -10,4 +11,5 @@ export const STAKING_COMPONENTS = [
   ValidatorJailedComponent,
   ValidatorStatusComponent,
   ValidatorsTableComponent,
+  WithdrawDelegatorTableComponent,
 ];

@@ -1,0 +1,57 @@
+<app-staking-layout
+  *transloco="let translate; read: 'staking.withdraw_delegator_page'"
+>
+  <div
+    class="withdraw-delegator-page__header"
+    ngProjectAs="[card-title]"
+  >
+    <button
+      app-button-back
+      [routerLink]="['../']"
+    ></button>
+
+    {{ translate('title') }}
+  </div>
+
+  <ng-container ngProjectAs="[card-body]">
+    <ng-container *ngIf="validators$ | async as validators; else tablesLoading;">
+      <app-withdraw-delegator-table
+        class="withdraw-delegator-page__table"
+        [data]="validators"
+        [selectedItems]="selectedItems"
+        (itemClick)="onItemClick($event)"
+      ></app-withdraw-delegator-table>
+
+      <div class="withdraw-delegator-page__actions">
+        <button
+          class="withdraw-delegator-page__actions__button"
+          app-button
+          color="grey"
+          (click)="chooseAll(validators)"
+        >
+          {{ translate('actions.choose_all') }}
+        </button>
+
+        <button
+          class="withdraw-delegator-page__actions__button"
+          app-button
+          (click)="onSubmit()"
+          [disabled]="!selectedItems.length"
+        >
+          {{ translate('actions.withdraw') }}
+        </button>
+      </div>
+    </ng-container>
+  </ng-container>
+</app-staking-layout>
+
+<ng-template #tablesLoading>
+  <ngx-skeleton-loader
+    class="withdraw-delegator-page__loading"
+    count="10"
+    [theme]="{
+      height: '40px',
+      width: '100%'
+    }"
+  ></ngx-skeleton-loader>
+</ng-template>

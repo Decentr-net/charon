@@ -16,11 +16,11 @@
     <div class="validators-page__header-section__divider"></div>
 
     <div
-      *ngIf="totalDelegatorRewards$ | async as totalDelegatorRewards; else totalDelegatorRewardsLoading"
+      *ngIf="(totalDelegatorRewards$ | async) !== undefined; else totalDelegatorRewardsLoading"
       class="validators-page__header-section__withdraw"
       appTypeface="paragraph"
     >
-      {{ translate('reward') }}: {{ totalDelegatorRewards | microValue | numberFormat : '1.0-6' : true }}
+      {{ translate('reward') }}: {{ totalDelegatorRewards$ | async | microValue | numberFormat : '1.0-6' : true }}
       <app-currency-symbol></app-currency-symbol>
     </div>
 

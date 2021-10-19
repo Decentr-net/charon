@@ -1,0 +1,35 @@
+@import 'variables';
+
+:host {
+  display: block;
+  padding-bottom: $grid-step * 2;
+}
+
+.withdraw-delegator-page__header {
+  align-items: center;
+  column-gap: $grid-step * 2;
+  display: flex;
+}
+
+.withdraw-delegator-page__table {
+  margin: 0 (-$grid-step * 2) $grid-step * 2;
+}
+
+.withdraw-delegator-page__actions {
+  align-items: flex-end;
+  column-gap: $grid-step * 1.5;
+  display: flex;
+  grid-area: actions;
+  justify-content: flex-end;
+  margin-top: auto;
+}
+
+.withdraw-delegator-page__actions__button {
+  height: min-content;
+}
+
+.withdraw-delegator-page__loading {
+  display: block;
+  margin-top: $grid-step * 2;
+  width: 100%;
+}

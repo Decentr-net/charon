@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, ContentChildren, Input, QueryList, TrackByFunction } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ContentChildren,
+  EventEmitter,
+  Input,
+  Output,
+  QueryList,
+  TrackByFunction,
+} from '@angular/core';
 
 import { DataTableColumnDefDirective } from './data-table-column-def.directive';
 
@@ -12,6 +21,10 @@ export class DataTableComponent<T> {
   @Input() public data: T[];
   @Input() public trackBy: TrackByFunction<T>;
 
+  @Input() selectedItems: T[] = [];
+
+  @Output() itemClick: EventEmitter<T> = new EventEmitter();
+
   @ContentChildren(DataTableColumnDefDirective)
   public dataTableColumnDefs: QueryList<DataTableColumnDefDirective>;
 
@@ -21,6 +34,14 @@ export class DataTableComponent<T> {
 
   public get columnNames(): DataTableColumnDefDirective['idOrName'][] {
     return this.columns.map(({ idOrName }) => idOrName);
+  }
+
+  public isItemSelected(item: T): boolean {
+    return this.selectedItems.includes(item);
+  }
+
+  public onItemClick(item: T): void {
+    this.itemClick.emit(item);
   }
 
   public trackByColumnIdOrName: TrackByFunction<DataTableColumnDefDirective> = ({}, { idOrName }) => idOrName;

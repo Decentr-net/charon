@@ -39,6 +39,14 @@
   &:hover {
     background-color: $color-background;
   }
+
+  &.is-selected {
+    background-color: rgba($color-blue, .12);
+  }
+
+  &.mod-selectable {
+    cursor: pointer;
+  }
 }
 
 .data-table__row__cell {

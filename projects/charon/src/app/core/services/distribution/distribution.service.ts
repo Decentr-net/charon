@@ -40,7 +40,7 @@ export class DistributionService {
 
   public getTotalDelegatorRewards(): Observable<number> {
     return this.getDelegatorRewards().pipe(
-      map((rewards: DelegatorRewards) => +rewards?.total[0]?.amount || 0),
+      map((rewards: DelegatorRewards) => +(rewards?.total || [])[0]?.amount || 0),
     );
   }
 
