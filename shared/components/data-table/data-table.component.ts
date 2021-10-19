@@ -19,9 +19,9 @@ export class DataTableComponent<T> {
     return this.dataTableColumnDefs.toArray();
   }
 
-  public get columnNames(): DataTableColumnDefDirective['name'][] {
-    return this.columns.map(({ name }) => name);
+  public get columnNames(): DataTableColumnDefDirective['idOrName'][] {
+    return this.columns.map(({ idOrName }) => idOrName);
   }
 
-  public trackByColumnName: TrackByFunction<DataTableColumnDefDirective> = ({}, { name }) => name;
+  public trackByColumnIdOrName: TrackByFunction<DataTableColumnDefDirective> = ({}, { idOrName }) => idOrName;
 }

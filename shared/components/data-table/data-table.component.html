@@ -5,8 +5,8 @@
   [trackBy]="trackBy"
 >
   <ng-container
-    *ngFor="let column of columns; trackBy: trackByColumnName"
-    [cdkColumnDef]="column.name"
+    *ngFor="let column of columns; trackBy: trackByColumnIdOrName"
+    [cdkColumnDef]="column.idOrName"
   >
     <th
       class="data-table__header-row__cell"

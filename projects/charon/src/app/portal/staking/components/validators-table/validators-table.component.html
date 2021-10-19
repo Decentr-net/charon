@@ -40,7 +40,13 @@
     {{ validator.commission | percent }}
   </ng-container>
 
-  <ng-container *dataTableColumnDef="let validator; name: translate('delegated')">
+  <ng-container
+    *dataTableColumnDef="
+      let validator;
+      name: translate('delegated') | appCurrencySymbol : true | async;
+      id: translate('delegated')
+    "
+  >
     <div [class.mod-empty]="!+validator.delegated">
       {{ validator.delegated && (validator.delegated | microValue | numberFormat : null : true) || '0' }}
     </div>
