@@ -27,7 +27,7 @@ export class WithdrawDelegatorPageService {
       map(([validators, delegations, delegatorRewards]: [
         Validator[],
         Delegation[],
-        DelegatorRewards
+        DelegatorRewards,
       ]) => {
         return validators
           .map((validator) => buildValidatorDefinitionShort(validator, delegations, delegatorRewards))

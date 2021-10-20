@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TrackByFunction } from '@angular/core';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 
+import { svgCheck } from '@shared/svg-icons/check';
 import { ValidatorDefinitionShort } from '../../models';
 
 @Component({
@@ -14,6 +16,14 @@ export class WithdrawDelegatorTableComponent {
   @Input() selectedItems: ValidatorDefinitionShort[] = [];
 
   @Output() itemClick: EventEmitter<ValidatorDefinitionShort> = new EventEmitter();
+
+  constructor(
+    svgIconRegistry: SvgIconRegistry,
+  ) {
+    svgIconRegistry.register([
+      svgCheck,
+    ]);
+  }
 
   public onItemClick(item: ValidatorDefinitionShort): void {
     this.itemClick.emit(item);

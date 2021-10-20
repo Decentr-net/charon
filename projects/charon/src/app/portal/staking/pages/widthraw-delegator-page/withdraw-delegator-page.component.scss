@@ -12,19 +12,18 @@
 }
 
 .withdraw-delegator-page__table {
-  margin: 0 (-$grid-step * 2) $grid-step * 2;
+  margin: 0 (-$grid-step * 2);
 }
 
 .withdraw-delegator-page__divider {
   background-color: $color-outlines;
   height: 2px;
-  margin: 0 (-$grid-step * 2);
+  margin: $grid-step * 2 (-$grid-step * 2);
 }
 
 .withdraw-delegator-page__footer {
   display: flex;
   justify-content: space-between;
-  padding-top: $grid-step * 2;
 }
 
 .withdraw-delegator-page__footer__meta-section {

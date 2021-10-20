@@ -5,9 +5,23 @@
   [selectedItems]="selectedItems"
   (itemClick)="onItemClick($event)"
 >
-  <ng-container *dataTableColumnDef="let validator; name: translate('validator'); width: '20%'">
+  <div
+    *dataTableColumnDef="let validator; let selected = selected; name: translate('validator'); width: '20%'"
+    class="withdraw-delegator-table__validator-name"
+  >
+    <div
+      class="withdraw-delegator-table__validator-name__check"
+      [class.is-selected]="selected"
+    >
+      <svg-icon
+        class="withdraw-delegator-table__validator-name__check-icon"
+        key="check"
+        size="sm"
+      ></svg-icon>
+    </div>
+
     {{ validator.name }}
-  </ng-container>
+  </div>
 
   <div
     *dataTableColumnDef="

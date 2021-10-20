@@ -28,7 +28,7 @@
     >
       <ng-template
         [ngTemplateOutlet]="column.templateRef"
-        [ngTemplateOutletContext]="{ $implicit: item }"
+        [ngTemplateOutletContext]="{ $implicit: item, selected: isItemSelected(item) }"
       ></ng-template>
     </td>
   </ng-container>
