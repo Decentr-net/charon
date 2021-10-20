@@ -12,4 +12,5 @@ export enum MessageCode {
   ResetAccount = 'CHARON_RESET_ACCOUNT',
   Undelegate = 'CHARON_UNDELEGATE',
   Unfollow = 'CHARON_UNFOLLOW',
+  WithdrawDelegatorRewards = 'CHARON_WITHDRAW_DELEGATOR_REWARDS',
 }

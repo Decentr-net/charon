@@ -7,8 +7,11 @@ export interface ValidatorDefinition {
   details: Validator['description']['details'];
   jailed: Validator['jailed'];
   name: Validator['description']['moniker'];
+  reward: number,
   status: Validator['status'];
   tokens: Validator['tokens'];
   website: Validator['description']['website'];
   votingPower: number;
 }
+
+export type ValidatorDefinitionShort = Pick<ValidatorDefinition, 'address' | 'delegated' | 'jailed' | 'name' | 'reward'>

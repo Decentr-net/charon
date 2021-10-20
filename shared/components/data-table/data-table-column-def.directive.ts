@@ -8,6 +8,10 @@ export class DataTableColumnDefDirective {
 
   @Input('dataTableColumnDefName') public name: string;
 
+  @Input('dataTableColumnDefAlign') public align: 'left' | 'right' = 'left';
+
+  @Input('dataTableColumnDefWidth') public width: string;
+
   constructor(public templateRef: TemplateRef<{ $implicit: any }>) {
   }
 

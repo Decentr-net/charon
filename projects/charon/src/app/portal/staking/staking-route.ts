@@ -3,4 +3,5 @@ export enum StakingRoute {
   Redelegate = 'redelegate',
   ValidatorAddressParam = 'validatorAddressParam',
   Undelegate = 'undelegate',
+  Withdraw = 'withdraw',
 }

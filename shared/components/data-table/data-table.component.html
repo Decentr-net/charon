@@ -10,6 +10,8 @@
   >
     <th
       class="data-table__header-row__cell"
+      [style.textAlign]="column.align"
+      [style.width]="column.width"
       cdk-header-cell
       *cdkHeaderCellDef
       appTypeface="caption"
@@ -19,13 +21,14 @@
 
     <td
       class="data-table__row__cell"
+      [style.textAlign]="column.align"
       cdk-cell
       *cdkCellDef="let item"
       appTypeface="paragraph"
     >
       <ng-template
         [ngTemplateOutlet]="column.templateRef"
-        [ngTemplateOutletContext]="{ $implicit: item }"
+        [ngTemplateOutletContext]="{ $implicit: item, selected: isItemSelected(item) }"
       ></ng-template>
     </td>
   </ng-container>
@@ -39,6 +42,9 @@
   <tr
     class="data-table__row"
     cdk-row
-    *cdkRowDef="let row; columns: columnNames"
+    *cdkRowDef="let item; columns: columnNames"
+    [class.is-selected]="isItemSelected(item)"
+    [class.mod-selectable]="itemClick.observers.length > 0"
+    (click)="onItemClick(item)"
   ></tr>
 </table>

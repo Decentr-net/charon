@@ -44,11 +44,34 @@
     *dataTableColumnDef="
       let validator;
       name: translate('delegated') | appCurrencySymbol : true | async;
-      id: translate('delegated')
+      id: translate('delegated');
+      align: 'right'
     "
   >
-    <div [class.mod-empty]="!+validator.delegated">
-      {{ validator.delegated && (validator.delegated | microValue | numberFormat : null : true) || '0' }}
+    <div class="validators-table__reward-and-delegated">
+      <div
+        *ngIf="validator.reward"
+        class="validators-table__reward"
+        appTypeface="caption"
+      >
+        <svg-icon
+          class="validators-table__reward-icon"
+          key="piggy-bank"
+          size="xs"
+        ></svg-icon>
+
+        <ng-container *ngIf="validator.reward >= 1; else lessThanOneUdec">
+          {{ validator.reward | microValue | numberFormat : '1.0-6' : true }}
+        </ng-container>
+      </div>
+
+      <div [class.mod-empty]="!+validator.delegated">
+        {{ validator.delegated && (validator.delegated | microValue | numberFormat : null : true) || '0' }}
+      </div>
     </div>
   </ng-container>
 </app-data-table>
+
+<ng-template #lessThanOneUdec>
+  <{{ 1 | microValue }}
+</ng-template>
