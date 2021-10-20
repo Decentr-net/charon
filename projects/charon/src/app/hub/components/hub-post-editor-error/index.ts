@@ -1,1 +1,1 @@
-export * from './hub-post-editor-error.component'
+export * from './hub-post-editor-error.component';

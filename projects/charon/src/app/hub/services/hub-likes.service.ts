@@ -33,40 +33,6 @@ export class HubLikesService {
     this.likeMap$.next(value);
   }
 
-  public canLikePost(postOwner: PostsListItem['owner']): Observable<CanLikeState> {
-    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
-
-    if (postOwner === walletAddress) {
-      return of('disabled');
-    }
-
-    return HubLikesService.isLikeUpdating.pipe(
-      map((isUpdating) => isUpdating ? 'updating' : 'enabled'),
-    );
-  }
-
-  public likePost(post: PostsListItem, likeWeight: LikeWeight): Observable<void> {
-    if (HubLikesService.isLikeUpdating.value) {
-      return;
-    }
-
-    HubLikesService.isLikeUpdating.next(true);
-
-    const oldPostLike = post.likeWeight;
-
-    this.likeMap = this.likeMap.set(post.uuid, likeWeight);
-
-    return this.postsService.likePost(post, likeWeight).pipe(
-      catchError((error) => {
-        this.notificationService.error(error);
-        this.likeMap = this.likeMap.set(post.uuid, oldPostLike);
-
-        return of(void 0);
-      }),
-      finalize(() => HubLikesService.isLikeUpdating.next(false)),
-    );
-  }
-
   public static patchPostsWithLikeMap<T extends PostsListItem>(posts: T[], likeMap: LikeMap): T[] {
     return posts.map((post) => {
       if (!likeMap.has(post.uuid)) {
@@ -158,7 +124,7 @@ export class HubLikesService {
       };
     }
 
-    const todayStatDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
+    const todayStatDate = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
 
     return {
       pdv: newPDV,
@@ -170,5 +136,39 @@ export class HubLikesService {
         },
       ],
     };
+  }
+
+  public canLikePost(postOwner: PostsListItem['owner']): Observable<CanLikeState> {
+    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
+
+    if (postOwner === walletAddress) {
+      return of('disabled');
+    }
+
+    return HubLikesService.isLikeUpdating.pipe(
+      map((isUpdating) => isUpdating ? 'updating' : 'enabled'),
+    );
+  }
+
+  public likePost(post: PostsListItem, likeWeight: LikeWeight): Observable<void> {
+    if (HubLikesService.isLikeUpdating.value) {
+      return;
+    }
+
+    HubLikesService.isLikeUpdating.next(true);
+
+    const oldPostLike = post.likeWeight;
+
+    this.likeMap = this.likeMap.set(post.uuid, likeWeight);
+
+    return this.postsService.likePost(post, likeWeight).pipe(
+      catchError((error) => {
+        this.notificationService.error(error);
+        this.likeMap = this.likeMap.set(post.uuid, oldPostLike);
+
+        return of(void 0);
+      }),
+      finalize(() => HubLikesService.isLikeUpdating.next(false)),
+    );
   }
 }

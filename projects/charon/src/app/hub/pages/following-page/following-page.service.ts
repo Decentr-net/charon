@@ -32,7 +32,7 @@ export class FollowingPageService extends HubPostsService implements OnDestroy {
     ).subscribe(() => this.reload());
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.dispose();
   }
 

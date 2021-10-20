@@ -12,6 +12,16 @@ import { svgDelete } from '@shared/svg-icons/delete';
 export class HubPostDeleteButtonComponent {
   @Output() public delete: EventEmitter<void> = new EventEmitter();
 
+  private isExpanded: boolean = false;
+
+  constructor(
+    svgIconRegistry: SvgIconRegistry,
+  ) {
+    svgIconRegistry.register([
+      svgDelete,
+    ]);
+  }
+
   @HostBinding('class.mod-is-expanded')
   public get getIsExpanded(): boolean {
     return this.isExpanded;
@@ -27,16 +37,6 @@ export class HubPostDeleteButtonComponent {
     if (!this.isExpanded) {
       this.toggleButton(event);
     }
-  }
-
-  private isExpanded: boolean = false;
-
-  constructor(
-    svgIconRegistry: SvgIconRegistry,
-  ) {
-    svgIconRegistry.register([
-      svgDelete,
-    ]);
   }
 
   public toggleButton(event: Event): void {

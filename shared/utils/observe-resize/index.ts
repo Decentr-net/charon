@@ -12,7 +12,7 @@ export const observeResize = (element: HTMLElement): Observable<Dimensions> => {
       return subscriber.next(({
         height: getComputedStyle(element).height,
         width: getComputedStyle(element).width,
-      }))
+      }));
     });
 
     resizeObserver.observe(element);

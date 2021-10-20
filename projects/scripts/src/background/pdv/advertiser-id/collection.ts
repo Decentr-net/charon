@@ -6,12 +6,9 @@ import { ADVERTISERS } from './advertisers';
 import { listenCookiesSet } from '../cookies/events';
 
 export const listenAdvertiserPDVs = (): Observable<AdvertiserPDV> => {
-  return listenCookiesSet({
-    httpOnly: false,
-    session: false,
-  }).pipe(
+  return listenCookiesSet().pipe(
     map((cookie) => {
-      const advertiser = ADVERTISERS.find((advertiser) => advertiser.domainRegex.test(cookie.domain));
+      const advertiser = ADVERTISERS.find((advertiserConfig) => advertiserConfig.domainRegex.test(cookie.domain));
 
       if (!advertiser) {
         return;

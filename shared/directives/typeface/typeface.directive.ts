@@ -20,10 +20,13 @@ export class TypefaceDirective implements OnChanges {
   ) {
   }
 
-  public ngOnChanges({ typeface }: SimpleChanges) {
+  public ngOnChanges({ typeface }: SimpleChanges): void {
     if (typeface) {
       this.renderer.removeClass(this.elementRef.nativeElement, `typeface-${typeface.previousValue}`);
-      typeface.currentValue && this.renderer.addClass(this.elementRef.nativeElement, `typeface-${typeface.currentValue}`);
+
+      if (typeface.currentValue) {
+        this.renderer.addClass(this.elementRef.nativeElement, `typeface-${typeface.currentValue}`);
+      }
     }
   }
 }

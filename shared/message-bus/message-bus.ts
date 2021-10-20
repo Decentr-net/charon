@@ -80,7 +80,7 @@ export class MessageBus<T extends MessageMap> {
           body: message.body,
           sendResponse: resolve,
         })));
-      }
+      };
 
       browser.runtime.onMessage.addListener(listener);
 
@@ -103,7 +103,7 @@ export class MessageBus<T extends MessageMap> {
           sender,
           body: message.body,
         });
-      }
+      };
 
       browser.runtime.onMessage.addListener(listener);
 

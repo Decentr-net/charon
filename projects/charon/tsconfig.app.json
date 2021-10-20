@@ -4,7 +4,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "../../out-tsc/app",
-    "types": ["resize-observer-browser"],
+    "types": ["resize-observer-browser", "google.analytics"],
     "paths": {
       "@core/*": ["src/app/core/*"],
       "@environments/*": ["../../environments/*"],

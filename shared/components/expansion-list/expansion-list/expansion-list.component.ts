@@ -62,7 +62,7 @@ export class ExpansionListComponent<T> implements AfterViewInit {
       untilDestroyed(this),
     ).subscribe((column) => {
       this.columnToDisplay = column;
-      this.changeDetectorRef.markForCheck()
+      this.changeDetectorRef.markForCheck();
     });
   }
 }

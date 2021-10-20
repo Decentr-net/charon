@@ -28,7 +28,9 @@
         formControlName="title"
         maxlength="150"
         [placeholder]="translate('title.placeholder')"
-        rows="5"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="4"
         trim="blur"
         appAutoFocus
         (keydown.enter)="preventEvent($event)"
@@ -76,6 +78,7 @@
       <app-hub-post-editor-error
         [anchorElement]="textEditorContainerElement"
         [controlName]="'text'"
+        [position]="'top'"
       ></app-hub-post-editor-error>
     </ng-container>
   </app-hub-post-layout>

@@ -23,6 +23,7 @@ import { SlotModule } from '@shared/components/slot';
 import { BindQueryParamsModule } from '@shared/directives/bind-query-params';
 import { BrowserViewModule } from '@shared/directives/browser-view';
 import { NumericModule } from '@shared/directives/numeric';
+import { NumberFormatModule } from '@shared/pipes/number-format';
 import { IntersectionModule } from '@shared/directives/intersection';
 import { TypefaceModule } from '@shared/directives/typeface';
 import { MarginLabelModule } from '@shared/components/margin-label';
@@ -66,6 +67,7 @@ import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
     NetworkSelectorModule,
     NgxTrimDirectiveModule,
     NumericModule,
+    NumberFormatModule,
     ExpansionListModule,
     IntersectionModule,
     NgxSkeletonLoaderModule,

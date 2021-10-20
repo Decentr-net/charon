@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { BrowserTabGuard } from '@core/guards';
 import {
   ActivityPageComponent,
   AssetsPageComponent,
@@ -47,6 +48,13 @@ const ROUTES: Routes = [
         component: VpnPageComponent,
         canActivate: [
           VpnGuard,
+        ],
+      },
+      {
+        path: PortalRoute.Staking,
+        loadChildren: () => import('./staking/staking.module').then((m) => m.StakingModule),
+        canActivate: [
+          BrowserTabGuard,
         ],
       },
       {

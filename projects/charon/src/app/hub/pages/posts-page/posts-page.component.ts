@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
+  ElementRef, OnInit,
   TrackByFunction,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -33,7 +33,7 @@ import { HubPostsService } from '../../services';
     },
   ],
 })
-export class PostsPageComponent {
+export class PostsPageComponent implements OnInit {
   public headerActionsSlotName = AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT;
 
   public appRoute: typeof AppRoute = AppRoute;
@@ -47,10 +47,11 @@ export class PostsPageComponent {
 
   public isPostOutletActivated: boolean;
 
-  public postLinkFn: (post: Post) => string[] = (post) => [HubRoute.Post, post.owner, post.uuid];
   public trackByPostId: TrackByFunction<Post> = this.postsPageService.trackByPostId;
 
   private scrollPosition: number;
+
+  public postLinkFn: (post: Post) => string[] = (post) => [HubRoute.Post, post.owner, post.uuid];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -64,7 +65,7 @@ export class PostsPageComponent {
     ]);
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.postsPageService.posts$.pipe(
       untilDestroyed(this),
     ).subscribe((posts) => {

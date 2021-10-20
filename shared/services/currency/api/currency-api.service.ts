@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { CoinRateResponse } from './currency-api.definitions';
+import { CoinRateHistoryResponse, CoinRateResponse } from './currency-api.definitions';
 
 @Injectable()
 export class CurrencyApiService {
@@ -29,17 +29,22 @@ export class CurrencyApiService {
     );
   }
 
-  public getCoinRateHistory(blockchainId: string, currency: string, days: number, interval?: 'daily' | null): Observable<any> {
+  public getCoinRateHistory(
+    blockchainId: string,
+    currency: string,
+    days: number,
+    interval: 'daily' | null = 'daily',
+  ): Observable<CoinRateHistoryResponse> {
     const params = new HttpParams()
       .append(`days`, days.toString())
       .append(`interval`, interval)
       .append(`vs_currency`, currency);
 
-    return this.http.get<any>(
+    return this.http.get<CoinRateHistoryResponse>(
       `${this.api}/coins/${blockchainId}/market_chart`,
       {
         params,
       }
-    )
+    );
   }
 }

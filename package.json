@@ -1,6 +1,6 @@
 {
   "name": "charon",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "scripts": {
     "ng": "ng",
     "analyze:charon": "webpack-bundle-analyzer dist/charon/stats.json",
@@ -51,7 +51,7 @@
     "@rxweb/reactive-form-validators": "^2.1.2",
     "clamp-js": "^0.7.0",
     "d3": "~6.0.0",
-    "decentr-js": "^2.4.4",
+    "decentr-js": "^2.6.2",
     "highcharts": "^9.0.1",
     "highcharts-angular": "^2.10.0",
     "html2canvas": "*",
@@ -75,6 +75,7 @@
     "@angular/compiler-cli": "~10.2.0",
     "@ngneat/svg-generator": "^3.0.1",
     "@types/d3": "^6.2.0",
+    "@types/google.analytics": "^0.0.42",
     "@types/inputmask": "^5.0.1",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",

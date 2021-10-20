@@ -33,7 +33,7 @@ export class NavigationService {
     do {
       urlToNavigate = this.previousPageUrls.pop();
     }
-    while (urlToNavigate && !urlToNavigate.startsWith(startsWith || '') || urlToNavigate === this.router.url)
+    while (urlToNavigate && !urlToNavigate.startsWith(startsWith || '') || urlToNavigate === this.router.url);
 
     if (urlToNavigate) {
       const success = await this.router.navigateByUrl(urlToNavigate);
@@ -50,7 +50,7 @@ export class NavigationService {
       filter((event: NavigationEnd) => event instanceof NavigationEnd),
       pairwise(),
       map(([prev]) => prev.urlAfterRedirects),
-    )
+    );
   }
 
   public openInNewTab(url: string): Promise<Tabs.Tab> {

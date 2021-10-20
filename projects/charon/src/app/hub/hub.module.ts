@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -82,6 +83,7 @@ import { AuthorizedLayoutModule } from '@core/layout/authorized-layout';
     TextClampModule,
     TextContentModule,
     TextEllipsisModule,
+    TextFieldModule,
     TranslocoModule,
     TypefaceModule,
   ],

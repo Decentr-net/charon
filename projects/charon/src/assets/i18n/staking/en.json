@@ -1,0 +1,137 @@
+{
+  "delegate_page": {
+    "actions": {
+      "delegate_all": "Delegate all",
+      "submit": "Delegate"
+    },
+    "form": {
+      "amount": {
+        "errors": {
+          "insufficient": "Insufficient funds",
+          "min": "Minimum value is {{ min }}",
+          "pattern": "Incorrect amount format",
+          "required": "Amount is required"
+        },
+        "balance": "Balance",
+        "fee": "Fee",
+        "label": "Delegate amount"
+      },
+      "validator_name": {
+        "commission": "Withdrawal commission",
+        "label": "To validator"
+      }
+    },
+    "notification": {
+      "success": "{{ amount }} {{ currencySymbol }} successfully delegated to {{ validator }}"
+    },
+    "title": "Delegate",
+    "warning": {
+      "title": "Staking will lock your funds",
+      "subtitle": "You will need to undelegate in order for your staked assets to be liquid again."
+    }
+  },
+  "validator_details": {
+    "actions": {
+      "delegate": "Delegate",
+      "redelegate": "Redelegate",
+      "undelegate": "Undelegate"
+    },
+    "details_table": {
+      "commission": "Commission",
+      "operator_address": "Operator address",
+      "voting_power": "Voting power",
+      "website": "Website"
+    },
+    "delegated": "Delegated:",
+    "jailed": "This validator is currently being jailed!",
+    "title": "Validator details"
+  },
+  "validators_page": {
+    "show_only_active": "Only active validators",
+    "title": "Validators"
+  },
+  "validators_table": {
+    "commission": "Commission",
+    "delegated": "Delegated",
+    "jailed": "jailed",
+    "operator_address": "Operator address",
+    "status": "Status",
+    "validator": "Validator",
+    "voting_power": "Voting power"
+  },
+  "redelegate_page": {
+    "actions": {
+      "redelegate_all": "Redelegate all",
+      "submit": "Redelegate"
+    },
+    "extended_errors": {
+      "in_progress": {
+        "title": "Redelegation to the source validator already in progress",
+        "text": "First redelegations to the source validator must complete before next redelegation.\nRedelegation will be available after:"
+      },
+      "limit": {
+        "title": "Limit of simultaneous redelegations is reached",
+        "text": "At least one redelegation to destination validator must complete before next redelegation.\nRedelegation will be available after:"
+      }
+    },
+    "form": {
+      "amount": {
+        "errors": {
+          "insufficient": "Insufficient funds",
+          "insufficientBalance": "Insufficient funds to pay fee",
+          "min": "Minimum value is {{ min }}",
+          "pattern": "Incorrect amount format",
+          "required": "Amount is required"
+        },
+        "fee": "Fee",
+        "balance": "Available",
+        "label": "Redelegate amount"
+      },
+      "to_validator": {
+        "errors": {
+          "isValidator": "Please, choose a validator",
+          "required": "Validator is required"
+        },
+        "commission": "Withdrawal commission",
+        "label": "To validator",
+        "placeholder": "Search or choose validator"
+      }
+    },
+    "notification": {
+      "success": "{{ amount }} {{ currencySymbol }} successfully redelegated to {{ validator }}"
+    },
+    "title": "Redelegate from"
+  },
+  "undelegate_page": {
+    "actions": {
+      "undelegate_all": "Undelegate all",
+      "submit": "Undelegate"
+    },
+    "form": {
+      "amount": {
+        "errors": {
+          "insufficient": "Insufficient funds",
+          "insufficientBalance": "Insufficient funds to pay fee",
+          "min": "Minimum value is {{ min }}",
+          "pattern": "Incorrect amount format",
+          "required": "Amount is required"
+        },
+        "balance": "Available",
+        "fee": "Fee",
+        "label": "Undelegate amount"
+      },
+      "validator_address": {
+        "commission": "Withdrawal commission",
+        "label": "From validator"
+      }
+    },
+    "hint": {
+      "title": "Trying to switch validators?",
+      "subtitle": "Use the ‘Redelegate’ feature to instantly stake your assets to another validator."
+    },
+    "notification": {
+      "success": "{{ amount }} {{ currencySymbol }} successfully undelegated from {{ validator }}"
+    },
+    "title": "Undelegate"
+  }
+}

@@ -1,0 +1,44 @@
+<table
+  class="data-table__table"
+  cdk-table
+  [dataSource]="data"
+  [trackBy]="trackBy"
+>
+  <ng-container
+    *ngFor="let column of columns; trackBy: trackByColumnName"
+    [cdkColumnDef]="column.name"
+  >
+    <th
+      class="data-table__header-row__cell"
+      cdk-header-cell
+      *cdkHeaderCellDef
+      appTypeface="caption"
+    >
+      {{ column.name }}
+    </th>
+
+    <td
+      class="data-table__row__cell"
+      cdk-cell
+      *cdkCellDef="let item"
+      appTypeface="paragraph"
+    >
+      <ng-template
+        [ngTemplateOutlet]="column.templateRef"
+        [ngTemplateOutletContext]="{ $implicit: item }"
+      ></ng-template>
+    </td>
+  </ng-container>
+
+  <tr
+    class="data-table__header-row"
+    cdk-header-row
+    *cdkHeaderRowDef="columnNames"
+  ></tr>
+
+  <tr
+    class="data-table__row"
+    cdk-row
+    *cdkRowDef="let row; columns: columnNames"
+  ></tr>
+</table>

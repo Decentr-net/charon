@@ -54,6 +54,11 @@ export class InputComponent extends CustomControl<string> implements OnInit {
   @HostBinding('class.typeface-paragraph')
   public typefaceParagraph = true;
 
+  @HostBinding('class.has-eye')
+  public get hasEye(): boolean {
+    return this.type === 'password' && this.eye;
+  }
+
   public isOpenedInPopup: boolean = !isOpenedInTab();
 
   public valueSecured = true;

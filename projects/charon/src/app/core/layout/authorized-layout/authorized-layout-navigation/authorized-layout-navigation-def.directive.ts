@@ -1,4 +1,4 @@
-import { Directive, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -8,7 +8,7 @@ import { AuthorizedLayoutNavigationService } from './authorized-layout-navigatio
 @Directive({
   selector: '[appAuthorizedLayoutNavigationDef]',
 })
-export class AuthorizedLayoutNavigationDefDirective {
+export class AuthorizedLayoutNavigationDefDirective implements OnInit, OnDestroy {
   private linksDefs: BehaviorSubject<AuthorizedLayoutNavigationLinkDefDirective[]> = new BehaviorSubject([]);
 
   constructor(

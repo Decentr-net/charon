@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { TypefaceModule } from '../../directives/typeface';
 import { InputContainerComponent } from './input-container.component';
+import { FormErrorModule } from '../form-error';
 
 @NgModule({
   declarations: [
@@ -10,6 +11,7 @@ import { InputContainerComponent } from './input-container.component';
   ],
   exports: [
     InputContainerComponent,
+    FormErrorModule,
   ],
   imports: [
     CommonModule,

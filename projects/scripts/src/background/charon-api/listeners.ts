@@ -4,11 +4,14 @@ import { MessageBus } from '../../../../../shared/message-bus';
 import { MessageCode } from '../../messages';
 import {
   createPost,
+  delegate,
   deletePost,
   follow,
   likePost,
+  redelegate,
   resetAccount,
   transferCoins,
+  undelegate,
   unfollow,
 } from './api';
 import QUEUE, { QueuePriority } from '../queue';
@@ -35,7 +38,7 @@ const sendRequest = <K extends keyof StdTxMessageValueMap>(
         error,
       }),
     );
-}
+};
 
 export const initCharonAPIListeners = () => {
   const messageBus = new MessageBus<CharonAPIMessageBusMap>();
@@ -118,6 +121,49 @@ export const initCharonAPIListeners = () => {
       () => resetAccount(
         message.body.walletAddress,
         message.body.initiator,
+        message.body.privateKey,
+      ),
+      (response) => {
+        message.sendResponse(response);
+      },
+    );
+  });
+
+  messageBus.onMessage(MessageCode.Delegate).subscribe((message) => {
+    sendRequest(
+      () => delegate(
+        message.body.walletAddress,
+        message.body.validatorAddress,
+        message.body.amount,
+        message.body.privateKey,
+      ),
+      (response) => {
+        message.sendResponse(response);
+      },
+    );
+  });
+
+  messageBus.onMessage(MessageCode.Redelegate).subscribe((message) => {
+    sendRequest(
+      () => redelegate(
+        message.body.walletAddress,
+        message.body.fromValidatorAddress,
+        message.body.toValidatorAddress,
+        message.body.amount,
+        message.body.privateKey,
+      ),
+      (response) => {
+        message.sendResponse(response);
+      },
+    );
+  });
+
+  messageBus.onMessage(MessageCode.Undelegate).subscribe((message) => {
+    sendRequest(
+      () => undelegate(
+        message.body.walletAddress,
+        message.body.validatorAddress,
+        message.body.amount,
         message.body.privateKey,
       ),
       (response) => {

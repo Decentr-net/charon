@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, from, Observable } from 'rxjs';
-import { filter, mergeMap, startWith } from 'rxjs/operators';
+import { BehaviorSubject, from, merge, Observable } from 'rxjs';
+import { distinctUntilChanged, filter, mergeMap, startWith } from 'rxjs/operators';
 
 import { BrowserLocalStorage, BrowserStorage } from '../browser-storage';
 
@@ -21,11 +21,12 @@ export class NetworkBrowserStorageService {
   }
 
   public getActiveAPI(): Observable<string> {
-    return from(this.browserStorage.get('api')).pipe(
-      mergeMap((api) => this.browserStorage.onChange('api').pipe(
-        startWith(api),
-      )),
+    return merge(
+      this.browserStorage.onChange('api'),
+      this.browserStorage.get('api'),
+    ).pipe(
       filter((api) => !!api),
+      distinctUntilChanged(),
     );
   }
 

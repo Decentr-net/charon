@@ -5,6 +5,7 @@ import {
   StdTxMessageType,
   StdTxMessageValue,
   TransferData,
+  Validator,
   Wallet,
 } from 'decentr-js';
 
@@ -89,5 +90,42 @@ export interface CharonAPIMessageBusMap extends MessageMap {
       success: boolean;
       error?: any;
     };
-  }
+  };
+  [MessageCode.Delegate]: {
+    body: {
+      amount: string;
+      privateKey: Wallet['privateKey'];
+      validatorAddress: Validator['operator_address'];
+      walletAddress: Wallet['address'];
+    },
+    response: {
+      success: boolean;
+      error?: any;
+    };
+  };
+  [MessageCode.Redelegate]: {
+    body: {
+      amount: string;
+      privateKey: Wallet['privateKey'];
+      fromValidatorAddress: Validator['operator_address'];
+      toValidatorAddress: Validator['operator_address'];
+      walletAddress: Wallet['address'];
+    },
+    response: {
+      success: boolean;
+      error?: any;
+    };
+  };
+  [MessageCode.Undelegate]: {
+    body: {
+      amount: string;
+      privateKey: Wallet['privateKey'];
+      validatorAddress: Validator['operator_address'];
+      walletAddress: Wallet['address'];
+    },
+    response: {
+      success: boolean;
+      error?: any;
+    };
+  };
 }

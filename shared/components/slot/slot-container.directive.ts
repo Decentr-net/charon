@@ -18,7 +18,7 @@ export class SlotContainerDirective implements OnInit {
   ) {
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.slotService.getSlotTemplate(this.forSlot)
       .pipe(
         untilDestroyed(this),

@@ -17,9 +17,9 @@ export const AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT = Symbol('AUTHORIZED_LAYOUT_H
 export class AuthorizedLayoutHeaderComponent implements OnInit {
   @HostBinding('class.mod-popup-view') public isOpenedInPopup: boolean;
 
-  public readonly logoSlotName: Symbol = AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT;
-  public readonly metaSlotName: Symbol = AUTHORIZED_LAYOUT_HEADER_META_SLOT;
-  public readonly actionsSlotName: Symbol = AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT;
+  public readonly logoSlotName: symbol = AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT;
+  public readonly metaSlotName: symbol = AUTHORIZED_LAYOUT_HEADER_META_SLOT;
+  public readonly actionsSlotName: symbol = AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT;
 
   constructor(
     public elementRef: ElementRef<HTMLElement>,

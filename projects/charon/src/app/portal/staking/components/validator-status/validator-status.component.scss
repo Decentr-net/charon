@@ -1,0 +1,50 @@
+@import 'variables';
+
+:host {
+  align-items: center;
+  display: inline-flex;
+
+  &.mod-filled {
+    border-radius: $border-radius;
+    font-weight: 500;
+    padding: $grid-step $grid-step * 2 $grid-step $grid-step * 1.5;
+
+    .validator-status__label {
+      color: $color-black;
+    }
+  }
+
+  &.mod-bonded {
+    $bonded-color: $color-positive;
+
+    color: $bonded-color;
+
+    &.mod-filled {
+      background-color: rgba($bonded-color, 0.08);
+    }
+  }
+
+  &.mod-unbonded {
+    $unbonded-color: $color-light-grey;
+
+    color: $unbonded-color;
+
+    &.mod-filled {
+      background-color: rgba($unbonded-color, 0.08);
+    }
+  }
+
+  &.mod-unbonding {
+    $unbonding-color: $color-grey;
+
+    color: $color-grey;
+
+    &.mod-filled {
+      background-color: rgba($unbonding-color, 0.08);
+    }
+  }
+
+  .validator-status__label {
+    margin-left: $grid-step;
+  }
+}

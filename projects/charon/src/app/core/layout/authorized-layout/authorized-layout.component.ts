@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostBinding,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { map } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -18,9 +26,11 @@ export const AUTHORIZED_LAYOUT_FOOTER_SLOT = Symbol('AUTHORIZED_LAYOUT_FOOTER_SL
   ],
 })
 export class AuthorizedLayoutComponent implements OnInit {
+  @ViewChild('contentContainer', { static: true }) public contentContainer: ElementRef<HTMLDivElement>;
+
   @HostBinding('class.mod-popup-view') public isOpenedInPopup: boolean;
 
-  public readonly footerSlotName: Symbol = AUTHORIZED_LAYOUT_FOOTER_SLOT;
+  public readonly footerSlotName: symbol = AUTHORIZED_LAYOUT_FOOTER_SLOT;
 
   public hasNavigation: boolean;
 
@@ -40,5 +50,9 @@ export class AuthorizedLayoutComponent implements OnInit {
     });
 
     this.isOpenedInPopup = !isOpenedInTab();
+  }
+
+  public scrollToTop(): void {
+    this.contentContainer.nativeElement.scrollTop = 0;
   }
 }

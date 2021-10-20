@@ -15,7 +15,7 @@ export class BrowserPopupViewDirective implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     if (!isOpenedInTab()) {
-      this.viewContainerRef.createEmbeddedView(this.templateRef).detectChanges()
+      this.viewContainerRef.createEmbeddedView(this.templateRef).detectChanges();
     }
   }
 }

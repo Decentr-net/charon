@@ -16,7 +16,8 @@ export class NotificationService {
   }
 
   public error(error: unknown): void {
-    let processor: ErrorProcessor = this.errorProcessors.find(processor => processor.canProcess(error));
+    let processor: ErrorProcessor = this.errorProcessors
+      .find((errorProcessor) => errorProcessor.canProcess(error));
 
     if (!processor) {
       processor = this.fallbackErrorProcessor;

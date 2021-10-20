@@ -46,11 +46,11 @@ export class PostPageComponent implements OnInit {
 
   public postStatisticsTranslations$: Observable<PDVStatisticsTranslations>;
 
+  private isFollowingAuthor: boolean;
+
   public trackByPostId: TrackByFunction<PostsListItem> = ({}, { uuid }) => uuid;
 
   public postLinkFn: (post: PostsListItem) => string[] = (post) => ['../../', post.owner, post.uuid];
-
-  private isFollowingAuthor: boolean;
 
   constructor(
     private authService: AuthService,
@@ -74,7 +74,7 @@ export class PostPageComponent implements OnInit {
       this.isFollowingAuthor = undefined;
       this.post = post;
 
-      this.changeDetectorRef.detectChanges()
+      this.changeDetectorRef.detectChanges();
     });
 
     const walletAddress = this.authService.getActiveUserInstant().wallet.address;

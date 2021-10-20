@@ -13,8 +13,8 @@ import { HubPDVStatistics } from '../hub-pdv-statistics';
 import { UserService } from '@core/services';
 
 interface CoinRateHistory {
-  date: number,
-  value: number,
+  date: number;
+  value: number;
 }
 
 @Injectable()
@@ -86,7 +86,7 @@ export class HubHeaderStatsMetaService {
         rate: rateWithMargin.value,
         rateChangedIn24HoursPercent: rateWithMargin.dayMargin,
       })),
-    )
+    );
   }
 
   public openDetailsOverlay(

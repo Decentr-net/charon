@@ -13,6 +13,10 @@ export class HubPostCategoryColorDirective implements OnChanges {
   ) {
   }
 
+  public static getColorClass(category: PostCategory): string {
+    return `post-category-${category}`;
+  }
+
   public ngOnChanges({ category }: SimpleChanges): void {
     if (category) {
       this.renderer2.removeClass(
@@ -25,9 +29,5 @@ export class HubPostCategoryColorDirective implements OnChanges {
         HubPostCategoryColorDirective.getColorClass(category.currentValue),
       );
     }
-  }
-
-  public static getColorClass(category: PostCategory): string {
-    return `post-category-${category}`;
   }
 }

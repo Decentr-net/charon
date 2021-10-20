@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, TrackByFunction } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Post, PostCategory } from 'decentr-js';
 
@@ -27,7 +28,7 @@ export class HubTopPostsComponent implements OnInit {
     this.category$.next(value);
   }
 
-  @Input() public routerLinkFn: (post: Post) => unknown[] = () => ['./'];
+  @Input() public routerLinkFn: (post: Post) => unknown[];
 
   public hubRoute: typeof HubRoute = HubRoute;
 
@@ -36,6 +37,8 @@ export class HubTopPostsComponent implements OnInit {
   public canLoadMore$: Observable<boolean>;
 
   public category$: ReplaySubject<PostCategory> = new ReplaySubject(1);
+
+  public disableCategory$: Observable<boolean>;
 
   constructor(private hubTopPostsService: HubTopPostsService) {
   }
@@ -52,6 +55,12 @@ export class HubTopPostsComponent implements OnInit {
     ).subscribe((category) => {
       this.hubTopPostsService.setCategory(category);
     });
+
+    this.disableCategory$ = this.category$.pipe(
+      map(Boolean),
+    );
+
+    this.routerLinkFn = this.routerLinkFn || (() => ['./']);
   }
 
   public loadMore(): void {

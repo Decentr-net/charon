@@ -50,7 +50,9 @@ export class HubPostCardComponent implements OnChanges, OnInit {
 
   public ngOnChanges({ orientation }: SimpleChanges): void {
     if (orientation) {
-      orientation.firstChange && this.renderer.removeClass(this.elementRef.nativeElement, `mod-${DEFAULT_ORIENTATION}`);
+      if (orientation.firstChange) {
+        this.renderer.removeClass(this.elementRef.nativeElement, `mod-${DEFAULT_ORIENTATION}`);
+      }
 
       this.renderer.removeClass(this.elementRef.nativeElement, `mod-${orientation.previousValue}`);
       this.renderer.addClass(this.elementRef.nativeElement, `mod-${orientation.currentValue}`);

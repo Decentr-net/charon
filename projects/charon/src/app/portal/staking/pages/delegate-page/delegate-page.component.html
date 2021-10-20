@@ -1,0 +1,113 @@
+<app-staking-layout
+  *transloco="let translate; read: 'staking.delegate_page'"
+  [contentDivider]="true"
+>
+  <div
+    class="delegate-page__header"
+    ngProjectAs="[card-title]"
+  >
+    <button
+      app-button-back
+      [routerLink]="['../']"
+    ></button>
+
+    {{ translate('title') }}
+  </div>
+
+  <div
+    ngProjectAs="[card-body]"
+  >
+    <form
+      #ngForm="ngForm"
+      class="delegate-page__form"
+      [formGroup]="form"
+      appSubmitSource
+    >
+      <app-input-container
+        class="delegate-page__form__input-container"
+      >
+        <app-input
+          class="delegate-page__form__amount-control"
+          formControlName="amount"
+          appTypeface="header-3"
+        >
+          <span ngProjectAs="[label]">{{ translate('form.amount.label') }}</span>
+
+          <span ngProjectAs="[label-right]">
+            {{ translate('form.amount.balance') }}: {{ balance$ | async | microValue }}
+            <app-currency-symbol></app-currency-symbol>
+          </span>
+
+          <span ngProjectAs="[footer]">
+            {{ translate('form.amount.fee') }}: {{ (fee$ | async | microValue | numberFormat : null : true) || '-' }} <app-currency-symbol></app-currency-symbol>
+          </span>
+        </app-input>
+
+        <app-form-error controlName="amount"></app-form-error>
+      </app-input-container>
+
+      <svg-icon
+        class="delegate-page__direction-icon"
+        key="arrow-left"
+        size="xl"
+      ></svg-icon>
+
+      <app-input-container
+        class="delegate-page__form__input-container"
+      >
+        <app-input
+          class="delegate-page__form__validator-control"
+          formControlName="validatorName"
+          [rows]="2"
+          appTypeface="subheader"
+        >
+          <span ngProjectAs="[label]">{{ translate('form.validator_name.label') }}</span>
+
+          <span
+            ngProjectAs="[footer]"
+          >
+            {{ translate('form.validator_name.commission') }} {{ validatorCommission$ | async | percent }}
+          </span>
+        </app-input>
+      </app-input-container>
+
+      <div class="delegate-page__warning">
+        <svg-icon
+          class="delegate-page__warning__icon"
+          key="speedometer"
+          size="xs"
+        ></svg-icon>
+
+        <div appTypeface="caption">
+          <div class="delegate-page__warning__title">
+            {{ translate('warning.title') }}
+          </div>
+
+          <div>
+            {{ translate('warning.subtitle') }}
+          </div>
+        </div>
+      </div>
+
+      <div class="delegate-page__actions">
+        <button
+          *ngIf="false"
+          class="delegate-page__actions__button"
+          app-button
+          color="grey"
+          (click)="delegateAll()"
+        >
+          {{ translate('actions.delegate_all') }}
+        </button>
+
+        <button
+          class="delegate-page__actions__button"
+          app-button
+          (click)="onSubmit()"
+        >
+          {{ translate('actions.submit') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</app-staking-layout>

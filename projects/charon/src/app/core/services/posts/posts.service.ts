@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { defer, forkJoin, from, Observable, of } from 'rxjs';
 import { catchError, map, mapTo, mergeMap, tap } from 'rxjs/operators';
-import { LikeWeight, Post, PostCreate, PostIdentificationParameters } from 'decentr-js'
+import { LikeWeight, Post, PostCreate, PostIdentificationParameters } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
 import { getArrayUniqueValues } from '@shared/utils/array';
@@ -68,7 +68,7 @@ export class PostsService {
                 stats: postsListResponse.stats[`${post.owner}/${post.uuid}`] || [],
             }));
           })
-        )
+        );
       }),
     );
   }
@@ -80,8 +80,8 @@ export class PostsService {
 
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.PostCreate, {
+        post,
         walletAddress: wallet.address,
-        post: post,
         privateKey: wallet.privateKey
       })).pipe(
         map((response) => {

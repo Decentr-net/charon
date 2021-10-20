@@ -1,0 +1,116 @@
+<app-staking-layout
+  *transloco="let translate; read: 'staking.undelegate_page'"
+  [contentDivider]="true"
+>
+  <div
+    class="undelegate-page__header"
+    ngProjectAs="[card-title]"
+  >
+    <button
+      app-button-back
+      [routerLink]="['../']"
+    ></button>
+
+    {{ translate('title') }}
+  </div>
+
+  <div
+    ngProjectAs="[card-body]"
+  >
+    <form
+      #ngForm="ngForm"
+      class="undelegate-page__form"
+      [formGroup]="form"
+      appSubmitSource
+    >
+      <app-input-container
+        class="undelegate-page__form__input-container"
+      >
+        <app-input
+          class="undelegate-page__form__amount-control"
+          formControlName="amount"
+          appTypeface="header-3"
+        >
+          <span ngProjectAs="[label]">{{ translate('form.amount.label') }}</span>
+
+          <span ngProjectAs="[label-right]">
+            {{ translate('form.amount.balance') }}: {{ delegatedAmount$ | async | microValue | numberFormat : null : true }}
+            <app-currency-symbol></app-currency-symbol>
+          </span>
+
+          <span ngProjectAs="[footer]">
+            {{ translate('form.amount.fee') }}: {{ (fee$ | async | microValue | numberFormat : null : true) || '-' }} <app-currency-symbol></app-currency-symbol>
+          </span>
+        </app-input>
+
+        <app-form-error controlName="amount"></app-form-error>
+      </app-input-container>
+
+      <svg-icon
+        class="undelegate-page__direction-icon"
+        key="arrow-left"
+        size="xl"
+      ></svg-icon>
+
+      <app-input-container
+        class="undelegate-page__form__input-container"
+      >
+        <app-input
+          class="undelegate-page__form__validator-control"
+          formControlName="validatorName"
+          [rows]="2"
+          appTypeface="subheader"
+        >
+          <span ngProjectAs="[label]">{{ translate('form.validator_address.label') }}</span>
+
+          <span
+            ngProjectAs="[footer]"
+            *ngIf="validatorCommission$ | async as validatorCommission"
+          >
+            {{ translate('form.validator_address.commission') }} {{ validatorCommission | percent }}
+          </span>
+        </app-input>
+      </app-input-container>
+
+      <div class="undelegate-page__info">
+        <div class="undelegate-page__info__block mod-hint">
+          <svg-icon
+            class="undelegate-page__info__block__icon"
+            key="speedometer"
+            size="xs"
+          ></svg-icon>
+
+          <div appTypeface="caption">
+            <div class="undelegate-page__info__block__title">
+              {{ translate('hint.title') }}
+            </div>
+
+            <div>
+              {{ translate('hint.subtitle') }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="undelegate-page__actions">
+        <button
+          *ngIf="false"
+          class="undelegate-page__actions__button"
+          app-button
+          color="grey"
+          (click)="undelegateAll()"
+        >
+          {{ translate('actions.undelegate_all') }}
+        </button>
+
+        <button
+          class="undelegate-page__actions__button"
+          app-button
+          (click)="onSubmit()"
+        >
+          {{ translate('actions.submit') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</app-staking-layout>

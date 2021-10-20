@@ -141,6 +141,6 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
           Validators.maxLength(150),
         ],
       ],
-    })
+    });
   }
 }

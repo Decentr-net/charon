@@ -40,8 +40,12 @@
       *appExpansionListCellDef="let asset;"
     >
       <svg-icon key="decentr-hub"></svg-icon>
-      {{ asset.balance | microValue }}
-      <app-currency-symbol></app-currency-symbol>
+
+      <span>
+        {{ asset.balance | microValue | numberFormat : null : true }}
+
+        <app-currency-symbol></app-currency-symbol>
+      </span>
     </div>
 
     <ng-container *appExpansionListLoading>
@@ -63,7 +67,7 @@
           </ng-container>
 
           <ng-container *appBrowserPopupView>
-            {{ asset?.balance | microValue }}
+            {{ asset?.balance | microValue | numberFormat : null : true }}
             {{ asset?.token }}
           </ng-container>
 

@@ -1,0 +1,92 @@
+@import 'variables';
+
+:host {
+  display: block;
+  padding-bottom: $grid-step * 2;
+}
+
+.undelegate-page__header {
+  column-gap: $grid-step * 2;
+  display: flex;
+}
+
+.undelegate-page__form {
+  align-items: center;
+  column-gap: $grid-step * 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr);
+  grid-template-areas: 'amount icon validator'
+                       'info empty actions';
+  row-gap: $grid-step * 1;
+}
+
+.undelegate-page__form__input-container {
+  height: 100%;
+}
+
+.undelegate-page__form__amount-control {
+  grid-area: amount;
+  height: 100%;
+  text-align: end;
+}
+
+.undelegate-page__direction-icon {
+  color: $color-light-grey;
+  grid-area: icon;
+}
+
+.undelegate-page__form__validator-control {
+  grid-area: validator;
+  height: 100%;
+}
+
+.undelegate-page__info {
+  grid-area: info;
+}
+
+.undelegate-page__info__block {
+  border-radius: $border-radius;
+  column-gap: $grid-step;
+  display: flex;
+  padding: $grid-step * 1.5;
+  white-space: pre-line;
+
+  & + & {
+    margin-top: $grid-step;
+  }
+
+  &.mod-hint {
+    background-color: rgba($color-blue, 0.12);
+
+    .undelegate-page__info__block__icon {
+      color: $color-blue;
+    }
+  }
+}
+
+.undelegate-page__info__block__icon {
+  flex-shrink: 0;
+}
+
+.undelegate-page__info__block__icon {
+  color: $color-red;
+  flex-shrink: 0;
+}
+
+.undelegate-page__info__block__title {
+  font-weight: 700;
+  margin-bottom: $grid-step / 2;
+}
+
+.undelegate-page__actions {
+  align-items: flex-end;
+  column-gap: $grid-step * 1.5;
+  display: flex;
+  grid-area: actions;
+  justify-content: flex-end;
+  margin-top: auto;
+}
+
+.undelegate-page__actions__button {
+  height: min-content;
+}

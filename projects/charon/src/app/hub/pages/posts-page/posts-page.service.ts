@@ -18,7 +18,7 @@ export class PostsPageService extends HubPostsService implements OnDestroy {
     super(injector);
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.dispose();
   }
 
