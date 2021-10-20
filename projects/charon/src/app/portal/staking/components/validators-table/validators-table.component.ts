@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, TrackByFunction } from '@angular/core';
-
-import { ValidatorDefinition } from '../../models';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
+
 import { svgPiggyBank } from '@shared/svg-icons/piggy-bank';
+import { ValidatorDefinition } from '../../models';
 
 @Component({
   selector: 'app-validators-table',
