@@ -22,7 +22,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { CurrencySymbolService } from '@shared/components/currency-symbol';
 import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
-import { svgSpeedometer } from '@shared/svg-icons/speedometer';
+import { svgLock } from '@shared/svg-icons/lock';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { NotificationService } from '@shared/services/notification';
@@ -76,7 +76,7 @@ export class DelegatePageComponent implements OnInit {
   public ngOnInit(): void {
     this.svgIconRegistry.register([
       svgArrowLeft,
-      svgSpeedometer,
+      svgLock,
     ]);
 
     this.form = this.createForm();

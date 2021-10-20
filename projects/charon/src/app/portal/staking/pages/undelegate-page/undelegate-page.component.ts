@@ -20,7 +20,7 @@ import { Validator } from 'decentr-js';
 
 import { CurrencySymbolService } from '@shared/components/currency-symbol';
 import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
-import { svgSpeedometer } from '@shared/svg-icons/speedometer';
+import { svgRedelegate } from '@shared/svg-icons/redelegate';
 import { svgUnbonded } from '@shared/svg-icons/validator-status/unbonded';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
@@ -78,7 +78,7 @@ export class UndelegatePageComponent implements OnInit {
   public ngOnInit(): void {
     this.svgIconRegistry.register([
       svgArrowLeft,
-      svgSpeedometer,
+      svgRedelegate,
       svgUnbonded,
     ]);
 
