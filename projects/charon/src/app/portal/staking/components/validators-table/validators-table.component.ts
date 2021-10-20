@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, TrackByFunction } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TrackByFunction } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgPiggyBank } from '@shared/svg-icons/piggy-bank';
@@ -13,6 +13,8 @@ import { ValidatorDefinition } from '../../models';
 export class ValidatorsTableComponent {
   @Input() data: ValidatorDefinition[];
 
+  @Output() validatorRewardClick: EventEmitter<ValidatorDefinition> = new EventEmitter();
+
   constructor(
     svgIconRegistry: SvgIconRegistry,
   ) {
@@ -22,4 +24,8 @@ export class ValidatorsTableComponent {
   }
 
   public trackByAddress: TrackByFunction<ValidatorDefinition> = ({}, { address }) => address;
+
+  public onValidatorRewardClick(validator: ValidatorDefinition): void {
+    this.validatorRewardClick.emit(validator);
+  }
 }

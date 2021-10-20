@@ -54,6 +54,7 @@
     ngProjectAs="[card-body]"
     *ngIf="validators$ | async as validators; else tablesLoading;"
     [data]="validators"
+    (validatorRewardClick)="onValidatorRewardClick($event)"
   ></app-validators-table>
 </app-staking-layout>
 

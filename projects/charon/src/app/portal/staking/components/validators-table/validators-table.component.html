@@ -49,10 +49,14 @@
     "
   >
     <div class="validators-table__reward-and-delegated">
-      <div
-        *ngIf="validator.reward"
+      <button
         class="validators-table__reward"
+        app-button
+        size="xs"
+        [light]="true"
+        *ngIf="validator.reward"
         appTypeface="caption"
+        (click)="onValidatorRewardClick(validator)"
       >
         <svg-icon
           class="validators-table__reward-icon"
@@ -63,7 +67,7 @@
         <ng-container *ngIf="validator.reward >= 1; else lessThanOneUdec">
           {{ validator.reward | microValue | numberFormat : '1.0-6' : true }}
         </ng-container>
-      </div>
+      </button>
 
       <div [class.mod-empty]="!+validator.delegated">
         {{ validator.delegated && (validator.delegated | microValue | numberFormat : null : true) || '0' }}

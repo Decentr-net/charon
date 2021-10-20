@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, filter, finalize, map, startWith, switchMap, take } from 'rxjs/operators';
+import { catchError, filter, finalize, map, pluck, startWith, switchMap, take } from 'rxjs/operators';
 import { BehaviorSubject, combineLatest, EMPTY, Observable } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -12,6 +12,8 @@ import { NotificationService } from '@shared/services/notification';
 import { StakingRoute } from '../../staking-route';
 import { ValidatorDefinitionShort } from '../../models';
 import { WithdrawDelegatorPageService } from './withdraw-delegator-page.service';
+
+export const INITIAL_VALIDATOR_ADDRESS_PARAM = 'validatorAddress';
 
 @UntilDestroy()
 @Component({
@@ -63,10 +65,25 @@ export class WithdrawDelegatorPageComponent implements OnInit {
     this.validators$ = this.withdrawDelegatorPageService.getValidators();
 
     this.fee$ = this.getFee();
+
+    combineLatest([
+      this.activatedRoute.queryParams.pipe(
+        pluck(INITIAL_VALIDATOR_ADDRESS_PARAM),
+      ),
+      this.validators$,
+    ]).pipe(
+      map(([initialSelectedValidatorAddress, validators]) => {
+        return validators.find(({ address }) => address === initialSelectedValidatorAddress);
+      }),
+      filter((selectedValidator) => !!selectedValidator),
+      untilDestroyed(this)
+    ).subscribe((selectedValidator) => {
+      this.chooseValidator(selectedValidator);
+    });
   }
 
-  public onItemClick(item: ValidatorDefinitionShort): void {
-    this.selectedItems$.next([item]);
+  public chooseValidator(validator: ValidatorDefinitionShort): void {
+    this.selectedItems$.next([validator]);
   }
 
   public chooseAll(validators: ValidatorDefinitionShort[]): void {
@@ -76,7 +93,7 @@ export class WithdrawDelegatorPageComponent implements OnInit {
   public getFee(): Observable<number> {
     return this.selectedItems$.pipe(
       filter((items) => items.length > 0),
-      switchMap((items) => this.distributionService.calculateWithdrawDelegatorRewardsFee(this.selectedItems$.value.length > 1 ? undefined : this.selectedItems$.value[0].address)),
+      switchMap((items) => this.distributionService.calculateWithdrawDelegatorRewardsFee(items.length > 1 ? undefined : items[0].address)),
       startWith(0),
     );
   }

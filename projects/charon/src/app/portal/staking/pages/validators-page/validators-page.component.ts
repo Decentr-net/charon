@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormControl } from '@ngneat/reactive-forms';
@@ -10,6 +11,7 @@ import { svgGetCoin } from '@shared/svg-icons/get-coin';
 import { DistributionService } from '@core/services/distribution';
 import { ValidatorDefinition } from '../../models';
 import { StakingRoute } from '../../staking-route';
+import { INITIAL_VALIDATOR_ADDRESS_PARAM } from '../widthraw-delegator-page';
 import { ValidatorsPageService } from './validators-page.service';
 
 @UntilDestroy()
@@ -32,8 +34,10 @@ export class ValidatorsPageComponent implements OnInit {
   public onlyBondedFormControl: FormControl<boolean> = new FormControl(false);
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private changeDetectorRef: ChangeDetectorRef,
     private distributionService: DistributionService,
+    private router: Router,
     private svgIconRegistry: SvgIconRegistry,
     private validatorsPageService: ValidatorsPageService,
   ) {
@@ -59,6 +63,13 @@ export class ValidatorsPageComponent implements OnInit {
       this.totalDelegatorRewards = totalDelegatorRewards;
 
       this.changeDetectorRef.markForCheck();
+    });
+  }
+
+  public onValidatorRewardClick(validator: ValidatorDefinition): void {
+    this.router.navigate([StakingRoute.Withdraw], {
+      relativeTo: this.activatedRoute,
+      queryParams: { [INITIAL_VALIDATOR_ADDRESS_PARAM]: validator.address },
     });
   }
 }

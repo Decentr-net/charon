@@ -37,7 +37,11 @@ export class DataTableComponent<T> {
   }
 
   public isItemSelected(item: T): boolean {
-    return this.selectedItems.includes(item);
+    return this.trackBy
+      ? this.selectedItems.findIndex((selectedItem, index) => {
+        return this.trackBy(index, selectedItem) === this.trackBy(-1, item);
+      }) > -1
+      : this.selectedItems.includes(item);
   }
 
   public onItemClick(item: T): void {

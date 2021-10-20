@@ -18,8 +18,8 @@
       <app-withdraw-delegator-table
         class="withdraw-delegator-page__table"
         [data]="validators"
-        [selectedItems]="selectedItems$.value"
-        (itemClick)="onItemClick($event)"
+        [selectedItems]="selectedItems$ | async"
+        (itemClick)="chooseValidator($event)"
       ></app-withdraw-delegator-table>
 
       <div class="withdraw-delegator-page__divider"></div>
