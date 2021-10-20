@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -12,15 +12,16 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
-import { Validator } from 'decentr-js';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Validator } from 'decentr-js';
 
 import { CurrencySymbolService } from '@shared/components/currency-symbol';
 import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
-import { svgSpeedometer } from '@shared/svg-icons/speedometer';
+import { svgRedelegate } from '@shared/svg-icons/redelegate';
+import { svgUnbonded } from '@shared/svg-icons/validator-status/unbonded';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { NotificationService } from '@shared/services/notification';
@@ -59,8 +60,11 @@ export class UndelegatePageComponent implements OnInit {
 
   public validatorCommission$: Observable<Validator['commission']['commission_rates']['rate']>;
 
+  public undelegationAvailableTime: number | undefined;
+
   constructor(
     private activatedRoute: ActivatedRoute,
+    private changeDetectorRef: ChangeDetectorRef,
     private currencySymbolService: CurrencySymbolService,
     private undelegatePageService: UndelegatePageService,
     private formBuilder: FormBuilder,
@@ -74,7 +78,8 @@ export class UndelegatePageComponent implements OnInit {
   public ngOnInit(): void {
     this.svgIconRegistry.register([
       svgArrowLeft,
-      svgSpeedometer,
+      svgRedelegate,
+      svgUnbonded,
     ]);
 
     const validatorAddress$ = this.activatedRoute.params.pipe(
@@ -87,6 +92,14 @@ export class UndelegatePageComponent implements OnInit {
     );
 
     this.form = this.createForm(this.delegatedAmount$);
+
+    validatorAddress$.pipe(
+      switchMap((fromValidator) => this.undelegatePageService.getUndelegationFromAvailableTime(fromValidator)),
+      untilDestroyed(this),
+    ).subscribe((undelegationAvailableTime) => {
+      this.undelegationAvailableTime = undelegationAvailableTime;
+      this.changeDetectorRef.markForCheck();
+    });
 
     this.fee$ = this.form.value$.pipe(
       debounceTime(300),

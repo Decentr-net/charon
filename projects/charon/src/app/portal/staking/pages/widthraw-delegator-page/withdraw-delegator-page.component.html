@@ -1,0 +1,118 @@
+<app-staking-layout
+  *transloco="let translate; read: 'staking.withdraw_delegator_page'"
+>
+  <div
+    class="withdraw-delegator-page__header"
+    ngProjectAs="[card-title]"
+  >
+    <button
+      app-button-back
+      [routerLink]="['../']"
+    ></button>
+
+    {{ translate('title') }}
+  </div>
+
+  <ng-container ngProjectAs="[card-body]">
+    <ng-container *ngIf="validators$ | async as validators; else tablesLoading;">
+      <app-withdraw-delegator-table
+        class="withdraw-delegator-page__table"
+        [data]="validators"
+        [selectedItems]="selectedItems$ | async"
+        (itemClick)="chooseValidator($event)"
+      ></app-withdraw-delegator-table>
+
+      <div class="withdraw-delegator-page__divider"></div>
+
+      <div class="withdraw-delegator-page__footer">
+        <div class="withdraw-delegator-page__footer__meta-section">
+          <div
+            class="withdraw-delegator-page__footer-withdraw"
+            appTypeface="paragraph"
+          >
+            <div
+              *ngIf="!selectedItems$.value.length"
+              class="withdraw-delegator-page__footer-withdraw__select"
+            >
+              {{ translate('select') }}
+            </div>
+
+            <ng-container *ngIf="selectedItems$.value.length">
+              <div class="withdraw-delegator-page__footer-withdraw__label">
+                {{ translate('withdraw') }}:
+              </div>
+
+              <div
+                *ngIf="selectedItemsRewards$ | async as selectedItemsRewards"
+                class="withdraw-delegator-page__footer-withdraw__value"
+              >
+                <ng-container *ngIf="selectedItemsRewards >= 1; else lessThanOneUdec">
+                  {{ selectedItemsRewards | microValue | numberFormat : '1.0-6' : true | appCurrencySymbol | async }}
+                </ng-container>
+              </div>
+            </ng-container>
+
+            <div
+              *ngIf="totalDelegatorRewards$ | async as totalDelegatorRewards"
+              class="withdraw-delegator-page__footer-withdraw__available"
+            >
+              <ng-container *ngIf="totalDelegatorRewards >= 1; else lessThanOneUdec">
+                {{ translate('available', {
+                  amount: (totalDelegatorRewards | microValue | numberFormat : '1.0-6' : true | appCurrencySymbol | async) || '0'
+                }) }}
+              </ng-container>
+            </div>
+          </div>
+
+          <ng-container *ngIf="selectedItems$.value.length">
+            <div class="withdraw-delegator-page__footer__divider"></div>
+
+            <div class="withdraw-delegator-page__footer-fee">
+              <div class="withdraw-delegator-page__footer-fee__label">
+                {{ translate('fee') }}:
+              </div>
+
+              {{ fee$ | async | microValue | numberFormat : '1.0-6' : true | appCurrencySymbol | async }}
+            </div>
+
+          </ng-container>
+        </div>
+
+        <div class="withdraw-delegator-page__actions">
+          <button
+            class="withdraw-delegator-page__actions__button"
+            app-button
+            color="grey"
+            (click)="chooseAll(validators)"
+          >
+            {{ translate('actions.choose_all') }}
+          </button>
+
+          <button
+            class="withdraw-delegator-page__actions__button"
+            app-button
+            (click)="onSubmit()"
+            [disabled]="!selectedItems$.value.length"
+          >
+            {{ translate('actions.withdraw') }}
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</app-staking-layout>
+
+<ng-template #tablesLoading>
+  <ngx-skeleton-loader
+    class="withdraw-delegator-page__loading"
+    count="10"
+    [theme]="{
+      height: '40px',
+      width: '100%'
+    }"
+  ></ngx-skeleton-loader>
+</ng-template>
+
+<ng-template #lessThanOneUdec>
+  <{{ 1 | microValue | appCurrencySymbol | async }}
+</ng-template>

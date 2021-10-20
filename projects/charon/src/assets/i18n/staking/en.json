@@ -47,8 +47,10 @@
     "title": "Validator details"
   },
   "validators_page": {
+    "reward": "Reward",
     "show_only_active": "Only active validators",
-    "title": "Validators"
+    "title": "Validators",
+    "withdraw": "Withdraw"
   },
   "validators_table": {
     "commission": "Commission",
@@ -107,6 +109,12 @@
       "undelegate_all": "Undelegate all",
       "submit": "Undelegate"
     },
+    "extended_errors": {
+      "limit": {
+        "title": "Limit of simultaneous undelegations is reached",
+        "text": "At least one undelegation from this validator must complete before next undelegation.\nUndelegation will be available after:"
+      }
+    },
     "form": {
       "amount": {
         "errors": {
@@ -133,5 +141,25 @@
       "success": "{{ amount }} {{ currencySymbol }} successfully undelegated from {{ validator }}"
     },
     "title": "Undelegate"
+  },
+  "withdraw_delegator_page": {
+    "actions": {
+      "choose_all": "Choose all",
+      "withdraw": "Withdraw"
+    },
+    "available": "of {{ amount }} available",
+    "fee": "Fee",
+    "notification": {
+      "success": "{{ amount }} {{ currencySymbol }} successfully withdrawn"
+    },
+    "select": "Select validators to withdraw the rewards",
+    "title": "Withdraw rewards",
+    "withdraw": "Withdraw"
+  },
+  "withdraw_delegator_table": {
+    "delegated": "Delegated",
+    "jailed": "jailed",
+    "reward": "Reward",
+    "validator": "Validator"
   }
 }

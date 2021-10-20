@@ -12,6 +12,9 @@ export class ButtonComponent {
 
   @Input() public size: 'xs' | 'sm' | 'md' = 'md';
 
+  @HostBinding('class.mod-light-background')
+  @Input() public light: boolean;
+
   @HostBinding('attr.type')
   @Input()
   public type: 'submit' | 'button' = 'button';

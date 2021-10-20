@@ -9,8 +9,10 @@
         <ng-content select="[category]"></ng-content>
       </div>
 
-      <div class="hub-post-layout__title" appTypeface="header-3">
-        <ng-content select="[title]"></ng-content>
+      <div class="hub-post-layout__title-container">
+        <div class="hub-post-layout__title" appTypeface="header-3">
+          <ng-content select="[title]"></ng-content>
+        </div>
       </div>
 
       <ng-content select="[headerContent]"></ng-content>

@@ -1,0 +1,44 @@
+@import 'variables';
+
+:host {
+  display: block;
+}
+
+.mod-empty {
+  color: $color-light-grey;
+}
+
+.withdraw-delegator-table__validator-name {
+  align-items: center;
+  display: flex;
+}
+
+.withdraw-delegator-table__validator-name__jailed {
+  margin-left: $grid-step;
+  user-select: none;
+}
+
+.withdraw-delegator-table__validator-name__check {
+  align-items: center;
+  border: 1px solid $color-outlines;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  margin-right: $grid-step;
+  height: 24px;
+  width: 24px;
+
+  &.is-selected {
+    background-color: $color-blue;
+    border-color: $color-blue;
+
+    .withdraw-delegator-table__validator-name__check-icon {
+      visibility: visible;
+    }
+  }
+}
+
+.withdraw-delegator-table__validator-name__check-icon {
+  color: $color-white;
+  visibility: hidden;
+}

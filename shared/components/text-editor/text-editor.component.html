@@ -1,0 +1,23 @@
+<div
+  #editor
+  class="text-editor__editor"
+  contenteditable
+  [attr.data-placeholder]="placeholder"
+  [innerHTML]="value"
+  (input)="onInput()"
+  (blur)="onBlur()"
+  (paste)="onPaste($event)"
+></div>
+
+<button
+  class="text-editor__image-remove-button"
+  *ngFor="let image of images; let index = index"
+  app-icon-button
+  color="grey"
+  size="xs"
+  [style.top.px]="image.offsetTop"
+  [style.left.px]="image.offsetLeft + image.offsetWidth"
+  (click)="removeImage(image); $event.preventDefault()"
+>
+  <svg-icon key="delete"></svg-icon>
+</button>

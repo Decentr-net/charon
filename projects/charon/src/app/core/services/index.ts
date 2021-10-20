@@ -1,5 +1,6 @@
 import { CORE_API_SERVICES } from './api';
 import { BankService } from './bank';
+import { DistributionService } from './distribution';
 import { FollowingService } from './following';
 import { ImageUploaderService } from './image-uploader';
 import { NetworkSelectorService } from './network-selector';
@@ -11,6 +12,7 @@ import { StakingService } from './staking';
 import { UserService } from './user';
 
 export * from './bank';
+export * from './distribution';
 export * from './following';
 export * from './image-uploader';
 export * from './menu';
@@ -25,6 +27,7 @@ export * from './user';
 export const CORE_SERVICES = [
   CORE_API_SERVICES,
   BankService,
+  DistributionService,
   FollowingService,
   ImageUploaderService,
   NetworkSelectorService,

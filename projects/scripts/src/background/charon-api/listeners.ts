@@ -13,6 +13,7 @@ import {
   transferCoins,
   undelegate,
   unfollow,
+  withdrawDelegatorRewards,
 } from './api';
 import QUEUE, { QueuePriority } from '../queue';
 import { CharonAPIMessageBusMap } from './message-bus-map';
@@ -165,6 +166,19 @@ export const initCharonAPIListeners = () => {
         message.body.validatorAddress,
         message.body.amount,
         message.body.privateKey,
+      ),
+      (response) => {
+        message.sendResponse(response);
+      },
+    );
+  });
+
+  messageBus.onMessage(MessageCode.WithdrawDelegatorRewards).subscribe((message) => {
+    sendRequest(
+      () => withdrawDelegatorRewards(
+        message.body.privateKey,
+        message.body.validatorAddress,
+        message.body.walletAddress,
       ),
       (response) => {
         message.sendResponse(response);

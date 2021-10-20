@@ -1,0 +1,19 @@
+@import '../../styles/variables';
+
+:host {
+  display: block;
+  position: relative;
+}
+
+.text-editor__editor {
+  &:empty:before {
+    color: $color-grey;
+    content: attr(data-placeholder);
+    cursor: text;
+  }
+}
+
+.text-editor__image-remove-button {
+  margin-left: $grid-step;
+  position: absolute;
+}

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map, startWith } from 'rxjs/operators';
 
 import { NetworkBrowserStorageService } from '../../services/network-storage';
 
@@ -13,6 +13,8 @@ export class CurrencySymbolService {
 
   public getSymbol(): Observable<string> {
     return this.networkBrowserStorageService.getActiveId().pipe(
+      startWith(this.networkBrowserStorageService.getActiveIdInstant()),
+      filter(Boolean),
       map((networkId) => {
         switch (networkId) {
           case 'testnet': {

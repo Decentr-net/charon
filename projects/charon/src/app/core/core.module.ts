@@ -29,7 +29,6 @@ import { PublicLayoutModule } from './layout/public-layout';
 import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES, MenuService, NetworkSelectorService, NetworkService } from './services';
-import { QuillRootModule } from './quill';
 import { PermissionsService } from './permissions';
 
 export function initAuthFactory(authService: AuthService): () => void {
@@ -77,7 +76,6 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     PDVModule,
     PermissionsModule.forRoot(PermissionsService),
     PublicLayoutModule,
-    QuillRootModule,
     SettingsModule.forRoot(),
     SlotModule.forRoot(),
     SvgIconRootModule,

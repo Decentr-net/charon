@@ -36,7 +36,7 @@ import { UserService } from '../user';
 import { svgDecentrHub } from '@shared/svg-icons/decentr-hub';
 import { svgImportAccount } from '@shared/svg-icons/import-account';
 import { svgInformation } from '@shared/svg-icons/information';
-import { svgLockAccount } from '@shared/svg-icons/lock-account';
+import { svgLock } from '@shared/svg-icons/lock';
 import { svgLogoIconOrange } from '@shared/svg-icons/logo-icon-orange';
 import { svgLogoIconPink } from '@shared/svg-icons/logo-icon-pink';
 import { svgLogoIconGreen } from '@shared/svg-icons/logo-icon-green';
@@ -85,7 +85,7 @@ export class MenuService extends MenuBaseService {
       svgDecentrHub,
       svgImportAccount,
       svgInformation,
-      svgLockAccount,
+      svgLock,
       svgLogoIconGreen,
       svgLogoIconOrange,
       svgLogoIconPink,
@@ -143,7 +143,7 @@ export class MenuService extends MenuBaseService {
           [
             {
               action: () => this.lockService.lock(),
-              iconKey: svgLockAccount.name,
+              iconKey: svgLock.name,
               title: itemsTranslationsObject.lock,
             },
           ],

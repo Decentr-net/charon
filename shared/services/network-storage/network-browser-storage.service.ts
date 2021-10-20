@@ -16,8 +16,12 @@ export class NetworkBrowserStorageService {
 
   private readonly activeAPI$: BehaviorSubject<NetworkStorage['api']> = new BehaviorSubject(undefined);
 
+  private readonly activeId$: BehaviorSubject<NetworkStorage['id']> = new BehaviorSubject(undefined);
+
   constructor() {
     this.getActiveAPI().subscribe(this.activeAPI$);
+
+    this.getActiveId().subscribe(this.activeId$);
   }
 
   public getActiveAPI(): Observable<string> {
@@ -44,6 +48,10 @@ export class NetworkBrowserStorageService {
         startWith(id),
       )),
     );
+  }
+
+  public getActiveIdInstant(): NetworkStorage['id'] {
+    return this.activeId$.value;
   }
 
   public setActiveId(id: NetworkStorage['id']): Promise<void> {

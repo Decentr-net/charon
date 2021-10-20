@@ -40,9 +40,42 @@
     {{ validator.commission | percent }}
   </ng-container>
 
-  <ng-container *dataTableColumnDef="let validator; name: translate('delegated')">
-    <div [class.mod-empty]="!+validator.delegated">
-      {{ validator.delegated && (validator.delegated | microValue | numberFormat : null : true) || '0' }}
+  <ng-container
+    *dataTableColumnDef="
+      let validator;
+      name: translate('delegated') | appCurrencySymbol : true | async;
+      id: translate('delegated');
+      align: 'right'
+    "
+  >
+    <div class="validators-table__reward-and-delegated">
+      <button
+        class="validators-table__reward"
+        app-button
+        size="xs"
+        [light]="true"
+        *ngIf="validator.reward"
+        appTypeface="caption"
+        (click)="onValidatorRewardClick(validator)"
+      >
+        <svg-icon
+          class="validators-table__reward-icon"
+          key="piggy-bank"
+          size="xs"
+        ></svg-icon>
+
+        <ng-container *ngIf="validator.reward >= 1; else lessThanOneUdec">
+          {{ validator.reward | microValue | numberFormat : '1.0-6' : true }}
+        </ng-container>
+      </button>
+
+      <div [class.mod-empty]="!+validator.delegated">
+        {{ validator.delegated && (validator.delegated | microValue | numberFormat : null : true) || '0' }}
+      </div>
     </div>
   </ng-container>
 </app-data-table>
+
+<ng-template #lessThanOneUdec>
+  <{{ 1 | microValue }}
+</ng-template>

@@ -69,13 +69,15 @@ $hub-post-layout--grid-columns: ($hub-post-layout--column-width * $hub-post-layo
   grid-column: 2;
 }
 
-.hub-post-layout__title {
-  @include clamp(4);
-
+.hub-post-layout__title-container {
   flex-grow: 1;
   line-height: 68px;
   font-weight: 700;
   margin-top: $grid-step * 2;
+}
+
+.hub-post-layout__title {
+  @include clamp(4);
 }
 
 .hub-post-layout__content {

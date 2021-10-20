@@ -62,6 +62,10 @@ export class UndelegatePageService {
     return this.stakingService.getValidator(address);
   }
 
+  public getUndelegationFromAvailableTime(fromValidator: Validator['operator_address']): Observable<number | undefined> {
+    return this.stakingService.getUndedelegationFromAvailableTime(fromValidator);
+  }
+
   public undelegate(validatorAddress: Validator['operator_address'], amount: string): Observable<void> {
     return this.stakingService.createUndelegation(
       validatorAddress,

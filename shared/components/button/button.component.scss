@@ -1,6 +1,7 @@
 @import '../../styles/variables';
 
 :host {
+  --background-opacity: 1;
   align-items: center;
   border-radius: $border-radius;
   display: inline-flex;
@@ -10,6 +11,10 @@
   justify-content: center;
   transition: background .3s ease;
   user-select: none;
+
+  &.mod-light-background {
+    --background-opacity: .12;
+  }
 
   &[app-icon-button] {
     padding: $grid-step;
@@ -43,34 +48,34 @@
 
   &.mod-color {
     &-negative {
-      background: $color-negative;
+      background: rgba($color-negative, var(--background-opacity));
       color: $color-white;
     }
 
     &-primary {
-      background: $color-primary;
+      background: rgba($color-primary, var(--background-opacity));
       color: $color-white;
 
       &:hover {
-        background: $color-blue-hover;
+        background: rgba($color-blue-hover, var(--background-opacity));
       }
     }
 
     &-grey {
-      background: $color-background;
+      background: rgba($color-background, var(--background-opacity));
       color: $color-black;
 
       &:hover {
-        background: $color-outlines;
+        background: rgba($color-outlines, var(--background-opacity));
       }
     }
 
     &-white {
-      background: $color-white;
+      background: rgba($color-white, var(--background-opacity));
       color: $color-black;
 
       &:hover {
-        background: $color-outlines;
+        background: rgba($color-outlines, var(--background-opacity));
       }
     }
   }

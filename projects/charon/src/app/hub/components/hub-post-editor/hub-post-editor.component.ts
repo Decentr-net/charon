@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { AbstractControl, ControlValueAccessor, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -45,7 +45,7 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
   public readonly maxImagesCount = 5;
   public imageLimitReached$: Observable<boolean>;
 
-  public textImagePositionTop: number = 0;
+  public textImagePositionTop: number;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -60,8 +60,8 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
 
     this.form = this.createForm();
 
-    this.imagesCount$ = this.form.get('text').valueChanges.pipe(
-      startWith(this.form.get('text').value),
+    this.imagesCount$ = this.form.value$.pipe(
+      map((formValue) => formValue.text || ''),
       distinctUntilChanged((prev, curr) => Math.abs(prev.length - curr.length) < '<img>'.length),
       map(getHTMLImagesCount),
     );

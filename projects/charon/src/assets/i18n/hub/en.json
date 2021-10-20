@@ -76,7 +76,8 @@
         "maxImages": "The maximum count of images is {{max}}",
         "minHtmlTextLength": "The text is too short, please, enter at least {{min}} characters",
         "required": "Text is required"
-      }
+      },
+      "placeholder": "Start your post with..."
     },
     "title": {
       "errors": {
@@ -86,9 +87,6 @@
       },
       "placeholder": "Title"
     }
-  },
-  "hub_post_text_editor": {
-    "placeholder": "Start your post with..."
   },
   "hub_pdv_statistics": {
     "activity_from": "Activity from",
