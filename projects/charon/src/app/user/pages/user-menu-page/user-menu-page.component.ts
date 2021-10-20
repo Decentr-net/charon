@@ -9,7 +9,7 @@ import { Profile } from 'decentr-js';
 import { svgDelete } from '@shared/svg-icons/delete';
 import { svgEdit } from '@shared/svg-icons/edit';
 import { svgImportAccount } from '@shared/svg-icons/import-account';
-import { svgLockAccount } from '@shared/svg-icons/lock-account';
+import { svgLock } from '@shared/svg-icons/lock';
 import { svgSettings } from '@shared/svg-icons/settings';
 import { ConfirmationDialogService } from '@shared/components/confirmation-dialog';
 import { NotificationService } from '@shared/services/notification';
@@ -47,7 +47,7 @@ export class UserMenuPageComponent implements OnInit {
       svgDelete,
       svgEdit,
       svgImportAccount,
-      svgLockAccount,
+      svgLock,
       svgSettings,
     ]);
   }
