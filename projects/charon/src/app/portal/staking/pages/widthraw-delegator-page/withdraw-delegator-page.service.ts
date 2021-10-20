@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Delegation, DelegatorRewards, Validator } from 'decentr-js';
@@ -11,9 +10,7 @@ import { buildValidatorDefinitionShort } from '../../utils';
 @Injectable()
 export class WithdrawDelegatorPageService {
   constructor(
-    private activatedRoute: ActivatedRoute,
     private distributionService: DistributionService,
-    private router: Router,
     private stakingService: StakingService,
   ) {
   }
@@ -34,11 +31,5 @@ export class WithdrawDelegatorPageService {
           .filter((validator) => validator.reward > 0);
       }),
     );
-  }
-
-  public navigateBack(): void {
-    this.router.navigate(['../../'], {
-      relativeTo: this.activatedRoute,
-    });
   }
 }

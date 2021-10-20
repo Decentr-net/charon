@@ -2,15 +2,17 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormControl } from '@ngneat/reactive-forms';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ValidatorStatus } from 'decentr-js';
 
+import { svgGetCoin } from '@shared/svg-icons/get-coin';
 import { DistributionService } from '@core/services/distribution';
 import { ValidatorDefinition } from '../../models';
-import { ValidatorsPageService } from './validators-page.service';
 import { StakingRoute } from '../../staking-route';
-import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { svgGetCoin } from '@shared/svg-icons/get-coin';
+import { ValidatorsPageService } from './validators-page.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-validators-page',
   templateUrl: './validators-page.component.html',
@@ -51,7 +53,9 @@ export class ValidatorsPageComponent implements OnInit {
       }),
     );
 
-    this.distributionService.getTotalDelegatorRewards().subscribe((totalDelegatorRewards) => {
+    this.distributionService.getTotalDelegatorRewards().pipe(
+      untilDestroyed(this),
+    ).subscribe((totalDelegatorRewards) => {
       this.totalDelegatorRewards = totalDelegatorRewards;
 
       this.changeDetectorRef.markForCheck();
