@@ -19,7 +19,7 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { svgDelete } from '../../svg-icons/delete';
-import { getNodeRect } from '../../utils/html';
+import { getNodeRect, getPlainText } from '../../utils/html';
 import { observeResize } from '../../utils/observe-resize';
 
 @UntilDestroy()
@@ -130,11 +130,13 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
 
     const text = event.clipboardData.getData('text/plain');
 
-    if (!text.length) {
+    const purifiedText = getPlainText(text);
+
+    if (!purifiedText.length) {
       return;
     }
 
-    document.execCommand('insertHTML', false, text);
+    document.execCommand('insertHTML', false, purifiedText);
   }
 
   public onInput(): void {
