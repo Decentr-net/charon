@@ -29,7 +29,7 @@
         >
           {{ translate('reward') }}:
 
-          <ng-container *ngIf="totalDelegatorRewards >= 1; else lessThanOneUdec">
+          <ng-container *ngIf="totalDelegatorRewards >= 1 || !totalDelegatorRewards; else lessThanOneUdec">
             {{ totalDelegatorRewards | microValue | numberFormat : '1.0-6' : true }}
           </ng-container>
           <app-currency-symbol></app-currency-symbol>
