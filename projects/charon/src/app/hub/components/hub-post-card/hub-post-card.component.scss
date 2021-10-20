@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'mixins';
 @import 'variables';
 
 $hub-post-card--padding: $grid-step * 2;
@@ -102,6 +103,7 @@ $hub-post-card--horizontal--image-width: 31%;
 }
 
 .hub-post-card__title {
+  @include clamp(4);
   font-weight: 700;
   margin-top: $grid-step;
 }
