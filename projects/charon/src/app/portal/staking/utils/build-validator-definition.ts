@@ -12,6 +12,7 @@ export const buildValidatorDefinitionShort = (
     delegated: delegations
       .find((delegation) => delegation.validator_address === validator.operator_address)
       ?.balance.amount,
+    jailed: validator.jailed,
     name: validator.description.moniker,
     reward: +(delegatorRewards.rewards || [])
       .find((delegatorReward) => {
@@ -30,7 +31,6 @@ export const buildValidatorDefinition = (
     ...buildValidatorDefinitionShort(validator, delegations, delegatorRewards),
     commission: validator.commission.commission_rates.rate,
     details: validator.description.details,
-    jailed: validator.jailed,
     status: validator.status,
     tokens: validator.tokens,
     votingPower: +validator.tokens / pool.bonded_tokens,

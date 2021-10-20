@@ -14,4 +14,4 @@ export interface ValidatorDefinition {
   votingPower: number;
 }
 
-export type ValidatorDefinitionShort = Pick<ValidatorDefinition, 'address' | 'delegated' | 'name' | 'reward'>
+export type ValidatorDefinitionShort = Pick<ValidatorDefinition, 'address' | 'delegated' | 'jailed' | 'name' | 'reward'>

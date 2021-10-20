@@ -158,6 +158,7 @@
   },
   "withdraw_delegator_table": {
     "delegated": "Delegated",
+    "jailed": "jailed",
     "reward": "Reward",
     "validator": "Validator"
   }

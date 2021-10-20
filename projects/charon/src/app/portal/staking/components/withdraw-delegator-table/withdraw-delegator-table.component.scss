@@ -13,6 +13,11 @@
   display: flex;
 }
 
+.withdraw-delegator-table__validator-name__jailed {
+  margin-left: $grid-step;
+  user-select: none;
+}
+
 .withdraw-delegator-table__validator-name__check {
   align-items: center;
   border: 1px solid $color-outlines;

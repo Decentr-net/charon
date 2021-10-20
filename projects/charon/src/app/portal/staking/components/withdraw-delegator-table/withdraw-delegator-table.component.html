@@ -21,6 +21,13 @@
     </div>
 
     {{ validator.name }}
+
+    <app-validator-jailed
+      *ngIf="validator.jailed"
+      class="withdraw-delegator-table__validator-name__jailed"
+    >
+      {{ translate('jailed') }}
+    </app-validator-jailed>
   </div>
 
   <div
