@@ -15,28 +15,36 @@
 
     <div class="validators-page__header-section__divider"></div>
 
-    <div
-      *ngIf="(totalDelegatorRewards$ | async) !== undefined; else totalDelegatorRewardsLoading"
-      class="validators-page__header-section__withdraw"
-      appTypeface="paragraph"
-    >
-      {{ translate('reward') }}: {{ totalDelegatorRewards$ | async | microValue | numberFormat : '1.0-6' : true }}
-      <app-currency-symbol></app-currency-symbol>
-    </div>
-
     <a [routerLink]="stakingRoute.Withdraw">
       <button
-        class="validators-page__header-section__withdraw-button"
+        class="validators-page__header-section__withdraw"
         appTypeface="caption"
         app-button
         [light]="true"
-        size="xs"
+        size="sm"
       >
-        <svg-icon
-          key="get-coin"
-          size="xs"
-        ></svg-icon>
-        {{ translate('withdraw') }}
+        <div
+          *ngIf="totalDelegatorRewards !== undefined; else totalDelegatorRewardsLoading"
+          class="validators-page__header-section__reward"
+        >
+          {{ translate('reward') }}:
+
+          <ng-container *ngIf="totalDelegatorRewards >= 1; else lessThanOneUdec">
+            {{ totalDelegatorRewards | microValue | numberFormat : '1.0-6' : true }}
+          </ng-container>
+          <app-currency-symbol></app-currency-symbol>
+        </div>
+
+        <div class="validators-page__header-section__withdraw__divider"></div>
+
+        <div class="validators-page__header-section__withdraw-button">
+          <svg-icon
+            key="get-coin"
+            size="xs"
+          ></svg-icon>
+
+          {{ translate('withdraw') }}
+        </div>
       </button>
     </a>
   </div>
@@ -64,9 +72,13 @@
   <ngx-skeleton-loader
     [theme]="{
       display: 'flex',
-      height: '24px',
+      height: '16px',
       marginBottom: '0px',
-      width: '170px'
+      width: '140px'
     }"
   ></ngx-skeleton-loader>
+</ng-template>
+
+<ng-template #lessThanOneUdec>
+  <{{ 1 | microValue }}
 </ng-template>

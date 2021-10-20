@@ -18,6 +18,7 @@
 .withdraw-delegator-page__divider {
   background-color: $color-outlines;
   height: 2px;
+  margin: 0 (-$grid-step * 2);
 }
 
 .withdraw-delegator-page__footer {

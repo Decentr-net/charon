@@ -16,13 +16,11 @@
       id: 'reward';
       align: 'right'
     "
-    [class.mod-empty]="validator.reward <= 1"
+    [class.mod-empty]="validator.reward < 1"
   >
-    <span
-      [appTooltip]="validator.reward | microValue | numberFormat : '1.0-13' : true"
-    >
+    <ng-container *ngIf="validator.reward >= 1; else lessThanOneUdec">
       {{ validator.reward | microValue | numberFormat : '1.0-6' : true }}
-    </span>
+    </ng-container>
   </div>
 
   <ng-container
@@ -37,3 +35,7 @@
     {{ validator.delegated && (validator.delegated | microValue | numberFormat : null : true) || '0' }}
   </ng-container>
 </app-data-table>
+
+<ng-template #lessThanOneUdec>
+  <{{ 1 | microValue }}
+</ng-template>

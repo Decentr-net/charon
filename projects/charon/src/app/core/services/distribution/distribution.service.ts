@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, defer, Observable } from 'rxjs';
 import { map, pluck, switchMap } from 'rxjs/operators';
-import { calculateWithdrawDelegatorRewardsFee, DelegatorRewards, DenomAmount, Validator, Wallet } from 'decentr-js';
+import { calculateWithdrawDelegatorRewardsFee, DelegatorRewards, DenomAmount, Validator } from 'decentr-js';
 
 import { AuthService } from '../../auth';
 import { DistributionApiService } from '../api';
@@ -70,7 +70,8 @@ export class DistributionService {
         privateKey: wallet.privateKey,
         validatorAddress: fromValidatorAddress,
         walletAddress: wallet.address,
-      })).pipe(
+      })
+    ).pipe(
       map((response) => {
         if (!response.success) {
           throw response.error;

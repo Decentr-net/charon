@@ -13,7 +13,7 @@ export class CurrencySymbolPipe implements PipeTransform {
   ) {
   }
 
-  public transform(target: string, comma: boolean = false): Observable<string> {
+  public transform(target: string | number, comma: boolean = false): Observable<string> {
     return this.currencySymbolService.getSymbol().pipe(
       map((symbol) => [target, symbol].join(comma ? ', ' : ' ')),
     );

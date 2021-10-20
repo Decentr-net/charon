@@ -22,9 +22,23 @@
   width: 2px;
 }
 
+.validators-page__header-section__withdraw {
+  color: $color-black;
+  column-gap: $grid-step * 1.5;
+}
+
 .validators-page__header-section__withdraw-button {
+  align-items: center;
   color: $color-blue;
   column-gap: $grid-step / 2;
+  display: flex;
+}
+
+.validators-page__header-section__withdraw__divider {
+  background-color: $color-white;
+  height: 32px;
+  margin: (-$grid-step * 1.5) 0;
+  width: 2px;
 }
 
 .validators-page__loading {
