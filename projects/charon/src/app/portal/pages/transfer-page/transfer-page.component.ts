@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { ControlsOf, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, debounceTime, map, share, switchMap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
@@ -23,7 +23,6 @@ import {
   RECEIVER_WALLET_PARAM,
   TRANSFER_START_AMOUNT,
   TransferForm,
-  TransferFormData,
 } from './transfer-page.definitions';
 import { TransferPageService } from './transfer-page.service';
 
@@ -52,7 +51,7 @@ export class TransferPageComponent implements OnInit {
 
   public fee$: Observable<number>;
 
-  public form: FormGroup<TransferForm>;
+  public form: FormGroup<ControlsOf<TransferForm>>;
 
   public canSend$: Observable<boolean>;
 
@@ -109,9 +108,9 @@ export class TransferPageComponent implements OnInit {
     });
   }
 
-  private createForm(): FormGroup<TransferForm> {
-    return this.formBuilder.group<TransferForm>({
-      data: this.formBuilder.group<TransferFormData>({
+  private createForm(): FormGroup<ControlsOf<TransferForm>> {
+    return this.formBuilder.group({
+      data: this.formBuilder.group({
         amount: [
           TRANSFER_START_AMOUNT,
           [
@@ -130,12 +129,12 @@ export class TransferPageComponent implements OnInit {
           ],
         ],
       }),
-      comment: [
+      comment: this.formBuilder.control(
         '',
         {
           updateOn: 'blur',
         },
-      ],
+      ),
     });
   }
 
@@ -164,7 +163,7 @@ export class TransferPageComponent implements OnInit {
     });
   }
 
-  private getFeeStream(form: FormGroup<TransferForm>, defaultValue: number = 0): Observable<number> {
+  private getFeeStream(form: FormGroup<ControlsOf<TransferForm>>, defaultValue: number = 0): Observable<number> {
     return form.value$.pipe(
       debounceTime(300),
       switchMap((formValue) => {

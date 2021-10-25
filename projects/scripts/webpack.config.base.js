@@ -1,6 +1,6 @@
 const { join } = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
-const webpackMerge = require('webpack-merge');
+const { merge: webpackMerge } = require('webpack-merge');
 
 function extendManifest(buffer, specificRules = {}) {
   const baseManifest = JSON.parse(buffer.toString());

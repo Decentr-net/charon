@@ -14,7 +14,7 @@
   align-items: center;
   background-color: $color-background;
   border-radius: $border-radius;
-  column-gap: $grid-step / 2;
+  column-gap: $grid-half-step;
   cursor: pointer;
   display: flex;
   justify-content: space-between;

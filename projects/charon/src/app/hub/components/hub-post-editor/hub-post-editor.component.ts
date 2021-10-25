@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import { AbstractControl, ControlValueAccessor, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { ControlsOf, ControlValueAccessor, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PostCreate } from 'decentr-js';
@@ -39,7 +39,7 @@ import { svgClear } from '@shared/svg-icons/clear';
 export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> implements Validator {
   @Input() public formId: string;
 
-  public form: FormGroup<PostCreate>;
+  public form: FormGroup<ControlsOf<PostCreate>>;
 
   public imagesCount$: Observable<number>;
   public readonly maxImagesCount = 5;
@@ -101,7 +101,7 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
     event.preventDefault();
   }
 
-  public validate(control: AbstractControl<PostCreate>): ValidationErrors | null {
+  public validate(): ValidationErrors | null {
     return this.form.valid ? null : { invalid: {} };
   }
 
@@ -115,16 +115,16 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
     });
   }
 
-  private createForm(): FormGroup<PostCreate> {
+  private createForm(): FormGroup<ControlsOf<PostCreate>> {
     return this.formBuilder.group({
-      category: [
+      category: this.formBuilder.control(
         null,
         Validators.required,
-      ],
-      previewImage: [
+      ),
+      previewImage: this.formBuilder.control(
         null,
-      ],
-      text: [
+      ),
+      text: this.formBuilder.control(
         '',
         [
           Validators.required,
@@ -132,15 +132,15 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
           BaseValidationUtil.maxHTMLImages(this.maxImagesCount),
           BaseValidationUtil.maxStringBytes(64000),
         ],
-      ],
-      title: [
+      ),
+      title: this.formBuilder.control(
         '',
         [
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(150),
         ],
-      ],
+      ),
     });
   }
 }

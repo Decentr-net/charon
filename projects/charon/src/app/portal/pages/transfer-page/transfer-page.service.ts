@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { combineLatest, Observable, of, timer } from 'rxjs';
 import {
   catchError,
@@ -12,7 +12,6 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { AsyncValidatorFn } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { Wallet } from 'decentr-js';
 
@@ -45,7 +44,7 @@ export class TransferPageService {
     return this.bankService.getTransferFee(to, amount.toString());
   }
 
-  public createAsyncValidWalletAddressValidator(): AsyncValidatorFn<Wallet['address']> {
+  public createAsyncValidWalletAddressValidator(): AsyncValidatorFn {
     return (control) => {
       if (!control.value) {
         return null;
@@ -66,7 +65,7 @@ export class TransferPageService {
   public createAsyncAmountValidator(
     amountControl: AbstractControl,
     fee$: Observable<number>,
-  ): AsyncValidatorFn<number> {
+  ): AsyncValidatorFn {
     return () => {
       const amount = parseFloat(amountControl.value.toString());
 

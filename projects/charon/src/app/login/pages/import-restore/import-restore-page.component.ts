@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, NgZone, OnInit } from '@angular/cor
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, pluck } from 'rxjs/operators';
-import { AbstractControl, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { ControlsOf, FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -43,7 +43,7 @@ export class ImportRestorePageComponent implements OnInit {
 
   public currentPageType: ImportRestorePageType;
 
-  public form: FormGroup<ImportRestoreForm>;
+  public form: FormGroup<ControlsOf<ImportRestoreForm>>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -58,7 +58,7 @@ export class ImportRestorePageComponent implements OnInit {
   ) {
   }
 
-  public get passwordControl(): AbstractControl<string> {
+  public get passwordControl(): FormControl<string> {
     return this.form.get('password');
   }
 
@@ -112,7 +112,7 @@ export class ImportRestorePageComponent implements OnInit {
     });
   }
 
-  private createForm(): FormGroup<ImportRestoreForm> {
+  private createForm(): FormGroup<ControlsOf<ImportRestoreForm>> {
     return this.formBuilder.group({
       password: '',
       seedPhrase: [

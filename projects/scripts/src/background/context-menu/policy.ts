@@ -1,15 +1,15 @@
-import { browser } from 'webextension-polyfill-ts';
+import * as Browser from 'webextension-polyfill';
 
 const PRIVACY_LINK = 'https://decentr.net/charon-privacy.html';
 
 const openPolicyPage = () => {
-  browser.tabs.create({
+  Browser.tabs.create({
     url: PRIVACY_LINK,
   });
 };
 
 const init = () => {
-  browser.contextMenus.create({
+  Browser.contextMenus.create({
     title: 'Privacy policy',
     contexts: [
       'browser_action',

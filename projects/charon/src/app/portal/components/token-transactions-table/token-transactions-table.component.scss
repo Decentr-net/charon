@@ -19,7 +19,7 @@
                        'empty memo memo';
   grid-template-columns: min-content 1fr max-content;
   padding: $grid-step * 1.5 $grid-step * 2;
-  row-gap: $grid-step / 2;
+  row-gap: $grid-half-step;
 
   &.mod-new {
     background-color: rgba($color-positive, 0.08);
@@ -72,7 +72,7 @@
 
 .token-transactions-table__operation__actions {
   display: flex;
-  column-gap: $grid-step / 2;
+  column-gap: $grid-half-step;
 }
 
 .token-transactions-table__operation__action {
@@ -83,5 +83,5 @@
   cursor: pointer;
   display: flex;
   justify-content: center;
-  padding: $grid-step / 2;
+  padding: $grid-half-step;
 }

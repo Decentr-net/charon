@@ -3,7 +3,7 @@ import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { ControlsOf, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -39,7 +39,7 @@ export class EmailConfirmationPageComponent implements OnInit {
 
   public email: string;
 
-  public codeForm: FormGroup<CodeForm>;
+  public codeForm: FormGroup<ControlsOf<CodeForm>>;
 
   public secondsLeftToResend: number;
 
@@ -119,9 +119,12 @@ export class EmailConfirmationPageComponent implements OnInit {
       });
   }
 
-  private createForm(): FormGroup<CodeForm> {
+  private createForm(): FormGroup<ControlsOf<CodeForm>> {
     return this.formBuilder.group({
-      code: ['', Validators.required],
+      code: [
+        '',
+        Validators.required,
+      ],
     });
   }
 

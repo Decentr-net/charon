@@ -14,7 +14,7 @@
     cursor: pointer;
 
     .hub-post-delete-button__text-container {
-      margin-right: $grid-step / 2;
+      margin-right: $grid-half-step;
     }
   }
 
@@ -28,13 +28,13 @@
   align-self: start;
   display: inline-flex;
   font-size: 16px;
-  margin-right: $grid-step / 2;
+  margin-right: $grid-half-step;
 }
 
 .hub-post-delete-button__text-container {
   align-items: center;
   display: flex;
-  margin-right: $grid-step / 2;
+  margin-right: $grid-half-step;
 }
 
 .hub-post-delete-button__text {

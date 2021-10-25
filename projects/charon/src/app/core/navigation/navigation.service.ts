@@ -3,8 +3,8 @@ import { filter, map, pairwise } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Tabs } from 'webextension-polyfill-ts';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import * as Browser from 'webextension-polyfill';
 
 import { openExtensionInNewTab } from '@shared/utils/browser';
 import { AppRoute } from '../../app-route';
@@ -53,7 +53,7 @@ export class NavigationService {
     );
   }
 
-  public openInNewTab(url: string): Promise<Tabs.Tab> {
+  public openInNewTab(url: string): Promise<Browser.Tabs.Tab> {
     const externalLink = this.location.prepareExternalUrl(url);
     return openExtensionInNewTab(externalLink).then();
   }

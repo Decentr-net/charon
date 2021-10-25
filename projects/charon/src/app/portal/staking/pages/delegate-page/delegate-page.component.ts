@@ -16,7 +16,7 @@ import {
 } from 'rxjs/operators';
 import { Validator } from 'decentr-js';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { ControlsOf, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -55,7 +55,7 @@ export class DelegatePageComponent implements OnInit {
 
   public balance$: Observable<number>;
 
-  public form: FormGroup<DelegateForm>;
+  public form: FormGroup<ControlsOf<DelegateForm>>;
 
   public fee$: Observable<number>;
 
@@ -137,9 +137,9 @@ export class DelegatePageComponent implements OnInit {
     ]).pipe(
       take(1),
       switchMap(([balance, validatorAddress]) => this.delegatePageService.getDelegationFee(validatorAddress, balance).pipe(
-        map((fee) => (balance - Math.ceil(+fee)) / MICRO_PDV_DIVISOR),
+        map((fee) => ((balance - Math.ceil(+fee)) / MICRO_PDV_DIVISOR).toString()),
       )),
-      filter((allTokens) => amountControl.value !== allTokens),
+      filter((allTokens) => amountControl.value.toString() !== allTokens),
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
     ).subscribe((allTokens) => amountControl.setValue(allTokens));
@@ -183,7 +183,7 @@ export class DelegatePageComponent implements OnInit {
     });
   }
 
-  private createForm(): FormGroup<DelegateForm> {
+  private createForm(): FormGroup<ControlsOf<DelegateForm>> {
     return this.formBuilder.group({
       amount: [
         this.delegatePageService.minDelegateAmount.toString(),
@@ -193,12 +193,12 @@ export class DelegatePageComponent implements OnInit {
           Validators.pattern('^((0)|(([1-9])([0-9]+)?)(0+)?)\\.?\\d{0,6}$'),
         ],
       ],
-      validatorName: [
+      validatorName: this.formBuilder.control(
         { value: '', disabled: true },
-      ],
-      validatorAddress: [
+      ),
+      validatorAddress: this.formBuilder.control(
         { value: '', disabled: true },
-      ],
+      ),
     });
   }
 }

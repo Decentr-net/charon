@@ -1,5 +1,4 @@
-import { AbstractControl, ValidationErrors } from '@angular/forms';
-import { ValidatorFn } from '@ngneat/reactive-forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 import { getHTMLImagesCount } from '../../html';
 
@@ -21,7 +20,7 @@ export class BaseValidationUtil {
     return isInvalid ? { length: true } : null;
   }
 
-  static minDate(minDate: Date, parseFn?: (value) => Date): ValidatorFn<string> {
+  static minDate(minDate: Date, parseFn?: (value) => Date): ValidatorFn {
     return (control) => {
       return new Date(minDate) > (parseFn ? parseFn(control.value) : new Date(control.value))
         ? {
@@ -31,7 +30,7 @@ export class BaseValidationUtil {
     };
   }
 
-  static maxDate(maxDate: Date, parseFn?: (value) => Date): ValidatorFn<string> {
+  static maxDate(maxDate: Date, parseFn?: (value) => Date): ValidatorFn {
     return (control) => {
       return new Date(maxDate) < (parseFn ? parseFn(control.value) : new Date(control.value))
         ? {
@@ -41,7 +40,7 @@ export class BaseValidationUtil {
     };
   }
 
-  static minHtmlTextLength(minLength: number): ValidatorFn<string> {
+  static minHtmlTextLength(minLength: number): ValidatorFn {
     return (control) => {
       const html = control.value;
       const textarea = document.createElement('div');
@@ -59,7 +58,7 @@ export class BaseValidationUtil {
     };
   }
 
-  static maxStringBytes(maxBytes: number): ValidatorFn<string> {
+  static maxStringBytes(maxBytes: number): ValidatorFn {
     return (control) => {
       if (!control.value) {
         return null;
@@ -78,7 +77,7 @@ export class BaseValidationUtil {
     };
   }
 
-  static maxHTMLImages(maxImages: number): ValidatorFn<string> {
+  static maxHTMLImages(maxImages: number): ValidatorFn {
     return (control) => {
       if (!control.value) {
         return null;

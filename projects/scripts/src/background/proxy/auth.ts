@@ -1,6 +1,6 @@
 import { Observable, partition } from 'rxjs';
 import { repeatWhen, takeUntil } from 'rxjs/operators';
-import { browser } from 'webextension-polyfill-ts';
+import * as Browser from 'webextension-polyfill';
 
 import { isSelfProxyEnabled } from '../../../../../shared/utils/browser';
 
@@ -10,7 +10,7 @@ const PROXY_AUTH_CREDENTIALS = {
 };
 
 const createAuthRequestHandler = (): Observable<void> => {
-  const event = browser.webRequest.onAuthRequired;
+  const event = Browser.webRequest.onAuthRequired;
 
   const listener = () => ({ authCredentials: PROXY_AUTH_CREDENTIALS });
 

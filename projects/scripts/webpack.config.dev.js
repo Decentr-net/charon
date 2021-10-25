@@ -1,4 +1,4 @@
-const webpackMerge = require('webpack-merge');
+const { merge: webpackMerge } = require('webpack-merge');
 const { config: baseConfig, manifestPluginFn } = require('./webpack.config.base');
 
 module.exports = webpackMerge(baseConfig, {

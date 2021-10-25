@@ -39,7 +39,7 @@ export class HubRelatedPostsComponent implements OnInit {
   public isLoading$: Observable<boolean>;
   public posts$: Observable<PostsListItem[]>;
 
-  public trackByPostId: TrackByFunction<Post> = this.hubRelatedPostsService.trackByPostId;
+  public trackByPostId: TrackByFunction<PostsListItem> = this.hubRelatedPostsService.trackByPostId;
 
   public postsCount: number = 4;
 

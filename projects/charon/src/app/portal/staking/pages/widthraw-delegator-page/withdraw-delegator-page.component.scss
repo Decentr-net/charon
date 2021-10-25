@@ -33,7 +33,7 @@
 }
 
 .withdraw-delegator-page__footer-withdraw {
-  column-gap: $grid-step / 2;
+  column-gap: $grid-half-step;
   display: flex;
 }
 
@@ -51,7 +51,7 @@
 
 .withdraw-delegator-page__footer-fee {
   align-items: center;
-  column-gap: $grid-step / 2;
+  column-gap: $grid-half-step;
   display: flex;
 }
 

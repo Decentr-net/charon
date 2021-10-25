@@ -1,12 +1,12 @@
 import { interval, Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil, tap } from 'rxjs/operators';
-import { browser, Events, WebRequest } from 'webextension-polyfill-ts';
+import * as Browser from 'webextension-polyfill';
 
-import OnBeforeRequestDetailsType = WebRequest.OnBeforeRequestDetailsType;
-import OnBeforeRequestDetailsTypeRequestBodyType = WebRequest.OnBeforeRequestDetailsTypeRequestBodyType;
-import OnBeforeRedirectDetailsType = WebRequest.OnBeforeRedirectDetailsType;
-import OnCompletedDetailsType = WebRequest.OnCompletedDetailsType;
-import RequestFilter = WebRequest.RequestFilter;
+import OnBeforeRequestDetailsType = Browser.WebRequest.OnBeforeRequestDetailsType;
+import OnBeforeRequestDetailsTypeRequestBodyType = Browser.WebRequest.OnBeforeRequestDetailsTypeRequestBodyType;
+import OnBeforeRedirectDetailsType = Browser.WebRequest.OnBeforeRedirectDetailsType;
+import OnCompletedDetailsType = Browser.WebRequest.OnCompletedDetailsType;
+import RequestFilter = Browser.WebRequest.RequestFilter;
 import { objectContains } from '../helpers/object';
 import { ONE_SECOND } from '../../../../shared/utils/date';
 
@@ -25,7 +25,7 @@ type RequestDetailsStreamFn<T extends RequestDetails> = (
 type RequestBodyFilterFn = (body: OnBeforeRequestDetailsTypeRequestBodyType) => boolean;
 
 const listenRequestsDetails = <T extends RequestDetails>(
-  event: Events.Event<(details: T) => void>,
+  event: Browser.Events.Event<(details: T) => void>,
   requestFilter: Partial<RequestFilter> = {},
   httpMethod?: string,
   listenerExtraParams?: any[],
@@ -48,14 +48,14 @@ const listenRequestsDetails = <T extends RequestDetails>(
 
     return () => event.removeListener(listener);
   });
-}
+};
 
 const listenRequestsOnBeforeSend: RequestDetailsStreamFn<OnBeforeRequestDetailsType> = (
   requestFilter: Partial<RequestFilter> = {},
   httpMethod?: string,
 ): Observable<OnBeforeRequestDetailsType> => {
   return listenRequestsDetails(
-    browser.webRequest.onBeforeRequest,
+    Browser.webRequest.onBeforeRequest,
     requestFilter,
     httpMethod,
     ['requestBody'],
@@ -66,14 +66,14 @@ const listenRequestsOnBeforeRedirect: RequestDetailsStreamFn<OnBeforeRequestDeta
   requestFilter: Partial<RequestFilter> = {},
   httpMethod?: string,
 ): Observable<OnBeforeRedirectDetailsType> => {
-  return listenRequestsDetails(browser.webRequest.onBeforeRedirect, requestFilter, httpMethod);
+  return listenRequestsDetails(Browser.webRequest.onBeforeRedirect, requestFilter, httpMethod);
 };
 
 const listenRequestsOnCompleted: RequestDetailsStreamFn<OnCompletedDetailsType> = (
   requestFilter: Partial<RequestFilter> = {},
   httpMethod?: string,
 ): Observable<OnCompletedDetailsType> => {
-  return listenRequestsDetails(browser.webRequest.onCompleted, requestFilter, httpMethod);
+  return listenRequestsDetails(Browser.webRequest.onCompleted, requestFilter, httpMethod);
 };
 
 const listenRequestsWithBody = <T extends RequestDetails>(
@@ -114,7 +114,7 @@ const listenRequestsWithBody = <T extends RequestDetails>(
 
     return () => unsubscribe$.next();
   });
-}
+};
 
 export const listenRequestsBeforeRedirectWithBody = (
   requestFilter: Partial<RequestFilter> = {},

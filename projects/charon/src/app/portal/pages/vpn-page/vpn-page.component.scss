@@ -26,7 +26,7 @@
     }
 
     .vpn-page__button {
-      box-shadow: 0 $grid-step / 2 $grid-step * 12.5 #4F80FF, 0 0 $grid-step * 7.5 rgba($color-blue, .24);
+      box-shadow: 0 $grid-half-step $grid-step * 12.5 #4F80FF, 0 0 $grid-step * 7.5 rgba($color-blue, .24);
       transition: all .8s ease;
     }
   }
@@ -104,7 +104,7 @@
   align-items: center;
   background-color: $color-white;
   border-radius: 100%;
-  box-shadow: 0 $grid-step / 2 $grid-step rgba($color-grey, .4);
+  box-shadow: 0 $grid-half-step $grid-step rgba($color-grey, .4);
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -116,7 +116,7 @@
   z-index: 1;
 
   &:hover {
-    box-shadow: 0 $grid-step / 2 $grid-step * 5 rgba($color-blue, .4), 0 0 $grid-step * 2.5 rgba($color-blue, .16);
+    box-shadow: 0 $grid-half-step $grid-step * 5 rgba($color-blue, .4), 0 0 $grid-step * 2.5 rgba($color-blue, .16);
   }
 }
 
@@ -164,7 +164,7 @@
 }
 
 .vpn-page__vpn-selector {
-  margin-top: $grid-step / 2;
+  margin-top: $grid-half-step;
   width: 100%;
 }
 

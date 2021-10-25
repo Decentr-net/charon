@@ -13,7 +13,7 @@ import {
   take,
 } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { ControlsOf, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Validator } from 'decentr-js';
@@ -54,7 +54,7 @@ export class UndelegatePageComponent implements OnInit {
 
   public delegatedAmount$: Observable<number>;
 
-  public form: FormGroup<UndelegateForm>;
+  public form: FormGroup<ControlsOf<UndelegateForm>>;
 
   public fee$: Observable<number>;
 
@@ -140,7 +140,9 @@ export class UndelegatePageComponent implements OnInit {
     this.delegatedAmount$.pipe(
       take(1),
       untilDestroyed(this),
-    ).subscribe((delegatedAmount) => this.form.get('amount').setValue(delegatedAmount / MICRO_PDV_DIVISOR));
+    ).subscribe((delegatedAmount) => {
+      this.form.get('amount').setValue((delegatedAmount / MICRO_PDV_DIVISOR).toString());
+    });
   }
 
   public onSubmit(): void {
@@ -183,9 +185,9 @@ export class UndelegatePageComponent implements OnInit {
 
   private createForm(
     delegatedAmount$: Observable<number>,
-  ): FormGroup<UndelegateForm> {
+  ): FormGroup<ControlsOf<UndelegateForm>> {
     return this.formBuilder.group({
-      amount: [
+      amount: this.formBuilder.control(
         this.undelegatePageService.minUnelegateAmount.toString(),
         [
           Validators.required,
@@ -195,13 +197,13 @@ export class UndelegatePageComponent implements OnInit {
         [
           this.undelegatePageService.createAsyncAmountValidator(delegatedAmount$),
         ],
-      ],
-      validatorName: [
+      ),
+      validatorName: this.formBuilder.control(
         { value: '', disabled: true },
-      ],
-      validatorAddress: [
+      ),
+      validatorAddress: this.formBuilder.control(
         '',
-      ],
+      ),
     });
   }
 }
