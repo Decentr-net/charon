@@ -1,14 +1,28 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./projects/charon/tsconfig.app.json"
-    },
-    {
-      "path": "./projects/charon/tsconfig.spec.json"
-    },
-    {
-      "path": "./projects/scripts/tsconfig.json"
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "target": "es2015",
+    "module": "es2020",
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "@core/*": ["projects/charon/src/app/core/*"],
+      "@environments/*": ["environments/*"],
+      "@scripts/*": ["projects/scripts/src/*"],
+      "@shared/*": ["shared/*"]
     }
-  ]
+  }
 }

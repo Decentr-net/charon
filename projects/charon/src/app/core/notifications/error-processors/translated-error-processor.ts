@@ -5,7 +5,7 @@ import { TranslatedError } from '../models';
 
 @Injectable()
 export class TranslatedErrorProcessor extends ConcreteErrorProcessor {
-  public canProcess(error: any): boolean {
+  public canProcess(error: unknown): boolean {
     return error instanceof TranslatedError;
   }
 
