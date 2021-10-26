@@ -17,7 +17,7 @@
 
 .checkbox__input {
   background: $color-outlines;
-  border-radius: $grid-step / 2;
+  border-radius: $grid-half-step;
   cursor: pointer;
   height: 16px;
   width: 16px;

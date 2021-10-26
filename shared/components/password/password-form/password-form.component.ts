@@ -1,6 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
-import { AbstractControl, ControlValueAccessor, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import {
+  AbstractControl,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  ValidationErrors,
+  Validator,
+  Validators
+} from '@angular/forms';
+import { ControlsOf, ControlValueAccessor, FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 
@@ -35,7 +42,7 @@ export class PasswordFormComponent extends ControlValueAccessor<string> implemen
 
   @Input() public required = false;
 
-  public form: FormGroup<PasswordForm>;
+  public form: FormGroup<ControlsOf<PasswordForm>>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -43,7 +50,7 @@ export class PasswordFormComponent extends ControlValueAccessor<string> implemen
     super();
   }
 
-  public get passwordControl(): AbstractControl<string> {
+  public get passwordControl(): FormControl<string> {
     return this.form?.get('password');
   }
 
@@ -75,7 +82,7 @@ export class PasswordFormComponent extends ControlValueAccessor<string> implemen
     return;
   }
 
-  private createForm(): FormGroup<PasswordForm> {
+  private createForm(): FormGroup<ControlsOf<PasswordForm>> {
     return this.formBuilder.group({
       confirmPassword: [
         '',

@@ -1,6 +1,7 @@
 import { defer, Observable } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
-import { browser, Types } from 'webextension-polyfill-ts';
+import * as Browser from 'webextension-polyfill';
+
 import { BrowserType, detectBrowser } from './browser';
 import { environment } from '../../../environments/environment';
 
@@ -13,7 +14,7 @@ export enum ProxyErrorMessage {
 }
 
 export interface ExtensionProxySettings {
-  levelOfControl: Types.LevelOfControl;
+  levelOfControl: Browser.Types.LevelOfControl;
   host?: string;
   port?: string;
 }
@@ -26,11 +27,13 @@ const clearProxySettings = (): Promise<void> => {
       });
 
     default:
-      return browser.proxy.settings.clear({});
+      return Browser.proxy.settings.clear({});
   }
 };
 
-const getProxySettings = (details: Types.SettingGetDetailsType): Promise<Types.SettingGetCallbackDetailsType> => {
+const getProxySettings = (
+  details: Browser.Types.SettingGetDetailsType,
+): Promise<Browser.Types.SettingGetCallbackDetailsType> => {
   switch (CURRENT_BROWSER_TYPE) {
     case BrowserType.Chrome:
       return new Promise((resolve) => {
@@ -38,14 +41,14 @@ const getProxySettings = (details: Types.SettingGetDetailsType): Promise<Types.S
       });
 
     case BrowserType.Firefox:
-      return browser.proxy.settings.get({});
+      return Browser.proxy.settings.get({});
 
     default:
       throw new Error(ProxyErrorMessage.UnknownBrowser);
   }
 };
 
-const setProxySettings = (details: Types.SettingSetDetailsType): Promise<void> => {
+const setProxySettings = (details: Browser.Types.SettingSetDetailsType): Promise<void> => {
   switch (CURRENT_BROWSER_TYPE) {
     case BrowserType.Chrome:
       return new Promise((resolve) => {
@@ -53,20 +56,20 @@ const setProxySettings = (details: Types.SettingSetDetailsType): Promise<void> =
       });
 
     case BrowserType.Firefox:
-      return browser.proxy.settings.set(details);
+      return Browser.proxy.settings.set(details);
 
     default:
       throw new Error(ProxyErrorMessage.UnknownBrowser);
   }
 };
 
-const onProxySettingsChange = (): Observable<Types.SettingOnChangeDetailsType> => {
-  return new Observable<Types.SettingOnChangeDetailsType>((subscriber) => {
-    const listener = (changeDetails: Types.SettingOnChangeDetailsType) => subscriber.next(changeDetails);
+const onProxySettingsChange = (): Observable<Browser.Types.SettingOnChangeDetailsType> => {
+  return new Observable<Browser.Types.SettingOnChangeDetailsType>((subscriber) => {
+    const listener = (changeDetails: Browser.Types.SettingOnChangeDetailsType) => subscriber.next(changeDetails);
 
-    browser.proxy.settings.onChange.addListener(listener);
+    Browser.proxy.settings.onChange.addListener(listener);
 
-    return () => browser.proxy.settings.onChange.removeListener(listener);
+    return () => Browser.proxy.settings.onChange.removeListener(listener);
   });
 };
 
@@ -96,7 +99,7 @@ export const listenProxyErrors = (): Observable<void> => {
   return new Observable<void>((subscriber) => {
     const listener = () => subscriber.next();
 
-    const errorNotifier = browser.proxy.onError || (browser.proxy as any).onProxyError;
+    const errorNotifier = Browser.proxy.onError || (Browser.proxy as any).onProxyError;
 
     errorNotifier.addListener(listener);
 

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractControl, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { ControlsOf, FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
@@ -41,7 +41,7 @@ export class EditProfilePageComponent implements OnInit {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
   public appRoute: typeof AppRoute = AppRoute;
-  public form: FormGroup<EditProfileForm>;
+  public form: FormGroup<ControlsOf<EditProfileForm>>;
 
   public profile: Profile;
 
@@ -58,7 +58,7 @@ export class EditProfilePageComponent implements OnInit {
   ) {
   }
 
-  public get passwordControl(): AbstractControl<string> {
+  public get passwordControl(): FormControl<string> {
     return this.form?.get('password');
   }
 
@@ -123,7 +123,7 @@ export class EditProfilePageComponent implements OnInit {
     });
   }
 
-  private createForm(): FormGroup<EditProfileForm> {
+  private createForm(): FormGroup<ControlsOf<EditProfileForm>> {
     return this.formBuilder.group({
       profile: undefined,
       oldPassword: [

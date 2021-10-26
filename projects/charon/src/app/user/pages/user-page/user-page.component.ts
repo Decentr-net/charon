@@ -5,7 +5,7 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 import { Wallet } from 'decentr-js';
 
-import { version } from '../../../../../../../package.json';
+import packageSettings from '../../../../../../../package.json';
 import { svgDelegate } from '@shared/svg-icons/delegate';
 import { svgSend } from '@shared/svg-icons/send';
 import { svgWallet } from '@shared/svg-icons/wallet';
@@ -23,7 +23,7 @@ import { PortalRoute } from '../../../portal';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserPageComponent implements OnInit {
-  @HostBinding('attr.version') public appVersion: string = version;
+  @HostBinding('attr.version') public appVersion: string = packageSettings.version;
 
   public decBalance$: Observable<string>;
 

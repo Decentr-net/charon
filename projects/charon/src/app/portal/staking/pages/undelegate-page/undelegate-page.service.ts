@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Observable, timer } from 'rxjs';
 import { filter, map, mapTo, pluck, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
-import { ValidatorFn } from '@ngneat/reactive-forms';
 import { Validator } from 'decentr-js';
 
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
@@ -81,7 +80,7 @@ export class UndelegatePageService {
 
   public createAsyncAmountValidator(
     delegatedAmount$: Observable<number>,
-  ): ValidatorFn<string> {
+  ): AsyncValidatorFn {
     return (amountControl) => {
       const amount = parseFloat(amountControl.value.toString());
 
@@ -102,7 +101,7 @@ export class UndelegatePageService {
   public createAsyncBalanceValidator(
     amountControl: AbstractControl,
     fee$: Observable<number>,
-  ): ValidatorFn<string> {
+  ): AsyncValidatorFn {
     return () => {
       const amount = parseFloat(amountControl.value.toString());
 

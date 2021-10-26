@@ -15,7 +15,7 @@ import {
 } from 'rxjs/operators';
 import { Validator } from 'decentr-js';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { ControlsOf, FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -33,7 +33,7 @@ import { RedelegatePageService } from './redelegate-page.service';
 interface RedelegateForm {
   amount: string;
   fromValidatorAddress: Validator['operator_address'];
-  toValidator: Validator;
+  toValidator?: FormControl<Validator>;
 }
 
 @UntilDestroy()
@@ -55,7 +55,7 @@ export class RedelegatePageComponent implements OnInit {
 
   public delegatedAmount$: Observable<number>;
 
-  public form: FormGroup<RedelegateForm>;
+  public form: FormGroup<ControlsOf<RedelegateForm>>;
 
   public fee$: Observable<number>;
 
@@ -178,10 +178,11 @@ export class RedelegatePageComponent implements OnInit {
       validatorsOptions$,
       toValidatorValue$,
     ]).pipe(
-      map(([validatorsOptions, toValidatorPartialName]: [SelectOption<Validator>[], string]) => {
+      map(([validatorsOptions, toValidatorPartialName]) => {
         return validatorsOptions.filter((validator) => {
           return toValidatorPartialName
-            ? validator.label.includes(toValidatorPartialName)
+            // toValidator value is string when typing
+            ? validator.label.includes(toValidatorPartialName.toString())
             : validatorsOptions;
         });
       }),
@@ -196,7 +197,9 @@ export class RedelegatePageComponent implements OnInit {
     this.delegatedAmount$.pipe(
       take(1),
       untilDestroyed(this),
-    ).subscribe((balance) => this.form.get('amount').setValue(balance / MICRO_PDV_DIVISOR));
+    ).subscribe((balance) => {
+      this.form.get('amount').setValue((balance / MICRO_PDV_DIVISOR).toString());
+    });
   }
 
   public onSubmit(): void {
@@ -240,9 +243,9 @@ export class RedelegatePageComponent implements OnInit {
 
   private createForm(
     delegatedAmount$: Observable<number>,
-  ): FormGroup<RedelegateForm> {
+  ): FormGroup<ControlsOf<RedelegateForm>> {
     return this.formBuilder.group({
-      amount: [
+      amount: this.formBuilder.control(
         this.redelegatePageService.minRedelegateAmount.toString(),
         [
           Validators.required,
@@ -252,17 +255,17 @@ export class RedelegatePageComponent implements OnInit {
         [
           this.redelegatePageService.createAsyncAmountValidator(delegatedAmount$),
         ],
-      ],
-      fromValidatorAddress: [
+      ),
+      fromValidatorAddress: this.formBuilder.control(
         '',
-      ],
-      toValidator: [
+      ),
+      toValidator: this.formBuilder.control(
         null,
         [
           Validators.required,
           this.redelegatePageService.createValidatorValidator(),
         ],
-      ],
+      ),
     });
   }
 }

@@ -11,7 +11,7 @@ $hub-post-pdv-diagram--negative-color: #F0376B;
 .hub-post-pdv-diagram__icon {
   display: inline-flex;
   height: auto;
-  margin-right: $grid-step / 2;
+  margin-right: $grid-half-step;
   max-width: 40px;
   width: auto;
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { AsyncValidatorFn } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { AsyncValidatorFn } from '@ngneat/reactive-forms';
 import { ProfileUpdate } from 'decentr-js';
 
 import { AuthService, AuthUserUpdate } from '@core/auth';
@@ -15,7 +15,7 @@ export class EditProfilePageService {
   ) {
   }
 
-  public createCurrentPasswordValidAsyncValidator(): AsyncValidatorFn<string> {
+  public createCurrentPasswordValidAsyncValidator(): AsyncValidatorFn {
     return async (control) => {
       if (!control.value) {
         return null;

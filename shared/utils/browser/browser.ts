@@ -1,4 +1,4 @@
-import { browser, Tabs } from 'webextension-polyfill-ts';
+import * as Browser from 'webextension-polyfill';
 
 export enum BrowserType {
   Chrome = 'Chrome',
@@ -12,14 +12,14 @@ export enum BrowserType {
   Unknown = 'Unknown',
 }
 
-export const openExtensionInNewTab = (relativeUrl: string): Promise<Tabs.Tab> => {
-  return browser.tabs.create({
-    url: browser.extension.getURL(`${window.location.pathname}${relativeUrl}`),
+export const openExtensionInNewTab = (relativeUrl: string): Promise<Browser.Tabs.Tab> => {
+  return Browser.tabs.create({
+    url: Browser.runtime.getURL(`${window.location.pathname}${relativeUrl}`),
   });
 };
 
 export const isOpenedInTab = (): boolean => {
-  return !browser.extension || browser.extension
+  return !Browser.extension || Browser.extension
     .getViews({ type: 'tab' })
     .some(extensionWindow => extensionWindow === window);
 };

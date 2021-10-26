@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import 'colors';
 @import 'variables';
 @import 'typeface';
@@ -13,7 +14,7 @@
 
   &.mod-filled {
     border-radius: $border-radius;
-    column-gap: $grid-step / 4;
+    column-gap: math.div($grid-step, 4);
 
     .hub-post-rating__section {
       background-color: $color-background;

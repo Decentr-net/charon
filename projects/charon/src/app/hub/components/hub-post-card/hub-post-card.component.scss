@@ -74,7 +74,7 @@ $hub-post-card--horizontal--image-width: 31%;
 
 .hub-post-card__meta {
   align-items: center;
-  column-gap: $grid-step / 2;
+  column-gap: $grid-half-step;
   display: flex;
   flex-shrink: 0;
   white-space: nowrap;

@@ -1,11 +1,9 @@
 import { Observable } from 'rxjs';
-import { browser, Cookies } from 'webextension-polyfill-ts';
-import Cookie = Cookies.Cookie;
-import OnChangedChangeInfoType = Cookies.OnChangedChangeInfoType;
+import * as Browser from 'webextension-polyfill';
 
-export const listenCookiesSet = (): Observable<Cookie> => {
+export const listenCookiesSet = (): Observable<Browser.Cookies.Cookie> => {
   return new Observable((subscriber) => {
-    const listener = (changeInfo: OnChangedChangeInfoType) => {
+    const listener = (changeInfo: Browser.Cookies.OnChangedChangeInfoType) => {
       if (changeInfo.cause !== 'explicit' || changeInfo.removed) {
         return;
       }
@@ -25,8 +23,8 @@ export const listenCookiesSet = (): Observable<Cookie> => {
       subscriber.next(cookie);
     };
 
-    browser.cookies.onChanged.addListener(listener);
+    Browser.cookies.onChanged.addListener(listener);
 
-    return () => browser.cookies.onChanged.removeListener(listener);
+    return () => Browser.cookies.onChanged.removeListener(listener);
   });
 };

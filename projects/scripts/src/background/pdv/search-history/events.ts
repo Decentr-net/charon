@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs';
-import { browser, Tabs } from 'webextension-polyfill-ts';
+import * as Browser from 'webextension-polyfill';
 import { SearchHistoryPDV } from 'decentr-js';
-import OnUpdatedChangeInfoType = Tabs.OnUpdatedChangeInfoType;
 
 import { SEARCH_ENGINES } from './engines';
 
@@ -9,7 +8,7 @@ export type SearchQuery = Pick<SearchHistoryPDV, 'engine' | 'domain' | 'query'>;
 
 export const listenSearchQueries = (): Observable<SearchQuery> => {
   return new Observable((subscriber) => {
-    const listener = ({}, changeInfo: OnUpdatedChangeInfoType) => {
+    const listener = ({}, changeInfo: Browser.Tabs.OnUpdatedChangeInfoType) => {
       const url = changeInfo.url;
 
       if (!url) {
@@ -34,8 +33,8 @@ export const listenSearchQueries = (): Observable<SearchQuery> => {
       }
     };
 
-    browser.tabs.onUpdated.addListener(listener);
+    Browser.tabs.onUpdated.addListener(listener);
 
-    return () => browser.tabs.onUpdated.removeListener(listener);
+    return () => Browser.tabs.onUpdated.removeListener(listener);
   });
 };

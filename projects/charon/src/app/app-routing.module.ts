@@ -136,7 +136,7 @@ const ROUTES: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(ROUTES, { useHash: true })
+    RouterModule.forRoot(ROUTES, { useHash: true, relativeLinkResolution: 'legacy' })
   ],
   exports: [
     RouterModule,

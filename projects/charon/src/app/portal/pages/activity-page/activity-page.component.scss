@@ -15,7 +15,7 @@
   font-weight: 400;
   margin-left: $grid-step;
   min-width: 36px;
-  padding: $grid-step / 2 $grid-step;
+  padding: $grid-half-step $grid-step;
   text-align: center;
 }
 
@@ -47,7 +47,7 @@
   display: grid;
   grid-template-columns: max-content 1fr;
   padding-top: $grid-step;
-  row-gap: $grid-step / 2;
+  row-gap: $grid-half-step;
 }
 
 .activity-page--pdv-description__key {

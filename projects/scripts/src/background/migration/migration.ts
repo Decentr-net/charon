@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import * as Browser from 'webextension-polyfill';
 
 import * as packageSettings from '../../../../../package.json';
 import { compareSemver } from '../../../../../shared/utils/number';
@@ -28,7 +28,7 @@ const SCRIPTS_CONFIGURATION: MigrationScriptConfig[] = [
 ];
 
 export const initMigration = (): void => {
-  browser.runtime.onInstalled.addListener(({ previousVersion }) => {
+  Browser.runtime.onInstalled.addListener(({ previousVersion }) => {
     if (!previousVersion) {
       return;
     }

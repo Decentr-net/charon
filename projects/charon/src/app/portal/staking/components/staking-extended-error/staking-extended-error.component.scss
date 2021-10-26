@@ -13,7 +13,7 @@
   height: 100%;
   min-height: 176px;
   padding: $grid-step * 2;
-  row-gap: $grid-step / 2;
+  row-gap: $grid-half-step;
 }
 
 .staking-extended-error__error-icon {
