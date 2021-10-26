@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
   NG_VALIDATORS,
@@ -11,7 +11,9 @@ import { ControlsOf, ControlValueAccessor, FormBuilder, FormControl, FormGroup }
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 
-import { PASSWORD_VALIDATION, PasswordTranslationsConfig } from '../password.definitions';
+import { PasswordTranslationsConfig } from '../password.definitions';
+import { PasswordValidationConfig, passwordValidator } from '../validation';
+import { PASSWORD_VALIDATION_CONFIG } from '../password.module';
 
 export interface PasswordForm {
   password: string;
@@ -46,6 +48,7 @@ export class PasswordFormComponent extends ControlValueAccessor<string> implemen
 
   constructor(
     private formBuilder: FormBuilder,
+    @Inject(PASSWORD_VALIDATION_CONFIG) private passwordValidationConfig: PasswordValidationConfig,
   ) {
     super();
   }
@@ -94,9 +97,7 @@ export class PasswordFormComponent extends ControlValueAccessor<string> implemen
         '',
         [
           ...this.required ? [Validators.required] : [],
-          RxwebValidators.password({
-            validation: PASSWORD_VALIDATION,
-          }),
+          passwordValidator(this.passwordValidationConfig),
         ],
       ],
     });

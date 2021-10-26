@@ -30,6 +30,7 @@ import { SvgIconRootModule } from './svg-icons';
 import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES, MenuService, NetworkSelectorService, NetworkService } from './services';
 import { PermissionsService } from './permissions';
+import { PasswordModule } from '@shared/components/password';
 
 export function initAuthFactory(authService: AuthService): () => void {
   return () => authService.init();
@@ -73,6 +74,15 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
       fallbackErrorProcessor: FallbackErrorProcessor,
     }),
     OverlayModule,
+    PasswordModule.forRoot({
+      validation: {
+        minlength: 8,
+        digit: true,
+        lowerCase: true,
+        specialCharacter: true,
+        upperCase: true,
+      },
+    }),
     PDVModule,
     PermissionsModule.forRoot(PermissionsService),
     PublicLayoutModule,
