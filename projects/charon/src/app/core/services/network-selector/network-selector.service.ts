@@ -32,7 +32,7 @@ export class NetworkSelectorService extends BaseNetworkSelectorService {
     ).subscribe(() => location.reload());
   }
 
-  public getNetworks(checkAvailability = true): Observable<Network[]> {
+  public getNetworks(): Observable<Network[]> {
     return this.configService.getNetworkIds().pipe(
       switchMap((networkIds) => {
         return combineLatest(networkIds.map((networkId) => this.getOptionConfig(networkId)));

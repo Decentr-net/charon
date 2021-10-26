@@ -11,7 +11,7 @@ export class BroadcastErrorProcessor extends ConcreteErrorProcessor {
     super();
   }
 
-  public canProcess(error: any): boolean {
+  public canProcess(error: unknown): boolean {
     return error && !!(error as BroadcastClientError).broadcastErrorCode;
   }
 

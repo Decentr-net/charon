@@ -12,10 +12,10 @@ export class OfflineInterceptor implements HttpInterceptor {
   ) {
   }
 
-  public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  public intercept(req: HttpRequest<void>, next: HttpHandler): Observable<HttpEvent<void>> {
     return of(navigator.onLine).pipe(
       mergeMap((isOnline) => next.handle(req).pipe(
-        map((event: HttpEvent<any>) => {
+        map((event: HttpEvent<void>) => {
           if (!isOnline) {
             this.navigationService.redirectToOfflinePage();
           }

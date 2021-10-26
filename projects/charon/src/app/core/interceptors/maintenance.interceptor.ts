@@ -22,7 +22,7 @@ export class MaintenanceInterceptor implements HttpInterceptor {
   ) {
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  public intercept(req: HttpRequest<void>, next: HttpHandler): Observable<HttpEvent<void>> {
     if (req.headers.has(SKIP_MAINTENANCE_INTERCEPTOR_HEADER)) {
       const newRequest = req.clone({ headers: req.headers.delete(SKIP_MAINTENANCE_INTERCEPTOR_HEADER) });
       return next.handle(newRequest);
@@ -35,7 +35,7 @@ export class MaintenanceInterceptor implements HttpInterceptor {
         return throwError(error);
       }),
       mergeMap((isMaintenance) => next.handle(req).pipe(
-        map((event: HttpEvent<any>) => {
+        map((event: HttpEvent<void>) => {
           if (event instanceof HttpResponse && isMaintenance) {
             this.navigationService.redirectToMaintenancePage();
           }

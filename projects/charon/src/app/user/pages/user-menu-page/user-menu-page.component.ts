@@ -28,12 +28,10 @@ import { UserRoute } from '../../user-route';
 export class UserMenuPageComponent implements OnInit {
   public profile$: Observable<Profile>;
 
-  public deleteConfirmationRequested: boolean;
-
   public readonly userRoute: typeof UserRoute = UserRoute;
 
   constructor(
-    @Inject(TRANSLOCO_SCOPE) private translocoScope,
+    @Inject(TRANSLOCO_SCOPE) private translocoScope: string,
     private authService: AuthService,
     private confirmationDialogService: ConfirmationDialogService,
     private lockService: LockService,

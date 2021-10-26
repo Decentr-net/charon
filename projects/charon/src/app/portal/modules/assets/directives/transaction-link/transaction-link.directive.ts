@@ -13,8 +13,8 @@ import { NetworkSelectorService } from '@core/services';
 export class TransactionLinkDirective implements OnInit {
   private transactionIdSource: ReplaySubject<string> = new ReplaySubject(1);
 
-  @Input('appTransactionLink')
-  public set transactionId(value: string) {
+  @Input()
+  public set appTransactionLink(value: string) {
     this.transactionIdSource.next(value);
   }
 

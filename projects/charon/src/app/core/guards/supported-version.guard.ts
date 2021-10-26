@@ -5,9 +5,8 @@ import { map } from 'rxjs/operators';
 
 import { ConfigService } from '@shared/services/configuration';
 import { compareSemver } from '@shared/utils/number';
+import { APP_VERSION } from '@shared/utils/version';
 import { AppRoute } from '../../app-route';
-
-const version =  require('../../../../../../package.json').version;
 
 @Injectable()
 export class SupportedVersionGuard implements CanActivate, CanLoad {
@@ -19,7 +18,7 @@ export class SupportedVersionGuard implements CanActivate, CanLoad {
 
   public canActivate(): Observable<boolean | UrlTree> {
     return this.configService.getAppMinVersionRequired().pipe(
-      map((minVersion) => compareSemver(version, minVersion)),
+      map((minVersion) => compareSemver(APP_VERSION, minVersion)),
       map((diff) => diff >= 0 || this.router.createUrlTree(['/', AppRoute.Update])),
     );
   }

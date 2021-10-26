@@ -37,7 +37,7 @@ import { svgExpandMore } from '@shared/svg-icons/expand-more';
 export class HubHeaderStatsMetaComponent implements OnInit {
   @Input() public detailsAnchorElement: HTMLElement;
 
-  @ViewChild('detailsTemplate', { static: true }) public detailsTemplate: TemplateRef<{}>;
+  @ViewChild('detailsTemplate', { static: true }) public detailsTemplate: TemplateRef<void>;
 
   public balance: BalanceValueDynamic;
   public coinRate$: Observable<CoinRateFor24Hours>;

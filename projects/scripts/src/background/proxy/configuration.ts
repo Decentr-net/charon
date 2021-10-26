@@ -7,7 +7,8 @@ import {
   mapTo,
   mergeMap,
   pluck,
-  share, skip,
+  share,
+  skip,
   startWith,
   switchMap,
   tap,
@@ -16,10 +17,10 @@ import {
 import { clearProxy, getActiveProxySettings, isSelfProxyEnabled } from '../../../../../shared/utils/browser';
 import { ONE_SECOND } from '../../../../../shared/utils/date';
 import { compareSemver } from '../../../../../shared/utils/number';
-import * as packageSettings from '../../../../../package.json';
+import { AuthBrowserStorageService } from '../../../../../shared/services/auth';
+import { APP_VERSION } from '../../../../../shared/utils/version';
 import CONFIG_SERVICE from '../config';
 import { pingProxyServer } from './ping';
-import { AuthBrowserStorageService } from '../../../../../shared/services/auth';
 
 export const handleProxyStatus = (): Observable<void> => {
   const checkTimer$ = isSelfProxyEnabled().pipe(
@@ -59,7 +60,7 @@ export const handleProxyStatus = (): Observable<void> => {
 
   const versionDeprecated$ = checkTimer$.pipe(
     switchMap(() => CONFIG_SERVICE.getAppMinVersionRequired()),
-    filter((minVersion) => compareSemver(packageSettings.version, minVersion) < 0),
+    filter((minVersion) => compareSemver(APP_VERSION, minVersion) < 0),
   );
 
   const userChanged$ = new AuthBrowserStorageService().getActiveUser().pipe(
