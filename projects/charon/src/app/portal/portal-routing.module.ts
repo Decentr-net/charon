@@ -2,16 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { BrowserTabGuard } from '@core/guards';
-import {
-  ActivityPageComponent,
-  AssetsPageComponent,
-  PdvRatePageComponent,
-  PortalPageComponent,
-  TransferPageComponent,
-  VpnPageComponent,
-} from './pages';
+import { PortalPageComponent } from './pages';
 import { PortalRoute } from './portal-route';
-import { VpnGuard } from '../core/guards/vpn.guard';
+import { PORTAL_GUARDS, VpnGuard } from './guards';
 
 const ROUTES: Routes = [
   {
@@ -24,44 +17,35 @@ const ROUTES: Routes = [
       },
       {
         path: PortalRoute.PDVRate,
-        component: PdvRatePageComponent,
+        loadChildren: () => import('./modules').then((m) => m.PdvRateModule),
       },
       {
         path: PortalRoute.Activity,
-        component: ActivityPageComponent,
+        loadChildren: () => import('./modules').then((m) => m.ActivityModule),
       },
       {
         path: PortalRoute.Assets,
-        children: [
-          {
-            path: '',
-            component: AssetsPageComponent,
-          },
-          {
-            path: PortalRoute.Transfer,
-            component: TransferPageComponent,
-          },
-        ],
+        loadChildren: () => import('./modules').then((m) => m.AssetsModule),
       },
       {
         path: PortalRoute.VPN,
-        component: VpnPageComponent,
+        loadChildren: () => import('./modules').then((m) => m.VpnModule),
         canActivate: [
           VpnGuard,
         ],
       },
       {
         path: PortalRoute.Staking,
-        loadChildren: () => import('./staking/staking.module').then((m) => m.StakingModule),
+        loadChildren: () => import('./modules').then((m) => m.StakingModule),
         canActivate: [
           BrowserTabGuard,
         ],
       },
-      {
-        path: '**',
-        redirectTo: '',
-      },
     ],
+  },
+  {
+    path: '**',
+    redirectTo: '',
   },
 ];
 
@@ -71,6 +55,9 @@ const ROUTES: Routes = [
   ],
   exports: [
     RouterModule,
+  ],
+  providers: [
+    PORTAL_GUARDS,
   ],
 })
 export class PortalRoutingModule {

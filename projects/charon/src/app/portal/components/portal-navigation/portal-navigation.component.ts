@@ -6,9 +6,9 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgWidescreen } from '@shared/svg-icons/widescreen';
 import { ConfigService } from '@shared/services/configuration';
+import { BrowserType, detectBrowser } from '@shared/utils/browser';
 import { AppRoute } from '../../../app-route';
 import { PortalRoute } from '../../portal-route';
-import { BrowserType, detectBrowser } from '@shared/utils/browser';
 
 const CURRENT_BROWSER_TYPE: BrowserType = detectBrowser();
 
