@@ -1,4 +1,4 @@
-const { optimize, NormalModuleReplacementPlugin } = require('webpack');
+const { NormalModuleReplacementPlugin } = require('webpack');
 const { merge: webpackMerge } = require('webpack-merge');
 const { config: baseConfig, manifestPluginFn } = require('./webpack.config.base');
 
@@ -8,8 +8,6 @@ module.exports = webpackMerge(baseConfig, {
     manifestPluginFn({
       "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
     }),
-    new optimize.AggressiveMergingPlugin(),
-    new optimize.OccurrenceOrderPlugin(),
     new NormalModuleReplacementPlugin(
       /environments\/environment\.ts/,
       './environment.prod.ts',
