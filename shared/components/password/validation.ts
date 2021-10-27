@@ -19,7 +19,7 @@ export const getPasswordState = (password: string, config: PasswordValidationCon
 
   const upperCase = !config.upperCase || !!password?.match(/[A-Z]/);
 
-  const specialCharacter = !config.specialCharacter || !!password?.match(/[!`=+\-_~;'@#$%^&*(),.?":{}|<>\s]/);
+  const specialCharacter = !config.specialCharacter || !!password?.match(/[!`=+\-_~;'@#$%^&*(),.?":{}|<>\s\[\]\\/]/);
 
   return {
     minlength,
