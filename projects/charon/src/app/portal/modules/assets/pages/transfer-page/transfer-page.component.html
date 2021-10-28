@@ -34,6 +34,7 @@
           class="transfer-page__form__control-amount"
           formControlName="amount"
           [appTypeface]="isOpenedInPopup ? 'header-4' : 'header-3'"
+          [numeric]="true"
         >
           <span ngProjectAs="[label]">{{ translate('form.amount.label') }}</span>
 
