@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -7,6 +7,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   selector: 'input[appNumeric]',
 })
 export class NumericDirective implements OnInit {
+  @Input('appNumeric') public enabled: boolean = true;
+
   private previousValue: string;
 
   constructor(
@@ -25,6 +27,10 @@ export class NumericDirective implements OnInit {
 
   @HostListener('input')
   public onInput(): void {
+    if (!this.enabled) {
+      return;
+    }
+
     let value = this.getValue();
     const valueMatch = new RegExp(/[0-9.]+/).exec(value);
     value = valueMatch ? valueMatch[0] : '';
@@ -53,6 +59,10 @@ export class NumericDirective implements OnInit {
   }
 
   public onKeydown(event: KeyboardEvent): void {
+    if (!this.enabled) {
+      return;
+    }
+
     const { key, keyCode } = event;
     const value = this.getValue();
 
