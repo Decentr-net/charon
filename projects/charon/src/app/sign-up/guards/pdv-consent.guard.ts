@@ -5,7 +5,7 @@ import { SettingsService } from '@shared/services/settings';
 import { getParentUrlFromSnapshots } from '@shared/utils/routing';
 import { AuthService } from '@core/auth';
 import { AuthCompletedRegistrationGuard } from '@core/guards';
-import { UserService } from '@core/services';
+import { SpinnerService, UserService } from '@core/services';
 
 @Injectable()
 export class PDVConsentGuard implements CanActivate {
@@ -13,6 +13,7 @@ export class PDVConsentGuard implements CanActivate {
     private authService: AuthService,
     private userService: UserService,
     private settingsService: SettingsService,
+    private spinnerService: SpinnerService,
     private router: Router,
   ) {
   }
@@ -40,7 +41,11 @@ export class PDVConsentGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     routerState: RouterStateSnapshot,
   ): Promise<boolean | UrlTree> {
+    this.spinnerService.showSpinner();
+
     const canActivate = await PDVConsentGuard.canActivate(this.authService, this.userService, this.settingsService);
+
+    this.spinnerService.hideSpinner();
 
     return canActivate || this.router.createUrlTree([getParentUrlFromSnapshots(route, routerState)]);
   }

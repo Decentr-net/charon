@@ -3,14 +3,15 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 
 import { getParentUrlFromSnapshots } from '@shared/utils/routing';
 import { AuthService } from '@core/auth';
-import { UserService } from '@core/services';
+import { AuthCompletedRegistrationGuard } from '@core/guards';
+import { SpinnerService, UserService } from '@core/services';
 import { EmailConfirmationGuard } from './email-confirmation.guard';
-import { AuthCompletedRegistrationGuard } from '../../core/guards';
 
 @Injectable()
 export class CompleteRegistrationGuard implements CanActivate {
   constructor(
     private authService: AuthService,
+    private spinnerService: SpinnerService,
     private userService: UserService,
     private router: Router,
   ) {
@@ -37,7 +38,11 @@ export class CompleteRegistrationGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     routerState: RouterStateSnapshot,
   ): Promise<boolean | UrlTree> {
+    this.spinnerService.showSpinner();
+
     const canActivate = await CompleteRegistrationGuard.canActivate(this.authService, this.userService);
+
+    this.spinnerService.hideSpinner();
 
     return canActivate || this.router.createUrlTree([getParentUrlFromSnapshots(route, routerState)]);
   }
