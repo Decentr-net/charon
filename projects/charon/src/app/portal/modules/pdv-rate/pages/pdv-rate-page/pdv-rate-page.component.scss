@@ -25,7 +25,8 @@ $popup-side-padding: $grid-step * 2;
       flex-grow: 1;
     }
 
-    .pdv-rate__currency {
+    .pdv-rate__currency,
+    .pdv-rate__rewards {
       border-top: $grid-half-step solid $color-outlines;
       padding: $grid-step * 1.5 $popup-side-padding $grid-step * 2;
     }
@@ -138,10 +139,6 @@ $popup-side-padding: $grid-step * 2;
   margin-right: $grid-step * 2;
 }
 
-.pdv-rate__rewards {
-  margin-top: $grid-step;
-}
-
 .pdv-rate__rewards__title {
   display: flex;
   font-weight: 500;
@@ -149,12 +146,6 @@ $popup-side-padding: $grid-step * 2;
 
 .pdv-rate__rewards__height {
   margin-bottom: $grid-step;
-}
-
-.pdv-rate__rewards__open-log {
-  align-items: center;
-  cursor: pointer;
-  display: flex;
 }
 
 .pdv-rate__rewards__open-log__icon {

@@ -75,7 +75,7 @@
       [appTypeface]="isOpenedInPopup ? 'subheader' : 'header-3'"
     >
       {{ translate('pdv_reward') }}:
-      ~{{ (pdvReward.poolSize / pdvReward.totalDelta * pdvReward.balanceDelta) | microValue | numberFormat : '1.0-6' : true }}&nbsp;<app-currency-symbol></app-currency-symbol>
+      ~{{ (pdvReward.poolSize / pdvReward.totalDelta * pdvReward.balanceDelta) | microValue | numberFormat : '1.0-6' : true | appCurrencySymbol | async }}
     </div>
 
     <div class="pdv-rate__rewards__height">
@@ -83,8 +83,9 @@
       {{ translate('current') }}: {{ +pdvReward.latestBlock | numberFormat : null : true }}
     </div>
 
-    <div
-      class="pdv-rate__rewards__open-log"
+    <button
+      app-button
+      color="grey"
       (click)="openRewardsHistoryPopup()"
     >
       <svg-icon
@@ -93,8 +94,8 @@
         [size]="isOpenedInPopup ? 'sm' : 'md'"
       ></svg-icon>
 
-      View PDV Rewards Log
-    </div>
+      {{ translate('view_log') }}
+    </button>
   </ng-container>
 </div>
 

@@ -95,6 +95,8 @@ export class PdvRatePageComponent implements OnInit {
   }
 
   public openRewardsHistoryPopup(): void {
-    this.matDialog.open(RewardsHistoryComponent);
+    this.matDialog.open(RewardsHistoryComponent, {
+      minWidth: '340px',
+    });
   }
 }
