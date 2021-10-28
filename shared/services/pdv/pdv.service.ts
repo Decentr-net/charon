@@ -13,7 +13,15 @@ import {
   take,
 } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { PDVDetails, PDVListItem, PDVListPaginationOptions, Wallet } from 'decentr-js';
+import {
+  PDVDetails,
+  PDVListItem,
+  PDVListPaginationOptions,
+  TokenBalance,
+  TokenBalanceHistory,
+  TokenPool,
+  Wallet,
+} from 'decentr-js';
 
 import { MicroValuePipe } from '../../pipes/micro-value';
 import { whileDocumentVisible } from '../../utils/document';
@@ -120,6 +128,34 @@ export class PDVService {
       );
   }
 
+  public getTokenBalance(): Observable<TokenBalance> {
+    return combineLatest([
+      this.wallet$.pipe(
+        pluck('address'),
+      ),
+      this.getActiveNetworkApi(),
+    ]).pipe(
+      switchMap(([walletAddress, api]) => this.pdvApiService.getTokenBalance(api, walletAddress)),
+    );
+  }
+
+  public getTokenBalanceHistory(): Observable<TokenBalanceHistory[]> {
+    return combineLatest([
+      this.wallet$.pipe(
+        pluck('address'),
+      ),
+      this.getActiveNetworkApi(),
+    ]).pipe(
+      switchMap(([walletAddress, api]) => this.pdvApiService.getTokenBalanceHistory(api, walletAddress)),
+    );
+  }
+
+  public getTokenPool(): Observable<TokenPool> {
+    return this.getActiveNetworkApi().pipe(
+      switchMap((api) => this.pdvApiService.getTokenPool(api)),
+    );
+  }
+
   private getActiveUserWallet(): Observable<Wallet> {
     return this.authBrowserStorageService.getActiveUser().pipe(
       pluck('wallet'),
@@ -143,7 +179,8 @@ export class PDVService {
         startWith(0),
       ),
     ]).pipe(
-      switchMap(([walletAddress, networkApi]) => this.pdvApiService.getBalance(networkApi, walletAddress).pipe(
+      switchMap(([walletAddress, networkApi]) => this.pdvApiService.getTokenBalance(networkApi, walletAddress).pipe(
+        map((tokenBalance) => tokenBalance.balance),
         catchError(() => EMPTY),
       )),
       map(exponentialToFixed),

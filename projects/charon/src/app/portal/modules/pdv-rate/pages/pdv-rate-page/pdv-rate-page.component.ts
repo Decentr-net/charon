@@ -1,13 +1,18 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 
 import { isOpenedInTab } from '@shared/utils/browser';
 import { addAmountToDate, DateAmountType } from '@shared/utils/date';
 import { BalanceValueDynamic } from '@shared/services/pdv';
 import { CoinRateFor24Hours } from '@shared/services/currency';
-import { PdvRatePageService } from './pdv-rate-page.service';
+import { PdvRatePageService, PdvReward } from './pdv-rate-page.service';
 import { PdvChartPoint } from '../../components/pdv-rate-chart';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
+import { svgPublish } from '@shared/svg-icons/publish';
+import { RewardsHistoryComponent } from '../../components/rewards-histrory';
 
 interface FilterButton {
   amount: number;
@@ -32,6 +37,7 @@ export class PdvRatePageComponent implements OnInit {
   public estimatedBalance$: Observable<string>;
   public pdvChartPoints$: Observable<PdvChartPoint[]>;
   public pdvRate$: Observable<BalanceValueDynamic>;
+  public pdvReward$: Observable<PdvReward>;
 
   public filterButtons: FilterButton[] = [
     { dateType: DateAmountType.DAYS, amount: -7, label: '1W' },
@@ -46,15 +52,23 @@ export class PdvRatePageComponent implements OnInit {
   public chartData$: Observable<PdvChartPoint[]>;
 
   constructor(
+    private matDialog: MatDialog,
     private pdvRateService: PdvRatePageService,
+    private svgIconRegistry: SvgIconRegistry,
   ) {
   }
 
   public ngOnInit(): void {
+    this.svgIconRegistry.register([
+      svgLogoIcon,
+      svgPublish,
+    ]);
+
     this.coinRate$ = this.pdvRateService.getCoinRate();
     this.estimatedBalance$ = this.pdvRateService.getEstimatedBalance();
     this.pdvRate$ = this.pdvRateService.getPdvRateWithMargin();
     this.pdvChartPoints$ = this.pdvRateService.getPdvChartPoints();
+    this.pdvReward$ = this.pdvRateService.getPdvReward();
 
     this.chartData$ = combineLatest([
       this.pdvChartPoints$,
@@ -78,5 +92,9 @@ export class PdvRatePageComponent implements OnInit {
     }
 
     return data.filter((chartPoint) => chartPoint[0] > filterByDate);
+  }
+
+  public openRewardsHistoryPopup(): void {
+    this.matDialog.open(RewardsHistoryComponent);
   }
 }

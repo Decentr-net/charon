@@ -1,0 +1,32 @@
+@import 'variables';
+
+:host {
+  display: block;
+  min-width: 300px;
+}
+
+.rewards-history__title {
+  font-weight: 500;
+  margin: 0;
+}
+
+.rewards-history__content {
+  margin: $grid-step 0 0;
+  padding: 0;
+}
+
+.rewards-history__actions {
+  column-gap: $grid-step * 1.5;
+  justify-content: flex-end;
+  margin: $grid-step * 3 0 0;
+  padding: 0;
+}
+
+.rewards-history__skeleton-loader {
+  display: block;
+  width: 100%;
+}
+
+.rewards-history__no-data {
+  color: $color-grey;
+}

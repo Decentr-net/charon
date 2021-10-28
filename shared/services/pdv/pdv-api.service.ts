@@ -7,10 +7,15 @@ import {
   getPDVList,
   getRewards,
   getTokenBalance,
+  getTokenBalanceHistory,
+  getTokenPool,
   PDVDetails,
   PDVListItem,
   PDVListPaginationOptions,
   PDVType,
+  TokenBalance,
+  TokenBalanceHistory,
+  TokenPool,
   Wallet,
 } from 'decentr-js';
 
@@ -33,8 +38,16 @@ export class PDVApiService {
     );
   }
 
-  public getBalance(api: string, walletAddress: Wallet['address']): Observable<number> {
+  public getTokenBalance(api: string, walletAddress: Wallet['address']): Observable<TokenBalance> {
     return defer(() => getTokenBalance(api, walletAddress));
+  }
+
+  public getTokenBalanceHistory(api: string, walletAddress: Wallet['address']): Observable<TokenBalanceHistory[]> {
+    return defer(() => getTokenBalanceHistory(api, walletAddress));
+  }
+
+  public getTokenPool(api: string): Observable<TokenPool> {
+    return defer(() => getTokenPool(api));
   }
 
   public getPDVList(

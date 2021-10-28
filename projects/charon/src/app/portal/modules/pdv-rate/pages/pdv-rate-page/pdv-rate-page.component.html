@@ -65,6 +65,39 @@
   </ng-container>
 </div>
 
+<div
+  *transloco="let translate; read: 'portal.pdv_rate.rewards'"
+  class="pdv-rate__rewards"
+>
+  <ng-container *ngIf="pdvReward$ | async as pdvReward; else loadingRewards">
+    <div
+      class="pdv-rate__rewards__title"
+      [appTypeface]="isOpenedInPopup ? 'subheader' : 'header-3'"
+    >
+      {{ translate('pdv_reward') }}:
+      ~{{ (pdvReward.poolSize / pdvReward.totalDelta * pdvReward.balanceDelta) | microValue | numberFormat : '1.0-6' : true }}&nbsp;<app-currency-symbol></app-currency-symbol>
+    </div>
+
+    <div class="pdv-rate__rewards__height">
+      {{ translate('height') }}: {{ +pdvReward.nextDistributionHeight | numberFormat : null : true }},
+      {{ translate('current') }}: {{ +pdvReward.latestBlock | numberFormat : null : true }}
+    </div>
+
+    <div
+      class="pdv-rate__rewards__open-log"
+      (click)="openRewardsHistoryPopup()"
+    >
+      <svg-icon
+        class="pdv-rate__rewards__open-log__icon"
+        key="publish"
+        [size]="isOpenedInPopup ? 'sm' : 'md'"
+      ></svg-icon>
+
+      View PDV Rewards Log
+    </div>
+  </ng-container>
+</div>
+
 <ng-template #loadingPdvRate>
   <ngx-skeleton-loader
     class="pdv-rate__pdv-loading"
@@ -79,7 +112,7 @@
 <ng-template #loadingChart>
   <ngx-skeleton-loader
     class="pdv-rate__skeleton-loader"
-      [theme]="{
+    [theme]="{
         height: '250px',
         marginBottom: '0',
         width: '100%'
@@ -92,6 +125,24 @@
     class="pdv-rate__skeleton-loader"
     [theme]="{
       height: '36px',
+      marginBottom: '0'
+    }"
+  ></ngx-skeleton-loader>
+</ng-template>
+
+<ng-template #loadingRewards>
+  <ngx-skeleton-loader
+    class="pdv-rate__skeleton-loader"
+    [theme]="{
+      height: '80px',
+      marginBottom: '12px'
+    }"
+  ></ngx-skeleton-loader>
+
+  <ngx-skeleton-loader
+    class="pdv-rate__skeleton-loader"
+    [theme]="{
+      height: '44px',
       marginBottom: '0'
     }"
   ></ngx-skeleton-loader>
