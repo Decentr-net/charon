@@ -24,7 +24,7 @@ export class HubNavigationComponent {
       colorClass: 'color-primary',
       dot: false,
       i18nKey: 'hub.hub_navigation.latest_posts',
-      link: ['/', AppRoute.Hub, HubRoute.Posts],
+      link: ['/', AppRoute.Hub, HubRoute.Posts, '0'],
     },
     ...POST_CATEGORIES.map((category) => ({
       colorClass: HubPostCategoryColorDirective.getColorClass(category),

@@ -83,7 +83,7 @@ export class PostsPageComponent implements OnInit {
       pluck(HubCategoryRouteParam),
       untilDestroyed(this),
     ).subscribe((category) => {
-      this.postsCategory = category;
+      this.postsCategory = +category || undefined;
       this.postsPageService.reload();
     });
 

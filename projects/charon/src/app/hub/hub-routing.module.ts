@@ -70,11 +70,13 @@ const ROUTES: Routes = [
       {
         path: HubRoute.Posts,
         children: [
-          {
-            path: '',
-            component: PostsPageComponent,
-            children: POSTS_PAGE_CHILDREN_ROUTES,
-          },
+          // {
+          //   path: '',
+          //   pathMatch: 'full',
+          //   redirectTo
+          //   component: PostsPageComponent,
+          //   children: POSTS_PAGE_CHILDREN_ROUTES,
+          // },
           {
             path: `:${HubCategoryRouteParam}`,
             component: PostsPageComponent,
@@ -82,7 +84,7 @@ const ROUTES: Routes = [
           },
           {
             path: '**',
-            redirectTo: '',
+            redirectTo: '0',
           },
         ],
       },
