@@ -41,11 +41,7 @@
     >
       <svg-icon key="decentr-hub"></svg-icon>
 
-      <span>
-        {{ asset.balance | microValue | numberFormat : null : true }}
-
-        <app-currency-symbol></app-currency-symbol>
-      </span>
+      {{ asset.balance | microValue | numberFormat : null : true | appCurrencySymbol | async }}
     </div>
 
     <ng-container *appExpansionListLoading>
@@ -67,8 +63,7 @@
           </ng-container>
 
           <ng-container *appBrowserPopupView>
-            {{ asset?.balance | microValue | numberFormat : null : true }}
-            {{ asset?.token }}
+            {{ asset?.balance | microValue | numberFormat : null : true | appCurrencySymbol | async }}
           </ng-container>
 
           <span
