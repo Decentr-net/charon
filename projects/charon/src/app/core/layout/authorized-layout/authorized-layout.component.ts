@@ -28,7 +28,8 @@ export const AUTHORIZED_LAYOUT_FOOTER_SLOT = Symbol('AUTHORIZED_LAYOUT_FOOTER_SL
 export class AuthorizedLayoutComponent implements OnInit {
   @ViewChild('contentContainer', { static: true }) public contentContainer: ElementRef<HTMLDivElement>;
 
-  @HostBinding('class.mod-popup-view') public isOpenedInPopup: boolean;
+  @HostBinding('class.mod-tab-view') public isOpenedInTab: boolean = isOpenedInTab();
+  @HostBinding('class.mod-popup-view') public isOpenedInPopup: boolean = !this.isOpenedInTab;
 
   public readonly footerSlotName: symbol = AUTHORIZED_LAYOUT_FOOTER_SLOT;
 
@@ -48,8 +49,6 @@ export class AuthorizedLayoutComponent implements OnInit {
       this.hasNavigation = hasNavigation;
       this.changeDetectorRef.markForCheck();
     });
-
-    this.isOpenedInPopup = !isOpenedInTab();
   }
 
   public scrollToTop(): void {

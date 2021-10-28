@@ -3,19 +3,23 @@
 $popup-side-padding: $grid-step * 2;
 
 :host {
-  display: grid;
-  grid-template-rows: max-content 1fr max-content;
-  height: 100vh;
+  &.mod-tab-view {
+    display: grid;
+    grid-template-rows: max-content 1fr max-content;
+    height: 100vh;
+  }
 
   &.mod-popup-view {
-    $popup-view--header-height: 375px;
+    $popup-view--header-width: 375px;
 
+    display: flex;
+    flex-direction: column;
     height: 600px;
     overflow: hidden;
-    width: $popup-view--header-height;
+    width: $popup-view--header-width;
 
     .authorized-layout__header-container {
-      width: $popup-view--header-height;
+      width: $popup-view--header-width;
     }
 
     .authorized-layout__header,
