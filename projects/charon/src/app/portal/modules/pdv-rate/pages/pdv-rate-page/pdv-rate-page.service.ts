@@ -3,16 +3,15 @@ import { map } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
 
 import { BlocksService } from '@core/services';
+import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { BalanceValueDynamic, PDVService } from '@shared/services/pdv';
 import { CoinRateFor24Hours, CurrencyService } from '@shared/services/currency';
 import { PdvChartPoint } from '../../components/pdv-rate-chart';
 
 export interface PdvReward {
-  balanceDelta: string;
   latestBlock: string;
   nextDistributionHeight: string;
-  poolSize: string;
-  totalDelta: string;
+  reward: number;
 }
 
 @Injectable()
@@ -48,13 +47,15 @@ export class PdvRatePageService {
       this.blocksService.getLatestBlock(),
     ]).pipe(
       map(([balance, pool, latestBlock]) => ({
-        balanceDelta: balance.balanceDelta,
         latestBlock: latestBlock.block.header.height,
         nextDistributionHeight: pool.nextDistributionHeight,
-        poolSize: pool.size[0].amount,
-        totalDelta: pool.totalDelta,
+        reward: +pool.size[0].amount / +pool.totalDelta * +balance.balanceDelta,
       })),
     );
+  }
+
+  public getPdvRewardUSD(coinRate: number, reward: number): number {
+    return coinRate * reward / MICRO_PDV_DIVISOR;
   }
 
   public getEstimatedBalance(): Observable<string> {

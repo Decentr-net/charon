@@ -140,12 +140,19 @@ $popup-side-padding: $grid-step * 2;
 }
 
 .pdv-rate__rewards__title {
+  column-gap: $grid-step;
   display: flex;
+  flex-wrap: wrap;
   font-weight: 500;
 }
 
+.pdv-rate__rewards__real-money-reward {
+  color: $color-grey;
+}
+
 .pdv-rate__rewards__height {
-  margin-bottom: $grid-step;
+  font-weight: 500;
+  margin: $grid-step 0;
 }
 
 .pdv-rate__rewards__open-log__icon {

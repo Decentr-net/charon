@@ -74,13 +74,29 @@
       class="pdv-rate__rewards__title"
       [appTypeface]="isOpenedInPopup ? 'subheader' : 'header-3'"
     >
-      {{ translate('pdv_reward') }}:
-      ~{{ (pdvReward.poolSize / pdvReward.totalDelta * pdvReward.balanceDelta) | microValue | numberFormat : '1.0-6' : true | appCurrencySymbol | async }}
+      <span>
+        {{ translate('pdv_reward') }}:
+        ~{{ (pdvReward.reward) | microValue | numberFormat : '1.0-6' : true | appCurrencySymbol | async }}
+      </span>
+
+      <span
+        class="pdv-rate__rewards__real-money-reward"
+        *ngIf="pdvRewardUSD$ | async as pdvRewardUSD"
+      >
+        (~{{ pdvRewardUSD | currency : 'USD' : 'symbol' : '1.0-2' }})
+      </span>
     </div>
 
-    <div class="pdv-rate__rewards__height">
-      {{ translate('height') }}: {{ +pdvReward.nextDistributionHeight | numberFormat : null : true }},
-      {{ translate('current') }}: {{ +pdvReward.latestBlock | numberFormat : null : true }}
+    <div
+      class="pdv-rate__rewards__height"
+      appTypeface="paragraph"
+    >
+      {{
+        translate('time', {
+          nextHeight: +pdvReward.nextDistributionHeight | numberFormat : null : true,
+          currentHeight: +pdvReward.latestBlock | numberFormat : null : true
+        })
+      }}
     </div>
 
     <button

@@ -38,6 +38,7 @@ export class PdvRatePageComponent implements OnInit {
   public pdvChartPoints$: Observable<PdvChartPoint[]>;
   public pdvRate$: Observable<BalanceValueDynamic>;
   public pdvReward$: Observable<PdvReward>;
+  public pdvRewardUSD$: Observable<number>;
 
   public filterButtons: FilterButton[] = [
     { dateType: DateAmountType.DAYS, amount: -7, label: '1W' },
@@ -69,6 +70,13 @@ export class PdvRatePageComponent implements OnInit {
     this.pdvRate$ = this.pdvRateService.getPdvRateWithMargin();
     this.pdvChartPoints$ = this.pdvRateService.getPdvChartPoints();
     this.pdvReward$ = this.pdvRateService.getPdvReward();
+
+    this.pdvRewardUSD$ = combineLatest([
+      this.coinRate$,
+      this.pdvReward$,
+    ]).pipe(
+      map(([{ value: coinRate }, { reward }]) => this.pdvRateService.getPdvRewardUSD(coinRate, reward)),
+    );
 
     this.chartData$ = combineLatest([
       this.pdvChartPoints$,
