@@ -19,7 +19,7 @@
     "rewards": {
       "current": "current block height is",
       "height": "The PDV rewards will be given out on next block height",
-      "pdv_reward": "PDV reward",
+      "pdv_reward": "PDV rewards",
       "view_log": "View PDV Rewards Log"
     }
   },

@@ -28,6 +28,10 @@
     "your_wallet": "Your wallet"
   },
   "user_menu_page": {
+    "banned": {
+      "label": "Banned",
+      "tooltip": "You are banned. Please contact Decentr support team"
+    },
     "coming_soon": "coming soon",
     "delete": "Delete account",
     "delete_hint": "We’ll clean all the cookies and other information connected with your account.\nYou’ll be able to recover your account with seed phrase.",
