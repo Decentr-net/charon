@@ -15,7 +15,12 @@
   "pdv_rate": {
     "estimated_balance": "In progress: {{estimatedBalance}} PDV",
     "no_pdv_rate": "You have no PDV Rate data",
-    "not_enough_pdv_rate": "Not enough data for the chart"
+    "not_enough_pdv_rate": "Not enough data for the chart",
+    "rewards": {
+      "time": "The PDV rewards will be given out on next block height: {{nextHeight}} (current: {{currentHeight}})",
+      "pdv_reward": "PDV rewards",
+      "view_log": "View PDV rewards Log"
+    }
   },
   "portal_navigation": {
     "activity": "Activity",
@@ -27,6 +32,17 @@
   "portal_page": {
     "copy_wallet_address": "Copy wallet address",
     "wallet_address_copied": "The wallet address was copied successfully"
+  },
+  "rewards_history": {
+    "actions": {
+      "close": "Close"
+    },
+    "table": {
+      "amount": "Amount",
+      "height": "Height",
+      "rewards_no_data": "You don't have rewards data yet.",
+      "title": "PDV rewards Log"
+    }
   },
   "token_transactions_table": {
     "copy_tx": "Copy transaction hash",

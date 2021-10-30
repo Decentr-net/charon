@@ -25,7 +25,8 @@ $popup-side-padding: $grid-step * 2;
       flex-grow: 1;
     }
 
-    .pdv-rate__currency {
+    .pdv-rate__currency,
+    .pdv-rate__rewards {
       border-top: $grid-half-step solid $color-outlines;
       padding: $grid-step * 1.5 $popup-side-padding $grid-step * 2;
     }
@@ -39,14 +40,20 @@ $popup-side-padding: $grid-step * 2;
     padding-bottom: $grid-step * 2;
 
     .pdv-rate__pdv,
-    .pdv-rate__currency {
+    .pdv-rate__currency,
+    .pdv-rate__rewards {
       border: 2px solid $color-outlines;
       border-radius: $border-radius;
     }
 
     .pdv-rate__currency {
       margin-top: $grid-step * 3;
-      padding: $grid-step * 3 $page-side-padding;
+      padding: $grid-step * 2 $page-side-padding;
+    }
+
+    .pdv-rate__rewards {
+      margin-top: $grid-step * 3;
+      padding: $grid-step * 2 $page-side-padding;
     }
   }
 }
@@ -130,4 +137,24 @@ $popup-side-padding: $grid-step * 2;
   display: flex;
   font-size: 64px;
   margin-right: $grid-step * 2;
+}
+
+.pdv-rate__rewards__title {
+  column-gap: $grid-step;
+  display: flex;
+  flex-wrap: wrap;
+  font-weight: 500;
+}
+
+.pdv-rate__rewards__real-money-reward {
+  color: $color-grey;
+}
+
+.pdv-rate__rewards__height {
+  font-weight: 500;
+  margin: $grid-step 0;
+}
+
+.pdv-rate__rewards__open-log__icon {
+  margin-right: $grid-step;
 }

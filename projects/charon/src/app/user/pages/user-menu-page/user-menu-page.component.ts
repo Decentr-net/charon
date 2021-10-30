@@ -13,6 +13,7 @@ import { svgLock } from '@shared/svg-icons/lock';
 import { svgSettings } from '@shared/svg-icons/settings';
 import { ConfirmationDialogService } from '@shared/components/confirmation-dialog';
 import { NotificationService } from '@shared/services/notification';
+import { PDVService } from '@shared/services/pdv';
 import { AuthService } from '@core/auth';
 import { LockService } from '@core/lock';
 import { SpinnerService, UserService } from '@core/services';
@@ -28,6 +29,8 @@ import { UserRoute } from '../../user-route';
 export class UserMenuPageComponent implements OnInit {
   public profile$: Observable<Profile>;
 
+  public banned$: Observable<boolean>;
+
   public readonly userRoute: typeof UserRoute = UserRoute;
 
   constructor(
@@ -36,6 +39,7 @@ export class UserMenuPageComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService,
     private lockService: LockService,
     private notificationService: NotificationService,
+    private pdvService: PDVService,
     private spinnerService: SpinnerService,
     private translocoService: TranslocoService,
     private userService: UserService,
@@ -55,6 +59,10 @@ export class UserMenuPageComponent implements OnInit {
       pluck('wallet'),
       switchMap((wallet) => this.userService.getProfile(wallet.address, wallet)),
       catchError(() => EMPTY),
+    );
+
+    this.banned$ = this.pdvService.getTokenBalance().pipe(
+      map((balance) => balance.isBanned),
     );
   }
 
