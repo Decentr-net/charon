@@ -48,3 +48,10 @@
     (click)="onItemClick(item)"
   ></tr>
 </table>
+
+<div
+  class="data-table__empty-row"
+  *ngIf="!data?.length"
+>
+  <ng-container [ngTemplateOutlet]="dataTableEmptyRowDef.templateRef"></ng-container>
+</div>

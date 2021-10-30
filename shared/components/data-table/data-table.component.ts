@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component,
+  Component, ContentChild,
   ContentChildren,
   EventEmitter,
   Input,
@@ -9,7 +9,7 @@ import {
   TrackByFunction,
 } from '@angular/core';
 
-import { DataTableColumnDefDirective } from './data-table-column-def.directive';
+import { DataTableColumnDefDirective, DataTableEmptyRowDefDirective } from './directives';
 
 @Component({
   selector: 'app-data-table',
@@ -27,6 +27,9 @@ export class DataTableComponent<T> {
 
   @ContentChildren(DataTableColumnDefDirective)
   public dataTableColumnDefs: QueryList<DataTableColumnDefDirective>;
+
+  @ContentChild(DataTableEmptyRowDefDirective)
+  public dataTableEmptyRowDef: DataTableEmptyRowDefDirective;
 
   public get columns(): DataTableColumnDefDirective[] {
     return this.dataTableColumnDefs.toArray();

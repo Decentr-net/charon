@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CommonModule } from '@angular/common';
 
-import { DataTableColumnDefDirective } from './data-table-column-def.directive';
-import { DataTableComponent } from './data-table.component';
 import { TypefaceModule } from '../../directives/typeface';
+import { DATA_TABLE_DIRECTIVES } from './directives';
+import { DataTableComponent } from './data-table.component';
 
 @NgModule({
   declarations: [
-    DataTableColumnDefDirective,
+    DATA_TABLE_DIRECTIVES,
     DataTableComponent,
   ],
   imports: [
@@ -17,8 +17,8 @@ import { TypefaceModule } from '../../directives/typeface';
     TypefaceModule,
   ],
   exports: [
+    DATA_TABLE_DIRECTIVES,
     DataTableComponent,
-    DataTableColumnDefDirective,
   ],
 })
 export class DataTableModule {
