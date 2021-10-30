@@ -99,6 +99,26 @@
 
     <button
       class="user-menu-page__menu-block__button mod-disable-align"
+      *ngIf="canRestoreSeed$ | async"
+      app-button
+      color="grey"
+      appTypeface="paragraph"
+      (click)="restoreSeedPhrase()"
+    >
+      <div>
+        <span>{{ translate('restore_seed') }}</span>
+
+        <div
+          class="user-menu-page__menu-block__button-hint"
+          appTypeface="caption"
+        >
+          {{ translate('restore_seed_hint') }}
+        </div>
+      </div>
+    </button>
+
+    <button
+      class="user-menu-page__menu-block__button mod-disable-align"
       app-button
       color="grey"
       appTypeface="paragraph"

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, filter, finalize, map, mergeMap, pluck, switchMap, tap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
@@ -18,6 +19,7 @@ import { AuthService } from '@core/auth';
 import { LockService } from '@core/lock';
 import { SpinnerService, UserService } from '@core/services';
 import { UserRoute } from '../../user-route';
+import { RestoreSeedDialogComponent } from '../../components';
 
 @UntilDestroy()
 @Component({
@@ -31,6 +33,8 @@ export class UserMenuPageComponent implements OnInit {
 
   public banned$: Observable<boolean>;
 
+  public canRestoreSeed$: Observable<boolean>;
+
   public readonly userRoute: typeof UserRoute = UserRoute;
 
   constructor(
@@ -38,6 +42,7 @@ export class UserMenuPageComponent implements OnInit {
     private authService: AuthService,
     private confirmationDialogService: ConfirmationDialogService,
     private lockService: LockService,
+    private matDialog: MatDialog,
     private notificationService: NotificationService,
     private pdvService: PDVService,
     private spinnerService: SpinnerService,
@@ -63,6 +68,10 @@ export class UserMenuPageComponent implements OnInit {
 
     this.banned$ = this.pdvService.getTokenBalance().pipe(
       map((balance) => balance.isBanned),
+    );
+
+    this.canRestoreSeed$ = this.authService.getActiveUser().pipe(
+      map((user) => !!user.encryptedSeed),
     );
   }
 
@@ -113,5 +122,9 @@ export class UserMenuPageComponent implements OnInit {
       mergeMap(() => this.deleteAccount()),
       untilDestroyed(this),
     ).subscribe();
+  }
+
+  public restoreSeedPhrase(): void {
+    this.matDialog.open(RestoreSeedDialogComponent);
   }
 }
