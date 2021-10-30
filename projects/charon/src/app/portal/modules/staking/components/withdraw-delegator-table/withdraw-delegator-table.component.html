@@ -55,6 +55,13 @@
   >
     {{ validator.delegated && (validator.delegated | microValue | numberFormat : null : true) || '0' }}
   </ng-container>
+
+  <div
+    class="withdraw-delegator-table__empty-row"
+    *dataTableEmptyRowDef
+  >
+    {{ translate('no_rewards') }}
+  </div>
 </app-data-table>
 
 <ng-template #lessThanOneUdec>

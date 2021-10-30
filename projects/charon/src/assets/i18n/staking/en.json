@@ -159,6 +159,7 @@
   "withdraw_delegator_table": {
     "delegated": "Delegated",
     "jailed": "jailed",
+    "no_rewards": "You have no any rewards yet",
     "reward": "Reward",
     "validator": "Validator"
   }

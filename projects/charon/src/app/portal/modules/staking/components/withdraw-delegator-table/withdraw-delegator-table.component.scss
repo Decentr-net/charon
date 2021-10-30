@@ -42,3 +42,9 @@
   color: $color-white;
   visibility: hidden;
 }
+
+.withdraw-delegator-table__empty-row {
+  color: $color-grey;
+  padding: $grid-step;
+  text-align: center;
+}
