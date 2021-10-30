@@ -93,6 +93,7 @@ export class EditProfilePageComponent implements OnInit {
     this.editProfilePageService.editProfile({
       ...formValue.profile,
       password: formValue.password,
+      oldPassword: formValue.oldPassword,
     }).pipe(
       catchError((error) => {
         switch (error?.response?.status) {

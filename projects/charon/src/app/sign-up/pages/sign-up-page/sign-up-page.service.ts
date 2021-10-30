@@ -56,6 +56,7 @@ export class SignUpPageService {
       mergeMap(() => this.authService.createUser({
         wallet,
         ...user,
+        seed: seedPhrase,
       })),
       mergeMap(id => this.authService.changeUser(id)),
     );
