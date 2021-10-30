@@ -17,9 +17,9 @@
     "no_pdv_rate": "You have no PDV Rate data",
     "not_enough_pdv_rate": "Not enough data for the chart",
     "rewards": {
-      "time": "The PDV reward will be given out on next block height: {{nextHeight}} (current: {{currentHeight}})",
-      "pdv_reward": "PDV reward",
-      "view_log": "View PDV Rewards Log"
+      "time": "The PDV rewards will be given out on next block height: {{nextHeight}} (current: {{currentHeight}})",
+      "pdv_reward": "PDV rewards",
+      "view_log": "View PDV rewards Log"
     }
   },
   "portal_navigation": {
@@ -41,7 +41,7 @@
       "amount": "Amount",
       "height": "Height",
       "rewards_no_data": "You don't have rewards data yet.",
-      "title": "PDV Rewards Log"
+      "title": "PDV rewards Log"
     }
   },
   "token_transactions_table": {
