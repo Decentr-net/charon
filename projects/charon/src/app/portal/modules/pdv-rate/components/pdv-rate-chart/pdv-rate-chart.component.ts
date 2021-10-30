@@ -53,7 +53,7 @@ export class PdvRateChartComponent {
       chart: {
         marginBottom: 20,
         marginLeft: 10,
-        marginRight: 45,
+        marginRight: 50,
         marginTop: 10,
       },
       tooltip: {
