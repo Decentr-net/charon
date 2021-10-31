@@ -28,7 +28,7 @@ $popup-side-padding: $grid-step * 2;
     .pdv-rate__currency,
     .pdv-rate__rewards {
       border-top: $grid-half-step solid $color-outlines;
-      padding: $grid-step * 1.5 $popup-side-padding $grid-step * 2;
+      padding: $grid-step * 2 $popup-side-padding;
     }
 
     .pdv-rate__currency-icon {
