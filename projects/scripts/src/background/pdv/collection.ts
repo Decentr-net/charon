@@ -31,6 +31,7 @@ import { listenCookiePDVs } from './cookies';
 import { listenSearchHistoryPDVs } from './search-history';
 import { mergePDVsIntoAccumulated, PDV_STORAGE_SERVICE, rollbackPDVBlock } from './storage';
 import { listenLocationPDVs } from './location';
+import { HttpStatusCode } from '@angular/common/http';
 
 const configService = CONFIG_SERVICE;
 const settingsService = new SettingsService();
@@ -118,11 +119,15 @@ const initSendPDVBlocks = (): Observable<void> => {
       filter((blocksToProcess) => blocksToProcess.length > 0),
       mergeMap((blocksToProcess) => from(blocksToProcess)),
       tap((block) => processedBlocks.add(block.id)),
-      mergeMap((block) => sendPDV(user.wallet, block.pDVs).pipe(
+      concatMap((block) => sendPDV(user.wallet, block.pDVs).pipe(
         catchError((error) => {
-          configService.forceUpdate();
+          const errorStatus = error?.response?.status;
 
-          if (error?.response?.status === 400) {
+          if (errorStatus !== HttpStatusCode.TooManyRequests) {
+            configService.forceUpdate();
+          }
+
+          if (errorStatus === HttpStatusCode.BadRequest) {
             return from(rollbackPDVBlock(user.wallet.address, block.id)).pipe(
               mapTo(EMPTY),
             );
