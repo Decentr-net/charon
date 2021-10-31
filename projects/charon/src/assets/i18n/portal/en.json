@@ -19,7 +19,7 @@
     "rewards": {
       "time": "The PDV rewards will be given out on next block height: {{nextHeight}} (current: {{currentHeight}})",
       "pdv_reward": "PDV rewards",
-      "view_log": "View PDV rewards Log"
+      "view_log": "View PDV rewards log"
     }
   },
   "portal_navigation": {
@@ -41,7 +41,7 @@
       "amount": "Amount",
       "height": "Height",
       "rewards_no_data": "You don't have rewards data yet.",
-      "title": "PDV rewards Log"
+      "title": "PDV rewards log"
     }
   },
   "token_transactions_table": {
