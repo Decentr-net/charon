@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
+import { HttpStatusCode } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ControlsOf, FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { StatusCodes } from 'http-status-codes';
 import { Profile } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
@@ -96,10 +96,10 @@ export class EditProfilePageComponent implements OnInit {
     }).pipe(
       catchError((error) => {
         switch (error?.response?.status) {
-          case StatusCodes.TOO_MANY_REQUESTS:
+          case HttpStatusCode.TooManyRequests:
             return throwError(new TranslatedError(
               this.translocoService.translate(
-                `edit_profile_page.toastr.errors.${StatusCodes.TOO_MANY_REQUESTS}`,
+                `edit_profile_page.toastr.errors.${HttpStatusCode.TooManyRequests}`,
                 null,
                 'user',
               ),

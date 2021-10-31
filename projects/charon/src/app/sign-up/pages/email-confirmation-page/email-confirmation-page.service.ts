@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpStatusCode } from '@angular/common/http';
 import { forkJoin, from, Observable, throwError } from 'rxjs';
 import { catchError, map, mapTo, mergeMap, startWith } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
-import { StatusCodes } from 'http-status-codes';
 
 import { createSecondsTimer } from '@shared/utils/timer';
 import { AuthService } from '@core/auth';
@@ -28,7 +28,7 @@ export class EmailConfirmationPageService {
     return this.userService.confirmUser(code, user.primaryEmail).pipe(
       catchError((error) => {
         switch (error.status) {
-          case StatusCodes.CONFLICT:
+          case HttpStatusCode.Conflict:
             return throwError(new TranslatedError(
               this.translocoService.translate(
                 'email_confirmation_page.errors.account_conflict',
@@ -36,7 +36,7 @@ export class EmailConfirmationPageService {
                 'sign-up',
               )
             ));
-          case StatusCodes.NOT_FOUND:
+          case HttpStatusCode.NotFound:
             return throwError(new TranslatedError(
               this.translocoService.translate(
                 'email_confirmation_page.errors.account_not_found',
@@ -91,7 +91,7 @@ export class EmailConfirmationPageService {
     return this.userService.createUser(primaryEmail, walletAddress)
       .pipe(
         catchError((error) => {
-          const errorToThrow = (error.status === StatusCodes.CONFLICT)
+          const errorToThrow = (error.status === HttpStatusCode.Conflict)
             ? this.translocoService.translate('email_confirmation_page.errors.account_conflict', null, 'sign-up')
             : error;
 

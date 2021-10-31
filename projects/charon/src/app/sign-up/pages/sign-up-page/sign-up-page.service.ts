@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpStatusCode } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
-import { StatusCodes } from 'http-status-codes';
 import { createWalletFromMnemonic } from 'decentr-js';
 
 import { AuthService, AuthUserCreate } from '@core/auth';
@@ -28,18 +28,18 @@ export class SignUpPageService {
         let errorToThrow: Error;
 
         switch (error.status) {
-          case StatusCodes.BAD_REQUEST:
+          case HttpStatusCode.BadRequest:
             errorToThrow = new TranslatedError(
               this.translocoService.translate('sign_up_page.errors.invalid_email', null, 'sign-up')
             );
             break;
-          case StatusCodes.CONFLICT: {
+          case HttpStatusCode.Conflict: {
             errorToThrow = new TranslatedError(
               this.translocoService.translate('sign_up_page.errors.account_conflict', null, 'sign-up')
             );
             break;
           }
-          case StatusCodes.TOO_MANY_REQUESTS: {
+          case HttpStatusCode.TooManyRequests: {
             errorToThrow = new TranslatedError(
               this.translocoService.translate('sign_up_page.errors.too_many_requests', null, 'sign-up')
             );
