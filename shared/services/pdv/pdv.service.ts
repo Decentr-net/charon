@@ -14,6 +14,7 @@ import {
 } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
+  PDV,
   PDVDetails,
   PDVListItem,
   PDVListPaginationOptions,
@@ -78,7 +79,7 @@ export class PDVService {
     return combineLatest([
       this.wallet$.pipe(
         pluck('address'),
-        switchMap((walletAddress) => this.pdvStorageService.getUserAccumulatedPDVChanges(walletAddress)),
+        switchMap((walletAddress) => this.getAllProcessingPDVs(walletAddress)),
       ),
       this.pdvApiService.getRewards(),
     ]).pipe(
@@ -195,6 +196,18 @@ export class PDVService {
       switchMap((walletAddress) => this.pdvApiService.getPDVStats(walletAddress)),
       catchError(() => of([])),
       map(mapPDVStatsToChartPoints),
+    );
+  }
+
+  private getAllProcessingPDVs(walletAddress: Wallet['address']): Observable<PDV[]> {
+    return combineLatest([
+      this.pdvStorageService.getUserAccumulatedPDVChanges(walletAddress),
+      this.pdvStorageService.getUserReadyBlocksChanges(walletAddress),
+    ]).pipe(
+      map(([accumulated, readyBlocks]) => [
+        ...accumulated,
+        ...readyBlocks.reduce((acc, block) => [...acc, ...block.pDVs], []),
+      ]),
     );
   }
 }
