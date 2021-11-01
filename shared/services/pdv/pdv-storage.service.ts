@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { defer, Observable } from 'rxjs';
-import { mergeMap, startWith } from 'rxjs/operators';
+import { map, mergeMap, startWith } from 'rxjs/operators';
 import { PDV, Wallet } from 'decentr-js';
 
 import { uuid } from '../../utils/uuid';
@@ -38,6 +38,7 @@ export class PDVStorageService {
       mergeMap((accumulated) => userPDVStorage.onChange('accumulated').pipe(
         startWith(accumulated),
       )),
+      map((accumulated) => accumulated || []),
     );
   }
 
