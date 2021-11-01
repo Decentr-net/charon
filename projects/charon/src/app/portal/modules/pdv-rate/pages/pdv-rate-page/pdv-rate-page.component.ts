@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angula
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { isOpenedInTab } from '@shared/utils/browser';
 import { addAmountToDate, DateAmountType } from '@shared/utils/date';
@@ -20,6 +21,7 @@ interface FilterButton {
   label: string;
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-pdv-rate-page',
   templateUrl: './pdv-rate-page.component.html',
@@ -34,6 +36,7 @@ export class PdvRatePageComponent implements OnInit {
   public readonly isOpenedInPopup: boolean = !isOpenedInTab();
 
   public coinRate$: Observable<CoinRateFor24Hours>;
+  public coinRateValue: number;
   public estimatedBalance$: Observable<string>;
   public pdvChartPoints$: Observable<PdvChartPoint[]>;
   public pdvRate$: Observable<BalanceValueDynamic>;
@@ -71,6 +74,12 @@ export class PdvRatePageComponent implements OnInit {
     this.pdvChartPoints$ = this.pdvRateService.getPdvChartPoints();
     this.pdvReward$ = this.pdvRateService.getPdvReward();
 
+    this.pdvRateService.getCoinRate().pipe(
+      untilDestroyed(this),
+    ).subscribe((coinRate) => {
+      this.coinRateValue = coinRate.value;
+    });
+
     this.pdvRewardUSD$ = combineLatest([
       this.coinRate$,
       this.pdvReward$,
@@ -104,6 +113,7 @@ export class PdvRatePageComponent implements OnInit {
 
   public openRewardsHistoryPopup(): void {
     this.matDialog.open(RewardsHistoryComponent, {
+      data: this.coinRateValue,
       minWidth: '340px',
     });
   }

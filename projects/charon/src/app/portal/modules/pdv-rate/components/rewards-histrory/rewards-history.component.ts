@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { TokenBalanceHistory } from 'decentr-js';
 
 import { PDVService } from '@shared/services/pdv';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-rewards-history',
@@ -15,6 +16,7 @@ export class RewardsHistoryComponent implements OnInit {
 
   constructor(
     private pdvService: PDVService,
+    @Inject(MAT_DIALOG_DATA) public coinRateValue: number,
   ) {
   }
 

@@ -41,7 +41,8 @@
       "amount": "Amount",
       "height": "Height",
       "rewards_no_data": "You don't have rewards data yet.",
-      "title": "PDV rewards log"
+      "title": "PDV rewards log",
+      "usd": "Amount, USD"
     }
   },
   "token_transactions_table": {

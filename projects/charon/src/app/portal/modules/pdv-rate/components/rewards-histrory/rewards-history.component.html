@@ -18,20 +18,30 @@
       >
         <ng-container
           *dataTableColumnDef="
-          let historyItem;
-          name: translate('table.height');
-        "
+            let historyItem;
+            name: translate('table.height');
+          "
         >
           {{ historyItem.height | numberFormat : null : true }}
         </ng-container>
 
         <ng-container
           *dataTableColumnDef="
-          let historyItem;
-          name: translate('table.amount') | appCurrencySymbol : true | async;
-        "
+            let historyItem;
+            name: translate('table.amount') | appCurrencySymbol : true | async;
+          "
         >
-          {{ historyItem.coins && (historyItem.coins[0].amount | microValue | numberFormat : null : true) || '0' }}
+          {{ historyItem.coins && (historyItem.coins[0].amount | microValue | numberFormat : '1.0-6' : true) || '0' }}
+        </ng-container>
+
+        <ng-container
+          *dataTableColumnDef="
+            let historyItem;
+            name: translate('table.usd');
+            align: 'right';
+          "
+        >
+          ~{{ historyItem.coins && (historyItem.coins[0].amount * coinRateValue | microValue | numberFormat : '1.0-2' : true) || '0' }}
         </ng-container>
       </app-data-table>
     </ng-container>
