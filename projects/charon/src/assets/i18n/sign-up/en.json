@@ -77,6 +77,10 @@
     "title": "Perfect, your email is confirmed!"
   },
   "pdv_consent": {
+    "banned": {
+      "label": "Banned",
+      "tooltip": "You are banned. Please contact Decentr support team"
+    },
     "confirm": "Confirm",
     "hint": "You’ll be able to change it later in user settings page.",
     "title": "You’re successfully logged in as"

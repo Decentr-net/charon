@@ -1,41 +1,53 @@
-<div
-  class="profile-card__container"
-  *ngIf="profile$ | async as profile; else loader"
->
-  <app-avatar
-    class="profile-card__avatar"
-    [avatarUrl]="profile.avatar"
-  ></app-avatar>
-
+<ng-container *transloco="let translate; read: 'sign_up.pdv_consent'">
   <div
-    class="profile-card__name"
-    appTextEllipsis
-    appTypeface="header-4"
+    class="profile-card__container"
+    *ngIf="profile$ | async as profile; else loader"
   >
-    {{ profile.firstName }} {{ profile.lastName }}
-  </div>
+    <app-avatar
+      class="profile-card__avatar"
+      [avatarUrl]="profile.avatar"
+    ></app-avatar>
 
-  <div
-    class="profile-card__balance"
-    appTypeface="paragraph"
-  >
-    <svg-icon
-      class="profile-card__balance__icon"
-      key="wallet"
-    ></svg-icon>
+    <div
+      class="profile-card__name"
+      appTypeface="header-4"
+    >
+      <span appTextEllipsis>
+        {{ profile.firstName }} {{ profile.lastName }}
+      </span>
 
-    <span>
-      {{ balance$ | async | microValue | numberFormat : null : true }}&nbsp;<app-currency-symbol></app-currency-symbol>
-    </span>
-  </div>
+      <span
+        class="profile-card__name__ban-label"
+        appTypeface="caption"
+        *ngIf="banned$ | async"
+        [appTooltip]="translate('banned.tooltip')"
+      >
+        {{ translate('banned.label') }}
+      </span>
+    </div>
 
-  <div
-    class="profile-card__bio"
-    appTypeface="paragraph"
-  >
-    {{ profile.bio }}
+    <div
+      class="profile-card__balance"
+      appTypeface="paragraph"
+    >
+      <svg-icon
+        class="profile-card__balance__icon"
+        key="wallet"
+      ></svg-icon>
+
+      <span>
+        {{ balance$ | async | microValue | numberFormat : null : true }}&nbsp;<app-currency-symbol></app-currency-symbol>
+      </span>
+    </div>
+
+    <div
+      class="profile-card__bio"
+      appTypeface="paragraph"
+    >
+      {{ profile.bio }}
+    </div>
   </div>
-</div>
+</ng-container>
 
 <ng-template #loader>
   <ngx-skeleton-loader
