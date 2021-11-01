@@ -115,10 +115,4 @@ export class ConfigService {
       map((config) => config.theseus.url),
     );
   }
-
-  public getVPNSettings(): Observable<Config['vpn']> {
-    return this.getConfig().pipe(
-      map(({ vpn }) => vpn),
-    );
-  }
 }

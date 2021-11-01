@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { BrowserTabGuard } from '@core/guards';
 import { PortalPageComponent } from './pages';
 import { PortalRoute } from './portal-route';
-import { PORTAL_GUARDS, VpnGuard } from './guards';
 
 const ROUTES: Routes = [
   {
@@ -28,13 +27,6 @@ const ROUTES: Routes = [
         loadChildren: () => import('./modules').then((m) => m.AssetsModule),
       },
       {
-        path: PortalRoute.VPN,
-        loadChildren: () => import('./modules').then((m) => m.VpnModule),
-        canActivate: [
-          VpnGuard,
-        ],
-      },
-      {
         path: PortalRoute.Staking,
         loadChildren: () => import('./modules').then((m) => m.StakingModule),
         canActivate: [
@@ -55,9 +47,6 @@ const ROUTES: Routes = [
   ],
   exports: [
     RouterModule,
-  ],
-  providers: [
-    PORTAL_GUARDS,
   ],
 })
 export class PortalRoutingModule {

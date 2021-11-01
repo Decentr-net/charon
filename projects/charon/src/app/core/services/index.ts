@@ -7,7 +7,6 @@ import { ImageUploaderService } from './image-uploader';
 import { NetworkSelectorService } from './network-selector';
 import { NetworkService } from './network';
 import { PostsService } from './posts';
-import { ProxyService } from './proxy';
 import { SpinnerService } from './spinner';
 import { StakingService } from './staking';
 import { UserService } from './user';
@@ -21,7 +20,6 @@ export * from './menu';
 export * from './network';
 export * from './network-selector';
 export * from './posts';
-export * from './proxy';
 export * from './spinner';
 export * from './staking';
 export * from './user';
@@ -36,7 +34,6 @@ export const CORE_SERVICES = [
   NetworkSelectorService,
   NetworkService,
   PostsService,
-  ProxyService,
   SpinnerService,
   StakingService,
   UserService,
