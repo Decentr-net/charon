@@ -65,6 +65,7 @@ export class PDVStorageService {
       mergeMap((readyToSend) => userPDVStorage.onChange('readyBlocks').pipe(
         startWith(readyToSend),
       )),
+      map((readyBlock) => readyBlock || []),
     );
   }
 
