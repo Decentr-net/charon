@@ -47,10 +47,12 @@
   },
   "token_transactions_table": {
     "copy_tx": "Copy transaction hash",
+    "decentr": "Decentr",
     "fee": "Fee",
     "from": "From",
     "memo": "Memo",
     "open_link": "View on dExplorer",
+    "pdv_rewards": "PDV Rewards",
     "received": "Received",
     "sent": "Sent",
     "to": "To",

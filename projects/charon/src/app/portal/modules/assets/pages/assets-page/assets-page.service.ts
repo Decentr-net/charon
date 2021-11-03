@@ -6,16 +6,17 @@ import { TransferHistory, TransferRole } from 'decentr-js';
 
 import { InfiniteLoadingService } from '@shared/utils/infinite-loading';
 import { AuthService } from '@core/auth';
-import { BankService, NetworkService } from '@core/services';
+import { BankService, BlocksService, NetworkService } from '@core/services';
 import { Asset } from './assets-page.definitions';
+import { PDVService } from '@shared/services/pdv';
 import { TokenTransaction } from '../../components/token-transactions-table';
 
 @UntilDestroy()
 @Injectable()
 export class AssetsPageService
   extends InfiniteLoadingService<TokenTransaction>
-  implements OnDestroy
-{
+  implements OnDestroy {
+
   private canLoadMoreAsRecipient: BehaviorSubject<boolean> = new BehaviorSubject(true);
   private canLoadMoreAsSender: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
@@ -27,13 +28,16 @@ export class AssetsPageService
 
   private sentPage: number;
   private receivedPage: number;
+  private pdvRewardsHistoryLoaded: boolean;
 
   private loadingCount = 100;
 
   constructor(
     private authService: AuthService,
+    private blocksService: BlocksService,
     private networkService: NetworkService,
     private bankService: BankService,
+    private pdvService: PDVService,
   ) {
     super();
 
@@ -45,6 +49,7 @@ export class AssetsPageService
       this.sentPage = undefined;
       this.canLoadMoreAsRecipient.next(true);
       this.receivedPage = undefined;
+      this.pdvRewardsHistoryLoaded = false;
     });
   }
 
@@ -86,21 +91,54 @@ export class AssetsPageService
     );
   }
 
+  public getTokenBalanceHistory(): Observable<TokenTransaction[]> {
+    return !this.pdvRewardsHistoryLoaded ? this.pdvService.getTokenBalanceHistory().pipe(
+      switchMap((balanceHistory) => balanceHistory.length ? combineLatest(
+        balanceHistory.map((historyItem) => this.blocksService.getBlock(historyItem.height).pipe(
+          map((block) => ({
+            timestamp: new Date(block.block.header.time).valueOf(),
+            role: 'pdv-rewards',
+            amount: {
+              amount: historyItem.coins[0].amount,
+              denom: historyItem.coins[0].denom,
+            },
+          })),
+        )),
+      ) : of([])),
+    ) : of([]);
+  }
+
   public getTotalTransactionCount(): Observable<number> {
     return combineLatest([
+      this.getTokenBalanceHistory(),
       this.loadHistory('recipient', 1, 1),
       this.loadHistory('sender', 1, 1),
     ]).pipe(
-      map(([received, sent]) => received.totalCount + sent.totalCount),
+      map(([
+             rewardsHistory,
+             received,
+             sent,
+           ]) => rewardsHistory.length + received.totalCount + sent.totalCount),
     );
   }
 
   protected getNextItems(): Observable<TokenTransaction[]> {
     return combineLatest([
+      this.getTokenBalanceHistory().pipe(
+        tap(() => this.pdvRewardsHistoryLoaded = true),
+      ),
       this.getHistory('recipient'),
       this.getHistory('sender'),
     ]).pipe(
-      map(([received, sent]) => [...received, ...sent]),
+      map(([
+             rewardsHistory,
+             received,
+             sent,
+           ]) => [
+        ...rewardsHistory,
+        ...received,
+        ...sent,
+      ]),
     );
   }
 
