@@ -56,7 +56,8 @@
     "received": "Received",
     "sent": "Sent",
     "to": "To",
-    "wallet_address_copied": "The transaction hash was copied successfully"
+    "wallet_address_copied": "The transaction hash was copied successfully",
+    "withdraw": "Withdraw Rewards"
   },
   "transfer_page": {
     "cancel": "Cancel",

@@ -2,14 +2,22 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, mergeMap, pluck, switchMap, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { TransferHistory, TransferRole } from 'decentr-js';
+import {
+  StdTxMessage,
+  StdTxMessageType,
+  Transaction,
+  TransactionActionType,
+  TransactionLogEvent,
+  TXsSearchResponse,
+  Wallet,
+} from 'decentr-js';
 
 import { InfiniteLoadingService } from '@shared/utils/infinite-loading';
 import { AuthService } from '@core/auth';
 import { BankService, BlocksService, NetworkService } from '@core/services';
 import { Asset } from './assets-page.definitions';
 import { PDVService } from '@shared/services/pdv';
-import { TokenTransaction } from '../../components/token-transactions-table';
+import { TokenTransaction, TokenTransactionType } from '../../components/token-transactions-table';
 
 @UntilDestroy()
 @Injectable()
@@ -17,17 +25,27 @@ export class AssetsPageService
   extends InfiniteLoadingService<TokenTransaction>
   implements OnDestroy {
 
-  private canLoadMoreAsRecipient: BehaviorSubject<boolean> = new BehaviorSubject(true);
-  private canLoadMoreAsSender: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  private canLoadMoreType: Record<TokenTransactionType, BehaviorSubject<boolean>> = {
+    [TokenTransactionType.TransferSent]: new BehaviorSubject(true),
+    [TokenTransactionType.TransferReceived]: new BehaviorSubject(true),
+    [TokenTransactionType.WithdrawRewards]: new BehaviorSubject(true),
+    [TokenTransactionType.PdvRewards]: new BehaviorSubject(true),
+  };
 
-  private readonly sentList: BehaviorSubject<TokenTransaction[]>
-    = new BehaviorSubject([]);
+  private transactionList: Record<TokenTransactionType, BehaviorSubject<TokenTransaction[]>> = {
+    [TokenTransactionType.TransferSent]: new BehaviorSubject([]),
+    [TokenTransactionType.TransferReceived]: new BehaviorSubject([]),
+    [TokenTransactionType.WithdrawRewards]: new BehaviorSubject([]),
+    [TokenTransactionType.PdvRewards]: new BehaviorSubject([]),
+  };
 
-  private readonly receivedList: BehaviorSubject<TokenTransaction[]>
-    = new BehaviorSubject([]);
+  private transactionPage: Record<TokenTransactionType, number> = {
+    [TokenTransactionType.TransferSent]: undefined,
+    [TokenTransactionType.TransferReceived]: undefined,
+    [TokenTransactionType.WithdrawRewards]: undefined,
+    [TokenTransactionType.PdvRewards]: undefined,
+  };
 
-  private sentPage: number;
-  private receivedPage: number;
   private pdvRewardsHistoryLoaded: boolean;
 
   private loadingCount = 100;
@@ -45,10 +63,9 @@ export class AssetsPageService
       filter(Boolean),
       untilDestroyed(this),
     ).subscribe(() => {
-      this.canLoadMoreAsSender.next(true);
-      this.sentPage = undefined;
-      this.canLoadMoreAsRecipient.next(true);
-      this.receivedPage = undefined;
+      Object.values(this.canLoadMoreType).forEach((canLoadMoreType) => canLoadMoreType.next(true));
+      Object.keys(this.transactionPage).forEach((type) => this.transactionPage[type] = undefined);
+
       this.pdvRewardsHistoryLoaded = false;
     });
   }
@@ -58,10 +75,7 @@ export class AssetsPageService
   }
 
   public get canLoadMore$(): Observable<boolean> {
-    return combineLatest([
-      this.canLoadMoreAsRecipient,
-      this.canLoadMoreAsSender,
-    ]).pipe(
+    return combineLatest(Object.values(this.canLoadMoreType)).pipe(
       map((canLoadMoreValues) => canLoadMoreValues.some(Boolean)),
     );
   }
@@ -91,18 +105,24 @@ export class AssetsPageService
     );
   }
 
+  public getTokenBalanceHistoryLength(): Observable<number> {
+    return this.pdvService.getTokenBalanceHistory().pipe(
+      map((history) => history.length),
+    );
+  }
+
   public getTokenBalanceHistory(): Observable<TokenTransaction[]> {
     return !this.pdvRewardsHistoryLoaded ? this.pdvService.getTokenBalanceHistory().pipe(
       switchMap((balanceHistory) => balanceHistory.length ? combineLatest(
         balanceHistory.map((historyItem) => this.blocksService.getBlock(historyItem.height).pipe(
           map((block) => ({
             timestamp: new Date(block.block.header.time).valueOf(),
-            role: 'pdv-rewards',
+            type: TokenTransactionType.PdvRewards,
             amount: {
               amount: historyItem.coins[0].amount,
               denom: historyItem.coins[0].denom,
             },
-          })),
+          }) as TokenTransaction),
         )),
       ) : of([])),
     ) : of([]);
@@ -110,15 +130,17 @@ export class AssetsPageService
 
   public getTotalTransactionCount(): Observable<number> {
     return combineLatest([
-      this.getTokenBalanceHistory(),
-      this.loadHistory('recipient', 1, 1),
-      this.loadHistory('sender', 1, 1),
+      this.getTokenBalanceHistoryLength(),
+      this.loadHistory(TokenTransactionType.TransferReceived, 1, 1),
+      this.loadHistory(TokenTransactionType.TransferSent, 1, 1),
+      this.loadHistory(TokenTransactionType.WithdrawRewards, 1, 1),
     ]).pipe(
       map(([
-             rewardsHistory,
+             rewardsHistoryLength,
              received,
              sent,
-           ]) => rewardsHistory.length + received.totalCount + sent.totalCount),
+             withdraw,
+           ]) => rewardsHistoryLength + received.length + sent.length + withdraw.length),
     );
   }
 
@@ -127,17 +149,20 @@ export class AssetsPageService
       this.getTokenBalanceHistory().pipe(
         tap(() => this.pdvRewardsHistoryLoaded = true),
       ),
-      this.getHistory('recipient'),
-      this.getHistory('sender'),
+      this.getHistory(TokenTransactionType.TransferReceived),
+      this.getHistory(TokenTransactionType.TransferSent),
+      this.getHistory(TokenTransactionType.WithdrawRewards),
     ]).pipe(
       map(([
              rewardsHistory,
              received,
              sent,
+             withdraw,
            ]) => [
         ...rewardsHistory,
         ...received,
         ...sent,
+        ...withdraw,
       ]),
     );
   }
@@ -154,94 +179,163 @@ export class AssetsPageService
   protected clear(): void {
     super.clear();
 
-    this.receivedList.next([]);
-    this.sentList.next([]);
+    Object.values(this.transactionList).forEach((list) => list.next([]));
   }
 
-  private getHistory(role: TransferRole): Observable<TokenTransaction[]> {
-    const roleCanLoadMore = this.getRoleCanLoadMore(role);
-    const roleList = this.getRoleList(role);
-    const rolePage = this.getRolePage(role);
+  private getHistory(historyType: TokenTransactionType): Observable<TokenTransaction[]> {
+    const historyCanLoadMore = this.canLoadMoreType[historyType];
+    const historyList = this.transactionList[historyType];
+    const historyPage = this.transactionPage[historyType];
 
-    if (!roleCanLoadMore.value) {
+    if (!historyCanLoadMore.value) {
       return of([]);
     }
 
-    const page$ = rolePage
-      ? of(rolePage - 1)
-      : this.getPagesCount(role);
+    const page$ = historyPage
+      ? of(historyPage - 1)
+      : this.getPagesCount(historyType);
 
     return page$.pipe(
-      tap((page) => this.setRolePage(role, page)),
+      tap((page) => this.transactionPage[historyType] = page),
       mergeMap((page) => {
         if (!page) {
-          roleCanLoadMore.next(false);
-          return of({ transactions: [] });
+          historyCanLoadMore.next(false);
+          return of([]);
         }
 
-        return this.loadHistory(role, page);
+        return this.loadHistory(historyType, page);
       }),
-      map((response) => response.transactions.map((transaction) => ({
-        ...transaction,
-        role,
-        timestamp: new Date(transaction.timestamp).valueOf(),
-      }))),
-      tap((transactions) => roleList.next([...roleList.value, ...transactions])),
+      tap((transactions) => historyList.next([...historyList.value, ...transactions])),
     );
   }
 
-  private getRoleCanLoadMore(role: TransferRole): BehaviorSubject<boolean> {
-    switch (role) {
-      case 'recipient':
-        return this.canLoadMoreAsRecipient;
-      case 'sender':
-        return this.canLoadMoreAsSender;
-    }
-  }
-
-  private getRoleList(role: TransferRole): BehaviorSubject<TokenTransaction[]> {
-    switch (role) {
-      case 'recipient':
-        return this.receivedList;
-      case 'sender':
-        return this.sentList;
-    }
-  }
-
-  private getRolePage(role: TransferRole): number {
-    switch (role) {
-      case 'recipient':
-        return this.receivedPage;
-      case 'sender':
-        return this.sentPage;
-    }
-  }
-
-  private setRolePage(role: TransferRole, page: number): void {
-    switch (role) {
-      case 'recipient':
-        this.receivedPage = page;
-        break;
-      case 'sender':
-        this.sentPage = page;
-        break;
-    }
-  }
-
-  private getPagesCount(role: TransferRole): Observable<number> {
-    return this.loadHistory(role).pipe(
-      map((response) => response.pageTotal),
+  private getPagesCount(historyType: TokenTransactionType): Observable<number> {
+    return this.searchTransactions(historyType).pipe(
+      map((response) => +response.page_total),
     );
   }
 
-  private loadHistory(role: TransferRole, page: number = 1, limit: number = this.loadingCount): Observable<TransferHistory> {
-    return this.bankService.getTransferHistory(
-      this.authService.getActiveUserInstant().wallet.address,
-      role,
+  private searchTransactions(historyType: TokenTransactionType, page: number = 1, limit: number = this.loadingCount): Observable<TXsSearchResponse> {
+    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
+
+    let role: string;
+
+    switch (historyType) {
+      case TokenTransactionType.TransferSent:
+        role = 'sender';
+        break;
+      default:
+        role = 'recipient';
+        break;
+    }
+
+    let action: TransactionActionType;
+
+    switch (historyType) {
+      case TokenTransactionType.WithdrawRewards:
+        action = 'withdraw_delegator_reward';
+        break;
+      default:
+        action = 'send';
+        break;
+    }
+
+    return this.bankService.searchTransactions(
       {
+        messageAction: action,
+        transferRecipient: role === 'recipient' ? walletAddress : undefined,
+        transferSender: role === 'sender' ? walletAddress : undefined,
         page,
         limit,
       }
+    );
+  }
+
+  private mapSendTransaction(
+    msg: StdTxMessage<StdTxMessageType.CosmosSend>,
+    tx: Transaction<StdTxMessageType.CosmosSend>,
+    walletAddress: Wallet['address'],
+  ): TokenTransaction {
+    const txValue = tx.tx.value;
+
+    return {
+      amount: msg.value.amount[0],
+      comment: txValue.memo,
+      fee: txValue.fee,
+      hash: tx.txhash,
+      recipient: msg.value.to_address,
+      sender: msg.value.from_address,
+      type: msg.value.to_address === walletAddress ? TokenTransactionType.TransferReceived : TokenTransactionType.TransferSent,
+      timestamp: new Date(tx.timestamp).valueOf(),
+    };
+  }
+
+  private mapWithdrawTransaction(
+    msg: StdTxMessage<StdTxMessageType.CosmosWithdrawDelegationReward>,
+    tx: Transaction<StdTxMessageType.CosmosWithdrawDelegationReward>,
+    logEvents: TransactionLogEvent[],
+  ): TokenTransaction {
+    const txValue = tx.tx.value;
+
+    const amountString = logEvents
+      .find((event) => event.type === 'transfer')?.attributes
+      .find((attribute) => attribute.key === 'amount')?.value || '0udec';
+
+    const amount = {
+      amount: parseFloat(amountString).toString(),
+      denom: amountString.replace(/[^0-9]/g, ''),
+    };
+
+    return {
+      amount,
+      comment: txValue.memo,
+      fee: txValue.fee,
+      hash: tx.txhash,
+      recipient: msg.value.delegator_address,
+      sender: msg.value.validator_address,
+      type: TokenTransactionType.WithdrawRewards,
+      timestamp: new Date(tx.timestamp).valueOf(),
+    };
+  }
+
+  private mapTransaction(tx: Transaction): TokenTransaction[] {
+    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
+    const txValue = tx.tx.value;
+
+    return txValue.msg
+      .reduce((acc, msg, index) => {
+        switch (msg.type) {
+          case StdTxMessageType.CosmosSend: {
+            const sendMessage = msg as StdTxMessage<StdTxMessageType.CosmosSend>;
+            return [sendMessage.value.to_address, sendMessage.value.from_address].includes(walletAddress)
+              ? [...acc, this.mapSendTransaction(sendMessage, tx as Transaction<StdTxMessageType.CosmosSend>, walletAddress)]
+              : acc;
+          }
+          case StdTxMessageType.CosmosWithdrawDelegationReward: {
+            const logEvents = tx.logs?.find((log) => +log.msg_index === index)?.events;
+
+            if (!logEvents) {
+              return acc;
+            }
+
+            const withdrawMessage = msg as StdTxMessage<StdTxMessageType.CosmosWithdrawDelegationReward>;
+            const tokenTransaction = this.mapWithdrawTransaction(withdrawMessage, tx as Transaction<StdTxMessageType.CosmosWithdrawDelegationReward>, logEvents);
+
+            return [...acc, tokenTransaction];
+          }
+          default:
+            return acc;
+        }
+      }, []);
+  }
+
+  private loadHistory(historyType: TokenTransactionType, page: number = 1, limit: number = this.loadingCount): Observable<TokenTransaction[]> {
+    return this.searchTransactions(historyType, page, limit).pipe(
+      map(({ txs }) => txs.reduce((acc, tx) => {
+        const tokenTransactions: TokenTransaction[] = this.mapTransaction(tx);
+
+        return [...acc, ...tokenTransactions];
+      }, [])),
     );
   }
 }

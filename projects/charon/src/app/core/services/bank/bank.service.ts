@@ -3,9 +3,8 @@ import {
   BankCoin,
   calculateTransferFee,
   TransferData,
-  TransferHistory,
-  TransferHistoryPaginationOptions,
-  TransferRole,
+  TXsSearchParameters,
+  TXsSearchResponse,
   Wallet,
 } from 'decentr-js';
 import { defer, Observable } from 'rxjs';
@@ -79,18 +78,14 @@ export class BankService {
       }));
   }
 
-  public getTransferHistory(
-    walletAddress: Wallet['address'],
-    role: TransferRole,
-    paginationOptions?: TransferHistoryPaginationOptions,
-  ): Observable<TransferHistory> {
+  public searchTransactions(
+    parameters?: TXsSearchParameters,
+  ): Observable<TXsSearchResponse> {
     return this.networkService.getActiveNetworkAPI().pipe(
       take(1),
-      switchMap((apiUrl) => this.bankApiService.getTransferHistory(
+      switchMap((apiUrl) => this.bankApiService.searchTransactions(
         apiUrl,
-        walletAddress,
-        role,
-        paginationOptions,
+        parameters,
       )),
     );
   }
