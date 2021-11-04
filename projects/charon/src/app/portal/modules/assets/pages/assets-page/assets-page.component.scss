@@ -22,16 +22,6 @@
   display: flex;
 }
 
-.assets-page__expansion-list__header-count {
-  background-color: $color-background;
-  border-radius: $border-radius;
-  font-weight: 400;
-  margin-left: $grid-step;
-  min-width: 36px;
-  padding: $grid-half-step $grid-step;
-  text-align: center;
-}
-
 .assets-page__token-cell {
   align-items: center;
   display: flex;

@@ -65,14 +65,6 @@
           <ng-container *appBrowserPopupView>
             {{ asset?.balance | microValue | numberFormat : null : true | appCurrencySymbol | async }}
           </ng-container>
-
-          <span
-            class="assets-page__expansion-list__header-count"
-            *ngIf="totalCount$ | async as totalCount"
-            appTypeface="paragraph"
-          >
-            {{ totalCount }}
-          </span>
         </div>
 
         <ng-container *appBrowserTabView>
