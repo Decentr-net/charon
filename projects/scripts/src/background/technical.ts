@@ -17,15 +17,3 @@ export const whileVersionSupported = () => {
     repeatWhen(() => versionSupported$),
   );
 };
-
-export const whileServersAvailable = () => {
-  const [serversAvailable$, serversUnavailable$] = partition(
-    CONFIG_SERVICE.getMaintenanceStatus(),
-    (maintenance) => !maintenance,
-  );
-
-  return pipe(
-    takeUntil(serversUnavailable$),
-    repeatWhen(() => serversAvailable$),
-  );
-};
