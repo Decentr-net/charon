@@ -3,6 +3,7 @@ import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, mergeMap, pluck, switchMap, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
+  StdTxFee,
   StdTxMessage,
   StdTxMessageType,
   Transaction,
@@ -25,26 +26,19 @@ export class AssetsPageService
   extends InfiniteLoadingService<TokenTransaction>
   implements OnDestroy {
 
-  private canLoadMoreType: Record<TokenTransactionType, BehaviorSubject<boolean>> = {
-    [TokenTransactionType.TransferSent]: new BehaviorSubject(true),
-    [TokenTransactionType.TransferReceived]: new BehaviorSubject(true),
-    [TokenTransactionType.WithdrawRewards]: new BehaviorSubject(true),
-    [TokenTransactionType.PdvRewards]: new BehaviorSubject(true),
-  };
+  private canLoadMoreType: Record<TokenTransactionType, BehaviorSubject<boolean>> =
+    Object.values(TokenTransactionType).reduce((acc, transactionType) => ({
+      ...acc,
+      [transactionType]: new BehaviorSubject(true),
+    }), {}) as Record<TokenTransactionType, BehaviorSubject<boolean>>;
 
-  private transactionList: Record<TokenTransactionType, BehaviorSubject<TokenTransaction[]>> = {
-    [TokenTransactionType.TransferSent]: new BehaviorSubject([]),
-    [TokenTransactionType.TransferReceived]: new BehaviorSubject([]),
-    [TokenTransactionType.WithdrawRewards]: new BehaviorSubject([]),
-    [TokenTransactionType.PdvRewards]: new BehaviorSubject([]),
-  };
+  private transactionList: Record<TokenTransactionType, BehaviorSubject<TokenTransaction[]>> =
+    Object.values(TokenTransactionType).reduce((acc, transactionType) => ({
+      ...acc,
+      [transactionType]: new BehaviorSubject([]),
+    }), {}) as Record<TokenTransactionType, BehaviorSubject<TokenTransaction[]>>;
 
-  private transactionPage: Record<TokenTransactionType, number> = {
-    [TokenTransactionType.TransferSent]: undefined,
-    [TokenTransactionType.TransferReceived]: undefined,
-    [TokenTransactionType.WithdrawRewards]: undefined,
-    [TokenTransactionType.PdvRewards]: undefined,
-  };
+  private transactionPage: Record<TokenTransactionType, number> = {} as Record<TokenTransactionType, number>;
 
   private pdvRewardsHistoryLoaded: boolean;
 
@@ -105,12 +99,6 @@ export class AssetsPageService
     );
   }
 
-  public getTokenBalanceHistoryLength(): Observable<number> {
-    return this.pdvService.getTokenBalanceHistory().pipe(
-      map((history) => history.length),
-    );
-  }
-
   public getTokenBalanceHistory(): Observable<TokenTransaction[]> {
     return !this.pdvRewardsHistoryLoaded ? this.pdvService.getTokenBalanceHistory().pipe(
       switchMap((balanceHistory) => balanceHistory.length ? combineLatest(
@@ -130,17 +118,15 @@ export class AssetsPageService
 
   public getTotalTransactionCount(): Observable<number> {
     return combineLatest([
-      this.getTokenBalanceHistoryLength(),
+      this.pdvService.getTokenBalanceHistory(),
       this.loadHistory(TokenTransactionType.TransferReceived, 1, 1),
       this.loadHistory(TokenTransactionType.TransferSent, 1, 1),
       this.loadHistory(TokenTransactionType.WithdrawRewards, 1, 1),
+      this.loadHistory(TokenTransactionType.WithdrawDelegate, 1, 1),
+      this.loadHistory(TokenTransactionType.WithdrawUndelegate, 1, 1),
+      this.loadHistory(TokenTransactionType.WithdrawRedelegate, 1, 1),
     ]).pipe(
-      map(([
-             rewardsHistoryLength,
-             received,
-             sent,
-             withdraw,
-           ]) => rewardsHistoryLength + received.length + sent.length + withdraw.length),
+      map((lists) => lists.reduce((acc, list) => acc + list.length, 0)),
     );
   }
 
@@ -152,18 +138,11 @@ export class AssetsPageService
       this.getHistory(TokenTransactionType.TransferReceived),
       this.getHistory(TokenTransactionType.TransferSent),
       this.getHistory(TokenTransactionType.WithdrawRewards),
+      this.getHistory(TokenTransactionType.WithdrawDelegate),
+      this.getHistory(TokenTransactionType.WithdrawUndelegate),
+      this.getHistory(TokenTransactionType.WithdrawRedelegate),
     ]).pipe(
-      map(([
-             rewardsHistory,
-             received,
-             sent,
-             withdraw,
-           ]) => [
-        ...rewardsHistory,
-        ...received,
-        ...sent,
-        ...withdraw,
-      ]),
+      map((lists) => lists.reduce((acc, list) => [...acc, ...list], [])),
     );
   }
 
@@ -229,11 +208,20 @@ export class AssetsPageService
         break;
     }
 
-    let action: TransactionActionType;
+    let action: TransactionActionType | string;
 
     switch (historyType) {
       case TokenTransactionType.WithdrawRewards:
         action = 'withdraw_delegator_reward';
+        break;
+      case TokenTransactionType.WithdrawDelegate:
+        action = 'delegate';
+        break;
+      case TokenTransactionType.WithdrawUndelegate:
+        action = 'begin_unbonding';
+        break;
+      case TokenTransactionType.WithdrawRedelegate:
+        action = 'begin_redelegate';
         break;
       default:
         action = 'send';
@@ -271,9 +259,11 @@ export class AssetsPageService
   }
 
   private mapWithdrawTransaction(
-    msg: StdTxMessage<StdTxMessageType.CosmosWithdrawDelegationReward>,
-    tx: Transaction<StdTxMessageType.CosmosWithdrawDelegationReward>,
+    msg: StdTxMessage<StdTxMessageType.CosmosWithdrawDelegationReward | StdTxMessageType.CosmosDelegate | StdTxMessageType.CosmosUndelegate>,
+    tx: Transaction,
     logEvents: TransactionLogEvent[],
+    fee: StdTxFee,
+    type: TokenTransactionType,
   ): TokenTransaction {
     const txValue = tx.tx.value;
 
@@ -288,14 +278,51 @@ export class AssetsPageService
 
     return {
       amount,
+      fee,
+      type,
       comment: txValue.memo,
-      fee: txValue.fee,
       hash: tx.txhash,
       recipient: msg.value.delegator_address,
       sender: msg.value.validator_address,
-      type: TokenTransactionType.WithdrawRewards,
       timestamp: new Date(tx.timestamp).valueOf(),
     };
+  }
+
+  private mapWithdrawRedelegationTransaction(
+    msg: StdTxMessage<StdTxMessageType.CosmosBeginRedelegate>,
+    tx: Transaction<StdTxMessageType.CosmosBeginRedelegate>,
+    logEvents: TransactionLogEvent[],
+    fee: StdTxFee,
+  ): TokenTransaction[] {
+    const txValue = tx.tx.value;
+
+    const transfers = logEvents
+      .find((event) => event.type === 'transfer')?.attributes
+      .reduce((acc, attribute, index, attributes) => {
+        const nextAttribute = attributes[index + 1];
+
+        if (attribute.key === 'sender' && nextAttribute?.key === 'amount') {
+          const amount = {
+            amount: parseFloat(nextAttribute.value).toString(),
+            denom: nextAttribute.value.replace(/[^0-9]/g, ''),
+          };
+
+          return [...acc, { sender: attribute.value, amount }];
+        }
+
+        return acc;
+      }, []);
+
+    return transfers.map((transfer, index) => ({
+      amount: transfer.amount,
+      fee: index === 0 ? fee : undefined,
+      comment: txValue.memo,
+      hash: tx.txhash,
+      recipient: msg.value.delegator_address,
+      sender: transfer.sender,
+      type: TokenTransactionType.WithdrawRedelegate,
+      timestamp: new Date(tx.timestamp).valueOf(),
+    }));
   }
 
   private mapTransaction(tx: Transaction): TokenTransaction[] {
@@ -304,6 +331,12 @@ export class AssetsPageService
 
     return txValue.msg
       .reduce((acc, msg, index) => {
+        const logEvents = tx.logs?.find((log) => +log.msg_index === index)?.events;
+
+        if (!logEvents) {
+          return acc;
+        }
+
         switch (msg.type) {
           case StdTxMessageType.CosmosSend: {
             const sendMessage = msg as StdTxMessage<StdTxMessageType.CosmosSend>;
@@ -312,16 +345,28 @@ export class AssetsPageService
               : acc;
           }
           case StdTxMessageType.CosmosWithdrawDelegationReward: {
-            const logEvents = tx.logs?.find((log) => +log.msg_index === index)?.events;
-
-            if (!logEvents) {
-              return acc;
-            }
-
             const withdrawMessage = msg as StdTxMessage<StdTxMessageType.CosmosWithdrawDelegationReward>;
-            const tokenTransaction = this.mapWithdrawTransaction(withdrawMessage, tx as Transaction<StdTxMessageType.CosmosWithdrawDelegationReward>, logEvents);
+            const tokenTransaction = this.mapWithdrawTransaction(withdrawMessage, tx, logEvents, !index ? txValue.fee : undefined, TokenTransactionType.WithdrawRewards);
 
             return [...acc, tokenTransaction];
+          }
+          case StdTxMessageType.CosmosDelegate: {
+            const withdrawMessage = msg as StdTxMessage<StdTxMessageType.CosmosWithdrawDelegationReward>;
+            const tokenTransaction = this.mapWithdrawTransaction(withdrawMessage, tx, logEvents, !index ? txValue.fee : undefined, TokenTransactionType.WithdrawDelegate);
+
+            return [...acc, tokenTransaction];
+          }
+          case StdTxMessageType.CosmosUndelegate: {
+            const withdrawMessage = msg as StdTxMessage<StdTxMessageType.CosmosWithdrawDelegationReward>;
+            const tokenTransaction = this.mapWithdrawTransaction(withdrawMessage, tx, logEvents, !index ? txValue.fee : undefined, TokenTransactionType.WithdrawUndelegate);
+
+            return [...acc, tokenTransaction];
+          }
+          case StdTxMessageType.CosmosBeginRedelegate: {
+            const withdrawMessage = msg as StdTxMessage<StdTxMessageType.CosmosBeginRedelegate>;
+            const tokenTransactions = this.mapWithdrawRedelegationTransaction(withdrawMessage, tx as Transaction<StdTxMessageType.CosmosBeginRedelegate>, logEvents, !index ? txValue.fee : undefined);
+
+            return [...acc, ...tokenTransactions];
           }
           default:
             return acc;

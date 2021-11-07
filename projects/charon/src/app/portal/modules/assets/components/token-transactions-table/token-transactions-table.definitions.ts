@@ -5,6 +5,9 @@ export enum TokenTransactionType {
   TransferReceived,
   WithdrawRewards,
   PdvRewards,
+  WithdrawDelegate,
+  WithdrawUndelegate,
+  WithdrawRedelegate,
 }
 
 export interface TokenTransaction {

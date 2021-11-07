@@ -28,6 +28,27 @@
           ></ng-template>
         </ng-template>
 
+        <ng-template [ngSwitchCase]="tokenTransactionType.WithdrawDelegate">
+          <ng-template
+            [ngTemplateOutlet]="withdrawTemplate"
+            [ngTemplateOutletContext]="{ $implicit: transaction }"
+          ></ng-template>
+        </ng-template>
+
+        <ng-template [ngSwitchCase]="tokenTransactionType.WithdrawUndelegate">
+          <ng-template
+            [ngTemplateOutlet]="withdrawTemplate"
+            [ngTemplateOutletContext]="{ $implicit: transaction }"
+          ></ng-template>
+        </ng-template>
+
+        <ng-template [ngSwitchCase]="tokenTransactionType.WithdrawRedelegate">
+          <ng-template
+            [ngTemplateOutlet]="withdrawTemplate"
+            [ngTemplateOutletContext]="{ $implicit: transaction }"
+          ></ng-template>
+        </ng-template>
+
         <ng-template [ngSwitchCase]="tokenTransactionType.WithdrawRewards">
           <ng-template
             [ngTemplateOutlet]="withdrawTemplate"
@@ -70,7 +91,8 @@
     </div>
 
     <div class="token-transactions-table__amount token-transactions-table__color-send">
-      -{{ transaction.amount.amount | microValue | numberFormat : null : true }} <app-currency-symbol></app-currency-symbol>
+      -{{ transaction.amount.amount | microValue | numberFormat : null : true }}
+      <app-currency-symbol></app-currency-symbol>
     </div>
 
     <div *ngIf="transaction.recipient" class="token-transactions-table__address" appTextEllipsis appTypeface="caption">
@@ -100,7 +122,8 @@
     </div>
 
     <div class="token-transactions-table__amount token-transactions-table__color-receive">
-      {{ transaction.amount.amount | microValue | numberFormat : null : true }} <app-currency-symbol></app-currency-symbol>
+      {{ transaction.amount.amount | microValue | numberFormat : null : true }}
+      <app-currency-symbol></app-currency-symbol>
     </div>
 
     <div class="token-transactions-table__address" appTextEllipsis appTypeface="caption">
@@ -119,7 +142,8 @@
     </div>
 
     <div class="token-transactions-table__amount token-transactions-table__color-receive">
-      {{ transaction.amount.amount | microValue | numberFormat : null : true }} <app-currency-symbol></app-currency-symbol>
+      {{ transaction.amount.amount | microValue | numberFormat : null : true }}
+      <app-currency-symbol></app-currency-symbol>
     </div>
 
     <div class="token-transactions-table__address" appTextEllipsis appTypeface="caption">
@@ -144,7 +168,8 @@
     </div>
 
     <div class="token-transactions-table__amount token-transactions-table__color-receive">
-      {{ transaction.amount.amount | microValue | numberFormat : null : true }} <app-currency-symbol></app-currency-symbol>
+      {{ transaction.amount.amount | microValue | numberFormat : null : true }}
+      <app-currency-symbol></app-currency-symbol>
     </div>
 
     <div class="token-transactions-table__address" appTextEllipsis appTypeface="caption">
