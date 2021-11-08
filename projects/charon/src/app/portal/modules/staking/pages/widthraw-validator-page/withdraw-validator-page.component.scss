@@ -1,0 +1,82 @@
+@import 'variables';
+
+:host {
+  display: block;
+  padding-bottom: $grid-step * 2;
+}
+
+.withdraw-validator-page__header {
+  align-items: center;
+  column-gap: $grid-step * 2;
+  display: flex;
+}
+
+.withdraw-validator-page__table {
+  margin: 0 (-$grid-step * 2);
+}
+
+.withdraw-validator-page__divider {
+  background-color: $color-outlines;
+  height: 2px;
+  margin: $grid-step * 2 (-$grid-step * 2);
+}
+
+.withdraw-validator-page__footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.withdraw-validator-page__footer__meta-section {
+  align-items: center;
+  column-gap: $grid-step * 1.5;
+  display: flex;
+}
+
+.withdraw-validator-page__footer-withdraw {
+  column-gap: $grid-half-step;
+  display: flex;
+}
+
+.withdraw-validator-page__footer-withdraw__label {
+  font-weight: 500;
+}
+
+.withdraw-validator-page__footer-withdraw__available {
+  color: $color-grey;
+}
+
+.withdraw-validator-page__footer-fee {
+  align-items: center;
+  column-gap: $grid-half-step;
+  display: flex;
+}
+
+.withdraw-validator-page__footer-fee__label {
+  font-weight: 500;
+}
+
+.withdraw-validator-page__footer__divider {
+  background-color: $color-outlines;
+  flex-shrink: 0;
+  height: 32px;
+  width: 2px;
+}
+
+.withdraw-validator-page__actions {
+  align-items: flex-end;
+  column-gap: $grid-step * 1.5;
+  display: flex;
+  grid-area: actions;
+  justify-content: flex-end;
+  margin-top: auto;
+}
+
+.withdraw-validator-page__actions__button {
+  height: min-content;
+}
+
+.withdraw-validator-page__loading {
+  display: block;
+  margin-top: $grid-step * 2;
+  width: 100%;
+}

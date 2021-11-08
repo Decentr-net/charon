@@ -7,7 +7,7 @@ import { svgReceive } from '@shared/svg-icons/receive';
 import { svgSend } from '@shared/svg-icons/send';
 import { groupByDate, GroupedByDate } from '@shared/utils/group-by';
 import { NotificationService } from '@shared/services/notification';
-import { TokenTransaction } from './token-transactions-table.definitions';
+import { TokenTransaction, TokenTransactionType } from './token-transactions-table.definitions';
 import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
@@ -22,6 +22,8 @@ export class TokenTransactionsTableComponent {
   @Input() public set transactions(value: TokenTransaction[]) {
     this.groups = groupByDate(value || [], (item) => item.timestamp);
   }
+
+  public tokenTransactionType: typeof TokenTransactionType = TokenTransactionType;
 
   public groups: GroupedByDate<TokenTransaction>;
 
