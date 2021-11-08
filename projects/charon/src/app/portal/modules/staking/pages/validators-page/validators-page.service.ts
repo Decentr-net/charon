@@ -24,13 +24,15 @@ export class ValidatorsPageService {
       this.stakingService.getPool(),
       this.stakingService.getDelegations(),
       this.distributionService.getDelegatorRewards(),
+      this.getUserValidatorAddress(),
     ]).pipe(
-      map(([validators, pool, delegations, delegatorRewards]: [
+      map(([validators, pool, delegations, delegatorRewards, selfValidator,]: [
         Validator[],
         Pool,
         Delegation[],
-        DelegatorRewards
-      ]) => validators.map((validator) => buildValidatorDefinition(validator, pool, delegations, delegatorRewards))),
+        DelegatorRewards,
+        Wallet['validatorAddress'],
+      ]) => validators.map((validator) => buildValidatorDefinition(validator, pool, delegations, delegatorRewards, selfValidator))),
     );
   }
 

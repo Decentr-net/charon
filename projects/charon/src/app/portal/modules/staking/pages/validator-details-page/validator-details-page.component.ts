@@ -25,8 +25,6 @@ export class ValidatorDetailsPageComponent implements OnInit {
 
   public validatorDetails$: Observable<ValidatorDefinition>;
 
-  public userValidatorAddress$: Observable<Wallet['validatorAddress']>;
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -46,8 +44,6 @@ export class ValidatorDetailsPageComponent implements OnInit {
         return EMPTY;
       }),
     );
-
-    this.userValidatorAddress$ = this.validatorDetailsPageService.getUserValidatorAddress();
   }
 
   public navigateTo(route: StakingRoute): void {

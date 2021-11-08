@@ -1,4 +1,4 @@
-import { Delegation, DelegatorRewards, Pool, Validator, ValidatorDistribution } from 'decentr-js';
+import { Delegation, DelegatorRewards, Pool, Validator, ValidatorDistribution, Wallet } from 'decentr-js';
 
 import { ValidatorDefinition, ValidatorDefinitionShort, ValidatorOperatorDefinitionShort } from '../models';
 
@@ -39,11 +39,13 @@ export const buildValidatorDefinition = (
   pool: Pool,
   delegations: Delegation[],
   delegatorRewards: DelegatorRewards,
+  selfValidator: Wallet['validatorAddress'],
 ): ValidatorDefinition => {
   return {
     ...buildValidatorDefinitionShort(validator, delegations, delegatorRewards),
     commission: validator.commission.commission_rates.rate,
     details: validator.description.details,
+    selfValidator: validator.operator_address === selfValidator,
     status: validator.status,
     tokens: validator.tokens,
     votingPower: +validator.tokens / pool.bonded_tokens,

@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TrackByFunction } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { Wallet } from 'decentr-js';
 
 import { svgPiggyBank } from '@shared/svg-icons/piggy-bank';
 import { ValidatorDefinition } from '../../models';
@@ -13,8 +12,6 @@ import { ValidatorDefinition } from '../../models';
 })
 export class ValidatorsTableComponent {
   @Input() data: ValidatorDefinition[];
-
-  @Input() userValidatorAddress: Wallet['validatorAddress'];
 
   @Output() validatorRewardClick: EventEmitter<ValidatorDefinition> = new EventEmitter();
 

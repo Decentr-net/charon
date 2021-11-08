@@ -97,7 +97,7 @@
 
       <div class="validator-details__actions">
         <button
-          *ngIf="(userValidatorAddress$ | async) === validatorDetails.address"
+          *ngIf="validatorDetails.selfValidator"
           class="validator-details__actions-buttons"
           app-button
           color="grey"

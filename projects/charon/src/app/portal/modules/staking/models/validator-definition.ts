@@ -8,6 +8,7 @@ export interface ValidatorDefinition {
   jailed: Validator['jailed'];
   name: Validator['description']['moniker'];
   reward: number;
+  selfValidator: boolean;
   status: Validator['status'];
   tokens: Validator['tokens'];
   website: Validator['description']['website'];
