@@ -8,6 +8,7 @@ import {
   ValidatorDetailsPageComponent,
   ValidatorsPageComponent,
   WithdrawDelegatorPageComponent,
+  WithdrawValidatorPageComponent,
 } from './pages';
 import { ExistingValidatorGuard, STAKING_GUARDS } from './guards';
 import { StakingRoute } from './staking-route';
@@ -44,6 +45,10 @@ const ROUTES: Routes = [
       {
         path: StakingRoute.Undelegate,
         component: UndelegatePageComponent,
+      },
+      {
+        path: StakingRoute.Withdraw,
+        component: WithdrawValidatorPageComponent,
       },
     ],
   },

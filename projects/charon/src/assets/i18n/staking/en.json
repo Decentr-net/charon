@@ -34,7 +34,8 @@
     "actions": {
       "delegate": "Delegate",
       "redelegate": "Redelegate",
-      "undelegate": "Undelegate"
+      "undelegate": "Undelegate",
+      "withdraw": "Withdraw validator's rewards"
     },
     "details_table": {
       "commission": "Commission",
@@ -158,6 +159,23 @@
   },
   "withdraw_delegator_table": {
     "delegated": "Delegated",
+    "jailed": "jailed",
+    "no_rewards": "You have no any rewards yet",
+    "reward": "Reward",
+    "validator": "Validator"
+  },
+  "withdraw_validator_page": {
+    "actions": {
+      "withdraw": "Withdraw"
+    },
+    "fee": "Fee",
+    "notification": {
+      "success": "{{ amount }} {{ currencySymbol }} successfully withdrawn"
+    },
+    "title": "Withdraw validator's rewards",
+    "withdraw": "Withdraw"
+  },
+  "withdraw_validator_table": {
     "jailed": "jailed",
     "no_rewards": "You have no any rewards yet",
     "reward": "Reward",

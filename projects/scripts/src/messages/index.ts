@@ -13,4 +13,5 @@ export enum MessageCode {
   Undelegate = 'CHARON_UNDELEGATE',
   Unfollow = 'CHARON_UNFOLLOW',
   WithdrawDelegatorRewards = 'CHARON_WITHDRAW_DELEGATOR_REWARDS',
+  WithdrawValidatorRewards = 'CHARON_WITHDRAW_VALIDATOR_REWARDS',
 }

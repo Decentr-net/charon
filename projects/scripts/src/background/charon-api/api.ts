@@ -230,3 +230,20 @@ export const withdrawDelegatorRewards = (
     )),
   ).toPromise();
 };
+
+export const withdrawValidatorRewards = (
+  privateKey: Wallet['privateKey'],
+  validatorAddress: Validator['operator_address'],
+  walletAddress: Wallet['address'],
+): Promise<BroadcastResponse<StdTxMessageType.CosmosWithdrawDelegationReward>> => {
+  return configService.getChainId().pipe(
+    mergeMap((chainId) => new Decentr(getApi(), chainId).distribution.withdrawValidatorRewards(
+      walletAddress,
+      validatorAddress,
+      {
+        broadcast: true,
+        privateKey,
+      }
+    )),
+  ).toPromise();
+};

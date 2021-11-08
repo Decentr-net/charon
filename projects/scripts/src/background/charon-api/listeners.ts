@@ -14,6 +14,7 @@ import {
   undelegate,
   unfollow,
   withdrawDelegatorRewards,
+  withdrawValidatorRewards,
 } from './api';
 import QUEUE, { QueuePriority } from '../queue';
 import { CharonAPIMessageBusMap } from './message-bus-map';
@@ -176,6 +177,19 @@ export const initCharonAPIListeners = () => {
   messageBus.onMessage(MessageCode.WithdrawDelegatorRewards).subscribe((message) => {
     sendRequest(
       () => withdrawDelegatorRewards(
+        message.body.privateKey,
+        message.body.validatorAddress,
+        message.body.walletAddress,
+      ),
+      (response) => {
+        message.sendResponse(response);
+      },
+    );
+  });
+
+  messageBus.onMessage(MessageCode.WithdrawValidatorRewards).subscribe((message) => {
+    sendRequest(
+      () => withdrawValidatorRewards(
         message.body.privateKey,
         message.body.validatorAddress,
         message.body.walletAddress,
