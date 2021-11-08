@@ -13,5 +13,5 @@ export const STAKING_COMPONENTS = [
   ValidatorStatusComponent,
   ValidatorsTableComponent,
   WithdrawDelegatorTableComponent,
-  WithdrawValidatorTableComponent
+  WithdrawValidatorTableComponent,
 ];
