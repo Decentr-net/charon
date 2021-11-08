@@ -24,13 +24,21 @@ export class ValidatorDetailsPageService {
       this.stakingService.getPool(),
       this.stakingService.getDelegations(),
       this.distributionService.getDelegatorRewards(),
+      this.getUserValidatorAddress(),
     ]).pipe(
-      map(([validator, pool, delegations, delegatorRewards]: [
+      map(([validator, pool, delegations, delegatorRewards, selfValidator]: [
         Validator,
         Pool,
         Delegation[],
-        DelegatorRewards
-      ]) => buildValidatorDefinition(validator, pool, delegations, delegatorRewards)),
+        DelegatorRewards,
+        Wallet['validatorAddress'],
+      ]) => buildValidatorDefinition(validator, pool, delegations, delegatorRewards, selfValidator)),
+    );
+  }
+
+  public getUserValidatorAddress(): Observable<Wallet['validatorAddress']> {
+    return this.authService.getActiveUser().pipe(
+      map((account) => account.wallet.validatorAddress),
     );
   }
 

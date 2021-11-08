@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, TrackByFunction } from '@ang
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgCheck } from '@shared/svg-icons/check';
-import { ValidatorOperatorDefinitionShort } from '../../models';
+import { ValidatorDefinitionShort } from '../../models';
 
 @Component({
   selector: 'app-withdraw-validator-table',
@@ -11,9 +11,9 @@ import { ValidatorOperatorDefinitionShort } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WithdrawValidatorTableComponent {
-  @Input() data: ValidatorOperatorDefinitionShort[];
+  @Input() data: ValidatorDefinitionShort[];
 
-  @Input() selectedItems: ValidatorOperatorDefinitionShort[] = [];
+  @Input() selectedItems: ValidatorDefinitionShort[] = [];
 
   constructor(
     svgIconRegistry: SvgIconRegistry,
@@ -23,5 +23,5 @@ export class WithdrawValidatorTableComponent {
     ]);
   }
 
-  public trackByAddress: TrackByFunction<ValidatorOperatorDefinitionShort> = ({}, { address }) => address;
+  public trackByAddress: TrackByFunction<ValidatorDefinitionShort> = ({}, { address }) => address;
 }

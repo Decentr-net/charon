@@ -17,6 +17,14 @@
     >
       {{ translate('jailed') }}
     </app-validator-jailed>
+
+    <div
+      *ngIf="validator.selfValidator"
+      class="validators-table__validator-my"
+      appTypeface="caption"
+    >
+      {{ translate('my_validator') }}
+    </div>
   </div>
 
   <ng-container *dataTableColumnDef="let validator; name: translate('voting_power')">

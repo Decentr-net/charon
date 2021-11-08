@@ -57,6 +57,7 @@
     "commission": "Commission",
     "delegated": "Delegated",
     "jailed": "jailed",
+    "my_validator": "My validator",
     "operator_address": "Operator address",
     "status": "Status",
     "validator": "Validator",
@@ -176,6 +177,7 @@
     "withdraw": "Withdraw"
   },
   "withdraw_validator_table": {
+    "delegated": "Delegated",
     "jailed": "jailed",
     "no_rewards": "You have no any rewards yet",
     "reward": "Reward",

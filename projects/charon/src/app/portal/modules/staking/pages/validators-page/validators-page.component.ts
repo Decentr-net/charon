@@ -52,7 +52,7 @@ export class ValidatorsPageComponent implements OnInit {
       this.validatorsPageService.getValidators(),
       this.onlyBondedFormControl.value$,
     ]).pipe(
-      map(([validators, onlyBonded]) => {
+      map(([validators, onlyBonded,]) => {
         return validators.filter(({ status }) => !onlyBonded || status === ValidatorStatus.Bonded);
       }),
     );

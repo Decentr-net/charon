@@ -1,4 +1,4 @@
-import { Delegation, DelegatorRewards, Pool, Validator, ValidatorDistribution } from 'decentr-js';
+import { Delegation, DelegatorRewards, Pool, Validator, ValidatorDistribution, Wallet } from 'decentr-js';
 
 import { ValidatorDefinition, ValidatorDefinitionShort, ValidatorOperatorDefinitionShort } from '../models';
 
@@ -8,6 +8,23 @@ export const buildValidatorOperatorDefinition = (
 ): ValidatorOperatorDefinitionShort => {
   return {
     address: validator.operator_address,
+    jailed: validator.jailed,
+    name: validator.description.moniker,
+    reward: [...validatorRewards.self_bond_rewards, ...validatorRewards.val_commission]
+      .reduce((acc, { amount }) => acc + +amount, 0),
+  };
+};
+
+export const buildValidatorOperatorDefinition = (
+  validator: Validator,
+  delegations: Delegation[],
+  validatorRewards: ValidatorDistribution,
+): ValidatorDefinitionShort => {
+  return {
+    address: validator.operator_address,
+    delegated: delegations
+      .find((delegation) => delegation.validator_address === validator.operator_address)
+      ?.balance.amount,
     jailed: validator.jailed,
     name: validator.description.moniker,
     reward: [...validatorRewards.self_bond_rewards, ...validatorRewards.val_commission]
@@ -39,11 +56,13 @@ export const buildValidatorDefinition = (
   pool: Pool,
   delegations: Delegation[],
   delegatorRewards: DelegatorRewards,
+  selfValidator: Wallet['validatorAddress'],
 ): ValidatorDefinition => {
   return {
     ...buildValidatorDefinitionShort(validator, delegations, delegatorRewards),
     commission: validator.commission.commission_rates.rate,
     details: validator.description.details,
+    selfValidator: validator.operator_address === selfValidator,
     status: validator.status,
     tokens: validator.tokens,
     votingPower: +validator.tokens / pool.bonded_tokens,

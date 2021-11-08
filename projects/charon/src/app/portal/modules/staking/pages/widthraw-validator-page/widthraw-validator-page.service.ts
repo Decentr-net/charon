@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Validator, ValidatorDistribution } from 'decentr-js';
+import { Delegation, Validator, ValidatorDistribution } from 'decentr-js';
 
 import { DistributionService, StakingService } from '@core/services';
-import { ValidatorOperatorDefinitionShort } from '../../models';
+import { ValidatorDefinitionShort } from '../../models';
 import { buildValidatorOperatorDefinition } from '../../utils';
 
 @Injectable()
@@ -15,16 +15,18 @@ export class WithdrawValidatorPageService {
   ) {
   }
 
-  public getValidator(address: Validator['operator_address']): Observable<ValidatorOperatorDefinitionShort[]> {
+  public getValidator(address: Validator['operator_address']): Observable<ValidatorDefinitionShort[]> {
     return combineLatest([
       this.stakingService.getValidator(address),
+      this.stakingService.getDelegations(),
       this.distributionService.getValidatorDistribution(address),
     ]).pipe(
-      map(([validator, validatorRewards]: [
+      map(([validator, delegations, validatorRewards]: [
         Validator,
+        Delegation[],
         ValidatorDistribution,
       ]) => {
-        return [buildValidatorOperatorDefinition(validator, validatorRewards)];
+        return [buildValidatorOperatorDefinition(validator, delegations, validatorRewards)];
       }),
     );
   }
