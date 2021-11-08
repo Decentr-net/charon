@@ -57,6 +57,7 @@
     "commission": "Commission",
     "delegated": "Delegated",
     "jailed": "jailed",
+    "my_validator": "My validator",
     "operator_address": "Operator address",
     "status": "Status",
     "validator": "Validator",

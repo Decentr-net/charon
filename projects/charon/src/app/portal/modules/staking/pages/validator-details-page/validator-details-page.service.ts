@@ -37,6 +37,6 @@ export class ValidatorDetailsPageService {
   public getUserValidatorAddress(): Observable<Wallet['validatorAddress']> {
     return this.authService.getActiveUser().pipe(
       map((account) => account.wallet.validatorAddress),
-    )
+    );
   }
 }

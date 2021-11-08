@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { FormControl } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ValidatorStatus } from 'decentr-js';
+import { ValidatorStatus, Wallet } from 'decentr-js';
 
 import { svgGetCoin } from '@shared/svg-icons/get-coin';
 import { DistributionService } from '@core/services/distribution';
@@ -28,6 +28,8 @@ export class ValidatorsPageComponent implements OnInit {
   public stakingRoute: typeof StakingRoute = StakingRoute;
 
   public validators$: Observable<ValidatorDefinition[]>;
+
+  public userValidatorAddress$: Observable<Wallet['validatorAddress']>;
 
   public totalDelegatorRewards: number;
 
@@ -56,6 +58,8 @@ export class ValidatorsPageComponent implements OnInit {
         return validators.filter(({ status }) => !onlyBonded || status === ValidatorStatus.Bonded);
       }),
     );
+
+    this.userValidatorAddress$ = this.validatorsPageService.getUserValidatorAddress();
 
     this.distributionService.getTotalDelegatorRewards().pipe(
       untilDestroyed(this),

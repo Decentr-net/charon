@@ -14,6 +14,17 @@
   user-select: none;
 }
 
+.validators-table__validator-my {
+  align-items: center;
+  background-color: rgba($color-blue, .08);
+  border-radius: $border-radius;
+  color: $color-blue;
+  display: inline-flex;
+  margin-left: $grid-step;
+  padding: $grid-half-step $grid-step;
+  user-select: none;
+}
+
 .validators-table__validator-status {
   display: flex;
 }
