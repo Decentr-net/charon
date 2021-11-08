@@ -5,7 +5,12 @@
   [selectedItems]="selectedItems"
 >
   <div
-    *dataTableColumnDef="let validator; let selected = selected; name: translate('validator');"
+    *dataTableColumnDef="
+      let validator;
+      let selected = selected;
+      name: translate('validator');
+      width: '20%';
+    "
     class="withdraw-validator-table__validator-name"
   >
     <div
@@ -34,7 +39,7 @@
       let validator;
       name: translate('reward') | appCurrencySymbol : true | async;
       id: 'reward';
-      align: 'right'
+      align: 'right';
     "
     [class.mod-empty]="validator.reward < 1"
   >
@@ -42,6 +47,18 @@
       {{ validator.reward | microValue | numberFormat : '1.0-6' : true }}
     </ng-container>
   </div>
+
+  <ng-container
+    *dataTableColumnDef="
+      let validator;
+      name: translate('delegated') | appCurrencySymbol : true | async;
+      id: 'delegated';
+      align: 'right';
+    "
+    [class.mod-empty]="!+validator.delegated"
+  >
+    {{ validator.delegated && (validator.delegated | microValue | numberFormat : null : true) || '0' }}
+  </ng-container>
 
   <div
     class="withdraw-validator-table__empty-row"

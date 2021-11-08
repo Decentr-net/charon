@@ -9,7 +9,7 @@ import { CurrencySymbolService } from '@shared/components/currency-symbol';
 import { DistributionService, SpinnerService } from '@core/services';
 import { MicroValuePipe } from '@shared/pipes/micro-value';
 import { NotificationService } from '@shared/services/notification';
-import { ValidatorOperatorDefinitionShort } from '../../models';
+import { ValidatorDefinitionShort } from '../../models';
 import { WithdrawValidatorPageService } from './widthraw-validator-page.service';
 
 const VALIDATOR_ADDRESS_PARAM = 'validatorAddressParam';
@@ -27,11 +27,11 @@ const VALIDATOR_ADDRESS_PARAM = 'validatorAddressParam';
 export class WithdrawValidatorPageComponent implements OnInit {
   public fee$: Observable<number>;
 
-  public selectedItems$: BehaviorSubject<ValidatorOperatorDefinitionShort[]> = new BehaviorSubject([]);
+  public selectedItems$: BehaviorSubject<ValidatorDefinitionShort[]> = new BehaviorSubject([]);
 
   public selectedItemsRewards$: Observable<number>;
 
-  public validators$: Observable<ValidatorOperatorDefinitionShort[]>;
+  public validators$: Observable<ValidatorDefinitionShort[]>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -78,7 +78,7 @@ export class WithdrawValidatorPageComponent implements OnInit {
     });
   }
 
-  public chooseValidator(validator: ValidatorOperatorDefinitionShort): void {
+  public chooseValidator(validator: ValidatorDefinitionShort): void {
     this.selectedItems$.next([validator]);
   }
 

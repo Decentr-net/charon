@@ -6,7 +6,12 @@
   (itemClick)="onItemClick($event)"
 >
   <div
-    *dataTableColumnDef="let validator; let selected = selected; name: translate('validator'); width: '20%'"
+    *dataTableColumnDef="
+      let validator;
+      let selected = selected;
+      name: translate('validator');
+      width: '20%';
+    "
     class="withdraw-delegator-table__validator-name"
   >
     <div
@@ -35,7 +40,7 @@
       let validator;
       name: translate('reward') | appCurrencySymbol : true | async;
       id: 'reward';
-      align: 'right'
+      align: 'right';
     "
     [class.mod-empty]="validator.reward < 1"
   >
@@ -49,7 +54,7 @@
       let validator;
       name: translate('delegated') | appCurrencySymbol : true | async;
       id: 'delegated';
-      align: 'right'
+      align: 'right';
     "
     [class.mod-empty]="!+validator.delegated"
   >
