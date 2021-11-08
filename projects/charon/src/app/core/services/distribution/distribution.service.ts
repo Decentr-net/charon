@@ -7,6 +7,7 @@ import {
   DelegatorRewards,
   DenomAmount,
   Validator,
+  ValidatorDistribution,
 } from 'decentr-js';
 
 import { AuthService } from '../../auth';
@@ -44,11 +45,11 @@ export class DistributionService {
     )
   }
 
-  public getValidatorRewards(
+  public getValidatorDistribution(
     validatorAddress: Validator['operator_address'],
-  ): Observable<DenomAmount[]> {
+  ): Observable<ValidatorDistribution> {
     return this.networkService.getActiveNetworkAPI().pipe(
-      switchMap((api) => this.distributionApiService.getValidatorRewards(api, validatorAddress)),
+      switchMap((api) => this.distributionApiService.getValidatorDistribution(api, validatorAddress)),
     );
   }
 

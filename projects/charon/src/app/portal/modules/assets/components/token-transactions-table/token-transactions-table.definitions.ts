@@ -8,6 +8,7 @@ export enum TokenTransactionType {
   WithdrawDelegate,
   WithdrawUndelegate,
   WithdrawRedelegate,
+  WithdrawValidatorRewards,
 }
 
 export interface TokenTransaction {

@@ -253,8 +253,8 @@ export class AssetsPageService
       hash: tx.txhash,
       recipient: msg.value.to_address,
       sender: msg.value.from_address,
-      type: msg.value.to_address === walletAddress ? TokenTransactionType.TransferReceived : TokenTransactionType.TransferSent,
       timestamp: new Date(tx.timestamp).valueOf(),
+      type: msg.value.to_address === walletAddress ? TokenTransactionType.TransferReceived : TokenTransactionType.TransferSent,
     };
   }
 
@@ -285,6 +285,35 @@ export class AssetsPageService
       recipient: msg.value.delegator_address,
       sender: msg.value.validator_address,
       timestamp: new Date(tx.timestamp).valueOf(),
+    };
+  }
+
+  private mapWithdrawValidatorTransaction(
+    msg: StdTxMessage<StdTxMessageType.CosmosWithdrawValidatorCommission>,
+    tx: Transaction,
+    logEvents: TransactionLogEvent[],
+    fee: StdTxFee,
+  ): TokenTransaction {
+    const txValue = tx.tx.value;
+
+    const amountString = logEvents
+      .find((event) => event.type === 'transfer')?.attributes
+      .find((attribute) => attribute.key === 'amount')?.value || '0udec';
+
+    const amount = {
+      amount: parseFloat(amountString).toString(),
+      denom: amountString.replace(/[^0-9]/g, ''),
+    };
+
+    return {
+      amount,
+      fee,
+      comment: txValue.memo,
+      hash: tx.txhash,
+      recipient: msg.value.validator_address,
+      sender: msg.value.validator_address,
+      timestamp: new Date(tx.timestamp).valueOf(),
+      type: TokenTransactionType.WithdrawValidatorRewards,
     };
   }
 
@@ -320,8 +349,8 @@ export class AssetsPageService
       hash: tx.txhash,
       recipient: msg.value.delegator_address,
       sender: transfer.sender,
-      type: TokenTransactionType.WithdrawRedelegate,
       timestamp: new Date(tx.timestamp).valueOf(),
+      type: TokenTransactionType.WithdrawRedelegate,
     }));
   }
 
@@ -367,6 +396,12 @@ export class AssetsPageService
             const tokenTransactions = this.mapWithdrawRedelegationTransaction(withdrawMessage, tx as Transaction<StdTxMessageType.CosmosBeginRedelegate>, logEvents, !index ? txValue.fee : undefined);
 
             return [...acc, ...tokenTransactions];
+          }
+          case StdTxMessageType.CosmosWithdrawValidatorCommission: {
+            const withdrawMessage = msg as StdTxMessage<StdTxMessageType.CosmosWithdrawValidatorCommission>;
+            const tokenTransactions = this.mapWithdrawValidatorTransaction(withdrawMessage, tx as Transaction<StdTxMessageType.CosmosWithdrawValidatorCommission>, logEvents, !index ? txValue.fee : undefined);
+
+            return [...acc, tokenTransactions];
           }
           default:
             return acc;

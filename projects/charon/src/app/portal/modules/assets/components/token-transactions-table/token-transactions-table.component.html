@@ -31,28 +31,35 @@
         <ng-template [ngSwitchCase]="tokenTransactionType.WithdrawDelegate">
           <ng-template
             [ngTemplateOutlet]="withdrawTemplate"
-            [ngTemplateOutletContext]="{ $implicit: transaction }"
+            [ngTemplateOutletContext]="{ $implicit: transaction, label: translate('withdraw') }"
           ></ng-template>
         </ng-template>
 
         <ng-template [ngSwitchCase]="tokenTransactionType.WithdrawUndelegate">
           <ng-template
             [ngTemplateOutlet]="withdrawTemplate"
-            [ngTemplateOutletContext]="{ $implicit: transaction }"
+            [ngTemplateOutletContext]="{ $implicit: transaction, label: translate('withdraw') }"
           ></ng-template>
         </ng-template>
 
         <ng-template [ngSwitchCase]="tokenTransactionType.WithdrawRedelegate">
           <ng-template
             [ngTemplateOutlet]="withdrawTemplate"
-            [ngTemplateOutletContext]="{ $implicit: transaction }"
+            [ngTemplateOutletContext]="{ $implicit: transaction, label: translate('withdraw') }"
           ></ng-template>
         </ng-template>
 
         <ng-template [ngSwitchCase]="tokenTransactionType.WithdrawRewards">
           <ng-template
             [ngTemplateOutlet]="withdrawTemplate"
-            [ngTemplateOutletContext]="{ $implicit: transaction }"
+            [ngTemplateOutletContext]="{ $implicit: transaction, label: translate('withdraw') }"
+          ></ng-template>
+        </ng-template>
+
+        <ng-template [ngSwitchCase]="tokenTransactionType.WithdrawValidatorRewards">
+          <ng-template
+            [ngTemplateOutlet]="withdrawTemplate"
+            [ngTemplateOutletContext]="{ $implicit: transaction, label: translate('withdraw_validator') }"
           ></ng-template>
         </ng-template>
 
@@ -151,14 +158,14 @@
     </div>
   </ng-template>
 
-  <ng-template #withdrawTemplate let-transaction>
+  <ng-template #withdrawTemplate let-transaction let-label="label">
     <svg-icon
       class="token-transactions-table__icon token-transactions-table__color-receive"
       key="receive"
     ></svg-icon>
 
     <div class="token-transactions-table__operation">
-      {{ translate('withdraw') }}
+      {{ label }}
 
       <ng-container
         *ngIf="transaction.hash"

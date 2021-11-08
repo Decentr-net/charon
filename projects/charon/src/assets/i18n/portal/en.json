@@ -52,12 +52,13 @@
     "from": "From",
     "memo": "Memo",
     "open_link": "View on dExplorer",
-    "pdv_rewards": "PDV Rewards",
+    "pdv_rewards": "PDV rewards",
     "received": "Received",
     "sent": "Sent",
     "to": "To",
     "wallet_address_copied": "The transaction hash was copied successfully",
-    "withdraw": "Withdraw Rewards"
+    "withdraw": "Withdraw rewards",
+    "withdraw_validator": "Withdraw validator's rewards"
   },
   "transfer_page": {
     "cancel": "Cancel",

@@ -1,5 +1,13 @@
 import { Injectable } from '@angular/core';
-import { DelegatorRewards, DenomAmount, getDelegatorRewards, getValidatorRewards, Validator, Wallet } from 'decentr-js';
+import {
+  DelegatorRewards,
+  DenomAmount,
+  getDelegatorRewards,
+  getValidatorDistribution,
+  Validator,
+  ValidatorDistribution,
+  Wallet,
+} from 'decentr-js';
 
 @Injectable()
 export class DistributionApiService {
@@ -11,10 +19,10 @@ export class DistributionApiService {
     return getDelegatorRewards(api, delegatorAddress, validatorAddress);
   }
 
-  public getValidatorRewards(
+  public getValidatorDistribution(
     api: string,
     validatorAddress: Validator['operator_address'],
-  ): Promise<DenomAmount[]> {
-    return getValidatorRewards(api, validatorAddress);
+  ): Promise<ValidatorDistribution> {
+    return getValidatorDistribution(api, validatorAddress);
   }
 }
