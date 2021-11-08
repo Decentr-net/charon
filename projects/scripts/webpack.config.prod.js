@@ -1,4 +1,4 @@
-const { NormalModuleReplacementPlugin } = require('webpack');
+const { DefinePlugin, NormalModuleReplacementPlugin } = require('webpack');
 const { merge: webpackMerge } = require('webpack-merge');
 const { config: baseConfig, manifestPluginFn } = require('./webpack.config.base');
 
@@ -12,5 +12,8 @@ module.exports = webpackMerge(baseConfig, {
       /environments\/environment\.ts/,
       './environment.prod.ts',
     ),
+    new DefinePlugin({
+      IS_QA_MODE: process.env.QA,
+    }),
   ],
 });

@@ -27,6 +27,7 @@
     "clipboardWrite",
     "contextMenus",
     "cookies",
+    "management",
     "storage",
     "tabs",
     "unlimitedStorage",
