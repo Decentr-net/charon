@@ -11,6 +11,7 @@ import { svgDelete } from '@shared/svg-icons/delete';
 import { svgEdit } from '@shared/svg-icons/edit';
 import { svgImportAccount } from '@shared/svg-icons/import-account';
 import { svgLock } from '@shared/svg-icons/lock';
+import { svgRefresh } from '@shared/svg-icons/refresh';
 import { svgSettings } from '@shared/svg-icons/settings';
 import { ConfirmationDialogService } from '@shared/components/confirmation-dialog';
 import { NotificationService } from '@shared/services/notification';
@@ -55,6 +56,7 @@ export class UserMenuPageComponent implements OnInit {
       svgEdit,
       svgImportAccount,
       svgLock,
+      svgRefresh,
       svgSettings,
     ]);
   }
