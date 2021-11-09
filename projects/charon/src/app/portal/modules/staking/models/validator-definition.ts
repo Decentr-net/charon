@@ -16,5 +16,3 @@ export interface ValidatorDefinition {
 }
 
 export type ValidatorDefinitionShort = Pick<ValidatorDefinition, 'address' | 'delegated' | 'jailed' | 'name' | 'reward'>;
-
-export type ValidatorOperatorDefinitionShort = Pick<ValidatorDefinition, 'address' | 'jailed' | 'name' | 'reward'>;
