@@ -24,6 +24,7 @@ import {
   MenuUserProfile
 } from '@shared/components/menu';
 
+import { BankService } from '@core/services';
 import { PDVService } from '@shared/services/pdv';
 import { isOpenedInTab } from '@shared/utils/browser';
 import { Environment } from '@environments/environment.definitions';
@@ -70,6 +71,7 @@ export class MenuService extends MenuBaseService {
 
   constructor(
     private authService: AuthService,
+    private bankService: BankService,
     private environment: Environment,
     private navigationService: NavigationService,
     private pdvService: PDVService,
@@ -162,12 +164,23 @@ export class MenuService extends MenuBaseService {
     return combineLatest([
       this.getUserProfile(),
       this.pdvService.getBalanceLive(),
+      this.getDECBalance(),
     ]).pipe(
-      map(([user, pdvValue]) => ({
+      map(([user, pdvValue, decValue]) => ({
+        decValue,
         pdvValue,
         action: () => this.router.navigate(['/', AppRoute.User]),
         title: user.title,
       })),
+    );
+  }
+
+  public getDECBalance(): Observable<number> {
+    return this.authService.getActiveUser().pipe(
+      map(({ wallet }) => wallet.address),
+      switchMap((walletAddress) => this.bankService.getDECBalance(walletAddress).pipe(
+        map((balance) => +balance),
+      )),
     );
   }
 

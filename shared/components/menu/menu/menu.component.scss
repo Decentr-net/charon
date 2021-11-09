@@ -62,8 +62,15 @@ $menu--user-avatar--size: 40px;
   max-width: 205px;
 }
 
-.menu__user-item__pdv {
+.menu__user-item__pdv-dec {
   color: $color-grey;
+  display: flex;
+}
+
+.menu__user-item__pdv-dec__divider {
+  background: $color-grey;
+  margin: $grid-step / 4 $grid-step / 2;
+  width: 1px;
 }
 
 .menu__item {
