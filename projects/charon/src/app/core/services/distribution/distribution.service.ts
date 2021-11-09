@@ -99,7 +99,7 @@ export class DistributionService {
 
   public withdrawValidatorRewards(
     fromValidatorAddress: Validator['operator_address'],
-  ) {
+  ): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
