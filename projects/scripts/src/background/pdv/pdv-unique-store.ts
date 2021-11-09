@@ -1,3 +1,4 @@
+import { coerceArray } from '@angular/cdk/coercion';
 import { PDV, PDVType } from 'decentr-js';
 
 import { uuid } from '../../../../../shared/utils/uuid';
@@ -5,8 +6,13 @@ import { uuid } from '../../../../../shared/utils/uuid';
 export class PDVUniqueStore {
   private store = new Map<string, PDV>();
 
-  public set(pdvData: PDV): this {
-    this.store.set(PDVUniqueStore.getPDVHash(pdvData), pdvData);
+  constructor(pdvData: PDV[] = []) {
+    this.set(pdvData);
+  }
+
+  public set(pdvData: PDV | PDV[]): this {
+    coerceArray(pdvData)
+      .forEach((pdv) => this.store.set(PDVUniqueStore.getPDVHash(pdv), pdv));
 
     return this;
   }
