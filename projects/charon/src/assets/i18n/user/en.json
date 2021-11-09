@@ -16,6 +16,20 @@
       "successful_update": "User was successfully updated"
     }
   },
+  "restore_seed_dialog": {
+    "close": "Close",
+    "form": {
+      "password": {
+        "errors": {
+          "required": "Password required",
+          "invalid": "Invalid password"
+        },
+        "placeholder": "Password"
+      }
+    },
+    "restore": "Restore",
+    "title": "Restore seed phrase using your password"
+  },
   "settings_page": {
     "title": "Account settings"
   },
@@ -45,6 +59,8 @@
     "import": "Import account",
     "lock": "Lock account",
     "lock_hint": "You’ll be able to unlock your account using your password.",
+    "restore_seed": "Restore seed phrase",
+    "restore_seed_hint": "Restore seed phrase using your password",
     "settings": "Settings"
   }
 }

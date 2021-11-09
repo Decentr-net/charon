@@ -87,12 +87,8 @@
   },
   "seed_phrase_page": {
     "back": "Back",
-    "copy": "Copy",
-    "download_pdf": "Download .pdf",
     "next": "Next",
     "print": "Print",
-    "seed_copied": "The seed phrase was copied successfully",
-    "seed_label": "Your seed phrase",
     "subtitle": "It is the only way to import or restore your account, so copy, download, print and store it safely!",
     "title": "Store your seed phrase",
     "warning": {

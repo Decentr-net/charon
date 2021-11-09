@@ -1,78 +1,34 @@
 <ng-container *transloco="let translate; read: 'sign_up.seed_phrase_page'">
   <section>
-
-  <div
-    class="seed-phrase__title"
-    appTypeface="subheader"
-  >
-    {{ translate('title') }}
-  </div>
-
-  <div
-    class="seed-phrase__subtitle"
-    appTypeface="paragraph"
-  >
-    {{ translate('subtitle') }}
-  </div>
-
-  <div class="seed-phrase__seed-container">
     <div
-      class="seed-phrase__seed-container__label"
-      appTypeface="paragraph"
+      class="seed-phrase__title"
+      appTypeface="subheader"
     >
-      {{ translate('seed_label') }}
+      {{ translate('title') }}
     </div>
 
     <div
-      class="seed-phrase__seed-container__seed"
+      class="seed-phrase__subtitle"
       appTypeface="paragraph"
     >
-      <div>{{ isSeedPhraseVisible ? seedPhrase : securedSeedPhrase }}</div>
-
-      <svg-icon
-        class="seed-phrase__seed-container__toggle-icon"
-        [key]="isSeedPhraseVisible ? 'eye' : 'eye-crossed'"
-        (click)="toggleSeedVisibility()"
-      ></svg-icon>
+      {{ translate('subtitle') }}
     </div>
 
-    <div class="seed-phrase__seed-container__actions">
-      <button
-        app-button
-        color="white"
-        [cdkCopyToClipboard]="seedPhrase"
-        (cdkCopyToClipboardCopied)="onSeedPhraseCopied()"
-      >
-        <svg-icon key="copy"></svg-icon>
+    <app-seed [value]="seedPhrase"></app-seed>
 
-        {{ translate('copy') }}
-      </button>
+    <div class="seed-phrase__warning" appTypeface="paragraph">
+      <svg-icon key="loud"></svg-icon>
 
-      <button
-        app-button
-        color="white"
-        (click)="downloadSeedPhrase()"
-      >
-        <svg-icon key="download"></svg-icon>
+      <div>
+        <div class="seed-phrase__warning__label">{{ translate('warning.label') }}</div>
 
-        {{ translate('download_pdf') }}
-      </button>
-    </div>
-  </div>
-
-  <div class="seed-phrase__warning" appTypeface="paragraph">
-    <svg-icon key="loud"></svg-icon>
-
-    <div>
-      <div class="seed-phrase__warning__label">{{ translate('warning.label') }}</div>
-
-      <div class="seed-phrase__warning__text">
-        <div>{{ translate('warning.text1') }}</div>
-        <div>{{ translate('warning.text2') }}</div>
-        <div>{{ translate('warning.text3') }}</div>
+        <div class="seed-phrase__warning__text">
+          <div>{{ translate('warning.text1') }}</div>
+          <div>{{ translate('warning.text2') }}</div>
+          <div>{{ translate('warning.text3') }}</div>
+        </div>
       </div>
     </div>
-  </div>
   </section>
 
   <section>
@@ -98,7 +54,3 @@
     </div>
   </section>
 </ng-container>
-
-<div #pdfTemplate class="seed-phrase__pdf-template">
-  <svg-icon class="seed-phrase__pdf-template-icon" key="logo"></svg-icon>
-</div>

@@ -120,4 +120,10 @@ export class AuthService {
         ...passwordHash ? { passwordHash} : {},
       });
   }
+
+  public restoreSeedPhrase(password: string): string {
+    const encryptedSeed = this.getActiveUserInstant().encryptedSeed;
+
+    return aesDecrypt(encryptedSeed, password);
+  }
 }

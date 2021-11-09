@@ -1,0 +1,44 @@
+@import '../../styles/variables';
+
+:host {
+  display: block;
+}
+
+.seed__seed-container {
+  background: $color-background;
+  color: $color-black;
+  padding: $grid-step * 2;
+  margin-top: $grid-step * 2;
+}
+
+.seed__seed-container__label {
+  color: $color-grey;
+}
+
+.seed__seed-container__seed {
+  column-gap: $grid-step * 2;
+  display: flex;
+}
+
+.seed__seed-container__toggle-icon {
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.seed__seed-container__actions {
+  column-gap: $grid-step * 1.5;
+  display: flex;
+  margin-top: $grid-step * 3;
+}
+
+.seed__pdf-template {
+  position: absolute;
+  height: 40px;
+  top: -9999px;
+  width: 147px;
+}
+
+.seed__pdf-template-icon {
+  height: 40px;
+  width: 147px;
+}

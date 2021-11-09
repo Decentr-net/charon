@@ -1,0 +1,61 @@
+<ng-container *transloco="let translate; read: 'user.restore_seed_dialog'">
+  <header
+    class="restore-seed-dialog__title"
+    mat-dialog-title
+    appTypeface="subheader"
+  >
+    {{ translate('title') }}
+  </header>
+
+  <mat-dialog-content
+    class="restore-seed-dialog__content"
+    appTypeface="paragraph"
+  >
+    <form
+      *ngIf="!seedPhrase"
+      class="restore-seed-dialog__form"
+      [id]="formId"
+      [formGroup]="passwordForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <app-input-container>
+        <app-input
+          [type]="'password'"
+          [placeholder]="translate('form.password.placeholder')"
+          [formControlName]="'password'"
+        ></app-input>
+
+        <app-form-error controlName="password"></app-form-error>
+      </app-input-container>
+    </form>
+
+    <app-seed
+      *ngIf="seedPhrase"
+      class="restore-seed-dialog__seed-field"
+      [value]="seedPhrase"
+    ></app-seed>
+  </mat-dialog-content>
+
+  <mat-dialog-actions
+    class="restore-seed-dialog__actions"
+  >
+    <button
+      class="restore-seed-dialog__button"
+      app-button
+      color="grey"
+      mat-dialog-close
+    >
+      {{ translate('close') }}
+    </button>
+
+    <button
+      *ngIf="!seedPhrase"
+      class="restore-seed-dialog__button"
+      app-button
+      type="submit"
+      [attr.form]="formId"
+    >
+      {{ translate('restore') }}
+    </button>
+  </mat-dialog-actions>
+</ng-container>

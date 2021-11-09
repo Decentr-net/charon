@@ -1,0 +1,34 @@
+@import 'variables';
+
+.restore-seed-dialog__title {
+  font-weight: 500;
+  margin: 0;
+}
+
+.restore-seed-dialog__content {
+  margin: $grid-step 0 0;
+  padding: 0;
+}
+
+.restore-seed-dialog__form {
+}
+
+.restore-seed-dialog__restore-button {
+  height: 48px;
+}
+
+.restore-seed-dialog__seed-field {
+  margin-bottom: $grid-step;
+  max-width: 500px;
+}
+
+.restore-seed-dialog__actions {
+  column-gap: $grid-step * 1.5;
+  justify-content: flex-end;
+  margin: $grid-step 0 0;
+  padding: 0;
+}
+
+.restore-seed-dialog__button {
+  height: 48px;
+}
