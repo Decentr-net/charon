@@ -18,7 +18,8 @@
 }
 
 .restore-seed-dialog__seed-field {
-  margin-top: $grid-step;
+  margin-bottom: $grid-step;
+  max-width: 500px;
 }
 
 .restore-seed-dialog__actions {

@@ -20,5 +20,15 @@
     "cookie": "cookie",
     "location": "location",
     "searchHistory": "search history"
+  },
+  "seed": {
+    "copy": "Copy",
+    "download_pdf": "Download .pdf",
+    "pdf": {
+      "title": "Seed Phrase",
+      "message": "Seed Phrase is the only way to recover your profile and wallet with DEC balance so take it seriously."
+    },
+    "seed_copied": "The seed phrase was copied successfully",
+    "seed_label": "Your seed phrase"
   }
 }

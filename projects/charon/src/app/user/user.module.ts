@@ -24,6 +24,7 @@ import { PasswordModule } from '@shared/components/password';
 import { PdvTypeIconModule } from '@shared/components/pdv-type-icon';
 import { PdvTypesSettingsModule } from '@shared/components/pdv-types-settings';
 import { ProfileFormModule } from '@shared/components/profile-form';
+import { SeedModule } from '@shared/components/seed';
 import { SlotModule } from '@shared/components/slot';
 import { SubmitSourceModule } from '@shared/directives/submit-source';
 import { TooltipModule } from '@shared/components/tooltip';
@@ -59,6 +60,7 @@ import { UserRoutingModule } from './user-routing.module';
     ProfileFormModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
+    SeedModule,
     SlotModule,
     SubmitSourceModule,
     SvgIconsModule,

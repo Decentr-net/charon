@@ -28,7 +28,6 @@
       }
     },
     "restore": "Restore",
-    "seed_placeholder": "Your seed phrase will be shown here",
     "title": "Restore seed phrase using your password"
   },
   "settings_page": {

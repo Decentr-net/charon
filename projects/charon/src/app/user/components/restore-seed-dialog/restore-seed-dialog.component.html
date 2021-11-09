@@ -12,6 +12,7 @@
     appTypeface="paragraph"
   >
     <form
+      *ngIf="!seedPhrase"
       class="restore-seed-dialog__form"
       [id]="formId"
       [formGroup]="passwordForm"
@@ -28,13 +29,11 @@
       </app-input-container>
     </form>
 
-    <app-input
+    <app-seed
+      *ngIf="seedPhrase"
       class="restore-seed-dialog__seed-field"
-      rows="4"
-      [ngModel]="seedPhrase"
-      [placeholder]="translate('seed_placeholder')"
-      [disabled]="true"
-    ></app-input>
+      [value]="seedPhrase"
+    ></app-seed>
   </mat-dialog-content>
 
   <mat-dialog-actions
@@ -50,6 +49,7 @@
     </button>
 
     <button
+      *ngIf="!seedPhrase"
       class="restore-seed-dialog__button"
       app-button
       type="submit"
