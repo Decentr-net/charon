@@ -38,6 +38,7 @@ export class ImportRestorePageService {
       mergeMap(() => this.authService.createUser({
         wallet,
         password,
+        seed: seedPhrase,
       })),
       mergeMap((id) => this.authService.changeUser(id)),
       mapTo(void 0),

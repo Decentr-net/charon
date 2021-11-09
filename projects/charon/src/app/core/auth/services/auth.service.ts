@@ -5,7 +5,7 @@ import { filter, first, mapTo, mergeMapTo, skip } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AuthBrowserStorageService } from '@shared/services/auth';
-import { sha256 } from '@shared/utils/crypto';
+import { aesDecrypt, aesEncrypt, sha256 } from '@shared/utils/crypto';
 import { uuid } from '@shared/utils/uuid';
 import { AuthUser, AuthUserCreate, AuthUserUpdate } from '../models';
 
@@ -57,10 +57,11 @@ export class AuthService {
       id,
       passwordHash,
       primaryEmail: user.primaryEmail,
+      encryptedSeed: aesEncrypt(user.seed, user.password),
       wallet: user.wallet,
     });
 
-    await this.updateUser(id, user);
+    await this.updateUser(id, { ...user, oldPassword: user.password });
 
     return id;
   }
@@ -98,9 +99,24 @@ export class AuthService {
       ? await AuthService.encryptPassword(update.password)
       : undefined;
 
+    const user = await this.authStorage.getUser(userId).pipe(
+      first(),
+    ).toPromise();
+
+    const shouldUpdateEncryptedSeed = user.encryptedSeed && update.password;
+
+    if (shouldUpdateEncryptedSeed && !update.oldPassword) {
+      throw new Error('User update: provide old password to re-encrypt seed phrase!');
+    }
+
+    const newEncryptedSeed = shouldUpdateEncryptedSeed
+      ? aesEncrypt(aesDecrypt(user.encryptedSeed, update.oldPassword), update.password)
+      : undefined;
+
     return this.authStorage.updateUser(
       userId,
       {
+        encryptedSeed: newEncryptedSeed || user.encryptedSeed,
         ...passwordHash ? { passwordHash} : {},
       });
   }

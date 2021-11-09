@@ -24,6 +24,12 @@ export class AuthBrowserStorageService<T extends User = User> {
     );
   }
 
+  public getUser(id: T['id']): Observable<T> {
+    return this.getUsers().pipe(
+      map((users) => users.find((user) => user.id === id)),
+    );
+  }
+
   public setUsers(users: T[]): Promise<void> {
     return this.browserStorage.set('users', users);
   }
