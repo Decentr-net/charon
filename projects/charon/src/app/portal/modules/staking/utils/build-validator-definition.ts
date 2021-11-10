@@ -14,7 +14,7 @@ export const buildValidatorOperatorDefinition = (
       ?.balance.amount,
     jailed: validator.jailed,
     name: validator.description.moniker,
-    reward: [...validatorRewards.self_bond_rewards, ...validatorRewards.val_commission]
+    reward: [...(validatorRewards.self_bond_rewards || []), ...(validatorRewards.val_commission || [])]
       .reduce((acc, { amount }) => acc + +amount, 0),
   };
 };
