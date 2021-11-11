@@ -57,6 +57,23 @@
     "
   >
     <div class="validators-table__reward-and-delegated">
+      <span
+        class="validators-table__unbonding-delegation"
+        *ngIf="validator.unbondingDelegation.balance"
+        [appTooltip]="translate('unbonding_delegations', { completionTime: validator.unbondingDelegation.completionTime | date : 'd MMM yyyy, HH:mm'})"
+        appTypeface="caption"
+      >
+        <svg-icon
+          class="validators-table__reward-icon"
+          key="undo"
+          size="xs"
+        ></svg-icon>
+
+        <ng-container *ngIf="validator.unbondingDelegation.balance">
+          {{ validator.unbondingDelegation.balance | microValue | numberFormat : '1.0-6' : true }}
+        </ng-container>
+      </span>
+
       <button
         class="validators-table__reward"
         app-button

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TrackB
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgPiggyBank } from '@shared/svg-icons/piggy-bank';
+import { svgUndo } from '@shared/svg-icons/undo';
 import { ValidatorDefinition } from '../../models';
 
 @Component({
@@ -20,6 +21,7 @@ export class ValidatorsTableComponent {
   ) {
     svgIconRegistry.register([
       svgPiggyBank,
+      svgUndo,
     ]);
   }
 

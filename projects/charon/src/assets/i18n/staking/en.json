@@ -61,7 +61,8 @@
     "operator_address": "Operator address",
     "status": "Status",
     "validator": "Validator",
-    "voting_power": "Voting power"
+    "voting_power": "Voting power",
+    "unbonding_delegations": "All unbonding delegations will be completed: {{completionTime}}"
   },
   "redelegate_page": {
     "actions": {
