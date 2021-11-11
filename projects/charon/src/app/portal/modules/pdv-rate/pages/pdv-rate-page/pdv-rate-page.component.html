@@ -72,7 +72,7 @@
   <ng-container *ngIf="pdvReward$ | async as pdvReward; else loadingRewards">
     <div
       class="pdv-rate__rewards__title"
-      [appTypeface]="isOpenedInPopup ? 'subheader' : 'header-3'"
+      [appTypeface]="isOpenedInPopup ? 'paragraph' : 'header-4'"
     >
       <span>
         {{ translate('pdv_reward') }}:
@@ -89,7 +89,7 @@
 
     <div
       class="pdv-rate__rewards__height"
-      appTypeface="paragraph"
+      [appTypeface]="isOpenedInPopup ? 'caption' : 'paragraph'"
     >
       {{
         translate('time', {
