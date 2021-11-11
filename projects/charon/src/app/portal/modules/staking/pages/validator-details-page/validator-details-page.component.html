@@ -131,7 +131,7 @@
           class="validator-details__actions-buttons"
           app-button
           (click)="navigateTo(stakingRoute.Delegate)"
-          [disabled]="validatorDetails.jailed"
+          [disabled]="validatorDetails.jailed && !validatorDetails.selfValidator"
         >
           {{ translate('actions.delegate') }}
         </button>
