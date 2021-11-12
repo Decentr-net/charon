@@ -12,7 +12,11 @@ export interface ValidatorDefinition {
   status: Validator['status'];
   tokens: Validator['tokens'];
   website: Validator['description']['website'];
+  unbondingDelegation: {
+    balance: number;
+    completionTime: Date;
+  };
   votingPower: number;
 }
 
-export type ValidatorDefinitionShort = Pick<ValidatorDefinition, 'address' | 'delegated' | 'jailed' | 'name' | 'reward'>;
+export type ValidatorDefinitionShort = Pick<ValidatorDefinition, 'address' | 'delegated' | 'jailed' | 'name' | 'reward' | 'unbondingDelegation'>;

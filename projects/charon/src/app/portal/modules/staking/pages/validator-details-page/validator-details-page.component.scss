@@ -62,9 +62,15 @@
 }
 
 .validator-details__footer {
+  align-items: center;
   display: flex;
   justify-content: space-between;
   padding-top: $grid-step * 2;
+}
+
+.validator-details__footer-delegations {
+  display: flex;
+  flex-direction: column;
 }
 
 .validator-details__footer-delegated {
@@ -77,17 +83,28 @@
   font-weight: 500;
 }
 
-.validator-details__actions-delegated-value {
+.validator-details__footer-delegated-value {
   &.mod-empty {
     color: $color-light-grey;
   }
 }
 
+.validator-details__footer-unbonding {
+  align-items: center;
+  column-gap: $grid-step;
+  display: flex;
+  margin-top: $grid-step;
+}
+
+.validator-details__footer-unbonding-label {
+  color: $color-light-grey;
+}
+
+.validator-details__footer-unbonding-value {
+  font-weight: 500;
+}
+
 .validator-details__actions {
   column-gap: $grid-step * 1.5;
   display: flex;
-}
-
-.validator-details__actions-buttons {
-
 }

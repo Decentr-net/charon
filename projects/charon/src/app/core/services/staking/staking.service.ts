@@ -6,6 +6,7 @@ import {
   calculateCreateRedelegationFee,
   calculateCreateUnbondingDelegationFee,
   Delegation,
+  getUnbondingDelegations,
   Pool,
   Redelegation,
   RedelegationsFilterParameters,
@@ -45,13 +46,13 @@ export class StakingService {
         walletAddress: wallet.address,
         privateKey: wallet.privateKey
       })).pipe(
-        map((response) => {
-          if (!response.success) {
-            throw response.error;
-          }
+      map((response) => {
+        if (!response.success) {
+          throw response.error;
+        }
 
-          return void 0;
-        }),
+        return void 0;
+      }),
     );
   }
 
@@ -191,7 +192,20 @@ export class StakingService {
     );
   }
 
-  public getDelegations(): Observable<Delegation[]>{
+  public getUnbondingDelegations(
+    fromValidatorAddress?: Validator['operator_address'],
+  ): Observable<UnbondingDelegation[] | UnbondingDelegation> {
+    return combineLatest([
+      this.authService.getActiveUser().pipe(
+        pluck('wallet', 'address'),
+      ),
+      this.networkService.getActiveNetworkAPI(),
+    ]).pipe(
+      switchMap(([walletAddress, api]) => getUnbondingDelegations(api, walletAddress, fromValidatorAddress)),
+    );
+  }
+
+  public getDelegations(): Observable<Delegation[]> {
     return combineLatest([
       this.authService.getActiveUser().pipe(
         pluck('wallet', 'address'),
