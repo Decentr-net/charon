@@ -79,19 +79,37 @@
     <div class="validator-details__divider mod-wide"></div>
 
     <div class="validator-details__footer">
-      <div
-        class="validator-details__footer-delegated"
-        appTypeface="subheader"
-      >
-        <div class="validator-details__footer-delegated-label">
-          {{ translate('delegated') }}
+      <div class="validator-details__footer-delegations">
+        <div
+          class="validator-details__footer-delegated"
+          appTypeface="subheader"
+        >
+          <div class="validator-details__footer-delegated-label">
+            {{ translate('delegated') }}
+          </div>
+
+          <div
+            class="validator-details__footer-delegated-value"
+            [class.mod-empty]="!+validatorDetails.delegated"
+          >
+            {{ validatorDetails.delegated && (validatorDetails.delegated | microValue | numberFormat : null : true) || '0' }}&nbsp;<app-currency-symbol></app-currency-symbol>
+          </div>
         </div>
 
         <div
-          class="validator-details__actions-delegated-value"
-          [class.mod-empty]="!+validatorDetails.delegated"
+          *ngIf="validatorDetails.unbondingDelegation?.balance"
+          class="validator-details__footer-unbonding"
+          appTypeface="paragraph"
         >
-          {{ validatorDetails.delegated && (validatorDetails.delegated | microValue | numberFormat : null : true) || '0' }}&nbsp;<app-currency-symbol></app-currency-symbol>
+          <div
+            class="validator-details__footer-unbonding-value"
+          >
+            {{ validatorDetails.unbondingDelegation.balance | microValue | numberFormat : '1.0-6' : true }}&nbsp;<app-currency-symbol></app-currency-symbol>
+          </div>
+
+          <div class="validator-details__footer-unbonding-label">
+            {{ translate('unbonding_delegations', { completionTime: validatorDetails.unbondingDelegation.completionTime | date : 'd MMM yyyy, HH:mm'}) }}
+          </div>
         </div>
       </div>
 
