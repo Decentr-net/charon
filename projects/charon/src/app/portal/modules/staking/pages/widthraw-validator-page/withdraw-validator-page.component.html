@@ -59,14 +59,19 @@
         </div>
 
         <div class="withdraw-validator-page__actions">
-          <button
-            class="withdraw-validator-page__actions__button"
-            app-button
-            (click)="onSubmit()"
-            [disabled]="!selectedItems$.value.length"
+          <div
+            *ngIf="selectedItemsRewards$ | async as selectedItemsRewards"
+            [appTooltip]="selectedItemsRewards < 1 ? translate('actions.withdraw_low_amount_hint') : ''"
           >
-            {{ translate('actions.withdraw') }}
-          </button>
+            <button
+              class="withdraw-validator-page__actions__button"
+              app-button
+              (click)="onSubmit()"
+              [disabled]="!selectedItems$.value.length || selectedItemsRewards < 1"
+            >
+              {{ translate('actions.withdraw') }}
+            </button>
+          </div>
         </div>
       </div>
     </ng-container>

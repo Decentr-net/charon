@@ -169,7 +169,8 @@
   },
   "withdraw_validator_page": {
     "actions": {
-      "withdraw": "Withdraw"
+      "withdraw": "Withdraw",
+      "withdraw_low_amount_hint": "Too low amount for withdraw"
     },
     "fee": "Fee",
     "notification": {

@@ -26,7 +26,7 @@ export class TooltipDirective implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     fromEvent(this.elementRef.nativeElement, 'mouseenter').pipe(
-      filter(() => !this.overlayRef),
+      filter(() => !this.overlayRef && !!this.text),
       untilDestroyed(this),
     ).subscribe(() => {
       const positionStrategy = this.overlayPositionBuilder
