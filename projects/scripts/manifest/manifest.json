@@ -52,5 +52,6 @@
     "scripts": [
       "scripts/background-script.js"
     ]
-  }
+  },
+  "minimum_chrome_version": "58"
 }
