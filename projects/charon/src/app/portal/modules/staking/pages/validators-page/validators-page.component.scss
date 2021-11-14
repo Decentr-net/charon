@@ -15,6 +15,11 @@
   column-gap: $grid-step * 2;
 }
 
+.validators-page__header-section__withdraw-buttons {
+  display: flex;
+  column-gap: $grid-step;
+}
+
 .validators-page__header-section__divider {
   background-color: $color-outlines;
   flex-shrink: 0;

@@ -10,7 +10,8 @@ import { DistributionService, SpinnerService } from '@core/services';
 import { MicroValuePipe } from '@shared/pipes/micro-value';
 import { NotificationService } from '@shared/services/notification';
 import { ValidatorDefinitionShort } from '../../models';
-import { WithdrawValidatorPageService } from './widthraw-validator-page.service';
+import { WithdrawValidatorPageService } from './withdraw-validator-page.service';
+import { exponentialToFixed } from '@shared/utils/number';
 
 const VALIDATOR_ADDRESS_PARAM = 'validatorAddressParam';
 
@@ -110,13 +111,13 @@ export class WithdrawValidatorPageComponent implements OnInit {
         this.translocoService.translate(
           'staking.withdraw_validator_page.notification.success',
           {
-            amount: this.microValuePipe.transform(amount),
+            amount: exponentialToFixed(this.microValuePipe.transform(amount)),
             currencySymbol,
           },
         ),
       );
 
-      this.router.navigate(['../'], {
+      this.router.navigate(['../../'], {
         relativeTo: this.activatedRoute,
       });
     });

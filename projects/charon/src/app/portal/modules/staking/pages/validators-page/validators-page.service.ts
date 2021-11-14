@@ -50,4 +50,11 @@ export class ValidatorsPageService {
       map((account) => account.wallet.validatorAddress),
     );
   }
+
+  public getValidatorDistribution(address: Validator['operator_address']): Observable<number> {
+    return this.distributionService.getValidatorDistribution(address).pipe(
+      map((validatorRewards) => [...(validatorRewards.self_bond_rewards || []), ...(validatorRewards.val_commission || [])]
+        .reduce((acc, { amount }) => acc + +amount, 0)),
+    );
+  }
 }

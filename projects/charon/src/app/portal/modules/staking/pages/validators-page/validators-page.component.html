@@ -15,38 +15,24 @@
 
     <div class="validators-page__header-section__divider"></div>
 
-    <a [routerLink]="stakingRoute.Withdraw">
-      <button
-        class="validators-page__header-section__withdraw"
-        appTypeface="caption"
-        app-button
-        [light]="true"
-        size="sm"
+    <div class="validators-page__header-section__withdraw-buttons">
+      <a [routerLink]="stakingRoute.Withdraw">
+        <ng-container
+          [ngTemplateOutlet]="withDrawButton"
+          [ngTemplateOutletContext]="{ balance: totalDelegatorRewards, label: translate('reward') }"
+        ></ng-container>
+      </a>
+
+      <a
+        *ngIf="selfValidator$ | async as selfValidator"
+        [routerLink]="[selfValidator.address, stakingRoute.Withdraw]"
       >
-        <div
-          *ngIf="totalDelegatorRewards !== undefined; else totalDelegatorRewardsLoading"
-          class="validators-page__header-section__reward"
-        >
-          {{ translate('reward') }}:
-
-          <ng-container *ngIf="totalDelegatorRewards >= 1 || !totalDelegatorRewards; else lessThanOneUdec">
-            {{ totalDelegatorRewards | microValue | numberFormat : '1.0-6' : true }}
-          </ng-container>
-          <app-currency-symbol></app-currency-symbol>
-        </div>
-
-        <div class="validators-page__header-section__withdraw__divider"></div>
-
-        <div class="validators-page__header-section__withdraw-button">
-          <svg-icon
-            key="get-coin"
-            size="xs"
-          ></svg-icon>
-
-          {{ translate('withdraw') }}
-        </div>
-      </button>
-    </a>
+        <ng-container
+          [ngTemplateOutlet]="withDrawButton"
+          [ngTemplateOutletContext]="{ balance: totalValidatorRewards, label: translate('validators_rewards') }"
+        ></ng-container>
+      </a>
+    </div>
   </div>
 
   <app-validators-table
@@ -56,6 +42,39 @@
     [data]="validators"
     (validatorRewardClick)="onValidatorRewardClick($event)"
   ></app-validators-table>
+
+  <ng-template #withDrawButton let-balance="balance" let-label="label">
+    <button
+      class="validators-page__header-section__withdraw"
+      appTypeface="caption"
+      app-button
+      [light]="true"
+      size="sm"
+    >
+      <span
+        *ngIf="balance !== undefined; else totalRewardsLoading"
+        class="validators-page__header-section__reward"
+      >
+        {{ label }}:
+
+        <ng-container *ngIf="balance >= 1 || !balance; else lessThanOneUdec">
+          {{ balance | microValue | numberFormat : '1.0-6' : true }}
+        </ng-container>
+        <app-currency-symbol></app-currency-symbol>
+      </span>
+
+      <span class="validators-page__header-section__withdraw__divider"></span>
+
+      <span class="validators-page__header-section__withdraw-button">
+        <svg-icon
+          key="get-coin"
+          size="xs"
+        ></svg-icon>
+
+        {{ translate('withdraw') }}
+      </span>
+    </button>
+  </ng-template>
 </app-staking-layout>
 
 <ng-template #tablesLoading>
@@ -69,7 +88,7 @@
   ></ngx-skeleton-loader>
 </ng-template>
 
-<ng-template #totalDelegatorRewardsLoading>
+<ng-template #totalRewardsLoading>
   <ngx-skeleton-loader
     [theme]="{
       display: 'flex',
