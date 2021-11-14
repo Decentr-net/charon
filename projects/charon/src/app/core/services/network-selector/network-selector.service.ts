@@ -33,11 +33,19 @@ export class NetworkSelectorService extends BaseNetworkSelectorService {
   }
 
   public getNetworks(): Observable<Network[]> {
-    return this.configService.getNetworkIds().pipe(
-      switchMap((networkIds) => {
-        return combineLatest(networkIds.map((networkId) => this.getOptionConfig(networkId)));
-      }),
-    );
+    return new Observable((subscriber) => {
+      const subscription = (() => {
+        this.configService.forceUpdate();
+
+        return this.configService.getNetworkIds().pipe(
+          switchMap((networkIds) => {
+            return combineLatest(networkIds.map((networkId) => this.getOptionConfig(networkId)));
+          }),
+        ).subscribe((networks) => subscriber.next(networks));
+      })();
+
+      return () => subscription.unsubscribe();
+    });
   }
 
   public getActiveNetwork(): Observable<Network> {
