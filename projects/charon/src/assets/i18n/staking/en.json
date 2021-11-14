@@ -34,8 +34,7 @@
     "actions": {
       "delegate": "Delegate",
       "redelegate": "Redelegate",
-      "undelegate": "Undelegate",
-      "withdraw": "Withdraw validator's rewards"
+      "undelegate": "Undelegate"
     },
     "details_table": {
       "commission": "Commission",
@@ -52,6 +51,7 @@
     "reward": "Reward",
     "show_only_active": "Only active validators",
     "title": "Validators",
+    "validators_rewards": "Validator's rewards",
     "withdraw": "Withdraw"
   },
   "validators_table": {

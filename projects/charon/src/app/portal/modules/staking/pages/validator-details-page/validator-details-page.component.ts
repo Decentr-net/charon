@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
-import { Wallet } from 'decentr-js';
 
 import { isOpenedInTab } from '@shared/utils/browser';
 import { StakingRoute } from '../../staking-route';
@@ -25,8 +24,6 @@ export class ValidatorDetailsPageComponent implements OnInit {
 
   public validatorDetails$: Observable<ValidatorDefinition>;
 
-  public userValidatorAddress$: Observable<Wallet['validatorAddress']>;
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -46,8 +43,6 @@ export class ValidatorDetailsPageComponent implements OnInit {
         return EMPTY;
       }),
     );
-
-    this.userValidatorAddress$ = this.validatorDetailsPageService.getUserValidatorAddress();
   }
 
   public navigateTo(route: StakingRoute): void {
