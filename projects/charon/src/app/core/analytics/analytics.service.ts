@@ -79,7 +79,6 @@ export class AnalyticsService {
   }
 
   private sendPageView(url: string): void {
-    console.log(url);
     this.onInitialized().subscribe((analytics) => analytics('send', 'pageview', url));
   }
 
