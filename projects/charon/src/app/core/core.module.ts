@@ -16,7 +16,7 @@ import { PDVModule } from '@shared/services/pdv';
 import { SettingsModule } from '@shared/services/settings';
 import { ERROR_PROCESSORS, FallbackErrorProcessor } from '@core/notifications';
 import { AppRoute } from '../app-route';
-import { AnalyticsModule } from './analytics';
+import { AnalyticsModule, AnalyticsService } from './analytics';
 import { AuthModule, AuthService } from './auth';
 import { AuthorizedLayoutModule } from './layout/authorized-layout';
 import { LockModule } from './lock';
@@ -54,7 +54,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
 
 @NgModule({
   imports: [
-    AnalyticsModule,
+    AnalyticsModule.forRoot(),
     AuthModule.forRoot(),
     AuthorizedLayoutModule,
     ConfigurationModule,
@@ -130,11 +130,16 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
   ],
 })
 export class CoreModule {
-  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
+  constructor(
+    @Optional() @SkipSelf() parentModule: CoreModule,
+    analyticsService: AnalyticsService
+  ) {
     if (parentModule) {
       throw new Error('CoreModule has already been loaded. Import CoreModule in the AppModule only.');
     }
 
     new MessageBus().sendMessage(MessageCode.ApplicationStarted);
+
+    analyticsService.initialize();
   }
 }
