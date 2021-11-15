@@ -29,9 +29,7 @@
   "hub_header_stats_meta": {
     "dec": "DEC",
     "estimated_balance": "In progress: {{estimatedBalance}} PDV",
-    "pdv": "My PDV",
-    "short_view": "short view",
-    "show_details": "show details"
+    "pdv": "My PDV"
   },
   "hub_my_posts_page": {
     "no_posts": "You have no posts created"
