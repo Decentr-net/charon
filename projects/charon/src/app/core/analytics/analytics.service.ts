@@ -5,6 +5,7 @@ import { distinctUntilChanged, filter, first, map } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { Environment } from '@environments/environment.definitions';
+import { ANALYTICS_EVENT_MAP, AnalyticsEvent, AnalyticsEventOptions } from './analytics.definitions';
 
 @UntilDestroy()
 @Injectable()
@@ -56,6 +57,19 @@ export class AnalyticsService {
     );
   }
 
+  public sendEvent(event: AnalyticsEvent | AnalyticsEventOptions): void {
+    const eventOptions = typeof event === 'object'
+      ? event
+      : ANALYTICS_EVENT_MAP[event];
+
+    this.onInitialized().subscribe((analytics) => analytics('send', 'event', {
+      eventCategory: eventOptions.category,
+      eventAction: eventOptions.action,
+      eventLabel: eventOptions.label,
+      eventValue: eventOptions.value,
+    }));
+  }
+
   private allowNonHTTPRequests(): void {
     this.onInitialized().subscribe((analytics) => analytics('set', 'checkProtocolTask', null));
   }
@@ -65,6 +79,7 @@ export class AnalyticsService {
   }
 
   private sendPageView(url: string): void {
+    console.log(url);
     this.onInitialized().subscribe((analytics) => analytics('send', 'pageview', url));
   }
 
