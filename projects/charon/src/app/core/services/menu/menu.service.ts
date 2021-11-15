@@ -177,6 +177,7 @@ export class MenuService extends MenuBaseService {
 
   public getDECBalance(): Observable<number> {
     return this.authService.getActiveUser().pipe(
+      filter((user) => !!user),
       switchMap(({ wallet }) => this.bankService.getDECBalance(wallet.address).pipe(
         map((balance) => +balance),
       )),

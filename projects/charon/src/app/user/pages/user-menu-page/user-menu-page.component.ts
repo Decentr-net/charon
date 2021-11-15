@@ -73,7 +73,7 @@ export class UserMenuPageComponent implements OnInit {
     );
 
     this.canRestoreSeed$ = this.authService.getActiveUser().pipe(
-      map((user) => !!user.encryptedSeed),
+      map((user) => !!user?.encryptedSeed),
     );
   }
 
