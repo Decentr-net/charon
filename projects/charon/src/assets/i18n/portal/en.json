@@ -46,6 +46,7 @@
     }
   },
   "token_transactions_table": {
+    "complex_transaction": "Transaction",
     "copy_tx": "Copy transaction hash",
     "decentr": "Decentr",
     "fee": "Fee",

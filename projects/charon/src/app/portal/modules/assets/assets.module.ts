@@ -18,6 +18,7 @@ import { IntersectionModule } from '@shared/directives/intersection';
 import { SubmitAfterValidationModule } from '@shared/directives/submit-after-validation';
 import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
 import { TypefaceModule } from '@shared/directives/typeface';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MicroValueModule } from '@shared/pipes/micro-value';
 import { NumberFormatModule } from '@shared/pipes/number-format';
 import { NavigationModule } from '@core/navigation';
@@ -45,6 +46,7 @@ import { AssetsRoutingModule } from './assets-routing.module';
     FormErrorModule,
     InputModule,
     IntersectionModule,
+    MatExpansionModule,
     MicroValueModule,
     NavigationModule,
     NgxSkeletonLoaderModule,

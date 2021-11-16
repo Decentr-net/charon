@@ -1,0 +1,174 @@
+<div
+  *transloco="let translate; read: 'portal.token_transactions_table'"
+  class="token-transaction"
+  appTypeface="paragraph"
+>
+  <ng-container [ngSwitch]="message.type">
+    <ng-template [ngSwitchCase]="messageType.TransferSent">
+      <ng-template
+        [ngTemplateOutlet]="sendTemplate"
+      ></ng-template>
+    </ng-template>
+
+    <ng-template [ngSwitchCase]="messageType.TransferReceived">
+      <ng-template
+        [ngTemplateOutlet]="receiveTemplate"
+      ></ng-template>
+    </ng-template>
+
+    <ng-template [ngSwitchCase]="messageType.WithdrawDelegate">
+      <ng-template
+        [ngTemplateOutlet]="withdrawTemplate"
+        [ngTemplateOutletContext]="{ label: translate('withdraw') }"
+      ></ng-template>
+    </ng-template>
+
+    <ng-template [ngSwitchCase]="messageType.WithdrawUndelegate">
+      <ng-template
+        [ngTemplateOutlet]="withdrawTemplate"
+        [ngTemplateOutletContext]="{ label: translate('withdraw') }"
+      ></ng-template>
+    </ng-template>
+
+    <ng-template [ngSwitchCase]="messageType.WithdrawRedelegate">
+      <ng-template
+        [ngTemplateOutlet]="withdrawTemplate"
+        [ngTemplateOutletContext]="{ label: translate('withdraw') }"
+      ></ng-template>
+    </ng-template>
+
+    <ng-template [ngSwitchCase]="messageType.WithdrawRewards">
+      <ng-template
+        [ngTemplateOutlet]="withdrawTemplate"
+        [ngTemplateOutletContext]="{ label: translate('withdraw') }"
+      ></ng-template>
+    </ng-template>
+
+    <ng-template [ngSwitchCase]="messageType.WithdrawValidatorRewards">
+      <ng-template
+        [ngTemplateOutlet]="withdrawTemplate"
+        [ngTemplateOutletContext]="{ label: translate('withdraw_validator') }"
+      ></ng-template>
+    </ng-template>
+
+    <ng-template [ngSwitchCase]="messageType.PdvRewards">
+      <ng-template
+        [ngTemplateOutlet]="pdvRewardsTemplate"
+      ></ng-template>
+    </ng-template>
+  </ng-container>
+
+  <div
+    *ngIf="transaction?.comment"
+    class="token-transaction__memo"
+    appTypeface="caption"
+  >
+    {{ translate('memo') }}: {{ transaction?.comment }}
+  </div>
+
+  <ng-template #sendTemplate>
+    <svg-icon
+      class="token-transaction__icon color-negative"
+      key="send"
+    ></svg-icon>
+
+    <div class="token-transaction__operation">
+      {{ translate('sent') }}
+
+      <app-token-transactions-actions
+        *ngIf="transaction?.hash"
+        [txhash]="transaction?.hash"
+      ></app-token-transactions-actions>
+    </div>
+
+    <app-token-transaction-amount
+      class="token-transaction__amount"
+      [amount]="message.amount.amount"
+    ></app-token-transaction-amount>
+
+    <div *ngIf="message.recipient" class="token-transaction__address" appTextEllipsis appTypeface="caption">
+      {{ translate('to') }}: {{ message.recipient }}
+    </div>
+
+    <div *ngIf="transaction?.fee" class="token-transaction__fee" appTypeface="caption">
+      {{ translate('fee') }}
+      : {{ transaction?.fee.amount[0].amount | microValue | numberFormat : null : true }}
+      <app-currency-symbol></app-currency-symbol>
+    </div>
+  </ng-template>
+
+  <ng-template #receiveTemplate>
+    <svg-icon
+      class="token-transaction__icon color-positive"
+      key="receive"
+    ></svg-icon>
+
+    <div class="token-transaction__operation">
+      {{ translate('received') }}
+
+      <app-token-transactions-actions
+        *ngIf="transaction?.hash"
+        [txhash]="transaction?.hash"
+      ></app-token-transactions-actions>
+    </div>
+
+    <app-token-transaction-amount
+      class="token-transaction__amount"
+      [amount]="message.amount.amount"
+    ></app-token-transaction-amount>
+
+    <div class="token-transaction__address" appTextEllipsis appTypeface="caption">
+      {{ translate('from') }}: {{ message.sender }}
+    </div>
+  </ng-template>
+
+  <ng-template #pdvRewardsTemplate>
+    <svg-icon
+      class="token-transaction__icon color-positive"
+      key="receive"
+    ></svg-icon>
+
+    <div class="token-transaction__operation">
+      {{ translate('pdv_rewards') }}
+    </div>
+
+    <app-token-transaction-amount
+      class="token-transaction__amount"
+      [amount]="message.amount.amount"
+    ></app-token-transaction-amount>
+
+    <div class="token-transaction__address" appTextEllipsis appTypeface="caption">
+      {{ translate('from') }}: {{ translate('decentr') }}
+    </div>
+  </ng-template>
+
+  <ng-template #withdrawTemplate let-label="label">
+    <svg-icon
+      class="token-transaction__icon color-positive"
+      key="receive"
+    ></svg-icon>
+
+    <div class="token-transaction__operation">
+      {{ label }}
+
+      <app-token-transactions-actions
+        *ngIf="transaction?.hash"
+        [txhash]="transaction?.hash"
+      ></app-token-transactions-actions>
+    </div>
+
+    <app-token-transaction-amount
+      class="token-transaction__amount"
+      [amount]="message.amount.amount"
+    ></app-token-transaction-amount>
+
+    <div class="token-transaction__address" appTextEllipsis appTypeface="caption">
+      {{ translate('from') }}: {{ message.sender }}
+    </div>
+
+    <div *ngIf="transaction?.fee" class="token-transaction__fee" appTypeface="caption">
+      {{ translate('fee') }}: {{ transaction?.fee.amount[0].amount | microValue | numberFormat : null : true }}
+      <app-currency-symbol></app-currency-symbol>
+    </div>
+  </ng-template>
+</div>
