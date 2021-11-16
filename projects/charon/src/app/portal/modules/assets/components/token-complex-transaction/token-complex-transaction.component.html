@@ -15,7 +15,7 @@
         appTextEllipsis
       >
         <span appTextEllipsis>
-          {{ translate('complex_transaction') }}
+          {{ isOpenedInPopup ? translate('composite_tx') : translate('composite_transaction') }}
         </span>
 
         <app-token-transactions-actions [txhash]="transaction?.hash"></app-token-transactions-actions>
