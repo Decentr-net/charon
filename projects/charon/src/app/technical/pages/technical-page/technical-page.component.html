@@ -8,9 +8,7 @@
     size="xxl"
   ></svg-icon>
 
-  <div class="technical-page__title">
-    {{ translate(i18nPageKey + '.title') }}
-  </div>
+  <div class="technical-page__title" [innerHTML]="translate(i18nPageKey + '.title')"></div>
 
   <app-network-selector
     class="technical-page__network-selector"
