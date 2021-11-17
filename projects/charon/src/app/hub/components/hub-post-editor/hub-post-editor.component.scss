@@ -27,9 +27,11 @@ $hub-post-editor--text-image-uploader-icon-container-size: 44px;
 .hub-post-editor__title-control {
   background: transparent;
   font-size: inherit;
+  font-weight: inherit;
   line-height: inherit;
   min-height: 80px;
   padding: 0;
+  width: 100%;
 }
 
 .hub-post-editor__preview-image-uploader {
