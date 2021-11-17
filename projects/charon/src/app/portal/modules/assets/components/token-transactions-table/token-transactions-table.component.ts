@@ -1,14 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgCopy } from '@shared/svg-icons/copy';
-import { svgLink } from '@shared/svg-icons/link';
-import { svgReceive } from '@shared/svg-icons/receive';
-import { svgSend } from '@shared/svg-icons/send';
-import { groupByDate, GroupedByDate } from '@shared/utils/group-by';
-import { NotificationService } from '@shared/services/notification';
-import { TokenTransaction, TokenTransactionType } from './token-transactions-table.definitions';
-import { TranslocoService } from '@ngneat/transloco';
+import { groupBy, groupByDate, GroupedByDate } from '@shared/utils/group-by';
+import {
+  TokenTransaction,
+  TokenTransactionMessage,
+  TokenTransactionMessageType,
+} from './token-transactions-table.definitions';
 
 @Component({
   selector: 'app-token-transactions-table',
@@ -19,30 +16,26 @@ import { TranslocoService } from '@ngneat/transloco';
 export class TokenTransactionsTableComponent {
   @Input() public newTransactionsAfter: number;
 
-  @Input() public set transactions(value: TokenTransaction[]) {
-    this.groups = groupByDate(value || [], (item) => item.timestamp);
+  @Input() public set transactions(value: TokenTransactionMessage[]) {
+    this.groups = groupByDate(value || [], (item) => item.timestamp).map((group) => {
+      return {
+        items: groupBy(group.items, 'hash').map((groupByHash) => ({
+          amount: {
+            amount: groupByHash.items.reduce((acc, item) => acc + +item.amount.amount, 0).toString(),
+            denom: groupByHash.items[0].amount.denom,
+          },
+          comment: groupByHash.items[0].comment,
+          fee: groupByHash.items[0].fee,
+          hash: groupByHash.key,
+          messages: groupByHash.items,
+          timestamp: groupByHash.items[0].timestamp,
+        })),
+        timestamp: group.timestamp,
+      };
+    });
   }
 
-  public tokenTransactionType: typeof TokenTransactionType = TokenTransactionType;
+  public tokenTransactionType: typeof TokenTransactionMessageType = TokenTransactionMessageType;
 
   public groups: GroupedByDate<TokenTransaction>;
-
-  constructor(
-    private notificationService: NotificationService,
-    private svgIconRegistry: SvgIconRegistry,
-    private translocoService: TranslocoService,
-  ) {
-    svgIconRegistry.register([
-      svgCopy,
-      svgLink,
-      svgReceive,
-      svgSend,
-    ]);
-  }
-
-  public onTxHashCopied(): void {
-    this.notificationService.success(
-      this.translocoService.translate('token_transactions_table.wallet_address_copied', null, 'portal'),
-    );
-  }
 }

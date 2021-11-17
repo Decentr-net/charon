@@ -1,0 +1,56 @@
+@import 'variables';
+
+:host {
+  display: block;
+
+  ::ng-deep .mat-expansion-panel-body {
+    padding: 0 0 0 8px;
+  }
+}
+
+.token-complex-transaction__panel-header {
+  height: auto;
+  padding-left: 0;
+}
+
+.token-complex-transaction__header {
+  column-gap: $grid-step;
+  display: grid;
+  grid-template-areas: 'icon operation amount' 'empty address fee' 'empty memo memo';
+  grid-template-columns: min-content 1fr max-content;
+  padding: $grid-step * 1.5 $grid-step * 2;
+  row-gap: $grid-half-step;
+  width: 100%;
+}
+
+.token-complex-transaction__icon {
+  color: $color-grey;
+  grid-area: icon;
+}
+
+.token-complex-transaction__operation {
+  column-gap: $grid-step;
+  display: flex;
+  font-weight: 500;
+  grid-area: operation;
+}
+
+.token-complex-transaction__amount {
+  grid-area: amount;
+  text-align: right;
+}
+
+.token-complex-transaction__fee {
+  color: $color-grey;
+  grid-area: fee;
+  text-align: right;
+}
+
+.token-complex-transaction__memo {
+  color: $color-grey;
+  grid-area: memo;
+}
+
+.token-complex-transaction__transaction {
+  border-top: 1px solid $color-outlines;
+}

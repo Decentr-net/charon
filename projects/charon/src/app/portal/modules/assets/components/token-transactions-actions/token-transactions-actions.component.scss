@@ -1,0 +1,18 @@
+@import 'variables';
+
+:host {
+  align-items: center;
+  display: flex;
+  column-gap: $grid-half-step;
+}
+
+.token-transaction-actions__action {
+  align-items: center;
+  background-color: $color-background;
+  border-radius: 8px;
+  color: $color-grey;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  padding: $grid-half-step;
+}
