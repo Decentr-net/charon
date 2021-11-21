@@ -1,0 +1,75 @@
+@import 'variables';
+
+:host {
+  display: block;
+  padding-bottom: $grid-step * 2;
+}
+
+.delegate-page__header {
+  column-gap: $grid-step * 2;
+  display: flex;
+}
+
+.delegate-page__form {
+  align-items: center;
+  column-gap: $grid-step * 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr);
+  grid-template-areas: 'amount icon validator'
+                       'warning empty actions';
+  row-gap: $grid-step * 1;
+}
+
+.delegate-page__form__input-container {
+  height: 100%;
+}
+
+.delegate-page__form__amount-control {
+  grid-area: amount;
+  height: 100%;
+  text-align: end;
+}
+
+.delegate-page__direction-icon {
+  color: $color-light-grey;
+  grid-area: icon;
+  transform: rotate(180deg);
+}
+
+.delegate-page__form__validator-control {
+  grid-area: validator;
+  height: 100%;
+}
+
+.delegate-page__warning {
+  background-color: rgba($color-red, 0.12);
+  border-radius: $border-radius;
+  column-gap: $grid-step;
+  display: flex;
+  grid-area: warning;
+  padding: $grid-step * 1.5;
+  white-space: pre-line;
+}
+
+.delegate-page__warning__icon {
+  color: $color-red;
+  flex-shrink: 0;
+}
+
+.delegate-page__warning__title {
+  font-weight: 700;
+  margin-bottom: $grid-half-step;
+}
+
+.delegate-page__actions {
+  align-items: flex-end;
+  column-gap: $grid-step * 1.5;
+  display: flex;
+  grid-area: actions;
+  justify-content: flex-end;
+  margin-top: auto;
+}
+
+.delegate-page__actions__button {
+  height: min-content;
+}

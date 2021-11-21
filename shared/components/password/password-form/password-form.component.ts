@@ -1,10 +1,19 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
-import { AbstractControl, ControlValueAccessor, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
+import {
+  AbstractControl,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  ValidationErrors,
+  Validator,
+  Validators
+} from '@angular/forms';
+import { ControlsOf, ControlValueAccessor, FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 
-import { PASSWORD_VALIDATION, PasswordTranslationsConfig } from '../password.definitions';
+import { PasswordTranslationsConfig } from '../password.definitions';
+import { PasswordValidationConfig, passwordValidator } from '../validation';
+import { PASSWORD_VALIDATION_CONFIG } from '../password.module';
 
 export interface PasswordForm {
   password: string;
@@ -35,15 +44,16 @@ export class PasswordFormComponent extends ControlValueAccessor<string> implemen
 
   @Input() public required = false;
 
-  public form: FormGroup<PasswordForm>;
+  public form: FormGroup<ControlsOf<PasswordForm>>;
 
   constructor(
     private formBuilder: FormBuilder,
+    @Inject(PASSWORD_VALIDATION_CONFIG) private passwordValidationConfig: PasswordValidationConfig,
   ) {
     super();
   }
 
-  public get passwordControl(): AbstractControl<string> {
+  public get passwordControl(): FormControl<string> {
     return this.form?.get('password');
   }
 
@@ -75,7 +85,7 @@ export class PasswordFormComponent extends ControlValueAccessor<string> implemen
     return;
   }
 
-  private createForm(): FormGroup<PasswordForm> {
+  private createForm(): FormGroup<ControlsOf<PasswordForm>> {
     return this.formBuilder.group({
       confirmPassword: [
         '',
@@ -87,9 +97,7 @@ export class PasswordFormComponent extends ControlValueAccessor<string> implemen
         '',
         [
           ...this.required ? [Validators.required] : [],
-          RxwebValidators.password({
-            validation: PASSWORD_VALIDATION,
-          }),
+          passwordValidator(this.passwordValidationConfig),
         ],
       ],
     });

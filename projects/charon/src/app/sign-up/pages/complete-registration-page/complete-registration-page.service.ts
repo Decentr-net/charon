@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
+import { HttpStatusCode } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, delay } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
-import { StatusCodes } from 'http-status-codes';
+
 import { ProfileUpdate } from 'decentr-js';
 
 import { AuthService } from '@core/auth';
@@ -28,10 +29,10 @@ export class CompleteRegistrationPageService {
       delay(100),
       catchError((error) => {
         switch (error?.response?.status) {
-          case StatusCodes.TOO_MANY_REQUESTS:
+          case HttpStatusCode.TooManyRequests:
             return throwError(new TranslatedError(
               this.translocoService.translate(
-                `sign_up.complete_registration.toastr.errors.${StatusCodes.TOO_MANY_REQUESTS}`,
+                `sign_up.complete_registration.toastr.errors.${HttpStatusCode.TooManyRequests}`,
                 null,
               ),
             ));

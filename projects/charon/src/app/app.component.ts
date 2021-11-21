@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { version } from '../../../../package.json';
 
 import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
+import { APP_VERSION } from '@shared/utils/version';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,7 @@ import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  @HostBinding('attr.version') public appVersion: string = version;
+  @HostBinding('attr.version') public appVersion: string = APP_VERSION;
 
   public isInitLoading = true;
 

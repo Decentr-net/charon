@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { ControlsOf, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
+import { isOpenedInTab } from '@shared/utils/browser';
 import { LoginRoute } from '../../login-route';
 import { LoginPageService } from './login-page.service';
-import { isOpenedInTab } from '../../../../../../../shared/utils/browser';
 
 interface LoginForm {
   password: string;
@@ -26,7 +26,7 @@ interface LoginForm {
 })
 export class LoginPageComponent implements OnInit {
   public readonly loginRoute: typeof LoginRoute = LoginRoute;
-  public form: FormGroup<LoginForm>;
+  public form: FormGroup<ControlsOf<LoginForm>>;
 
   @HostBinding('class.mod-tab-view')
   public isOpenedInTab = isOpenedInTab();
@@ -42,7 +42,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   public async onSubmit(): Promise<void> {
-    const passwordControl = this.form.getControl('password');
+    const passwordControl = this.form.controls.password;
 
     const unlocked = await this.loginPageService.tryUnlock(passwordControl.value);
 
@@ -53,11 +53,14 @@ export class LoginPageComponent implements OnInit {
     }
   }
 
-  private createForm(): FormGroup<LoginForm> {
+  private createForm(): FormGroup<ControlsOf<LoginForm>> {
     return this.formBuilder.group({
-      password: ['', [
-        Validators.required,
-      ]],
+      password: [
+        '',
+        [
+          Validators.required,
+        ],
+      ],
     });
   }
 }

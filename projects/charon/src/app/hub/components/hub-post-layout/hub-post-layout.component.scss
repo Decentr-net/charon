@@ -1,9 +1,10 @@
+@use 'sass:math';
 @import 'variables';
 @import 'mixins';
 
 $hub-post-layout--column-gap: $page-side-padding;
 $hub-post-layout--content-column-count: 12;
-$hub-post-layout--column-width: ($page-width - ($hub-post-layout--content-column-count - 1) * $hub-post-layout--column-gap) / $hub-post-layout--content-column-count;
+$hub-post-layout--column-width: math.div($page-width - ($hub-post-layout--content-column-count - 1) * $hub-post-layout--column-gap, $hub-post-layout--content-column-count);
 $hub-post-layout--side-column-count: 1;
 $hub-post-layout--main-column-count: 9;
 $hub-post-layout--secondary-column-count: $hub-post-layout--content-column-count - $hub-post-layout--main-column-count;

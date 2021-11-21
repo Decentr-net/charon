@@ -23,7 +23,7 @@ $hub-pdv-statistic--background-color: linear-gradient(0deg, $color-pink 0%, $col
   font-size: 13px;
   line-height: normal;
   min-width: max-content;
-  padding: $grid-step / 2;
+  padding: $grid-half-step;
 
   &-date {
     font-size: 8px;

@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 
 import { SettingsService } from '@shared/services/settings';
 import { AuthService } from '@core/auth';
-import { UserService } from '@core/services';
+import { SpinnerService, UserService } from '@core/services';
 import { SignUpRoute } from '../sign-up-route';
 import { EmailConfirmationGuard } from './email-confirmation.guard';
 import { CompleteRegistrationGuard } from './complete-registration.guard';
@@ -14,6 +14,7 @@ export class SignUpGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private settingsService: SettingsService,
+    private spinnerService: SpinnerService,
     private userService: UserService,
     private router: Router,
   ) {
@@ -23,6 +24,8 @@ export class SignUpGuard implements CanActivate {
     if (!this.authService.isLoggedIn) {
       return true;
     }
+
+    this.spinnerService.showSpinner();
 
     const shouldRedirectToEmailConfirmation
       = await EmailConfirmationGuard.canActivate(this.authService, this.userService);
@@ -44,6 +47,8 @@ export class SignUpGuard implements CanActivate {
     if (shouldRedirectToPDVConsent) {
       return this.router.createUrlTree([routerState.url, SignUpRoute.PDVConsent]);
     }
+
+    this.spinnerService.hideSpinner();
 
     return this.router.createUrlTree(['/']);
   }

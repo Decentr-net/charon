@@ -1,0 +1,94 @@
+<app-staking-layout
+  *transloco="let translate; read: 'staking.withdraw_validator_page'"
+>
+  <div
+    class="withdraw-validator-page__header"
+    ngProjectAs="[card-title]"
+  >
+    <button
+      app-button-back
+      [routerLink]="['../../']"
+    ></button>
+
+    {{ translate('title') }}
+  </div>
+
+  <ng-container ngProjectAs="[card-body]">
+    <ng-container *ngIf="validators$ | async as validators; else tablesLoading;">
+      <app-withdraw-validator-table
+        class="withdraw-validator-page__table"
+        [data]="validators"
+        [selectedItems]="selectedItems$ | async"
+      ></app-withdraw-validator-table>
+
+      <div class="withdraw-validator-page__divider"></div>
+
+      <div class="withdraw-validator-page__footer">
+        <div class="withdraw-validator-page__footer__meta-section">
+          <div
+            class="withdraw-validator-page__footer-withdraw"
+            appTypeface="paragraph"
+          >
+            <ng-container *ngIf="selectedItems$.value.length">
+              <div class="withdraw-validator-page__footer-withdraw__label">
+                {{ translate('withdraw') }}:
+              </div>
+
+              <div
+                *ngIf="selectedItemsRewards$ | async as selectedItemsRewards"
+                class="withdraw-validator-page__footer-withdraw__value"
+              >
+                <ng-container *ngIf="selectedItemsRewards >= 1; else lessThanOneUdec">
+                  {{ selectedItemsRewards | microValue | numberFormat : '1.0-6' : true | appCurrencySymbol | async }}
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+
+          <ng-container *ngIf="selectedItems$.value.length">
+            <div class="withdraw-validator-page__footer__divider"></div>
+
+            <div class="withdraw-validator-page__footer-fee">
+              <div class="withdraw-validator-page__footer-fee__label">
+                {{ translate('fee') }}:
+              </div>
+
+              {{ fee$ | async | microValue | numberFormat : '1.0-6' : true | appCurrencySymbol | async }}
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="withdraw-validator-page__actions">
+          <div
+            *ngIf="selectedItemsRewards$ | async as selectedItemsRewards"
+            [appTooltip]="selectedItemsRewards < 1 ? translate('actions.withdraw_low_amount_hint') : ''"
+          >
+            <button
+              class="withdraw-validator-page__actions__button"
+              app-button
+              (click)="onSubmit()"
+              [disabled]="!selectedItems$.value.length || selectedItemsRewards < 1"
+            >
+              {{ translate('actions.withdraw') }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</app-staking-layout>
+
+<ng-template #tablesLoading>
+  <ngx-skeleton-loader
+    class="withdraw-validator-page__loading"
+    count="10"
+    [theme]="{
+      height: '40px',
+      width: '100%'
+    }"
+  ></ngx-skeleton-loader>
+</ng-template>
+
+<ng-template #lessThanOneUdec>
+  <{{ 1 | microValue | appCurrencySymbol | async }}
+</ng-template>

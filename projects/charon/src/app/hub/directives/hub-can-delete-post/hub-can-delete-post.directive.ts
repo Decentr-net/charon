@@ -22,7 +22,7 @@ export class HubCanDeletePostDirective implements OnInit {
   constructor(
     private authService: AuthService,
     private permissionsService: PermissionsService,
-    private templateRef: TemplateRef<{}>,
+    private templateRef: TemplateRef<void>,
     private viewContainerRef: ViewContainerRef
   ) { }
 

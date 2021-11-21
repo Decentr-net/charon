@@ -9,7 +9,21 @@
     ></app-avatar>
 
     <div>
-      <div appTypeface="header-4">{{ profile.firstName }} {{ profile.lastName }}</div>
+      <div
+        class="user-menu-page__profile__title"
+        appTypeface="header-4"
+      >
+        {{ profile.firstName }} {{ profile.lastName }}
+
+        <span
+          class="user-menu-page__profile__ban-label"
+          appTypeface="caption"
+          *ngIf="banned$ | async"
+          [appTooltip]="translate('banned.tooltip')"
+        >
+          {{ translate('banned.label') }}
+        </span>
+      </div>
 
       <div
         class="user-menu-page__profile__bio"
@@ -83,6 +97,28 @@
           appTypeface="caption"
         >
           {{ translate('lock_hint') }}
+        </div>
+      </div>
+    </button>
+
+    <button
+      class="user-menu-page__menu-block__button mod-disable-align"
+      *ngIf="canRestoreSeed$ | async"
+      app-button
+      color="grey"
+      appTypeface="paragraph"
+      (click)="restoreSeedPhrase()"
+    >
+      <svg-icon key="refresh"></svg-icon>
+
+      <div>
+        <span>{{ translate('restore_seed') }}</span>
+
+        <div
+          class="user-menu-page__menu-block__button-hint"
+          appTypeface="caption"
+        >
+          {{ translate('restore_seed_hint') }}
         </div>
       </div>
     </button>

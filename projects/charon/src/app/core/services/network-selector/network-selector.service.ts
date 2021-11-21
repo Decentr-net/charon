@@ -32,17 +32,27 @@ export class NetworkSelectorService extends BaseNetworkSelectorService {
     ).subscribe(() => location.reload());
   }
 
-  public getNetworks(checkAvailability = true): Observable<Network[]> {
-    return this.configService.getNetworkIds().pipe(
-      switchMap((networkIds) => {
-        return combineLatest(networkIds.map((networkId) => this.getOptionConfig(networkId)));
-      }),
-    );
+  public getNetworks(disableForceUpdate?: boolean): Observable<Network[]> {
+    return new Observable((subscriber) => {
+      const subscription = (() => {
+        if (!disableForceUpdate) {
+          this.configService.forceUpdate();
+        }
+
+        return this.configService.getNetworkIds().pipe(
+          switchMap((networkIds) => {
+            return combineLatest(networkIds.map((networkId) => this.getOptionConfig(networkId)));
+          }),
+        ).subscribe((networks) => subscriber.next(networks));
+      })();
+
+      return () => subscription.unsubscribe();
+    });
   }
 
-  public getActiveNetwork(): Observable<Network> {
+  public getActiveNetwork(disableForceUpdate?: boolean): Observable<Network> {
     return combineLatest([
-      this.getNetworks(),
+      this.getNetworks(disableForceUpdate),
       this.networkStorage.getActiveId(),
     ]).pipe(
       map(([networks, activeNetworkId]) => networks.find(({ id }) => id === activeNetworkId)),

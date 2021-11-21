@@ -4,6 +4,7 @@ import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 
 import { Environment } from '../../../environments/environment.definitions';
 import { ONE_SECOND } from '../../utils/date';
+import { whileOnline } from '../../utils/online';
 import { ConfigApiService } from './config-api.service';
 import { Config, Network } from './config.definitions';
 import { NetworkBrowserStorageService } from '../network-storage';
@@ -29,6 +30,7 @@ export class ConfigService {
       this.configSubscription?.unsubscribe();
 
       this.configSubscription = this.configApiService.getConfig().pipe(
+        whileOnline,
         retryWhen((errors) => errors.pipe(
           delay(ONE_SECOND),
         )),
@@ -113,12 +115,6 @@ export class ConfigService {
   public getTheseusUrl(): Observable<string> {
     return this.getNetworkConfig().pipe(
       map((config) => config.theseus.url),
-    );
-  }
-
-  public getVPNSettings(): Observable<Config['vpn']> {
-    return this.getConfig().pipe(
-      map(({ vpn }) => vpn),
     );
   }
 }

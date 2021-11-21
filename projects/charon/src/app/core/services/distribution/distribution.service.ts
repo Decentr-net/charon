@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, defer, Observable } from 'rxjs';
 import { map, pluck, switchMap } from 'rxjs/operators';
-import { calculateWithdrawDelegatorRewardsFee, DelegatorRewards, DenomAmount, Validator } from 'decentr-js';
+import {
+  calculateWithdrawDelegatorRewardsFee,
+  calculateWithdrawValidatorRewardsFee,
+  DelegatorRewards,
+  DenomAmount,
+  Validator,
+  ValidatorDistribution,
+} from 'decentr-js';
 
 import { AuthService } from '../../auth';
 import { DistributionApiService } from '../api';
@@ -36,6 +43,14 @@ export class DistributionService {
         validatorAddress,
       )),
     )
+  }
+
+  public getValidatorDistribution(
+    validatorAddress: Validator['operator_address'],
+  ): Observable<ValidatorDistribution> {
+    return this.networkService.getActiveNetworkAPI().pipe(
+      switchMap((api) => this.distributionApiService.getValidatorDistribution(api, validatorAddress)),
+    );
   }
 
   public getTotalDelegatorRewards(): Observable<number> {
@@ -79,6 +94,44 @@ export class DistributionService {
 
         return void 0;
       }),
+    );
+  }
+
+  public withdrawValidatorRewards(
+    fromValidatorAddress: Validator['operator_address'],
+  ): Observable<void> {
+    const wallet = this.authService.getActiveUserInstant().wallet;
+
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
+      .sendMessage(MessageCode.WithdrawValidatorRewards, {
+        privateKey: wallet.privateKey,
+        validatorAddress: fromValidatorAddress,
+        walletAddress: wallet.address,
+      })
+    ).pipe(
+      map((response) => {
+        if (!response.success) {
+          throw response.error;
+        }
+
+        return void 0;
+      }),
+    );
+  }
+
+  public calculateWithdrawValidatorRewardsFee(
+    fromValidatorAddress: Validator['operator_address'],
+  ): Observable<number> {
+    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
+
+    return this.configService.getChainId().pipe(
+      switchMap((chainId) => defer(() => calculateWithdrawValidatorRewardsFee(
+        this.networkService.getActiveNetworkAPIInstant(),
+        chainId,
+        walletAddress,
+        fromValidatorAddress,
+      ))),
+      map((fee) => +fee[0].amount),
     );
   }
 }

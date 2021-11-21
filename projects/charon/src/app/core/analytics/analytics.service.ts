@@ -5,11 +5,12 @@ import { distinctUntilChanged, filter, first, map } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { Environment } from '@environments/environment.definitions';
+import { ANALYTICS_EVENT_MAP, AnalyticsEvent, AnalyticsEventOptions } from './analytics.definitions';
 
 @UntilDestroy()
 @Injectable()
 export class AnalyticsService {
-  private initialized: ReplaySubject<void> = new ReplaySubject(1);
+  private initialized: ReplaySubject<UniversalAnalytics.ga> = new ReplaySubject(1);
 
   constructor(
     private environment: Environment,
@@ -19,10 +20,15 @@ export class AnalyticsService {
 
   public initialize(): void {
     this.injectScript();
+
     this.setTrackingId();
+    this.allowNonHTTPRequests();
+    this.setBeaconMode();
+
+    this.initializePageTracking();
   }
 
-  public initializePageTracking(): void {
+  private initializePageTracking(): void {
     this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd),
       map((event: NavigationEnd) => event.urlAfterRedirects.split('?')[0]),
@@ -31,35 +37,52 @@ export class AnalyticsService {
     ).subscribe((url) => this.sendPageView(url));
   }
 
-  private get analytics(): GoogleAnalyticsCode {
-    return window._gaq || [];
-  }
-
   private injectScript(): void {
     const gaScript = document.createElement('script');
     gaScript.type = 'text/javascript';
     gaScript.async = true;
-    gaScript.src = 'https://ssl.google-analytics.com/ga.js';
+    gaScript.src = 'https://ssl.google-analytics.com/analytics.js';
 
     gaScript.onload = () => {
-      this.initialized.next();
+      this.initialized.next(window.ga);
     };
 
     const s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(gaScript, s);
   }
 
-  private onInitialized(): Observable<void> {
+  public onInitialized(): Observable<UniversalAnalytics.ga> {
     return this.initialized.pipe(
       first(),
     );
   }
 
+  public sendEvent(event: AnalyticsEvent | AnalyticsEventOptions): void {
+    const eventOptions = typeof event === 'object'
+      ? event
+      : ANALYTICS_EVENT_MAP[event];
+
+    this.onInitialized().subscribe((analytics) => analytics('send', 'event', {
+      eventCategory: eventOptions.category,
+      eventAction: eventOptions.action,
+      eventLabel: eventOptions.label,
+      eventValue: eventOptions.value,
+    }));
+  }
+
+  private allowNonHTTPRequests(): void {
+    this.onInitialized().subscribe((analytics) => analytics('set', 'checkProtocolTask', null));
+  }
+
   private setTrackingId(): void {
-    this.onInitialized().subscribe(() => this.analytics.push(['_setAccount', this.environment.ga]));
+    this.onInitialized().subscribe((analytics) => analytics('create', this.environment.ga, 'auto'));
   }
 
   private sendPageView(url: string): void {
-    this.onInitialized().subscribe(() => this.analytics.push(['_trackPageview', url]));
+    this.onInitialized().subscribe((analytics) => analytics('send', 'pageview', url));
+  }
+
+  private setBeaconMode(): void {
+    this.onInitialized().subscribe((analytics) => analytics('set', 'transport', 'beacon'));
   }
 }

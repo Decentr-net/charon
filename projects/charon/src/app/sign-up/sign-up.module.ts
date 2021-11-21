@@ -20,8 +20,10 @@ import { NumberFormatModule } from '@shared/pipes/number-format';
 import { PasswordModule } from '@shared/components/password';
 import { PdvTypesSettingsModule } from '@shared/components/pdv-types-settings';
 import { ProfileFormModule } from '@shared/components/profile-form';
+import { SeedModule } from '@shared/components/seed';
 import { SubmitSourceModule } from '@shared/directives/submit-source';
 import { TextEllipsisModule } from '@shared/directives/text-ellipsis';
+import { TooltipModule } from '@shared/components/tooltip';
 import { TypefaceModule } from '@shared/directives/typeface';
 import { MicroValueModule } from '@shared/pipes/micro-value';
 import { SIGN_UP_COMPONENTS } from './components';
@@ -55,10 +57,12 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     PdvTypesSettingsModule,
     ReactiveFormsModule,
     RxReactiveFormsModule,
+    SeedModule,
     SignUpRoutingModule,
     SubmitSourceModule,
     SvgIconsModule,
     TextEllipsisModule,
+    TooltipModule,
     TranslocoModule,
     TypefaceModule,
   ],

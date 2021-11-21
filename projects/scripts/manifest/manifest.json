@@ -1,0 +1,59 @@
+{
+  "manifest_version": 2,
+  "name": "Charon",
+  "description": "Charon Browser Extension",
+  "author": "Decentr",
+  "content_security_policy": "script-src 'self'; object-src 'self'",
+  "icons": {
+    "16": "assets/icons/16.png",
+    "32": "assets/icons/32.png",
+    "64": "assets/icons/64.png",
+    "128": "assets/icons/128.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "16": "assets/icons/16.png",
+      "19": "assets/icons/19.png",
+      "32": "assets/icons/32.png",
+      "38": "assets/icons/38.png",
+      "64": "assets/icons/64.png",
+      "128": "assets/icons/128.png",
+      "512": "assets/icons/512.png"
+    },
+    "default_popup": "charon/index.html#/portal",
+    "default_title": "Charon extension"
+  },
+  "permissions": [
+    "clipboardWrite",
+    "contextMenus",
+    "cookies",
+    "management",
+    "storage",
+    "tabs",
+    "unlimitedStorage",
+    "<all_urls>",
+    "webRequest",
+    "webRequestBlocking"
+  ],
+  "content_scripts": [
+    {
+      "js": [
+        "scripts/content-script.js"
+      ],
+      "matches": [
+        "file://*/*",
+        "http://*/*",
+        "https://*/*"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "background": {
+    "scripts": [
+      "scripts/background-script.js"
+    ]
+  },
+  "minimum_chrome_version": "58",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtkSEFjteWvhxiavWVoU6Mk3KDfPpJbBpQbVedqq0OMBzZBhMAek9pE1v++jL79v3GX/dhw9R2o5dpBHE6nl/Wp0GoGI+y2AVKdH3oToiZ37+/tBfeSbHoHQg7Arloje4p7073V3wQaOt+Rf3W8u860+trteWdupWl17uzqjytBWGDgsQUEGwsnDkwH8W5hRM7xXsuT34jveDCGnq67olHkTdXjyqWY3MWH6jJFtQQJ9BTvEbfYYsSnA76CjQUhs9DYIgJlWQnA7OQwEdVTKvCKpnqf5QM2IGxjGdMMfdVh66e/Ck06Sy8YiR15mH/pPNOZg143wBEcDNK2R83Htr1QIDAQAB"
+}

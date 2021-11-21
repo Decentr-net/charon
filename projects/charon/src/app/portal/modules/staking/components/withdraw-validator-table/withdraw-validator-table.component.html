@@ -1,0 +1,73 @@
+<app-data-table
+  *transloco="let translate; read: 'staking.withdraw_validator_table'"
+  [data]="data"
+  [trackBy]="trackByAddress"
+  [selectedItems]="selectedItems"
+>
+  <div
+    *dataTableColumnDef="
+      let validator;
+      let selected = selected;
+      name: translate('validator');
+      width: '20%';
+    "
+    class="withdraw-validator-table__validator-name"
+  >
+    <div
+      class="withdraw-validator-table__validator-name__check"
+      [class.is-selected]="selected"
+    >
+      <svg-icon
+        class="withdraw-validator-table__validator-name__check-icon"
+        key="check"
+        size="sm"
+      ></svg-icon>
+    </div>
+
+    {{ validator.name }}
+
+    <app-validator-jailed
+      *ngIf="validator.jailed"
+      class="withdraw-validator-table__validator-name__jailed"
+    >
+      {{ translate('jailed') }}
+    </app-validator-jailed>
+  </div>
+
+  <div
+    *dataTableColumnDef="
+      let validator;
+      name: translate('reward') | appCurrencySymbol : true | async;
+      id: 'reward';
+      align: 'right';
+    "
+    [class.mod-empty]="validator.reward < 1"
+  >
+    <ng-container *ngIf="validator.reward >= 1; else lessThanOneUdec">
+      {{ validator.reward | microValue | numberFormat : '1.0-6' : true }}
+    </ng-container>
+  </div>
+
+  <ng-container
+    *dataTableColumnDef="
+      let validator;
+      name: translate('delegated') | appCurrencySymbol : true | async;
+      id: 'delegated';
+      align: 'right';
+    "
+    [class.mod-empty]="!+validator.delegated"
+  >
+    {{ validator.delegated && (validator.delegated | microValue | numberFormat : null : true) || '0' }}
+  </ng-container>
+
+  <div
+    class="withdraw-validator-table__empty-row"
+    *dataTableEmptyRowDef
+  >
+    {{ translate('no_rewards') }}
+  </div>
+</app-data-table>
+
+<ng-template #lessThanOneUdec>
+  <{{ 1 | microValue }}
+</ng-template>

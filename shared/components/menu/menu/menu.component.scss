@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import '../../../styles/variables';
 
 $menu--user-avatar--size: 40px;
@@ -62,8 +63,15 @@ $menu--user-avatar--size: 40px;
   max-width: 205px;
 }
 
-.menu__user-item__pdv {
+.menu__user-item__pdv-dec {
   color: $color-grey;
+  display: flex;
+}
+
+.menu__user-item__pdv-dec__divider {
+  background: $color-grey;
+  margin: math.div($grid-step, 4) math.div($grid-step, 2);
+  width: 1px;
 }
 
 .menu__item {

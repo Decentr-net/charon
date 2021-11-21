@@ -25,7 +25,7 @@ export class PostsPageService extends HubPostsService implements OnDestroy {
   protected loadPosts(fromPost: PostsListItem | undefined, count: number): Observable<PostsListItem[]> {
     return this.postsService.getPosts({
       after: fromPost && `${fromPost.owner}/${fromPost.uuid}`,
-      category: this.activatedRoute.snapshot.params[HubCategoryRouteParam],
+      category: +this.activatedRoute.snapshot.params[HubCategoryRouteParam] || undefined,
       limit: count,
     });
   }

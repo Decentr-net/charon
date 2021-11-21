@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { finalize, map } from 'rxjs/operators';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { ControlsOf, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Profile } from 'decentr-js';
 
@@ -35,7 +35,7 @@ interface CompleteRegistrationForm {
 export class CompleteRegistrationPageComponent implements OnInit {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
-  public form: FormGroup<CompleteRegistrationForm>;
+  public form: FormGroup<ControlsOf<CompleteRegistrationForm>>;
 
   constructor(
     private authService: AuthService,
@@ -86,7 +86,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
       });
   }
 
-  private createForm(): FormGroup<CompleteRegistrationForm> {
+  private createForm(): FormGroup<ControlsOf<CompleteRegistrationForm>> {
     return this.formBuilder.group({
       profile: undefined,
     });

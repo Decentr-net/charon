@@ -1,0 +1,28 @@
+<ng-container *transloco="let translate; read: 'portal.token_transactions_table'">
+  <div *ngFor="let group of groups">
+    <div
+      class="token-transactions-table__group-header"
+      appTypeface="caption"
+    >
+      {{ group.timestamp | date : 'd MMM, yyyy' }}
+    </div>
+
+    <div
+      *ngFor="let transaction of group.items"
+      [class.mod-new]="transaction.timestamp > newTransactionsAfter"
+      appTypeface="paragraph"
+      class="token-transactions-table__transaction"
+    >
+      <app-token-transaction
+        *ngIf="transaction.messages.length === 1"
+        [message]="transaction.messages[0]"
+        [transaction]="transaction"
+      ></app-token-transaction>
+
+      <app-token-complex-transaction
+        *ngIf="transaction.messages.length > 1"
+        [transaction]="transaction"
+      ></app-token-complex-transaction>
+    </div>
+  </div>
+</ng-container>

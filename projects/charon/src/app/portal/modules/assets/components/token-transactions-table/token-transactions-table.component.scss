@@ -1,0 +1,23 @@
+@import 'variables';
+
+:host {
+  display: block;
+}
+
+.token-transactions-table__group-header {
+  background-color: $color-background;
+  font-weight: 700;
+  padding: $grid-step $grid-step * 2;
+}
+
+.token-transactions-table__transaction {
+  border-bottom: 1px solid $color-outlines;
+
+  &:last-child {
+    border: none;
+  }
+
+  &.mod-new {
+    background-color: rgba($color-positive, 0.08);
+  }
+}

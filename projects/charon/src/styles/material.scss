@@ -54,3 +54,8 @@
     }
   }
 }
+
+body .mat-dialog-container {
+  border-radius: $border-radius;
+  padding: $grid-step * 2 $grid-step * 3;
+}

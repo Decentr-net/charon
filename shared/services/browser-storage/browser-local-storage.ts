@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { browser, Storage } from 'webextension-polyfill-ts';
+import * as Browser from 'webextension-polyfill';
 import PQueue from 'p-queue';
 
 import { BrowserStorage } from './browser-storage.definitons';
@@ -8,7 +8,7 @@ import { BrowserStorageSection } from './browser-storage-section';
 export class BrowserLocalStorage<T extends {} = {}> implements BrowserStorage<T> {
   private static readonly queue = new PQueue({ concurrency: 1 });
   private static instance: BrowserLocalStorage;
-  private readonly storage = browser.storage;
+  private readonly storage = Browser.storage;
   private readonly localStorage = this.storage.local;
 
   public static getInstance<T extends {} = {}>(): BrowserStorage<T> {
@@ -44,7 +44,7 @@ export class BrowserLocalStorage<T extends {} = {}> implements BrowserStorage<T>
 
   public onChange<K extends keyof T>(key: K): Observable<T[K]> {
     return new Observable((subscriber) => {
-      const callback = (changes: Record<K, Storage.StorageChange>) => {
+      const callback = (changes: Record<K, Browser.Storage.StorageChange>) => {
         if (changes[key]) {
           subscriber.next(changes[key].newValue);
         }

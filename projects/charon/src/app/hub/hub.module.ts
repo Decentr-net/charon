@@ -27,6 +27,7 @@ import { LineChartModule } from '@shared/components/line-chart';
 import { MarginLabelModule } from '@shared/components/margin-label';
 import { MenuModule } from '@shared/components/menu';
 import { MouseWheelHorizontalScrollModule } from '@shared/directives/mouse-wheel-horizontal-scroll';
+import { NetworkSelectorModule } from '@shared/components/network-selector';
 import { PdvValueModule } from '@shared/pipes/pdv-value';
 import { RouterLinkScrollAnchorModule } from '@shared/directives/router-link-scroll-anchor';
 import { SlotModule } from '@shared/components/slot';
@@ -70,6 +71,7 @@ import { AuthorizedLayoutModule } from '@core/layout/authorized-layout';
     MenuModule,
     MouseWheelHorizontalScrollModule,
     NavigationModule,
+    NetworkSelectorModule,
     NgxSkeletonLoaderModule,
     NgxTrimDirectiveModule,
     OverlayModule,

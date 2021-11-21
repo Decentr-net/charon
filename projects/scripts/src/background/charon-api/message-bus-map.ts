@@ -139,4 +139,15 @@ export interface CharonAPIMessageBusMap extends MessageMap {
       error?: any;
     };
   };
+  [MessageCode.WithdrawValidatorRewards]: {
+    body: {
+      privateKey: Wallet['privateKey'];
+      validatorAddress: Validator['operator_address'];
+      walletAddress: Wallet['address'];
+    },
+    response: {
+      success: boolean;
+      error?: any;
+    };
+  };
 }

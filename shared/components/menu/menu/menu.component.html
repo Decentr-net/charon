@@ -47,8 +47,17 @@
           </span>
         </div>
 
-        <div class="menu__user-item__pdv" appTypeface="caption">
-          {{ userItem.pdvValue | pdvValue }} {{ translations.pdv }}
+        <div class="menu__user-item__pdv-dec" appTypeface="caption">
+          <div>
+            {{ userItem.pdvValue | pdvValue }} {{ translations.pdv }}
+          </div>
+
+          <div class="menu__user-item__pdv-dec__divider"></div>
+
+          <div>
+            {{ userItem.decValue | microValue | numberFormat : null : true}}
+            <app-currency-symbol></app-currency-symbol>
+          </div>
         </div>
       </div>
     </div>

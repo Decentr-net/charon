@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { ValidatorFn, Validators } from '@angular/forms';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
-import { FormArray, FormControl, FormGroup, ValidatorFn } from '@ngneat/reactive-forms';
+import { ControlsOf, FormArray, FormControl, FormGroup } from '@ngneat/reactive-forms';
 
 import { BaseValidationUtil } from '../../utils/validation';
 import { parseDateValue } from '../controls';
@@ -14,7 +14,7 @@ import {
 
 @Injectable()
 export class ProfileFormModel {
-  protected static nonExistentDate(): ValidatorFn<string> {
+  protected static nonExistentDate(): ValidatorFn {
     return (control) => {
       const parsedDate = parseDateValue(control.value || '');
       const realDate = new Date(parsedDate.year, parsedDate.month, parsedDate.day);
@@ -37,7 +37,7 @@ export class ProfileFormModel {
       form.addControl(ProfileFormControlName.Emails, new FormArray([]));
     }
 
-    return form.controls.emails as FormArray;
+    return form.controls.emails as unknown as FormArray<EmailForm>;
   }
 
 
@@ -52,7 +52,7 @@ export class ProfileFormModel {
   }
 
   public createForm(): FormGroup<ProfileForm> {
-    const form = new FormGroup({});
+    const form = new FormGroup({}) as FormGroup<ProfileForm>;
 
     const avatarControl = this.createAvatarControl();
     if (avatarControl) {
@@ -201,8 +201,8 @@ export class ProfileFormModel {
     );
   }
 
-  private createEmailGroup(): FormGroup<EmailForm> | undefined {
-    return new FormGroup<EmailForm>({
+  private createEmailGroup(): FormGroup<ControlsOf<EmailForm>> | undefined {
+    return new FormGroup<ControlsOf<EmailForm>>({
       [ProfileFormControlName.EmailValue]: this.createEmailControl(),
     });
   }

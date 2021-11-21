@@ -1,0 +1,53 @@
+@import 'variables';
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.assets-page__expansion-list {
+  //flex-grow: 1;
+}
+
+.assets-page__tokens-header-cell {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.assets-page__tokens-header-cell__actions {
+  align-items: center;
+  column-gap: $grid-step * 2;
+  display: flex;
+}
+
+.assets-page__token-cell {
+  align-items: center;
+  display: flex;
+  gap: $grid-step;
+}
+
+.assets-page__transactions-header-cell {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.assets-page__transactions-header-cell-section {
+  align-items: center;
+  display: flex;
+}
+
+.assets-page__no-transactions {
+  color: $color-grey;
+  margin-top: $grid-step * 2;
+  text-align: center;
+}
+
+.assets-page__skeleton-loader {
+  display: flex;
+  flex-direction: column;
+  padding: $grid-step * 1.5;
+}

@@ -22,7 +22,7 @@ $hub-currency-statistic--background-color: linear-gradient(0deg, $color-light-bl
   flex-direction: column;
   font-size: 13px;
   min-width: max-content;
-  padding: $grid-step / 2;
+  padding: $grid-half-step;
 
   &-date {
     font-size: 8px;

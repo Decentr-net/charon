@@ -15,7 +15,7 @@
 
 .network-selector__trigger {
   padding-right: $grid-step * 1.5;
-  column-gap: $grid-step / 2;
+  column-gap: $grid-half-step;
 }
 
 .network-selector__trigger__network-icon {

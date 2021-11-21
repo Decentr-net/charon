@@ -1,2 +1,2 @@
 export * from './browser';
-export * from './proxy';
+export * from './is-installed-as-extension';

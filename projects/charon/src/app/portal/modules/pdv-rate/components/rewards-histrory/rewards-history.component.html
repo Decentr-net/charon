@@ -1,0 +1,80 @@
+<ng-container *transloco="let translate; read: 'portal.rewards_history'">
+  <header
+    class="rewards-history__title"
+    mat-dialog-title
+    appTypeface="subheader"
+  >
+    {{ translate('table.title') }}
+  </header>
+
+  <mat-dialog-content
+    class="rewards-history__content"
+    appTypeface="paragraph"
+  >
+    <ng-container *ngIf="rewardsHistory$ | async as rewardsHistory; else loadingRewards">
+      <app-data-table
+        *ngIf="rewardsHistory.length > 0; else rewardsNoData"
+        [data]="rewardsHistory"
+      >
+        <ng-container
+          *dataTableColumnDef="
+            let historyItem;
+            name: translate('table.height');
+          "
+        >
+          {{ historyItem.height | numberFormat : null : true }}
+        </ng-container>
+
+        <ng-container
+          *dataTableColumnDef="
+            let historyItem;
+            name: translate('table.amount') | appCurrencySymbol : true | async;
+          "
+        >
+          {{ historyItem.coins && (historyItem.coins[0].amount | microValue | numberFormat : '1.0-6' : true) || '0' }}
+        </ng-container>
+
+        <ng-container
+          *dataTableColumnDef="
+            let historyItem;
+            name: translate('table.usd');
+            align: 'right';
+          "
+        >
+          ~{{ historyItem.coins && (historyItem.coins[0].amount * coinRateValue | microValue | numberFormat : '1.0-2' : true) || '0' }}
+        </ng-container>
+      </app-data-table>
+    </ng-container>
+  </mat-dialog-content>
+
+  <mat-dialog-actions
+    class="rewards-history__actions"
+  >
+    <button
+      app-button
+      [mat-dialog-close]="true"
+    >
+      {{ translate('actions.close') }}
+    </button>
+  </mat-dialog-actions>
+</ng-container>
+
+<ng-template #loadingRewards>
+  <ngx-skeleton-loader
+    class="rewards-history__skeleton-loader"
+    count="3"
+    [theme]="{
+      height: '36px',
+      marginBottom: '0'
+    }"
+  ></ngx-skeleton-loader>
+</ng-template>
+
+<ng-template #rewardsNoData>
+  <div
+    *transloco="let translate; read: 'portal.rewards_history.table'"
+    class="rewards-history__no-data"
+  >
+    {{ translate('rewards_no_data') }}
+  </div>
+</ng-template>

@@ -47,7 +47,7 @@ export class PostsPageComponent implements OnInit {
 
   public isPostOutletActivated: boolean;
 
-  public trackByPostId: TrackByFunction<Post> = this.postsPageService.trackByPostId;
+  public trackByPostId: TrackByFunction<PostsListItem> = this.postsPageService.trackByPostId;
 
   private scrollPosition: number;
 
@@ -83,7 +83,7 @@ export class PostsPageComponent implements OnInit {
       pluck(HubCategoryRouteParam),
       untilDestroyed(this),
     ).subscribe((category) => {
-      this.postsCategory = category;
+      this.postsCategory = +category || undefined;
       this.postsPageService.reload();
     });
 

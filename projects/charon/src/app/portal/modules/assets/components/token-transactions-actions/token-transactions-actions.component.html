@@ -1,0 +1,18 @@
+<ng-container *transloco="let translate; read: 'portal.token_transactions_table'">
+  <div
+    class="token-transaction-actions__action"
+    [cdkCopyToClipboard]="txhash"
+    (cdkCopyToClipboardCopied)="onTxHashCopied()"
+    [title]="translate('copy_tx')"
+  >
+    <svg-icon key="copy" size="xs"></svg-icon>
+  </div>
+
+  <a
+    class="token-transaction-actions__action"
+    [appTransactionLink]="txhash"
+    [title]="translate('open_link')"
+  >
+    <svg-icon key="link" size="xs"></svg-icon>
+  </a>
+</ng-container>

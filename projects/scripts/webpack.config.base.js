@@ -1,6 +1,6 @@
 const { join } = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
-const webpackMerge = require('webpack-merge');
+const { merge: webpackMerge } = require('webpack-merge');
 
 function extendManifest(buffer, specificRules = {}) {
   const baseManifest = JSON.parse(buffer.toString());
@@ -14,12 +14,11 @@ function getCopyManifestPlugin(specificRules = {}) {
   return new CopyPlugin({
     patterns: [
       {
-        from: join(__dirname, 'manifest/base.json'),
+        from: join(__dirname, 'manifest/manifest.json'),
         to: join(__dirname, '../../dist/manifest.json'),
         transform(content) {
-          const browserSpecificRules = require(`./manifest/${process.env.BROWSER}.json`);
           const version = require(`../../package.json`).version;
-          return extendManifest(content, { ...browserSpecificRules, ...specificRules, version });
+          return extendManifest(content, { ...specificRules, version });
         },
       },
     ]

@@ -10,7 +10,7 @@ export class FallbackErrorProcessor extends ErrorProcessor {
     super();
   }
 
-  public process(error: any): Observable<string> {
+  public process(): Observable<string> {
     return this.translocoService.selectTranslate('notifications.unknown_error', null, 'core');
   }
 }

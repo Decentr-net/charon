@@ -22,7 +22,6 @@
             "main": "projects/charon/src/main.ts",
             "polyfills": "projects/charon/src/polyfills.ts",
             "tsConfig": "projects/charon/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "projects/charon/src/favicon.ico",
               "projects/charon/src/assets"
@@ -42,7 +41,13 @@
               "js-sha256",
               "p-queue",
               "webextension-polyfill-ts"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -52,10 +57,16 @@
                   "with": "environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -73,7 +84,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -106,18 +118,21 @@
             "styles": [
               "projects/charon/src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/charon/src/styles",
+                "shared/styles"
+              ]
+            },
             "scripts": []
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/charon/tsconfig.app.json",
-              "projects/charon/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/charon/src/**/*.ts",
+              "projects/charon/src/**/*.html"
             ]
           }
         }

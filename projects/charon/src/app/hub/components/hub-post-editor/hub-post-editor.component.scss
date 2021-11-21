@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import 'variables';
 
 $hub-post-editor--text-image-uploader-icon-container-size: 44px;
@@ -26,9 +27,11 @@ $hub-post-editor--text-image-uploader-icon-container-size: 44px;
 .hub-post-editor__title-control {
   background: transparent;
   font-size: inherit;
+  font-weight: inherit;
   line-height: inherit;
   min-height: 80px;
   padding: 0;
+  width: 100%;
 }
 
 .hub-post-editor__preview-image-uploader {
@@ -38,7 +41,7 @@ $hub-post-editor--text-image-uploader-icon-container-size: 44px;
   grid-template-areas: 'icon title'
                        'empty subtitle';
   grid-template-columns: min-content max-content;
-  row-gap: $grid-step / 2;
+  row-gap: $grid-half-step;
   width: max-content;
 
   &.mod-empty {
@@ -105,7 +108,7 @@ $hub-post-editor--text-image-uploader-icon-container-size: 44px;
   top: 100%;
 
   &.mod-moved {
-    margin-top: calc(-#{$hub-post-editor--text-image-uploader-icon-container-size / 4 });
+    margin-top: calc(-#{math.div($hub-post-editor--text-image-uploader-icon-container-size, 4)});
   }
 
   &.mod-limit-reached {

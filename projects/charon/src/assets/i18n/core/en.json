@@ -49,11 +49,11 @@
   },
   "network_selector": {
     "network": {
-      "mainnet": "Decentr Main Network",
-      "testnet": "Decentr Test Network",
+      "mainnet": "Mainnet",
+      "testnet": "Testnet",
       "local": "Localhost 1317"
     },
-    "default_network": "The default network for Decs transactions is Decentr Main Network.",
+    "default_network": "The default network for Decs transactions is Mainnet.",
     "title": "Networks"
   },
   "profile_form": {

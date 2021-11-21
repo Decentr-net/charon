@@ -1,0 +1,51 @@
+<div
+  *transloco="let translate; read: 'shared.seed' scope: 'shared'"
+  class="seed__seed-container"
+>
+  <div
+    class="seed__seed-container__label"
+    appTypeface="paragraph"
+  >
+    {{ translate('seed_label') }}
+  </div>
+
+  <div
+    class="seed__seed-container__seed"
+    appTypeface="paragraph"
+  >
+    <div>{{ isSeedPhraseVisible ? value : securedSeedPhrase }}</div>
+
+    <svg-icon
+      class="seed__seed-container__toggle-icon"
+      [key]="isSeedPhraseVisible ? 'eye' : 'eye-crossed'"
+      (click)="toggleSeedVisibility()"
+    ></svg-icon>
+  </div>
+
+  <div class="seed__seed-container__actions">
+    <button
+      app-button
+      color="white"
+      [cdkCopyToClipboard]="value"
+      (cdkCopyToClipboardCopied)="onSeedPhraseCopied()"
+    >
+      <svg-icon key="copy"></svg-icon>
+
+      {{ translate('copy') }}
+    </button>
+
+    <button
+      app-button
+      color="white"
+      (click)="downloadSeedPhrase()"
+    >
+      <svg-icon key="download"></svg-icon>
+
+      {{ translate('download_pdf') }}
+    </button>
+  </div>
+</div>
+
+<div #pdfTemplate class="seed__pdf-template">
+  <svg-icon class="seed__pdf-template-icon" key="logo"></svg-icon>
+</div>

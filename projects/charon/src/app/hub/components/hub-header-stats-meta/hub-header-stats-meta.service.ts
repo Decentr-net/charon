@@ -90,7 +90,7 @@ export class HubHeaderStatsMetaService {
   }
 
   public openDetailsOverlay(
-    template: TemplateRef<{}>,
+    template: TemplateRef<void>,
     viewContainerRef: ViewContainerRef,
     anchorElement: HTMLElement,
   ): OverlayRef {

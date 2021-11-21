@@ -1,13 +1,11 @@
-import { EMPTY, from, merge, Observable, of, partition, pipe, throwError, timer } from 'rxjs';
+import { HttpStatusCode } from '@angular/common/http';
+import { defer, EMPTY, merge, Observable, of, partition, pipe, throwError, timer } from 'rxjs';
 import {
   catchError,
   concatMap,
-  debounceTime,
   delay,
   distinctUntilChanged,
   filter,
-  map,
-  mapTo,
   mergeMap,
   pluck,
   reduce,
@@ -16,20 +14,18 @@ import {
   retryWhen,
   switchMap,
   takeUntil,
-  tap,
 } from 'rxjs/operators';
-import { PDVType, Wallet } from 'decentr-js';
+import { PDV, PDVType, Wallet } from 'decentr-js';
 
 import { SettingsService } from '../../../../../shared/services/settings';
-import { ONE_SECOND } from '../../../../../shared/utils/date';
+import { ONE_MINUTE, ONE_SECOND } from '../../../../../shared/utils/date';
 import CONFIG_SERVICE from '../config';
 import { whileUserActive } from '../auth/while-user-active';
-import { whileServersAvailable } from '../technical';
 import { sendPDV } from './api';
 import { listenAdvertiserPDVs } from './advertiser-id';
 import { listenCookiePDVs } from './cookies';
 import { listenSearchHistoryPDVs } from './search-history';
-import { mergePDVsIntoAccumulated, PDV_STORAGE_SERVICE, rollbackPDVBlock } from './storage';
+import { mergePDVsIntoAccumulated, PDV_STORAGE_SERVICE } from './storage';
 import { listenLocationPDVs } from './location';
 
 const configService = CONFIG_SERVICE;
@@ -56,19 +52,19 @@ const whilePDVAllowed = (pdvType: PDVType, walletAddress: Wallet['address']) => 
   );
 };
 
+const PDV_SOURCE_MAP: Record<Exclude<PDVType, PDVType.Profile>, () => Observable<PDV>> = {
+  [PDVType.Cookie]: listenCookiePDVs,
+  [PDVType.Location]: listenLocationPDVs,
+  [PDVType.SearchHistory]: listenSearchHistoryPDVs,
+  [PDVType.AdvertiserId]: listenAdvertiserPDVs,
+};
+
 const getAllPDVSource = (walletAddress: Wallet['address']) => merge(
-  listenCookiePDVs().pipe(
-    whilePDVAllowed(PDVType.Cookie, walletAddress),
-  ),
-  listenLocationPDVs().pipe(
-    whilePDVAllowed(PDVType.Location, walletAddress),
-  ),
-  listenSearchHistoryPDVs().pipe(
-    whilePDVAllowed(PDVType.SearchHistory, walletAddress),
-  ),
-  listenAdvertiserPDVs().pipe(
-    whilePDVAllowed(PDVType.AdvertiserId, walletAddress),
-  ),
+  ...Object.entries(PDV_SOURCE_MAP).map(([pdvType, source]) => {
+    return source().pipe(
+      whilePDVAllowed(pdvType as PDVType, walletAddress),
+    );
+  }),
 );
 
 const collectPDVIntoStorage = (): Observable<void> => {
@@ -84,73 +80,46 @@ const collectPDVIntoStorage = (): Observable<void> => {
   ));
 };
 
-const collectPDVItemsReadyBlocks = (): Observable<void> => {
+const sendPDVBlocks = (): Observable<void> => {
   return whileUserActive((user) => {
     return PDV_STORAGE_SERVICE.getUserAccumulatedPDVChanges(user.wallet.address).pipe(
-      filter(pDVs => pDVs?.length > 0),
-      distinctUntilChanged((prev, curr) => prev.length === curr.length),
-      debounceTime(ONE_SECOND),
-      concatMap((pDVs) => configService.getPDVCountToSend().pipe(
-        mergeMap(({ minPDVCount, maxPDVCount }) => {
-          return pDVs.length >= minPDVCount
+      concatMap((accumulated) => configService.getPDVCountToSend().pipe(
+        mergeMap(({ maxPDVCount }) => {
+          return accumulated.length >= maxPDVCount
             ? of({
-              readyBlockPDVs: pDVs.slice(0, maxPDVCount),
-              restPDVs: pDVs.slice(maxPDVCount),
+              toSend: accumulated.slice(0, maxPDVCount),
+              rest: accumulated.slice(maxPDVCount),
             })
             : EMPTY;
         }),
       )),
-      concatMap(({ readyBlockPDVs, restPDVs }) => {
-        return from(PDV_STORAGE_SERVICE.setUserAccumulatedPDV(user.wallet.address, restPDVs)).pipe(
-          mergeMap(() => PDV_STORAGE_SERVICE.addUserReadyBlock(user.wallet.address, readyBlockPDVs)),
+      concatMap(({ toSend, rest }) => {
+        return defer(() => PDV_STORAGE_SERVICE.setUserAccumulatedPDV(user.wallet.address, rest)).pipe(
+          mergeMap(() => sendPDV(user.wallet, toSend)),
+          catchError((error) => {
+            const errorStatus = error?.response?.status;
+
+            if (errorStatus !== HttpStatusCode.TooManyRequests) {
+              configService.forceUpdate();
+            }
+
+            return defer(() => mergePDVsIntoAccumulated(user.wallet.address, toSend, true)).pipe(
+              mergeMap(() => throwError(errorStatus)),
+            );
+          }),
         );
       }),
-    );
-  });
-};
-
-const processedBlocks = new Set<string>();
-
-const initSendPDVBlocks = (): Observable<void> => {
-  return whileUserActive((user) => {
-    return PDV_STORAGE_SERVICE.getUserReadyBlocksChanges(user.wallet.address).pipe(
-      map((blocks) => (blocks || []).filter((block) => !processedBlocks.has(block.id))),
-      filter((blocksToProcess) => blocksToProcess.length > 0),
-      mergeMap((blocksToProcess) => from(blocksToProcess)),
-      tap((block) => processedBlocks.add(block.id)),
-      mergeMap((block) => sendPDV(user.wallet, block.pDVs).pipe(
-        catchError((error) => {
-          configService.forceUpdate();
-
-          if (error?.response?.status === 400) {
-            return from(rollbackPDVBlock(user.wallet.address, block.id)).pipe(
-              mapTo(EMPTY),
-            );
-          }
-
-          return throwError(error);
-        }),
-        retryWhen((errors) => errors.pipe(
-          delay(ONE_SECOND * 20),
-        )),
-        mapTo(block.id),
+      retryWhen((errorStatus: Observable<number>) => errorStatus.pipe(
+        delay(ONE_MINUTE * 5),
       )),
-      concatMap((blockId) => {
-        processedBlocks.delete(blockId);
-        return PDV_STORAGE_SERVICE.removeUserReadyBlock(user.wallet.address, blockId);
-      }),
-      mapTo(void 0),
     );
   });
-};
+}
 
 export const initPDVCollection = (): Observable<void> => {
   return new Observable<void>((subscriber) => {
     const subscriptions = [
-      initSendPDVBlocks().pipe(
-        whileServersAvailable(),
-      ).subscribe(() => subscriber.next()),
-      collectPDVItemsReadyBlocks().subscribe(),
+      sendPDVBlocks().subscribe(() => subscriber.next()),
       collectPDVIntoStorage().subscribe(),
     ];
 

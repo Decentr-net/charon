@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
+import { HttpStatusCode } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractControl, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { ControlsOf, FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { StatusCodes } from 'http-status-codes';
 import { Profile } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
@@ -41,7 +41,7 @@ export class EditProfilePageComponent implements OnInit {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
   public appRoute: typeof AppRoute = AppRoute;
-  public form: FormGroup<EditProfileForm>;
+  public form: FormGroup<ControlsOf<EditProfileForm>>;
 
   public profile: Profile;
 
@@ -58,7 +58,7 @@ export class EditProfilePageComponent implements OnInit {
   ) {
   }
 
-  public get passwordControl(): AbstractControl<string> {
+  public get passwordControl(): FormControl<string> {
     return this.form?.get('password');
   }
 
@@ -93,13 +93,14 @@ export class EditProfilePageComponent implements OnInit {
     this.editProfilePageService.editProfile({
       ...formValue.profile,
       password: formValue.password,
+      oldPassword: formValue.oldPassword,
     }).pipe(
       catchError((error) => {
         switch (error?.response?.status) {
-          case StatusCodes.TOO_MANY_REQUESTS:
+          case HttpStatusCode.TooManyRequests:
             return throwError(new TranslatedError(
               this.translocoService.translate(
-                `edit_profile_page.toastr.errors.${StatusCodes.TOO_MANY_REQUESTS}`,
+                `edit_profile_page.toastr.errors.${HttpStatusCode.TooManyRequests}`,
                 null,
                 'user',
               ),
@@ -123,7 +124,7 @@ export class EditProfilePageComponent implements OnInit {
     });
   }
 
-  private createForm(): FormGroup<EditProfileForm> {
+  private createForm(): FormGroup<ControlsOf<EditProfileForm>> {
     return this.formBuilder.group({
       profile: undefined,
       oldPassword: [

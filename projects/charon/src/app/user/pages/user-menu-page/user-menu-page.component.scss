@@ -15,6 +15,18 @@
   width: 80px;
 }
 
+.user-menu-page__profile__title {
+  word-break: break-word;
+}
+
+.user-menu-page__profile__ban-label {
+  background: rgba($color-negative, .08);
+  border-radius: $border-radius;
+  color: $color-negative;
+  padding: $grid-half-step $grid-step;
+  vertical-align: middle;
+}
+
 .user-menu-page__profile__bio {
   color: $color-grey;
 }

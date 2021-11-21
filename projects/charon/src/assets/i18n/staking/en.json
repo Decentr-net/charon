@@ -44,22 +44,26 @@
     },
     "delegated": "Delegated:",
     "jailed": "This validator is currently being jailed!",
-    "title": "Validator details"
+    "title": "Validator details",
+    "unbonding_delegations": "unbonding delegations will be completed {{ completionTime }}"
   },
   "validators_page": {
     "reward": "Reward",
     "show_only_active": "Only active validators",
     "title": "Validators",
+    "validators_rewards": "Validator's rewards",
     "withdraw": "Withdraw"
   },
   "validators_table": {
     "commission": "Commission",
     "delegated": "Delegated",
     "jailed": "jailed",
+    "my_validator": "My validator",
     "operator_address": "Operator address",
     "status": "Status",
     "validator": "Validator",
-    "voting_power": "Voting power"
+    "voting_power": "Voting power",
+    "unbonding_delegations": "All unbonding delegations will be completed {{ completionTime }}"
   },
   "redelegate_page": {
     "actions": {
@@ -159,6 +163,26 @@
   "withdraw_delegator_table": {
     "delegated": "Delegated",
     "jailed": "jailed",
+    "no_rewards": "You have no any rewards yet",
+    "reward": "Reward",
+    "validator": "Validator"
+  },
+  "withdraw_validator_page": {
+    "actions": {
+      "withdraw": "Withdraw",
+      "withdraw_low_amount_hint": "Too low amount for withdraw"
+    },
+    "fee": "Fee",
+    "notification": {
+      "success": "{{ amount }} {{ currencySymbol }} successfully withdrawn"
+    },
+    "title": "Withdraw validator's rewards",
+    "withdraw": "Withdraw"
+  },
+  "withdraw_validator_table": {
+    "delegated": "Delegated",
+    "jailed": "jailed",
+    "no_rewards": "You have no any rewards yet",
     "reward": "Reward",
     "validator": "Validator"
   }

@@ -1,6 +1,12 @@
-<app-hub-header-stats-meta
+<ng-container
   *appSlot="headerMetaSlotName; let root = rootElement"
-  [detailsAnchorElement]="root"
-></app-hub-header-stats-meta>
+>
+  <app-hub-header-stats-meta
+    [detailsAnchorElement]="root"
+  ></app-hub-header-stats-meta>
 
+  <app-network-selector
+    class="hub-page__network-selector"
+  ></app-network-selector>
+</ng-container>
 <router-outlet></router-outlet>

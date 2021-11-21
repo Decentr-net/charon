@@ -55,14 +55,9 @@
   }
 }
 
-.hub-header-stats-meta__details-title {
-  min-width: 75px;
-}
-
 .hub-header-stats-meta__details-icon {
   align-items: center;
   display: inline-flex;
-  margin-left: $grid-step / 2;
   transition: transform .3s ease;
 }
 

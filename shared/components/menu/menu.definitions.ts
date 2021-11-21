@@ -14,6 +14,7 @@ interface MenuItemBase {
 
 export interface MenuUserItem extends MenuItemBase {
   pdvValue: string;
+  decValue: number;
 }
 
 export interface MenuItem extends MenuItemBase {

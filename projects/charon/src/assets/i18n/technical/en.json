@@ -6,6 +6,6 @@
     "title": "You are offline.\nPlease, check your internet connection."
   },
   "update_page": {
-    "title": "This version is no longer supported.\nPlease, update the extension."
+    "title": "This version of the extension is no longer supported.\n\nPlease, go to <a href='https://decentr.net' target='_blank'>Decentr.net</a> and get the latest version of the browser."
   }
 }

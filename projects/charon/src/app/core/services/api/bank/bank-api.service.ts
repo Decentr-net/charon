@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
-  getBankBalances,
-  getTransferHistory,
   BankCoin,
-  TransferHistory,
-  TransferHistoryPaginationOptions,
-  TransferRole,
+  getBankBalances,
+  searchTransactions,
+  TXsSearchParameters,
+  TXsSearchResponse,
   Wallet,
 } from 'decentr-js';
 
@@ -15,17 +14,13 @@ export class BankApiService {
     return getBankBalances(apiUrl, walletAddress);
   }
 
-  public getTransferHistory(
+  public searchTransactions(
     apiUrl: string,
-    walletAddress: Wallet['address'],
-    role: TransferRole,
-    paginationOptions?: TransferHistoryPaginationOptions,
-  ): Promise<TransferHistory> {
-    return getTransferHistory(
+    parameters?: TXsSearchParameters,
+  ): Promise<TXsSearchResponse> {
+    return searchTransactions(
       apiUrl,
-      walletAddress,
-      role,
-      paginationOptions,
+      parameters,
     );
   }
 }

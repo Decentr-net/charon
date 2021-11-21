@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, filter, finalize, map, mergeMap, pluck, switchMap, tap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
@@ -10,13 +11,16 @@ import { svgDelete } from '@shared/svg-icons/delete';
 import { svgEdit } from '@shared/svg-icons/edit';
 import { svgImportAccount } from '@shared/svg-icons/import-account';
 import { svgLock } from '@shared/svg-icons/lock';
+import { svgRefresh } from '@shared/svg-icons/refresh';
 import { svgSettings } from '@shared/svg-icons/settings';
 import { ConfirmationDialogService } from '@shared/components/confirmation-dialog';
 import { NotificationService } from '@shared/services/notification';
+import { PDVService } from '@shared/services/pdv';
 import { AuthService } from '@core/auth';
 import { LockService } from '@core/lock';
 import { SpinnerService, UserService } from '@core/services';
 import { UserRoute } from '../../user-route';
+import { RestoreSeedDialogComponent } from '../../components';
 
 @UntilDestroy()
 @Component({
@@ -28,16 +32,20 @@ import { UserRoute } from '../../user-route';
 export class UserMenuPageComponent implements OnInit {
   public profile$: Observable<Profile>;
 
-  public deleteConfirmationRequested: boolean;
+  public banned$: Observable<boolean>;
+
+  public canRestoreSeed$: Observable<boolean>;
 
   public readonly userRoute: typeof UserRoute = UserRoute;
 
   constructor(
-    @Inject(TRANSLOCO_SCOPE) private translocoScope,
+    @Inject(TRANSLOCO_SCOPE) private translocoScope: string,
     private authService: AuthService,
     private confirmationDialogService: ConfirmationDialogService,
     private lockService: LockService,
+    private matDialog: MatDialog,
     private notificationService: NotificationService,
+    private pdvService: PDVService,
     private spinnerService: SpinnerService,
     private translocoService: TranslocoService,
     private userService: UserService,
@@ -48,6 +56,7 @@ export class UserMenuPageComponent implements OnInit {
       svgEdit,
       svgImportAccount,
       svgLock,
+      svgRefresh,
       svgSettings,
     ]);
   }
@@ -57,6 +66,14 @@ export class UserMenuPageComponent implements OnInit {
       pluck('wallet'),
       switchMap((wallet) => this.userService.getProfile(wallet.address, wallet)),
       catchError(() => EMPTY),
+    );
+
+    this.banned$ = this.pdvService.getTokenBalance().pipe(
+      map((balance) => balance.isBanned),
+    );
+
+    this.canRestoreSeed$ = this.authService.getActiveUser().pipe(
+      map((user) => !!user?.encryptedSeed),
     );
   }
 
@@ -107,5 +124,9 @@ export class UserMenuPageComponent implements OnInit {
       mergeMap(() => this.deleteAccount()),
       untilDestroyed(this),
     ).subscribe();
+  }
+
+  public restoreSeedPhrase(): void {
+    this.matDialog.open(RestoreSeedDialogComponent);
   }
 }
