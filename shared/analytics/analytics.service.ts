@@ -1,11 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, filter, first, map } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { Environment } from '@environments/environment.definitions';
-import { ANALYTICS_EVENT_MAP, AnalyticsEvent, AnalyticsEventOptions } from './analytics.definitions';
+import {
+  ANALYTICS_EVENT_MAP,
+  ANALYTICS_TRACKER_ID,
+  AnalyticsEvent,
+  AnalyticsEventOptions
+} from './analytics.definitions';
 
 @UntilDestroy()
 @Injectable()
@@ -13,7 +17,7 @@ export class AnalyticsService {
   private initialized: ReplaySubject<UniversalAnalytics.ga> = new ReplaySubject(1);
 
   constructor(
-    private environment: Environment,
+    @Inject(ANALYTICS_TRACKER_ID) private trackerId: string,
     private router: Router,
   ) {
   }
@@ -75,7 +79,7 @@ export class AnalyticsService {
   }
 
   private setTrackingId(): void {
-    this.onInitialized().subscribe((analytics) => analytics('create', this.environment.ga, 'auto'));
+    this.onInitialized().subscribe((analytics) => analytics('create', this.trackerId, 'auto'));
   }
 
   private sendPageView(url: string): void {
