@@ -37,6 +37,7 @@
     <button
       app-button
       color="white"
+      [appAnalyticsClickEvent]="analyticsEvent.DownloadSeedPDF"
       (click)="downloadSeedPhrase()"
     >
       <svg-icon key="download"></svg-icon>
