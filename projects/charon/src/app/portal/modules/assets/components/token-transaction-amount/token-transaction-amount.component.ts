@@ -12,5 +12,5 @@ export class TokenTransactionAmountComponent {
   @HostBinding('class')
   public get colorClass(): string {
     return +this.amount >= 0 ? 'color-positive' : 'color-negative';
-  };
+  }
 }
