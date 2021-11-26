@@ -22,16 +22,16 @@ export class LockDelaySettingsComponent implements OnInit {
 
   public options: DelayOption[] = [
     {
-      value: ONE_MINUTE,
-      i18nKey: '1m',
-    },
-    {
-      value: ONE_MINUTE * 5,
-      i18nKey: '5m',
+      value: ONE_MINUTE * 10,
+      i18nKey: '10m',
     },
     {
       value: ONE_HOUR,
       i18nKey: '1h',
+    },
+    {
+      value: ONE_HOUR * 24,
+      i18nKey: '24h',
     },
     {
       value: ONE_HOUR * 48,

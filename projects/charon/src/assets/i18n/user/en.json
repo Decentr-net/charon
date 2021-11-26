@@ -20,9 +20,9 @@
     "select": {
       "label": "Autolock automatically in",
       "values": {
-        "1m": "1 minute",
-        "5m": "5 minutes",
+        "10m": "10 minutes",
         "1h": "1 hour",
+        "24h": "24 hours",
         "48h": "48 hours",
         "never": "Never"
       }
