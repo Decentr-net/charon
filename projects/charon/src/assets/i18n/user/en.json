@@ -90,7 +90,7 @@
   "user_menu_page": {
     "banned": {
       "label": "Banned",
-      "tooltip": "You are banned. Please contact Decentr support team"
+      "tooltip": "You are banned. Please contact the Decentr support team"
     },
     "coming_soon": "coming soon",
     "delete": "Delete account",

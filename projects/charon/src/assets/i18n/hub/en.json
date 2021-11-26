@@ -1,6 +1,6 @@
 {
   "feed_page": {
-    "no_posts": "There is no activity last 24 hours",
+    "no_posts": "There hasn't been any activity for the last 24 hours",
     "top_posts": "Top posts"
   },
   "hub_adv_statistics": {
@@ -32,7 +32,7 @@
     "pdv": "My PDV"
   },
   "hub_my_posts_page": {
-    "no_posts": "You have no posts created"
+    "no_posts": "You haven't created any posts"
   },
   "hub_navigation": {
     "latest_posts": "Latest Posts"
@@ -120,7 +120,7 @@
     "posted": "dposted"
   },
   "hub_following_page": {
-    "no_posts": "You didn't follow anyone or those you follow didn't create posts"
+    "no_posts": "You don't follow anyone, or those you follow haven't posted."
   },
   "hub_post_pdv": {
     "label": "PDV"
@@ -178,7 +178,7 @@
     "delete": {
       "success": "Post has been removed successfully"
     },
-    "not_exists": "Current post is no longer available, because it breaks Decentr policy"
+    "not_exists": "Post removed due to breach of Decentr post policy."
   },
   "posts": {
     "new": "New post",

@@ -43,9 +43,9 @@
       "website": "Website"
     },
     "delegated": "Delegated:",
-    "jailed": "This validator is currently being jailed!",
+    "jailed": "This validator is currently jailed!",
     "title": "Validator details",
-    "unbonding_delegations": "unbonding delegations will be completed {{ completionTime }}"
+    "unbonding_delegations": "Unbonding delegations will be completed {{ completionTime }}"
   },
   "validators_page": {
     "reward": "Reward",
@@ -57,7 +57,7 @@
   "validators_table": {
     "commission": "Commission",
     "delegated": "Delegated",
-    "jailed": "jailed",
+    "jailed": "Jailed",
     "my_validator": "My validator",
     "operator_address": "Operator address",
     "status": "Status",
@@ -73,10 +73,10 @@
     "extended_errors": {
       "in_progress": {
         "title": "Redelegation to the source validator already in progress",
-        "text": "First redelegations to the source validator must complete before next redelegation.\nRedelegation will be available after:"
+        "text": "Eedelegations to the source validator must complete before next redelegation.\nRedelegation will be available after:"
       },
       "limit": {
-        "title": "Limit of simultaneous redelegations is reached",
+        "title": "Limit of simultaneous redelegations has been reached",
         "text": "At least one redelegation to destination validator must complete before next redelegation.\nRedelegation will be available after:"
       }
     },
@@ -84,7 +84,7 @@
       "amount": {
         "errors": {
           "insufficient": "Insufficient funds",
-          "insufficientBalance": "Insufficient funds to pay fee",
+          "insufficientBalance": "Insufficient funds to pay the fee",
           "min": "Minimum value is {{ min }}",
           "pattern": "Incorrect amount format",
           "required": "Amount is required"
@@ -115,7 +115,7 @@
     },
     "extended_errors": {
       "limit": {
-        "title": "Limit of simultaneous undelegations is reached",
+        "title": "Limit of simultaneous undelegations has been reached",
         "text": "At least one undelegation from this validator must complete before next undelegation.\nUndelegation will be available after:"
       }
     },
@@ -123,7 +123,7 @@
       "amount": {
         "errors": {
           "insufficient": "Insufficient funds",
-          "insufficientBalance": "Insufficient funds to pay fee",
+          "insufficientBalance": "Insufficient funds to pay the fee",
           "min": "Minimum value is {{ min }}",
           "pattern": "Incorrect amount format",
           "required": "Amount is required"
@@ -162,15 +162,15 @@
   },
   "withdraw_delegator_table": {
     "delegated": "Delegated",
-    "jailed": "jailed",
-    "no_rewards": "You have no any rewards yet",
+    "jailed": "Jailed",
+    "no_rewards": "You haven't received any rewards yet",
     "reward": "Reward",
     "validator": "Validator"
   },
   "withdraw_validator_page": {
     "actions": {
       "withdraw": "Withdraw",
-      "withdraw_low_amount_hint": "Too low amount for withdraw"
+      "withdraw_low_amount_hint": "Amount too low to withdraw"
     },
     "fee": "Fee",
     "notification": {
@@ -181,8 +181,8 @@
   },
   "withdraw_validator_table": {
     "delegated": "Delegated",
-    "jailed": "jailed",
-    "no_rewards": "You have no any rewards yet",
+    "jailed": "Jailed",
+    "no_rewards": "You haven't received any rewards yet",
     "reward": "Reward",
     "validator": "Validator"
   }

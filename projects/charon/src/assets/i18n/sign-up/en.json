@@ -6,17 +6,17 @@
       "confirm_password": {
         "label": "Repeat password",
         "errors": {
-          "compare": "Passwords should be equal",
+          "compare": "Passwords should be match",
           "required": "Password is required"
         }
       },
       "email": {
         "errors": {
-          "email": "Enter valid email",
-          "required": "Email is required"
+          "email": "Enter a valid email",
+          "required": "An email address is required"
         },
         "label": "Email",
-        "subtitle": "We’ll use this email to sent the confirmation code, so be sure you have an access to it.",
+        "subtitle": "We’ll use this email to send you the confirmation code, so be sure you have access to it.",
         "title": "Connect your email"
       },
       "password": {
@@ -25,7 +25,7 @@
           "password": "Password is too weak"
         },
         "label": "New password (min 8 chars)",
-        "subtitle": "We’ll use this email to sent the confirmation code, so be sure you have an access to it.",
+        "subtitle": "We’ll use this email to send you the confirmation code, so be sure you have access to it.",
         "title": "Create a new password"
       },
       "terms_of_use": {
@@ -51,51 +51,51 @@
     "form": {
       "code": {
         "errors": {
-          "required": "Code is required"
+          "required": "Confirmation code is required"
         }
       }
     },
-    "did_not_get_code": "Didn't get the letter or couldn't find it?",
-    "ensure": "Just want to ensure we deal with real people.",
+    "did_not_get_code": "Didn't get the email or you couldn't find it?",
+    "ensure": "Just want to ensure that we're dealing with real people.",
     "register_new_account": "Register new account",
     "resend_code": "Resend confirmation code",
-    "resend_code_will_able": "It will be possible to resend the code in {{ time }} sec.",
-    "sent": "We've send you the confirmation code to the",
+    "resend_code_will_able": "Code can be resent in {{ time }} sec.",
+    "sent": "We've sent you the confirmation code to the",
     "submit": "Confirm",
     "title": "Please confirm your email",
     "errors": {
       "account_conflict": "Account already confirmed",
-      "account_not_found": "Account not found or activation code is not valid"
+      "account_not_found": "Account not found or confirmation code is not valid"
     }
   },
   "email_confirmed_card": {
-    "hint": "You can change it later in user settings if you need it.",
+    "hint": "You can change this later in user settings, if you need to.",
     "subtitle": {
       "afterEmail": "email.",
       "beforeEmail": "Now your user profile is connected with"
     },
-    "title": "Perfect, your email is confirmed!"
+    "title": "Perfect, your email has been confirmed!"
   },
   "pdv_consent": {
     "banned": {
       "label": "Banned",
-      "tooltip": "You are banned. Please contact Decentr support team"
+      "tooltip": "You've been banned. Please contact the Decentr support team"
     },
     "confirm": "Confirm",
-    "hint": "You’ll be able to change it later in user settings page.",
-    "title": "You’re successfully logged in as"
+    "hint": "You’ll be able to change this later in the user settings page.",
+    "title": "You're logged in as"
   },
   "seed_phrase_page": {
     "back": "Back",
     "next": "Next",
     "print": "Print",
-    "subtitle": "It is the only way to import or restore your account, so copy, download, print and store it safely!",
+    "subtitle": "It is the only way to import or restore your account, so copy, download, print and store it somewhere safely!",
     "title": "Store your seed phrase",
     "warning": {
       "label": "Never share your seed phrase with anyone.",
       "text1": "Anyone with this phrase can take your Decs forever.",
-      "text2": "We won’t be able to recover it or return your account and wallet to you.",
-      "text3": "If you’ll lose the seed phrase you’ll lose your account forever."
+      "text2": "We won’t be able to recover or return your account and wallet to you.",
+      "text3": "If you lose the seed phrase, your account will be lost forever."
     }
   },
   "sign_up_page": {
@@ -112,11 +112,11 @@
     "hint": {
       "label": "Decentr can't recover your seed phrase!"
     },
-    "subtitle": "Keep your seed phrase safe and remember that's the only key to all you have on Decentr.",
+    "subtitle": "Keep your seed phrase safe and remember that it's the only key to all you have on Decentr.",
     "tips": {
-      "tip1": "Save backup in multiple places and never share the phrase with anyone.",
-      "tip2": "Be careful of fishing! Decentr will never spontaneously ask for your seed phrase.",
-      "tip3": "If you ever have questions or see something fishy, email <a href='mailto:support@decentr.net'>support@decentr.net</a>."
+      "tip1": "Save the backup in multiple places and never share the phrase with anyone.",
+      "tip2": "Be careful of phishing! No one from Decentr will ever ask for your seed phrase!",
+      "tip3": "If you have questions or see something suspicious, email <a href='mailto:support@decentr.net'>support@decentr.net</a>."
     },
     "title": "Congratulations, you're all set!"
   }

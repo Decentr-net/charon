@@ -11,9 +11,9 @@
     }
   },
   "pdv_types_settings": {
-    "subtitle": "We’ll use information about the sites you visit in order to transform it into a PDV rate.<br>PDV rate affects lots of aspects of your life in Decentr. We recommend to enable them all.",
+    "subtitle": "We’ll use the information about the sites you visit, in order to calculate your PDV rate.<br>A high PDV rate positively influences your DEC earning rate in Decentr. We recommend enabling them all.",
     "title": "Check information we can track and transfer into PDV",
-    "warning": "Selected options will directly affect the PDV, the less we track the less will be your PDV."
+    "warning": "The selected options will directly affect the PDV, the less we track can track the lower your PDV."
   },
   "pdv_types_toggle": {
     "advertiserId": "advertiser Id",
@@ -26,7 +26,7 @@
     "download_pdf": "Download .pdf",
     "pdf": {
       "title": "Seed Phrase",
-      "message": "Seed Phrase is the only way to recover your profile and wallet with DEC balance so take it seriously."
+      "message": "The seed Phrase is the only way to recover your profile and wallet, including your DEC balance, so take it seriously."
     },
     "seed_copied": "The seed phrase was copied successfully",
     "seed_label": "Your seed phrase"

@@ -7,7 +7,7 @@
   },
   "assets_page": {
     "add_token": "Add token",
-    "no_transactions": "You have no transactions for selected token",
+    "no_transactions": "You have no transactions for the selected token",
     "send": "Send",
     "tokens": "Tokens",
     "transactions": "Transactions"
@@ -17,7 +17,7 @@
     "no_pdv_rate": "You have no PDV Rate data",
     "not_enough_pdv_rate": "Not enough data for the chart",
     "rewards": {
-      "time": "The PDV rewards will be given out on next block height: {{nextHeight}} (current: {{currentHeight}})",
+      "time": "The PDV rewards will be given out on the next block height of: {{nextHeight}} (current: {{currentHeight}})",
       "pdv_reward": "PDV rewards",
       "view_log": "View PDV rewards log"
     }
@@ -98,11 +98,11 @@
     "browse_securely_from": "Browse securely from",
     "browsing_securely_from": "Browsing securely from",
     "connection": {
-      "secured": "Your connection is secured!",
-      "insecure": "Now you browsing insecurely"
+      "secured": "Your connection is now secured.",
+      "insecure": "Your browsing is insecure."
     },
-    "firefox_hint": "To be able to enable proxy: open Firefox's extension settings and allow \"Run in Private Windows\".",
-    "unknown_browser": "We can't recognize your browser. Be sure you use Chrome or Firefox.",
+    "firefox_hint": "To be able to enable the proxy: open Firefox's extension settings and allow \"Run in Private Windows\".",
+    "unknown_browser": "We don't recognize your browser. Be sure you use Chrome or Firefox.",
     "status": {
       "off": "Off",
       "on": "On"

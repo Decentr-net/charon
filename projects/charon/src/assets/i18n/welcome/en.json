@@ -7,7 +7,7 @@
     },
     "import": {
       "button": "Import Account",
-      "subtitle": "Import your existing account using a 24 word seed phrase",
+      "subtitle": "Import your existing account using your 24-word seed phrase",
       "title": "No, I already have a seed phrase"
     },
     "title": "New to Decentr?"
@@ -18,11 +18,11 @@
       "log_in_to": "Log in to"
     },
     "log_in": {
-      "subtitle": "Import your existing account and wallet with seed phrase you’ve got during first sign up.",
+      "subtitle": "Import your existing account and wallet with the seed phrase you got during the first sign up.",
       "title": "Log in with seed phrase"
     },
     "sign_up": {
-      "subtitle": "Create new user and wallet and get a seed phrase to verify yourself during next logins.",
+      "subtitle": "When you create a new user and wallet, you'll receive a seed phrase to verify yourself during next logins.",
       "title": "Create new user"
     }
   }
