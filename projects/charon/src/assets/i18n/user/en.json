@@ -30,6 +30,24 @@
     "subtitle": "If you don’t open the extension at least once during the selected period, you will have to enter a password.",
     "title": "Autolock"
   },
+  "referral_stats": {
+    "copy_invite_link": "Copy invite link",
+    "link_copied": "Invite link copied",
+    "time_options": {
+      "last30Days": "30 days",
+      "total": "All time"
+    },
+    "rewards_days": "Rewards are accrued after {{days}} days.",
+    "stats": {
+      "dec_received": "{{received}} DEC received",
+      "installed": "Installed Decentr browser",
+      "rewards": "Rewards received",
+      "signed_up": "Signed up via invite link",
+      "reward_for_referral": "You’ll receive <strong>+{{reward}} DEC</strong> for each referral after they will complete all steps."
+    },
+    "steps": "Invite your friends with a link and <strong>get referral reward after they will do 3 easy steps</strong>: sign up, install Decentr browser and earn {{uPDVToEarn}} uPDV.",
+    "title": "Referral"
+  },
   "restore_seed_dialog": {
     "close": "Close",
     "form": {

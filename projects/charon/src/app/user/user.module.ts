@@ -12,6 +12,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AvatarModule } from '@shared/components/avatar';
 import { ButtonModule } from '@shared/components/button';
 import { ButtonBackModule } from '@shared/components/button-back';
+import { ClipboardCopiedNotificationModule } from '@shared/directives/clipboard-copied-notification';
 import { ConfirmationDialogModule } from '@shared/components/confirmation-dialog';
 import { CurrencySymbolModule } from '@shared/components/currency-symbol';
 import { FormErrorModule } from '@shared/components/form-error';
@@ -41,6 +42,7 @@ import { UserRoutingModule } from './user-routing.module';
     ButtonModule,
     ButtonBackModule,
     ClipboardModule,
+    ClipboardCopiedNotificationModule,
     CommonModule,
     ConfirmationDialogModule,
     CurrencySymbolModule,

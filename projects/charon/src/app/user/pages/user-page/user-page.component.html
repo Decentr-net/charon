@@ -19,56 +19,60 @@
   </div>
 
   <div
-    class="user-page__section user-page__card"
+    class="user-page__section"
   >
-    <div
-      class="user-page__wallet-card__title"
-      appTypeface="subheader"
-    >
-      {{ translate('your_wallet') }}
-
-      <button
-        app-button
-        color="grey"
-        size="xs"
-        appTypeface="caption"
-        [cdkCopyToClipboard]="walletAddress$ | async"
-        (cdkCopyToClipboardCopied)="onWalletAddressCopied()"
-      >
-        <svg-icon key="wallet" size="xs"></svg-icon>
-        {{ translate('copy_wallet_address') }}
-      </button>
-    </div>
-
-    <ng-container *ngIf="decBalance$ | async as decBalance; else balanceLoading">
+    <div class="user-page__card">
       <div
-        class="user-page__wallet-card__balance"
-        appTypeface="header-3"
+        class="user-page__wallet-card__title"
+        appTypeface="subheader"
       >
-        {{ decBalance | microValue | numberFormat : null : true }}&nbsp;<app-currency-symbol></app-currency-symbol>
-      </div>
-    </ng-container>
+        {{ translate('your_wallet') }}
 
-    <div class="user-page__wallet-card__actions">
-      <a [routerLink]="transferRoute">
-        <button
-          app-button
-        >
-          <svg-icon key="send"></svg-icon>
-          {{ translate('send') }}
-        </button>
-      </a>
-
-      <a [routerLink]="stakingRoute">
         <button
           app-button
           color="grey"
+          size="xs"
+          appTypeface="caption"
+          [cdkCopyToClipboard]="walletAddress$ | async"
+          (cdkCopyToClipboardCopied)="onWalletAddressCopied()"
         >
-          <svg-icon key="delegate"></svg-icon>
-          {{ translate('delegate') }}
+          <svg-icon key="wallet" size="xs"></svg-icon>
+          {{ translate('copy_wallet_address') }}
         </button>
-      </a>
+      </div>
+
+      <ng-container *ngIf="decBalance$ | async as decBalance; else balanceLoading">
+        <div
+          class="user-page__wallet-card__balance"
+          appTypeface="header-3"
+        >
+          {{ decBalance | microValue | numberFormat : null : true }}&nbsp;<app-currency-symbol></app-currency-symbol>
+        </div>
+      </ng-container>
+
+      <div class="user-page__wallet-card__actions">
+        <a [routerLink]="transferRoute">
+          <button
+            app-button
+          >
+            <svg-icon key="send"></svg-icon>
+            {{ translate('send') }}
+          </button>
+        </a>
+
+        <a [routerLink]="stakingRoute">
+          <button
+            app-button
+            color="grey"
+          >
+            <svg-icon key="delegate"></svg-icon>
+            {{ translate('delegate') }}
+          </button>
+        </a>
+      </div>
     </div>
+
+    <app-referral-stats class="user-page__card"></app-referral-stats>
   </div>
 </ng-container>
 
