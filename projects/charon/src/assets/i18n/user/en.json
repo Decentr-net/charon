@@ -16,6 +16,20 @@
       "successful_update": "User was successfully updated"
     }
   },
+  "lock_delay_settings": {
+    "select": {
+      "label": "Autolock automatically in",
+      "values": {
+        "10m": "10 minutes",
+        "1h": "1 hour",
+        "24h": "24 hours",
+        "48h": "48 hours",
+        "never": "Never"
+      }
+    },
+    "subtitle": "If you don’t open the extension at least once during the selected period, you will have to enter a password.",
+    "title": "Autolock"
+  },
   "restore_seed_dialog": {
     "close": "Close",
     "form": {

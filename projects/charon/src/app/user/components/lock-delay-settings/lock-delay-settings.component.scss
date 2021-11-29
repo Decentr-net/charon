@@ -1,0 +1,32 @@
+@import 'variables';
+
+:host {
+  display: block;
+}
+
+.lock-delay-settings__title {
+  font-weight: 500;
+}
+
+.lock-delay-settings__subtitle {
+  margin-bottom: $grid-step * 2;
+  margin-top: $grid-half-step;
+}
+
+.lock-delay-settings__select__container {
+  background-color: $color-background;
+  border-radius: $border-radius;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  justify-content: space-between;
+  padding: $grid-step * 2;
+  width: 100%;
+}
+
+.lock-delay-settings__select__label {
+  color: $color-grey;
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,0 +1,40 @@
+<ng-container *transloco="let translate; read: 'user.lock_delay_settings'">
+  <div
+    class="lock-delay-settings__title"
+    appTypeface="paragraph"
+  >
+    {{ translate('title') }}
+  </div>
+
+  <div
+    class="lock-delay-settings__subtitle"
+    appTypeface="caption"
+  >
+    {{ translate('subtitle') }}
+  </div>
+
+  <div
+    class="lock-delay-settings__select__container"
+    (click)="select.open()"
+  >
+    <div
+      class="lock-delay-settings__select__label"
+      appTypeface="paragraph"
+    >
+      {{ translate('select.label') }}
+    </div>
+
+    <mat-select
+      #select
+      class="lock-delay-settings__select"
+      [disableOptionCentering]="true"
+      [ngModel]="lockDelay$ | async"
+      (ngModelChange)="onLockDelayChange($event)"
+      appTypeface="paragraph"
+    >
+      <mat-option *ngFor="let option of options" [value]="option.value">
+        {{ translate('select.values.' + option.i18nKey) }}
+      </mat-option>
+    </mat-select>
+  </div>
+</ng-container>
