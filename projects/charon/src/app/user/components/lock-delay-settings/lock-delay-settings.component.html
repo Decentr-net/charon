@@ -13,7 +13,10 @@
     {{ translate('subtitle') }}
   </div>
 
-  <div class="lock-delay-settings__select__container">
+  <div
+    class="lock-delay-settings__select__container"
+    (click)="select.open()"
+  >
     <div
       class="lock-delay-settings__select__label"
       appTypeface="paragraph"
@@ -22,7 +25,9 @@
     </div>
 
     <mat-select
+      #select
       class="lock-delay-settings__select"
+      [disableOptionCentering]="true"
       [ngModel]="lockDelay$ | async"
       (ngModelChange)="onLockDelayChange($event)"
       appTypeface="paragraph"

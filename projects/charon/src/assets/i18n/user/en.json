@@ -27,7 +27,7 @@
         "never": "Never"
       }
     },
-    "subtitle": "If you won’t open Charon extension at least once within chosen period, we’ll lock Charon until you’ll log in with your password again.",
+    "subtitle": "If you don’t open the extension at least once during the selected period, you will have to enter a password.",
     "title": "Autolock"
   },
   "restore_seed_dialog": {
