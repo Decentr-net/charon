@@ -30,7 +30,7 @@
           class="referral-stats__stats-grid__value"
           appTypeface="header-3"
         >
-          {{ stats.confirmed }}
+          {{ stats.registered }}
         </div>
 
         <div class="referral-stats__stats-grid__label">
@@ -60,7 +60,7 @@
           class="referral-stats__stats-grid__value"
           appTypeface="header-3"
         >
-          {{ stats.reward }}
+          {{ stats.confirmed }}
         </div>
 
         <div class="referral-stats__stats-grid__label">
@@ -79,7 +79,7 @@
         appTypeface="caption"
       >
         <div class="referral-stats__stats-grid__received-dec">
-          {{ translate('stats.dec_received', { received: decRewards$ | async | numberFormat : null : true }) }}
+          {{ translate('stats.dec_received', { received: stats.reward | microValue | numberFormat : null : true }) }}
         </div>
 
         <div class="referral-stats__stats-grid__received-usd">

@@ -21,7 +21,7 @@ export class NumberFormatPipe implements PipeTransform {
     decimalSeparator: string = DEFAULT_DECIMAL_SEPARATOR,
     thousandSeparator: string = CHAR_NO_BREAK_SPACE,
   ): string {
-    if (!value) {
+    if (!['string', 'number'].includes(typeof value)) {
       return '';
     }
 

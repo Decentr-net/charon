@@ -4,6 +4,7 @@ import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, share, shareReplay } from 'rxjs/operators';
 
 import { svgLink } from '@shared/svg-icons/link';
+import { MicroValuePipe } from '@shared/pipes/micro-value';
 import { CurrencyService } from '@shared/services/currency';
 import { ReferralStats, ReferralTimeStats } from '@core/services/api';
 import { ReferralService } from '@core/services';
@@ -42,6 +43,7 @@ export class ReferralStatsComponent implements OnInit {
 
   constructor(
     private currencyService: CurrencyService,
+    private microValuePipe: MicroValuePipe,
     private referralService: ReferralService,
     private svgIconRegistry: SvgIconRegistry,
   ) {
@@ -54,10 +56,6 @@ export class ReferralStatsComponent implements OnInit {
 
     const config$ = this.referralService.getConfig().pipe(
       share(),
-    );
-
-    this.rewardForReferral$ = config$.pipe(
-      map((config) => config.senderReward),
     );
 
     this.uPDVToEarnByReferral$ = config$.pipe(
@@ -81,11 +79,8 @@ export class ReferralStatsComponent implements OnInit {
       shareReplay(1),
     );
 
-    this.decRewards$ = combineLatest([
-      this.stats$,
-      this.rewardForReferral$,
-    ]).pipe(
-      map(([{ reward }, rewardForReferral]) => reward * rewardForReferral),
+    this.decRewards$ = this.stats$.pipe(
+      map((stats) => this.microValuePipe.transform(stats.reward)),
     );
 
     this.usdReceived$ = combineLatest([
@@ -93,6 +88,16 @@ export class ReferralStatsComponent implements OnInit {
       this.currencyService.getDecentrCoinRateForUsd(),
     ]).pipe(
       map(([decRewards, coinRate]) => decRewards * coinRate),
+    );
+
+    this.rewardForReferral$ = combineLatest([
+      this.stats$,
+      config$,
+    ]).pipe(
+      map(([stats, config]) => {
+        return config.senderRewardLevels.reverse().find((level) => level.from < stats.confirmed).reward;
+      }),
+      map(this.microValuePipe.transform),
     );
 
     this.isLoaded$ = combineLatest([

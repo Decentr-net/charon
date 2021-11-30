@@ -10,9 +10,20 @@ export interface ReferralTimeStats {
   last30Days: ReferralStats;
 }
 
+export interface ReferralSenderBonus {
+  count: number;
+  reward: number;
+}
+
+export interface SenderRewardLevel {
+  from: number;
+  to: number;
+  reward: number;
+}
+
 export interface ReferralConfig {
-  senderReward: number;
-  receiverReward: number;
+  senderBonus: ReferralSenderBonus[];
+  senderRewardLevels: SenderRewardLevel[];
   thresholdUpdv: number;
   thresholdDays: number;
 }
