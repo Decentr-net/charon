@@ -59,6 +59,10 @@ export class ReferralRewardMilestonesComponent implements OnChanges {
   }
 
   private getProgress(sections: ProgressBarSection[], activeSection: ProgressBarSection, referrals: number): number {
+    if (!activeSection) {
+      return 0;
+    }
+
     if (!activeSection.to) {
       return 100 - this.infiniteSectionWidth / 2;
     }

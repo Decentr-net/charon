@@ -24,12 +24,10 @@ export class ReferralBonusMilestonesComponent implements OnInit {
   public get progress(): number {
     const divider = (this.bonuses || []).length - 1;
 
-    const lastGoalReachedIndex = (this.bonuses || [])
-      .slice()
-      .reverse()
-      .findIndex((bonus) => bonus.count <= this.referrals);
+    const nextGoalIndex = (this.bonuses || [])
+      .findIndex((bonus) => bonus.count > this.referrals);
 
-    const potentialProgress = (lastGoalReachedIndex - 1) / divider * 100;
+    const potentialProgress = (nextGoalIndex === -1 ? 1 : (nextGoalIndex / divider)) * 100;
 
     return Math.max(potentialProgress, 0);
   }
