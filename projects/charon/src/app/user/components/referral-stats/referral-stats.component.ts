@@ -73,8 +73,8 @@ export class ReferralStatsComponent implements OnInit {
     );
 
     this.link$ = this.referralService.getCode().pipe(
-      map((code) => `https://${code}`),
-      share(),
+      map((code) => `https://referral.decentr.net?code=${code}`),
+      shareReplay(1),
     );
 
     this.stats$ = combineLatest([
