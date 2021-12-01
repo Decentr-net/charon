@@ -6,10 +6,15 @@
   row-gap: $grid-step * 2;
 }
 
-.referral-stats__header {
+.referral-stats__block__header {
   column-gap: $grid-step * 1.5;
   display: flex;
   font-weight: 500;
+}
+
+
+.referral-stats__block__subheader {
+  margin-top: $grid-step;
 }
 
 .referral-stats__time-select {
@@ -103,4 +108,14 @@
 
 .referral-stats__copy-link-button {
   width: max-content;
+}
+
+.referral-stats__divider {
+  background-color: $color-outlines;
+  height: $grid-step;
+  margin: $grid-step (-$grid-step * 2) 0;
+}
+
+.referral-stats__bonus-milestones {
+  margin-top: $grid-step * 2;
 }

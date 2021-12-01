@@ -1,0 +1,39 @@
+<ng-container *transloco="let translate; read: 'user.referral_bonus_milestones'">
+  <div class="referral-bonus-milestones__bar">
+    <div
+      class="referral-bonus-milestones__bar__progress"
+      [style.width.%]="progress"
+    ></div>
+  </div>
+
+  <div
+    class="referral-bonus-milestones__goal"
+    *ngFor="let bonus of bonuses"
+    [class.is-active]="bonus.count <= referrals"
+  >
+    <svg-icon
+      class="referral-bonus-milestones__goal__star"
+      key="star"
+      size="xxl"
+    ></svg-icon>
+
+    <div class="referral-bonus-milestones__goal__label">
+      <div class="referral-bonus-milestones__goal__reward_value">
+        {{ bonus.count }}
+      </div>
+
+      <div>{{ translate('dec_bonus') }}</div>
+
+      <div class="referral-bonus-milestones__goal__divider"></div>
+
+      <div class="referral-bonus-milestones__goal__referral-count">
+        {{ bonus.count }}
+
+        <svg-icon
+          key="referral"
+          fontSize="8px"
+        ></svg-icon>
+      </div>
+    </div>
+  </div>
+</ng-container>

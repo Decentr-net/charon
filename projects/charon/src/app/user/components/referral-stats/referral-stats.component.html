@@ -1,9 +1,9 @@
 <ng-container *transloco="let translate; read: 'user.referral_stats'">
   <div
-    class="referral-stats__header"
+    class="referral-stats__block__header"
     appTypeface="subheader"
   >
-    <span>{{ translate('title') }}</span>
+    <span>{{ translate('header') }}</span>
 
     <mat-select
       class="referral-stats__time-select"
@@ -108,6 +108,50 @@
 
       {{ translate('copy_invite_link') }}
     </button>
+
+    <div class="referral-stats__divider"></div>
+
+    <div>
+      <div
+        class="referral-stats__block__header"
+        appTypeface="subheader"
+      >
+        {{ translate('reward_milestones.header') }}
+      </div>
+
+      <div
+        class="referral-stats__block__subheader"
+        appTypeface="paragraph"
+      >
+        {{ translate('reward_milestones.subheader') }}
+      </div>
+
+      <app-referral-reward-milestones></app-referral-reward-milestones>
+    </div>
+
+    <div class="referral-stats__divider"></div>
+
+    <div>
+      <div
+        class="referral-stats__block__header"
+        appTypeface="subheader"
+      >
+        {{ translate('bonus_milestones.header') }}
+      </div>
+
+      <div
+        class="referral-stats__block__subheader"
+        appTypeface="paragraph"
+      >
+        {{ translate('bonus_milestones.subheader') }}
+      </div>
+
+      <app-referral-bonus-milestones
+        class="referral-stats__bonus-milestones"
+        [bonuses]="bonuses$ | async"
+        [referrals]="(stats$ | async).confirmed"
+      ></app-referral-bonus-milestones>
+    </div>
   </ng-container>
 </ng-container>
 

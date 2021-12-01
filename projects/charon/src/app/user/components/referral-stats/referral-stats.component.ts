@@ -6,7 +6,7 @@ import { map, share, shareReplay } from 'rxjs/operators';
 import { svgLink } from '@shared/svg-icons/link';
 import { MicroValuePipe } from '@shared/pipes/micro-value';
 import { CurrencyService } from '@shared/services/currency';
-import { ReferralStats, ReferralTimeStats } from '@core/services/api';
+import { ReferralSenderBonus, ReferralStats, ReferralTimeStats } from '@core/services/api';
 import { ReferralService } from '@core/services';
 
 type TimeOption = keyof ReferralTimeStats;
@@ -38,6 +38,8 @@ export class ReferralStatsComponent implements OnInit {
   public link$: Observable<string>;
 
   public stats$: Observable<ReferralStats>;
+
+  public bonuses$: Observable<ReferralSenderBonus[]>;
 
   public isLoaded$: Observable<boolean>;
 
@@ -94,10 +96,16 @@ export class ReferralStatsComponent implements OnInit {
       this.stats$,
       config$,
     ]).pipe(
-      map(([stats, config]) => {
-        return config.senderRewardLevels.reverse().find((level) => level.from < stats.confirmed).reward;
-      }),
+      map(([stats, config]) => config.senderRewardLevels
+        .slice()
+        .reverse()
+        .find((level) => level.from < stats.confirmed).reward
+      ),
       map(this.microValuePipe.transform),
+    );
+
+    this.bonuses$ = config$.pipe(
+      map(({ senderBonus }) => senderBonus),
     );
 
     this.isLoaded$ = combineLatest([
