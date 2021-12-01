@@ -38,6 +38,10 @@
     .referral-bonus-milestones__goal__star {
       color: $color-positive;
     }
+
+    .referral-bonus-milestones__goal__divider {
+      border-color: $color-white;
+    }
   }
 }
 
@@ -56,7 +60,7 @@
 }
 
 .referral-bonus-milestones__goal__divider {
-  border-bottom: 1px solid $color-white;
+  border-bottom: 1px solid $color-outlines;
   margin: math.div($grid-step, 4) 0;
   min-width: 40px;
 }
