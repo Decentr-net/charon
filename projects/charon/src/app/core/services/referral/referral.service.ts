@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { filter, mapTo, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, filter, mapTo, switchMap } from 'rxjs/operators';
+import { Wallet } from 'decentr-js';
 
 import { AuthService } from '@core/auth';
 import { ReferralApiService, ReferralConfig, ReferralTimeStats } from '@core/services/api';
@@ -29,6 +30,12 @@ export class ReferralService {
       filter((address) => !!address),
       switchMap((address) => this.referralApiService.getStats(address)),
       mapTo({"total":{"registered":0,"installed":0,"confirmed":0,"reward":0},"last30Days":{"registered":4,"installed":3,"confirmed":600,"reward":20000000}})
+    );
+  }
+
+  public trackInstall(walletAddress: Wallet['address']): Observable<void> {
+    return this.referralApiService.trackInstall(walletAddress).pipe(
+      catchError(() => of(void 0)),
     );
   }
 }

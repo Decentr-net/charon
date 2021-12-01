@@ -39,4 +39,12 @@ export class ReferralApiService {
       }),
     );
   }
+
+  public trackInstall(walletAddress: Wallet['address']): Observable<void> {
+    return this.configService.getVulcanUrl().pipe(
+      switchMap((vulcanUrl) => {
+        return this.httpClient.post<void>(`${vulcanUrl}/v1/referral/track/install/${walletAddress}`, {});
+      }),
+    );
+  }
 }
