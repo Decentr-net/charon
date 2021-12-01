@@ -1,8 +1,9 @@
-import { CookiePDV, PDV } from 'decentr-js';
+import { PDV } from 'decentr-js';
 
 import { BrowserLocalStorage } from '../../../../../shared/services/browser-storage';
 import { parseDomain, parseExpirationDate } from '../pdv/cookies';
 import { PDVUniqueStore } from '../pdv/pdv-unique-store';
+import { isCookiePDV } from '../pdv/is-pdv';
 
 interface OldPDVStorage {
   [walletAddress: string]: {
@@ -12,10 +13,6 @@ interface OldPDVStorage {
       pDVs: PDV[];
     }[];
   };
-}
-
-const isCookiePDV = (pdv: PDV): pdv is CookiePDV => {
-  return !!(pdv as CookiePDV).expirationDate;
 }
 
 const fixPDV = (pdv: PDV): PDV | undefined => {

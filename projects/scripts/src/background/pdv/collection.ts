@@ -6,6 +6,7 @@ import {
   delay,
   distinctUntilChanged,
   filter,
+  map,
   mergeMap,
   pluck,
   reduce,
@@ -21,12 +22,13 @@ import { SettingsService } from '../../../../../shared/services/settings';
 import { ONE_MINUTE, ONE_SECOND } from '../../../../../shared/utils/date';
 import CONFIG_SERVICE from '../config';
 import { whileUserActive } from '../auth/while-user-active';
-import { sendPDV } from './api';
+import { getBlacklist, sendPDV } from './api';
 import { listenAdvertiserPDVs } from './advertiser-id';
 import { listenCookiePDVs } from './cookies';
 import { listenSearchHistoryPDVs } from './search-history';
 import { mergePDVsIntoAccumulated, PDV_STORAGE_SERVICE } from './storage';
 import { listenLocationPDVs } from './location';
+import { isCookiePDV } from './is-pdv';
 
 const configService = CONFIG_SERVICE;
 const settingsService = new SettingsService();
@@ -52,6 +54,18 @@ const whilePDVAllowed = (pdvType: PDVType, walletAddress: Wallet['address']) => 
   );
 };
 
+const isPDVBlacklisted = (pdv: PDV): Observable<boolean> => {
+  return getBlacklist().pipe(
+    map((blacklist) => {
+      if (isCookiePDV(pdv)) {
+        return blacklist.cookieSource.some((bannedSource) => pdv.source.host.includes(bannedSource));
+      }
+
+      return false;
+    }),
+  );
+};
+
 const PDV_SOURCE_MAP: Record<Exclude<PDVType, PDVType.Profile>, () => Observable<PDV>> = {
   [PDVType.Cookie]: listenCookiePDVs,
   [PDVType.Location]: listenLocationPDVs,
@@ -63,6 +77,10 @@ const getAllPDVSource = (walletAddress: Wallet['address']) => merge(
   ...Object.entries(PDV_SOURCE_MAP).map(([pdvType, source]) => {
     return source().pipe(
       whilePDVAllowed(pdvType as PDVType, walletAddress),
+      mergeMap((pdv: PDV) => isPDVBlacklisted(pdv).pipe(
+        map((isPDVBlacklisted) => isPDVBlacklisted ? void 0 : pdv),
+      )),
+      filter((pdv) => !!pdv),
     );
   }),
 );
