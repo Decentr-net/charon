@@ -99,7 +99,7 @@ export class ReferralStatsComponent implements OnInit {
       map(([stats, config]) => config.senderRewardLevels
         .slice()
         .reverse()
-        .find((level) => level.from < stats.confirmed).reward
+        .find((level) => (level.from - 1) <= stats.confirmed).reward
       ),
       map(this.microValuePipe.transform),
     );
