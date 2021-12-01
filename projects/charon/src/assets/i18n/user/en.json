@@ -33,6 +33,9 @@
   "referral_bonus_milestones": {
     "dec_bonus": "DEC bonus"
   },
+  "referral_reward_milestones": {
+    "dec_rewards": "DEC rewards"
+  },
   "referral_stats": {
     "bonus_milestones": {
       "header": "Additional bonuses for round invitee summs",

@@ -126,7 +126,11 @@
         {{ translate('reward_milestones.subheader') }}
       </div>
 
-      <app-referral-reward-milestones></app-referral-reward-milestones>
+      <app-referral-reward-milestones
+        class="referral-stats__reward-milestones"
+        [referrals]="referrals$ | async"
+        [rewards]="senderRewards$ | async"
+      ></app-referral-reward-milestones>
     </div>
 
     <div class="referral-stats__divider"></div>
@@ -148,8 +152,8 @@
 
       <app-referral-bonus-milestones
         class="referral-stats__bonus-milestones"
-        [bonuses]="bonuses$ | async"
-        [referrals]="(stats$ | async).confirmed"
+        [bonuses]="senderBonuses$ | async"
+        [referrals]="referrals$ | async"
       ></app-referral-bonus-milestones>
     </div>
   </ng-container>
