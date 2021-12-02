@@ -1,6 +1,7 @@
 import { CORE_API_SERVICES } from './api';
 import { BankService } from './bank';
 import { BlocksService } from './blocks';
+import { CurrencyService } from './currency';
 import { DistributionService } from './distribution';
 import { FollowingService } from './following';
 import { ImageUploaderService } from './image-uploader';
@@ -14,6 +15,7 @@ import { UserService } from './user';
 
 export * from './bank';
 export * from './blocks';
+export * from './currency';
 export * from './distribution';
 export * from './following';
 export * from './image-uploader';
@@ -30,6 +32,7 @@ export const CORE_SERVICES = [
   CORE_API_SERVICES,
   BankService,
   BlocksService,
+  CurrencyService,
   DistributionService,
   FollowingService,
   ImageUploaderService,

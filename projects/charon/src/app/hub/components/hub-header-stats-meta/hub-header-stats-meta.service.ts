@@ -7,10 +7,9 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import { AuthService } from '@core/auth/services';
 import { AdvDdvStatistics, BalanceValueDynamic, PDVService } from '@shared/services/pdv';
 import { coerceTimestamp } from '@shared/utils/date';
-import { CoinRateFor24Hours, CurrencyService } from '@shared/services/currency';
+import { CoinRateFor24Hours, CurrencyService, UserService } from '@core/services';
 import { HubCurrencyStatistics } from '../hub-currency-statistics';
 import { HubPDVStatistics } from '../hub-pdv-statistics';
-import { UserService } from '@core/services';
 
 interface CoinRateHistory {
   date: number;
@@ -68,7 +67,7 @@ export class HubHeaderStatsMetaService {
   }
 
   private getDecentCoinRateHistory(days: number): Observable<CoinRateHistory[]> {
-    return this.currencyService.getDecentCoinRateHistory(days).pipe(
+    return this.currencyService.getDecentrCoinRateHistory(days).pipe(
       map((historyElements) => historyElements.map((historyElement) => ({
         date: historyElement[0],
         value: historyElement[1],

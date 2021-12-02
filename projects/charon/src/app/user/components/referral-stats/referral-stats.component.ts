@@ -7,9 +7,8 @@ import { AnalyticsEvent } from '@shared/analytics';
 import { svgLink } from '@shared/svg-icons/link';
 import { MicroValuePipe } from '@shared/pipes/micro-value';
 import { ConfigService } from '@shared/services/configuration';
-import { CurrencyService } from '@shared/services/currency';
 import { ReferralSenderBonus, ReferralStats, ReferralTimeStats, SenderRewardLevel } from '@core/services/api';
-import { ReferralService } from '@core/services';
+import { CurrencyService, ReferralService } from '@core/services';
 
 type TimeOption = keyof ReferralTimeStats;
 

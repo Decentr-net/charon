@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
 
-import { BlocksService } from '@core/services';
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { BalanceValueDynamic, PDVService } from '@shared/services/pdv';
-import { CoinRateFor24Hours, CurrencyService } from '@shared/services/currency';
+import { BlocksService, CoinRateFor24Hours, CurrencyService } from '@core/services';
 import { PdvChartPoint } from '../../components/pdv-rate-chart';
 
 export interface PdvReward {

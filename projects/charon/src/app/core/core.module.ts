@@ -7,7 +7,6 @@ import { environment } from '@environments/environment';
 import { MessageCode } from '@scripts/messages';
 import { AnalyticsModule, AnalyticsService } from '@shared/analytics';
 import { MessageBus } from '@shared/message-bus';
-import { CurrencyModule } from '@shared/services/currency';
 import { MenuModule } from '@shared/components/menu';
 import { NetworkSelectorModule, NetworkSelectorService as BaseNetworkSelectorService } from '@shared/components/network-selector';
 import { SlotModule } from '@shared/components/slot';
@@ -58,9 +57,6 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     AuthModule.forRoot(),
     AuthorizedLayoutModule,
     ConfigurationModule,
-    CurrencyModule.forRoot({
-      api: environment.currencyApi,
-    }),
     LockModule.forRoot({
       redirectUrl: `/${AppRoute.Login}`,
     }),
