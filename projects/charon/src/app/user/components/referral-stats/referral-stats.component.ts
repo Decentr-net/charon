@@ -5,6 +5,7 @@ import { map, share, shareReplay } from 'rxjs/operators';
 
 import { svgLink } from '@shared/svg-icons/link';
 import { MicroValuePipe } from '@shared/pipes/micro-value';
+import { ConfigService } from '@shared/services/configuration';
 import { CurrencyService } from '@shared/services/currency';
 import { ReferralSenderBonus, ReferralStats, ReferralTimeStats, SenderRewardLevel } from '@core/services/api';
 import { ReferralService } from '@core/services';
@@ -48,6 +49,7 @@ export class ReferralStatsComponent implements OnInit {
   public isLoaded$: Observable<boolean>;
 
   constructor(
+    private configService: ConfigService,
     private currencyService: CurrencyService,
     private microValuePipe: MicroValuePipe,
     private referralService: ReferralService,
@@ -72,8 +74,11 @@ export class ReferralStatsComponent implements OnInit {
       map((config) => config.thresholdDays),
     );
 
-    this.link$ = this.referralService.getCode().pipe(
-      map((code) => `https://referral.decentr.net?code=${code}`),
+    this.link$ = combineLatest([
+      this.configService.getReferralUrl(),
+      this.referralService.getCode(),
+    ]).pipe(
+      map(([referralUrl, code]) => `${referralUrl}/?referralCode=${code}`),
       shareReplay(1),
     );
 
