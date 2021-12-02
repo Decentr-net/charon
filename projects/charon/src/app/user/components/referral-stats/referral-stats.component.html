@@ -101,6 +101,7 @@
       class="referral-stats__copy-link-button"
       app-button
       color="grey"
+      [appAnalyticsClickEvent]="analyticsEvent.CopyReferralCode"
       [cdkCopyToClipboard]="link$ | async"
       [appClipboardCopiedNotification]="'user.referral_stats.link_copied'"
     >

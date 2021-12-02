@@ -9,6 +9,7 @@ import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
+import { AnalyticsModule } from '@shared/analytics';
 import { AvatarModule } from '@shared/components/avatar';
 import { ButtonModule } from '@shared/components/button';
 import { ButtonBackModule } from '@shared/components/button-back';
@@ -39,6 +40,7 @@ import { UserRoutingModule } from './user-routing.module';
 
 @NgModule({
   imports: [
+    AnalyticsModule,
     AvatarModule,
     ButtonModule,
     ButtonBackModule,

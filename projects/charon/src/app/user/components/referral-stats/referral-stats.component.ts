@@ -3,6 +3,7 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, share, shareReplay } from 'rxjs/operators';
 
+import { AnalyticsEvent } from '@shared/analytics';
 import { svgLink } from '@shared/svg-icons/link';
 import { MicroValuePipe } from '@shared/pipes/micro-value';
 import { ConfigService } from '@shared/services/configuration';
@@ -47,6 +48,8 @@ export class ReferralStatsComponent implements OnInit {
   public senderRewards$: Observable<SenderRewardLevel[]>;
 
   public isLoaded$: Observable<boolean>;
+
+  public analyticsEvent: typeof AnalyticsEvent = AnalyticsEvent;
 
   constructor(
     private configService: ConfigService,

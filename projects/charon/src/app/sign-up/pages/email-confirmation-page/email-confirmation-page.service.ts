@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpStatusCode } from '@angular/common/http';
 import { forkJoin, from, Observable, throwError } from 'rxjs';
-import { catchError, map, mapTo, mergeMap, startWith } from 'rxjs/operators';
+import { catchError, map, mapTo, mergeMap, startWith, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 
+import { AnalyticsEvent, AnalyticsService } from '@shared/analytics';
 import { createSecondsTimer } from '@shared/utils/timer';
 import { AuthService } from '@core/auth';
 import { TranslatedError } from '@core/notifications';
@@ -15,6 +16,7 @@ const RESEND_DELAY_SEC = 60;
 @Injectable()
 export class EmailConfirmationPageService {
   constructor(
+    private analyticsService: AnalyticsService,
     private authService: AuthService,
     private signUpStoreService: SignUpStoreService,
     private translocoService: TranslocoService,
@@ -50,6 +52,7 @@ export class EmailConfirmationPageService {
       }),
       mergeMap(() => this.userService.waitAccount(user.wallet.address)),
       mapTo(void 0),
+      tap(() => this.analyticsService.sendEvent(AnalyticsEvent.ConfirmRegistration)),
     );
   }
 
@@ -98,6 +101,7 @@ export class EmailConfirmationPageService {
           return throwError(errorToThrow);
         }),
         mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
+        tap(() => this.analyticsService.sendEvent(AnalyticsEvent.SendEmailCode)),
       );
   }
 }

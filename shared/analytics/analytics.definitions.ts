@@ -1,7 +1,13 @@
 import { InjectionToken } from '@angular/core';
 
 export enum AnalyticsEvent {
+  ConfirmRegistration,
+  CopyReferralCode,
+  CopySeed,
+  CreateAccount,
   DownloadSeedPDF,
+  RegisterNewAccount,
+  SendEmailCode,
 }
 
 export interface AnalyticsEventOptions {
@@ -12,10 +18,40 @@ export interface AnalyticsEventOptions {
 }
 
 export const ANALYTICS_EVENT_MAP: Record<AnalyticsEvent, AnalyticsEventOptions> = {
+  [AnalyticsEvent.ConfirmRegistration]: {
+    category: 'registration',
+    action: 'confirm',
+    label: 'Confirm Registration',
+  },
+  [AnalyticsEvent.CopyReferralCode]: {
+    category: 'profile',
+    action: 'copy',
+    label: 'Copy Referral Code',
+  },
+  [AnalyticsEvent.CopySeed]: {
+    category: 'registration',
+    action: 'copy',
+    label: 'Copy Seed Phrase',
+  },
+  [AnalyticsEvent.CreateAccount]: {
+    category: 'registration',
+    action: 'create_account',
+    label: 'Create account',
+  },
   [AnalyticsEvent.DownloadSeedPDF]: {
-    category: 'Registration',
+    category: 'registration',
     action: 'download',
-    label: 'Seed phrase',
+    label: 'Download Seed Phrase',
+  },
+  [AnalyticsEvent.RegisterNewAccount]: {
+    category: 'registration',
+    action: 'register',
+    label: 'Register New Account',
+  },
+  [AnalyticsEvent.SendEmailCode]: {
+    category: 'registration',
+    action: 'send',
+    label: 'Resend Email Code',
   },
 }
 
