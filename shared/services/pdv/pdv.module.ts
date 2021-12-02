@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 
 import { MicroValueModule } from '../../pipes/micro-value';
 import { ConfigurationModule } from '../configuration';
@@ -14,7 +15,7 @@ import { AuthBrowserStorageService } from '../auth';
   ],
   providers: [
     AuthBrowserStorageService,
-
+    DecimalPipe,
     PDVApiService,
     PDVService,
     PDVStorageService,
