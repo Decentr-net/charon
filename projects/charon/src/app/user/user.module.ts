@@ -12,6 +12,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AvatarModule } from '@shared/components/avatar';
 import { ButtonModule } from '@shared/components/button';
 import { ButtonBackModule } from '@shared/components/button-back';
+import { ClipboardCopiedNotificationModule } from '@shared/directives/clipboard-copied-notification';
 import { ConfirmationDialogModule } from '@shared/components/confirmation-dialog';
 import { CurrencySymbolModule } from '@shared/components/currency-symbol';
 import { FormErrorModule } from '@shared/components/form-error';
@@ -21,6 +22,7 @@ import { MarginLabelModule } from '@shared/components/margin-label';
 import { MicroValueModule } from '@shared/pipes/micro-value';
 import { NetworkSelectorModule } from '@shared/components/network-selector';
 import { NumberFormatModule } from '@shared/pipes/number-format';
+import { NumberSuffixModule } from '@shared/pipes/number-suffix';
 import { PasswordModule } from '@shared/components/password';
 import { PdvTypeIconModule } from '@shared/components/pdv-type-icon';
 import { PdvTypesSettingsModule } from '@shared/components/pdv-types-settings';
@@ -41,6 +43,7 @@ import { UserRoutingModule } from './user-routing.module';
     ButtonModule,
     ButtonBackModule,
     ClipboardModule,
+    ClipboardCopiedNotificationModule,
     CommonModule,
     ConfirmationDialogModule,
     CurrencySymbolModule,
@@ -56,6 +59,7 @@ import { UserRoutingModule } from './user-routing.module';
     NetworkSelectorModule,
     NgxSkeletonLoaderModule,
     NumberFormatModule,
+    NumberSuffixModule,
     PasswordModule,
     PdvTypeIconModule,
     PdvTypesSettingsModule,

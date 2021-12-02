@@ -117,4 +117,10 @@ export class ConfigService {
       map((config) => config.theseus.url),
     );
   }
+
+  public getReferralUrl(): Observable<string> {
+    return this.getConfig().pipe(
+      map((config) => config.referral.url),
+    );
+  }
 }

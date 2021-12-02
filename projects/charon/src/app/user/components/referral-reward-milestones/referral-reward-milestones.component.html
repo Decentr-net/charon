@@ -1,0 +1,48 @@
+<ng-container *transloco="let translate; read: 'user.referral_reward_milestones'">
+  <div
+    class="referral-bonus-milestones__header"
+    appTypeface="caption"
+  >
+    <div
+      class="referral-bonus-milestones__header-cell"
+      *ngFor="let section of sections"
+      [class.is-active]="section === activeSection"
+      [style.width.%]="section.width"
+    >
+      {{ section.reward | microValue }}
+      {{ translate('dec_rewards') }}
+    </div>
+  </div>
+
+  <div class="referral-reward-milestones__bar">
+    <div
+      class="referral-bonus-milestones__bar__progress"
+      [style.width.%]="progress"
+    ></div>
+
+    <div
+      class="referral-bonus-milestones__bar__progress-label"
+      [style.left.%]="progress"
+      appTypeface="paragraph"
+    >
+      {{ referrals }}
+    </div>
+  </div>
+
+  <div
+    class="referral-bonus-milestones__footer"
+    appTypeface="caption"
+  >
+    <div class="referral-bonus-milestones__footer-cell mod-start">0</div>
+
+    <div
+      class="referral-bonus-milestones__footer-cell"
+      *ngFor="let section of sections"
+      [style.width.%]="section.width"
+    >
+      <span class="referral-bonus-milestones__footer-cell-label">
+        {{ section.to || '&#8734;' }}
+      </span>
+    </div>
+  </div>
+</ng-container>

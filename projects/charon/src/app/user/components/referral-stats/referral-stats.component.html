@@ -1,0 +1,167 @@
+<ng-container *transloco="let translate; read: 'user.referral_stats'">
+  <div
+    class="referral-stats__block__header"
+    appTypeface="subheader"
+  >
+    <span>{{ translate('header') }}</span>
+
+    <mat-select
+      class="referral-stats__time-select"
+      [ngModel]="selectedTime | async"
+      (ngModelChange)="selectTime($event)"
+    >
+      <mat-option
+        *ngFor="let option of timeOptions"
+        [value]="option"
+      >
+        {{ translate('time_options.' + option) }}
+      </mat-option>
+    </mat-select>
+  </div>
+
+  <ng-container *ngIf="isLoaded$ | async; else loading">
+    <div
+      class="referral-stats__stats-grid"
+      *ngIf="stats$ | async as stats"
+      appTypeface="paragraph"
+    >
+      <div class="referral-stats__stats-grid__signed-up">
+        <div
+          class="referral-stats__stats-grid__value"
+          appTypeface="header-3"
+        >
+          {{ stats.registered }}
+        </div>
+
+        <div class="referral-stats__stats-grid__label">
+          {{ translate('stats.signed_up') }}
+        </div>
+      </div>
+
+      <div class="referral-stats__stats-grid__divider mod-first"></div>
+
+      <div class="referral-stats__stats-grid__installed">
+        <div
+          class="referral-stats__stats-grid__value"
+          appTypeface="header-3"
+        >
+          {{ stats.installed }}
+        </div>
+
+        <div class="referral-stats__stats-grid__label">
+          {{ translate('stats.installed') }}
+        </div>
+      </div>
+
+      <div class="referral-stats__stats-grid__divider mod-second"></div>
+
+      <div class="referral-stats__stats-grid__rewards">
+        <div
+          class="referral-stats__stats-grid__value"
+          appTypeface="header-3"
+        >
+          {{ stats.confirmed }}
+        </div>
+
+        <div class="referral-stats__stats-grid__label">
+          {{ translate('stats.rewards') }}
+        </div>
+      </div>
+
+      <div
+        class="referral-stats__stats-grid__reward-for-referral"
+        appTypeface="caption"
+        [innerHTML]="translate('stats.reward_for_referral', { reward: rewardForReferral$ | async })"
+      ></div>
+
+      <div
+        class="referral-stats__stats-grid__received"
+        appTypeface="caption"
+      >
+        <div class="referral-stats__stats-grid__received-dec">
+          {{ translate('stats.dec_received', { received: stats.reward | microValue | numberFormat : null : true }) }}
+        </div>
+
+        <div class="referral-stats__stats-grid__received-usd">
+          ~{{ usdReceived$ | async | currency : 'USD' : 'symbol' : '1.4'  }}
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="referral-stats__hints"
+      appTypeface="paragraph"
+    >
+      <div [innerHTML]="translate('steps', { uPDVToEarn: uPDVToEarnByReferral$ | async })"></div>
+
+      <div>{{ translate('rewards_days', { days: daysForReward$ | async }) }}</div>
+    </div>
+
+    <button
+      class="referral-stats__copy-link-button"
+      app-button
+      color="grey"
+      [cdkCopyToClipboard]="link$ | async"
+      [appClipboardCopiedNotification]="'user.referral_stats.link_copied'"
+    >
+      <svg-icon key="link"></svg-icon>
+
+      {{ translate('copy_invite_link') }}
+    </button>
+
+    <div class="referral-stats__divider"></div>
+
+    <div>
+      <div
+        class="referral-stats__block__header"
+        appTypeface="subheader"
+      >
+        {{ translate('reward_milestones.header') }}
+      </div>
+
+      <div
+        class="referral-stats__block__subheader"
+        appTypeface="paragraph"
+      >
+        {{ translate('reward_milestones.subheader') }}
+      </div>
+
+      <app-referral-reward-milestones
+        class="referral-stats__reward-milestones"
+        [referrals]="referrals$ | async"
+        [rewards]="senderRewards$ | async"
+      ></app-referral-reward-milestones>
+    </div>
+
+    <div class="referral-stats__divider"></div>
+
+    <div>
+      <div
+        class="referral-stats__block__header"
+        appTypeface="subheader"
+      >
+        {{ translate('bonus_milestones.header') }}
+      </div>
+
+      <div
+        class="referral-stats__block__subheader"
+        appTypeface="paragraph"
+      >
+        {{ translate('bonus_milestones.subheader') }}
+      </div>
+
+      <app-referral-bonus-milestones
+        class="referral-stats__bonus-milestones"
+        [bonuses]="senderBonuses$ | async"
+        [referrals]="referrals$ | async"
+      ></app-referral-bonus-milestones>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #loading>
+  <ngx-skeleton-loader
+    [count]="1"
+    [theme]="{ height: '300px' }"
+  ></ngx-skeleton-loader>
+</ng-template>

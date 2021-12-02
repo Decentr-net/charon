@@ -1,0 +1,83 @@
+@import 'variables';
+
+:host {
+  display: block;
+}
+
+.referral-bonus-milestones__header,
+.referral-bonus-milestones__footer {
+  color: $color-grey;
+  display: flex;
+}
+
+.referral-bonus-milestones__header {
+  text-align: center;
+}
+
+.referral-bonus-milestones__header-cell {
+  align-items: center;
+  display: inline-flex;
+  height: 32px;
+  justify-content: center;
+
+  & + & {
+    border-left: 1px solid $color-outlines;
+  }
+
+  &.is-active {
+    color: $color-positive;
+    font-weight: 700;
+  }
+}
+
+.referral-bonus-milestones__footer {
+  position: relative;
+}
+
+.referral-bonus-milestones__footer-cell {
+  position: relative;
+
+  &:last-child {
+    .referral-bonus-milestones__footer-cell-label {
+      transform: initial;
+    }
+  }
+
+  &.mod-start {
+    left: 0;
+    position: absolute;
+  }
+}
+
+.referral-bonus-milestones__footer-cell-label {
+  position: absolute;
+  right: 0;
+  transform: translateX(50%);
+}
+
+.referral-reward-milestones__bar {
+  align-items: center;
+  background-color: $color-outlines;
+  border-radius: $grid-half-step;
+  display: flex;
+  height: $grid-step;
+  margin: $grid-step 0 $grid-step * 1.5;
+  position: relative;
+}
+
+.referral-bonus-milestones__bar__progress {
+  background-color: $color-positive;
+  border-radius: inherit;
+  height: inherit;
+}
+
+.referral-bonus-milestones__bar__progress-label {
+  background-color: $color-positive;
+  border-radius: $border-radius;
+  color: $color-white;
+  min-width: 32px;
+  padding: $grid-half-step;
+  position: absolute;
+  text-align: center;
+  transform: translateX(-50%);
+}

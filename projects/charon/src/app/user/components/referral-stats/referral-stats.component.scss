@@ -1,0 +1,122 @@
+@import 'variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  row-gap: $grid-step * 2;
+}
+
+.referral-stats__block__header {
+  column-gap: $grid-step * 1.5;
+  display: flex;
+  font-weight: 500;
+}
+
+
+.referral-stats__block__subheader {
+  margin-top: $grid-step;
+}
+
+.referral-stats__time-select {
+  max-width: 120px;
+
+  &::ng-deep {
+    .mat-select-value-text,
+    .mat-select-arrow {
+      color: $color-primary
+    }
+  }
+}
+
+.referral-stats__stats-grid {
+  display: grid;
+  grid-template-areas: 'signed-up divider-1 installed divider-2 rewards'
+                       'reward-for-referral reward-for-referral reward-for-referral empty received';
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  row-gap: $grid-step;
+}
+
+.referral-stats__stats-grid__divider {
+  background-color: $color-outlines;
+  height: 100%;
+  margin: 0 $grid-step;
+  width: 2px;
+
+  &.mod-first {
+    grid-area: divider-1;
+  }
+
+  &.mod-second {
+    grid-area: divider-2;
+  }
+}
+
+.referral-stats__stats-grid__value {
+  font-weight: 500;
+}
+
+.referral-stats__stats-grid__label {
+  color: $color-grey;
+}
+
+.referral-stats__stats-grid__signed-up {
+  grid-area: signed-up;
+  padding-right: $grid-step * 2;
+}
+
+.referral-stats__stats-grid__installed {
+  grid-area: installed;
+  padding: 0 $grid-step * 2;
+}
+
+.referral-stats__stats-grid__rewards {
+  grid-area: rewards;
+  padding: 0 $grid-step * 2;
+}
+
+.referral-stats__stats-grid__reward-for-referral {
+  background: $color-background;
+  border-radius: $border-radius;
+  color: $color-grey;
+  grid-area: reward-for-referral;
+  padding: $grid-half-step $grid-step * 8;
+  text-align: center;
+}
+
+.referral-stats__stats-grid__received {
+  background: rgba($color-positive, .08);
+  border-radius: $border-radius;
+  grid-area: received;
+  padding: $grid-half-step;
+  text-align: center;
+}
+
+.referral-stats__stats-grid__received-dec {
+  color: $color-positive;
+}
+
+.referral-stats__stats-grid__received-usd {
+  color: $color-grey;
+}
+
+.referral-stats__hints {
+  display: flex;
+  color: $color-grey;
+  flex-direction: column;
+  row-gap: $grid-step;
+}
+
+.referral-stats__copy-link-button {
+  width: max-content;
+}
+
+.referral-stats__divider {
+  background-color: $color-outlines;
+  height: $grid-step;
+  margin: $grid-step (-$grid-step * 2) 0;
+}
+
+.referral-stats__reward-milestones,
+.referral-stats__bonus-milestones {
+  margin-top: $grid-step * 2;
+}

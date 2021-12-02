@@ -17,6 +17,10 @@
   border-radius: $border-radius;
   height: min-content;
   padding: $grid-step * 2;
+
+  & + & {
+    margin-top: $grid-step * 2;
+  }
 }
 
 .user-page__card__app-version {

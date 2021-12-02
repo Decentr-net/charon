@@ -31,4 +31,7 @@ export interface Config {
   vulcan: {
     url: string;
   };
+  referral: {
+    url: string;
+  };
 }
