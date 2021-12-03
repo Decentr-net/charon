@@ -1,4 +1,4 @@
-import { PDVUpdateNotifier } from '../../../shared/services/pdv';
+import { PDVUpdateNotifier } from '../../../shared/services/pdv/pdv-update-notifier';
 import { initMessageListeners } from './background/listeners';
 import { initAutoLock } from './background/lock';
 import { initMigration } from './background/migration';
