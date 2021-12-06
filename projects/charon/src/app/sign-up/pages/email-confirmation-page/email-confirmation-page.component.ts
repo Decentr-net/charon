@@ -7,6 +7,7 @@ import { ControlsOf, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+import { AnalyticsEvent } from '@shared/analytics';
 import { NotificationService } from '@shared/services/notification';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { AuthService } from '@core/auth';
@@ -42,6 +43,8 @@ export class EmailConfirmationPageComponent implements OnInit {
   public codeForm: FormGroup<ControlsOf<CodeForm>>;
 
   public secondsLeftToResend: number;
+
+  public analyticsEvent: typeof AnalyticsEvent = AnalyticsEvent;
 
   private timerReset$: Subject<void> = new Subject<void>();
 

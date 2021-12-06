@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, defer, Observable } from 'rxjs';
-import { filter, first, mapTo, mergeMapTo, skip } from 'rxjs/operators';
+import { filter, first, map, mapTo, mergeMapTo, skip } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AuthBrowserStorageService } from '@shared/services/auth';
 import { aesDecrypt, aesEncrypt, sha256 } from '@shared/utils/crypto';
 import { uuid } from '@shared/utils/uuid';
 import { AuthUser, AuthUserCreate, AuthUserUpdate } from '../models';
+import { Wallet } from 'decentr-js';
 
 @UntilDestroy()
 @Injectable()
@@ -46,6 +47,12 @@ export class AuthService {
 
   public getActiveUserInstant(): AuthUser | undefined {
     return this.activeUser$.value;
+  }
+
+  public getActiveUserAddress(): Observable<Wallet['address'] | undefined> {
+    return this.getActiveUser().pipe(
+      map((user) => user?.wallet?.address),
+    );
   }
 
   public async createUser(user: AuthUserCreate): Promise<AuthUser['id']> {

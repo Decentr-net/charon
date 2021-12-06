@@ -4,6 +4,7 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 import html2canvas from 'html2canvas';
 
+import { AnalyticsEvent } from '@shared/analytics';
 import { NotificationService } from '@shared/services/notification';
 import { svgCopy } from '@shared/svg-icons/copy';
 import { svgDownload } from '@shared/svg-icons/download';
@@ -23,6 +24,8 @@ export class SeedComponent implements OnInit {
 
   public isSeedPhraseVisible = false;
   public securedSeedPhrase: string;
+
+  public analyticsEvent: typeof AnalyticsEvent = AnalyticsEvent;
 
   constructor(
     private notificationService: NotificationService,

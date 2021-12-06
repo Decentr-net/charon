@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpStatusCode } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, mergeMap } from 'rxjs/operators';
+import { catchError, mergeMap, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { createWalletFromMnemonic } from 'decentr-js';
 
+import { AnalyticsEvent, AnalyticsService } from '@shared/analytics';
 import { AuthService, AuthUserCreate } from '@core/auth';
 import { TranslatedError } from '@core/notifications';
 import { UserService } from '@core/services';
@@ -13,6 +14,7 @@ import { SignUpStoreService } from '../../services';
 @Injectable()
 export class SignUpPageService {
   constructor(
+    private analyticsService: AnalyticsService,
     private authService: AuthService,
     private signUpStoreService: SignUpStoreService,
     private translocoService: TranslocoService,
@@ -59,6 +61,7 @@ export class SignUpPageService {
         seed: seedPhrase,
       })),
       mergeMap(id => this.authService.changeUser(id)),
+      tap(() => this.analyticsService.sendEvent(AnalyticsEvent.CreateAccount)),
     );
   }
 }

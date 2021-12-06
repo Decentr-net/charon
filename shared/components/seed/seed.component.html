@@ -26,6 +26,7 @@
     <button
       app-button
       color="white"
+      [appAnalyticsClickEvent]="analyticsEvent.CopySeed"
       [cdkCopyToClipboard]="value"
       (cdkCopyToClipboardCopied)="onSeedPhraseCopied()"
     >
@@ -37,6 +38,7 @@
     <button
       app-button
       color="white"
+      [appAnalyticsClickEvent]="analyticsEvent.DownloadSeedPDF"
       (click)="downloadSeedPhrase()"
     >
       <svg-icon key="download"></svg-icon>

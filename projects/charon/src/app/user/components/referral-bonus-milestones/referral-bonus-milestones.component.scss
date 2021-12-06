@@ -1,0 +1,71 @@
+@use 'sass:math';
+@import 'variables';
+
+:host {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.referral-bonus-milestones__bar {
+  border-bottom: 3px dashed $color-outlines;
+  left: 0;
+  right: 0;
+  position: absolute;
+}
+
+.referral-bonus-milestones__bar__progress {
+  border: inherit;
+  border-color: $color-positive;
+  position: absolute;
+}
+
+.referral-bonus-milestones__goal {
+  align-items: center;
+  color: $color-grey;
+  display: flex;
+  font-size: 6px;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 8px;
+  position: relative;
+  text-align: center;
+
+  &.is-active {
+    color: $color-white;
+
+    .referral-bonus-milestones__goal__star {
+      color: $color-positive;
+    }
+
+    .referral-bonus-milestones__goal__divider {
+      border-color: $color-white;
+    }
+  }
+}
+
+.referral-bonus-milestones__goal__star {
+  color: $color-background;
+}
+
+.referral-bonus-milestones__goal__label {
+  position: absolute;
+}
+
+.referral-bonus-milestones__goal__reward_value {
+  font-size: 16px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.referral-bonus-milestones__goal__divider {
+  border-bottom: 1px solid $color-outlines;
+  margin: math.div($grid-step, 4) 0;
+  min-width: 40px;
+}
+
+.referral-bonus-milestones__goal__referral-count {
+  align-items: center;
+  display: inline-flex;
+}

@@ -6,7 +6,8 @@ import { catchError, map, mapTo, mergeMap, switchMapTo, tap } from 'rxjs/operato
 import { TranslocoService } from '@ngneat/transloco';
 import { createWalletFromMnemonic } from 'decentr-js';
 
-import { UserService } from '@core/services';
+import { BrowserType, detectBrowser } from '@shared/utils/browser';
+import { ReferralService, UserService } from '@core/services';
 import { AuthService } from '@core/auth';
 import { LockService } from '@core/lock';
 import { TranslatedError } from '@core/notifications';
@@ -16,13 +17,14 @@ export class ImportRestorePageService {
   constructor(
     private authService: AuthService,
     private lockService: LockService,
+    private referralService: ReferralService,
     private router: Router,
     private translocoService: TranslocoService,
     private userService: UserService,
   ) {
   }
 
-  public importUser(seedPhrase: string, password: string): Observable<void> {
+  public importUser(seedPhrase: string, password: string, skipTrackInstall = false): Observable<void> {
     const wallet = createWalletFromMnemonic(seedPhrase);
 
     return this.userService.getAccount(wallet.address).pipe(
@@ -35,6 +37,10 @@ export class ImportRestorePageService {
             'login'
           )));
       }),
+      mergeMap(() => (!skipTrackInstall && detectBrowser() === BrowserType.Decentr)
+        ? this.referralService.trackInstall(wallet.address)
+        : of(void 0)
+      ),
       mergeMap(() => this.authService.createUser({
         wallet,
         password,
@@ -48,7 +54,7 @@ export class ImportRestorePageService {
   public restoreUser(seedPhrase: string, password: string): Observable<void> {
     const activeUser = this.authService.getActiveUserInstant();
 
-    return this.importUser(seedPhrase, password).pipe(
+    return this.importUser(seedPhrase, password, true).pipe(
       mergeMap(() => {
         const userId = activeUser && activeUser.id;
         return userId

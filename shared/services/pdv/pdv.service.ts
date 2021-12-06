@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { combineLatest, EMPTY, Observable, of, ReplaySubject } from 'rxjs';
 import {
   catchError,
@@ -46,6 +47,7 @@ export class PDVService {
   constructor(
     private authBrowserStorageService: AuthBrowserStorageService,
     private configService: ConfigService,
+    private decimalPipe: DecimalPipe,
     private microValuePipe: MicroValuePipe,
     private networkBrowserStorageService: NetworkBrowserStorageService,
     private pdvApiService: PDVApiService,
@@ -86,6 +88,7 @@ export class PDVService {
       map((estimatedBalance) => this.microValuePipe.transform(estimatedBalance)),
       map((balance) => balance ? balance.toString() : '0'),
       startWith('0'),
+      map((balance) => this.decimalPipe.transform(balance, '1.6')),
       distinctUntilChanged(),
     );
   }
