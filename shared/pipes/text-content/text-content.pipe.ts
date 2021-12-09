@@ -12,7 +12,7 @@ export class TextContentPipe implements PipeTransform {
     container.innerHTML = html;
 
     const textNodes = getLowestLevelChildNodes(container)
-      .filter((node) => !!node.textContent || (node as Element).tagName.toLowerCase() === 'br');
+      .filter((node, index) => !!node.textContent || (node as Element).tagName.toLowerCase() === 'br' && index);
 
     container.innerHTML = '';
     container.append(...textNodes);
