@@ -1,13 +1,20 @@
-import { MessageBus } from '../../../../../../../shared/message-bus';
-import { WebpageAPIMessageBusMap, WebpageAPIMessageCode } from '../../../../background/webpage-api';
+import * as browser from 'webextension-polyfill';
+
+import { AppRoute } from '../../../../../../charon/src/app/app-route';
+import { HubRoute } from '../../../../../../charon/src/app/hub';
+import {
+  NETWORK_ID_QUERY_PARAM,
+} from '../../../../../../charon/src/app/core/services/network-selector/network-selector.definitions';
 import { WebpageAPIRequestMessageCode, WebpageAPIRequestMessageMap } from '../../webpage-api-message-bus';
 
-const messageBus = new MessageBus<WebpageAPIMessageBusMap>();
+const createExtensionUrl = (path?: string): string => {
+  return browser.runtime.getURL(`charon/index.html#${path || ''}`);
+};
 
-export const openPost = async (params: WebpageAPIRequestMessageMap[WebpageAPIRequestMessageCode.OpenPost]): Promise<void> => {
-  return messageBus.sendMessage(WebpageAPIMessageCode.OpenPost, params).then((response) => {
-    if (response?.error) {
-      throw response.error;
-    }
-  });
+export const getPostLink = (params: WebpageAPIRequestMessageMap[WebpageAPIRequestMessageCode.GetPostLink]): Promise<string> => {
+  const path = `/${AppRoute.Hub}/${HubRoute.Posts}/0/${HubRoute.Post}/${params.post.author}/${params.post.postId}?${NETWORK_ID_QUERY_PARAM}=${params.networkId}`;
+
+  const url = createExtensionUrl(path);
+
+  return Promise.resolve(url);
 };
