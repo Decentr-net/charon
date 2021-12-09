@@ -5,8 +5,8 @@ import { WebpageAPIMessageBus, WebpageAPIRequestMessageCode } from '../../webpag
 
 const messageBus = new WebpageAPIMessageBus();
 
-export const getPostLink = (post: PostIdentificationParameters, networkId: string): Promise<string> => {
-  return messageBus.sendRequest(WebpageAPIRequestMessageCode.GetPostLink, { post, networkId }).pipe(
+export const openPost = (post: PostIdentificationParameters, networkId: string): Promise<void> => {
+  return messageBus.sendRequest(WebpageAPIRequestMessageCode.OpenPost, { post, networkId }).pipe(
     take(1),
   ).toPromise();
 };

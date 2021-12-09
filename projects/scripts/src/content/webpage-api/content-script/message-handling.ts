@@ -7,13 +7,13 @@ import {
   WebpageAPIRequestMessageMap,
   WebpageAPIResponseErrorMessage,
 } from '../webpage-api-message-bus';
-import { getPostLink } from './share';
+import { openPost } from './share';
 
 const REQUEST_HANDLER_MAP: Record<
   WebpageAPIRequestMessageCode,
   (params: WebpageAPIRequestMessageMap[WebpageAPIRequestMessageCode]) => Promise<unknown> | Observable<unknown>
 > = {
-  [WebpageAPIRequestMessageCode.GetPostLink]: getPostLink,
+  [WebpageAPIRequestMessageCode.OpenPost]: openPost,
 };
 
 export default function handleMessages(): void {

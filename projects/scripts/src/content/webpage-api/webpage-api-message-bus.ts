@@ -1,19 +1,19 @@
 import { EMPTY, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 import { PostIdentificationParameters } from 'decentr-js';
 
 import { uuid } from '../../../../../shared/utils/uuid';
 
 export enum WebpageAPIRequestMessageCode {
-  GetPostLink = 'WEBPAGE_API_GET_POST_LINK',
+  OpenPost = 'WEBPAGE_API_OPEN_POST',
 }
 
 export enum WebpageAPIResponseMessageCode {
-  GetPostLink = 'WEBPAGE_API_GET_POST_LINK_RESPONSE',
+  OpenPost = 'WEBPAGE_API_OPEN_POST_RESPONSE',
 }
 
 export interface WebpageAPIRequestMessageMap {
-  [WebpageAPIRequestMessageCode.GetPostLink]: {
+  [WebpageAPIRequestMessageCode.OpenPost]: {
     networkId: string;
     post: PostIdentificationParameters;
   };
@@ -29,15 +29,15 @@ export const isWebpageAPIResponseErrorMessage = (obj: unknown): obj is WebpageAP
 };
 
 interface WebpageAPIResponseMessageMap {
-  [WebpageAPIResponseMessageCode.GetPostLink]: string;
+  [WebpageAPIResponseMessageCode.OpenPost]: void;
 }
 
 interface WebpageAPIMessageCodeMap {
-  [WebpageAPIRequestMessageCode.GetPostLink]: WebpageAPIResponseMessageCode.GetPostLink;
+  [WebpageAPIRequestMessageCode.OpenPost]: WebpageAPIResponseMessageCode.OpenPost;
 }
 
 const WebpageAPI_MESSAGE_CODE_MAP: WebpageAPIMessageCodeMap = {
-  [WebpageAPIRequestMessageCode.GetPostLink]: WebpageAPIResponseMessageCode.GetPostLink,
+  [WebpageAPIRequestMessageCode.OpenPost]: WebpageAPIResponseMessageCode.OpenPost,
 };
 
 export type WebpageAPIResponseOf<T extends keyof WebpageAPIRequestMessageMap> = WebpageAPIResponseMessageMap[WebpageAPIMessageCodeMap[T]];
@@ -107,7 +107,7 @@ export class WebpageAPIMessageBus {
   ): Observable<WebpageAPIResponseOf<T> | WebpageAPIResponseErrorMessage> {
     return WebpageAPI_MESSAGE_CODE_MAP[requestCode]
       ? this.onMessage(WebpageAPI_MESSAGE_CODE_MAP[requestCode], id).pipe(
-        map((response) => response.body),
+        pluck('body'),
       )
       : EMPTY;
   }

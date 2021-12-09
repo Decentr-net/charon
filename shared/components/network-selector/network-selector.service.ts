@@ -7,7 +7,7 @@ export abstract class NetworkSelectorService {
 
   public abstract getActiveNetwork(): Observable<Network>;
 
-  public abstract setActiveNetworkId(network: Network['id']): void;
+  public abstract setActiveNetwork(network: Network): void;
 
   public abstract getTranslations(): Observable<NetworkSelectorTranslations>;
 }
