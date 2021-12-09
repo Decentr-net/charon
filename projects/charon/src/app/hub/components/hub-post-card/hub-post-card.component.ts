@@ -13,6 +13,7 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { PostsListItem } from '@core/services';
 import { svgLink } from '@shared/svg-icons/link';
 import { svgTrash } from '@shared/svg-icons/trash';
+import { AnalyticsEvent } from '@shared/analytics';
 
 const DEFAULT_ORIENTATION = 'vertical';
 
@@ -32,6 +33,8 @@ export class HubPostCardComponent implements OnChanges, OnInit {
   @Input() public disableCategory: boolean = false;
 
   public imgSrc: string;
+
+  public readonly analyticsEvent: typeof AnalyticsEvent = AnalyticsEvent;
 
   constructor(
     private renderer: Renderer2,

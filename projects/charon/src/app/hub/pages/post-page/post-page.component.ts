@@ -15,6 +15,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Wallet } from 'decentr-js';
 
 import { svgLink } from '@shared/svg-icons/link';
+import { AnalyticsEvent } from '@shared/analytics';
 import { AuthService } from '@core/auth';
 import { FollowingService, PostsListItem } from '@core/services';
 import { AppRoute } from '../../../app-route';
@@ -49,6 +50,8 @@ export class PostPageComponent implements OnInit {
   public postStatisticsTranslations$: Observable<PDVStatisticsTranslations>;
 
   private isFollowingAuthor: boolean;
+
+  public readonly analyticsEvent: typeof AnalyticsEvent = AnalyticsEvent;
 
   public trackByPostId: TrackByFunction<PostsListItem> = ({}, { uuid }) => uuid;
 

@@ -35,6 +35,7 @@
         color="white"
         [cdkCopyToClipboard]="post.shareLink"
         [appClipboardCopiedNotification]="'hub.hub_post_card.link.copy_notification'"
+        [appAnalyticsClickEvent]="analyticsEvent.CopyPostLink"
       >
         <svg-icon key="link"></svg-icon>
 

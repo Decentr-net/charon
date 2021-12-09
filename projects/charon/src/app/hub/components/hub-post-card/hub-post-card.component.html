@@ -55,6 +55,7 @@
         appTypeface="caption"
         [cdkCopyToClipboard]="post.shareLink"
         [appClipboardCopiedNotification]="'hub.hub_post_card.link.copy_notification'"
+        [appAnalyticsClickEvent]="analyticsEvent.CopyPostLink"
         (click)="onLinkClick($event)"
       >
         <svg-icon key="link" size="xs"></svg-icon>

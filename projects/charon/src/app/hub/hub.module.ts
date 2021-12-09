@@ -16,6 +16,7 @@ import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 import { HUB_COMPONENTS } from './components';
 import { HUB_DIRECTIVES } from './directives';
 import { HUB_PAGES } from './pages';
+import { AnalyticsModule } from '@shared/analytics';
 import { AvatarModule } from '@shared/components/avatar';
 import { AutoFocusModule } from '@shared/directives/auto-focus';
 import { ButtonBackModule } from '@shared/components/button-back';
@@ -51,6 +52,7 @@ import { AuthorizedLayoutModule } from '@core/layout/authorized-layout';
     HUB_PAGES,
   ],
   imports: [
+    AnalyticsModule,
     AvatarModule,
     AuthorizedLayoutModule,
     AutoFocusModule,
