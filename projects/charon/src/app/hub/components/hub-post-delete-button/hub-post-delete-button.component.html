@@ -1,40 +1,49 @@
 <ng-container *transloco="let translate; read: 'hub.hub_post_delete_button'">
-  <svg-icon
-    class="hub-post-delete-button__delete-icon"
-    key="delete"
-    size="xs"
-    [title]="translate('remove_post_title')"
-  ></svg-icon>
+  <button
+    class="hub-post-delete-button__expand-button"
+    *ngIf="!isExpanded; else expandedTemplate"
+    app-icon-button
+    color="white"
+    (click)="toggle($event)"
+  >
+    <svg-icon
+      key="delete"
+      [title]="translate('delete_post')"
+    ></svg-icon>
+  </button>
 
-  <div class="hub-post-delete-button__text-container" appTypeface="caption">
-    <ng-container *ngIf="getIsCollapsed; else expanded">
-      {{ translate('delete_post') }}
-    </ng-container>
+  <ng-template #expandedTemplate>
+    <div
+      class="hub-post-delete-button__confirmation"
+      appTypeface="caption"
+    >
+      <svg-icon
+        key="delete"
+        size="xs"
+      ></svg-icon>
 
-    <ng-template #expanded>
-      <span class="hub-post-delete-button__text">
+      <span class="hub-post-delete-button__confirmation__text">
         {{ translate('will_be_deleted') }}
       </span>
 
       <button
-        class="hub-post-delete-button__button-cancel"
         app-button
         color="grey"
         size="xs"
-        (click)="toggleButton($event)"
+        (click)="toggle($event)"
       >
         {{ translate('cancel') }}
       </button>
 
       <button
-        class="hub-post-delete-button__button-delete"
+        class="hub-post-delete-button__confirmation__confirm-button"
         app-button
         color="negative"
         size="xs"
-        (click)="onClickDelete()"
+        (click)="onDelete()"
       >
         {{ translate('delete') }}
       </button>
-    </ng-template>
-  </div>
+    </div>
+  </ng-template>
 </ng-container>
