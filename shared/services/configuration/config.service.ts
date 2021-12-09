@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { delay, filter, map, mapTo, retryWhen, take } from 'rxjs/operators';
+import { delay, filter, map, retryWhen, take } from 'rxjs/operators';
 import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 
 import { Environment } from '../../../environments/environment.definitions';
@@ -85,7 +85,6 @@ export class ConfigService {
   public getMaintenanceStatus(): Observable<boolean> {
     return this.getNetworkConfig().pipe(
       map(({ maintenance}) => maintenance),
-      mapTo(false),
     );
   }
 
