@@ -11,6 +11,7 @@ import {
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { PostsListItem } from '@core/services';
+import { svgLink } from '@shared/svg-icons/link';
 import { svgTrash } from '@shared/svg-icons/trash';
 
 const DEFAULT_ORIENTATION = 'vertical';
@@ -40,6 +41,7 @@ export class HubPostCardComponent implements OnChanges, OnInit {
     this.renderer.addClass(this.elementRef.nativeElement, `mod-${DEFAULT_ORIENTATION}`);
 
     svgIconRegistry.register([
+      svgLink,
       svgTrash,
     ]);
   }
@@ -57,5 +59,9 @@ export class HubPostCardComponent implements OnChanges, OnInit {
       this.renderer.removeClass(this.elementRef.nativeElement, `mod-${orientation.previousValue}`);
       this.renderer.addClass(this.elementRef.nativeElement, `mod-${orientation.currentValue}`);
     }
+  }
+
+  public onLinkClick(event: Event): void {
+    event.stopPropagation();
   }
 }

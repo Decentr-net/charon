@@ -45,7 +45,22 @@
     <div class="hub-post-card__footer">
       <app-hub-post-rating [post]="post"></app-hub-post-rating>
 
-      <app-hub-post-pdv [pdv]="post.pdv"></app-hub-post-pdv>
+      <app-hub-post-pdv
+        class="hub-post-card__footer__pdv"
+        [pdv]="post.pdv"
+      ></app-hub-post-pdv>
+
+      <div
+        class="hub-post-card__footer__link"
+        appTypeface="caption"
+        [cdkCopyToClipboard]="post.shareLink"
+        [appClipboardCopiedNotification]="'hub.hub_post_card.link.copy_notification'"
+        (click)="onLinkClick($event)"
+      >
+        <svg-icon key="link" size="xs"></svg-icon>
+
+        {{ translate('hub.hub_post_card.link.copy') }}
+      </div>
     </div>
   </div>
 </ng-container>

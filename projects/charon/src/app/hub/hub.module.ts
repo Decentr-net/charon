@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatDividerModule } from '@angular/material/divider';
@@ -19,6 +20,7 @@ import { AvatarModule } from '@shared/components/avatar';
 import { AutoFocusModule } from '@shared/directives/auto-focus';
 import { ButtonBackModule } from '@shared/components/button-back';
 import { ButtonModule } from '@shared/components/button';
+import { ClipboardCopiedNotificationModule } from '@shared/directives/clipboard-copied-notification';
 import { DateAgoModule } from '@shared/pipes/date-ago';
 import { DragScrollModule } from '@shared/directives/drag-scroll';
 import { FormErrorModule } from '@shared/components/form-error';
@@ -54,6 +56,8 @@ import { AuthorizedLayoutModule } from '@core/layout/authorized-layout';
     AutoFocusModule,
     ButtonBackModule,
     ButtonModule,
+    ClipboardCopiedNotificationModule,
+    ClipboardModule,
     CoerceTimestampModule,
     CommonModule,
     DateAgoModule,

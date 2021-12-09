@@ -56,6 +56,16 @@ $hub-post-card--horizontal--image-width: 31%;
       width: 100% - $hub-post-card--horizontal--image-width;
     }
   }
+
+  &:hover {
+    .hub-post-card__footer__link {
+      display: inline-flex;
+    }
+
+    .hub-post-card__footer__pdv {
+      display: none;
+    }
+  }
 }
 
 .hub-post-card__image-container {
@@ -121,4 +131,16 @@ $hub-post-card--horizontal--image-width: 31%;
   flex-shrink: 0;
   justify-content: space-between;
   margin-top: auto;
+}
+
+.hub-post-card__footer__link {
+  align-items: center;
+  color: $color-grey;
+  column-gap: $grid-half-step;
+  cursor: pointer;
+  display: none;
+
+  &:hover {
+    color: $color-dark-grey;
+  }
 }
