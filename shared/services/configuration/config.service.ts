@@ -123,4 +123,10 @@ export class ConfigService {
       map((config) => config.referral.url),
     );
   }
+
+  public getShareUrl(): Observable<string> {
+    return this.getConfig().pipe(
+      map((config) => config.share.url),
+    );
+  }
 }

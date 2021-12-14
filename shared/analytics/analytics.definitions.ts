@@ -2,6 +2,7 @@ import { InjectionToken } from '@angular/core';
 
 export enum AnalyticsEvent {
   ConfirmRegistration,
+  CopyPostLink,
   CopyReferralCode,
   CopySeed,
   CreateAccount,
@@ -22,6 +23,11 @@ export const ANALYTICS_EVENT_MAP: Record<AnalyticsEvent, AnalyticsEventOptions> 
     category: 'registration',
     action: 'confirm',
     label: 'Confirm Registration',
+  },
+  [AnalyticsEvent.CopyPostLink]: {
+    category: 'dhub',
+    action: 'copy',
+    label: 'Copy dHub post link'
   },
   [AnalyticsEvent.CopyReferralCode]: {
     category: 'profile',

@@ -9,7 +9,7 @@
   cursor: pointer;
   font-weight: 500;
   justify-content: center;
-  transition: background .3s ease;
+  transition: background .3s ease, opacity .3s ease;
   user-select: none;
 
   &.mod-light-background {

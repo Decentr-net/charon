@@ -34,4 +34,7 @@ export interface Config {
   referral: {
     url: string;
   };
+  share: {
+    url: string;
+  };
 }

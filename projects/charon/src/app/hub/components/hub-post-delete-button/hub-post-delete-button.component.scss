@@ -1,50 +1,30 @@
 @import 'variables';
 
 :host {
-  align-items: center;
-  background: $color-white;
+  display: inline-flex;
+}
+
+.hub-post-delete-button__expand-button {
+  opacity: .4;
+  padding: $grid-step * 1.5;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.hub-post-delete-button__confirmation {
+  background-color: $color-dark-grey;
   border-radius: $border-radius;
-  color: $color-font-base;
-  display: inline-flex;
-  max-width: max-content;
-  padding: $grid-step;
-  user-select: none;
-
-  &.mod-is-collapsed {
-    cursor: pointer;
-
-    .hub-post-delete-button__text-container {
-      margin-right: $grid-half-step;
-    }
-  }
-
-  &.mod-is-expanded {
-    background: $color-dark-grey;
-    color: $color-white;
-  }
-}
-
-.hub-post-delete-button__delete-icon {
-  align-self: start;
-  display: inline-flex;
-  font-size: 16px;
-  margin-right: $grid-half-step;
-}
-
-.hub-post-delete-button__text-container {
-  align-items: center;
   display: flex;
-  margin-right: $grid-half-step;
+  padding: $grid-step;
 }
 
-.hub-post-delete-button__text {
+.hub-post-delete-button__confirmation__text {
+  margin: 0 $grid-step * 2 0 $grid-half-step;
   max-width: 200px;
 }
 
-.hub-post-delete-button__button-cancel {
-  margin-left: $grid-step * 2;
-}
-
-.hub-post-delete-button__button-delete {
+.hub-post-delete-button__confirmation__confirm-button {
   margin-left: $grid-step;
 }

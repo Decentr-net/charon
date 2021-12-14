@@ -39,6 +39,12 @@
   width: 8px;
 }
 
+.post-page__header-actions {
+  align-items: center;
+  column-gap: $grid-step * 1.5;
+  display: flex;
+}
+
 .post-page__text {
   overflow-wrap: anywhere;
 

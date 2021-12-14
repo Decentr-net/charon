@@ -29,11 +29,24 @@
 
     <ng-container ngProjectAs="[title]">{{ post.title }}</ng-container>
 
-    <app-hub-post-delete-button
-      *appHubCanDeletePost="post.owner"
-      (delete)="onPostDelete(post)"
-      ngProjectAs="[headerContent]"
-    ></app-hub-post-delete-button>
+    <div class="post-page__header-actions" ngProjectAs="[headerContent]">
+      <button
+        app-button
+        color="white"
+        [cdkCopyToClipboard]="post.shareLink"
+        [appClipboardCopiedNotification]="'hub.hub_post_card.link.copy_notification'"
+        [appAnalyticsClickEvent]="analyticsEvent.CopyPostLink"
+      >
+        <svg-icon key="link"></svg-icon>
+
+        {{ translate('hub.hub_post_page.link.copy') }}
+      </button>
+
+      <app-hub-post-delete-button
+        *appHubCanDeletePost="post.owner"
+        (delete)="onPostDelete(post)"
+      ></app-hub-post-delete-button>
+    </div>
 
     <div
       class="post-page__text"

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatDividerModule } from '@angular/material/divider';
@@ -15,10 +16,12 @@ import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 import { HUB_COMPONENTS } from './components';
 import { HUB_DIRECTIVES } from './directives';
 import { HUB_PAGES } from './pages';
+import { AnalyticsModule } from '@shared/analytics';
 import { AvatarModule } from '@shared/components/avatar';
 import { AutoFocusModule } from '@shared/directives/auto-focus';
 import { ButtonBackModule } from '@shared/components/button-back';
 import { ButtonModule } from '@shared/components/button';
+import { ClipboardCopiedNotificationModule } from '@shared/directives/clipboard-copied-notification';
 import { DateAgoModule } from '@shared/pipes/date-ago';
 import { DragScrollModule } from '@shared/directives/drag-scroll';
 import { FormErrorModule } from '@shared/components/form-error';
@@ -49,11 +52,14 @@ import { AuthorizedLayoutModule } from '@core/layout/authorized-layout';
     HUB_PAGES,
   ],
   imports: [
+    AnalyticsModule,
     AvatarModule,
     AuthorizedLayoutModule,
     AutoFocusModule,
     ButtonBackModule,
     ButtonModule,
+    ClipboardCopiedNotificationModule,
+    ClipboardModule,
     CoerceTimestampModule,
     CommonModule,
     DateAgoModule,

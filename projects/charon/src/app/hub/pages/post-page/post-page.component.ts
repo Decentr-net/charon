@@ -9,10 +9,13 @@ import {
 import { Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, pluck, switchMap } from 'rxjs/operators';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Wallet } from 'decentr-js';
 
+import { svgLink } from '@shared/svg-icons/link';
+import { AnalyticsEvent } from '@shared/analytics';
 import { AuthService } from '@core/auth';
 import { FollowingService, PostsListItem } from '@core/services';
 import { AppRoute } from '../../../app-route';
@@ -48,6 +51,8 @@ export class PostPageComponent implements OnInit {
 
   private isFollowingAuthor: boolean;
 
+  public readonly analyticsEvent: typeof AnalyticsEvent = AnalyticsEvent;
+
   public trackByPostId: TrackByFunction<PostsListItem> = ({}, { uuid }) => uuid;
 
   public postLinkFn: (post: PostsListItem) => string[] = (post) => ['../../', post.owner, post.uuid];
@@ -58,12 +63,17 @@ export class PostPageComponent implements OnInit {
     private elementRef: ElementRef<HTMLElement>,
     private followingService: FollowingService,
     private postPageService: PostPageService,
+    private svgIconRegistry: SvgIconRegistry,
     private router: Router,
     private translocoService: TranslocoService,
   ) {
   }
 
   public ngOnInit(): void {
+    this.svgIconRegistry.register([
+      svgLink,
+    ]);
+
     const post$ = this.postPageService.getPost().pipe(
       filter(post => !!post),
     );

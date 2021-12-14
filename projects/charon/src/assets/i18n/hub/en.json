@@ -48,6 +48,12 @@
     "load_more_posts": "Load more posts",
     "loading_more_posts": "Loading more posts"
   },
+  "hub_post_card": {
+    "link": {
+      "copy": "Copy post url",
+      "copy_notification": "Post url copied"
+    }
+  },
   "hub_post_editor": {
     "category": {
       "errors": {
@@ -101,11 +107,7 @@
     "cancel": "Cancel",
     "delete": "Delete",
     "delete_post": "Delete post",
-    "remove_post_title": "Remove post",
     "will_be_deleted": "Post will be deleted permanently and you won’t be able to recover it."
-  },
-  "hub_post_card": {
-    "remove_post": "Remove post"
   },
   "hub_profile_card": {
     "unknown_author": "Unknown author",
@@ -128,6 +130,10 @@
     "post_statistics": {
       "from": "from",
       "pdv": "Post PDV"
+    },
+    "link": {
+      "copy": "Copy post url",
+      "copy_notification": "Post url copied"
     }
   },
   "hub_posts_page": {
