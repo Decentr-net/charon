@@ -8,7 +8,7 @@
 }
 
 .welcome-page__card {
-  border: 2px solid $color-outlines;
+  border: 2px solid var(--color-outlines);
   border-radius: $border-radius;
   margin: auto;
   padding: $grid-step * 5 $grid-step * 3;
@@ -32,7 +32,7 @@
 
 .welcome-page__button {
   border-radius: $border-radius;
-  color: $color-black;
+  color: var(--color-main-text);
   display: block;
   padding: $grid-step * 3;
 

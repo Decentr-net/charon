@@ -1,4 +1,8 @@
 :host {
+  background-color: var(--color-main-background);
+  color: var(--color-main-text);
+  display: block;
+
   .app-init-loading {
     align-items: center;
     display: flex;

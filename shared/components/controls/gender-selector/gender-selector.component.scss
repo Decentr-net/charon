@@ -1,7 +1,7 @@
 @import '../../../styles/variables';
 
 :host {
-  background-color: $color-background;
+  background-color: var(--color-input-background);
   border-radius: $border-radius;
   display: block;
   padding: $grid-step * 2;
@@ -11,7 +11,7 @@
     &.is-submitted,
     &.is-touched {
       .input__label {
-        color: $color-negative;
+        color: var(--color-input-invalid-color);
       }
     }
   }
@@ -19,14 +19,14 @@
   &.is-disabled {
     .input__label,
     .input {
-      color: $color-light-grey;
+      color: var(--color-input-disabled-text);
       pointer-events: none;
     }
   }
 }
 
 .input__label {
-  color: $color-grey;
+  color: var(--color-input-label);
   display: flex;
   justify-content: space-between;
 }
@@ -36,4 +36,21 @@
   display: flex;
   font-weight: 500;
   justify-content: space-between;
+}
+
+::ng-deep {
+  mat-select {
+    .mat-select-placeholder {
+      color: var(--color-input-placeholder);
+      font-weight: 400;
+    }
+
+    .mat-select-value {
+      color: var(--color-main-text);
+    }
+
+    .mat-select-arrow {
+      color: var(--color-input-icon);
+    }
+  }
 }

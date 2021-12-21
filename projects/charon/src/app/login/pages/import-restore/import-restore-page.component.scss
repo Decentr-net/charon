@@ -1,6 +1,6 @@
 @import 'variables';
 
-$import-restore-page--border-color: $color-outlines;
+$import-restore-page--border-color: var(--color-outlines);
 $import-restore-page--padding: $grid-step * 2;
 
 :host {

@@ -1,7 +1,7 @@
 @import '../../../styles/variables';
 
 :host {
-  background-color: $color-background;
+  background-color: var(--color-input-background);
   border-radius: $border-radius;
   display: block;
   padding: $grid-step * 2;
@@ -11,21 +11,21 @@
     &.is-submitted,
     &.is-touched {
       .input__label {
-        color: $color-negative;
+        color: var(--color-input-label-invalid);
       }
     }
   }
 
   &.is-disabled {
     .input {
-      color: $color-light-grey;
+      color: var(--color-input-disabled-text);
       pointer-events: none;
     }
   }
 
   &.is-empty {
     .input__eye {
-      color: $color-light-grey;
+      color: var(--color-input-icon);
     }
   }
 
@@ -37,7 +37,7 @@
 }
 
 .input__label {
-  color: $color-grey;
+  color: var(--color-input-label);
   display: flex;
   justify-content: space-between;
 }
@@ -55,14 +55,14 @@
 }
 
 .input__eye {
-  color: $color-black;
+  color: var(--color-input-icon);
   cursor: pointer;
   flex-shrink: 0;
 }
 
 .input {
   background-color: inherit;
-  color: $color-black;
+  color: var(--color-input-text);
   font: inherit;
   font-weight: 500;
   padding: 0;
@@ -71,7 +71,7 @@
   width: 100%;
 
   &::placeholder {
-    color: $color-grey;
+    color: var(--color-input-placeholder);
     font-weight: normal;
   }
 
@@ -83,7 +83,7 @@
 }
 
 .input__footer {
-  color: $color-grey;
+  color: var(--color-input-footer);
   display: none;
 
   &.mod-visible {

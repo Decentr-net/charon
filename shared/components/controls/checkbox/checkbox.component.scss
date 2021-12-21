@@ -9,21 +9,21 @@
     &.is-submitted,
     &.is-touched {
       .checkbox__input {
-        border: 1px solid $color-negative;
+        border: 1px solid var(--color-checkbox-invalid-border);
       }
     }
   }
 }
 
 .checkbox__input {
-  background: $color-outlines;
+  background: var(--color-checkbox-background);
   border-radius: $grid-half-step;
   cursor: pointer;
   height: 16px;
   width: 16px;
 
   &.is-active {
-    background-color: $color-blue;
-    color: $color-white;
+    background-color: var(--color-checkbox-active-background);
+    color: var(--color-checkbox-active-color);
   }
 }

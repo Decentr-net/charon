@@ -1,6 +1,6 @@
 @import 'variables';
 
-$border-color: $color-outlines;
+$border-color: var(--color-outlines);
 $pdv-consent--card--padding: $grid-step * 2;
 
 :host {

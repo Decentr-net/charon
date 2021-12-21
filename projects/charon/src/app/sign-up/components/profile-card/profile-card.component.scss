@@ -6,7 +6,7 @@
 
 .profile-card__container {
   align-items: center;
-  background: $color-background;
+  background: var(--color-card-background);
   border-radius: $border-radius;
   column-gap: $grid-step;
   display: grid;

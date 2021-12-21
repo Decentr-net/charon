@@ -48,41 +48,41 @@
 
   &.mod-color {
     &-negative {
-      background: rgba($color-negative, var(--background-opacity));
-      color: $color-white;
+      background: rgba(#{var(--color-button-negative-background)}, var(--background-opacity));
+      color: rgb(var(--color-button-negative-text));
     }
 
     &-primary {
-      background: rgba($color-primary, var(--background-opacity));
-      color: $color-white;
+      background: rgba(#{var(--color-button-primary-background)}, var(--background-opacity));
+      color: rgb(var(--color-button-primary-text));
 
       &:hover {
-        background: rgba($color-blue-hover, var(--background-opacity));
+        background: rgba(#{var(--color-button-primary-background-hover)}, var(--background-opacity));
       }
     }
 
     &-grey {
-      background: rgba($color-background, var(--background-opacity));
-      color: $color-black;
+      background: rgba(#{var(--color-button-grey-background)}, var(--background-opacity));
+      color: rgb(var(--color-button-grey-text));
 
       &:hover {
-        background: rgba($color-outlines, var(--background-opacity));
+        background: rgba(#{var(--color-button-grey-background-hover)}, var(--background-opacity));
       }
     }
 
     &-white {
-      background: rgba($color-white, var(--background-opacity));
-      color: $color-black;
+      background: rgba(#{var(--color-button-white-background)}, var(--background-opacity));
+      color: rgb(var(--color-button-white-text));
 
       &:hover {
-        background: rgba($color-outlines, var(--background-opacity));
+        background: rgba(#{var(--color-button-white-background-hover)}, var(--background-opacity));
       }
     }
   }
 
   &:disabled {
-    background: $color-background;
-    color: $color-light-grey;
+    background: rgb(var(--color-button-disabled-background));
+    color: rgb(var(--color-button-disabled-text));
     pointer-events: none;
   }
 

@@ -5,17 +5,18 @@
 }
 
 .seed__seed-container {
-  background: $color-background;
-  color: $color-black;
+  background: var(--color-input-background);
+  border-radius: $border-radius;
   padding: $grid-step * 2;
   margin-top: $grid-step * 2;
 }
 
 .seed__seed-container__label {
-  color: $color-grey;
+  color: var(--color-input-label);
 }
 
 .seed__seed-container__seed {
+  color: var(--color-main-text);
   column-gap: $grid-step * 2;
   display: flex;
 }

@@ -35,7 +35,7 @@
 }
 
 .account-form__divider {
-  background: $color-outlines;
+  background: var(--color-outlines);
   height: 2px;
   margin: $grid-step * 2 (-$grid-step * 2);
 }

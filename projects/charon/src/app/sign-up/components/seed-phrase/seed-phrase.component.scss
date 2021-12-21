@@ -30,11 +30,11 @@
 }
 
 .seed-phrase__warning__text {
-  color: $color-black;
+  color: var(--color-main-text);
 }
 
 .seed-phrase__divider {
-  background: $color-outlines;
+  background: var(--color-outlines);
   height: 2px;
   margin: $grid-step * 2 (-$grid-step * 2);
 }
