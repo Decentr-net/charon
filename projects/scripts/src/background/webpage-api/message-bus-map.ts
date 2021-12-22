@@ -1,4 +1,4 @@
-import { PostIdentificationParameters } from 'decentr-js';
+import { Post } from 'decentr-js';
 
 import { MessageMap } from '../../../../../shared/message-bus';
 import { WebpageAPIMessageCode } from './messages';
@@ -6,7 +6,7 @@ import { WebpageAPIMessageCode } from './messages';
 export interface WebpageAPIMessageBusMap extends MessageMap {
   [WebpageAPIMessageCode.OpenPost]: {
     body: {
-      post: PostIdentificationParameters;
+      post: Pick<Post, 'owner' | 'uuid'>;
       networkId: string;
     };
     response: {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { defer, forkJoin, from, Observable, of } from 'rxjs';
+import { defer, forkJoin, Observable, of } from 'rxjs';
 import { catchError, map, mapTo, mergeMap, take, tap } from 'rxjs/operators';
-import { LikeWeight, Post, PostCreate, PostIdentificationParameters } from 'decentr-js';
+import { CreatePostRequest, LikeWeight, Post } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
 import { getArrayUniqueValues } from '@shared/utils/array';
@@ -12,7 +12,6 @@ import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
 import { PostsApiService, PostsListFilterOptions } from '../api';
 import { AuthService } from '../../auth';
-import { NetworkService } from '../network';
 import { NetworkSelectorService } from '../network-selector';
 import { UserService } from '../user';
 import { PostsListItem } from './posts.definitions';
@@ -22,7 +21,6 @@ export class PostsService {
   constructor(
     private authService: AuthService,
     private configService: ConfigService,
-    private networkService: NetworkService,
     private networkSelectorService: NetworkSelectorService,
     private postsApiService: PostsApiService,
     private userService: UserService,
@@ -90,14 +88,13 @@ export class PostsService {
   }
 
   public createPost(
-    post: PostCreate,
+    request: CreatePostRequest,
   ): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.PostCreate, {
-        post,
-        walletAddress: wallet.address,
+        request,
         privateKey: wallet.privateKey
       })).pipe(
         map((response) => {
@@ -114,17 +111,17 @@ export class PostsService {
       );
   }
 
-  public likePost(post: Pick<Post, 'owner' | 'uuid'>, likeWeight: LikeWeight): Observable<void> {
+  public likePost(post: Pick<Post, 'owner' | 'uuid'>, weight: LikeWeight): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return from(new MessageBus<CharonAPIMessageBusMap>()
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.PostLike, {
-        walletAddress: wallet.address,
-        postIdentificationParameters: {
-          author: post.owner,
-          postId: post.uuid,
+        request: {
+          owner: wallet.address,
+          postOwner: post.owner,
+          postUuid: post.uuid,
+          weight,
         },
-        likeWeight,
         privateKey: wallet.privateKey
       })
       .then(response => {
@@ -135,14 +132,17 @@ export class PostsService {
   }
 
   public deletePost(
-    post: PostIdentificationParameters,
+    post: Pick<Post, 'owner' | 'uuid'>,
   ): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return from(new MessageBus<CharonAPIMessageBusMap>()
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.PostDelete, {
-        walletAddress: wallet.address,
-        postIdentificationParameters: post,
+        request: {
+          owner: wallet.address,
+          postOwner: post.owner,
+          postUuid: post.uuid,
+        },
         privateKey: wallet.privateKey
       })).pipe(
         tap((response) => {
@@ -150,7 +150,7 @@ export class PostsService {
             throw response.error;
           }
         }),
-        mergeMap(() => this.getPost({ owner: post.author, uuid: post.postId }).pipe(
+        mergeMap(() => this.getPost(post).pipe(
           mapTo(true),
           catchError(() => of(false)),
           map((postExists) => {

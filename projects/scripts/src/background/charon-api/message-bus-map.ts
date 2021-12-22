@@ -1,153 +1,119 @@
 import {
-  LikeWeight,
-  PostCreate,
-  PostIdentificationParameters,
-  StdTxMessageType,
-  StdTxMessageValue,
-  TransferData,
-  Validator,
+  CreatePostRequest,
+  DelegateTokensRequest,
+  DeletePostRequest,
+  FollowRequest,
+  LikeRequest,
+  RedelegateTokensRequest,
+  ResetAccountRequest,
+  SendTokensRequest,
+  UndelegateTokensRequest,
+  UnfollowRequest,
   Wallet,
+  WithdrawDelegatorRewardRequest,
+  WithdrawValidatorCommissionRequest,
 } from 'decentr-js';
 
 import { MessageMap } from '../../../../../shared/message-bus';
 import { MessageCode } from '../../messages';
 
+interface MessageResponse {
+  success: boolean;
+  error?: any;
+}
+
 export interface CharonAPIMessageBusMap extends MessageMap {
   [MessageCode.PostCreate]: {
     body: {
-      walletAddress: Wallet['address'];
-      post: PostCreate;
+      request: CreatePostRequest;
       privateKey: Wallet['privateKey'];
     };
-    response: {
-      success: boolean;
-      error?: any;
-      messageValue?: StdTxMessageValue<StdTxMessageType.CommunityCreatePost>;
+    response: MessageResponse & {
+      messageValue?: any;
     };
   };
   [MessageCode.PostDelete]: {
     body: {
-      walletAddress: Wallet['address'];
-      postIdentificationParameters: PostIdentificationParameters;
+      request: DeletePostRequest;
       privateKey: Wallet['privateKey'];
     };
-    response: {
-      success: boolean;
-      error?: any;
-    };
+    response: MessageResponse;
   };
   [MessageCode.PostLike]: {
     body: {
-      walletAddress: Wallet['address'];
-      postIdentificationParameters: PostIdentificationParameters;
-      likeWeight: LikeWeight;
+      request: LikeRequest;
       privateKey: Wallet['privateKey'];
     };
-    response: {
-      success: boolean;
-      error?: any;
-    };
+    response: MessageResponse;
   };
   [MessageCode.CoinTransfer]: {
     body: {
-      transferData: TransferData;
+      memo?: string;
+      request: SendTokensRequest;
       privateKey: Wallet['privateKey'];
     };
-    response: {
-      success: boolean;
-      error?: any;
-    };
+    response: MessageResponse;
   };
   [MessageCode.Follow]: {
     body: {
-      follower: Wallet['address'];
-      whom: Wallet['address'];
+      request: FollowRequest;
       privateKey: Wallet['address'];
     };
-    response: {
-      success: boolean;
-      error?: any;
-    };
+    response: MessageResponse;
   };
   [MessageCode.Unfollow]: {
     body: {
-      follower: Wallet['address'];
-      whom: Wallet['address'];
+      request: UnfollowRequest;
       privateKey: Wallet['address'];
     };
-    response: {
-      success: boolean;
-      error?: any;
-    };
+    response: MessageResponse;
   };
   [MessageCode.ResetAccount]: {
     body: {
-      walletAddress: Wallet['address'];
-      initiator: Wallet['address'],
+      request: ResetAccountRequest,
       privateKey: Wallet['address'];
     };
-    response: {
-      success: boolean;
-      error?: any;
-    };
+    response: MessageResponse;
   };
   [MessageCode.Delegate]: {
     body: {
-      amount: string;
+      request: DelegateTokensRequest;
       privateKey: Wallet['privateKey'];
-      validatorAddress: Validator['operator_address'];
-      walletAddress: Wallet['address'];
     },
-    response: {
-      success: boolean;
-      error?: any;
-    };
+    response: MessageResponse;
   };
   [MessageCode.Redelegate]: {
     body: {
-      amount: string;
+      request: RedelegateTokensRequest;
       privateKey: Wallet['privateKey'];
-      fromValidatorAddress: Validator['operator_address'];
-      toValidatorAddress: Validator['operator_address'];
-      walletAddress: Wallet['address'];
     },
-    response: {
-      success: boolean;
-      error?: any;
-    };
+    response: MessageResponse;
   };
   [MessageCode.Undelegate]: {
     body: {
-      amount: string;
+      request: UndelegateTokensRequest;
       privateKey: Wallet['privateKey'];
-      validatorAddress: Validator['operator_address'];
-      walletAddress: Wallet['address'];
     },
-    response: {
-      success: boolean;
-      error?: any;
-    };
+    response: MessageResponse;
   };
   [MessageCode.WithdrawDelegatorRewards]: {
     body: {
+      request: WithdrawDelegatorRewardRequest,
       privateKey: Wallet['privateKey'];
-      validatorAddress: Validator['operator_address'];
-      walletAddress: Wallet['address'];
     },
-    response: {
-      success: boolean;
-      error?: any;
-    };
+    response: MessageResponse;
   };
   [MessageCode.WithdrawValidatorRewards]: {
     body: {
+      request: WithdrawValidatorCommissionRequest,
       privateKey: Wallet['privateKey'];
-      validatorAddress: Validator['operator_address'];
-      walletAddress: Wallet['address'];
     },
-    response: {
-      success: boolean;
-      error?: any;
-    };
+    response: MessageResponse;
   };
 }
+
+export const assertMessageResponseSuccess = (response: MessageResponse): void => {
+  if (!response.success) {
+    throw response.error;
+  }
+};

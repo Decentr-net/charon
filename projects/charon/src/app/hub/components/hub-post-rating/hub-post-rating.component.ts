@@ -74,13 +74,13 @@ export class HubPostRatingComponent implements OnInit {
 
   public onLike(post: PostsListItem): void {
     if (this.canLikeState === 'enabled') {
-      this.changeLikeWeight(post, LikeWeight.Up);
+      this.changeLikeWeight(post, LikeWeight.LIKE_WEIGHT_UP);
     }
   }
 
   public onDislike(post: PostsListItem): void {
     if (this.canLikeState === 'enabled') {
-      this.changeLikeWeight(post, LikeWeight.Down);
+      this.changeLikeWeight(post, LikeWeight.LIKE_WEIGHT_DOWN);
     }
   }
 
@@ -88,7 +88,7 @@ export class HubPostRatingComponent implements OnInit {
     this.hubLikesService.likePost(
       post,
       post.likeWeight === newLikeWeight
-        ? LikeWeight.Zero
+        ? LikeWeight.LIKE_WEIGHT_ZERO
         : newLikeWeight
     ).pipe(
       take(1),

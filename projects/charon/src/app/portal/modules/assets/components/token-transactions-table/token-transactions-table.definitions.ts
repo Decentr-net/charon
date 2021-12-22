@@ -1,4 +1,4 @@
-import { BankCoin, StdTxFee, Wallet } from 'decentr-js';
+import { Coin, Wallet } from 'decentr-js';
 
 export enum TokenTransactionMessageType {
   TransferSent,
@@ -12,9 +12,9 @@ export enum TokenTransactionMessageType {
 }
 
 export interface TokenTransactionMessage {
-  amount: BankCoin;
+  amount: Coin;
   comment: string;
-  fee: StdTxFee;
+  fee: any;
   hash: string;
   recipient: Wallet['address'];
   sender: Wallet['address'];

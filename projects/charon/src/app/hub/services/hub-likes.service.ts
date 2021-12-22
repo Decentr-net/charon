@@ -54,16 +54,16 @@ export class HubLikesService {
     newLikeWeight: LikeWeight,
   ): Partial<Pick<T, 'likesCount' | 'dislikesCount' | 'pdv' | 'stats'>> {
     switch (post.likeWeight) {
-      case LikeWeight.Up:
+      case LikeWeight.LIKE_WEIGHT_UP:
         switch (newLikeWeight) {
-          case LikeWeight.Up:
+          case LikeWeight.LIKE_WEIGHT_UP:
             return {};
-          case LikeWeight.Zero:
+          case LikeWeight.LIKE_WEIGHT_ZERO:
             return {
               likesCount: post.likesCount - 1,
               ...HubLikesService.getPostPDVUpdate(post, -1),
             };
-          case LikeWeight.Down:
+          case LikeWeight.LIKE_WEIGHT_DOWN:
             return {
               likesCount: post.likesCount - 1,
               dislikesCount: post.dislikesCount + 1,
@@ -71,31 +71,31 @@ export class HubLikesService {
             };
         }
         break;
-      case LikeWeight.Down:
+      case LikeWeight.LIKE_WEIGHT_DOWN:
         switch (newLikeWeight) {
-          case LikeWeight.Up:
+          case LikeWeight.LIKE_WEIGHT_UP:
             return {
               likesCount: post.likesCount + 1,
               dislikesCount: post.dislikesCount - 1,
               ...HubLikesService.getPostPDVUpdate(post, 2),
             };
-          case LikeWeight.Zero:
+          case LikeWeight.LIKE_WEIGHT_ZERO:
             return {
               dislikesCount: post.dislikesCount - 1,
               ...HubLikesService.getPostPDVUpdate(post, 1),
             };
-          case LikeWeight.Down:
+          case LikeWeight.LIKE_WEIGHT_DOWN:
             return {};
         }
         break;
-      case LikeWeight.Zero:
+      case LikeWeight.LIKE_WEIGHT_ZERO:
         switch (newLikeWeight) {
-          case LikeWeight.Up:
+          case LikeWeight.LIKE_WEIGHT_UP:
             return {
               likesCount: post.likesCount + 1,
               ...HubLikesService.getPostPDVUpdate(post, 1),
             };
-          case LikeWeight.Down:
+          case LikeWeight.LIKE_WEIGHT_DOWN:
             return {
               dislikesCount: post.dislikesCount + 1,
               ...HubLikesService.getPostPDVUpdate(post, -1),

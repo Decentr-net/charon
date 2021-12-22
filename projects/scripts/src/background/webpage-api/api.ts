@@ -1,5 +1,5 @@
 import * as browser from 'webextension-polyfill';
-import { PostIdentificationParameters } from 'decentr-js';
+import { Post } from 'decentr-js';
 
 import { AppRoute } from '../../../../charon/src/app/app-route';
 import { HubRoute } from '../../../../charon/src/app/hub';
@@ -49,7 +49,7 @@ export const openExtension = (path?: string, popup?: boolean): Promise<void> => 
     : browser.tabs.create({ url }).then();
 };
 
-export const openPost = async (post: PostIdentificationParameters, networkId: string): Promise<void> => {
+export const openPost = async (post: Pick<Post, 'owner' | 'uuid'>, networkId: string): Promise<void> => {
   const networkIds = await CONFIG_SERVICE.getNetworkIds().toPromise();
 
   if (!networkIds.includes(networkId)) {
@@ -58,7 +58,7 @@ export const openPost = async (post: PostIdentificationParameters, networkId: st
 
   await new NetworkBrowserStorageService().setActiveId(networkId);
 
-  const path = `/${AppRoute.Hub}/${HubRoute.Posts}/0/${HubRoute.Post}/${post.author}/${post.postId}`;
+  const path = `/${AppRoute.Hub}/${HubRoute.Posts}/0/${HubRoute.Post}/${post.owner}/${post.uuid}`;
 
   return openExtension(path);
 };

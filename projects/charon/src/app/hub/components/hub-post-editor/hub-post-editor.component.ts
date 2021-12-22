@@ -5,7 +5,7 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 import { ControlsOf, ControlValueAccessor, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { PostCreate } from 'decentr-js';
+import { CreatePostRequest } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { BaseValidationUtil } from '@shared/utils/validation';
@@ -36,10 +36,10 @@ import { svgClear } from '@shared/svg-icons/clear';
     },
   ],
 })
-export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> implements Validator {
+export class HubPostEditorComponent extends ControlValueAccessor<CreatePostRequest> implements Validator {
   @Input() public formId: string;
 
-  public form: FormGroup<ControlsOf<PostCreate>>;
+  public form: FormGroup<ControlsOf<CreatePostRequest>>;
 
   public imagesCount$: Observable<number>;
   public readonly maxImagesCount = 5;
@@ -105,7 +105,7 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
     return this.form.valid ? null : { invalid: {} };
   }
 
-  public writeValue(value: PostCreate): void {
+  public writeValue(value: CreatePostRequest): void {
     if (!value) {
       return this.form.reset();
     }
@@ -115,7 +115,7 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
     });
   }
 
-  private createForm(): FormGroup<ControlsOf<PostCreate>> {
+  private createForm(): FormGroup<ControlsOf<CreatePostRequest>> {
     return this.formBuilder.group({
       category: this.formBuilder.control(
         null,

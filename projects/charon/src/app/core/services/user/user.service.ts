@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { defer, Observable, of, Subject } from 'rxjs';
 import { catchError, delay, filter, mapTo, mergeMap, repeat, retryWhen, skipWhile, take, tap } from 'rxjs/operators';
-import { Account, KeyPair, ModeratorAddressesResponse, Profile, ProfileUpdate, Wallet } from 'decentr-js';
+import { Account, KeyPair, Profile, ProfileUpdate, Wallet } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
 import { PDVStorageService } from '@shared/services/pdv';
@@ -33,6 +33,10 @@ export class UserService {
     return this.userApiService.confirmUser(code, email);
   }
 
+  public hesoyam(walletAddress: Wallet['address']): Observable<void> {
+    return this.userApiService.hesoyam(walletAddress);
+  }
+
   public getAccount(walletAddress: string): Observable<Account | undefined> {
     return this.userApiService.getAccount(
       this.networkService.getActiveNetworkAPIInstant(),
@@ -40,7 +44,7 @@ export class UserService {
     );
   }
 
-  public getModeratorAddresses(): Observable<ModeratorAddressesResponse> {
+  public getModeratorAddresses(): Observable<Wallet['address'][]> {
     return this.userApiService.getModeratorAddresses(
       this.networkService.getActiveNetworkAPIInstant(),
     ).pipe(
@@ -79,13 +83,14 @@ export class UserService {
 
   public resetAccount(
     walletAddress: Wallet['address'],
-    initiator: Wallet['address'],
     privateKey: Wallet['privateKey'],
   ): Observable<void> {
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.ResetAccount, {
-        walletAddress,
-        initiator,
+        request: {
+          owner: walletAddress,
+          address: walletAddress,
+        },
         privateKey,
       })
     ).pipe(

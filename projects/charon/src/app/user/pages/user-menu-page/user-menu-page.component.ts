@@ -91,7 +91,6 @@ export class UserMenuPageComponent implements OnInit {
 
     return this.userService.resetAccount(
       wallet.address,
-      wallet.address,
       wallet.privateKey,
     ).pipe(
       tap(() => this.authService.removeUser(user.id)),

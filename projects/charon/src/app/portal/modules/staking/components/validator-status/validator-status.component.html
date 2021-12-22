@@ -1,18 +1,20 @@
-<ng-container *appBrowserTabView>
-  <svg-icon
-    [key]="validatorStatusName.toLowerCase()"
-  ></svg-icon>
+<ng-container *transloco="let translate; read: 'staking.validator_status'">
+  <ng-container *appBrowserTabView>
+    <svg-icon
+      [key]="validatorStatusIcon"
+    ></svg-icon>
 
-  <span
-    class="validator-status__label"
-  >
-    {{ validatorStatusName }}
-  </span>
-</ng-container>
+    <span
+      class="validator-status__label"
+    >
+      {{ translate(status) }}
+    </span>
+  </ng-container>
 
-<ng-container *appBrowserPopupView>
-  <svg-icon
-    [key]="validatorStatusName.toLowerCase()"
-    [appTooltip]="validatorStatusName"
-  ></svg-icon>
+  <ng-container *appBrowserPopupView>
+    <svg-icon
+      [key]="validatorStatusIcon"
+      [appTooltip]="translate(status)"
+    ></svg-icon>
+  </ng-container>
 </ng-container>

@@ -31,7 +31,7 @@ import { UndelegatePageService } from './undelegate-page.service';
 
 interface UndelegateForm {
   amount: string;
-  validatorAddress: Validator['operator_address'];
+  validatorAddress: Validator['operatorAddress'];
   validatorName: Validator['description']['moniker'];
 }
 
@@ -58,7 +58,7 @@ export class UndelegatePageComponent implements OnInit {
 
   public fee$: Observable<number>;
 
-  public validatorCommission$: Observable<Validator['commission']['commission_rates']['rate']>;
+  public validatorCommission$: Observable<Validator['commission']['commissionRates']['rate']>;
 
   public undelegationAvailableTime: number | undefined;
 
@@ -131,7 +131,7 @@ export class UndelegatePageComponent implements OnInit {
     validator$.pipe(
       untilDestroyed(this),
     ).subscribe((validator) => {
-      this.form.get('validatorAddress').setValue(validator.operator_address);
+      this.form.get('validatorAddress').setValue(validator.operatorAddress);
       this.form.get('validatorName').setValue(validator.description.moniker);
     });
   }

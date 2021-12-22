@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, filter, pluck, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, pluck } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 import { Wallet } from 'decentr-js';
@@ -56,10 +56,7 @@ export class UserPageComponent implements OnInit {
       distinctUntilChanged(),
     );
 
-    this.decBalance$ = this.walletAddress$.pipe(
-      filter((walletAddress) => !!walletAddress),
-      switchMap((walletAddress) => this.bankService.getDECBalance(walletAddress)),
-    );
+    this.decBalance$ = this.bankService.getDECBalance();
   }
 
   public onWalletAddressCopied(): void {

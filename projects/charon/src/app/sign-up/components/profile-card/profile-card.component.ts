@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, pluck, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { Profile } from 'decentr-js';
 
 import { svgWallet } from '@shared/svg-icons/wallet';
+import { PDVService } from '@shared/services/pdv';
 import { BankService, UserService } from '@core/services';
 import { AuthService } from '@core/auth';
-import { PDVService } from '@shared/services/pdv';
 
 @Component({
   selector: 'app-profile-card',
@@ -34,15 +34,9 @@ export class ProfileCardComponent implements OnInit {
       svgWallet,
     ]);
 
-    const walletAddress$ = this.authService.getActiveUser().pipe(
-      pluck('wallet', 'address'),
-    );
+    this.balance$ = this.bankService.getDECBalance();
 
-    this.balance$ = walletAddress$.pipe(
-      switchMap((walletAddress) => this.bankService.getDECBalance(walletAddress)),
-    );
-
-    this.profile$ = walletAddress$.pipe(
+    this.profile$ = this.authService.getActiveUserAddress().pipe(
       switchMap((walletAddress) => this.userService.getProfile(walletAddress)),
     );
 

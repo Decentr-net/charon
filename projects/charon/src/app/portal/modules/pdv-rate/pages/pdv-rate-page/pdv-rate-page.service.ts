@@ -8,7 +8,7 @@ import { BlocksService, CoinRateFor24Hours, CurrencyService } from '@core/servic
 import { PdvChartPoint } from '../../components/pdv-rate-chart';
 
 export interface PdvReward {
-  latestBlock: string;
+  latestBlock: number;
   nextDistributionHeight: string;
   reward: number;
 }
@@ -43,10 +43,10 @@ export class PdvRatePageService {
     return combineLatest([
       this.pdvService.getTokenBalance(),
       this.pdvService.getTokenPool(),
-      this.blocksService.getLatestBlock(),
+      this.blocksService.getBlock(),
     ]).pipe(
       map(([balance, pool, latestBlock]) => ({
-        latestBlock: latestBlock.block.header.height,
+        latestBlock: latestBlock.header.height,
         nextDistributionHeight: pool.nextDistributionHeight,
         reward: +pool.size[0].amount / +pool.totalDelta * +balance.balanceDelta,
       })),

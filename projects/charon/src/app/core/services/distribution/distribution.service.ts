@@ -1,137 +1,111 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, defer, Observable } from 'rxjs';
-import { map, pluck, switchMap } from 'rxjs/operators';
+import { combineLatest, defer, forkJoin, Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import {
-  calculateWithdrawDelegatorRewardsFee,
-  calculateWithdrawValidatorRewardsFee,
-  DelegatorRewards,
-  DenomAmount,
+  Coin,
+  DecentrDistributionClient,
+  QueryDelegationTotalRewardsResponse,
   Validator,
-  ValidatorDistribution,
 } from 'decentr-js';
 
-import { AuthService } from '../../auth';
-import { DistributionApiService } from '../api';
-import { NetworkService } from '../network';
-import { ConfigService } from '@shared/services/configuration';
 import { MessageBus } from '@shared/message-bus';
-import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
+import { AuthService } from '../../auth';
+import { NetworkService } from '../network';
 
 @Injectable()
 export class DistributionService {
   constructor(
     private authService: AuthService,
-    private configService: ConfigService,
-    private distributionApiService: DistributionApiService,
     private networkService: NetworkService,
   ) {
   }
 
-  public getDelegatorRewards(
-    validatorAddress?: Validator['operator_address'],
-  ): Observable<DelegatorRewards | DenomAmount[]> {
+  public getDelegatorRewards(): Observable<QueryDelegationTotalRewardsResponse> {
     return combineLatest([
-      this.authService.getActiveUser().pipe(
-        pluck('wallet', 'address'),
-      ),
-      this.networkService.getActiveNetworkAPI(),
+      this.createClient(),
+      this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([walletAddress, api]) => this.distributionApiService.getDelegatorRewards(
-        api,
+      switchMap(([client, walletAddress]) => client.getDelegatorRewards(
         walletAddress,
-        validatorAddress,
       )),
     )
   }
 
-  public getValidatorDistribution(
-    validatorAddress: Validator['operator_address'],
-  ): Observable<ValidatorDistribution> {
-    return this.networkService.getActiveNetworkAPI().pipe(
-      switchMap((api) => this.distributionApiService.getValidatorDistribution(api, validatorAddress)),
+  public getValidatorRewards(): Observable<Coin[]> {
+    return combineLatest([
+      this.createClient(),
+      this.authService.getActiveUser()
+    ]).pipe(
+      switchMap(([client, user]) => forkJoin([
+        client.getValidatorCommission(user.wallet.validatorAddress),
+        client.getValidatorOutstandingRewards(user.wallet.validatorAddress),
+      ])),
+      map(([commission, outstandingRewards]) => {
+        const coinsMap = [...commission, ...outstandingRewards]
+          .reduce((acc, coin) => ({ ...acc, [coin.denom]: (acc[coin.denom] || 0) + (+coin.amount || 0) }), {});
+
+        return Object.entries(coinsMap)
+          .map(([denom, amount]) => ({ denom, amount: amount.toString() }));
+      }),
     );
   }
 
-  public getTotalDelegatorRewards(): Observable<number> {
+  public getTotalDelegatorRewards(): Observable<Coin[]> {
     return this.getDelegatorRewards().pipe(
-      map((rewards: DelegatorRewards) => +(rewards?.total || [])[0]?.amount || 0),
+      map((rewards) => rewards.total),
     );
   }
 
   public calculateWithdrawDelegatorRewardsFee(
-    fromValidatorAddress?: Validator['operator_address'],
+    validatorAddresses: Validator['operatorAddress'][],
   ): Observable<number> {
-    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
-
-    return this.configService.getChainId().pipe(
-      switchMap((chainId) => defer(() => calculateWithdrawDelegatorRewardsFee(
-        this.networkService.getActiveNetworkAPIInstant(),
-        chainId,
-        walletAddress,
-        fromValidatorAddress,
-      ))),
-      map((fee) => +fee[0].amount),
-    );
+    return of(0);
   }
 
-  public createDistribution(
-    fromValidatorAddress?: Validator['operator_address'],
+  public withdrawDelegatorRewards(
+    validatorAddresses: Validator['operatorAddress'][],
   ): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
+    const request = validatorAddresses.map((validatorAddress) => ({
+      delegatorAddress: wallet.address,
+      validatorAddress,
+    }))
+
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.WithdrawDelegatorRewards, {
+        request,
         privateKey: wallet.privateKey,
-        validatorAddress: fromValidatorAddress,
-        walletAddress: wallet.address,
       })
     ).pipe(
-      map((response) => {
-        if (!response.success) {
-          throw response.error;
-        }
-
-        return void 0;
-      }),
+      map(assertMessageResponseSuccess),
     );
   }
 
-  public withdrawValidatorRewards(
-    fromValidatorAddress: Validator['operator_address'],
-  ): Observable<void> {
+  public withdrawValidatorRewards(): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.WithdrawValidatorRewards, {
+        request: {
+          validatorAddress: wallet.validatorAddress,
+        },
         privateKey: wallet.privateKey,
-        validatorAddress: fromValidatorAddress,
-        walletAddress: wallet.address,
       })
     ).pipe(
-      map((response) => {
-        if (!response.success) {
-          throw response.error;
-        }
-
-        return void 0;
-      }),
+      map(assertMessageResponseSuccess),
     );
   }
 
-  public calculateWithdrawValidatorRewardsFee(
-    fromValidatorAddress: Validator['operator_address'],
-  ): Observable<number> {
-    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
+  public calculateWithdrawValidatorRewardsFee(): Observable<number> {
+    return of(0);
+  }
 
-    return this.configService.getChainId().pipe(
-      switchMap((chainId) => defer(() => calculateWithdrawValidatorRewardsFee(
-        this.networkService.getActiveNetworkAPIInstant(),
-        chainId,
-        walletAddress,
-        fromValidatorAddress,
-      ))),
-      map((fee) => +fee[0].amount),
-    );
+  private createClient(): Promise<DecentrDistributionClient> {
+    const api = this.networkService.getActiveNetworkAPIInstant();
+
+    return DecentrDistributionClient.create(api);
   }
 }

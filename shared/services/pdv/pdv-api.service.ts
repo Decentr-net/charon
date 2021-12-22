@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { defer, Observable } from 'rxjs';
+import { defer, Observable, of } from 'rxjs';
 import { mergeMap, pluck } from 'rxjs/operators';
 import {
-  getPDVDetails,
-  getPDVList,
-  getRewards,
-  getTokenBalance,
-  getTokenBalanceHistory,
-  getTokenPool,
+  DecentrPDVClient,
+  DecentrTokenClient,
   PDVDetails,
   PDVListItem,
   PDVListPaginationOptions,
@@ -38,16 +34,19 @@ export class PDVApiService {
     );
   }
 
+  // TODO
   public getTokenBalance(api: string, walletAddress: Wallet['address']): Observable<TokenBalance> {
-    return defer(() => getTokenBalance(api, walletAddress));
+    return defer(() => new DecentrTokenClient(api).getTokenBalance(walletAddress));
   }
 
+  // TODO
   public getTokenBalanceHistory(api: string, walletAddress: Wallet['address']): Observable<TokenBalanceHistory[]> {
-    return defer(() => getTokenBalanceHistory(api, walletAddress));
+    return of([]);
+    // return defer(() => getTokenBalanceHistory(api, walletAddress));
   }
 
   public getTokenPool(api: string): Observable<TokenPool> {
-    return defer(() => getTokenPool(api));
+    return defer(() => new DecentrTokenClient(api).getTokenPool());
   }
 
   public getPDVList(
@@ -55,7 +54,7 @@ export class PDVApiService {
     paginationOptions?: PDVListPaginationOptions,
   ): Observable<PDVListItem[]> {
     return this.configService.getCerberusUrl().pipe(
-      mergeMap((cerberusUrl) => getPDVList(cerberusUrl, walletAddress, paginationOptions)),
+      mergeMap((cerberusUrl) => new DecentrPDVClient(cerberusUrl).getPDVList(walletAddress, paginationOptions)),
     );
   }
 
@@ -64,7 +63,7 @@ export class PDVApiService {
     wallet: Wallet,
   ): Observable<PDVDetails> {
     return this.configService.getCerberusUrl().pipe(
-      mergeMap((cerberusUrl) => getPDVDetails(cerberusUrl, address, wallet)),
+      mergeMap((cerberusUrl) => new DecentrPDVClient(cerberusUrl).getPDVDetails(address, wallet)),
     );
   }
 
@@ -79,7 +78,7 @@ export class PDVApiService {
 
   public getRewards(): Observable<Record<PDVType, number>> {
     return this.configService.getCerberusUrl().pipe(
-      mergeMap((cerberusUrl) => getRewards(cerberusUrl)),
+      mergeMap((cerberusUrl) => new DecentrPDVClient(cerberusUrl).getRewards()),
     );
   }
 }

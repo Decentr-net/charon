@@ -1,33 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { NetworkBrowserStorageService } from '@shared/services/network-storage';
-import { Block, BlockHeader } from 'decentr-js';
-import { switchMap } from 'rxjs/operators';
+import { defer, Observable } from 'rxjs';
+import { Block, BlockHeader, DecentrBlocksClient } from 'decentr-js';
+import { mergeMap } from 'rxjs/operators';
 
-import { BlocksApiService } from '@core/services/api';
+import { NetworkService } from '@core/services';
 
 @Injectable()
 export class BlocksService {
-
   constructor(
-    private blocksApiService: BlocksApiService,
-    private networkBrowserStorageService: NetworkBrowserStorageService,
+    private networkService: NetworkService,
   ) {
   }
 
-  public getBlock(height: BlockHeader['height']): Observable<Block> {
-    return this.getActiveNetworkApi().pipe(
-      switchMap((api) => this.blocksApiService.getBlock(api, height)),
+  public getBlock(height?: BlockHeader['height']): Observable<Block> {
+    return defer(() => this.createAPIClient()).pipe(
+      mergeMap((client) => client.getBlock(height)),
     );
   }
 
-  public getLatestBlock(): Observable<Block> {
-    return this.getActiveNetworkApi().pipe(
-      switchMap((api) => this.blocksApiService.getLatestBlock(api)),
-    );
-  }
+  private createAPIClient(): Promise<DecentrBlocksClient> {
+    const api = this.networkService.getActiveNetworkAPIInstant();
 
-  private getActiveNetworkApi(): Observable<string> {
-    return this.networkBrowserStorageService.getActiveAPI();
+    return DecentrBlocksClient.create(api);
   }
 }

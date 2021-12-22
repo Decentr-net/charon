@@ -5,7 +5,7 @@ import { switchMap } from 'rxjs/operators';
 import { FormControl } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { PostCreate } from 'decentr-js';
+import { CreatePostRequest } from 'decentr-js';
 
 import { ONE_SECOND } from '@shared/utils/date';
 import { svgPublish } from '@shared/svg-icons/publish';
@@ -29,7 +29,7 @@ export class PostCreatePageComponent implements OnInit {
 
   public formId: string = 'POST_CREATE_FORM';
 
-  public postControl: FormControl<PostCreate> = new FormControl();
+  public postControl: FormControl<CreatePostRequest> = new FormControl();
 
   constructor(
     private layout: AuthorizedLayoutComponent,

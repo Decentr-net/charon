@@ -86,7 +86,7 @@ export class WithdrawValidatorPageComponent implements OnInit {
   public getFee(): Observable<number> {
     return this.selectedItems$.pipe(
       filter((items) => items.length > 0),
-      switchMap((items) => this.distributionService.calculateWithdrawValidatorRewardsFee(items[0].address)),
+      switchMap(() => this.distributionService.calculateWithdrawValidatorRewardsFee()),
       startWith(0),
     );
   }
@@ -94,7 +94,7 @@ export class WithdrawValidatorPageComponent implements OnInit {
   public onSubmit(): void {
     this.spinnerService.showSpinner();
 
-    this.distributionService.withdrawValidatorRewards(this.selectedItems$.value[0].address).pipe(
+    this.distributionService.withdrawValidatorRewards().pipe(
       catchError((error) => {
         this.notificationService.error(error);
         return EMPTY;

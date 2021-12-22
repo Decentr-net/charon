@@ -60,7 +60,9 @@ export class WithdrawDelegatorPageComponent implements OnInit {
   public ngOnInit(): void {
     this.selectedItemsRewards$ = this.getSelectedItemsRewards();
 
-    this.totalDelegatorRewards$ = this.distributionService.getTotalDelegatorRewards();
+    this.totalDelegatorRewards$ = this.distributionService.getTotalDelegatorRewards().pipe(
+      map((rewards) => +rewards[0].amount),
+    );
 
     this.validators$ = this.withdrawDelegatorPageService.getValidators();
 
@@ -93,7 +95,9 @@ export class WithdrawDelegatorPageComponent implements OnInit {
   public getFee(): Observable<number> {
     return this.selectedItems$.pipe(
       filter((items) => items.length > 0),
-      switchMap((items) => this.distributionService.calculateWithdrawDelegatorRewardsFee(items.length > 1 ? undefined : items[0].address)),
+      switchMap((items) => this.distributionService
+        .calculateWithdrawDelegatorRewardsFee(items.map((validator) => validator.address))
+      ),
       startWith(0),
     );
   }
@@ -101,8 +105,8 @@ export class WithdrawDelegatorPageComponent implements OnInit {
   public onSubmit(): void {
     this.spinnerService.showSpinner();
 
-    this.distributionService.createDistribution(
-      this.selectedItems$.value.length > 1 ? undefined : this.selectedItems$.value[0].address
+    this.distributionService.withdrawDelegatorRewards(
+      this.selectedItems$.value.map((validator) => validator.address),
     ).pipe(
       catchError((error) => {
         this.notificationService.error(error);
