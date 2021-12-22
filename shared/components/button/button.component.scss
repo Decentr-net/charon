@@ -58,6 +58,7 @@
 
       &:hover {
         background: rgba(#{var(--color-button-primary-background-hover)}, var(--background-opacity));
+        color: rgb(var(--color-button-primary-text-hover));
       }
     }
 
@@ -67,6 +68,7 @@
 
       &:hover {
         background: rgba(#{var(--color-button-grey-background-hover)}, var(--background-opacity));
+        color: rgb(var(--color-button-grey-text-hover));
       }
     }
 
@@ -76,6 +78,7 @@
 
       &:hover {
         background: rgba(#{var(--color-button-white-background-hover)}, var(--background-opacity));
+        color: rgb(var(--color-button-white-text-hover));
       }
     }
   }

@@ -2,16 +2,16 @@
 
 :host {
   align-items: center;
-  background: $color-background;
+  background: rgb(var(--color-button-back-background));
   border-radius: $border-radius;
-  color: $color-grey;
+  color: rgb(var(--color-button-back-text));
   cursor: pointer;
   display: inline-flex;
   padding: $grid-step;
   transition: background .3s ease;
 
   &:hover {
-    background: $color-outlines;
-    color: $color-black;
+    background: rgb(var(--color-button-back-background-hover));
+    color: rgb(var(--color-button-back-text-hover));
   }
 }

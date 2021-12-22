@@ -1,13 +1,14 @@
 @import 'variables';
 
 :host {
-  background: $color-white;
+  background: var(--color-main-background);
+  color: var(--color-main-text);
   padding: $grid-step * 3;
   width: 100%;
 }
 
 .hub-dashboard__container {
-  border-top: 1px solid $color-outlines;
+  border-top: 1px solid var(--color-outlines);
   margin: 0 auto;
   max-width: $page-width;
   padding-top: $grid-step * 3;

@@ -2,7 +2,7 @@
 
 :host {
   border-radius: $border-radius;
-  color: $color-white;
+  color: var(--color-dhub-statistics);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -33,7 +33,6 @@
 }
 
 .hub-statistics-card__changed {
-
 }
 
 .hub-statistics-card__content-container {

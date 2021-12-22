@@ -5,7 +5,7 @@
 }
 
 .hub-wall-posts__post-card {
-  border-top: 1px solid $color-outlines;
+  border-top: 1px solid var(--color-outlines);
   cursor: pointer;
   padding: ($grid-step * 2) 0;
 }

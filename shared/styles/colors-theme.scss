@@ -1,0 +1,194 @@
+@import 'variables';
+
+:root {
+  --color-main-text: #{$color-black};
+  --color-main-background: #{$color-white};
+  --color-card-background: #{$color-background};
+  --color-outlines: #{$color-outlines};
+  --color-input-disabled-text: #{$color-light-grey};
+  --color-input-background: #{$color-background};
+  --color-input-invalid-color: #{$color-negative};
+  --color-input-invalid-border: #{$color-negative};
+  --color-input-text: #{$color-black};
+  --color-input-label: #{$color-grey};
+  --color-input-label-invalid: #{$color-negative};
+  --color-input-placeholder: #{$color-grey};
+  --color-input-icon: #{$color-black};
+  --color-input-footer: #{$color-grey};
+
+  // Checkbox
+  --color-checkbox-background: #{$color-background};
+  --color-checkbox-invalid-border: #{$color-negative};
+  --color-checkbox-active-color: #{$color-white};
+  --color-checkbox-active-background: #{$color-blue};
+
+  // Buttons
+  --color-button-disabled-text: #{hexToRGBString($color-light-grey)};
+  --color-button-disabled-background: #{hexToRGBString($color-background)};
+  --color-button-negative-text: #{hexToRGBString($color-white)};
+  --color-button-negative-background: #{hexToRGBString($color-negative)};
+  --color-button-primary-text: #{hexToRGBString($color-white)};
+  --color-button-primary-text-hover: #{hexToRGBString($color-white)};
+  --color-button-primary-background: #{hexToRGBString($color-blue)};
+  --color-button-primary-background-hover: #{hexToRGBString($color-blue-hover)};
+  --color-button-grey-text: #{hexToRGBString($color-black)};
+  --color-button-grey-text-hover: #{hexToRGBString($color-black)};
+  --color-button-grey-background: #{hexToRGBString($color-background)};
+  --color-button-grey-background-hover: #{hexToRGBString($color-outlines)};
+  --color-button-white-text: #{hexToRGBString($color-black)};
+  --color-button-white-text-hover: #{hexToRGBString($color-black)};
+  --color-button-white-background: #{hexToRGBString($color-white)};
+  --color-button-white-background-hover: #{hexToRGBString($color-outlines)};
+
+  --color-button-back-text: #{hexToRGBString($color-grey)};
+  --color-button-back-text-hover: #{hexToRGBString($color-black)};
+  --color-button-back-background: #{hexToRGBString($color-background)};
+  --color-button-back-background-hover: #{hexToRGBString($color-outlines)};
+
+  --color-header-background: #{$color-white};
+
+  --color-chart-tooltip: #{$color-black};
+  --color-chart-tooltip-background: #{$color-white};
+
+  // dHub
+  --color-dhub-header-meta-background: #{$color-background};
+  --color-dhub-header-meta-background-hover: #{$color-outlines};
+  --color-dhub-header-meta-divider: #{$color-white};
+  --color-dhub-header-meta-details-button: #{$color-grey};
+  --color-dhub-header-meta-details-button-hover: #{$color-dark-grey};
+  --color-dhub-header-navigation-link: #{$color-grey};
+  --color-dhub-header-navigation-link-hover: #{$color-dark-grey};
+  --color-dhub-header-navigation-link-active: #{$color-black};
+  --color-dhub-post-editor-error: #{$color-white};
+  --color-dhub-post-editor-error-background: #{$color-red};
+
+  --color-dhub-post-editor-category-selector: #{$color-dark-grey};
+  --color-dhub-post-editor-title: #{$color-black};
+  --color-dhub-post-editor-title-category-selector-filled: #{$color-white};
+  --color-dhub-post-editor-preview-image-uploader-empty: #{$color-grey};
+  --color-dhub-post-editor-preview-image-uploader-empty-hover: #{$color-dark-grey};
+  --color-dhub-post-editor-preview-image-uploader-filled: #{$color-white};
+  --color-dhub-post-editor-text-placeholder: #{$color-grey};
+  --color-dhub-post-editor-text-image-uploader: #{$color-light-grey};
+  --color-dhub-post-editor-text-image-uploader-icon: #{$color-grey};
+  --color-dhub-post-editor-text-image-uploader-icon-hover: #{$color-dark-grey};
+  --color-dhub-post-editor-text-image-uploader-icon-limit: #{$color-outlines};
+  --color-dhub-post-editor-text-image-uploader-icon-container-background: #{$color-background};
+  --color-dhub-post-editor-text-image-uploader-icon-container-background-hover: #{$color-outlines};
+
+  --color-dhub-post-delete-confirmation: #{$color-white};
+  --color-dhub-post-delete-confirmation-background: #{$color-dark-grey};
+  --color-dhub-post-card-background: #{$color-white};
+  --color-dhub-post-card-meta-separator: #{$color-grey};
+  --color-dhub-post-card-time: #{$color-grey};
+  --color-dhub-post-card-content: #{$color-grey};
+  --color-dhub-post-card-footer-link: #{$color-grey};
+  --color-dhub-post-card-footer-link-hover: #{$color-dark-grey};
+  --color-dhub-no-posts: #{$color-grey};
+  --color-dhub-infinity-posts-loading: #{$color-light-grey};
+  --color-dhub-post-rating: #{$color-grey};
+  --color-dhub-post-rating-hover: #{$color-dark-grey};
+  --color-dhub-post-rating-background: #{$color-background};
+  --color-dhub-post-rating-liked: #{$color-blue};
+  --color-dhub-post-overlay: #{$color-black};
+  --color-dhub-profile-card-bio: #{$color-grey};
+  --color-dhub-profile-card-button-active: #{$color-white};
+  --color-dhub-profile-card-button-active-background: #{$color-positive};
+  --color-dhub-statistics: #{$color-white};
+
+  .theme-dark {
+    --color-main-text: #{$color-white};
+    --color-main-background: #{$color-black};
+    --color-card-background: #{$color-card-background-night};
+    --color-outlines: #{$color-outlines-night};
+    --color-input-disabled-text: #{$color-light-grey};
+    --color-input-background: #{$color-input-background-night};
+    --color-input-invalid-color: #{$color-negative};
+    --color-input-invalid-border: #{$color-negative};
+    --color-input-text: #{$color-white};
+    --color-input-label: #{$color-grey};
+    --color-input-label-invalid: #{$color-negative};
+    --color-input-placeholder: #{$color-grey};
+    --color-input-icon: #{$color-light-grey};
+    --color-input-footer: #{$color-grey};
+
+    // Checkbox
+    --color-checkbox-background: #{$color-grey};
+    --color-checkbox-invalid-border: #{$color-negative};
+    --color-checkbox-active-color: #{$color-white};
+    --color-checkbox-active-background: #{$color-blue};
+
+    // Buttons
+    --color-button-disabled-text: #{hexToRGBString($color-light-grey)};
+    --color-button-disabled-background: #{hexToRGBString($color-dark-grey)};
+    --color-button-negative-text: #{hexToRGBString($color-white)};
+    --color-button-negative-background: #{hexToRGBString($color-negative)};
+    --color-button-primary-text: #{hexToRGBString($color-white)};
+    --color-button-primary-text-hover: #{hexToRGBString($color-white)};
+    --color-button-primary-background: #{hexToRGBString($color-blue)};
+    --color-button-primary-background-hover: #{hexToRGBString($color-blue-hover)};
+    --color-button-grey-text: #{hexToRGBString($color-grey)};
+    --color-button-grey-text-hover: #{hexToRGBString($color-white)};
+    --color-button-grey-background: #{hexToRGBString($color-dark-grey)};
+    --color-button-grey-background-hover: #{hexToRGBString($color-dark-grey)};
+    --color-button-white-text: #{hexToRGBString($color-white)};
+    --color-button-white-text-hover: #{hexToRGBString($color-white)};
+    --color-button-white-background: #{hexToRGBString($color-dark-grey)};
+    --color-button-white-background-hover: #{hexToRGBString($color-dark-grey)};
+
+    --color-button-back-text: #{hexToRGBString($color-grey)};
+    --color-button-back-text-hover: #{hexToRGBString($color-white)};
+    --color-button-back-background: #{hexToRGBString($color-dark-grey)};
+    --color-button-back-background-hover: #{hexToRGBString($color-dark-grey)};
+
+    --color-header-background: #{$color-black};
+
+    --color-chart-tooltip: #{$color-white};
+    --color-chart-tooltip-background: #{$color-black};
+
+    // dHub
+    --color-dhub-header-meta-background: #{$color-dark-grey};
+    --color-dhub-header-meta-background-hover: #{$color-dark-grey};
+    --color-dhub-header-meta-divider: #{$color-outlines-night};
+    --color-dhub-header-meta-details-button: #{$color-grey};
+    --color-dhub-header-meta-details-button-hover: #{$color-grey};
+    --color-dhub-header-navigation-link: #{$color-grey};
+    --color-dhub-header-navigation-link-hover: #{$color-white};
+    --color-dhub-header-navigation-link-active: #{$color-white};
+    --color-dhub-post-editor-error: #{$color-white};
+    --color-dhub-post-editor-error-background: #{$color-red};
+
+    --color-dhub-post-editor-category-selector: #{$color-grey};
+    --color-dhub-post-editor-title: #{$color-white};
+    --color-dhub-post-editor-title-category-selector-filled: #{$color-white};
+    --color-dhub-post-editor-preview-image-uploader-empty: #{$color-grey};
+    --color-dhub-post-editor-preview-image-uploader-empty-hover: #{$color-white};
+    --color-dhub-post-editor-preview-image-uploader-filled: #{$color-white};
+    --color-dhub-post-editor-text-placeholder: #{$color-grey};
+    --color-dhub-post-editor-text-image-uploader: #{$color-grey};
+    --color-dhub-post-editor-text-image-uploader-icon: #{$color-grey};
+    --color-dhub-post-editor-text-image-uploader-icon-hover: #{$color-white};
+    --color-dhub-post-editor-text-image-uploader-icon-limit: #{$color-grey};
+    --color-dhub-post-editor-text-image-uploader-icon-container-background: #{$color-dark-grey};
+    --color-dhub-post-editor-text-image-uploader-icon-container-background-hover: #{$color-dark-grey};
+
+    --color-dhub-post-delete-confirmation: #{$color-white};
+    --color-dhub-post-delete-confirmation-background: #{$color-dark-grey};
+    --color-dhub-post-card-background: #{$color-black};
+    --color-dhub-post-card-meta-separator: #{$color-grey};
+    --color-dhub-post-card-time: #{$color-grey};
+    --color-dhub-post-card-footer-link: #{$color-grey};
+    --color-dhub-post-card-footer-link-hover: #{$color-white};
+    --color-dhub-no-posts: #{$color-grey};
+    --color-dhub-infinity-posts-loading: #{$color-light-grey};
+    --color-dhub-post-rating: #{$color-grey};
+    --color-dhub-post-rating-hover: #{$color-white};
+    --color-dhub-post-rating-background: #{$color-dark-grey};
+    --color-dhub-post-rating-liked: #{$color-blue};
+    --color-dhub-post-overlay: #{$color-black};
+    --color-dhub-profile-card-bio: #{$color-grey};
+    --color-dhub-profile-card-button-active: #{$color-white};
+    --color-dhub-profile-card-button-active-background: #{$color-positive};
+    --color-dhub-statistics: #{$color-white};
+  }
+}

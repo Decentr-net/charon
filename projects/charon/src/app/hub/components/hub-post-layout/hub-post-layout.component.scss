@@ -21,17 +21,17 @@ $hub-post-layout--grid-columns: ($hub-post-layout--column-width * $hub-post-layo
 }
 
 .hub-post-layout__header {
-  background-color: $color-background;
+  background-color: var(--color-main-background);
   background-repeat: no-repeat;
   background-size: cover;
-  color: $color-white;
+  color: var(--color-main-text);
   height: 480px;
   padding: $grid-step * 4 0 $grid-step * 2;
   position: relative;
   width: 100%;
 
   &.mod-overlay:before {
-    background-color: $color-black;
+    background-color: var(--color-dhub-post-overlay);
     bottom: 0;
     content: '';
     left: 0;
@@ -97,7 +97,7 @@ $hub-post-layout--grid-columns: ($hub-post-layout--column-width * $hub-post-layo
 }
 
 .hub-post-layout__footer {
-  background-color: $color-background;
+  background-color: var(--color-main-background);
   width: 100%;
 
   .hub-post-layout__footer-content {

@@ -5,6 +5,7 @@ $hub-posts-page--gap: $grid-step * 3;
 $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
 
 :host {
+  background: var(--color-main-background);
   display: block;
   height: 100%;
   overflow-y: auto;
@@ -16,7 +17,7 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
 }
 
 .posts-page__no-posts {
-  color: $color-grey;
+  color: var(--color-dhub-no-posts);
   margin-top: $grid-step * 8;
   text-align: center;
 }
@@ -56,14 +57,14 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
 }
 
 .posts-page__horizontal-post {
-  border-top: 1px solid $color-outlines;
+  border-top: 1px solid var(--color-outlines);
   padding: ($grid-step * 2) 0;
 }
 
 .posts-page__top-posts__header {
   $border-width: 1px;
-  background: $color-white;
-  border: $border-width solid $color-outlines;
+  background: var(--color-main-background);
+  border: $border-width solid var(--color-outlines);
   font-weight: 700;
   padding: $grid-step * 2;
   position: sticky;
@@ -71,7 +72,7 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
   z-index: 1;
 
   &:before {
-    background: $color-white;
+    background: var(--color-main-background);
     content: '';
     height: $grid-step * 2;
     left: -$border-width;
@@ -81,8 +82,8 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
   }
 
   &:after {
-    background: $color-white;
-    border: $border-width solid $color-outlines;
+    background: var(--color-main-background);
+    border: $border-width solid var(--color-outlines);
     border-top-left-radius: $border-radius;
     border-top-right-radius: $border-radius;
     border-bottom: 0;

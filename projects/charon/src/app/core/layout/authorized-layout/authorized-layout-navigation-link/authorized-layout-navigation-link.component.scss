@@ -13,13 +13,13 @@
 
   &:hover {
     .hub-navigation-link__title {
-      color: $color-dark-grey;
+      color: var(--color-dhub-header-navigation-link-hover);
     }
   }
 
   &.is-active {
     .hub-navigation-link__title {
-      color: $color-font-base;
+      color: var(--color-dhub-header-navigation-link-active);
       font-weight: 700;
     }
 
@@ -33,7 +33,6 @@
   }
 }
 
-
 .hub-navigation-link__dot {
   background: currentColor;
   border-radius: 50%;
@@ -44,7 +43,7 @@
 }
 
 .hub-navigation-link__title {
-  color: $color-grey;
+  color: var(--color-dhub-header-navigation-link);
   font-weight: 500;
 
   &:after {

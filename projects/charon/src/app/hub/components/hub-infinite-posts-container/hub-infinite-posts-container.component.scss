@@ -22,6 +22,6 @@
 }
 
 .hub-infinite-posts-container__loading-container-text {
-  color: $color-light-grey;
+  color: var(--color-dhub-infinity-posts-loading);
   margin-left: $grid-step;
 }
