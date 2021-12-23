@@ -35,7 +35,7 @@
 }
 
 .validator-details__divider {
-  background-color: $color-outlines;
+  background-color: var(--color-outlines);
   height: 2px;
 
   &.mod-wide {
@@ -54,7 +54,7 @@
 }
 
 .validator-details__details-table__voting-power-percent {
-  color: $color-grey;
+  color: var(--color-dportal-staking-validator-details-details-table-voting-pover);
 }
 
 .validator-details__voting-power-percent-loading {
@@ -85,7 +85,7 @@
 
 .validator-details__footer-delegated-value {
   &.mod-empty {
-    color: $color-light-grey;
+    color: var(--color-dportal-staking-validator-details-details-footer-delegated-value-empty);
   }
 }
 
@@ -97,7 +97,7 @@
 }
 
 .validator-details__footer-unbonding-label {
-  color: $color-light-grey;
+  color: var(--color-dportal-staking-validator-details-details-footer-unbonding-label);
 }
 
 .validator-details__footer-unbonding-value {

@@ -21,26 +21,26 @@
 }
 
 .validators-page__header-section__divider {
-  background-color: $color-outlines;
+  background-color: var(--color-outlines);
   flex-shrink: 0;
   height: 32px;
   width: 2px;
 }
 
 .validators-page__header-section__withdraw {
-  color: $color-black;
+  color: var(--color-dportal-staking-header-withdraw);
   column-gap: $grid-step * 1.5;
 }
 
 .validators-page__header-section__withdraw-button {
   align-items: center;
-  color: $color-blue;
+  color: var(--color-dportal-staking-header-withdraw-button);
   column-gap: $grid-half-step;
   display: flex;
 }
 
 .validators-page__header-section__withdraw__divider {
-  background-color: $color-white;
+  background-color: var(--color-dportal-staking-header-withdraw-divider);
   height: 32px;
   margin: (-$grid-step * 1.5) 0;
   width: 2px;

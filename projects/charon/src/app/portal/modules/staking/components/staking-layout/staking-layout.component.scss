@@ -6,7 +6,7 @@ $info-card--padding: $grid-step * 2;
   display: block;
 
   &.mod-bordered {
-    border: 2px solid $color-outlines;
+    border: 2px solid var(--color-outlines);
     border-radius: $border-radius;
     padding: $info-card--padding;
   }
@@ -30,7 +30,7 @@ $info-card--padding: $grid-step * 2;
 }
 
 .info-card__divider {
-  background-color: $color-outlines;
+  background-color: var(--color-outlines);
   height: 2px;
   margin: $grid-step * 2 (-$info-card--padding);
 }

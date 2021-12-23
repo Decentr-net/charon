@@ -31,7 +31,7 @@
 }
 
 .undelegate-page__direction-icon {
-  color: $color-light-grey;
+  color: var(--color-dportal-staking-delegate-direction-icon);
   grid-area: icon;
 }
 
@@ -56,10 +56,10 @@
   }
 
   &.mod-hint {
-    background-color: rgba($color-blue, 0.12);
+    background-color: rgba(var(--color-dportal-staking-undelegate-hint), 0.12);
 
     .undelegate-page__info__block__icon {
-      color: $color-blue;
+      color: rgb(var(--color-dportal-staking-undelegate-hint));
     }
   }
 }
@@ -69,7 +69,6 @@
 }
 
 .undelegate-page__info__block__icon {
-  color: $color-red;
   flex-shrink: 0;
 }
 

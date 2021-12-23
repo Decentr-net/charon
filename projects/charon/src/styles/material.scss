@@ -13,7 +13,7 @@
 
   // Disabled background
   .mat-slide-toggle-bar {
-    background-color: $color-grey !important;
+    background-color: var(--color-toggle-bar) !important;
     width: 32px;
     height: 20px;
     border-radius: 10px;
@@ -21,7 +21,7 @@
   }
 
   .mat-slide-toggle-thumb {
-    background-color: $color-white;
+    background-color: var(--color-toggle-thumb);
     transform: translateY(-50%);
     box-shadow: none;
     width: 16px;
@@ -38,15 +38,15 @@
 
   &.mat-checked {
     .mat-slide-toggle-bar {
-      background-color: $color-primary !important;
+      background-color: var(--color-toggle-bar-checked) !important;
     }
 
     .mat-slide-toggle-thumb {
-      background-color: #ffffff !important;
+      background-color: var(--color-toggle-thumb-checked) !important;
     }
 
     .mat-ripple-element {
-      background-color: $color-primary !important;
+      background-color: var(--color-toggle-bar-checked) !important;
     }
 
     .mat-slide-toggle-thumb-container {

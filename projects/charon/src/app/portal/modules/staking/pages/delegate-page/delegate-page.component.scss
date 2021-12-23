@@ -31,7 +31,7 @@
 }
 
 .delegate-page__direction-icon {
-  color: $color-light-grey;
+  color: var(--color-dportal-staking-delegate-direction-icon);
   grid-area: icon;
   transform: rotate(180deg);
 }
@@ -42,7 +42,7 @@
 }
 
 .delegate-page__warning {
-  background-color: rgba($color-red, 0.12);
+  background-color: rgba(var(--color-dportal-staking-delegate-warning), 0.12);
   border-radius: $border-radius;
   column-gap: $grid-step;
   display: flex;
@@ -52,7 +52,7 @@
 }
 
 .delegate-page__warning__icon {
-  color: $color-red;
+  color: rgb(var(--color-dportal-staking-delegate-warning));
   flex-shrink: 0;
 }
 

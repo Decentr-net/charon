@@ -10,14 +10,14 @@
     padding: $grid-step $grid-step * 2 $grid-step $grid-step * 1.5;
 
     .validator-status__label {
-      color: $color-black;
+      color: var(--color-validator-status-filled-label);
     }
   }
 
   &.mod-bonded {
-    $bonded-color: $color-positive;
+    $bonded-color: var(--color-validator-status-bonded);
 
-    color: $bonded-color;
+    color: rgb($bonded-color);
 
     &.mod-filled {
       background-color: rgba($bonded-color, 0.08);
@@ -25,7 +25,7 @@
   }
 
   &.mod-unbonded {
-    $unbonded-color: $color-light-grey;
+    $unbonded-color: var(--color-validator-status-unbonded);
 
     color: $unbonded-color;
 
@@ -35,9 +35,9 @@
   }
 
   &.mod-unbonding {
-    $unbonding-color: $color-grey;
+    $unbonding-color: var(--color-validator-status-unbonding);
 
-    color: $color-grey;
+    color: rgb($unbonding-color);
 
     &.mod-filled {
       background-color: rgba($unbonding-color, 0.08);

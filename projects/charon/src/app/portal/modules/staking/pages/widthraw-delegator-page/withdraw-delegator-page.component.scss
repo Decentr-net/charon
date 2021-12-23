@@ -16,7 +16,7 @@
 }
 
 .withdraw-delegator-page__divider {
-  background-color: $color-outlines;
+  background-color: var(--color-outlines);
   height: 2px;
   margin: $grid-step * 2 (-$grid-step * 2);
 }
@@ -37,16 +37,13 @@
   display: flex;
 }
 
-.withdraw-delegator-page__footer-withdraw__select {
-  color: $color-grey;
+.withdraw-delegator-page__footer-withdraw__select,
+.withdraw-delegator-page__footer-withdraw__available {
+  color: var(--color-dportal-staking-withdraw-delegator-footer-withdraw-text);
 }
 
 .withdraw-delegator-page__footer-withdraw__label {
   font-weight: 500;
-}
-
-.withdraw-delegator-page__footer-withdraw__available {
-  color: $color-grey;
 }
 
 .withdraw-delegator-page__footer-fee {
@@ -60,7 +57,7 @@
 }
 
 .withdraw-delegator-page__footer__divider {
-  background-color: $color-outlines;
+  background-color: var(--color-outlines);
   flex-shrink: 0;
   height: 32px;
   width: 2px;

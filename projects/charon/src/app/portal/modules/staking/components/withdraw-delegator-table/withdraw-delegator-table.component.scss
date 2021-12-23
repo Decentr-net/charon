@@ -5,7 +5,7 @@
 }
 
 .mod-empty {
-  color: $color-light-grey;
+  color: var(--color-dportal-staking-withdraw-delegator-table-empty);
 }
 
 .withdraw-delegator-table__validator-name {
@@ -20,7 +20,7 @@
 
 .withdraw-delegator-table__validator-name__check {
   align-items: center;
-  border: 1px solid $color-outlines;
+  border: 1px solid var(--color-outlines);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -29,8 +29,8 @@
   width: 24px;
 
   &.is-selected {
-    background-color: $color-blue;
-    border-color: $color-blue;
+    background-color: var(--color-dportal-staking-withdraw-delegator-table-name-check-background);
+    border-color: var(--color-dportal-staking-withdraw-delegator-table-name-check-background);
 
     .withdraw-delegator-table__validator-name__check-icon {
       visibility: visible;
@@ -39,12 +39,12 @@
 }
 
 .withdraw-delegator-table__validator-name__check-icon {
-  color: $color-white;
+  color: var(--color-dportal-staking-withdraw-delegator-table-name-check);
   visibility: hidden;
 }
 
 .withdraw-delegator-table__empty-row {
-  color: $color-grey;
+  color: var(--color-dportal-staking-withdraw-delegator-table-empty-row);
   padding: $grid-step;
   text-align: center;
 }

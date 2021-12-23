@@ -16,9 +16,9 @@
 
 .validators-table__validator-my {
   align-items: center;
-  background-color: rgba($color-blue, .08);
+  background-color: rgba(var(--color-dportal-staking-validators-table-validator-my), .08);
   border-radius: $border-radius;
-  color: $color-blue;
+  color: rgb(var(--color-dportal-staking-validators-table-validator-my));
   display: inline-flex;
   margin-left: $grid-step;
   padding: $grid-half-step $grid-step;
@@ -30,7 +30,7 @@
 }
 
 .validators-table__voting-power-percent {
-  color: $color-grey;
+  color: var(--color-dportal-staking-validators-table-voting-power);
 }
 
 .validators-table__reward-and-delegated {
@@ -40,9 +40,9 @@
 
 .validators-table__unbonding-delegation {
   align-items: center;
-  background-color: rgba($color-purple, .12);
+  background-color: rgba(var(--color-dportal-staking-validators-table-unbonding-delegation), .12);
   border-radius: $border-radius;
-  color: $color-purple;
+  color: rgb(var(--color-dportal-staking-validators-table-unbonding-delegation));
   column-gap: $grid-half-step;
   display: inline-flex;
   font-weight: 500;
@@ -52,9 +52,9 @@
 
 .validators-table__reward {
   align-items: center;
-  background-color: rgba($color-blue, .12);
+  background-color: rgba(var(--color-dportal-staking-validators-table-reward), .12);
   border-radius: $border-radius;
-  color: $color-blue;
+  color: rgb(var(--color-dportal-staking-validators-table-reward));
   column-gap: $grid-half-step;
   display: inline-flex;
   font-weight: 500;
@@ -71,5 +71,5 @@
 }
 
 .mod-empty {
-  color: $color-light-grey;
+  color: var(--color-dportal-staking-validators-table-empty);
 }

@@ -1,3 +1,4 @@
+@import 'colors';
 @import 'variables';
 
 :root {
@@ -17,6 +18,12 @@
   --color-input-placeholder: #{$color-grey};
   --color-input-icon: #{$color-black};
   --color-input-footer: #{$color-grey};
+
+  // Toggle
+  --color-toggle-bar: #{$color-grey};
+  --color-toggle-thumb: #{$color-white};
+  --color-toggle-bar-checked: #{$color-blue};
+  --color-toggle-thumb-checked: #{$color-white};
 
   // Checkbox
   --color-checkbox-background: #{$color-background};
@@ -53,6 +60,8 @@
   --color-chart-tooltip-background: #{$color-white};
 
   // dHub
+  @include postCategoryColor($color-post-categories);
+
   --color-dhub-header-meta-background: #{$color-background};
   --color-dhub-header-meta-background-hover: #{$color-outlines};
   --color-dhub-header-meta-divider: #{$color-white};
@@ -131,22 +140,59 @@
   --color-dportal-transfer-page-disabled-balance: #{rgba($color-background, 1)};
   --color-dportal-transfer-page-disabled-back-button: #{$color-light-grey};
 
+  // dPortal Staking
+  --color-dportal-staking-header-withdraw: #{$color-black};
+  --color-dportal-staking-header-withdraw-button: #{$color-blue};
+  --color-dportal-staking-header-withdraw-divider: #{$color-white};
+  --color-dportal-staking-validators-table-validator-my: #{hexToRGBString($color-blue)};
+  --color-dportal-staking-validators-table-voting-power: #{$color-grey};
+  --color-dportal-staking-validators-table-unbonding-delegation: #{hexToRGBString($color-purple)};
+  --color-dportal-staking-validators-table-reward: #{hexToRGBString($color-blue)};
+  --color-dportal-staking-validators-table-empty: #{$color-light-grey};
+  --color-dportal-staking-withdraw-delegator-footer-withdraw-text: #{$color-grey};
+  --color-dportal-staking-withdraw-delegator-table-empty: #{$color-light-grey};
+  --color-dportal-staking-withdraw-delegator-table-empty-row: #{$color-grey};
+  --color-dportal-staking-withdraw-delegator-table-name-check: #{$color-white};
+  --color-dportal-staking-withdraw-delegator-table-name-check-background: #{$color-blue};
+  --color-dportal-staking-withdraw-validator-footer-withdraw-text: #{$color-grey};
+  --color-dportal-staking-validator-details-details-table-voting-pover: #{$color-grey};
+  --color-dportal-staking-validator-details-details-footer-delegated-value-empty: #{$color-light-grey};
+  --color-dportal-staking-validator-details-details-footer-unbonding-label: #{$color-light-grey};
+  --color-dportal-staking-delegate-direction-icon: #{$color-light-grey};
+  --color-dportal-staking-delegate-warning: #{hexToRGBString($color-red)};
+  --color-dportal-staking-undelegate-hint: #{hexToRGBString($color-blue)};
+  --color-dportal-staking-jailed: #{hexToRGBString($color-red)};
+
   // Shared
   --color-data-table-header: #{$color-grey};
   --color-data-table-row-background-hover: #{$color-background};
-  --color-data-table-link: #{$color-primary};
-  --color-data-table-link-hover: #{$color-primary-hover};
-  --color-data-table-row-selected: #{hexToRGBString($color-primary-hover)};
+  --color-data-table-link: #{$color-blue};
+  --color-data-table-link-hover: #{$color-blue-hover};
+  --color-data-table-row-selected: #{hexToRGBString($color-blue-hover)};
   --color-expansion-list-cell-hover: #{$color-background};
-  --color-expansion-list-cell-active: #{$color-primary};
-  --color-expansion-list-cell-active-background: #{hexToRGBString($color-primary)};
+  --color-expansion-list-cell-active: #{$color-blue};
+  --color-expansion-list-cell-active-background: #{hexToRGBString($color-blue)};
   --color-expansion-list-header-count: #{$color-black};
   --color-expansion-list-header-count-background: #{$color-background};
+  --color-validator-status-bonded: #{hexToRGBString($color-green)};
+  --color-validator-status-unbonded: #{hexToRGBString($color-light-grey)};
+  --color-validator-status-unbonding: #{hexToRGBString($color-grey)};
+  --color-validator-status-filled-label: #{$color-black};
+  --color-datails-table-cell-title: #{$color-grey};
+  --color-select-input: #{$color-black};
+  --color-select-input-invalid: #{$color-red};
+  --color-select-input-disabled: #{$color-light-grey};
+  --color-select-input-label: #{$color-grey};
+  --color-select-input-placeholder: #{$color-grey};
+  --color-select-input-icon-close: #{$color-grey};
+  --color-select-input-icon-dropdown: #{$color-grey};
+  --color-select-input-option-meta: #{$color-grey};
+  --color-select-input-footer: #{$color-grey};
 
   .theme-dark {
     color-scheme: dark;
 
-    --color-skeleton-background: #{hexToRGBString($color-skeleton-background-night)};
+    --color-skeleton-background: #{hexToRGBString($color-background-night)};
     --color-skeleton-background-animation: #{$color-skeleton-background-animation-night};
     --color-main-text: #{$color-white};
     --color-main-background: #{$color-black};
@@ -163,11 +209,17 @@
     --color-input-icon: #{$color-light-grey};
     --color-input-footer: #{$color-grey};
 
+    // Toggle
+    --color-toggle-bar: #{$color-dark-grey};
+    --color-toggle-thumb: #{$color-black};
+    --color-toggle-bar-checked: #{$color-blue-night};
+    --color-toggle-thumb-checked: #{$color-black};
+
     // Checkbox
     --color-checkbox-background: #{$color-grey};
     --color-checkbox-invalid-border: #{$color-negative};
     --color-checkbox-active-color: #{$color-white};
-    --color-checkbox-active-background: #{$color-blue};
+    --color-checkbox-active-background: #{$color-blue-night};
 
     // Buttons
     --color-button-disabled-text: #{hexToRGBString($color-light-grey)};
@@ -176,12 +228,12 @@
     --color-button-negative-background: #{hexToRGBString($color-negative)};
     --color-button-primary-text: #{hexToRGBString($color-white)};
     --color-button-primary-text-hover: #{hexToRGBString($color-white)};
-    --color-button-primary-background: #{hexToRGBString($color-blue)};
+    --color-button-primary-background: #{hexToRGBString($color-blue-night)};
     --color-button-primary-background-hover: #{hexToRGBString($color-blue-hover)};
-    --color-button-grey-text: #{hexToRGBString($color-grey)};
+    --color-button-grey-text: #{hexToRGBString($color-white)};
     --color-button-grey-text-hover: #{hexToRGBString($color-white)};
-    --color-button-grey-background: #{hexToRGBString($color-dark-grey)};
-    --color-button-grey-background-hover: #{hexToRGBString($color-dark-grey)};
+    --color-button-grey-background: #{hexToRGBString($color-background-night)};
+    --color-button-grey-background-hover: #{hexToRGBString($color-background-night)};
     --color-button-white-text: #{hexToRGBString($color-white)};
     --color-button-white-text-hover: #{hexToRGBString($color-white)};
     --color-button-white-background: #{hexToRGBString($color-dark-grey)};
@@ -198,7 +250,9 @@
     --color-chart-tooltip-background: #{$color-black};
 
     // dHub
-    --color-dhub-header-meta-background: #{$color-dark-grey};
+    @include postCategoryColor($color-post-categories-night);
+
+    --color-dhub-header-meta-background: #{$color-background-night};
     --color-dhub-header-meta-background-hover: #{$color-dark-grey};
     --color-dhub-header-meta-divider: #{$color-outlines-night};
     --color-dhub-header-meta-details-button: #{$color-grey};
@@ -235,7 +289,7 @@
     --color-dhub-post-rating: #{$color-grey};
     --color-dhub-post-rating-hover: #{$color-white};
     --color-dhub-post-rating-background: #{$color-dark-grey};
-    --color-dhub-post-rating-liked: #{$color-blue};
+    --color-dhub-post-rating-liked: #{$color-blue-night};
     --color-dhub-post-overlay: #{$color-black};
     --color-dhub-profile-card-bio: #{$color-grey};
     --color-dhub-profile-card-button-active: #{$color-white};
@@ -269,22 +323,59 @@
     --color-dportal-assets-page-token-transaction-address: #{$color-grey};
     --color-dportal-assets-page-token-transaction-fee: #{$color-grey};
     --color-dportal-assets-page-token-transaction-memo: #{$color-grey};
-    --color-dportal-transfer-page-balance: #{rgba($color-blue, 0.12)};
+    --color-dportal-transfer-page-balance: #{rgba($color-blue-night, 0.12)};
     --color-dportal-transfer-page-form-arrow: #{$color-grey};
     --color-dportal-transfer-page-disabled: #{$color-grey};
     --color-dportal-transfer-page-disabled-balance: #{rgba($color-grey, 0.12)};
     --color-dportal-transfer-page-disabled-back-button: #{$color-grey};
 
+    // dPortal Staking
+    --color-dportal-staking-header-withdraw: #{$color-white};
+    --color-dportal-staking-header-withdraw-button: #{$color-blue-night};
+    --color-dportal-staking-header-withdraw-divider: #{$color-black};
+    --color-dportal-staking-validators-table-validator-my: #{hexToRGBString($color-blue-night)};
+    --color-dportal-staking-validators-table-voting-power: #{$color-grey};
+    --color-dportal-staking-validators-table-unbonding-delegation: #{hexToRGBString($color-purple)};
+    --color-dportal-staking-validators-table-reward: #{hexToRGBString($color-blue-night)};
+    --color-dportal-staking-validators-table-empty: #{$color-light-grey};
+    --color-dportal-staking-withdraw-delegator-footer-withdraw-text: #{$color-grey};
+    --color-dportal-staking-withdraw-delegator-table-empty: #{$color-light-grey};
+    --color-dportal-staking-withdraw-delegator-table-empty-row: #{$color-grey};
+    --color-dportal-staking-withdraw-delegator-table-name-check: #{$color-white};
+    --color-dportal-staking-withdraw-delegator-table-name-check-background: #{$color-blue-night};
+    --color-dportal-staking-withdraw-validator-footer-withdraw-text: #{$color-grey};
+    --color-dportal-staking-validator-details-details-table-voting-pover: #{$color-grey};
+    --color-dportal-staking-validator-details-details-footer-delegated-value-empty: #{$color-light-grey};
+    --color-dportal-staking-validator-details-details-footer-unbonding-label: #{$color-light-grey};
+    --color-dportal-staking-delegate-direction-icon: #{$color-light-grey};
+    --color-dportal-staking-delegate-warning: #{hexToRGBString($color-red)};
+    --color-dportal-staking-undelegate-hint: #{hexToRGBString($color-blue-night)};
+    --color-dportal-staking-jailed: #{hexToRGBString($color-red)};
+
     // Shared
     --color-data-table-header: #{$color-grey};
     --color-data-table-row-background-hover: #{$color-dark-grey};
-    --color-data-table-link: #{$color-primary};
-    --color-data-table-link-hover: #{$color-primary-hover};
-    --color-data-table-row-selected: #{hexToRGBString($color-primary-hover)};
+    --color-data-table-link: #{$color-blue-night};
+    --color-data-table-link-hover: #{$color-blue-hover};
+    --color-data-table-row-selected: #{hexToRGBString($color-blue-hover)};
     --color-expansion-list-cell-hover: #{$color-dark-grey};
-    --color-expansion-list-cell-active: #{$color-primary};
-    --color-expansion-list-cell-active-background: #{hexToRGBString($color-primary)};
+    --color-expansion-list-cell-active: #{$color-blue-night};
+    --color-expansion-list-cell-active-background: #{hexToRGBString($color-blue-night)};
     --color-expansion-list-header-count: #{$color-grey};
     --color-expansion-list-header-count-background: #{$color-dark-grey};
+    --color-validator-status-bonded: #{hexToRGBString($color-green-night)};
+    --color-validator-status-unbonded: #{hexToRGBString($color-light-grey)};
+    --color-validator-status-unbonding: #{hexToRGBString($color-grey)};
+    --color-validator-status-filled-label: #{$color-white};
+    --color-datails-table-cell-title: #{$color-grey};
+    --color-select-input: #{$color-white};
+    --color-select-input-invalid: #{$color-red};
+    --color-select-input-disabled: #{$color-light-grey};
+    --color-select-input-label: #{$color-grey};
+    --color-select-input-placeholder: #{$color-grey};
+    --color-select-input-icon-close: #{$color-white};
+    --color-select-input-icon-dropdown: #{$color-grey};
+    --color-select-input-option-meta: #{$color-grey};
+    --color-select-input-footer: #{$color-grey};
   }
 }
