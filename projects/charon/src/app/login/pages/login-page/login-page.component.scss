@@ -8,7 +8,7 @@
     padding: 0;
 
     .login-page__card {
-      border: 2px solid $color-outlines;
+      border: 2px solid var(--color-outlines);
     }
 
     .login-page__input-container {
@@ -40,7 +40,7 @@
 }
 
 .login-page__subtitle {
-  color: $color-grey
+  color: var(--color-login-subtitle);
 }
 
 .login-page__input-container {
@@ -50,18 +50,18 @@
 }
 
 .login-page__hint {
-  color: $color-grey;
+  color: var(--color-login-hint);
   margin-top: $grid-step * 2;
   text-align: center;
 }
 
 .login-page__restore-link {
-  color: $color-primary;
+  color: var(--color-login-restore-link);
   font-weight: 500;
 }
 
 .login-page__divider {
-  background-color: $color-outlines;
+  background-color: var(--color-outlines);
   flex-shrink: 0;
   height: 2px;
   margin-top: $grid-step * 5;

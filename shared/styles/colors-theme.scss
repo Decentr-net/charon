@@ -168,6 +168,37 @@
   --color-dportal-staking-undelegate-hint: #{hexToRGBString($color-blue)};
   --color-dportal-staking-jailed: #{hexToRGBString($color-red)};
 
+  // User page
+  --color-userpage-app-version: #{$color-grey};
+  --color-userpage-menu-block: #{$color-background};
+  --color-userpage-menu-block-hint: #{$color-grey};
+  --color-userpage-menu-block-coming-soon: #{$color-blue};
+  --color-userpage-profile-bio: #{$color-grey};
+  --color-userpage-profile-ban: #{hexToRGBString($color-red)};
+  --color-referral-stats-grid-label: #{$color-grey};
+  --color-referral-stats-grid-reward-for-referral: #{$color-grey};
+  --color-referral-stats-grid-reward-for-referral-background: #{$color-background};
+  --color-referral-stats-grid-recieved: #{hexToRGBString($color-green)};
+  --color-referral-stats-grid-recieved-dec: #{$color-green};
+  --color-referral-stats-grid-recieved-usd: #{$color-grey};
+  --color-referral-stats-grid-hints: #{$color-grey};
+  --color-referral-stats-time-select: #{$color-blue};
+  --color-referral-bonus-milestones: #{$color-grey};
+  --color-referral-bonus-milestones-header-cell: #{$color-green};
+  --color-referral-bonus-milestones-bar-progress-background: #{$color-green};
+  --color-referral-bonus-milestones-bar-progress-label: #{$color-green};
+  --color-referral-bonus-milestones-bar-progress: #{$color-white};
+  --color-referral-bonus-milestones-goal: #{$color-grey};
+  --color-referral-bonus-milestones-goal-star: #{$color-background};
+  --color-referral-bonus-milestones-goal-active: #{$color-white};
+  --color-referral-bonus-milestones-goal-active-star: #{$color-green};
+  --color-referral-bonus-milestones-goal-active-divider-border: #{$color-white};
+
+  // Login
+  --color-login-subtitle: #{$color-grey};
+  --color-login-hint: #{$color-grey};
+  --color-login-restore-link: #{$color-blue};
+
   // Shared
   --color-data-table-header: #{$color-grey};
   --color-data-table-row-background-hover: #{$color-background};
@@ -361,6 +392,37 @@
     --color-dportal-staking-delegate-warning: #{hexToRGBString($color-red)};
     --color-dportal-staking-undelegate-hint: #{hexToRGBString($color-blue-night)};
     --color-dportal-staking-jailed: #{hexToRGBString($color-red)};
+
+    // User page
+    --color-userpage-app-version: #{$color-grey-night};
+    --color-userpage-menu-block: #{$color-background-night};
+    --color-userpage-menu-block-hint: #{$color-grey-night};
+    --color-userpage-menu-block-coming-soon: #{$color-blue-night};
+    --color-userpage-profile-bio: #{$color-grey-night};
+    --color-userpage-profile-ban: #{hexToRGBString($color-red-night)};
+    --color-referral-stats-grid-label: #{$color-grey-night};
+    --color-referral-stats-grid-reward-for-referral: #{$color-grey-night};
+    --color-referral-stats-grid-reward-for-referral-background: #{$color-background-night};
+    --color-referral-stats-grid-recieved: #{hexToRGBString($color-green-night)};
+    --color-referral-stats-grid-recieved-dec: #{$color-green-night};
+    --color-referral-stats-grid-recieved-usd: #{$color-grey};
+    --color-referral-stats-grid-hints: #{$color-grey-night};
+    --color-referral-stats-time-select: #{$color-blue-night};
+    --color-referral-bonus-milestones: #{$color-grey-night};
+    --color-referral-bonus-milestones-header-cell: #{$color-green-night};
+    --color-referral-bonus-milestones-bar-progress-background: #{$color-green-night};
+    --color-referral-bonus-milestones-bar-progress-label: #{$color-green-night};
+    --color-referral-bonus-milestones-bar-progress: #{$color-black};
+    --color-referral-bonus-milestones-goal: #{$color-grey-night};
+    --color-referral-bonus-milestones-goal-star: #{$color-background-night};
+    --color-referral-bonus-milestones-goal-active: #{$color-white};
+    --color-referral-bonus-milestones-goal-active-star: #{$color-green-night};
+    --color-referral-bonus-milestones-goal-active-divider-border: #{$color-white};
+
+    // Login
+    --color-login-subtitle: #{$color-grey};
+    --color-login-hint: #{$color-grey};
+    --color-login-restore-link: #{$color-blue-night};
 
     // Shared
     --color-data-table-header: #{$color-grey};

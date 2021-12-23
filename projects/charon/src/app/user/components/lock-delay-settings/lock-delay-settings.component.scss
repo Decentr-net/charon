@@ -12,9 +12,8 @@
   margin-bottom: $grid-step * 2;
   margin-top: $grid-half-step;
 }
-
 .lock-delay-settings__select__container {
-  background-color: $color-background;
+  background-color: var(--color-input-background);
   border-radius: $border-radius;
   cursor: pointer;
   display: flex;
@@ -26,7 +25,24 @@
 }
 
 .lock-delay-settings__select__label {
-  color: $color-grey;
+  color: var(--color-input-label);
   display: flex;
   justify-content: space-between;
+}
+
+::ng-deep {
+  mat-select {
+    .mat-select-placeholder {
+      color: var(--color-input-placeholder);
+      font-weight: 400;
+    }
+
+    .mat-select-value {
+      color: var(--color-main-text);
+    }
+
+    .mat-select-arrow {
+      color: var(--color-input-icon);
+    }
+  }
 }

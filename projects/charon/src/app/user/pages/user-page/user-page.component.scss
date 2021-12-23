@@ -13,7 +13,7 @@
 }
 
 .user-page__card {
-  border: 2px solid $color-outlines;
+  border: 2px solid var(--color-outlines);
   border-radius: $border-radius;
   height: min-content;
   padding: $grid-step * 2;
@@ -24,7 +24,7 @@
 }
 
 .user-page__card__app-version {
-  color: $color-grey;
+  color: var(--color-userpage-app-version);
   margin-top: $grid-step * 2;
   margin-left: $grid-step * 2;
 }

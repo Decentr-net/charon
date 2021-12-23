@@ -20,19 +20,19 @@
 }
 
 .user-menu-page__profile__ban-label {
-  background: rgba($color-negative, .08);
+  background: rgba(var(--color-userpage-profile-ban), .08);
   border-radius: $border-radius;
-  color: $color-negative;
+  color: rgb(var(--color-userpage-profile-ban));
   padding: $grid-half-step $grid-step;
   vertical-align: middle;
 }
 
 .user-menu-page__profile__bio {
-  color: $color-grey;
+  color: var(--color-userpage-profile-bio);
 }
 
 .user-menu-page__menu-block {
-  background: $color-background;
+  background: var(--color-userpage-menu-block);
   border-radius: $border-radius;
   margin-top: $grid-step * 2;
   overflow: hidden;
@@ -44,7 +44,7 @@
   width: 100%;
 
   & + & {
-    border-top: 1px solid $color-outlines;
+    border-top: 1px solid var(--color-outlines);
   }
 
   &.mod-disable-align {
@@ -54,12 +54,12 @@
 }
 
 .user-menu-page__menu-block__button-hint {
-  color: $color-grey;
+  color: var(--color-userpage-menu-block-hint);
   font-weight: normal;
 }
 
 .user-menu-page__menu-block__coming-soon {
-  color: $color-primary;
+  color: var(--color-userpage-menu-block-coming-soon);
   margin-left: auto;
 }
 
