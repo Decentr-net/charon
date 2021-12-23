@@ -45,3 +45,12 @@ svg-icon[role='img'] {
   align-items: center;
   display: inline-flex;
 }
+
+// Skeleton
+.loader {
+  background-color: rgb(var(--color-skeleton-background)) !important;
+
+  &:before {
+    background-image: var(--color-skeleton-background-animation) !important;
+  }
+}

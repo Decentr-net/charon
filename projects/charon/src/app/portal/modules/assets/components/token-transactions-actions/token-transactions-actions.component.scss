@@ -8,9 +8,9 @@
 
 .token-transaction-actions__action {
   align-items: center;
-  background-color: $color-background;
+  background-color: var(--color-dportal-assets-page-token-transactions-action-background);
   border-radius: 8px;
-  color: $color-grey;
+  color: var(--color-dportal-assets-page-token-transactions-action);
   cursor: pointer;
   display: flex;
   justify-content: center;

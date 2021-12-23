@@ -1,7 +1,7 @@
 @import '../../../styles/variables';
 
 :host {
-  --expansion-list--border: 2px solid #{$color-outlines};
+  --expansion-list--border: 2px solid #{var(--color-outlines)};
 
   border-radius: $border-radius;
   display: grid;
@@ -9,7 +9,7 @@
   height: 100%;
 
   &.mod-bordered {
-    border: 2px solid $color-outlines;
+    border: 2px solid var(--color-outlines);
 
     .expansion-list__column + .expansion-list__column {
       border-left: var(--expansion-list--border);

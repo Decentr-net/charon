@@ -55,7 +55,25 @@
   }
 }
 
+// Mat-dialog
 body .mat-dialog-container {
+  background-color: var(--color-main-background);
   border-radius: $border-radius;
+  color: var(--color-text-background);
   padding: $grid-step * 2 $grid-step * 3;
+}
+
+// Mat-expansion
+.mat-expansion-panel {
+  background: transparent;
+}
+
+.mat-expansion-panel-header-title {
+  color: var(--color-main-text);
+}
+
+.mat-expansion-indicator{
+  &:after {
+    color: $color-grey;
+  }
 }

@@ -1,11 +1,16 @@
-import { ChangeDetectionStrategy, Compiler, Component, ElementRef, Injector, Input, } from '@angular/core';
+import { ChangeDetectionStrategy, Compiler, Component, ElementRef, Injector, Input, OnInit } from '@angular/core';
+import { ThemeService } from '@core/services';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as Highcharts from 'highcharts';
+import { combineLatest, ReplaySubject } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 
 import { ComponentFactoryClass } from '../../utils/component-factory';
 import { TooltipComponent, TooltipModule } from '../tooltip';
 
 export type PdvChartPoint = Record<number, number>;
 
+@UntilDestroy()
 @Component({
   selector: 'app-pdv-rate-chart',
   templateUrl: './pdv-rate-chart.component.html',
@@ -13,16 +18,35 @@ export type PdvChartPoint = Record<number, number>;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class PdvRateChartComponent {
-  @Input() public set data(value: PdvChartPoint[]) {
-    this.paintChart(value);
+export class PdvRateChartComponent implements OnInit {
+  @Input()
+  public set data(value: PdvChartPoint[]) {
+    this.setData$.next(value);
   }
+
+  private setData$: ReplaySubject<PdvChartPoint[]> = new ReplaySubject(1);
 
   constructor(
     private injector: Injector,
     private compiler: Compiler,
     private elementRef: ElementRef<HTMLElement>,
+    private themeService: ThemeService,
   ) {
+  }
+
+  public ngOnInit(): void {
+    combineLatest([
+      this.setData$,
+      this.themeService.themeChanged$.pipe(
+        startWith(undefined),
+      ),
+    ]).pipe(
+      untilDestroyed(this),
+    ).subscribe(([value]) => this.paintChart(value));
+  }
+
+  private getCssValue(property: string): string {
+    return getComputedStyle(document.body).getPropertyValue(property);
   }
 
   private paintChart(value: PdvChartPoint[]): void {
@@ -51,6 +75,7 @@ export class PdvRateChartComponent {
     return {
       ...defaultOptions,
       chart: {
+        backgroundColor: 'transparent',
         marginBottom: 20,
         marginLeft: 10,
         marginRight: 50,
@@ -119,14 +144,16 @@ export class PdvRateChartComponent {
           month: '%b \'%y',
           year: '%Y',
         },
+        lineColor: this.getCssValue('--color-dportal-pdv-rate-chart-axis-line'),
         labels: {
           enabled: true,
           style: {
-            color: '#B6B7BA',
+            color: this.getCssValue('--color-dportal-pdv-rate-chart-axis-labels'),
             fontSize: '12px',
           },
           y: 17,
         },
+        tickColor: this.getCssValue('--color-dportal-pdv-rate-chart-axis-line'),
         tickLength: 5,
         type: 'datetime',
         title: {
@@ -138,7 +165,7 @@ export class PdvRateChartComponent {
         visible: true,
         opposite: true,
         endOnTick: true,
-        gridLineColor: '#EDEDEE',
+        gridLineColor: this.getCssValue('--color-dportal-pdv-rate-chart-axis-line'),
         labels: {
           enabled: true,
           align: 'left',
@@ -146,10 +173,9 @@ export class PdvRateChartComponent {
           x: 8,
           y: -8,
           style: {
-            color: '#B6B7BA',
+            color: this.getCssValue('--color-dportal-pdv-rate-chart-axis-labels'),
             fontSize: '12px',
           },
-
         },
         tickAmount: 8,
         tickPosition: 'inside',
@@ -161,4 +187,3 @@ export class PdvRateChartComponent {
     };
   }
 }
-

@@ -1,6 +1,8 @@
 @import 'variables';
 
 :root {
+  --color-skeleton-background: #{hexToRGBString($color-skeleton-background)};
+  --color-skeleton-background-animation: #{$color-skeleton-background-animation};
   --color-main-text: #{$color-black};
   --color-main-background: #{$color-white};
   --color-card-background: #{$color-background};
@@ -96,7 +98,56 @@
   --color-dhub-profile-card-button-active-background: #{$color-positive};
   --color-dhub-statistics: #{$color-white};
 
+  // dPortal PDV rate
+  --color-dportal-pdv-rate-chart-filter: #{$color-grey};
+  --color-dportal-pdv-rate-chart-filter-background: #{$color-background};
+  --color-dportal-pdv-rate-chart-filter-active: #{$color-black};
+  --color-dportal-pdv-rate-chart-filter-active-background: #{$color-white};
+  --color-dportal-pdv-rate-chart-filter-active-shadow: #{hexToRGBString($color-grey)};
+  --color-dportal-pdv-rate-chart-axis-labels: #{$color-light-grey};
+  --color-dportal-pdv-rate-chart-axis-line: #{$color-outlines};
+  --color-dportal-pdv-rate-chart-no-data: #{$color-grey};
+  --color-dportal-pdv-rate-pdv-reward-real-money: #{$color-grey};
+  --color-dportal-pdv-rate-pdv-reward-no-data: #{$color-grey};
+
+  // dPortal Activity
+  --color-dportal-activity-page-pdv-description-key: #{$color-grey};
+  --color-dportal-activity-page-no-activity: #{$color-grey};
+
+  // dPortal Assets
+  --color-dportal-assets-page-table-header-background: #{$color-background};
+  --color-dportal-assets-page-table-new-transaction-background: #{rgba($color-green, 0.08)};
+  --color-dportal-assets-page-token-transactions-action: #{$color-grey};
+  --color-dportal-assets-page-token-transactions-action-background: #{$color-background};
+  --color-dportal-assets-page-token-complex-transaction-icon: #{$color-grey};
+  --color-dportal-assets-page-token-complex-transaction-fee: #{$color-grey};
+  --color-dportal-assets-page-token-complex-transaction-memo: #{$color-grey};
+  --color-dportal-assets-page-token-transaction-address: #{$color-grey};
+  --color-dportal-assets-page-token-transaction-fee: #{$color-grey};
+  --color-dportal-assets-page-token-transaction-memo: #{$color-grey};
+  --color-dportal-transfer-page-balance: #{rgba($color-blue, 0.08)};
+  --color-dportal-transfer-page-form-arrow: #{$color-light-grey};
+  --color-dportal-transfer-page-disabled: #{$color-light-grey};
+  --color-dportal-transfer-page-disabled-balance: #{rgba($color-background, 1)};
+  --color-dportal-transfer-page-disabled-back-button: #{$color-light-grey};
+
+  // Shared
+  --color-data-table-header: #{$color-grey};
+  --color-data-table-row-background-hover: #{$color-background};
+  --color-data-table-link: #{$color-primary};
+  --color-data-table-link-hover: #{$color-primary-hover};
+  --color-data-table-row-selected: #{hexToRGBString($color-primary-hover)};
+  --color-expansion-list-cell-hover: #{$color-background};
+  --color-expansion-list-cell-active: #{$color-primary};
+  --color-expansion-list-cell-active-background: #{hexToRGBString($color-primary)};
+  --color-expansion-list-header-count: #{$color-black};
+  --color-expansion-list-header-count-background: #{$color-background};
+
   .theme-dark {
+    color-scheme: dark;
+
+    --color-skeleton-background: #{hexToRGBString($color-skeleton-background-night)};
+    --color-skeleton-background-animation: #{$color-skeleton-background-animation-night};
     --color-main-text: #{$color-white};
     --color-main-background: #{$color-black};
     --color-card-background: #{$color-card-background-night};
@@ -190,5 +241,50 @@
     --color-dhub-profile-card-button-active: #{$color-white};
     --color-dhub-profile-card-button-active-background: #{$color-positive};
     --color-dhub-statistics: #{$color-white};
+
+    // dPortal PDV rate
+    --color-dportal-pdv-rate-chart-filter: #{$color-grey};
+    --color-dportal-pdv-rate-chart-filter-background: #{$color-dark-grey};
+    --color-dportal-pdv-rate-chart-filter-active: #{$color-white};
+    --color-dportal-pdv-rate-chart-filter-active-background: #{$color-dark-grey};
+    --color-dportal-pdv-rate-chart-filter-active-shadow: #{hexToRGBString($color-black)};
+    --color-dportal-pdv-rate-chart-axis-labels: #{$color-light-grey};
+    --color-dportal-pdv-rate-chart-axis-line: #{$color-outlines-night};
+    --color-dportal-pdv-rate-chart-no-data: #{$color-grey};
+    --color-dportal-pdv-rate-pdv-reward-real-money: #{$color-grey};
+    --color-dportal-pdv-rate-pdv-reward-no-data: #{$color-grey};
+
+    // dPortal Activity
+    --color-dportal-activity-page-pdv-description-key: #{$color-grey};
+    --color-dportal-activity-page-no-activity: #{$color-grey};
+
+    // dPortal Assets
+    --color-dportal-assets-page-table-header-background: #{$color-dark-grey};
+    --color-dportal-assets-page-table-new-transaction-background: #{rgba($color-green, 0.12)};
+    --color-dportal-assets-page-token-transactions-action: #{$color-grey};
+    --color-dportal-assets-page-token-transactions-action-background: #{$color-dark-grey};
+    --color-dportal-assets-page-token-complex-transaction-icon: #{$color-grey};
+    --color-dportal-assets-page-token-complex-transaction-fee: #{$color-grey};
+    --color-dportal-assets-page-token-complex-transaction-memo: #{$color-grey};
+    --color-dportal-assets-page-token-transaction-address: #{$color-grey};
+    --color-dportal-assets-page-token-transaction-fee: #{$color-grey};
+    --color-dportal-assets-page-token-transaction-memo: #{$color-grey};
+    --color-dportal-transfer-page-balance: #{rgba($color-blue, 0.12)};
+    --color-dportal-transfer-page-form-arrow: #{$color-grey};
+    --color-dportal-transfer-page-disabled: #{$color-grey};
+    --color-dportal-transfer-page-disabled-balance: #{rgba($color-grey, 0.12)};
+    --color-dportal-transfer-page-disabled-back-button: #{$color-grey};
+
+    // Shared
+    --color-data-table-header: #{$color-grey};
+    --color-data-table-row-background-hover: #{$color-dark-grey};
+    --color-data-table-link: #{$color-primary};
+    --color-data-table-link-hover: #{$color-primary-hover};
+    --color-data-table-row-selected: #{hexToRGBString($color-primary-hover)};
+    --color-expansion-list-cell-hover: #{$color-dark-grey};
+    --color-expansion-list-cell-active: #{$color-primary};
+    --color-expansion-list-cell-active-background: #{hexToRGBString($color-primary)};
+    --color-expansion-list-header-count: #{$color-grey};
+    --color-expansion-list-header-count-background: #{$color-dark-grey};
   }
 }

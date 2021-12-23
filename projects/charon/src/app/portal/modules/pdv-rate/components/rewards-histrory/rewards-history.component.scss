@@ -5,6 +5,7 @@
 }
 
 .rewards-history__title {
+  color: var(--color-main-text);
   font-weight: 500;
   margin: 0;
 }
@@ -27,5 +28,5 @@
 }
 
 .rewards-history__no-data {
-  color: $color-grey;
+  color: var(--color-dportal-pdv-rate-pdv-reward-no-data);
 }

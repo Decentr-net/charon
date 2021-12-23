@@ -23,6 +23,7 @@ export class ThemeToggleComponent implements OnInit {
     this.themeService.getThemeValue().pipe(
       untilDestroyed(this),
     ).subscribe((themeMode) => {
+      this.themeService.themeChanged$.next();
       this.value = themeMode === ThemeMode.Dark;
       this.changeDetectorRef.detectChanges();
     });

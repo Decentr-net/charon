@@ -24,3 +24,7 @@ $color-purple: #A954A0;
 $color-outlines-night: #2E2F37;
 $color-input-background-night: #282832;
 $color-card-background-night: #282832;
+$color-skeleton-background: #EFF1F6;
+$color-skeleton-background-night: #323232;
+$color-skeleton-background-animation: linear-gradient(90deg,hsla(0,0%,100%,0),rgb(255 255 255 / 60%),hsla(0,0%,100%,0));
+$color-skeleton-background-animation-night: linear-gradient(90deg,transparent,rgba(0,0,0,.2),transparent);
