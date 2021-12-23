@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgLogoIconOrange } from '@shared/svg-icons/logo-icon-orange';
-import { svgLogoPortal } from '@shared/svg-icons/logo-portal';
 import { svgWallet } from '@shared/svg-icons/wallet';
 import { isOpenedInTab } from '@shared/utils/browser';
 import {
@@ -38,7 +37,6 @@ export class PortalPageComponent implements OnInit {
   ) {
     svgIconRegistry.register([
       svgLogoIconOrange,
-      svgLogoPortal,
       svgWallet,
     ]);
   }

@@ -22,7 +22,6 @@ import { FeedPageService } from './feed-page.service';
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../hub-route';
 import { svgEdit } from '@shared/svg-icons/edit';
-import { svgLogoFeed } from '@shared/svg-icons/logo-feed';
 
 @UntilDestroy()
 @Component({
@@ -59,7 +58,6 @@ export class FeedPageComponent implements OnInit {
   ) {
     svgIconRegistry.register([
       svgEdit,
-      svgLogoFeed,
     ]);
   }
 

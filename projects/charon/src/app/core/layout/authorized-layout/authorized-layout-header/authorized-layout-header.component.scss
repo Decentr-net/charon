@@ -32,6 +32,8 @@
 }
 
 .authorized-layout-header__logo-icon {
+  background-image: var(--logo-dhub);
+  background-repeat: no-repeat;
   display: inline-flex;
   height: 40px;
   width: 147px;

@@ -16,6 +16,9 @@
 }
 
 .portal-page__logo-icon {
+  background-image: var(--logo-dhub-portal);
+  background-repeat: no-repeat;
+  background-size: contain;
   height: 40px;
-  width: 119px;
+  width: 120px;
 }

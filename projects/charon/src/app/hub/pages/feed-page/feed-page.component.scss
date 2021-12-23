@@ -14,8 +14,11 @@ $feed-page--top-feed--no-posts--color: #9EA0A5;
 }
 
 .feed-page__logo-icon {
+  background-image: var(--logo-dhub-feed);
+  background-repeat: no-repeat;
+  background-size: contain;
   height: 40px;
-  width: 106px;
+  width: 120px;
 }
 
 .feed-page__content-container {
