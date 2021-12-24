@@ -29,6 +29,8 @@
 .success-page__icon {
   $icon-sie: 96px;
 
+  background-image: var(--image-congratulations);
+  background-repeat: no-repeat;
   height: $icon-sie;
   margin: 0 auto $grid-step * 2;
   width: $icon-sie;

@@ -1,7 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { SvgIconRegistry } from '@ngneat/svg-icon';
-
-import { svgCongratulations } from '@shared/svg-icons/congratulations';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-success-page',
@@ -9,16 +6,5 @@ import { svgCongratulations } from '@shared/svg-icons/congratulations';
   styleUrls: ['./success-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SuccessPageComponent implements OnInit {
-
-  constructor(
-    private svgIconRegistry: SvgIconRegistry,
-  ) {
-  }
-
-  public ngOnInit(): void {
-    this.svgIconRegistry.register([
-      svgCongratulations,
-    ]);
-  }
+export class SuccessPageComponent {
 }

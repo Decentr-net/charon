@@ -21,10 +21,11 @@
   --color-input-icon: #{$color-black};
   --color-input-footer: #{$color-grey};
 
-  // Logos
+  // Images
   --logo-dhub: url('/charon/assets/images/logo/logo.svg');
   --logo-dhub-feed: url('/charon/assets/images/logo/logo-feed.svg');
   --logo-dhub-portal: url('/charon/assets/images/logo/logo-portal.svg');
+  --image-congratulations: url('/charon/assets/images/congratulations-night.svg');
 
   // Toggle
   --color-toggle-bar: #{$color-grey};
@@ -273,10 +274,11 @@
     --color-input-icon: #{$color-light-grey};
     --color-input-footer: #{$color-grey};
 
-    // Logos
+    // Images
     --logo-dhub: url('/charon/assets/images/logo/logo-night.svg');
     --logo-dhub-feed: url('/charon/assets/images/logo/logo-feed-night.svg');
     --logo-dhub-portal: url('/charon/assets/images/logo/logo-portal-night.svg');
+    --image-congratulations: url('/charon/assets/images/congratulations-night.svg');
 
     // Toggle
     --color-toggle-bar: #{$color-dark-grey};
