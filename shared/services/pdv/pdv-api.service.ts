@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { defer, Observable, of } from 'rxjs';
-import { mergeMap, pluck } from 'rxjs/operators';
+import { map, mergeMap, pluck } from 'rxjs/operators';
 import {
   DecentrPDVClient,
   DecentrTokenClient,
@@ -36,7 +36,10 @@ export class PDVApiService {
 
   // TODO
   public getTokenBalance(api: string, walletAddress: Wallet['address']): Observable<TokenBalance> {
-    return defer(() => new DecentrTokenClient(api).getTokenBalance(walletAddress));
+    return defer(() => DecentrTokenClient.create(api)).pipe(
+      mergeMap((client) => client.getTokenBalance(walletAddress)),
+      map((balance) => ({ balance })),
+    );
   }
 
   // TODO
@@ -45,8 +48,14 @@ export class PDVApiService {
     // return defer(() => getTokenBalanceHistory(api, walletAddress));
   }
 
+  // TODO
   public getTokenPool(api: string): Observable<TokenPool> {
-    return defer(() => new DecentrTokenClient(api).getTokenPool());
+    return of({
+      nextDistributionHeight: '1234567890',
+      size: [],
+      totalDelta: '1',
+    })
+    // return defer(() => new DecentrTokenClient(api).getTokenPool());
   }
 
   public getPDVList(
