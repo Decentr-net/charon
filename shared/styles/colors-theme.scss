@@ -2,6 +2,8 @@
 @import 'variables';
 
 :root {
+  color-scheme: light;
+
   --color-skeleton-background: #{hexToRGBString($color-skeleton-background)};
   --color-skeleton-background-animation: #{$color-skeleton-background-animation};
   --color-main-text: #{$color-black};
@@ -63,6 +65,25 @@
 
   --color-chart-tooltip: #{$color-black};
   --color-chart-tooltip-background: #{$color-white};
+
+  // Sign up
+  --color-account-form-link: #{$color-blue};
+  --color-profile-card-ban-label: #{hexToRGBString($color-red)};
+  --color-profile-card-balance-background: #{hexToRGBString($color-blue)};
+  --color-profile-card-balance-icon: #{$color-blue};
+  --color-profile-card-balance-bio: #{$color-grey};
+  --color-seed-phrase-warning: #{hexToRGBString($color-red)};
+  --color-success-page-tips: #{$color-grey};
+  --color-sign-up-page-card-step: #{$color-grey};
+  --color-pdv-consent-hint: #{$color-grey};
+  --color-email-confirmation-page-card-wait-icon: #{$color-blue};
+  --color-email-confirmation-page-card-ensure: #{$color-grey};
+  --color-email-confirmation-page-card-code-label: #{$color-grey};
+  --color-email-confirmation-page-card-code-button: #{$color-blue};
+  --color-email-confirmation-page-card-code-button-disabled: #{$color-grey};
+  --color-email-confirmation-page-card-back-button: #{$color-blue};
+  --color-welcome-page-button-blue: #{hexToRGBString($color-blue)};
+  --color-welcome-page-button-green: #{hexToRGBString($color-green)};
 
   // dHub
   @include postCategoryColor($color-post-categories);
@@ -224,6 +245,13 @@
   --color-select-input-icon-dropdown: #{$color-grey};
   --color-select-input-option-meta: #{$color-grey};
   --color-select-input-footer: #{$color-grey};
+  --color-menu-popup: #{$color-white};
+  --color-menu-popup-background:  #{hexToRGBString($color-black)};
+  --color-menu-popup-item-section-background:  #{$color-black};
+  --color-menu-popup-item-description:  #{$color-grey};
+  --color-menu-popup-item-disabled:  #{$color-dark-grey};
+  --color-menu-popup-item-disabled-description:  #{$color-dark-grey};
+  --color-menu-popup-items-divider: #{$color-dark-grey};
 
   .theme-dark {
     color-scheme: dark;
@@ -289,6 +317,26 @@
 
     --color-chart-tooltip: #{$color-white};
     --color-chart-tooltip-background: #{$color-black};
+
+    // Sign up
+    --color-account-form-link: #{$color-blue-night};
+    --color-profile-card-ban-label: #{hexToRGBString($color-red-night)};
+    --color-profile-card-balance-background: #{hexToRGBString($color-blue-night)};
+    --color-profile-card-balance-icon: #{$color-blue-night};
+    --color-profile-card-balance-bio: #{$color-grey};
+    --color-seed-phrase-warning: #{hexToRGBString($color-red-night)};
+    --color-success-page-tips: #{$color-grey};
+    --color-sign-up-page-card-step: #{$color-grey};
+    --color-pdv-consent-hint: #{$color-grey};
+    --color-email-confirmation-page-card-wait-icon: #{$color-blue-night};
+    --color-email-confirmation-page-card-ensure: #{$color-grey};
+    --color-email-confirmation-page-card-code-label: #{$color-grey};
+    --color-email-confirmation-page-card-code-button: #{$color-blue-night};
+    --color-email-confirmation-page-card-code-button-disabled: #{$color-grey};
+    --color-email-confirmation-page-card-back-button: #{$color-blue-night};
+    --color-welcome-page-button-blue: #{hexToRGBString($color-blue-night)};
+    --color-welcome-page-button-green: #{hexToRGBString($color-green-night)};
+    --color-welcome-page-button-subtitle: #{$color-grey};
 
     // dHub
     @include postCategoryColor($color-post-categories-night);
@@ -449,5 +497,12 @@
     --color-select-input-icon-dropdown: #{$color-grey};
     --color-select-input-option-meta: #{$color-grey};
     --color-select-input-footer: #{$color-grey};
+    --color-menu-popup: #{$color-white};
+    --color-menu-popup-background:  #{hexToRGBString($color-black)};
+    --color-menu-popup-item-section-background:  #{$color-background-night};
+    --color-menu-popup-item-description:  #{$color-grey};
+    --color-menu-popup-item-disabled:  #{$color-dark-grey};
+    --color-menu-popup-item-disabled-description:  #{$color-dark-grey};
+    --color-menu-popup-items-divider: #{$color-outlines-night};
   }
 }

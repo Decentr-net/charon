@@ -16,9 +16,9 @@
 }
 
 .seed-phrase__warning {
-  background: rgba($color-negative, 0.08);
+  background: rgba(var(--color-seed-phrase-warning), 0.08);
   border-radius: $border-radius;
-  color: $color-negative;
+  color: rgb(var(--color-seed-phrase-warning));
   column-gap: $grid-step;
   display: flex;
   margin-top: $grid-step * 3;

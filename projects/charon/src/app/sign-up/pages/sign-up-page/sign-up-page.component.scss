@@ -22,7 +22,7 @@
 }
 
 .sign-up-page__card__step {
-  color: $color-grey;
+  color: var(--color-sign-up-page-card-step);
   margin-left: $grid-half-step;
 }
 
