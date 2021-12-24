@@ -38,8 +38,8 @@
   },
   "referral_stats": {
     "bonus_milestones": {
-      "header": "Additional bonuses for round invitee summs",
-      "subheader": "There are some milestones that will let you to get additional bonuses... just check below, they're worth it."
+      "header": "Additional bonuses for round invitee sums",
+      "subheader": "There are some milestones that will let you get additional bonuses... just check below, they're worth it."
     },
     "copy_invite_link": "Copy invite link",
     "header": "Referral",
@@ -51,7 +51,7 @@
     "rewards_days": "Rewards are accrued after {{days}} days.",
     "reward_milestones": {
       "header": "The more you give – the more you get",
-      "subheader": "The more users you invite — the more DEC you’ll get as a reward. Reward sum depends on total amount of users have been invited from you and passed all 3 steps to get on board."
+      "subheader": "The more users you invite — the more DEC you’ll get as a reward. Reward sum depends on total amount of users who have been invited from you and passed all 3 steps to get on board."
     },
     "stats": {
       "dec_received": "{{received}} DEC received",

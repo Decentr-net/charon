@@ -11,9 +11,9 @@
     }
   },
   "pdv_types_settings": {
-    "subtitle": "We’ll use the information about the sites you visit, in order to calculate your PDV rate.<br>A high PDV rate positively influences your DEC earning rate in Decentr. We recommend enabling them all.",
+    "subtitle": "We’ll use the information about the sites you visit, in order to calculate your PDV rate.<br>A high PDV rate positively influences your DEC earning rate in Decentr. We recommend to enable them all.",
     "title": "Check information we can track and transfer into PDV",
-    "warning": "The selected options will directly affect the PDV, the less we track can track the lower your PDV."
+    "warning": "The selected options will directly affect the PDV, the less you track the lower your PDV."
   },
   "pdv_types_toggle": {
     "advertiserId": "advertiser Id",
