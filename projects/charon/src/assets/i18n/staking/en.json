@@ -73,7 +73,7 @@
     "extended_errors": {
       "in_progress": {
         "title": "Redelegation to the source validator already in progress",
-        "text": "Eedelegations to the source validator must complete before next redelegation.\nRedelegation will be available after:"
+        "text": "Redelegations to the source validator must complete before next redelegation.\nRedelegation will be available after:"
       },
       "limit": {
         "title": "Limit of simultaneous redelegations has been reached",
@@ -170,7 +170,7 @@
   "withdraw_validator_page": {
     "actions": {
       "withdraw": "Withdraw",
-      "withdraw_low_amount_hint": "Amount too low to withdraw"
+      "withdraw_low_amount_hint": "Amount is too low to withdraw"
     },
     "fee": "Fee",
     "notification": {
