@@ -19,12 +19,12 @@
       },
       "seed": {
         "errors": {
-          "exists": "Invalid seed phrase. Please check every word and divide them with space",
-          "length": "Seed phrase should contain 24 words",
-          "required": "Seed phrase is required"
+          "exists": "Invalid seed phrase. Please check every word and ensure there are spaces between.",
+          "length": "The seed phrase should contain 24 individual words",
+          "required": "A seed phrase is required"
         },
         "label": "Your seed phrase",
-        "subtitle": "Enter all the words from you seed phrase dividing it with spaces.",
+        "subtitle": "Enter all the words from you seed phrase, dividing them with spaces.",
         "title": "Log in with seed phrase"
       }
     },
@@ -50,7 +50,7 @@
     },
     "forgot_password": "Forgot your password?",
     "restore": "Restore your account",
-    "subtitle": "Your extension is locked",
+    "subtitle": "The extension is locked",
     "title": "Unlock your account",
     "with_seed": "with Seed Phrase"
   }
