@@ -51,6 +51,10 @@
     align-items: flex-start;
     text-align: start;
   }
+
+  &.mode-cursor-default {
+    cursor: default;
+  }
 }
 
 .user-menu-page__menu-block__button-hint {
@@ -60,6 +64,10 @@
 
 .user-menu-page__menu-block__coming-soon {
   color: var(--color-userpage-menu-block-coming-soon);
+  margin-left: auto;
+}
+
+.user-menu-page__menu-block__theme-toggle {
   margin-left: auto;
 }
 
