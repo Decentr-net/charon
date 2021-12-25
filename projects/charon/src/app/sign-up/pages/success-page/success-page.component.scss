@@ -63,4 +63,10 @@
 .success-page__tips-list {
   list-style: none;
   margin-bottom: $grid-step * 2;
+
+  ::ng-deep {
+    a {
+      color: var(--color-success-page-tips-link);
+    }
+  }
 }

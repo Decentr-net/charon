@@ -24,7 +24,7 @@ $hub-post-layout--grid-columns: ($hub-post-layout--column-width * $hub-post-layo
   background-color: var(--color-main-background);
   background-repeat: no-repeat;
   background-size: cover;
-  color: var(--color-main-text);
+  color: var(--color-dhub-post-header);
   height: 480px;
   padding: $grid-step * 4 0 $grid-step * 2;
   position: relative;

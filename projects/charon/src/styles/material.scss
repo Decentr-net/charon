@@ -77,3 +77,25 @@ body .mat-dialog-container {
     color: $color-grey;
   }
 }
+
+// Mat-select
+.mat-select-panel {
+  background: var(--color-mat-select-background);
+
+  .mat-option {
+    color: var(--color-mat-select-option);
+
+    &.mat-selected {
+      background: var(--color-mat-select-option-selected-background) !important;
+    }
+  }
+}
+
+// Mat-autocomplete
+.mat-autocomplete-panel {
+  background: var(--color-mat-autocomplete-background);
+
+  .mat-option {
+    color: var(--color-mat-autocomplete-option);
+  }
+}

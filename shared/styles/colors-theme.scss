@@ -10,6 +10,13 @@
   --color-main-background: #{$color-white};
   --color-card-background: #{$color-background};
   --color-outlines: #{$color-outlines};
+  --color-footer-background: #{$color-black};
+  --color-footer-container: #{$color-white};
+  --color-footer-logo: #{$color-white};
+  --color-footer-copyright: #{$color-light-grey};
+  --color-footer-social-link: #{$color-grey};
+  --color-footer-social-link-hover: #{$color-white};
+  --color-footer-top-border: #{$color-black};
   --color-input-disabled-text: #{$color-light-grey};
   --color-input-background: #{$color-background};
   --color-input-invalid-color: #{$color-negative};
@@ -32,6 +39,13 @@
   --color-toggle-thumb: #{$color-white};
   --color-toggle-bar-checked: #{$color-blue};
   --color-toggle-thumb-checked: #{$color-white};
+
+  // Mat-select
+  --color-mat-select-background: #{$color-white};
+  --color-mat-select-option: #{$color-black};
+  --color-mat-select-option-selected-background: #{$color-outlines};
+  --color-mat-autocomplete-background: #{$color-white};
+  --color-mat-autocomplete-option: #{$color-black};
 
   // Checkbox
   --color-checkbox-background: #{$color-background};
@@ -75,6 +89,7 @@
   --color-profile-card-balance-bio: #{$color-grey};
   --color-seed-phrase-warning: #{hexToRGBString($color-red)};
   --color-success-page-tips: #{$color-grey};
+  --color-success-page-tips-link: #{$color-blue};
   --color-sign-up-page-card-step: #{$color-grey};
   --color-pdv-consent-hint: #{$color-grey};
   --color-email-confirmation-page-card-wait-icon: #{$color-blue};
@@ -128,6 +143,8 @@
   --color-dhub-post-rating-hover: #{$color-dark-grey};
   --color-dhub-post-rating-background: #{$color-background};
   --color-dhub-post-rating-liked: #{$color-blue};
+  --color-dhub-post-header: #{$color-white};
+  --color-dhub-post-header-separator: #{$color-white};
   --color-dhub-post-overlay: #{$color-black};
   --color-dhub-profile-card-bio: #{$color-grey};
   --color-dhub-profile-card-button-active: #{$color-white};
@@ -263,6 +280,13 @@
     --color-main-background: #{$color-black};
     --color-card-background: #{$color-card-background-night};
     --color-outlines: #{$color-outlines-night};
+    --color-footer-background: #{$color-black};
+    --color-footer-container: #{$color-white};
+    --color-footer-logo: #{$color-white};
+    --color-footer-copyright: #{$color-light-grey};
+    --color-footer-social-link: #{$color-grey};
+    --color-footer-social-link-hover: #{$color-white};
+    --color-footer-top-border: #{$color-outlines-night};
     --color-input-disabled-text: #{$color-light-grey};
     --color-input-background: #{$color-input-background-night};
     --color-input-invalid-color: #{$color-negative};
@@ -285,6 +309,13 @@
     --color-toggle-thumb: #{$color-black};
     --color-toggle-bar-checked: #{$color-blue-night};
     --color-toggle-thumb-checked: #{$color-black};
+
+    // Mat-select
+    --color-mat-select-background: #{$color-background-night};
+    --color-mat-select-option: #{$color-white};
+    --color-mat-select-option-selected-background: #{$color-dark-grey};
+    --color-mat-autocomplete-background: #{$color-background-night};
+    --color-mat-autocomplete-option: #{$color-white};
 
     // Checkbox
     --color-checkbox-background: #{$color-grey};
@@ -328,6 +359,7 @@
     --color-profile-card-balance-bio: #{$color-grey};
     --color-seed-phrase-warning: #{hexToRGBString($color-red-night)};
     --color-success-page-tips: #{$color-grey};
+    --color-success-page-tips-link: #{$color-blue-night};
     --color-sign-up-page-card-step: #{$color-grey};
     --color-pdv-consent-hint: #{$color-grey};
     --color-email-confirmation-page-card-wait-icon: #{$color-blue-night};
@@ -381,6 +413,8 @@
     --color-dhub-post-rating-hover: #{$color-white};
     --color-dhub-post-rating-background: #{$color-dark-grey};
     --color-dhub-post-rating-liked: #{$color-blue-night};
+    --color-dhub-post-header: #{$color-white};
+    --color-dhub-post-header-separator: #{$color-white};
     --color-dhub-post-overlay: #{$color-black};
     --color-dhub-profile-card-bio: #{$color-grey};
     --color-dhub-profile-card-button-active: #{$color-white};
