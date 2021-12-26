@@ -55,6 +55,10 @@
   &.mode-cursor-default {
     cursor: default;
   }
+
+  &[disabled] {
+    background: var(--color-userpage-menu-block-disabled-background);
+  }
 }
 
 .user-menu-page__menu-block__button-hint {

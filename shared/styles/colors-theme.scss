@@ -210,6 +210,7 @@
 
   // User page
   --color-userpage-app-version: #{$color-grey};
+  --color-userpage-menu-block-disabled-background: #{$color-background};
   --color-userpage-menu-block: #{$color-background};
   --color-userpage-menu-block-hint: #{$color-grey};
   --color-userpage-menu-block-coming-soon: #{$color-blue};
@@ -481,6 +482,7 @@
 
     // User page
     --color-userpage-app-version: #{$color-grey-night};
+    --color-userpage-menu-block-disabled-background: #{$color-background-night};
     --color-userpage-menu-block: #{$color-background-night};
     --color-userpage-menu-block-hint: #{$color-grey-night};
     --color-userpage-menu-block-coming-soon: #{$color-blue-night};
