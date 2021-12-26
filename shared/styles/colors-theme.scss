@@ -33,6 +33,7 @@
   --logo-dhub-feed: url('/charon/assets/images/logo/logo-feed.svg');
   --logo-dhub-portal: url('/charon/assets/images/logo/logo-portal.svg');
   --image-congratulations: url('/charon/assets/images/congratulations-night.svg');
+  --image-theme-toggle: url('/charon/assets/images/icons/moon.svg');
 
   // Toggle
   --color-toggle-bar: #{$color-grey};
@@ -303,6 +304,7 @@
     --logo-dhub-feed: url('/charon/assets/images/logo/logo-feed-night.svg');
     --logo-dhub-portal: url('/charon/assets/images/logo/logo-portal-night.svg');
     --image-congratulations: url('/charon/assets/images/congratulations-night.svg');
+    --image-theme-toggle: url('/charon/assets/images/icons/moon-night.svg');
 
     // Toggle
     --color-toggle-bar: #{$color-dark-grey};

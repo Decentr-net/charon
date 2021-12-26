@@ -1,5 +1,45 @@
 @import '../../styles/variables';
 
 :host {
-  display: block;
+  .mat-slide-toggle {
+    ::ng-deep {
+      .mat-slide-toggle-thumb {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    &.mat-checked {
+      ::ng-deep {
+        .mat-slide-toggle-thumb {
+          &:after {
+            content: '';
+            background-image: var(--image-theme-toggle);
+            background-origin: content-box;
+            background-size: contain;
+            background-position: center center;
+            width: 12px;
+            height: 12px;
+          }
+        }
+      }
+    }
+
+    &:not(.mat-checked) {
+      ::ng-deep {
+        .mat-slide-toggle-thumb {
+          &:after {
+            content: '';
+            background-image: var(--image-theme-toggle);
+            background-origin: content-box;
+            background-size: contain;
+            background-position: center center;
+            width: 12px;
+            height: 12px;
+          }
+        }
+      }
+    }
+  }
 }
