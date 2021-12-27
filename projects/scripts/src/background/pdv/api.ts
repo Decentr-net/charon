@@ -1,6 +1,6 @@
 import { defer, Observable, of } from 'rxjs';
 import { catchError, mapTo, mergeMap, shareReplay } from 'rxjs/operators';
-import { PDV, PDVBlacklist, Wallet } from 'decentr-js';
+import { DecentrPDVClient, PDV, PDVBlacklist, Wallet } from 'decentr-js';
 
 import QUEUE, { QueuePriority } from '../queue';
 import CONFIG_SERVICE from '../config';
