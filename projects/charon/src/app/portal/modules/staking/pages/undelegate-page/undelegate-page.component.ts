@@ -188,10 +188,10 @@ export class UndelegatePageComponent implements OnInit {
   ): FormGroup<ControlsOf<UndelegateForm>> {
     return this.formBuilder.group({
       amount: this.formBuilder.control(
-        this.undelegatePageService.minUnelegateAmount.toString(),
+        this.undelegatePageService.minUndelegateAmount.toString(),
         [
           Validators.required,
-          Validators.min(this.undelegatePageService.minUnelegateAmount),
+          Validators.min(this.undelegatePageService.minUndelegateAmount),
           Validators.pattern('^((0)|(([1-9])([0-9]+)?)(0+)?)\\.?\\d{0,6}$'),
         ],
         [
