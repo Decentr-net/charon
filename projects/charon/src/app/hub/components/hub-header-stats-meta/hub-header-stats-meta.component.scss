@@ -9,7 +9,7 @@
 
 :host {
   align-items: center;
-  background: $color-background;
+  background: var(--color-dhub-header-meta-background);
   border-radius: $border-radius;
   cursor: pointer;
   display: inline-flex;
@@ -19,10 +19,10 @@
   white-space: nowrap;
 
   &:hover {
-    background-color: $color-outlines;
+    background-color: var(--color-dhub-header-meta-background-hover);
 
     .hub-header-stats-meta__details {
-      color: $color-dark-grey;
+      color: var(--color-dhub-header-meta-details-button-hover);
     }
   }
 }
@@ -35,14 +35,14 @@
   padding: 0 $grid-step * 2;
 
   & + & {
-    border-left: 1px solid $color-white;
+    border-left: 1px solid var(--color-dhub-header-meta-divider);
   }
 }
 
 .hub-header-stats-meta__details {
   align-items: center;
-  box-shadow: inset 1px 0 0 0 $color-white;
-  color: $color-grey;
+  box-shadow: inset 1px 0 0 0 var(--color-dhub-header-meta-divider);
+  color: var(--color-dhub-header-meta-details-button);
   display: flex;
   height: 100%;
   padding: 0 $grid-step * 2;

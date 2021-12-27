@@ -11,16 +11,17 @@
 }
 
 .code-input__input {
-  background-color: $color-background;
+  background-color: var(--color-input-background);
   border: 1px solid transparent;
   border-radius: $border-radius;
+  color: var(--color-input-text);
   height: 78px;
   text-align: center;
   width: 72px;
 
   &.ng-touched {
     &.ng-invalid {
-      border: 1px solid $color-red;
+      border: 1px solid var(--color-input-invalid-border);
     }
   }
 }

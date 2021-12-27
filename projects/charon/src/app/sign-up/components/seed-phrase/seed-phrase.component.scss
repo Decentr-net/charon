@@ -16,9 +16,9 @@
 }
 
 .seed-phrase__warning {
-  background: rgba($color-negative, 0.08);
+  background: rgba(var(--color-seed-phrase-warning), 0.08);
   border-radius: $border-radius;
-  color: $color-negative;
+  color: rgb(var(--color-seed-phrase-warning));
   column-gap: $grid-step;
   display: flex;
   margin-top: $grid-step * 3;
@@ -30,11 +30,11 @@
 }
 
 .seed-phrase__warning__text {
-  color: $color-black;
+  color: var(--color-main-text);
 }
 
 .seed-phrase__divider {
-  background: $color-outlines;
+  background: var(--color-outlines);
   height: 2px;
   margin: $grid-step * 2 (-$grid-step * 2);
 }

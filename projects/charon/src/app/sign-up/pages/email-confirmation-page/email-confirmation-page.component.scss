@@ -7,7 +7,7 @@
 }
 
 .email-confirmation-page__card {
-  border: 2px solid $color-outlines;
+  border: 2px solid var(--color-outlines);
   border-radius: $border-radius;
   display: flex;
   flex-direction: column;
@@ -19,7 +19,7 @@
 }
 
 .email-confirmation-page__card__wait-icon {
-  color: $color-blue;
+  color: var(--color-email-confirmation-page-card-wait-icon);
   height: 96px;
   margin: 0 auto $grid-step * 2;
   width: 96px;
@@ -46,7 +46,7 @@
 }
 
 .email-confirmation-page__card__ensure {
-  color: $color-grey;
+  color: var(--color-email-confirmation-page-card-ensure);
 }
 
 .email-confirmation-page__card__code-input {
@@ -55,24 +55,24 @@
 }
 
 .email-confirmation-page__card__resend-code-label {
-  color: $color-grey;
+  color: var(--color-email-confirmation-page-card-code-label);
 }
 
 .email-confirmation-page__card__resend-code-button {
   background: transparent;
-  color: $color-blue;
+  color: var(--color-email-confirmation-page-card-code-button);
   cursor: pointer;
   font-weight: 500;
   padding: 0;
 
   &.mod-disabled {
-    color: $color-grey;
+    color: var(--color-email-confirmation-page-card-code-button-disabled);
     cursor: not-allowed;
   }
 }
 
 .email-confirmation-page__card__divider {
-  background: $color-outlines;
+  background: var(--color-outlines);
   height: 2px;
   margin: $grid-step * 2 (-$grid-step * 2);
 }
@@ -85,7 +85,7 @@
 
 .email-confirmation-page__card__back-button {
   background: transparent;
-  color: $color-blue;
+  color: var(--color-email-confirmation-page-card-back-button);
   cursor: pointer;
   font-weight: 500;
   padding: 0;

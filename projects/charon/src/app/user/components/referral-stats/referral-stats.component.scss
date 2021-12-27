@@ -23,7 +23,7 @@
   &::ng-deep {
     .mat-select-value-text,
     .mat-select-arrow {
-      color: $color-primary
+      color: var(--color-referral-stats-time-select);
     }
   }
 }
@@ -37,7 +37,7 @@
 }
 
 .referral-stats__stats-grid__divider {
-  background-color: $color-outlines;
+  background-color: var(--color-outlines);
   height: 100%;
   margin: 0 $grid-step;
   width: 2px;
@@ -56,7 +56,7 @@
 }
 
 .referral-stats__stats-grid__label {
-  color: $color-grey;
+  color: var(--color-referral-stats-grid-label);
 }
 
 .referral-stats__stats-grid__signed-up {
@@ -75,16 +75,16 @@
 }
 
 .referral-stats__stats-grid__reward-for-referral {
-  background: $color-background;
+  background: var(--color-referral-stats-grid-reward-for-referral-background);
   border-radius: $border-radius;
-  color: $color-grey;
+  color: var(--color-referral-stats-grid-reward-for-referral);
   grid-area: reward-for-referral;
   padding: $grid-half-step $grid-step * 8;
   text-align: center;
 }
 
 .referral-stats__stats-grid__received {
-  background: rgba($color-positive, .08);
+  background: rgba(var(--color-referral-stats-grid-recieved), .08);
   border-radius: $border-radius;
   grid-area: received;
   padding: $grid-half-step;
@@ -92,16 +92,16 @@
 }
 
 .referral-stats__stats-grid__received-dec {
-  color: $color-positive;
+  color: var(--color-referral-stats-grid-recieved-dec);
 }
 
 .referral-stats__stats-grid__received-usd {
-  color: $color-grey;
+  color: var(--color-referral-stats-grid-recieved-usd);
 }
 
 .referral-stats__hints {
   display: flex;
-  color: $color-grey;
+  color: var(--color-referral-stats-grid-hints);
   flex-direction: column;
   row-gap: $grid-step;
 }
@@ -111,7 +111,7 @@
 }
 
 .referral-stats__divider {
-  background-color: $color-outlines;
+  background-color: var(--color-outlines);
   height: $grid-step;
   margin: $grid-step (-$grid-step * 2) 0;
 }

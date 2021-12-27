@@ -8,14 +8,14 @@ $hub-post-editor--text-image-uploader-icon-container-size: 44px;
   padding-bottom: $grid-step * 5;
 
   .hub-post-editor__category-select {
-    color: $color-dark-grey;
+    color: var(--color-dhub-post-editor-category-selector);
   }
 
   &.mod-has-preview-image {
     .hub-post-editor__category-select,
     .hub-post-editor__title-control,
     .hub-post-editor__title-control::placeholder {
-      color: $color-white;
+      color: var(--color-dhub-post-editor-title-category-selector-filled);
     }
   }
 }
@@ -26,6 +26,7 @@ $hub-post-editor--text-image-uploader-icon-container-size: 44px;
 
 .hub-post-editor__title-control {
   background: transparent;
+  color: var(--color-dhub-post-editor-title);
   font-size: inherit;
   font-weight: inherit;
   line-height: inherit;
@@ -45,12 +46,12 @@ $hub-post-editor--text-image-uploader-icon-container-size: 44px;
   width: max-content;
 
   &.mod-empty {
-    color: $color-grey;
+    color: var(--color-dhub-post-editor-preview-image-uploader-empty);
 
     &:hover {
       .hub-post-editor__preview-image-uploader__icon-container,
       .hub-post-editor__preview-image-uploader__title {
-        color: $color-dark-grey;
+        color: var(--color-dhub-post-editor-preview-image-uploader-empty-hover);
       }
     }
   }
@@ -65,7 +66,7 @@ $hub-post-editor--text-image-uploader-icon-container-size: 44px;
 
     .hub-post-editor__preview-image-uploader__title,
     .hub-post-editor__preview-image-uploader__subtitle {
-      color: $color-white;
+      color: var(--color-dhub-post-editor-preview-image-uploader-filled);
     }
   }
 }
@@ -99,7 +100,7 @@ $hub-post-editor--text-image-uploader-icon-container-size: 44px;
 
 .hub-post-editor__text-image-uploader {
   align-items: center;
-  color: $color-light-grey;
+  color: var(--color-dhub-post-editor-text-image-uploader);
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -115,14 +116,14 @@ $hub-post-editor--text-image-uploader-icon-container-size: 44px;
     pointer-events: none;
 
     .hub-post-editor__text-image-icon {
-      color: $color-outlines;
+      color: var(--color-dhub-post-editor-text-image-uploader-icon-limit);
     }
   }
 }
 
 .hub-post-editor__text-image-icon-container {
   align-items: center;
-  background-color: $color-background;
+  background-color: var(--color-dhub-post-editor-text-image-uploader-icon-container-background);
   border-radius: $border-radius;
   cursor: pointer;
   display: inline-flex;
@@ -131,15 +132,15 @@ $hub-post-editor--text-image-uploader-icon-container-size: 44px;
   width: $hub-post-editor--text-image-uploader-icon-container-size;
 
   &:hover {
-    background-color: $color-outlines;
+    background-color: var(--color-dhub-post-editor-text-image-uploader-icon-container-background-hover);
 
     .hub-post-editor__text-image-icon {
-      color: $color-dark-grey;
+      color: var(--color-dhub-post-editor-text-image-uploader-icon-hover);
     }
   }
 
   .hub-post-editor__text-image-icon {
-    color: $color-grey;
+    color: var(--color-dhub-post-editor-text-image-uploader-icon);
     display: inline-flex;
     font-size: $grid-step * 2.5;
   }

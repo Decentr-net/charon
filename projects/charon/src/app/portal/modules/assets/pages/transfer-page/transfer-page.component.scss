@@ -1,21 +1,21 @@
 @import 'variables';
 
-$transfer-page--border: 2px solid $color-outlines;
+$transfer-page--border: 2px solid var(--color-outlines);
 $transfer-page--padding: $grid-step * 2;
 
 :host {
   display: block;
 
   &.is-disabled {
-    color: $color-light-grey;
+    color: var(--color-dportal-transfer-page-disabled);
     pointer-events: none;
 
     .transfer-page__back-button {
-      color: $color-light-grey;
+      color: var(--color-dportal-transfer-page-disabled-back-button);
     }
 
     .transfer-page__balance {
-      background-color: $color-background;
+      background-color: var(--color-dportal-transfer-page-disabled-balance);
     }
   }
 
@@ -62,7 +62,7 @@ $transfer-page--padding: $grid-step * 2;
 
 .transfer-page__balance {
   align-items: center;
-  background-color: rgba($color-primary, 0.08);
+  background-color: var(--color-dportal-transfer-page-balance);
   border-radius: $border-radius;
   display: inline-flex;
   padding: $grid-step $grid-step * 2;
@@ -107,14 +107,9 @@ $transfer-page--padding: $grid-step * 2;
 }
 
 .transfer-page__form__icon {
-  color: $color-light-grey;
+  color: var(--color-dportal-transfer-page-form-arrow);
   font-size: 48px;
   transform: rotate(180deg);
-}
-
-.transfer-page__form__memo-icon {
-  color: $color-light-grey;
-  cursor: pointer;
 }
 
 .transfer-page__form__error {

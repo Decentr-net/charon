@@ -20,11 +20,11 @@
 }
 
 .details-table__cell__title {
-  color: $color-grey;
+  color: var(--color-datails-table-cell-title);
 }
 
 .details-table__divider {
-  background-color: $color-outlines;
+  background-color: var(--color-outlines);
   flex-shrink: 0;
   margin: 0 $grid-step * 3;
   width: 2px;

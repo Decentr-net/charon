@@ -105,8 +105,10 @@
     "import": "Import account",
     "lock": "Lock account",
     "lock_hint": "You’ll be able to unlock your account using your password.",
+    "night_theme": "Night theme",
+    "night_theme_hint": "Customize how Decentr will look on your devices.",
     "restore_seed": "Restore seed phrase",
-    "restore_seed_hint": "Restore seed phrase using your password",
+    "restore_seed_hint": "Restore seed phrase using your password.",
     "settings": "Settings"
   }
 }

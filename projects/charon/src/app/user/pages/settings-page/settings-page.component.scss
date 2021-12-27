@@ -12,7 +12,7 @@
 }
 
 .settings-page__divider {
-  border-bottom: 2px solid $color-outlines;
+  border-bottom: 2px solid var(--color-outlines);
   margin: $grid-step * 2 (-$grid-step * 2);
 }
 

@@ -1,15 +1,14 @@
 @import 'variables';
 
 :host {
-  color: $color-white;
   display: inline-flex;
   font-weight: 400;
   position: absolute;
 }
 
 .hub-post-editor-error {
-  background-color: $color-red;
+  background-color: var(--color-dhub-post-editor-error-background);
   border-radius: $border-radius;
-  color: $color-white;
+  color: var(--color-dhub-post-editor-error);
   padding: $grid-step $grid-step * 1.5;
 }

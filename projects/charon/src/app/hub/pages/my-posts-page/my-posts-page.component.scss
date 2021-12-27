@@ -1,5 +1,4 @@
 @import 'variables';
-$my-wall-page--no-posts--color: #9EA0A5;
 
 :host {
   display: block;
@@ -7,6 +6,6 @@ $my-wall-page--no-posts--color: #9EA0A5;
 }
 
 .my-posts-page__no-posts {
-  color: $color-grey;
+  color: var(--color-dhub-no-posts);
   text-align: center;
 }

@@ -1,7 +1,5 @@
-$hub-post-time--color: #9EA0A5;
-
 :host {
-  color: $hub-post-time--color;
+  color: var(--color-dhub-post-card-time);
   display: inline-flex;
   font-size: 12px;
   line-height: 18px;

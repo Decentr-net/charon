@@ -6,7 +6,7 @@
 
 .referral-bonus-milestones__header,
 .referral-bonus-milestones__footer {
-  color: $color-grey;
+  color: var(--color-referral-bonus-milestones);
   display: flex;
 }
 
@@ -21,11 +21,11 @@
   justify-content: center;
 
   & + & {
-    border-left: 1px solid $color-outlines;
+    border-left: 1px solid var(--color-outlines);
   }
 
   &.is-active {
-    color: $color-positive;
+    color: var(--color-referral-bonus-milestones-header-cell);
     font-weight: 700;
   }
 }
@@ -57,7 +57,7 @@
 
 .referral-reward-milestones__bar {
   align-items: center;
-  background-color: $color-outlines;
+  background-color: var(--color-outlines);
   border-radius: $grid-half-step;
   display: flex;
   height: $grid-step;
@@ -66,15 +66,15 @@
 }
 
 .referral-bonus-milestones__bar__progress {
-  background-color: $color-positive;
+  background-color: var(--color-referral-bonus-milestones-bar-progress-background);
   border-radius: inherit;
   height: inherit;
 }
 
 .referral-bonus-milestones__bar__progress-label {
-  background-color: $color-positive;
+  background-color: var(--color-referral-bonus-milestones-bar-progress-label);
   border-radius: $border-radius;
-  color: $color-white;
+  color: var(--color-referral-bonus-milestones-bar-progress);
   min-width: 32px;
   padding: $grid-half-step;
   position: absolute;

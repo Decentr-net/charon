@@ -16,7 +16,7 @@
 }
 
 .withdraw-validator-page__divider {
-  background-color: $color-outlines;
+  background-color: var(--color-outlines);
   height: 2px;
   margin: $grid-step * 2 (-$grid-step * 2);
 }
@@ -42,7 +42,7 @@
 }
 
 .withdraw-validator-page__footer-withdraw__available {
-  color: $color-grey;
+  color: var(--color-dportal-staking-withdraw-validator-footer-withdraw-text);
 }
 
 .withdraw-validator-page__footer-fee {
@@ -56,7 +56,7 @@
 }
 
 .withdraw-validator-page__footer__divider {
-  background-color: $color-outlines;
+  background-color: var(--color-outlines);
   flex-shrink: 0;
   height: 32px;
   width: 2px;

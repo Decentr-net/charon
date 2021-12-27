@@ -1,7 +1,7 @@
 @import '../../../styles/variables';
 
 :host {
-  background-color: $color-background;
+  background-color: var(--color-input-background);
   border-radius: $border-radius;
   display: flex;
   flex-direction: column;
@@ -13,21 +13,21 @@
     &.is-submitted,
     &.is-touched {
       .input__label {
-        color: $color-negative;
+        color: var(--color-select-input-invalid);
       }
     }
   }
 
   &.is-disabled {
     .input {
-      color: $color-light-grey;
+      color: var(--color-select-input-disabled);
       pointer-events: none;
     }
   }
 }
 
 .input__label {
-  color: $color-grey;
+  color: var(--color-select-input-label);
   display: flex;
   justify-content: space-between;
 }
@@ -40,14 +40,14 @@
 
 .input {
   background-color: inherit;
-  color: $color-black;
+  color: var(--color-select-input);
   font: inherit;
   font-weight: 500;
   padding: 0;
   width: 100%;
 
   &::placeholder {
-    color: $color-grey;
+    color: var(--color-select-input-placeholder);
     font-weight: normal;
   }
 
@@ -57,6 +57,7 @@
 }
 
 .input__container__icon {
+  color: var(--color-select-input-icon-dropdown);
   flex-shrink: 0;
   cursor: pointer;
   position: absolute;
@@ -65,7 +66,7 @@
 }
 
 .input__container__icon-close {
-  color: $color-grey;
+  color: var(--color-select-input-icon-close);
   cursor: pointer;
 }
 
@@ -76,11 +77,11 @@
 }
 
 .input__option-meta {
-  color: $color-grey;
+  color: var(--color-select-input-option-meta);
 }
 
 .input__footer {
-  color: $color-grey;
+  color: var(--color-select-input-footer);
   display: none;
 
   &.mod-visible {

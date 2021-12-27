@@ -1,7 +1,7 @@
 @import 'colors';
 
 :host {
-  background: $color-white;
+  background: var(--color-main-background);
   display: block;
   height: 100%;
   margin: 0 auto;

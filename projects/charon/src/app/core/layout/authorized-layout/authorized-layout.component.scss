@@ -36,8 +36,8 @@ $popup-side-padding: $grid-step * 2;
 }
 
 .authorized-layout__header-container {
-  background-color: $color-white;
-  border-bottom: 1px solid $color-outlines;
+  background-color: var(--color-header-background);
+  border-bottom: 1px solid var(--color-outlines);
 }
 
 .authorized-layout__header {

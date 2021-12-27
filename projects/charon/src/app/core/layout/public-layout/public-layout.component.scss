@@ -14,6 +14,8 @@
 }
 
 .public-layout__logo {
+  background-image: var(--logo-dhub);
+  background-repeat: no-repeat;
   display: block;
   height: 40px;
   margin: $grid-step * 2 auto;

@@ -5,7 +5,7 @@
 
 :host {
   align-items: center;
-  color: $color-grey;
+  color: var(--color-dhub-post-rating);
   column-gap: $grid-step * 2;
   display: flex;
   font-size: 12px;
@@ -17,7 +17,7 @@
     column-gap: math.div($grid-step, 4);
 
     .hub-post-rating__section {
-      background-color: $color-background;
+      background-color: var(--color-dhub-post-rating-background);
     }
   }
 
@@ -43,7 +43,7 @@
   justify-content: center;
 
   &:hover {
-    color: $color-dark-grey;
+    color: var(--color-dhub-post-rating-hover);
   }
 }
 
@@ -58,6 +58,6 @@
 
   &.mod-liked,
   &.mod-disliked {
-    color: $color-blue;
+    color: var(--color-dhub-post-rating-liked);
   }
 }

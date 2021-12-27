@@ -2,9 +2,9 @@
 
 :host {
   align-items: center;
-  background-color: rgba($color-red, .08);
+  background-color: rgba(var(--color-dportal-staking-jailed), .08);
   border-radius: $border-radius;
-  color: $color-red;
+  color: rgb(var(--color-dportal-staking-jailed));
   column-gap: $grid-half-step;
   display: inline-flex;
   padding: $grid-half-step $grid-step $grid-half-step $grid-half-step;

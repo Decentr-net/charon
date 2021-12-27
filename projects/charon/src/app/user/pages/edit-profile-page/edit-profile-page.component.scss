@@ -6,7 +6,7 @@
 }
 
 .edit-profile-page__card {
-  border: 2px solid $color-outlines;
+  border: 2px solid var(--color-outlines);
   border-radius: $border-radius;
   display: flex;
   flex-direction: column;
@@ -38,7 +38,7 @@
 }
 
 .edit-profile-page__divider {
-  background: $color-outlines;
+  background: var(--color-outlines);
   flex-shrink: 0;
   height: 2px;
   margin: $grid-step * 2 (-$grid-step * 2);

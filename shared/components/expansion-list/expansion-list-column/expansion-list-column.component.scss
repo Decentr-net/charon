@@ -10,12 +10,12 @@
       padding: $grid-step * 1.5 $grid-step * 2;
 
       &:hover {
-        background-color: $color-background;
+        background-color: var(--color-expansion-list-cell-hover);
       }
 
       &.is-active {
-        background-color: rgba($color-primary, 0.08);
-        color: $color-primary;
+        background-color: rgba(var(--color-expansion-list-cell-active-background), 0.08);
+        color: var(--color-expansion-list-cell-active);
       }
     }
   }

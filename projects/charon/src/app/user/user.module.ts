@@ -31,6 +31,7 @@ import { ProfileFormModule } from '@shared/components/profile-form';
 import { SeedModule } from '@shared/components/seed';
 import { SlotModule } from '@shared/components/slot';
 import { SubmitSourceModule } from '@shared/directives/submit-source';
+import { ThemeToggleModule } from '@shared/components/theme-toggle';
 import { TooltipModule } from '@shared/components/tooltip';
 import { TypefaceModule } from '@shared/directives/typeface';
 import { NavigationModule } from '@core/navigation';
@@ -72,6 +73,7 @@ import { UserRoutingModule } from './user-routing.module';
     SlotModule,
     SubmitSourceModule,
     SvgIconsModule,
+    ThemeToggleModule,
     TranslocoModule,
     TypefaceModule,
     UserRoutingModule,

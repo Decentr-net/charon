@@ -10,8 +10,9 @@
 }
 
 .activity-page__expansion-list__header-count {
-  background-color: $color-background;
+  background-color: var(--color-expansion-list-header-count-background);
   border-radius: $border-radius;
+  color: var(--color-expansion-list-header-count);
   font-weight: 400;
   margin-left: $grid-step;
   min-width: 36px;
@@ -29,7 +30,7 @@
 }
 
 .activity-page__expansion-list__mat-panel {
-  border-bottom: 1px solid $color-outlines;
+  border-bottom: 1px solid var(--color-outlines);
   border-radius: 0;
   word-break: break-word;
 }
@@ -38,11 +39,12 @@
   font-weight: 700;
 
   &:hover {
-    background: $color-background !important;
+    background: var(--color-expansion-list-cell-hover) !important;
   }
 }
 
 .activity-page--pdv-description {
+  color: var(--color-main-text);
   column-gap: $grid-step;
   display: grid;
   grid-template-columns: max-content 1fr;
@@ -51,11 +53,11 @@
 }
 
 .activity-page--pdv-description__key {
-  color: $color-grey;
+  color: var(--color-dportal-activity-page-pdv-description-key);
 }
 
 .activity-page__no-activity {
-  color: $color-grey;
+  color: var(--color-dportal-activity-page-no-activity);
   margin-top: $grid-step * 2;
   text-align: center;
 }

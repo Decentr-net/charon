@@ -14,7 +14,7 @@
 }
 
 .hub-related-posts__no-posts {
-  color: $color-grey;
+  color: var(--color-dhub-no-posts);
   grid-column: 1 / 5;
   margin-top: $grid-step * 2;
   text-align: center;
