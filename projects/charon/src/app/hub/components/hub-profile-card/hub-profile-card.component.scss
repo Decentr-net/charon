@@ -2,8 +2,8 @@
 
 :host {
   align-items: center;
-  background: $color-white;
-  border: 1px solid $color-outlines;
+  background: var(--color-main-background);
+  border: 1px solid var(--color-outlines);
   border-radius: $border-radius;
   display: flex;
   flex-direction: column;
@@ -25,7 +25,7 @@
 }
 
 .hub-profile-card__bio {
-  color: $color-grey;
+  color: var(--color-dhub-profile-card-bio);
   text-align: center;
   word-break: break-word;
 }
@@ -46,8 +46,8 @@
   }
 
   &.is-active {
-    background-color: $color-positive;
-    color: $color-white;
+    background-color: var(--color-dhub-profile-card-button-active-background);
+    color: var(--color-dhub-profile-card-button-active);
   }
 
   &.is-updating {

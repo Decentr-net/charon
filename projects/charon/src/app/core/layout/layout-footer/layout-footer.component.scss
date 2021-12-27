@@ -1,14 +1,15 @@
 @import 'variables';
 
 :host {
-  background-color: $color-black;
+  background-color: var(--color-footer-background);
+  border-top: 1px solid var(--color-footer-top-border);
   display: block;
   width: 100%;
 }
 
 .layout-footer__container {
   align-items: center;
-  color: $color-white;
+  color: var(--color-footer-container);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: $grid-step * 1.5 auto;
@@ -17,14 +18,14 @@
 }
 
 .layout-footer__logo {
-  color: $color-white;
+  color: var(--color-footer-logo);
   display: inline-flex;
   gap: $grid-step;
   font-weight: 700;
 }
 
 .layout-footer__copyright {
-  color: $color-light-grey;
+  color: var(--color-footer-copyright);
   text-align: center;
 }
 
@@ -35,10 +36,10 @@
 }
 
 .layout-footer__social-link {
-  color: $color-grey;
+  color: var(--color-footer-social-link);
   transition: all 0.3s ease;
 
   &:hover {
-    color: $color-white;
+    color: var(--color-footer-social-link-hover);
   }
 }

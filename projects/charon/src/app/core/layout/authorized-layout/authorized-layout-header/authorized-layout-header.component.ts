@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, OnInit } from '@angular/core';
-import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { isOpenedInTab } from '@shared/utils/browser';
-import { svgLogo } from '@shared/svg-icons/logo';
 
 export const AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT = Symbol('AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT');
 export const AUTHORIZED_LAYOUT_HEADER_META_SLOT = Symbol('AUTHORIZED_LAYOUT_HEADER_META_SLOT');
@@ -23,11 +21,7 @@ export class AuthorizedLayoutHeaderComponent implements OnInit {
 
   constructor(
     public elementRef: ElementRef<HTMLElement>,
-    svgIconRegistry: SvgIconRegistry,
   ) {
-    svgIconRegistry.register([
-      svgLogo,
-    ]);
   }
 
   public ngOnInit(): void {

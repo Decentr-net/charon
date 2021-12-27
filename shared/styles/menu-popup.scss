@@ -11,15 +11,15 @@
 }
 
 body .menu-popup {
-  background: rgba($color-black, .92);
+  background: rgba(var(--color-menu-popup-background), .92);
   backdrop-filter: blur(12px);
   border-radius: $border-radius;
-  color: $color-white;
+  color: var(--color-menu-popup);
   padding: $grid-step * 2;
 }
 
 .menu-popup-items-section {
-  background: $color-black;
+  background: var(--color-menu-popup-item-section-background);
   border-radius: $border-radius;
   overflow: hidden;
 
@@ -39,11 +39,11 @@ body .menu-popup {
   white-space: nowrap;
 
   &.is-disabled {
-    color: $color-dark-grey;
+    color: var(--color-menu-popup-item-disabled);
     pointer-events: none;
 
     .menu-popup-item-description {
-      color: $color-dark-grey;
+      color: var(--color-menu-popup-item-disabled-description);
     }
   }
 }
@@ -63,13 +63,13 @@ body .menu-popup {
 }
 
 .menu-popup-item-description {
-  color: $color-grey;
+  color: var(--color-menu-popup-item-description);
   grid-area: description;
   white-space: normal;
 }
 
 .menu-popup-items-divider {
-  border-bottom: 1px solid $color-dark-grey;
+  border-bottom: 1px solid var(--color-menu-popup-items-divider);
   display: block;
   width: 100%;
 }

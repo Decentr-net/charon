@@ -22,7 +22,7 @@ import { SettingsService } from '../../../../../shared/services/settings';
 import { ONE_MINUTE, ONE_SECOND } from '../../../../../shared/utils/date';
 import CONFIG_SERVICE from '../config';
 import { whileUserActive } from '../auth/while-user-active';
-import { getBlacklist, sendPDV } from './api';
+import { blacklist$, sendPDV } from './api';
 import { listenAdvertiserPDVs } from './advertiser-id';
 import { listenCookiePDVs } from './cookies';
 import { listenSearchHistoryPDVs } from './search-history';
@@ -55,7 +55,7 @@ const whilePDVAllowed = (pdvType: PDVType, walletAddress: Wallet['address']) => 
 };
 
 const isPDVBlacklisted = (pdv: PDV): Observable<boolean> => {
-  return getBlacklist().pipe(
+  return blacklist$.pipe(
     map((blacklist) => {
       if (isCookiePDV(pdv)) {
         return blacklist.cookieSource.some((bannedSource) => pdv.source.host.includes(bannedSource));

@@ -27,22 +27,22 @@
   "menu": {
     "items": {
       "decentr_feed": {
-        "description": "Recent activity of people you follow and some actual notifications for you",
+        "description": "Recent activity of people you follow.",
         "title": "dFeed"
       },
       "decentr_hub": {
-        "description": "Personalized feed with posts of people you follow and trending posts you may be interested in  ",
+        "description": "Personalized feed with posts from people you follow, and trending posts you might be interested in",
         "title": "dHub"
       },
       "decentr_portal": {
-        "description": "Your personal dashboard with detailed assets & activity info",
+        "description": "Your personal dashboard with detailed assets and activity info",
         "title": "dPortal"
       },
       "decentr_explorer": {
         "description": "Decentr blockchain explorer",
         "title": "dExplorer"
       },
-      "info_and_help": "Info & Help",
+      "info_and_help": "Info and Help",
       "lock": "Lock account"
     },
     "pdv": "PDV"
@@ -53,7 +53,7 @@
       "testnet": "Testnet",
       "local": "Localhost 1317"
     },
-    "default_network": "The default network for Decs transactions is Mainnet.",
+    "default_network": "The default network for Decs transactions is the Mainnet.",
     "title": "Networks"
   },
   "profile_form": {
@@ -66,7 +66,7 @@
         "maxlength": "The maximum length of biography is {{requiredLength}} characters"
       },
       "label": "Biography",
-      "placeholder": "Something that represents you best and allows others to form some opinion about who you are or who you want to be."
+      "placeholder": "Information that you want others to know about you."
     },
     "birthday": {
       "errors": {
@@ -89,7 +89,7 @@
       "errors": {
         "email": "Enter valid email",
         "required": "Email is required",
-        "unique": "This email has already been added"
+        "unique": "This email is already in use"
       },
       "label": "Email",
       "title": "Connected email"
@@ -122,7 +122,7 @@
         "maxlength": "The maximum length of Nickname is {{ requiredLength }} characters",
         "minlength": "Length of Nickname should be not less than {{ requiredLength }}",
         "required": "Nickname is required",
-        "unique": "This nickname has already been added"
+        "unique": "This nickname is already in use"
       },
       "label": "Nickname (account name)"
     },
@@ -135,14 +135,14 @@
       "label": "Password"
     },
     "personal_info": {
-      "subtitle": "Something that will allow others identifying you better than a simple image.",
+      "subtitle": "A few words about yourself.",
       "title": "Personal info"
     }
   },
   "notifications": {
     "broadcast_error": {
       "1": "Something went wrong",
-      "2": "Can not parse a transaction",
+      "2": "Can not parse the transaction",
       "3": "Invalid sequence provided",
       "4": "Unauthorized access",
       "5": "Insufficient funds",

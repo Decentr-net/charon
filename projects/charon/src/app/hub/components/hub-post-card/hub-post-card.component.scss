@@ -7,12 +7,12 @@ $hub-post-card--vertical--image-height: 44%;
 $hub-post-card--horizontal--image-width: 31%;
 
 :host {
-  background: $color-white;
+  background: var(--color-dhub-post-card-background);
   display: flex;
   overflow: hidden;
 
   &.mod-vertical {
-    border: 1px solid $color-outlines;
+    border: 1px solid var(--color-outlines);
     border-radius: $border-radius;
     flex-direction: column;
     height: 374px;
@@ -95,14 +95,14 @@ $hub-post-card--horizontal--image-width: 31%;
 }
 
 .hub-post-card__meta-separator {
-  background-color: $color-grey;
+  background-color: var(--color-dhub-post-card-meta-separator);
   border-radius: 100%;
   height: 4px;
   width: 4px;
 }
 
 .hub-post-card__time {
-  color: $color-grey;
+  color: var(--color-dhub-post-card-time);
 }
 
 .hub-post-card__remove-icon {
@@ -119,7 +119,7 @@ $hub-post-card--horizontal--image-width: 31%;
 }
 
 .hub-post-card__content {
-  color: $color-grey;
+  color: var(--color-dhub-post-card-content);
   margin: $grid-step 0;
   overflow: hidden;
   overflow-wrap: anywhere;
@@ -135,12 +135,12 @@ $hub-post-card--horizontal--image-width: 31%;
 
 .hub-post-card__footer__link {
   align-items: center;
-  color: $color-grey;
+  color: var(--color-dhub-post-card-footer-link);
   column-gap: $grid-half-step;
   cursor: pointer;
   display: none;
 
   &:hover {
-    color: $color-dark-grey;
+    color: var(--color-dhub-post-card-footer-link-hover);
   }
 }

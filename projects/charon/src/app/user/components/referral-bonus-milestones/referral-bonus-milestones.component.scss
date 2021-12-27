@@ -9,7 +9,7 @@
 }
 
 .referral-bonus-milestones__bar {
-  border-bottom: 3px dashed $color-outlines;
+  border-bottom: 3px dashed var(--color-outlines);
   left: 0;
   right: 0;
   position: absolute;
@@ -23,9 +23,9 @@
 
 .referral-bonus-milestones__goal {
   align-items: center;
-  color: $color-grey;
+  color: var(--color-referral-bonus-milestones-goal);
   display: flex;
-  font-size: 6px;
+  font-size: 9px;
   font-weight: 700;
   justify-content: center;
   line-height: 8px;
@@ -33,20 +33,20 @@
   text-align: center;
 
   &.is-active {
-    color: $color-white;
+    color: var(--color-referral-bonus-milestones-goal-active);
 
     .referral-bonus-milestones__goal__star {
-      color: $color-positive;
+      color: var(--color-referral-bonus-milestones-goal-active-star);
     }
 
     .referral-bonus-milestones__goal__divider {
-      border-color: $color-white;
+      border-color: var(--color-referral-bonus-milestones-goal-active-divider-border);
     }
   }
 }
 
 .referral-bonus-milestones__goal__star {
-  color: $color-background;
+  color: var(--color-referral-bonus-milestones-goal-star);
 }
 
 .referral-bonus-milestones__goal__label {
@@ -55,12 +55,12 @@
 
 .referral-bonus-milestones__goal__reward_value {
   font-size: 16px;
-  line-height: 1;
+  line-height: 1.15;
   text-transform: uppercase;
 }
 
 .referral-bonus-milestones__goal__divider {
-  border-bottom: 1px solid $color-outlines;
+  border-bottom: 1px solid var(--color-outlines);
   margin: math.div($grid-step, 4) 0;
   min-width: 40px;
 }

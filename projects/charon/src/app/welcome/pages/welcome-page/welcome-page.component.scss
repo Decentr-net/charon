@@ -8,7 +8,7 @@
 }
 
 .welcome-page__card {
-  border: 2px solid $color-outlines;
+  border: 2px solid var(--color-outlines);
   border-radius: $border-radius;
   margin: auto;
   padding: $grid-step * 5 $grid-step * 3;
@@ -32,7 +32,7 @@
 
 .welcome-page__button {
   border-radius: $border-radius;
-  color: $color-black;
+  color: var(--color-main-text);
   display: block;
   padding: $grid-step * 3;
 
@@ -41,18 +41,18 @@
   }
 
   &.mod-blue {
-    background: rgba($color-primary, 0.08);
+    background: rgba(var(--color-welcome-page-button-blue), 0.08);
 
     .welcome-page__button__icon {
-      color: $color-primary;
+      color: rgb(var(--color-welcome-page-button-blue));
     }
   }
 
   &.mod-green {
-    background: rgba($color-green, 0.08);
+    background: rgba(var(--color-welcome-page-button-green), 0.08);
 
     .welcome-page__button__icon {
-      color: $color-green;
+      color: rgb(var(--color-welcome-page-button-green));
     }
   }
 }
@@ -63,6 +63,6 @@
 }
 
 .welcome-page__button__subtitle {
-  color: $color-grey;
+  color: var(--color-welcome-page-button-subtitle);
   margin-top: $grid-step;
 }

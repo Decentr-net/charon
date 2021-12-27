@@ -144,6 +144,34 @@
       </div>
     </button>
   </div>
+
+  <div class="user-menu-page__menu-block">
+    <button
+      class="user-menu-page__menu-block__button mod-disable-align mode-cursor-default"
+      app-button
+      color="grey"
+      appTypeface="paragraph"
+    >
+      <svg-icon key="moon"></svg-icon>
+
+      <div>
+        <span>{{ translate('night_theme') }}</span>
+
+        <div
+          class="user-menu-page__menu-block__button-hint"
+          appTypeface="caption"
+        >
+          {{ translate('night_theme_hint') }}
+        </div>
+      </div>
+
+      <span
+        class="user-menu-page__menu-block__theme-toggle"
+      >
+        <app-theme-toggle></app-theme-toggle>
+      </span>
+    </button>
+  </div>
 </ng-container>
 
 <ng-template #profileLoading>

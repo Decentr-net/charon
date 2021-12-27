@@ -9,8 +9,8 @@
 }
 
 .tooltip {
-  background: #FFFFFF;
   border-radius: 4px;
+  overflow: hidden;
   pointer-events: none;
   position: absolute;
   transform: translateY(-50%);

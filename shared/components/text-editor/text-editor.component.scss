@@ -7,7 +7,7 @@
 
 .text-editor__editor {
   &:empty:before {
-    color: $color-grey;
+    color: var(--color-dhub-post-editor-text-placeholder);
     content: attr(data-placeholder);
     cursor: text;
   }

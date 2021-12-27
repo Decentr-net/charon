@@ -2,7 +2,6 @@
 
 :host {
   align-items: center;
-  background-color: $color-white;
   display: flex;
   justify-content: space-between;
   height: 76px;
@@ -33,6 +32,8 @@
 }
 
 .authorized-layout-header__logo-icon {
+  background-image: var(--logo-dhub);
+  background-repeat: no-repeat;
   display: inline-flex;
   height: 40px;
   width: 147px;

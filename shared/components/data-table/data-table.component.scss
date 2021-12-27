@@ -1,15 +1,16 @@
 @import '../../styles/variables';
 
 :host {
+  color: var(--color-main-text);
   display: block;
   overflow: auto;
 
   &::ng-deep {
     a {
-      color: $color-primary;
+      color: var(--color-data-table-link);
 
       &:hover {
-        color: $color-primary-hover;
+        color: var(--color-data-table-link-hover);
       }
     }
   }
@@ -20,8 +21,8 @@
 }
 
 .data-table__header-row {
-  border-bottom: 2px solid $color-outlines;
-  color: $color-grey;
+  border-bottom: 2px solid var(--color-outlines);
+  color: var(--color-data-table-header);
 }
 
 .data-table__header-row__cell {
@@ -33,15 +34,15 @@
   transition: background-color .3s ease-in-out;
 
   & + & {
-    border-top: 1px solid $color-outlines;
+    border-top: 1px solid var(--color-outlines);
   }
 
   &:hover {
-    background-color: $color-background;
+    background-color: var(--color-data-table-row-background-hover);
   }
 
   &.is-selected {
-    background-color: rgba($color-blue, .12);
+    background-color: rgba(var(--color-data-table-row-selected), .12);
   }
 
   &.mod-selectable {

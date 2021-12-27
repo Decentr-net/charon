@@ -2,10 +2,10 @@
 
 :host {
   align-items: center;
-  background-color: transparent;
-  border: 1px solid $color-light-grey;
+  background-color: rgb(var(--color-button-white-background));
+  border: 1px solid var(--color-outlines);
   border-radius: $border-radius;
-  color: $color-font-base;
+  color: rgb(var(--color-button-white-text));
   cursor: pointer;
   display: flex;
   font-size: 16px;
@@ -15,7 +15,7 @@
   padding: 0 $grid-step * 3;
 
   &:hover {
-    background-color: $color-outlines;
+    background-color: rgb(var(--color-button-white-background-hover));
   }
 }
 

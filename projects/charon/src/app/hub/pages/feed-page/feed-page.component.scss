@@ -14,8 +14,11 @@ $feed-page--top-feed--no-posts--color: #9EA0A5;
 }
 
 .feed-page__logo-icon {
+  background-image: var(--logo-dhub-feed);
+  background-repeat: no-repeat;
+  background-size: contain;
   height: 40px;
-  width: 106px;
+  width: 120px;
 }
 
 .feed-page__content-container {
@@ -41,8 +44,8 @@ $feed-page--top-feed--no-posts--color: #9EA0A5;
 
 .feed-page__top-posts__header {
   $border-width: 1px;
-  background: $color-white;
-  border: $border-width solid $color-outlines;
+  background: var(--color-main-background);
+  border: $border-width solid var(--color-outlines);
   font-weight: 700;
   padding: $grid-step * 2;
   position: sticky;
@@ -50,7 +53,7 @@ $feed-page--top-feed--no-posts--color: #9EA0A5;
   z-index: 1;
 
   &:before {
-    background: $color-white;
+    background: var(--color-main-background);
     content: '';
     height: $grid-step * 2;
     left: -$border-width;
@@ -60,8 +63,8 @@ $feed-page--top-feed--no-posts--color: #9EA0A5;
   }
 
   &:after {
-    background: $color-white;
-    border: $border-width solid $color-outlines;
+    background: var(--color-main-background);
+    border: $border-width solid var(--color-outlines);
     border-top-left-radius: $border-radius;
     border-top-right-radius: $border-radius;
     border-bottom: 0;
@@ -74,16 +77,19 @@ $feed-page--top-feed--no-posts--color: #9EA0A5;
   }
 }
 
+// TODO: is it dead css code?
 .feed-page__top-feed__header {
   background-color: $feed-page--top-feed-header--background-color;
   padding: 24px;
 }
 
+// TODO: is it dead css code?
 .feed-page__top-feed__posts-container {
   height: 100%;
   padding-bottom: 30px;
 }
 
+// TODO: is it dead css code?
 .feed-page__top-feed__no-posts {
   color: $feed-page--top-feed--no-posts--color;
   display: flex;

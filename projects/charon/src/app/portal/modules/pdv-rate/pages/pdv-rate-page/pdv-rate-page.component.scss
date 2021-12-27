@@ -27,7 +27,7 @@ $popup-side-padding: $grid-step * 2;
 
     .pdv-rate__currency,
     .pdv-rate__rewards {
-      border-top: $grid-half-step solid $color-outlines;
+      border-top: $grid-half-step solid var(--color-outlines);
       padding: $grid-step * 2 $popup-side-padding;
     }
 
@@ -42,7 +42,7 @@ $popup-side-padding: $grid-step * 2;
     .pdv-rate__pdv,
     .pdv-rate__currency,
     .pdv-rate__rewards {
-      border: 2px solid $color-outlines;
+      border: 2px solid var(--color-outlines);
       border-radius: $border-radius;
     }
 
@@ -88,7 +88,7 @@ $popup-side-padding: $grid-step * 2;
 }
 
 .pdv-rate__pdv-filter {
-  background: $color-background;
+  background: var(--color-dportal-pdv-rate-chart-filter-background);
   border-radius: $border-radius;
   display: flex;
   font-weight: 500;
@@ -101,14 +101,15 @@ $popup-side-padding: $grid-step * 2;
     padding: $grid-step * 1.5 $grid-step * 2;
 
     &.active {
-      background: $color-white;
+      color: var(--color-dportal-pdv-rate-chart-filter-active);
+      background: var(--color-dportal-pdv-rate-chart-filter-active-background);
       border-radius: $border-radius;
-      box-shadow: 0 $grid-half-step $grid-step * 1.5 rgba($color-grey, 0.4);
+      box-shadow: 0 $grid-half-step $grid-step * 1.5 rgba(var(--color-dportal-pdv-rate-chart-filter-active-shadow), 0.4);
       cursor: default;
     }
 
     &:not(.active) {
-      color: $color-grey;
+      color: var(--color-dportal-pdv-rate-chart-filter);
       cursor: pointer;
     }
   }
@@ -121,7 +122,7 @@ $popup-side-padding: $grid-step * 2;
 
 .pdv-rate__pdv-chart__no-data {
   align-items: center;
-  color: $color-grey;
+  color: var(--color-dportal-pdv-rate-chart-no-data);
   display: flex;
   justify-content: center;
   min-height: inherit;
@@ -147,7 +148,7 @@ $popup-side-padding: $grid-step * 2;
 }
 
 .pdv-rate__rewards__real-money-reward {
-  color: $color-grey;
+  color: var(--color-dportal-pdv-rate-pdv-reward-real-money);
 }
 
 .pdv-rate__rewards__height {

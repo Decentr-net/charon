@@ -1,22 +1,52 @@
 $color-blue: #4F80FF;
+$color-blue-night: #6993FF;
 $color-blue-hover: #2B5DE0;
+$color-blue-night-hover: #587EE0;
 $color-green: #03B15E;
+$color-green-night: #40C988;
 $color-red: #FA5454;
-$color-light-red: #FEEBEB;
+$color-red-night: #FF7070;
 
 $color-black: #1C1D26;
 $color-dark-grey: #494A52;
+$color-dark-grey-night: #D2D2D4;
 $color-grey: #929297;
-$color-outlines: #EDEDEE;
+$color-grey-night: #898A8E;
 $color-light-grey: #B6B7BA;
+$color-light-grey-night: #53535A;
 $color-outlines: #EDEDEE;
+$color-outlines-night: #2E2F37;
 $color-background: #F6F6F7;
+$color-background-night: #25262F;
 $color-white: #FFFFFF;
 
 $color-orange: #FF8C04;
+$color-orange-night: #FFA438;
 $color-yellow: #F8D72A;
+$color-yellow-night: #F8DF5C;
 $color-light-blue: #73D1F9;
+$color-light-blue-night: #A4DFF9;
 $color-violet: #9F65FD;
+$color-violet-night: #BE98FD;
 $color-pink: #E87CC9;
+$color-pink-night: #E8A9D6;
 $color-mint: #3EDCD3;
+$color-mint-night: #80DCD6;
 $color-purple: #A954A0;
+$color-purple-night: #C288BC;
+
+// extra color vars
+$color-input-background-night: #282832;
+$color-card-background-night: #282832;
+$color-skeleton-background: #EFF1F6;
+$color-skeleton-background-animation: linear-gradient(90deg,hsla(0,0%,100%,0),rgb(255 255 255 / 60%),hsla(0,0%,100%,0));
+$color-skeleton-background-animation-night: linear-gradient(90deg,transparent,rgba(0,0,0,.2),transparent);
+
+$color-post-categories: $color-blue $color-green $color-red $color-orange $color-yellow $color-light-blue $color-violet $color-pink $color-mint;
+$color-post-categories-night: $color-blue-night $color-green-night $color-red-night $color-orange-night $color-yellow-night $color-light-blue-night $color-violet-night $color-pink-night $color-mint-night;
+
+@mixin postCategoryColor($palette) {
+  @for $i from 1 through length($palette) {
+    --color-post-category-#{$i}: #{nth($palette, $i)};
+  }
+}

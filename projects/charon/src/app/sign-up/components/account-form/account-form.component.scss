@@ -31,11 +31,11 @@
 }
 
 .account-form__link {
-  color: $color-primary;
+  color: var(--color-account-form-link);
 }
 
 .account-form__divider {
-  background: $color-outlines;
+  background: var(--color-outlines);
   height: 2px;
   margin: $grid-step * 2 (-$grid-step * 2);
 }

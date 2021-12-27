@@ -14,6 +14,7 @@
 }
 
 .token-complex-transaction__header {
+  color: var(--color-main-text);
   column-gap: $grid-step;
   display: grid;
   grid-template-areas: 'icon operation amount' 'empty address fee' 'empty memo memo';
@@ -24,7 +25,7 @@
 }
 
 .token-complex-transaction__icon {
-  color: $color-grey;
+  color: var(--color-dportal-assets-page-token-complex-transaction-icon);
   grid-area: icon;
 }
 
@@ -41,16 +42,16 @@
 }
 
 .token-complex-transaction__fee {
-  color: $color-grey;
+  color: var(--color-dportal-assets-page-token-complex-transaction-fee);
   grid-area: fee;
   text-align: right;
 }
 
 .token-complex-transaction__memo {
-  color: $color-grey;
+  color: var(--color-dportal-assets-page-token-complex-transaction-memo);
   grid-area: memo;
 }
 
 .token-complex-transaction__transaction {
-  border-top: 1px solid $color-outlines;
+  border-top: 1px solid var(--color-outlines);
 }
