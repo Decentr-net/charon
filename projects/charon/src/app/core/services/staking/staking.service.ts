@@ -12,7 +12,9 @@ import {
   StakingParams,
   UnbondingDelegation,
   UnbondingDelegationEntry,
+  UndelegateTokensRequest,
   Validator,
+  protoTimestampToDate,
 } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
@@ -47,22 +49,15 @@ export class StakingService {
   }
 
   public getDelegationFee(request: Omit<DelegateTokensRequest, 'delegatorAddress'>): Observable<number> {
-    return of(0);
-    // return this.configService.getChainId().pipe(
-    //   switchMap((chainId) => defer(() => calculateCreateDelegationFee(
-    //     this.networkService.getActiveNetworkAPIInstant(),
-    //     chainId,
-    //     {
-    //       delegator_address: this.authService.getActiveUserInstant().wallet.address,
-    //       validator_address: validatorAddress,
-    //       amount: {
-    //         amount: amount.toString(),
-    //         denom: DENOM,
-    //       },
-    //     },
-    //   ))),
-    //   map((fee) => +fee[0]?.amount),
-    // );
+    return combineLatest([
+      DecentrStakingClient.create(this.networkService.getActiveNetworkAPIInstant()),
+      this.authService.getActiveUser(),
+    ]).pipe(
+      switchMap(([client, user]) => client.delegateTokens({
+        ...request,
+        delegatorAddress: user.wallet.address,
+      }, user.wallet.privateKey).simulate()),
+    );
   }
 
   public redelegateTokens(
@@ -85,7 +80,15 @@ export class StakingService {
   public getRedelegationFee(
     request: Omit<RedelegateTokensRequest, 'delegatorAddress'>,
   ): Observable<number> {
-    return of(0);
+    return combineLatest([
+      DecentrStakingClient.create(this.networkService.getActiveNetworkAPIInstant()),
+      this.authService.getActiveUser(),
+    ]).pipe(
+      switchMap(([client, user]) => client.redelegateTokens({
+        ...request,
+        delegatorAddress: user.wallet.address,
+      }, user.wallet.privateKey).simulate()),
+    );
   }
 
   public getValidatorUndelegation(
@@ -117,8 +120,16 @@ export class StakingService {
       );
   }
 
-  public getUndelegationFee(validatorAddress: Validator['operatorAddress'], amount: Coin): Observable<number> {
-    return of(0);
+  public getUndelegationFee(request: Omit<UndelegateTokensRequest, 'delegatorAddress'>,): Observable<number> {
+    return combineLatest([
+      DecentrStakingClient.create(this.networkService.getActiveNetworkAPIInstant()),
+      this.authService.getActiveUser(),
+    ]).pipe(
+      switchMap(([client, user]) => client.undelegateTokens({
+        ...request,
+        delegatorAddress: user.wallet.address,
+      }, user.wallet.privateKey).simulate()),
+    );
   }
 
   public getUndedelegationFromAvailableTime(fromValidator: Validator['operatorAddress']): Observable<number | undefined> {
@@ -257,7 +268,7 @@ export class StakingService {
 
   private getUndelegationsTimes(fromValidator: Validator['operatorAddress']): Observable<Date[]> {
     return this.getValidatorUndelegation(fromValidator).pipe(
-      map((entries ) => entries.map((entry) => entry.completionTime)),
+      map((entries ) => entries.map((entry) => protoTimestampToDate(entry.completionTime))),
     );
   }
 

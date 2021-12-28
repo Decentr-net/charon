@@ -2,6 +2,7 @@ import {
   Coin,
   DelegationResponse,
   Pool,
+  protoTimestampToDate,
   QueryDelegationTotalRewardsResponse,
   UnbondingDelegation,
   Validator,
@@ -10,6 +11,50 @@ import {
 
 import { ValidatorDefinition, ValidatorDefinitionShort } from '../models';
 
+const buildUnbondingDelegation = (
+  validatorAddress: Validator['operatorAddress'],
+  unbondingDelegations: UnbondingDelegation[],
+): {
+  balance: number;
+  completionTime: Date;
+} => {
+  const validatorUnbondingDelegations = unbondingDelegations
+    .find((delegation) => delegation.validatorAddress === validatorAddress);
+
+  return (validatorUnbondingDelegations?.entries || []).reduce((acc, delegation) => ({
+    balance: acc.balance + +delegation.balance,
+    completionTime: acc.completionTime > protoTimestampToDate(delegation.completionTime)
+      ? acc.completionTime
+      : protoTimestampToDate(delegation.completionTime)
+  }), {
+    balance: 0,
+    completionTime: undefined,
+  });
+};
+
+const getDelegatedAmount = (
+  validatorAddress: Validator['operatorAddress'],
+  delegations: DelegationResponse[],
+): Coin['amount'] => {
+  return delegations
+    .find((delegation) => delegation.delegation.validatorAddress === validatorAddress)
+      ?.balance.amount;
+}
+
+const buildPartialValidatorDefinition = (
+  validator: Validator,
+  delegations: DelegationResponse[],
+  unbondingDelegations: UnbondingDelegation[],
+): Omit<ValidatorDefinitionShort, 'reward'> => {
+  return {
+    address: validator.operatorAddress,
+    delegated: getDelegatedAmount(validator.operatorAddress, delegations),
+    jailed: validator.jailed,
+    name: validator.description.moniker,
+    unbondingDelegation: buildUnbondingDelegation(validator.operatorAddress, unbondingDelegations),
+  };
+}
+
 export const buildValidatorOperatorDefinition = (
   validator: Validator,
   delegations: DelegationResponse[],
@@ -17,21 +62,8 @@ export const buildValidatorOperatorDefinition = (
   unbondingDelegations: UnbondingDelegation[],
 ): ValidatorDefinitionShort => {
   return {
-    address: validator.operatorAddress,
-    delegated: delegations
-      .find((delegation) => delegation.delegation.validatorAddress === validator.operatorAddress)
-      ?.balance.amount,
-    jailed: validator.jailed,
-    name: validator.description.moniker,
+    ...buildPartialValidatorDefinition(validator, delegations, unbondingDelegations),
     reward: +validatorRewards[0].amount,
-    unbondingDelegation: (unbondingDelegations.find((delegation) => delegation.validatorAddress === validator.operatorAddress)
-      ?.entries || []).reduce((acc, delegation) => ({
-        balance: acc.balance + +delegation.balance,
-        completionTime: acc.completionTime > new Date(delegation.completionTime) ? acc.completionTime : new Date(delegation.completionTime),
-      }), {
-        balance: 0,
-        completionTime: undefined,
-      }),
   };
 };
 
@@ -42,24 +74,11 @@ export const buildValidatorDefinitionShort = (
   unbondingDelegations: UnbondingDelegation[],
 ): ValidatorDefinitionShort => {
   return {
-    address: validator.operatorAddress,
-    delegated: delegations
-      .find((delegation) => delegation.delegation.validatorAddress === validator.operatorAddress)
-      ?.balance.amount,
-    jailed: validator.jailed,
-    name: validator.description.moniker,
+    ...buildPartialValidatorDefinition(validator, delegations, unbondingDelegations),
     reward: +(delegatorRewards.rewards || [])
       .find((delegatorReward) => {
         return delegatorReward.validatorAddress === validator.operatorAddress && delegatorReward?.reward?.length;
       })?.reward[0]?.amount || 0,
-    unbondingDelegation: (unbondingDelegations.find((delegation) => delegation.validatorAddress === validator.operatorAddress)
-      ?.entries || []).reduce((acc, delegation) => ({
-        balance: acc.balance + +delegation.balance,
-        completionTime: acc.completionTime > new Date(delegation.completionTime) ? acc.completionTime : new Date(delegation.completionTime),
-      }), {
-        balance: 0,
-        completionTime: undefined,
-      }),
   };
 };
 

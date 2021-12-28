@@ -40,7 +40,7 @@ export class UndelegatePageService {
     validatorAddress: Validator['operatorAddress'],
     amount: string,
   ): Observable<number> {
-    return this.stakingService.getUndelegationFee(validatorAddress, createDecentrCoin(amount));
+    return this.stakingService.getUndelegationFee({ validatorAddress, amount: createDecentrCoin(amount) });
   }
 
   public getValidator(address: Validator['operatorAddress']): Observable<Validator> {

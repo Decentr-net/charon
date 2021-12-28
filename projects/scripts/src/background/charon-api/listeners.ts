@@ -1,4 +1,4 @@
-import { BroadcastTxSuccess } from 'decentr-js';
+import { BroadcastClientError, DeliverTxResponse } from 'decentr-js';
 
 import { MessageBus } from '../../../../../shared/message-bus';
 import { MessageCode } from '../../messages';
@@ -21,17 +21,17 @@ import { CharonAPIMessageBusMap } from './message-bus-map';
 
 interface RequestCallbackParams {
   success: boolean;
-  error?: any;
-  messageValue?: any;
+  error?: BroadcastClientError;
+  messageValue?: DeliverTxResponse['data'][0];
 }
 
 const sendRequest = (
-  fn: () => PromiseLike<BroadcastTxSuccess>,
+  fn: () => PromiseLike<DeliverTxResponse>,
   callback: (params: RequestCallbackParams) => void,
 ): void => {
   QUEUE.add(fn, { priority: QueuePriority.Charon })
     .then(
-      (response: BroadcastTxSuccess) => callback({
+      (response: DeliverTxResponse) => callback({
         success: true,
         messageValue: response.data[0],
       }),
@@ -42,7 +42,7 @@ const sendRequest = (
     );
 };
 
-export const initCharonAPIListeners = () => {
+export const initCharonAPIListeners = (): void => {
   const messageBus = new MessageBus<CharonAPIMessageBusMap>();
 
   messageBus.onMessage(MessageCode.PostCreate).subscribe((message) => {

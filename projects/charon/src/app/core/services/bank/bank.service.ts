@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  DecentrBankClient,
-  Coin,
-  // calculateTransferFee,
-  SendTokensRequest,
-} from 'decentr-js';
+import { DecentrBankClient, Coin, SendTokensRequest } from 'decentr-js';
 import { combineLatest, defer, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
@@ -34,9 +29,16 @@ export class BankService {
   }
 
   public getTransferFee(request: Omit<SendTokensRequest, 'fromAddress'>): Observable<number> {
-    const wallet = this.authService.getActiveUserInstant().wallet;
-
-    return of(0);
+    return combineLatest([
+      DecentrBankClient.create(this.networkService.getActiveNetworkAPIInstant()),
+      this.authService.getActiveUser(),
+    ]).pipe(
+      switchMap(([client, user]) => client.sendTokens({
+        fromAddress: user.wallet.address,
+        toAddress: request.toAddress,
+        amount: request.amount,
+      }, user.wallet.privateKey).simulate()),
+    );
   }
 
   public transferCoins(
