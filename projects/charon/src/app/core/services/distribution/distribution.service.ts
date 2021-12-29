@@ -65,7 +65,17 @@ export class DistributionService {
   public calculateWithdrawDelegatorRewardsFee(
     validatorAddresses: Validator['operatorAddress'][],
   ): Observable<number> {
-    return of(0);
+    return combineLatest([
+      this.client,
+      this.authService.getActiveUser()
+    ]).pipe(
+      switchMap(([client, user]) => {
+        const requests = validatorAddresses
+          .map((validatorAddress) => ({ validatorAddress, delegatorAddress: user.wallet.address }));
+
+        return client.withdrawDelegatorRewards(requests, user.wallet.privateKey).simulate();
+      }),
+    );
   }
 
   public withdrawDelegatorRewards(
