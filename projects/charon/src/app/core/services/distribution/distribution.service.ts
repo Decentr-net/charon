@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, defer, forkJoin, Observable, of, ReplaySubject } from 'rxjs';
+import { combineLatest, defer, forkJoin, Observable, ReplaySubject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
   Coin,
@@ -114,7 +114,19 @@ export class DistributionService {
   }
 
   public calculateWithdrawValidatorRewardsFee(): Observable<number> {
-    return of(0);
+    return combineLatest([
+      this.client,
+      this.authService.getActiveUser()
+    ]).pipe(
+      switchMap(([client, user]) => {
+        return client.withdrawValidatorRewards(
+          {
+            validatorAddress: user.wallet.validatorAddress,
+          },
+          user.wallet.privateKey,
+        ).simulate();
+      }),
+    );
   }
 
   private createClient(): Promise<DecentrDistributionClient> {
