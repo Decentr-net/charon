@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { CurrencyApiService } from './api';
+import { CoinRateHistoryResponse, CurrencyApiService } from '../api';
 
 export interface CoinRateFor24Hours {
   dayMargin: number;
@@ -40,7 +40,7 @@ export class CurrencyService {
       );
   }
 
-  public getDecentCoinRateHistory(days: number): Observable<any> {
+  public getDecentrCoinRateHistory(days: number): Observable<CoinRateHistoryResponse['prices']> {
     const blockchainId = 'decentr';
     const currencyId = 'usd';
 

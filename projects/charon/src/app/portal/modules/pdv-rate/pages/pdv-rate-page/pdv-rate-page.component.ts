@@ -7,7 +7,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { isOpenedInTab } from '@shared/utils/browser';
 import { addAmountToDate, DateAmountType } from '@shared/utils/date';
 import { BalanceValueDynamic } from '@shared/services/pdv';
-import { CoinRateFor24Hours } from '@shared/services/currency';
+import { CoinRateFor24Hours } from '@core/services';
 import { PdvRatePageService, PdvReward } from './pdv-rate-page.service';
 import { PdvChartPoint } from '../../components/pdv-rate-chart';
 import { SvgIconRegistry } from '@ngneat/svg-icon';

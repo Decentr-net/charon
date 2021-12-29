@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { CoinRateFor24Hours } from '@shared/services/currency';
+import { CoinRateFor24Hours } from '@core/services';
 import { AdvDdvStatistics, BalanceValueDynamic } from '@shared/services/pdv';
 import { HubCurrencyStatistics } from '../hub-currency-statistics';
 import { HubHeaderStatsMetaService } from './hub-header-stats-meta.service';
