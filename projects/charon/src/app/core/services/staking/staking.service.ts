@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, defer, forkJoin, Observable, of } from 'rxjs';
+import { combineLatest, defer, forkJoin, Observable, of, ReplaySubject } from 'rxjs';
 import { catchError, map, mergeMap, pluck, switchMap, tap } from 'rxjs/operators';
 import {
   Coin,
@@ -26,11 +26,15 @@ import { NetworkService } from '../network';
 
 @Injectable()
 export class StakingService {
+  private client: ReplaySubject<DecentrStakingClient> = new ReplaySubject(1);
+
   constructor(
     private authService: AuthService,
     private configService: ConfigService,
     private networkService: NetworkService,
   ) {
+    this.createClient()
+      .then(client => this.client.next(client));
   }
 
   public delegateTokens(request: Omit<DelegateTokensRequest, 'delegatorAddress'>): Observable<void> {
@@ -50,7 +54,7 @@ export class StakingService {
 
   public getDelegationFee(request: Omit<DelegateTokensRequest, 'delegatorAddress'>): Observable<number> {
     return combineLatest([
-      DecentrStakingClient.create(this.networkService.getActiveNetworkAPIInstant()),
+      this.client,
       this.authService.getActiveUser(),
     ]).pipe(
       switchMap(([client, user]) => client.delegateTokens({
@@ -81,7 +85,7 @@ export class StakingService {
     request: Omit<RedelegateTokensRequest, 'delegatorAddress'>,
   ): Observable<number> {
     return combineLatest([
-      DecentrStakingClient.create(this.networkService.getActiveNetworkAPIInstant()),
+      this.client,
       this.authService.getActiveUser(),
     ]).pipe(
       switchMap(([client, user]) => client.redelegateTokens({
@@ -95,7 +99,7 @@ export class StakingService {
     validatorAddress: Validator['operatorAddress'],
   ): Observable<UnbondingDelegationEntry[]> {
     return combineLatest([
-      this.createClient(),
+      this.client,
       this.authService.getActiveUserAddress(),
     ]).pipe(
       switchMap(([client, walletAddress]) => client.getUnbondingDelegation(walletAddress, validatorAddress)),
@@ -122,7 +126,7 @@ export class StakingService {
 
   public getUndelegationFee(request: Omit<UndelegateTokensRequest, 'delegatorAddress'>,): Observable<number> {
     return combineLatest([
-      DecentrStakingClient.create(this.networkService.getActiveNetworkAPIInstant()),
+      this.client,
       this.authService.getActiveUser(),
     ]).pipe(
       switchMap(([client, user]) => client.undelegateTokens({
@@ -147,7 +151,7 @@ export class StakingService {
 
   public getUnbondingDelegations(): Observable<UnbondingDelegation[]> {
     return combineLatest([
-      this.createClient(),
+      this.client,
       this.authService.getActiveUserAddress(),
     ]).pipe(
       switchMap(([client, walletAddress]) => client.getUnbondingDelegations(walletAddress)),
@@ -158,7 +162,7 @@ export class StakingService {
     validatorAddress: Validator['operatorAddress'],
   ): Observable<UnbondingDelegationEntry[]> {
     return combineLatest([
-      this.createClient(),
+      this.client,
       this.authService.getActiveUserAddress(),
     ]).pipe(
       switchMap(([client, walletAddress]) => client.getUnbondingDelegation(walletAddress, validatorAddress)),
@@ -168,7 +172,7 @@ export class StakingService {
 
   public getDelegations(): Observable<DelegationResponse[]> {
     return combineLatest([
-      this.createClient(),
+      this.client,
       this.authService.getActiveUserAddress(),
     ]).pipe(
       switchMap(([client, walletAddress]) => client.getDelegations(walletAddress)),
@@ -177,7 +181,7 @@ export class StakingService {
 
   public getValidatorDelegation(validatorAddress: Validator['operatorAddress']): Observable<Coin> {
     return combineLatest([
-      this.createClient(),
+      this.client,
       this.authService.getActiveUserAddress(),
     ]).pipe(
       switchMap(([client, walletAddress]) => client.getDelegation(
@@ -192,7 +196,7 @@ export class StakingService {
     destinationValidatorAddress: Validator['operatorAddress'],
   ): Observable<RedelegationResponse[]> {
     return combineLatest([
-      this.createClient(),
+      this.client,
       this.authService.getActiveUserAddress(),
     ]).pipe(
       switchMap(([client, walletAddress]) => client.getRedelegations(
@@ -230,13 +234,13 @@ export class StakingService {
   }
 
   public getPool(): Observable<Pool> {
-    return defer(() => this.createClient()).pipe(
+    return this.client.pipe(
       mergeMap((client) => client.getPool()),
     );
   }
 
   public getValidators(onlyBonded: boolean = false): Observable<Validator[]> {
-    return defer(() => this.createClient()).pipe(
+    return this.client.pipe(
       mergeMap((client) => forkJoin([
         client.getValidators('BOND_STATUS_BONDED'),
         ...onlyBonded
@@ -256,13 +260,13 @@ export class StakingService {
   }
 
   public getValidator(address: Validator['operatorAddress']): Observable<Validator> {
-    return defer(() => this.createClient()).pipe(
+    return this.client.pipe(
       mergeMap((client) => client.getValidator(address)),
     );
   }
 
   public getStakingParameters(): Observable<StakingParams> {
-    return defer(() => this.createClient()).pipe(
+    return this.client.pipe(
       mergeMap((client) => client.getStakingParameters()),
     );
   }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, defer, forkJoin, Observable, of } from 'rxjs';
+import { combineLatest, defer, forkJoin, Observable, of, ReplaySubject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
   Coin,
@@ -16,15 +16,19 @@ import { NetworkService } from '../network';
 
 @Injectable()
 export class DistributionService {
+  private client: ReplaySubject<DecentrDistributionClient> = new ReplaySubject(1);
+
   constructor(
     private authService: AuthService,
     private networkService: NetworkService,
   ) {
+    this.createClient()
+      .then(client => this.client.next(client));
   }
 
   public getDelegatorRewards(): Observable<QueryDelegationTotalRewardsResponse> {
     return combineLatest([
-      this.createClient(),
+      this.client,
       this.authService.getActiveUserAddress(),
     ]).pipe(
       switchMap(([client, walletAddress]) => client.getDelegatorRewards(
@@ -35,7 +39,7 @@ export class DistributionService {
 
   public getValidatorRewards(): Observable<Coin[]> {
     return combineLatest([
-      this.createClient(),
+      this.client,
       this.authService.getActiveUser()
     ]).pipe(
       switchMap(([client, user]) => forkJoin([
