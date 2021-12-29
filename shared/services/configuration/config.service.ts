@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { delay, filter, map, retryWhen, take } from 'rxjs/operators';
 import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 
@@ -9,7 +8,6 @@ import { ConfigApiService } from './config-api.service';
 import { Config, Network } from './config.definitions';
 import { NetworkBrowserStorageService } from '../network-storage';
 
-@Injectable()
 export class ConfigService {
   private config$: ReplaySubject<Config> = new ReplaySubject(1);
   private pendingConfig: boolean;

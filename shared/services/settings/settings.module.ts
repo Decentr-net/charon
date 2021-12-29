@@ -7,7 +7,7 @@ export class SettingsModule {
     return {
       ngModule: SettingsModule,
       providers: [
-        SettingsService,
+        SettingsService
       ],
     };
   }

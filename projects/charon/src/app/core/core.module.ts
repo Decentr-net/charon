@@ -96,7 +96,10 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     CORE_GUARDS,
     CORE_SERVICES,
     INTERCEPTORS_PROVIDERS,
-    NetworkBrowserStorageService,
+    {
+      provide: NetworkBrowserStorageService,
+      useClass: NetworkBrowserStorageService,
+    },
     {
       provide: BaseNetworkSelectorService,
       useExisting: NetworkSelectorService,

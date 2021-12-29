@@ -1,4 +1,4 @@
-import { ConfigService } from '../../../../shared/services/configuration';
+import { ConfigService } from '../../../../shared/services/configuration/config.service';
 import { NetworkBrowserStorageService } from '../../../../shared/services/network-storage';
 import { environment } from '../../../../environments/environment';
 

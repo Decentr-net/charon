@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { defer, Observable } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 import { PDV, Wallet } from 'decentr-js';
@@ -11,7 +10,6 @@ interface PDVStorageUserValue {
 
 type PDVStorageValue = Record<Wallet['address'], PDVStorageUserValue>;
 
-@Injectable()
 export class PDVStorageService {
   private readonly browserStorage
     = BrowserLocalStorage.getInstance().useSection<PDVStorageValue>('pdv');
