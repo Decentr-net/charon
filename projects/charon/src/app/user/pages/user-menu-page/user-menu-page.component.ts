@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, filter, finalize, map, mergeMap, pluck, switchMap, tap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
@@ -16,7 +16,6 @@ import { svgRefresh } from '@shared/svg-icons/refresh';
 import { svgSettings } from '@shared/svg-icons/settings';
 import { ConfirmationDialogService } from '@shared/components/confirmation-dialog';
 import { NotificationService } from '@shared/services/notification';
-import { PDVService } from '@shared/services/pdv';
 import { AuthService } from '@core/auth';
 import { LockService } from '@core/lock';
 import { SpinnerService, UserService } from '@core/services';
@@ -46,7 +45,6 @@ export class UserMenuPageComponent implements OnInit {
     private lockService: LockService,
     private matDialog: MatDialog,
     private notificationService: NotificationService,
-    private pdvService: PDVService,
     private spinnerService: SpinnerService,
     private translocoService: TranslocoService,
     private userService: UserService,
@@ -70,9 +68,8 @@ export class UserMenuPageComponent implements OnInit {
       catchError(() => EMPTY),
     );
 
-    this.banned$ = this.pdvService.getTokenBalance().pipe(
-      map((balance) => balance.isBanned),
-    );
+    // TODO
+    this.banned$ = of(false);
 
     this.canRestoreSeed$ = this.authService.getActiveUser().pipe(
       map((user) => !!user?.encryptedSeed),

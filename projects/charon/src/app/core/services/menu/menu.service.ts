@@ -3,11 +3,9 @@ import { Router } from '@angular/router';
 import { combineLatest, EMPTY, Observable } from 'rxjs';
 import {
   catchError,
-  distinctUntilChanged,
   filter,
   map,
   mergeMap,
-  pluck,
   share,
   startWith,
   switchMap,
@@ -24,8 +22,7 @@ import {
   MenuUserProfile
 } from '@shared/components/menu';
 
-import { BankService } from '@core/services';
-import { PDVService } from '@shared/services/pdv';
+import { BankService, PDVService } from '@core/services';
 import { isOpenedInTab } from '@shared/utils/browser';
 import { Environment } from '@environments/environment.definitions';
 import { AppRoute } from '../../../app-route';
@@ -163,7 +160,7 @@ export class MenuService extends MenuBaseService {
   public getUserItem(): Observable<MenuUserItem> {
     return combineLatest([
       this.getUserProfile(),
-      this.pdvService.getBalanceLive(),
+      this.pdvService.getBalance(),
       this.getDECBalance(),
     ]).pipe(
       map(([user, pdvValue, decValue]) => ({
@@ -186,9 +183,7 @@ export class MenuService extends MenuBaseService {
   }
 
   private getProfile(): Observable<Profile> {
-    return this.authService.getActiveUser().pipe(
-      pluck('wallet', 'address'),
-      distinctUntilChanged(),
+    return this.authService.getActiveUserAddress().pipe(
       switchMap((walletAddress) => this.userService.onProfileChanged(walletAddress).pipe(
         startWith(0),
         mergeMap(() => this.userService.getProfile(walletAddress)),

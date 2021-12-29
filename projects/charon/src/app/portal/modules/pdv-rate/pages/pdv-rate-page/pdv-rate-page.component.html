@@ -91,12 +91,8 @@
       class="pdv-rate__rewards__height"
       [appTypeface]="isOpenedInPopup ? 'caption' : 'paragraph'"
     >
-      {{
-        translate('time', {
-          nextHeight: +pdvReward.nextDistributionHeight | numberFormat : null : true,
-          currentHeight: +pdvReward.latestBlock | numberFormat : null : true
-        })
-      }}
+      {{ translate('time') }}
+      {{ pdvReward.nextDistributionDate | date : 'd MMMM y, HH:mm:ss' }}
     </div>
 
     <button

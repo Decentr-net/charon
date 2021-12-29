@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { Profile } from 'decentr-js';
 
 import { svgWallet } from '@shared/svg-icons/wallet';
-import { PDVService } from '@shared/services/pdv';
 import { BankService, UserService } from '@core/services';
 import { AuthService } from '@core/auth';
 
@@ -23,7 +22,6 @@ export class ProfileCardComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private bankService: BankService,
-    private pdvService: PDVService,
     private svgIconRegistry: SvgIconRegistry,
     private userService: UserService,
   ) {
@@ -40,8 +38,7 @@ export class ProfileCardComponent implements OnInit {
       switchMap((walletAddress) => this.userService.getProfile(walletAddress)),
     );
 
-    this.banned$ = this.pdvService.getTokenBalance().pipe(
-      map((balance) => balance.isBanned),
-    );
+    // TODO
+    this.banned$ = of(false);
   }
 }

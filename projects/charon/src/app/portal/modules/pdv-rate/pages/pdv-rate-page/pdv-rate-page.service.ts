@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { combineLatest, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
-import { BalanceValueDynamic, PDVService } from '@shared/services/pdv';
-import { BlocksService, CoinRateFor24Hours, CurrencyService } from '@core/services';
+import { BalanceValueDynamic, BlocksService, CoinRateFor24Hours, CurrencyService, PDVService } from '@core/services';
 import { PdvChartPoint } from '../../components/pdv-rate-chart';
 
 export interface PdvReward {
-  latestBlock: number;
-  nextDistributionHeight: string;
+  nextDistributionDate: Date;
   reward: number;
 }
 
@@ -28,11 +26,11 @@ export class PdvRatePageService {
   }
 
   public getPdvRateWithMargin(): Observable<BalanceValueDynamic> {
-    return this.pdvService.getBalanceWithMarginLive(false);
+    return this.pdvService.getBalanceWithMargin();
   }
 
   public getPdvChartPoints(): Observable<PdvChartPoint[]> {
-    return this.pdvService.getPDVStatChartPointsLive().pipe(
+    return this.pdvService.getPDVStatChartPoints().pipe(
       map((chartPoints) => {
         return chartPoints.map((chartPoint) => [chartPoint.date, chartPoint.value]);
       }),
@@ -40,15 +38,11 @@ export class PdvRatePageService {
   }
 
   public getPdvReward(): Observable<PdvReward> {
-    return combineLatest([
-      this.pdvService.getTokenBalance(),
-      this.pdvService.getTokenPool(),
-      this.blocksService.getBlock(),
-    ]).pipe(
-      map(([balance, pool, latestBlock]) => ({
-        latestBlock: latestBlock.header.height,
-        nextDistributionHeight: pool.nextDistributionHeight,
-        reward: +pool.size[0].amount / +pool.totalDelta * +balance.balanceDelta,
+    return this.pdvService.getPDVDelta().pipe(
+      tap(console.log),
+      map((pdvDelta) => ({
+        nextDistributionDate: new Date(pdvDelta.pool.next_distribution_date),
+        reward: +pdvDelta.pool.size / +pdvDelta.pool.total_delta * +pdvDelta.delta,
       })),
     );
   }

@@ -2,17 +2,16 @@ import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angula
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { isOpenedInTab } from '@shared/utils/browser';
-import { addAmountToDate, DateAmountType } from '@shared/utils/date';
-import { BalanceValueDynamic } from '@shared/services/pdv';
-import { CoinRateFor24Hours } from '@core/services';
-import { PdvRatePageService, PdvReward } from './pdv-rate-page.service';
-import { PdvChartPoint } from '../../components/pdv-rate-chart';
-import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
 import { svgPublish } from '@shared/svg-icons/publish';
+import { isOpenedInTab } from '@shared/utils/browser';
+import { addAmountToDate, DateAmountType } from '@shared/utils/date';
+import { BalanceValueDynamic, CoinRateFor24Hours } from '@core/services';
+import { PdvRatePageService, PdvReward } from './pdv-rate-page.service';
+import { PdvChartPoint } from '../../components/pdv-rate-chart';
 import { RewardsHistoryComponent } from '../../components/rewards-histrory';
 
 interface FilterButton {

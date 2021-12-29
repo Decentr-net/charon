@@ -8,6 +8,7 @@ import { HelpService } from './help';
 import { ImageUploaderService } from './image-uploader';
 import { NetworkSelectorService } from './network-selector';
 import { NetworkService } from './network';
+import { PDVService } from './pdv';
 import { PostsService } from './posts';
 import { ReferralService } from './referral';
 import { SpinnerService } from './spinner';
@@ -25,6 +26,7 @@ export * from './help';
 export * from './menu';
 export * from './network';
 export * from './network-selector';
+export * from './pdv';
 export * from './posts';
 export * from './referral';
 export * from './spinner';
@@ -43,6 +45,7 @@ export const CORE_SERVICES = [
   ImageUploaderService,
   NetworkSelectorService,
   NetworkService,
+  PDVService,
   PostsService,
   ReferralService,
   SpinnerService,

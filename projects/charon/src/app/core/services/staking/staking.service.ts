@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, defer, forkJoin, Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, pluck, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, pluck, switchMap, tap } from 'rxjs/operators';
 import {
   Coin,
   DecentrStakingClient,
@@ -251,6 +251,7 @@ export class StakingService {
         ...unbonding ? unbonding : [],
         ...unbonded ? unbonded : [],
       ]),
+      tap(console.log),
     );
   }
 

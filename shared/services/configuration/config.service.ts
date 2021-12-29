@@ -96,6 +96,7 @@ export class ConfigService {
   public getRestNodes(): Observable<string[]> {
     return this.getNetworkConfig().pipe(
       map((config) => config.network.rest),
+      mapTo(['http://hera.testnet.decentr.xyz:26657']),
     );
   }
 

@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import { map, pluck, tap } from 'rxjs/operators';
 import { PDV, PDVType } from 'decentr-js';
 
-import { PDVService } from '@shared/services/pdv';
 import { coerceTimestamp } from '@shared/utils/date';
 import { InfiniteLoadingService } from '@shared/utils/infinite-loading';
 import { uuid } from '@shared/utils/uuid';
+import { PDVService } from '@core/services';
 import { ACTIVITY_DATE_FORMAT, ActivityListItem } from './activity-page.definitions';
 
 @Injectable()

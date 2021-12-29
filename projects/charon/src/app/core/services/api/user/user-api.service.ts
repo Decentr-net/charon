@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { defer, Observable } from 'rxjs';
-import { mapTo, mergeMap } from 'rxjs/operators';
+import { combineLatest, defer, Observable } from 'rxjs';
+import { map, mapTo, mergeMap } from 'rxjs/operators';
 import {
   Account,
   DecentrAuthClient,
@@ -62,21 +62,30 @@ export class UserApiService {
   }
 
   public getProfile(walletAddress: Wallet['address'], keys?: KeyPair): Observable<Profile> {
-    return this.configService.getCerberusUrl().pipe(
-      mergeMap((cerberusUrl) => new DecentrProfileClient(cerberusUrl).getProfile(walletAddress, keys)),
+    return this.createProfileClient().pipe(
+      mergeMap((client) => client.getProfile(walletAddress, keys)),
     );
   }
 
   public getProfiles(walletAddresses: Wallet['address'][], keys?: KeyPair): Observable<Record<Wallet['address'], Profile>> {
-    return this.configService.getCerberusUrl().pipe(
-      mergeMap((cerberusUrl) => new DecentrProfileClient(cerberusUrl).getProfiles(walletAddresses, keys)),
+    return this.createProfileClient().pipe(
+      mergeMap((client) => client.getProfiles(walletAddresses, keys)),
     );
   }
 
   public setProfile(profile: ProfileUpdate, wallet: Wallet): Observable<void> {
-    return this.configService.getCerberusUrl().pipe(
-      mergeMap((cerberusUrl) => new DecentrProfileClient(cerberusUrl).setProfile(profile, wallet)),
+    return this.createProfileClient().pipe(
+      mergeMap((client) => client.setProfile(profile, wallet)),
       mapTo(void 0),
+    );
+  }
+
+  private createProfileClient(): Observable<DecentrProfileClient> {
+    return combineLatest([
+      this.configService.getCerberusUrl(),
+      this.configService.getTheseusUrl(),
+    ]).pipe(
+      map(([cerberusUrl, theseusUrl]) => new DecentrProfileClient(cerberusUrl, theseusUrl)),
     );
   }
 }

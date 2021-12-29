@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, defer, Observable } from 'rxjs';
-import { filter, first, map, mapTo, mergeMapTo, skip } from 'rxjs/operators';
+import { distinctUntilChanged, filter, first, map, mapTo, mergeMapTo, skip } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AuthBrowserStorageService } from '@shared/services/auth';
@@ -52,6 +52,7 @@ export class AuthService {
   public getActiveUserAddress(): Observable<Wallet['address'] | undefined> {
     return this.getActiveUser().pipe(
       map((user) => user?.wallet?.address),
+      distinctUntilChanged(),
     );
   }
 
