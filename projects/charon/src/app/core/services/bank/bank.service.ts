@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DecentrBankClient, Coin, SendTokensRequest } from 'decentr-js';
-import { combineLatest, defer, Observable, of } from 'rxjs';
+import { combineLatest, defer, Observable, of, ReplaySubject } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { MessageBus } from '@shared/message-bus';
@@ -11,15 +11,19 @@ import { NetworkService } from '../network';
 
 @Injectable()
 export class BankService {
+  private client: ReplaySubject<DecentrBankClient> = new ReplaySubject(1);
+
   constructor(
     private authService: AuthService,
     private networkService: NetworkService,
   ) {
+    this.createClient()
+      .then(client => this.client.next(client));
   }
 
   public getDECBalance(): Observable<string> {
     return combineLatest([
-      this.createAPIClient(),
+      this.client,
       this.authService.getActiveUserAddress(),
     ]).pipe(
       switchMap(([client, walletAddress]) => client.getDenomBalance(walletAddress)),
@@ -30,7 +34,7 @@ export class BankService {
 
   public getTransferFee(request: Omit<SendTokensRequest, 'fromAddress'>): Observable<number> {
     return combineLatest([
-      DecentrBankClient.create(this.networkService.getActiveNetworkAPIInstant()),
+      this.client,
       this.authService.getActiveUser(),
     ]).pipe(
       switchMap(([client, user]) => client.sendTokens({
@@ -61,19 +65,7 @@ export class BankService {
     );
   }
 
-  // public searchTransactions(
-  //   parameters?: TXsSearchParameters,
-  // ): Observable<TXsSearchResponse> {
-  //   return this.networkService.getActiveNetworkAPI().pipe(
-  //     take(1),
-  //     switchMap((apiUrl) => this.bankApiService.searchTransactions(
-  //       apiUrl,
-  //       parameters,
-  //     )),
-  //   );
-  // }
-
-  private createAPIClient(): Promise<DecentrBankClient> {
+  private createClient(): Promise<DecentrBankClient> {
     const api = this.networkService.getActiveNetworkAPIInstant();
 
     return DecentrBankClient.create(api);

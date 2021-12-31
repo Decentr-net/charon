@@ -28,9 +28,7 @@ export interface CharonAPIMessageBusMap extends MessageMap {
       request: CreatePostRequest;
       privateKey: Wallet['privateKey'];
     };
-    response: MessageResponse & {
-      messageValue?: any;
-    };
+    response: MessageResponse;
   };
   [MessageCode.PostDelete]: {
     body: {

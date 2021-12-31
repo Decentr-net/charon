@@ -12,6 +12,7 @@ import { BaseValidationUtil } from '@shared/utils/validation';
 import { getHTMLImagesCount } from '@shared/utils/html';
 import { svgAddImage } from '@shared/svg-icons/add-image';
 import { svgClear } from '@shared/svg-icons/clear';
+import { PostCreate } from '@core/services';
 
 @UntilDestroy()
 @Component({
@@ -36,10 +37,10 @@ import { svgClear } from '@shared/svg-icons/clear';
     },
   ],
 })
-export class HubPostEditorComponent extends ControlValueAccessor<CreatePostRequest> implements Validator {
+export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> implements Validator {
   @Input() public formId: string;
 
-  public form: FormGroup<ControlsOf<CreatePostRequest>>;
+  public form: FormGroup<ControlsOf<PostCreate>>;
 
   public imagesCount$: Observable<number>;
   public readonly maxImagesCount = 5;
@@ -115,7 +116,7 @@ export class HubPostEditorComponent extends ControlValueAccessor<CreatePostReque
     });
   }
 
-  private createForm(): FormGroup<ControlsOf<CreatePostRequest>> {
+  private createForm(): FormGroup<ControlsOf<PostCreate>> {
     return this.formBuilder.group({
       category: this.formBuilder.control(
         null,

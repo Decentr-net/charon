@@ -1,13 +1,37 @@
 import { Injectable } from '@angular/core';
-import { defer, Observable, of, Subject } from 'rxjs';
-import { catchError, delay, filter, mapTo, mergeMap, repeat, retryWhen, skipWhile, take, tap } from 'rxjs/operators';
-import { Account, KeyPair, Profile, ProfileUpdate, Wallet } from 'decentr-js';
+import { combineLatest, defer, Observable, of, ReplaySubject, Subject } from 'rxjs';
+import {
+  catchError,
+  delay,
+  filter,
+  map,
+  mapTo,
+  mergeMap,
+  repeat,
+  retryWhen,
+  skipWhile,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
+import {
+  Account,
+  DecentrAuthClient,
+  DecentrCommunityClient,
+  DecentrProfileClient,
+  KeyPair,
+  Profile,
+  ProfileUpdate,
+  Wallet,
+} from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
+import { ConfigService } from '@shared/services/configuration';
 import { PDVStorageService } from '@shared/services/pdv';
 import { SettingsService } from '@shared/services/settings';
-import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
+import { AuthService } from '../../auth';
 import { NetworkService } from '../network';
 import { UserApiService } from '../api';
 
@@ -15,14 +39,24 @@ import { UserApiService } from '../api';
   providedIn: 'root',
 })
 export class UserService {
+  private authClient: ReplaySubject<DecentrAuthClient> = new ReplaySubject(1);
+  private profileClient: ReplaySubject<DecentrProfileClient> = new ReplaySubject(1);
+
   private profileChanged$: Subject<Wallet['address']> = new Subject();
 
   constructor(
+    private authService: AuthService,
+    private configService: ConfigService,
     private networkService: NetworkService,
     private pdvStorageService: PDVStorageService,
     private settingsService: SettingsService,
     private userApiService: UserApiService,
   ) {
+    this.createAuthClient()
+      .then((client) => this.authClient.next(client));
+
+    this.createProfileClient()
+      .then((client) => this.profileClient.next(client));
   }
 
   public createUser(email: string, walletAddress: string): Observable<void> {
@@ -38,16 +72,17 @@ export class UserService {
   }
 
   public getAccount(walletAddress: string): Observable<Account | undefined> {
-    return this.userApiService.getAccount(
-      this.networkService.getActiveNetworkAPIInstant(),
-      walletAddress,
+    return this.authClient.pipe(
+      take(1),
+      switchMap((client) => client.getAccount(walletAddress)),
     );
   }
 
   public getModeratorAddresses(): Observable<Wallet['address'][]> {
-    return this.userApiService.getModeratorAddresses(
-      this.networkService.getActiveNetworkAPIInstant(),
-    ).pipe(
+    const nodeUrl = this.networkService.getActiveNetworkAPIInstant();
+
+    return defer(() => DecentrCommunityClient.create(nodeUrl)).pipe(
+      mergeMap((client) => client.getModeratorAddresses()),
       catchError(() => of([])),
     );
   }
@@ -66,17 +101,25 @@ export class UserService {
   }
 
   public getProfile(walletAddress: string, keys?: KeyPair): Observable<Profile> {
-    return this.userApiService.getProfile(walletAddress, keys);
+    return this.profileClient.pipe(
+      take(1),
+      mergeMap((client) => client.getProfile(walletAddress, keys)),
+    );
   }
 
   public getProfiles(walletAddresses: Wallet['address'][], keys?: KeyPair): Observable<Record<Wallet['address'], Profile>> {
-    return this.userApiService.getProfiles(walletAddresses, keys);
+    return this.profileClient.pipe(
+      take(1),
+      mergeMap((client) => client.getProfiles(walletAddresses, keys)),
+    );
   }
 
-  public setProfile(profile: ProfileUpdate, wallet: Wallet): Observable<void> {
-    return this.userApiService.setProfile({
-      ...profile,
-    }, wallet).pipe(
+  public setProfile(profile: ProfileUpdate): Observable<void> {
+    const wallet = this.authService.getActiveUserInstant().wallet;
+
+    return this.profileClient.pipe(
+      mergeMap((client) => client.setProfile(profile, wallet)),
+      mapTo(void 0),
       tap(() => this.profileChanged$.next(wallet.address)),
     );
   }
@@ -94,11 +137,7 @@ export class UserService {
         privateKey,
       })
     ).pipe(
-      tap((response) => {
-        if (!response.success) {
-          throw response.error;
-        }
-      }),
+      map(assertMessageResponseSuccess),
       mergeMap(() => this.settingsService.getUserSettingsService(walletAddress).clear()),
       mergeMap(() => this.pdvStorageService.clearUserPDV(walletAddress)),
     );
@@ -109,5 +148,21 @@ export class UserService {
       filter((walletAddressChanged) => walletAddressChanged === walletAddress),
       mapTo(void 0),
     );
+  }
+
+  private createAuthClient(): Promise<DecentrAuthClient> {
+    const api = this.networkService.getActiveNetworkAPIInstant();
+
+    return DecentrAuthClient.create(api);
+  }
+
+  private createProfileClient(): Promise<DecentrProfileClient> {
+    return combineLatest([
+      this.configService.getCerberusUrl(),
+      this.configService.getTheseusUrl(),
+    ]).pipe(
+      take(1),
+      map(([cerberusUrl, theseusUrl]) => new DecentrProfileClient(cerberusUrl, theseusUrl)),
+    ).toPromise();
   }
 }

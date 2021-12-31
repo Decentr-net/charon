@@ -6,26 +6,19 @@ import { TranslocoService } from '@ngneat/transloco';
 
 import { ProfileUpdate } from 'decentr-js';
 
-import { AuthService } from '@core/auth';
 import { UserService } from '@core/services';
 import { TranslatedError } from '@core/notifications';
 
 @Injectable()
 export class CompleteRegistrationPageService {
   constructor(
-    private authService: AuthService,
     private translocoService: TranslocoService,
     private userService: UserService,
   ) {
   }
 
   public updateUser(update: ProfileUpdate): Observable<void> {
-    const user = this.authService.getActiveUserInstant();
-
-    return this.userService.setProfile(
-      update,
-      user.wallet,
-    ).pipe(
+    return this.userService.setProfile(update).pipe(
       delay(100),
       catchError((error) => {
         switch (error?.response?.status) {

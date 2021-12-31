@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
@@ -39,10 +39,11 @@ export class PdvRatePageService {
 
   public getPdvReward(): Observable<PdvReward> {
     return this.pdvService.getPDVDelta().pipe(
-      tap(console.log),
       map((pdvDelta) => ({
         nextDistributionDate: new Date(pdvDelta.pool.next_distribution_date),
-        reward: +pdvDelta.pool.size / +pdvDelta.pool.total_delta * +pdvDelta.delta,
+        reward: +pdvDelta.delta
+          ? +pdvDelta.pool.size / +pdvDelta.pool.total_delta * +pdvDelta.delta
+          : 0,
       })),
     );
   }

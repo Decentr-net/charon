@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
 import { defer, forkJoin, Observable, of } from 'rxjs';
 import { catchError, map, mapTo, mergeMap, take, tap } from 'rxjs/operators';
-import { CreatePostRequest, LikeWeight, Post } from 'decentr-js';
+import { LikeWeight, Post } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
 import { getArrayUniqueValues } from '@shared/utils/array';
 import { ConfigService } from '@shared/services/configuration';
 import { ONE_SECOND } from '@shared/utils/date';
 import { retryTimes } from '@shared/utils/observable';
-import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { uuid } from '@shared/utils/uuid';
+import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
 import { PostsApiService, PostsListFilterOptions } from '../api';
 import { AuthService } from '../../auth';
 import { NetworkSelectorService } from '../network-selector';
 import { UserService } from '../user';
-import { PostsListItem } from './posts.definitions';
+import { PostCreate, PostsListItem } from './posts.definitions';
 
 @Injectable()
 export class PostsService {
@@ -88,23 +89,20 @@ export class PostsService {
   }
 
   public createPost(
-    request: CreatePostRequest,
+    request: PostCreate,
   ): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
+    const owner = wallet.address;
+    const postId = uuid();
+
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.PostCreate, {
-        request,
-        privateKey: wallet.privateKey
+        request: { ...request, owner, uuid: postId },
+        privateKey: wallet.privateKey,
       })).pipe(
-        map((response) => {
-          if (!response.success) {
-            throw response.error;
-          }
-
-          return response.messageValue;
-        }),
-        mergeMap((createdPost) => this.getPost(createdPost).pipe(
+        map((response) => assertMessageResponseSuccess(response)),
+        mergeMap(() => this.getPost({ owner, uuid: postId }).pipe(
           retryTimes(10, ONE_SECOND),
           mapTo(void 0),
         )),
