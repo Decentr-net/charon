@@ -20,11 +20,10 @@ export class EmailConfirmationGuard implements CanActivate {
       return false;
     }
 
-    return false;
-    // const wallet = authService.getActiveUserInstant().wallet;
-    // const account = await userService.getAccount(wallet.address).toPromise();
+    const wallet = authService.getActiveUserInstant().wallet;
+    const account = await userService.getAccount(wallet.address).toPromise();
 
-    // return !account;
+    return !account;
   }
 
   public async canActivate(
