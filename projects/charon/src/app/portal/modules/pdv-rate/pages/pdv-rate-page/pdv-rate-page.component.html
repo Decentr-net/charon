@@ -94,20 +94,6 @@
       {{ translate('time') }}
       {{ pdvReward.nextDistributionDate | date : 'd MMMM y, HH:mm:ss' }}
     </div>
-
-    <button
-      app-button
-      color="grey"
-      (click)="openRewardsHistoryPopup()"
-    >
-      <svg-icon
-        class="pdv-rate__rewards__open-log__icon"
-        key="publish"
-        [size]="isOpenedInPopup ? 'sm' : 'md'"
-      ></svg-icon>
-
-      {{ translate('view_log') }}
-    </button>
   </ng-container>
 </div>
 
