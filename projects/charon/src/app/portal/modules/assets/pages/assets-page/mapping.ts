@@ -8,7 +8,7 @@ export const mapSendTransaction = (
   walletAddress: Wallet['address'],
 ): TokenTransactionMessage => {
   return {
-    amount: (msg.fromAddress === walletAddress ? 1 : -1) * +msg.amount[0].amount,
+    amount: (msg.fromAddress === walletAddress ? -1 : 1) * +msg.amount[0].amount,
     comment: tx.tx.body.memo,
     fee: tx.tx.authInfo.fee.amount[0].amount,
     hash: tx.hash,

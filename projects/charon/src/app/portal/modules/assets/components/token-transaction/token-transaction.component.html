@@ -57,13 +57,13 @@
   <ng-template #sendTemplate>
     <svg-icon
       class="token-transaction__icon"
-      [class.color-negative]="message.sender === walletAddress"
-      [class.color-positive]="message.recipient === walletAddress"
-      [key]="message.sender === walletAddress ? 'send' : 'receive'"
+      [class.color-negative]="message.amount < 0"
+      [class.color-positive]="message.amount >= 0"
+      [key]="message.amount > 0 ? 'receive' : 'send'"
     ></svg-icon>
 
     <div class="token-transaction__operation">
-      {{ translate(message.sender === walletAddress ? 'sent' : 'received') }}
+      {{ translate(message.amount < 0 ? 'sent' : 'received') }}
 
       <app-token-transactions-actions
         *ngIf="transaction?.hash"
@@ -77,11 +77,11 @@
     ></app-token-transaction-amount>
 
     <div class="token-transaction__address" appTextEllipsis appTypeface="caption">
-      <ng-container *ngIf="message.recipient === walletAddress">
-        {{ translate('to') }}: {{ message.sender }}
+      <ng-container *ngIf="message.amount < 0">
+        {{ translate('to') }}: {{ message.recipient }}
       </ng-container>
 
-      <ng-container *ngIf="message.sender === walletAddress">
+      <ng-container *ngIf="message.amount > 0">
         {{ translate('from') }}: {{ message.sender }}
       </ng-container>
     </div>
@@ -110,7 +110,7 @@
 
     <app-token-transaction-amount
       class="token-transaction__amount"
-      [amount]="message.amount.amount"
+      [amount]="message.amount"
     ></app-token-transaction-amount>
 
     <div class="token-transaction__address" appTextEllipsis appTypeface="caption">
