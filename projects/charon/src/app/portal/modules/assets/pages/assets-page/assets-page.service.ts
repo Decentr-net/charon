@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { combineLatest, Observable, of, ReplaySubject } from 'rxjs';
-import { distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, mergeMap } from 'rxjs/operators';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { DecentrTxClient, DecodedIndexedTx, TxMessageTypeUrl, TxMessageValue } from 'decentr-js';
 
@@ -9,7 +9,12 @@ import { AuthService } from '@core/auth';
 import { BankService, BlocksService, NetworkService } from '@core/services';
 import { Asset } from './assets-page.definitions';
 import { TokenTransactionMessage } from '../../components/token-transactions-table';
-import { mapSendTransaction } from './mapping';
+import {
+  mapDelegateTransaction,
+  mapSendTransaction,
+  mapUndelegateTransaction,
+  mapWithdrawDelegatorReward,
+} from './mapping';
 
 @UntilDestroy()
 @Injectable()
@@ -31,6 +36,14 @@ export class AssetsPageService
       .then((client) => this.txClient.next(client));
 
     this.searchTransactions().subscribe(console.log);
+
+    this.searchTransactions().pipe(
+      map(tx => tx.reduce((a, t) => [...a, ...t.tx.body.messages.map(t => t.typeUrl)], []))
+    ).subscribe(console.log);
+
+    this.searchTransactions().pipe(
+      map(tx => tx.reduce((a, t) => [...a, ...JSON.parse(t.rawLog)], []))
+    ).subscribe(console.log);
 
     this.loadMoreItems();
   }
@@ -66,12 +79,6 @@ export class AssetsPageService
   }
 
   protected getNextItems(): Observable<TokenTransactionMessage[]> {
-    const wallet = this.authService.getActiveUserInstant().wallet;
-
-    return this.getHistory();
-  }
-
-  private getHistory(): Observable<TokenTransactionMessage[]> {
     return this.searchTransactions().pipe(
       map((transactions) => transactions
         .map((tx) => this.mapTransaction(tx))
@@ -85,185 +92,77 @@ export class AssetsPageService
 
     return combineLatest([
       this.txClient.pipe(
-        mergeMap((client) => client.search({ sentFromOrTo: walletAddress })),
+        mergeMap((client) => client.search({ tags: [
+          {
+            key: 'message.module',
+            value: 'bank',
+          },
+          {
+            key: 'transfer.recipient',
+            value: walletAddress,
+          },
+        ]})),
       ),
       this.txClient.pipe(
         mergeMap((client) => client.search({ tags: [
-            {
-              key: 'message.action',
-              value: 'delegate',
-            },
-            {
-              key: 'message.action',
-              value: 'withdraw_delegator_reward',
-            },
-            {
-              key: 'message.action',
-              value: 'begin_unbonding',
-            },
-            {
-              key: 'message.action',
-              value: 'begin_redelegate',
-            },
-        ]}))),
+          {
+            key: 'message.sender',
+            value: walletAddress,
+          },
+        ]})),
+      ),
     ]).pipe(
       map((txArrays) => txArrays.reduce((acc, txs) => [...acc, ...txs], [])),
+      map((txs) => txs.sort((left, right) => right.height - left.height)),
     );
   }
-
-  // private mapWithdrawTransaction(
-  //   msg: any,
-  //   // msg: StdTxMessage<StdTxMessageType.CosmosWithdrawDelegationReward | StdTxMessageType.CosmosDelegate | StdTxMessageType.CosmosUndelegate>,
-  //   tx: Transaction,
-  //   logEvents: TransactionLogEvent[],
-  //   // fee: StdTxFee,
-  //   fee: any,
-  //   type: TokenTransactionMessageType,
-  // ): TokenTransactionMessage {
-  //   const txValue = tx.tx.value;
-  //
-  //   const amountString = logEvents
-  //     .find((event) => event.type === 'transfer')?.attributes
-  //     .find((attribute) => attribute.key === 'amount')?.value;
-  //
-  //   if (!amountString) {
-  //     return undefined;
-  //   }
-  //
-  //   const amount = {
-  //     amount: parseFloat(amountString).toString(),
-  //     denom: amountString.replace(/[^0-9]/g, ''),
-  //   };
-  //
-  //   return {
-  //     amount,
-  //     fee,
-  //     type,
-  //     comment: txValue.memo,
-  //     hash: tx.txhash,
-  //     recipient: msg.value.delegator_address,
-  //     sender: msg.value.validator_address,
-  //     timestamp: new Date(tx.timestamp).valueOf(),
-  //   };
-  // }
-
-  // private mapWithdrawValidatorTransaction(
-  //   msg: StdTxMessage<StdTxMessageType.CosmosWithdrawValidatorCommission>,
-  //   tx: Transaction,
-  //   logEvents: TransactionLogEvent[],
-  //   fee: StdTxFee,
-  // ): TokenTransactionMessage {
-  //   const txValue = tx.tx.value;
-  //
-  //   const amountString = logEvents
-  //     .find((event) => event.type === 'transfer')?.attributes
-  //     .find((attribute) => attribute.key === 'amount')?.value;
-  //
-  //   if (!amountString) {
-  //     return undefined;
-  //   }
-  //
-  //   const amount = {
-  //     amount: parseFloat(amountString).toString(),
-  //     denom: amountString.replace(/[^0-9]/g, ''),
-  //   };
-  //
-  //   return {
-  //     amount,
-  //     fee,
-  //     comment: txValue.memo,
-  //     hash: tx.txhash,
-  //     recipient: msg.value.validator_address,
-  //     sender: msg.value.validator_address,
-  //     timestamp: new Date(tx.timestamp).valueOf(),
-  //     type: TokenTransactionMessageType.WithdrawValidatorRewards,
-  //   };
-  // }
-
-  // private mapWithdrawRedelegationTransaction(
-  //   msg: StdTxMessage<StdTxMessageType.CosmosBeginRedelegate>,
-  //   tx: any,
-  //   logEvents: TransactionLogEvent[],
-  //   fee: StdTxFee,
-  // ): TokenTransactionMessage[] {
-  //   const txValue = tx.tx.value;
-  //
-  //   const transfers = logEvents
-  //     .find((event) => event.type === 'transfer')?.attributes
-  //     .reduce((acc, attribute, index, attributes) => {
-  //       const nextAttribute = attributes[index + 1];
-  //
-  //       if (attribute.key === 'sender' && nextAttribute?.key === 'amount') {
-  //         const amount = {
-  //           amount: parseFloat(nextAttribute.value).toString(),
-  //           denom: nextAttribute.value.replace(/[^0-9]/g, ''),
-  //         };
-  //
-  //         return [...acc, { sender: attribute.value, amount }];
-  //       }
-  //
-  //       return acc;
-  //     }, []);
-  //
-  //   return transfers.map((transfer, index) => ({
-  //     amount: transfer.amount,
-  //     fee: index === 0 ? fee : undefined,
-  //     comment: txValue.memo,
-  //     hash: tx.txhash,
-  //     recipient: msg.value.delegator_address,
-  //     sender: transfer.sender,
-  //     timestamp: new Date(tx.timestamp).valueOf(),
-  //     type: TokenTransactionMessageType.WithdrawRedelegate,
-  //   }));
-  // }
 
   private mapTransaction(tx: DecodedIndexedTx): TokenTransactionMessage[] {
     const walletAddress = this.authService.getActiveUserInstant().wallet.address;
 
     return tx.tx.body.messages
-      .reduce((acc, msg, index) => {
+      .reduce((acc, msg) => {
+        let tokenTransaction: TokenTransactionMessage;
+
         switch (msg.typeUrl) {
           case TxMessageTypeUrl.BankSend: {
             const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.BankSend>;
 
-            return [msgValue.toAddress, msgValue.fromAddress].includes(walletAddress)
-              ? [...acc, mapSendTransaction(msgValue, tx, msg.typeUrl, walletAddress)]
-              : acc;
+            if (![msgValue.toAddress, msgValue.fromAddress].includes(walletAddress)) {
+              break;
+            }
+
+            tokenTransaction = mapSendTransaction(msgValue, tx, msg.typeUrl, walletAddress);
+
+            break;
           }
-          // case TxMessageTypeUrl.DistributionWithdrawDelegatorReward: {
-          //   const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.DistributionWithdrawDelegatorReward>;
-          //   const tokenTransaction = mapWithdrawTransaction()
-          //
-          //
-          //   return [...acc, ...tokenTransaction ? [tokenTransaction] : []];
-          // }
-          // case StdTxMessageType.CosmosDelegate: {
-          //   const withdrawMessage = msg as StdTxMessage<StdTxMessageType.CosmosWithdrawDelegationReward>;
-          //   const tokenTransaction = this.mapWithdrawTransaction(withdrawMessage, tx, logEvents, !index ? txValue.fee : undefined, TokenTransactionMessageType.WithdrawDelegate);
-          //
-          //   return [...acc, ...tokenTransaction ? [tokenTransaction] : []];
-          // }
-          // case StdTxMessageType.CosmosUndelegate: {
-          //   const withdrawMessage = msg as StdTxMessage<StdTxMessageType.CosmosWithdrawDelegationReward>;
-          //   const tokenTransaction = this.mapWithdrawTransaction(withdrawMessage, tx, logEvents, !index ? txValue.fee : undefined, TokenTransactionMessageType.WithdrawUndelegate);
-          //
-          //   return [...acc, ...tokenTransaction ? [tokenTransaction] : []];
-          // }
-          // case StdTxMessageType.CosmosBeginRedelegate: {
-          //   const withdrawMessage = msg as StdTxMessage<StdTxMessageType.CosmosBeginRedelegate>;
-          //   const tokenTransactions = this.mapWithdrawRedelegationTransaction(withdrawMessage, tx as any, logEvents, !index ? txValue.fee : undefined);
-          //
-          //   return [...acc, ...tokenTransactions];
-          // }
-          // case StdTxMessageType.CosmosWithdrawValidatorCommission: {
-          //   const withdrawMessage = msg as StdTxMessage<StdTxMessageType.CosmosWithdrawValidatorCommission>;
-          //   const tokenTransaction = this.mapWithdrawValidatorTransaction(withdrawMessage, tx as any, logEvents, !index ? txValue.fee : undefined);
-          //
-          //   return [...acc, ...tokenTransaction ? [tokenTransaction] : []];
-          // }
-          // default:
-          //   return acc;
+
+          case TxMessageTypeUrl.DistributionWithdrawDelegatorReward: {
+            const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.DistributionWithdrawDelegatorReward>;
+
+            tokenTransaction = mapWithdrawDelegatorReward(msgValue, tx, msg.typeUrl);
+
+            break;
+          }
+
+          case TxMessageTypeUrl.StakingDelegate: {
+            const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.StakingDelegate>;
+
+            tokenTransaction = mapDelegateTransaction(msgValue, tx, msg.typeUrl);
+
+            break;
+          }
+
+          case TxMessageTypeUrl.StakingUndelegate: {
+            const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.StakingUndelegate>;
+
+            tokenTransaction = mapUndelegateTransaction(msgValue, tx, msg.typeUrl);
+
+            break;
+          }
         }
+
+        return [...acc, ...tokenTransaction ? [tokenTransaction] : []];
       }, []);
   }
 

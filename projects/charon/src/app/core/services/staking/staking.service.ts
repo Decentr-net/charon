@@ -140,12 +140,12 @@ export class StakingService {
     return combineLatest([
       this.getUndelegationsTimes(fromValidator),
       this.getStakingParameters().pipe(
-        pluck('max_entries'),
+        map((params) => params.maxEntries),
       ),
     ]).pipe(
       map(([times, maxEntries]) => times.length >= maxEntries ? times : []),
       map((times) => times.sort((left, right) => left.valueOf() - right.valueOf())),
-      map((sortedTimesDesc) => sortedTimesDesc[0].valueOf()),
+      map((sortedTimesDesc) => sortedTimesDesc[0]?.valueOf()),
     );
   }
 

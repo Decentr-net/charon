@@ -49,6 +49,7 @@
     "composite_transaction": "Composite transaction",
     "composite_tx": "Composite tx",
     "copy_tx": "Copy transaction hash",
+    "delegated": "Delegated",
     "fee": "Fee",
     "from": "From",
     "memo": "Memo",
@@ -56,6 +57,7 @@
     "received": "Received",
     "sent": "Sent",
     "to": "To",
+    "undelegated": "Undelegated",
     "wallet_address_copied": "The transaction hash was copied successfully",
     "withdraw": "Withdraw rewards",
     "withdraw_validator": "Withdraw validator's rewards"
