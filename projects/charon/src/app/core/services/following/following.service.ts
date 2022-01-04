@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, defer, forkJoin, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, defer, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DecentrCommunityClient, Wallet } from 'decentr-js';
 
@@ -64,11 +64,11 @@ export class FollowingService {
   }
 
   public getFollowees(): Observable<Wallet['address'][]> {
-    return forkJoin([
+    return combineLatest([
       this.createClient(),
       this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([client, walletAddress]) => client.getFollowees(walletAddress))
+      switchMap(([client, walletAddress]) => client.getFollowees(walletAddress)),
     );
   }
 

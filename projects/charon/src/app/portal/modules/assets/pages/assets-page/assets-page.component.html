@@ -85,18 +85,6 @@
           {{ translate('no_transactions') }}
         </div>
       </ng-container>
-
-      <ng-container *appExpansionListColumnFooterDef>
-        <ng-container *ngIf="(isLoading$ | async) === false">
-          <ngx-skeleton-loader
-            *ngIf="canLoadMore$ | async"
-            [count]="1"
-            [theme]="skeletonLoaderTheme"
-            appIntersectionTarget="0.5"
-            (intersect)="loadMore()"
-          ></ngx-skeleton-loader>
-        </ng-container>
-      </ng-container>
     </ng-container>
   </ng-container>
 

@@ -97,22 +97,20 @@ export class PDVService {
   public getPDVList(
     paginationOptions?: PDVListPaginationOptions,
   ): Observable<PDVListItem[]> {
-    return combineLatest([
-      this.createClient(),
-      this.authService.getActiveUserAddress(),
-    ]).pipe(
-      switchMap(([client, walletAddress]) => client.pdv.getPDVList(walletAddress, paginationOptions)),
+    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
+
+    return this.createClient().pipe(
+      switchMap((client) => client.pdv.getPDVList(walletAddress, paginationOptions)),
     );
   }
 
   public getPDVDetails(
     address: PDVListItem,
   ): Observable<PDVDetails> {
-    return combineLatest([
-      this.createClient(),
-      this.authService.getActiveUser(),
-    ]).pipe(
-      switchMap(([client, user]) => client.pdv.getPDVDetails(address, user.wallet)),
+    const wallet = this.authService.getActiveUserInstant().wallet;
+
+    return this.createClient().pipe(
+      switchMap((client) => client.pdv.getPDVDetails(address, wallet)),
     );
   }
 

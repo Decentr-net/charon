@@ -4,58 +4,46 @@
   appTypeface="paragraph"
 >
   <ng-container [ngSwitch]="message.type">
-    <ng-template [ngSwitchCase]="messageType.TransferSent">
+    <ng-template [ngSwitchCase]="messageType.BankSend">
       <ng-template
         [ngTemplateOutlet]="sendTemplate"
       ></ng-template>
     </ng-template>
 
-    <ng-template [ngSwitchCase]="messageType.TransferReceived">
-      <ng-template
-        [ngTemplateOutlet]="receiveTemplate"
-      ></ng-template>
-    </ng-template>
+<!--    <ng-template [ngSwitchCase]="messageType.WithdrawDelegate">-->
+<!--      <ng-template-->
+<!--        [ngTemplateOutlet]="withdrawTemplate"-->
+<!--        [ngTemplateOutletContext]="{ label: translate('withdraw') }"-->
+<!--      ></ng-template>-->
+<!--    </ng-template>-->
 
-    <ng-template [ngSwitchCase]="messageType.WithdrawDelegate">
-      <ng-template
-        [ngTemplateOutlet]="withdrawTemplate"
-        [ngTemplateOutletContext]="{ label: translate('withdraw') }"
-      ></ng-template>
-    </ng-template>
+<!--    <ng-template [ngSwitchCase]="messageType.WithdrawUndelegate">-->
+<!--      <ng-template-->
+<!--        [ngTemplateOutlet]="withdrawTemplate"-->
+<!--        [ngTemplateOutletContext]="{ label: translate('withdraw') }"-->
+<!--      ></ng-template>-->
+<!--    </ng-template>-->
 
-    <ng-template [ngSwitchCase]="messageType.WithdrawUndelegate">
-      <ng-template
-        [ngTemplateOutlet]="withdrawTemplate"
-        [ngTemplateOutletContext]="{ label: translate('withdraw') }"
-      ></ng-template>
-    </ng-template>
+<!--    <ng-template [ngSwitchCase]="messageType.WithdrawRedelegate">-->
+<!--      <ng-template-->
+<!--        [ngTemplateOutlet]="withdrawTemplate"-->
+<!--        [ngTemplateOutletContext]="{ label: translate('withdraw') }"-->
+<!--      ></ng-template>-->
+<!--    </ng-template>-->
 
-    <ng-template [ngSwitchCase]="messageType.WithdrawRedelegate">
-      <ng-template
-        [ngTemplateOutlet]="withdrawTemplate"
-        [ngTemplateOutletContext]="{ label: translate('withdraw') }"
-      ></ng-template>
-    </ng-template>
+<!--    <ng-template [ngSwitchCase]="messageType.WithdrawRewards">-->
+<!--      <ng-template-->
+<!--        [ngTemplateOutlet]="withdrawTemplate"-->
+<!--        [ngTemplateOutletContext]="{ label: translate('withdraw') }"-->
+<!--      ></ng-template>-->
+<!--    </ng-template>-->
 
-    <ng-template [ngSwitchCase]="messageType.WithdrawRewards">
-      <ng-template
-        [ngTemplateOutlet]="withdrawTemplate"
-        [ngTemplateOutletContext]="{ label: translate('withdraw') }"
-      ></ng-template>
-    </ng-template>
-
-    <ng-template [ngSwitchCase]="messageType.WithdrawValidatorRewards">
-      <ng-template
-        [ngTemplateOutlet]="withdrawTemplate"
-        [ngTemplateOutletContext]="{ label: translate('withdraw_validator') }"
-      ></ng-template>
-    </ng-template>
-
-    <ng-template [ngSwitchCase]="messageType.PdvRewards">
-      <ng-template
-        [ngTemplateOutlet]="pdvRewardsTemplate"
-      ></ng-template>
-    </ng-template>
+<!--    <ng-template [ngSwitchCase]="messageType.WithdrawValidatorRewards">-->
+<!--      <ng-template-->
+<!--        [ngTemplateOutlet]="withdrawTemplate"-->
+<!--        [ngTemplateOutletContext]="{ label: translate('withdraw_validator') }"-->
+<!--      ></ng-template>-->
+<!--    </ng-template>-->
   </ng-container>
 
   <div
@@ -68,12 +56,14 @@
 
   <ng-template #sendTemplate>
     <svg-icon
-      class="token-transaction__icon color-negative"
-      key="send"
+      class="token-transaction__icon"
+      [class.color-negative]="message.sender === walletAddress"
+      [class.color-positive]="message.recipient === walletAddress"
+      [key]="message.sender === walletAddress ? 'send' : 'receive'"
     ></svg-icon>
 
     <div class="token-transaction__operation">
-      {{ translate('sent') }}
+      {{ translate(message.sender === walletAddress ? 'sent' : 'received') }}
 
       <app-token-transactions-actions
         *ngIf="transaction?.hash"
@@ -83,62 +73,23 @@
 
     <app-token-transaction-amount
       class="token-transaction__amount"
-      [amount]="message.amount.amount"
+      [amount]="message.amount"
     ></app-token-transaction-amount>
 
-    <div *ngIf="message.recipient" class="token-transaction__address" appTextEllipsis appTypeface="caption">
-      {{ translate('to') }}: {{ message.recipient }}
+    <div class="token-transaction__address" appTextEllipsis appTypeface="caption">
+      <ng-container *ngIf="message.recipient === walletAddress">
+        {{ translate('to') }}: {{ message.sender }}
+      </ng-container>
+
+      <ng-container *ngIf="message.sender === walletAddress">
+        {{ translate('from') }}: {{ message.sender }}
+      </ng-container>
     </div>
 
     <div *ngIf="transaction?.fee" class="token-transaction__fee" appTypeface="caption">
       {{ translate('fee') }}
-      : {{ transaction?.fee.amount[0].amount | microValue | numberFormat : null : true }}
+      : {{ transaction.fee | microValue | numberFormat : null : true }}
       <app-currency-symbol></app-currency-symbol>
-    </div>
-  </ng-template>
-
-  <ng-template #receiveTemplate>
-    <svg-icon
-      class="token-transaction__icon color-positive"
-      key="receive"
-    ></svg-icon>
-
-    <div class="token-transaction__operation">
-      {{ translate('received') }}
-
-      <app-token-transactions-actions
-        *ngIf="transaction?.hash"
-        [txhash]="transaction?.hash"
-      ></app-token-transactions-actions>
-    </div>
-
-    <app-token-transaction-amount
-      class="token-transaction__amount"
-      [amount]="message.amount.amount"
-    ></app-token-transaction-amount>
-
-    <div class="token-transaction__address" appTextEllipsis appTypeface="caption">
-      {{ translate('from') }}: {{ message.sender }}
-    </div>
-  </ng-template>
-
-  <ng-template #pdvRewardsTemplate>
-    <svg-icon
-      class="token-transaction__icon color-positive"
-      key="receive"
-    ></svg-icon>
-
-    <div class="token-transaction__operation">
-      {{ translate('pdv_rewards') }}
-    </div>
-
-    <app-token-transaction-amount
-      class="token-transaction__amount"
-      [amount]="message.amount.amount"
-    ></app-token-transaction-amount>
-
-    <div class="token-transaction__address" appTextEllipsis appTypeface="caption">
-      {{ translate('from') }}: {{ translate('decentr') }}
     </div>
   </ng-template>
 
@@ -167,7 +118,7 @@
     </div>
 
     <div *ngIf="transaction?.fee" class="token-transaction__fee" appTypeface="caption">
-      {{ translate('fee') }}: {{ transaction?.fee.amount[0].amount | microValue | numberFormat : null : true }}
+      {{ translate('fee') }}: {{ transaction.fee | microValue | numberFormat : null : true }}
       <app-currency-symbol></app-currency-symbol>
     </div>
   </ng-template>

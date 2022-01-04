@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, defer, Observable, of, ReplaySubject, Subject } from 'rxjs';
+import { combineLatest, defer, Observable, of, ReplaySubject, Subject, timer } from 'rxjs';
 import {
   catchError,
-  delay,
   filter,
   map,
   mapTo,
   mergeMap,
-  repeat,
-  retryWhen,
   skipWhile,
   switchMap,
   take,
@@ -34,6 +31,7 @@ import { MessageCode } from '@scripts/messages';
 import { AuthService } from '../../auth';
 import { NetworkService } from '../network';
 import { UserApiService } from '../api';
+import { ONE_SECOND } from '@shared/utils/date';
 
 @Injectable({
   providedIn: 'root',
@@ -88,14 +86,9 @@ export class UserService {
   }
 
   public waitAccount(walletAddress: string): Observable<Account> {
-    return this.getAccount(walletAddress).pipe(
-      retryWhen(errors => errors.pipe(
-        delay(500),
-        take(5),
-      )),
-      delay(500),
-      repeat(),
-      skipWhile(v => v === undefined),
+    return timer(0, ONE_SECOND).pipe(
+      switchMap(() => this.getAccount(walletAddress)),
+      skipWhile((account) => !account),
       take(1),
     );
   }

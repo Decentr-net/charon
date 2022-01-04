@@ -1,24 +1,13 @@
-import { Coin, Wallet } from 'decentr-js';
-
-export enum TokenTransactionMessageType {
-  TransferSent,
-  TransferReceived,
-  WithdrawRewards,
-  PdvRewards,
-  WithdrawDelegate,
-  WithdrawUndelegate,
-  WithdrawRedelegate,
-  WithdrawValidatorRewards,
-}
+import { TxMessageTypeUrl, Wallet } from 'decentr-js';
 
 export interface TokenTransactionMessage {
-  amount: Coin;
+  amount: number | string;
   comment: string;
-  fee: any;
+  fee: string;
   hash: string;
   recipient: Wallet['address'];
   sender: Wallet['address'];
-  type: TokenTransactionMessageType;
+  type: TxMessageTypeUrl;
   timestamp: number;
 }
 

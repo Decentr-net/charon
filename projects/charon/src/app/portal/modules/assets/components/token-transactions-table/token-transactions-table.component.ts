@@ -1,11 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { groupBy, groupByDate, GroupedByDate } from '@shared/utils/group-by';
-import {
-  TokenTransaction,
-  TokenTransactionMessage,
-  TokenTransactionMessageType,
-} from './token-transactions-table.definitions';
+import { TokenTransaction, TokenTransactionMessage } from './token-transactions-table.definitions';
 
 @Component({
   selector: 'app-token-transactions-table',
@@ -20,10 +16,7 @@ export class TokenTransactionsTableComponent {
     this.groups = groupByDate(value || [], (item) => item.timestamp).map((group) => {
       return {
         items: groupBy(group.items, 'hash').map((groupByHash) => ({
-          amount: {
-            amount: groupByHash.items.reduce((acc, item) => acc + +item.amount.amount, 0).toString(),
-            denom: groupByHash.items[0].amount.denom,
-          },
+          amount: groupByHash.items.reduce((acc, item) => acc + +item.amount, 0),
           comment: groupByHash.items[0].comment,
           fee: groupByHash.items[0].fee,
           hash: groupByHash.key,
@@ -34,8 +27,6 @@ export class TokenTransactionsTableComponent {
       };
     });
   }
-
-  public tokenTransactionType: typeof TokenTransactionMessageType = TokenTransactionMessageType;
 
   public groups: GroupedByDate<TokenTransaction>;
 }

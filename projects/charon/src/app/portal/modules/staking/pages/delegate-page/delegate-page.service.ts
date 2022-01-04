@@ -47,10 +47,9 @@ export class DelegatePageService {
 
   public delegate(validatorAddress: Validator['operatorAddress'], amount: number | string): Observable<void> {
     return this.stakingService.delegateTokens({
-        validatorAddress,
-        amount: createDecentrCoin(amount),
-      }
-    );
+      validatorAddress,
+      amount: createDecentrCoin(amount),
+    });
   }
 
   public navigateBack(): void {
