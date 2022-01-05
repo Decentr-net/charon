@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, skip, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, skip, switchMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -28,6 +28,7 @@ export class NetworkSelectorService extends BaseNetworkSelectorService {
 
     this.networkStorage.getActiveId().pipe(
       skip(1),
+      distinctUntilChanged(),
       untilDestroyed(this),
     ).subscribe(() => location.reload());
   }
@@ -73,8 +74,8 @@ export class NetworkSelectorService extends BaseNetworkSelectorService {
     );
   }
 
-  public setActiveNetwork(network: Network): Promise<void> {
-    return this.networkStorage.setActiveId(network.id);
+  public setActiveNetworkId(networkId: NetworkId): Promise<void> {
+    return this.networkStorage.setActiveId(networkId);
   }
 
   private getOptionConfig(networkId: NetworkId): Observable<Network> {

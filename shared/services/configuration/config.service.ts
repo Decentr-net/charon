@@ -44,7 +44,13 @@ export class ConfigService {
     );
   }
 
-  private getNetworkConfig(): Observable<Network> {
+  public getNetworkConfig(networkId?: NetworkId): Observable<Network> {
+    if (networkId) {
+      return this.getConfig().pipe(
+        map((config) => config.networks[networkId]),
+      );
+    }
+
     return combineLatest([
       this.getConfig(),
       this.networkBrowserStorageService.getActiveId().pipe(

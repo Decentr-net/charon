@@ -23,7 +23,7 @@ import {
 } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
-import { ConfigService } from '@shared/services/configuration';
+import { ConfigService, NetworkId } from '@shared/services/configuration';
 import { PDVStorageService } from '@shared/services/pdv';
 import { SettingsService } from '@shared/services/settings';
 import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
@@ -69,7 +69,16 @@ export class UserService {
     return this.userApiService.hesoyam(walletAddress);
   }
 
-  public getAccount(walletAddress: string): Observable<Account | undefined> {
+  public getAccount(walletAddress: string, networkId?: NetworkId): Observable<Account | undefined> {
+    if (networkId) {
+      return this.configService.getNetworkConfig(networkId).pipe(
+        // TODO select fist nodeUrl from config
+        map((networkConfig) => 'http://hera.testnet.decentr.xyz:26657'),
+        mergeMap((nodeUrl) => DecentrAuthClient.create(nodeUrl)),
+        mergeMap((client) => client.getAccount(walletAddress)),
+      );
+    }
+
     return this.authClient.pipe(
       take(1),
       switchMap((client) => client.getAccount(walletAddress)),
@@ -85,9 +94,9 @@ export class UserService {
     );
   }
 
-  public waitAccount(walletAddress: string): Observable<Account> {
+  public waitAccount(walletAddress: string, networkId?: NetworkId): Observable<Account> {
     return timer(0, ONE_SECOND).pipe(
-      switchMap(() => this.getAccount(walletAddress)),
+      switchMap(() => this.getAccount(walletAddress, networkId)),
       skipWhile((account) => !account),
       take(1),
     );

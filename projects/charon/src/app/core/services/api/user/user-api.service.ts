@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { Wallet } from 'decentr-js';
 
-import { ConfigService } from '@shared/services/configuration';
+import { ConfigService, NetworkId } from '@shared/services/configuration';
 
 @Injectable({
   providedIn: 'root',
@@ -35,8 +35,10 @@ export class UserApiService {
   }
 
   public hesoyam(walletAddress: Wallet['address']): Observable<void> {
-    return this.configService.getVulcanUrl().pipe(
+    return this.configService.getNetworkConfig(NetworkId.Testnet).pipe(
+      map((networkConfig) => networkConfig.vulcan.url),
       mergeMap((vulcanUrl) => this.http.get<void>(`${vulcanUrl}/v1/hesoyam/${walletAddress}`)),
+      catchError(() => of(void 0)),
     );
   }
 }

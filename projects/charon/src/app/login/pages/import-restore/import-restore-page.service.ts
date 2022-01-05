@@ -4,8 +4,9 @@ import { AsyncValidatorFn } from '@angular/forms';
 import { Observable, of, throwError, timer } from 'rxjs';
 import { catchError, map, mapTo, mergeMap, switchMapTo, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
-import { createWalletFromMnemonic } from 'decentr-js';
+import { createWalletFromMnemonic, Wallet } from 'decentr-js';
 
+import { NetworkId } from '@shared/services/configuration';
 import { BrowserType, detectBrowser } from '@shared/utils/browser';
 import { ReferralService, UserService } from '@core/services';
 import { AuthService } from '@core/auth';
@@ -27,6 +28,7 @@ export class ImportRestorePageService {
   public importUser(seedPhrase: string, password: string, skipTrackInstall = false): Observable<void> {
     const wallet = createWalletFromMnemonic(seedPhrase);
 
+    // TODO: add `NetworkId.Mainnet` param
     return this.userService.getAccount(wallet.address).pipe(
       mergeMap((account) => {
         return account
@@ -37,6 +39,7 @@ export class ImportRestorePageService {
             'login'
           )));
       }),
+      mergeMap(() => this.createTestnetAccount(wallet.address)),
       mergeMap(() => (!skipTrackInstall && detectBrowser() === BrowserType.Decentr)
         ? this.referralService.trackInstall(wallet.address)
         : of(void 0)
@@ -80,5 +83,13 @@ export class ImportRestorePageService {
         tap((error) => control.setErrors(error)),
       );
     };
+  }
+
+  private createTestnetAccount(walletAddress: Wallet['address']): Observable<void> {
+    return this.userService.getAccount(walletAddress, NetworkId.Testnet).pipe(
+      mergeMap((account) => account ? of(void 0) : this.userService.hesoyam(walletAddress)),
+      mergeMap(() => this.userService.waitAccount(walletAddress, NetworkId.Testnet)),
+      mapTo(void 0),
+    );
   }
 }

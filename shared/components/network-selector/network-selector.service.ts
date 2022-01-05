@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 
+import { NetworkId } from '@shared/services/configuration';
 import { Network, NetworkSelectorTranslations } from './network-selector.definitions';
 
 export abstract class NetworkSelectorService {
@@ -7,7 +8,7 @@ export abstract class NetworkSelectorService {
 
   public abstract getActiveNetwork(): Observable<Network>;
 
-  public abstract setActiveNetwork(network: Network): void;
+  public abstract setActiveNetworkId(networkId: NetworkId): void;
 
   public abstract getTranslations(): Observable<NetworkSelectorTranslations>;
 }

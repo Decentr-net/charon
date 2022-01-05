@@ -24,6 +24,9 @@ export interface Network {
   theseus: {
     url: string;
   };
+  vulcan: {
+    url: string;
+  };
 }
 
 export interface Config {
