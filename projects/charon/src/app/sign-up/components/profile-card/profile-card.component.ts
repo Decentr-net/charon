@@ -16,7 +16,7 @@ import { AuthService } from '@core/auth';
 })
 export class ProfileCardComponent implements OnInit {
   public balance$: Observable<string>;
-  public banned$: Observable<boolean>;
+
   public profile$: Observable<Profile>;
 
   constructor(
@@ -37,8 +37,5 @@ export class ProfileCardComponent implements OnInit {
     this.profile$ = this.authService.getActiveUserAddress().pipe(
       switchMap((walletAddress) => this.userService.getProfile(walletAddress)),
     );
-
-    // TODO
-    this.banned$ = of(false);
   }
 }

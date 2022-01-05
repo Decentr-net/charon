@@ -32,8 +32,6 @@ import { RestoreSeedDialogComponent } from '../../components';
 export class UserMenuPageComponent implements OnInit {
   public profile$: Observable<Profile>;
 
-  public banned$: Observable<boolean>;
-
   public canRestoreSeed$: Observable<boolean>;
 
   public readonly userRoute: typeof UserRoute = UserRoute;
@@ -67,9 +65,6 @@ export class UserMenuPageComponent implements OnInit {
       switchMap((wallet) => this.userService.getProfile(wallet.address, wallet)),
       catchError(() => EMPTY),
     );
-
-    // TODO
-    this.banned$ = of(false);
 
     this.canRestoreSeed$ = this.authService.getActiveUser().pipe(
       map((user) => !!user?.encryptedSeed),
