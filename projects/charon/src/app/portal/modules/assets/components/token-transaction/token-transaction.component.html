@@ -50,7 +50,7 @@
     </ng-container>
   </div>
 
-  <div *ngIf="transaction?.fee" class="token-transaction__fee" appTypeface="caption">
+  <div *ngIf="+transaction?.fee" class="token-transaction__fee" appTypeface="caption">
     {{ translate('fee') }}
     : {{ transaction.fee | microValue | numberFormat : null : true }}
     <app-currency-symbol></app-currency-symbol>

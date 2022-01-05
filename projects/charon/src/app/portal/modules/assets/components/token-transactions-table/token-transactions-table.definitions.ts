@@ -3,7 +3,7 @@ import { TxMessageTypeUrl, Wallet } from 'decentr-js';
 export interface TokenTransactionMessage {
   amount: number | string;
   comment: string;
-  fee: string;
+  fee: number;
   hash: string;
   recipient: Wallet['address'];
   sender: Wallet['address'];
