@@ -2,9 +2,10 @@ import { BehaviorSubject, from, merge, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, mergeMap, startWith } from 'rxjs/operators';
 
 import { BrowserLocalStorage, BrowserStorage } from '../browser-storage';
+import { NetworkId } from '../configuration';
 
 export interface NetworkStorage {
-  id: string;
+  id: NetworkId;
   api: string;
 }
 

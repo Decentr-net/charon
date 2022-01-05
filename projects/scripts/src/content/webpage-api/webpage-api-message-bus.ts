@@ -2,6 +2,7 @@ import { EMPTY, Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
 import { Post } from 'decentr-js';
 
+import { NetworkId } from '../../../../../shared/services/configuration';
 import { uuid } from '../../../../../shared/utils/uuid';
 
 export enum WebpageAPIRequestMessageCode {
@@ -14,7 +15,7 @@ export enum WebpageAPIResponseMessageCode {
 
 export interface WebpageAPIRequestMessageMap {
   [WebpageAPIRequestMessageCode.OpenPost]: {
-    networkId: string;
+    networkId: NetworkId;
     post: Pick<Post, 'owner' | 'uuid'>;
   };
 }

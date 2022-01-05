@@ -1,5 +1,7 @@
+import { NetworkId } from '@shared/services/configuration';
+
 export interface Network {
-  id: string;
+  id: NetworkId;
   name: string;
 }
 

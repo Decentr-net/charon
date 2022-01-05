@@ -1,3 +1,8 @@
+export enum NetworkId {
+  Mainnet = 'mainnet',
+  Testnet = 'testnet',
+}
+
 export interface VPNServer {
   address: string;
   country: string;
@@ -23,7 +28,7 @@ export interface Network {
 
 export interface Config {
   minVersion: string;
-  networks: Record<string, Network>;
+  networks: Record<NetworkId, Network>;
   vpn: {
     enabled: boolean;
     servers: VPNServer[];

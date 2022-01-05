@@ -72,7 +72,10 @@
       </div>
     </div>
 
-    <app-referral-stats class="user-page__card"></app-referral-stats>
+    <app-referral-stats
+      class="user-page__card"
+      *ngIf="showReferral$ | async"
+    ></app-referral-stats>
   </div>
 </ng-container>
 

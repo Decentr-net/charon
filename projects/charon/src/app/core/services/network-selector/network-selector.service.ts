@@ -12,7 +12,7 @@ import {
 } from '@shared/components/network-selector';
 import { BlockchainNodeService } from '@shared/services/blockchain-node';
 import { NetworkBrowserStorageService } from '@shared/services/network-storage';
-import { ConfigService } from '@shared/services/configuration';
+import { ConfigService, NetworkId } from '@shared/services/configuration';
 
 @UntilDestroy()
 @Injectable()
@@ -77,7 +77,7 @@ export class NetworkSelectorService extends BaseNetworkSelectorService {
     return this.networkStorage.setActiveId(network.id);
   }
 
-  private getOptionConfig(networkId: string): Observable<Network> {
+  private getOptionConfig(networkId: NetworkId): Observable<Network> {
     return this.translocoService.selectTranslate(`network_selector.network.${networkId}`, null, 'core')
       .pipe(
         map((name) => ({

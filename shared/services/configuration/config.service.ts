@@ -5,7 +5,7 @@ import { Environment } from '../../../environments/environment.definitions';
 import { ONE_SECOND } from '../../utils/date';
 import { whileOnline } from '../../utils/online';
 import { ConfigApiService } from './config-api.service';
-import { Config, Network } from './config.definitions';
+import { Config, Network, NetworkId } from './config.definitions';
 import { NetworkBrowserStorageService } from '../network-storage';
 
 export class ConfigService {
@@ -87,9 +87,9 @@ export class ConfigService {
     );
   }
 
-  public getNetworkIds(): Observable<string[]> {
+  public getNetworkIds(): Observable<NetworkId[]> {
     return this.getConfig().pipe(
-      map((config) => Object.keys(config.networks)),
+      map((config) => Object.keys(config.networks) as NetworkId[]),
     );
   }
 
