@@ -1,4 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { coerceArray } from '@angular/cdk/coercion';
 import { combineLatest, Observable, of, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, map, mergeMap } from 'rxjs/operators';
 import { UntilDestroy } from '@ngneat/until-destroy';
@@ -37,12 +38,13 @@ export class AssetsPageService
 
     this.searchTransactions().subscribe(console.log);
 
-    this.searchTransactions().pipe(
-      map(tx => tx.reduce((a, t) => [...a, ...t.tx.body.messages.map(t => t.typeUrl)], []))
-    ).subscribe(console.log);
+    // this.searchTransactions().pipe(
+    //   map(tx => tx.reduce((a, t) => [...a, ...t.tx.body.messages.map(t => t.typeUrl)], []))
+    // ).subscribe(console.log);
 
     this.searchTransactions().pipe(
-      map(tx => tx.reduce((a, t) => [...a, ...JSON.parse(t.rawLog)], []))
+      map(txs => txs[0]),
+      map(tx => JSON.parse(tx.rawLog)),
     ).subscribe(console.log);
 
     this.loadMoreItems();
@@ -91,28 +93,45 @@ export class AssetsPageService
     const walletAddress = this.authService.getActiveUserInstant().wallet.address;
 
     return combineLatest([
+      // this.txClient.pipe(
+      //   mergeMap((client) => client.search({ tags: [
+      //     {
+      //       key: 'message.module',
+      //       value: 'bank',
+      //     },
+      //     {
+      //       key: 'transfer.recipient',
+      //       value: walletAddress,
+      //     },
+      //   ]})),
+      // ),
       this.txClient.pipe(
         mergeMap((client) => client.search({ tags: [
           {
             key: 'message.module',
-            value: 'bank',
+            value: 'staking',
           },
-          {
-            key: 'transfer.recipient',
-            value: walletAddress,
-          },
-        ]})),
-      ),
-      this.txClient.pipe(
-        mergeMap((client) => client.search({ tags: [
           {
             key: 'message.sender',
             value: walletAddress,
           },
         ]})),
       ),
+      // this.txClient.pipe(
+      //   mergeMap((client) => client.search({ tags: [
+      //     {
+      //       key: 'message.module',
+      //       value: 'distribution',
+      //     },
+      //     {
+      //       key: 'message.sender',
+      //       value: walletAddress,
+      //     },
+      //   ]})),
+      // ),
     ]).pipe(
       map((txArrays) => txArrays.reduce((acc, txs) => [...acc, ...txs], [])),
+      map((txs) => txs.filter((tx) => !tx.code)),
       map((txs) => txs.sort((left, right) => right.height - left.height)),
     );
   }
@@ -121,8 +140,8 @@ export class AssetsPageService
     const walletAddress = this.authService.getActiveUserInstant().wallet.address;
 
     return tx.tx.body.messages
-      .reduce((acc, msg) => {
-        let tokenTransaction: TokenTransactionMessage;
+      .reduce((acc, msg, msgIndex) => {
+        let tokenTransaction: TokenTransactionMessage | TokenTransactionMessage[];
 
         switch (msg.typeUrl) {
           case TxMessageTypeUrl.BankSend: {
@@ -132,7 +151,7 @@ export class AssetsPageService
               break;
             }
 
-            tokenTransaction = mapSendTransaction(msgValue, tx, msg.typeUrl, walletAddress);
+            tokenTransaction = mapSendTransaction(msgValue, msgIndex, tx, msg.typeUrl, walletAddress);
 
             break;
           }
@@ -140,7 +159,7 @@ export class AssetsPageService
           case TxMessageTypeUrl.DistributionWithdrawDelegatorReward: {
             const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.DistributionWithdrawDelegatorReward>;
 
-            tokenTransaction = mapWithdrawDelegatorReward(msgValue, tx, msg.typeUrl);
+            tokenTransaction = mapWithdrawDelegatorReward(msgValue, msgIndex, tx, msg.typeUrl);
 
             break;
           }
@@ -148,7 +167,7 @@ export class AssetsPageService
           case TxMessageTypeUrl.StakingDelegate: {
             const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.StakingDelegate>;
 
-            tokenTransaction = mapDelegateTransaction(msgValue, tx, msg.typeUrl);
+            tokenTransaction = mapDelegateTransaction(msgValue, msgIndex, tx, msg.typeUrl, walletAddress);
 
             break;
           }
@@ -156,13 +175,22 @@ export class AssetsPageService
           case TxMessageTypeUrl.StakingUndelegate: {
             const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.StakingUndelegate>;
 
-            tokenTransaction = mapUndelegateTransaction(msgValue, tx, msg.typeUrl);
+            tokenTransaction = mapUndelegateTransaction(msgValue, msgIndex, tx, msg.typeUrl, walletAddress);
 
             break;
           }
+
+          // TODO
+          // case TxMessageTypeUrl.DistributionWithdrawDelegatorReward: {
+          //   const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.DistributionWithdrawDelegatorReward>;
+          //
+          //   tokenTransaction = mapUndelegateTransaction(msgValue, msgIndex, tx, msg.typeUrl, walletAddress);
+          //
+          //   break;
+          // }
         }
 
-        return [...acc, ...tokenTransaction ? [tokenTransaction] : []];
+        return [...acc, ...tokenTransaction ? coerceArray(tokenTransaction) : []];
       }, []);
   }
 

@@ -33,7 +33,7 @@ const sendRequest = (
     .then(
       (response: DeliverTxResponse) => callback({
         success: true,
-        messageValue: response.data[0],
+        messageValue: response.data && response.data[0],
       }),
       (error) => callback({
         success: false,
