@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, filter, finalize, map, pluck, startWith, switchMap, take } from 'rxjs/operators';
-import { BehaviorSubject, combineLatest, EMPTY, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, EMPTY, Observable, of } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -61,7 +61,8 @@ export class WithdrawDelegatorPageComponent implements OnInit {
     this.selectedItemsRewards$ = this.getSelectedItemsRewards();
 
     this.totalDelegatorRewards$ = this.distributionService.getTotalDelegatorRewards().pipe(
-      map((rewards) => +rewards[0].amount),
+      map((rewards) => +rewards[0]?.amount),
+      catchError(() => of(0)),
     );
 
     this.validators$ = this.withdrawDelegatorPageService.getValidators();
