@@ -31,9 +31,8 @@ const sendRequest = (
 ): void => {
   QUEUE.add(fn, { priority: QueuePriority.Charon })
     .then(
-      (response: DeliverTxResponse) => callback({
+      () => callback({
         success: true,
-        messageValue: response.data && response.data[0],
       }),
       (error) => callback({
         success: false,

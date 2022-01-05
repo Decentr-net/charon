@@ -36,17 +36,6 @@ export class AssetsPageService
     this.createClient()
       .then((client) => this.txClient.next(client));
 
-    this.searchTransactions().subscribe(console.log);
-
-    // this.searchTransactions().pipe(
-    //   map(tx => tx.reduce((a, t) => [...a, ...t.tx.body.messages.map(t => t.typeUrl)], []))
-    // ).subscribe(console.log);
-
-    this.searchTransactions().pipe(
-      map(txs => txs[0]),
-      map(tx => JSON.parse(tx.rawLog)),
-    ).subscribe(console.log);
-
     this.loadMoreItems();
   }
 
@@ -93,18 +82,9 @@ export class AssetsPageService
     const walletAddress = this.authService.getActiveUserInstant().wallet.address;
 
     return combineLatest([
-      // this.txClient.pipe(
-      //   mergeMap((client) => client.search({ tags: [
-      //     {
-      //       key: 'message.module',
-      //       value: 'bank',
-      //     },
-      //     {
-      //       key: 'transfer.recipient',
-      //       value: walletAddress,
-      //     },
-      //   ]})),
-      // ),
+      this.txClient.pipe(
+        mergeMap((client) => client.search({ sentFromOrTo: walletAddress })),
+      ),
       this.txClient.pipe(
         mergeMap((client) => client.search({ tags: [
           {
@@ -117,18 +97,18 @@ export class AssetsPageService
           },
         ]})),
       ),
-      // this.txClient.pipe(
-      //   mergeMap((client) => client.search({ tags: [
-      //     {
-      //       key: 'message.module',
-      //       value: 'distribution',
-      //     },
-      //     {
-      //       key: 'message.sender',
-      //       value: walletAddress,
-      //     },
-      //   ]})),
-      // ),
+      this.txClient.pipe(
+        mergeMap((client) => client.search({ tags: [
+          {
+            key: 'message.module',
+            value: 'distribution',
+          },
+          {
+            key: 'message.sender',
+            value: walletAddress,
+          },
+        ]})),
+      ),
     ]).pipe(
       map((txArrays) => txArrays.reduce((acc, txs) => [...acc, ...txs], [])),
       map((txs) => txs.filter((tx) => !tx.code)),
