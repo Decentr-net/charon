@@ -11,7 +11,6 @@ import { PortalRoute } from '../../../../portal-route';
 import { TokenTransactionMessage } from '../../components/token-transactions-table';
 import { Asset } from './assets-page.definitions';
 import { AssetsPageService } from './assets-page.service';
-import { switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-assets-page',

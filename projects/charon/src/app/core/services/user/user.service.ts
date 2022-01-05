@@ -73,7 +73,7 @@ export class UserService {
     if (networkId) {
       return this.configService.getNetworkConfig(networkId).pipe(
         // TODO select fist nodeUrl from config
-        map((networkConfig) => 'http://hera.testnet.decentr.xyz:26657'),
+        map(() => 'http://hera.testnet.decentr.xyz:26657'),
         mergeMap((nodeUrl) => DecentrAuthClient.create(nodeUrl)),
         mergeMap((client) => client.getAccount(walletAddress)),
       );
