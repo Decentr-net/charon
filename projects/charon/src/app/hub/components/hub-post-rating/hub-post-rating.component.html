@@ -5,7 +5,7 @@
   >
     <svg-icon
       class="hub-post-rating__icon"
-      [class.mod-liked]="post.likeWeight === likeWeight.Up"
+      [class.mod-liked]="post.likeWeight === likeWeight.LIKE_WEIGHT_UP"
       key="like"
       size="xs"
     ></svg-icon>
@@ -19,7 +19,7 @@
   >
     <svg-icon
       class="hub-post-rating__icon mod-dislike"
-      [class.mod-disliked]="post.likeWeight === likeWeight.Down"
+      [class.mod-disliked]="post.likeWeight === likeWeight.LIKE_WEIGHT_DOWN"
       key="like"
       size="xs"
     ></svg-icon>
