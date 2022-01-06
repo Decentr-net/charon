@@ -48,7 +48,7 @@ export const mapSendTransaction = (
     hash: tx.hash,
     recipient: msg.toAddress,
     sender: msg.fromAddress,
-    timestamp: tx.height,
+    height: tx.height,
   };
 }
 
@@ -69,7 +69,7 @@ export const mapDelegateTransaction = (
     hash: tx.hash,
     recipient: msg.validatorAddress,
     sender: msg.delegatorAddress,
-    timestamp: tx.height,
+    height: tx.height,
   });
 
   const logs = parseTxRawLog(tx);
@@ -105,7 +105,7 @@ export const mapDelegateTransaction = (
     hash: tx.hash,
     recipient: msg.delegatorAddress,
     sender: msg.validatorAddress,
-    timestamp: tx.height,
+    height: tx.height,
   });
 
   return messages;
@@ -128,7 +128,7 @@ export const mapUndelegateTransaction = (
     hash: tx.hash,
     recipient: msg.delegatorAddress,
     sender: msg.validatorAddress,
-    timestamp: tx.height,
+    height: tx.height,
   });
 
   const logs = parseTxRawLog(tx);
@@ -164,7 +164,7 @@ export const mapUndelegateTransaction = (
     hash: tx.hash,
     recipient: msg.delegatorAddress,
     sender: msg.validatorAddress,
-    timestamp: tx.height,
+    height: tx.height,
   });
 
   return messages;
@@ -200,7 +200,7 @@ export const mapWithdrawDelegatorReward = (
     hash: tx.hash,
     recipient: msg.delegatorAddress,
     sender: msg.validatorAddress,
-    timestamp: tx.height,
+    height: tx.height,
   };
 };
 

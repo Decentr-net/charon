@@ -8,9 +8,9 @@ export interface TokenTransactionMessage {
   recipient: Wallet['address'];
   sender: Wallet['address'];
   type: TxMessageTypeUrl;
-  timestamp: number;
+  height: number;
 }
 
-export interface TokenTransaction extends Pick<TokenTransactionMessage, 'amount' | 'comment' | 'fee' | 'hash' | 'timestamp'> {
+export interface TokenTransaction extends Pick<TokenTransactionMessage, 'amount' | 'comment' | 'fee' | 'hash' | 'height'> {
   messages: Pick<TokenTransactionMessage, 'amount' | 'recipient' | 'sender' | 'type'>[];
 }

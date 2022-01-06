@@ -4,12 +4,12 @@
       class="token-transactions-table__group-header"
       appTypeface="caption"
     >
-      {{ group.timestamp | date : 'd MMM, yyyy' }}
+      {{ group.height }}
     </div>
 
     <div
       *ngFor="let transaction of group.items"
-      [class.mod-new]="transaction.timestamp > newTransactionsAfter"
+      [class.mod-new]="transaction.height > newTransactionsAfter"
       appTypeface="paragraph"
       class="token-transactions-table__transaction"
     >

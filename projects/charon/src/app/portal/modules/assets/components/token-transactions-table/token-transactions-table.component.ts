@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { groupBy, groupByDate, GroupedByDate } from '@shared/utils/group-by';
+import { groupBy } from '@shared/utils/group-by';
 import { TokenTransaction, TokenTransactionMessage } from './token-transactions-table.definitions';
 
 @Component({
@@ -13,7 +13,7 @@ export class TokenTransactionsTableComponent {
   @Input() public newTransactionsAfter: number;
 
   @Input() public set transactions(value: TokenTransactionMessage[]) {
-    this.groups = groupByDate(value || [], (item) => item.timestamp).map((group) => {
+    this.groups = groupBy(value || [], 'height').map((group) => {
       return {
         items: groupBy(group.items, 'hash').map((groupByHash) => ({
           amount: groupByHash.items.reduce((acc, item) => acc + +item.amount, 0),
@@ -21,12 +21,12 @@ export class TokenTransactionsTableComponent {
           fee: groupByHash.items[0].fee,
           hash: groupByHash.key,
           messages: groupByHash.items,
-          timestamp: groupByHash.items[0].timestamp,
+          height: groupByHash.items[0].height,
         })),
-        timestamp: group.timestamp,
+        height: group.key,
       };
     });
   }
 
-  public groups: GroupedByDate<TokenTransaction>;
+  public groups: { items: TokenTransaction[], height: TokenTransaction['height'] }[];
 }

@@ -1,9 +1,9 @@
-export type GroupedBy<T, K extends keyof T = keyof T> = {
+export type GroupedBy<T, K extends keyof T> = {
   items: T[];
-  key: K;
+  key: T[K];
 }[];
 
-export const groupBy = <T>(items: T[], key: keyof T): GroupedBy<T> => {
+export const groupBy = <T, K extends keyof T>(items: T[], key: K): GroupedBy<T, K> => {
   const groupMap = items.reduce((map, item) => {
     const keyValue = item[key];
     const itemsGroup = map.get(keyValue);
