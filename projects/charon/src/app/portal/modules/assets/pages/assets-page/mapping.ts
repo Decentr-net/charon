@@ -29,19 +29,71 @@ const getFee = (msgIndex: number, tx: DecodedIndexedTx): number => {
   return msgIndex > 0
     ? 0
     : +tx.tx.authInfo.fee.amount[0].amount;
-}
+};
+
+const getWithdrawMessages = (
+  tx: DecodedIndexedTx,
+  msgIndex: number,
+  walletAddress: Wallet['address'],
+): TokenTransactionMessage[] => {
+  const logs = parseTxRawLog(tx);
+
+  const withdrawEvent = logs
+    ?.find((log) => (log.msg_index || 0) === msgIndex)
+    ?.events
+    ?.find((event) => event.type === 'transfer');
+
+  if (!withdrawEvent) {
+    return [];
+  }
+
+  const transfers = withdrawEvent.attributes
+    .reduce((acc, attribute, index, attributes) => {
+      const senderAttribute = attributes[index + 1];
+      const amountAttribute = attributes[index + 2];
+
+      if (
+        attribute.key === 'recipient'
+        && attribute.value === walletAddress
+        && senderAttribute?.key === 'sender'
+        && amountAttribute?.key === 'amount'
+      ) {
+        const amount = parseFloat(amountAttribute.value).toString();
+
+        return [
+          ...acc,
+          {
+            sender: senderAttribute.value,
+            amount,
+          },
+        ];
+      }
+
+      return acc;
+    }, []);
+
+  return transfers.map((transfer) => ({
+    type: TxMessageTypeUrl.DistributionWithdrawDelegatorReward,
+    amount: transfer.amount,
+    fee: 0,
+    comment: '',
+    hash: tx.hash,
+    recipient: walletAddress,
+    sender: transfer.sender,
+    height: tx.height,
+  }));
+};
 
 export const mapSendTransaction = (
   msg: TxMessageValue<TxMessageTypeUrl.BankSend>,
   msgIndex: number,
   tx: DecodedIndexedTx,
-  type: TxMessageTypeUrl,
   walletAddress: Wallet['address'],
 ): TokenTransactionMessage => {
   const amount = (msg.fromAddress === walletAddress ? -1 : 1) * +msg.amount[0].amount;
 
   return {
-    type,
+    type: TxMessageTypeUrl.BankSend,
     amount,
     comment: tx.tx.body.memo,
     fee: amount < 0 ? getFee(msgIndex, tx) : 0,
@@ -56,152 +108,58 @@ export const mapDelegateTransaction = (
   msg: TxMessageValue<TxMessageTypeUrl.StakingDelegate>,
   msgIndex: number,
   tx: DecodedIndexedTx,
-  type: TxMessageTypeUrl,
   walletAddress: Wallet['address'],
 ): TokenTransactionMessage[] => {
-  const messages = [];
-
-  messages.push({
-    type,
-    amount: -msg.amount.amount,
-    fee: getFee(msgIndex, tx),
-    comment: tx.tx.body.memo,
-    hash: tx.hash,
-    recipient: msg.validatorAddress,
-    sender: msg.delegatorAddress,
-    height: tx.height,
-  });
-
-  const logs = parseTxRawLog(tx);
-
-  const withdrawEvent = logs
-    ?.find((log) => (log.msg_index || 0) === msgIndex)
-    ?.events
-    ?.find((event) => event.type === 'coin_received')
-
-  if (!withdrawEvent) {
-    return messages;
-  }
-
-  const receiverIndex = withdrawEvent.attributes
-    .findIndex((attr) => attr.key === 'receiver' && attr.value === walletAddress);
-
-  if (receiverIndex === -1) {
-    return messages;
-  }
-
-  const withdrawAmountAttribute = withdrawEvent.attributes[receiverIndex + 1];
-  const withdrawAmount = parseInt(withdrawAmountAttribute?.value);
-
-  if (withdrawAmountAttribute?.key !== 'amount' && !withdrawAmount) {
-    return messages;
-  }
-
-  messages.push({
-    type: TxMessageTypeUrl.DistributionWithdrawDelegatorReward,
-    amount: withdrawAmount,
-    fee: 0,
-    comment: '',
-    hash: tx.hash,
-    recipient: msg.delegatorAddress,
-    sender: msg.validatorAddress,
-    height: tx.height,
-  });
-
-  return messages;
+  return [
+    {
+      type: TxMessageTypeUrl.StakingDelegate,
+      amount: -msg.amount.amount,
+      fee: getFee(msgIndex, tx),
+      comment: tx.tx.body.memo,
+      hash: tx.hash,
+      recipient: msg.validatorAddress,
+      sender: msg.delegatorAddress,
+      height: tx.height,
+    },
+    ...getWithdrawMessages(tx, msgIndex, walletAddress),
+  ];
 };
 
 export const mapUndelegateTransaction = (
-  msg:TxMessageValue<TxMessageTypeUrl.StakingUndelegate>,
+  msg: TxMessageValue<TxMessageTypeUrl.StakingUndelegate>,
   msgIndex: number,
   tx: DecodedIndexedTx,
-  type: TxMessageTypeUrl,
   walletAddress: Wallet['address'],
 ): TokenTransactionMessage[] => {
-  const messages = [];
+  return [
+    {
+      type: TxMessageTypeUrl.StakingUndelegate,
+      amount: msg.amount.amount,
+      fee: 0,
+      comment: tx.tx.body.memo,
+      hash: tx.hash,
+      recipient: msg.delegatorAddress,
+      sender: msg.validatorAddress,
+      height: tx.height,
+    },
+    ...getWithdrawMessages(tx, msgIndex, walletAddress),
+  ];
+};
 
-  messages.push({
-    type,
-    amount: msg.amount.amount,
-    fee: getFee(msgIndex, tx),
-    comment: tx.tx.body.memo,
-    hash: tx.hash,
-    recipient: msg.delegatorAddress,
-    sender: msg.validatorAddress,
-    height: tx.height,
-  });
-
-  const logs = parseTxRawLog(tx);
-
-  const withdrawEvent = logs
-    ?.find((log) => (log.msg_index || 0) === msgIndex)
-    ?.events
-    ?.find((event) => event.type === 'coin_received')
-
-  if (!withdrawEvent) {
-    return messages;
-  }
-
-  const receiverIndex = withdrawEvent.attributes
-    .findIndex((attr) => attr.key === 'receiver' && attr.value === walletAddress);
-
-  if (receiverIndex === -1) {
-    return messages;
-  }
-
-  const withdrawAmountAttribute = withdrawEvent.attributes[receiverIndex + 1];
-  const withdrawAmount = parseInt(withdrawAmountAttribute?.value);
-
-  if (withdrawAmountAttribute?.key !== 'amount' && !withdrawAmount) {
-    return messages;
-  }
-
-  messages.push({
-    type: TxMessageTypeUrl.DistributionWithdrawDelegatorReward,
-    amount: withdrawAmount,
-    fee: 0,
-    comment: '',
-    hash: tx.hash,
-    recipient: msg.delegatorAddress,
-    sender: msg.validatorAddress,
-    height: tx.height,
-  });
-
-  return messages;
+export const mapRedelegateTransaction = (
+  msgIndex: number,
+  tx: DecodedIndexedTx,
+  walletAddress: Wallet['address'],
+): TokenTransactionMessage[] => {
+  return getWithdrawMessages(tx, msgIndex, walletAddress);
 };
 
 export const mapWithdrawDelegatorReward = (
-  msg: TxMessageValue<TxMessageTypeUrl.DistributionWithdrawDelegatorReward>,
   msgIndex: number,
   tx: DecodedIndexedTx,
-  type: TxMessageTypeUrl,
-): TokenTransactionMessage | undefined => {
-  const logs = parseTxRawLog(tx);
-
-  const amountString = logs
-    ?.find((log) => (log.msg_index || 0) === msgIndex)
-    ?.events
-    ?.find((event) => event.type === 'withdraw_rewards')
-    ?.attributes
-    ?.find((attr) => attr.key === 'amount')
-    ?.value;
-
-  const amount = parseInt(amountString);
-
-  if (!amount) {
-    return;
-  }
-
-  return {
-    type,
-    amount,
-    fee: getFee(msgIndex, tx),
-    comment: tx.tx.body.memo,
-    hash: tx.hash,
-    recipient: msg.delegatorAddress,
-    sender: msg.validatorAddress,
-    height: tx.height,
-  };
+  walletAddress: Wallet['address'],
+): TokenTransactionMessage[] => {
+  return getWithdrawMessages(tx, msgIndex, walletAddress);
 };
 
 // TODO

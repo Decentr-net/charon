@@ -12,6 +12,7 @@ import { Asset } from './assets-page.definitions';
 import { TokenTransactionMessage } from '../../components/token-transactions-table';
 import {
   mapDelegateTransaction,
+  mapRedelegateTransaction,
   mapSendTransaction,
   mapUndelegateTransaction,
   mapWithdrawDelegatorReward,
@@ -131,15 +132,13 @@ export class AssetsPageService
               break;
             }
 
-            tokenTransaction = mapSendTransaction(msgValue, msgIndex, tx, msg.typeUrl, walletAddress);
+            tokenTransaction = mapSendTransaction(msgValue, msgIndex, tx, walletAddress);
 
             break;
           }
 
           case TxMessageTypeUrl.DistributionWithdrawDelegatorReward: {
-            const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.DistributionWithdrawDelegatorReward>;
-
-            tokenTransaction = mapWithdrawDelegatorReward(msgValue, msgIndex, tx, msg.typeUrl);
+            tokenTransaction = mapWithdrawDelegatorReward(msgIndex, tx, walletAddress);
 
             break;
           }
@@ -147,7 +146,7 @@ export class AssetsPageService
           case TxMessageTypeUrl.StakingDelegate: {
             const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.StakingDelegate>;
 
-            tokenTransaction = mapDelegateTransaction(msgValue, msgIndex, tx, msg.typeUrl, walletAddress);
+            tokenTransaction = mapDelegateTransaction(msgValue, msgIndex, tx, walletAddress);
 
             break;
           }
@@ -155,7 +154,13 @@ export class AssetsPageService
           case TxMessageTypeUrl.StakingUndelegate: {
             const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.StakingUndelegate>;
 
-            tokenTransaction = mapUndelegateTransaction(msgValue, msgIndex, tx, msg.typeUrl, walletAddress);
+            tokenTransaction = mapUndelegateTransaction(msgValue, msgIndex, tx, walletAddress);
+
+            break;
+          }
+
+          case TxMessageTypeUrl.StakingBeginRedelegate: {
+            tokenTransaction = mapRedelegateTransaction(msgIndex, tx, walletAddress);
 
             break;
           }
