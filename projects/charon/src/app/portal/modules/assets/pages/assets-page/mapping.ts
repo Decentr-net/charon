@@ -38,11 +38,13 @@ export const mapSendTransaction = (
   type: TxMessageTypeUrl,
   walletAddress: Wallet['address'],
 ): TokenTransactionMessage => {
+  const amount = (msg.fromAddress === walletAddress ? -1 : 1) * +msg.amount[0].amount;
+
   return {
     type,
-    amount: (msg.fromAddress === walletAddress ? -1 : 1) * +msg.amount[0].amount,
+    amount,
     comment: tx.tx.body.memo,
-    fee: getFee(msgIndex, tx),
+    fee: amount < 0 ? getFee(msgIndex, tx) : 0,
     hash: tx.hash,
     recipient: msg.toAddress,
     sender: msg.fromAddress,
