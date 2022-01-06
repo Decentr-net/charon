@@ -114,7 +114,7 @@ export class RedelegatePageComponent implements OnInit {
 
     combineLatest([
       this.form.value$.pipe(
-        map((formValue) => formValue.toValidator.operatorAddress),
+        map((formValue) => formValue.toValidator?.operatorAddress),
       ),
       validatorAddress$,
     ]).pipe(

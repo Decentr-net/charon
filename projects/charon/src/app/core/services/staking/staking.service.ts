@@ -204,11 +204,12 @@ export class StakingService {
         sourceValidatorAddress,
         destinationValidatorAddress,
       )),
+      catchError(() => of([])),
     );
   }
 
   public getRedelegationFromAvailableTime(validatorSrcAddress: Validator['operatorAddress']): Observable<number | undefined> {
-    return this.getRedelegationsTimes(validatorSrcAddress, undefined).pipe(
+    return this.getRedelegationsTimes(validatorSrcAddress, '').pipe(
       map((times) => times.sort((left, right) => right - left)),
       map((sortedTimesDesc) => sortedTimesDesc[0]),
     );
