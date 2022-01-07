@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { coerceArray } from '@angular/cdk/coercion';
 import { combineLatest, Observable, of, ReplaySubject } from 'rxjs';
-import { distinctUntilChanged, map, mergeMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, mergeMap, take } from 'rxjs/operators';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { DecentrTxClient, DecodedIndexedTx, TxMessageTypeUrl, TxMessageValue } from 'decentr-js';
 
@@ -16,6 +16,7 @@ import {
   mapSendTransaction,
   mapUndelegateTransaction,
   mapWithdrawDelegatorReward,
+  mapWithdrawValidatorRewardTransaction,
 } from './mapping';
 
 @UntilDestroy()
@@ -114,6 +115,7 @@ export class AssetsPageService
       map((txArrays) => txArrays.reduce((acc, txs) => [...acc, ...txs], [])),
       map((txs) => txs.filter((tx) => !tx.code)),
       map((txs) => txs.sort((left, right) => right.height - left.height)),
+      take(1),
     );
   }
 
@@ -165,14 +167,11 @@ export class AssetsPageService
             break;
           }
 
-          // TODO
-          // case TxMessageTypeUrl.DistributionWithdrawDelegatorReward: {
-          //   const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.DistributionWithdrawDelegatorReward>;
-          //
-          //   tokenTransaction = mapUndelegateTransaction(msgValue, msgIndex, tx, msg.typeUrl, walletAddress);
-          //
-          //   break;
-          // }
+          case TxMessageTypeUrl.DistributionWithdrawValidatorCommission: {
+            tokenTransaction = mapWithdrawValidatorRewardTransaction(msgIndex, tx, walletAddress);
+
+            break;
+          }
         }
 
         return [...acc, ...tokenTransaction ? coerceArray(tokenTransaction) : []];

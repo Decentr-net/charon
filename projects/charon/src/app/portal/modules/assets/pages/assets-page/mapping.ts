@@ -35,7 +35,7 @@ const getWithdrawMessages = (
   tx: DecodedIndexedTx,
   msgIndex: number,
   walletAddress: Wallet['address'],
-): TokenTransactionMessage[] => {
+): Omit<TokenTransactionMessage, 'type'>[] => {
   const logs = parseTxRawLog(tx);
 
   const withdrawEvent = logs
@@ -73,7 +73,6 @@ const getWithdrawMessages = (
     }, []);
 
   return transfers.map((transfer) => ({
-    type: TxMessageTypeUrl.DistributionWithdrawDelegatorReward,
     amount: transfer.amount,
     fee: 0,
     comment: '',
@@ -121,7 +120,10 @@ export const mapDelegateTransaction = (
       sender: msg.delegatorAddress,
       height: tx.height,
     },
-    ...getWithdrawMessages(tx, msgIndex, walletAddress),
+    ...getWithdrawMessages(tx, msgIndex, walletAddress).map((msg) => ({
+      ...msg,
+      type: TxMessageTypeUrl.DistributionWithdrawDelegatorReward,
+    })),
   ];
 };
 
@@ -142,7 +144,10 @@ export const mapUndelegateTransaction = (
       sender: msg.validatorAddress,
       height: tx.height,
     },
-    ...getWithdrawMessages(tx, msgIndex, walletAddress),
+    ...getWithdrawMessages(tx, msgIndex, walletAddress).map((msg) => ({
+      ...msg,
+      type: TxMessageTypeUrl.DistributionWithdrawDelegatorReward,
+    })),
   ];
 };
 
@@ -151,7 +156,10 @@ export const mapRedelegateTransaction = (
   tx: DecodedIndexedTx,
   walletAddress: Wallet['address'],
 ): TokenTransactionMessage[] => {
-  return getWithdrawMessages(tx, msgIndex, walletAddress);
+  return getWithdrawMessages(tx, msgIndex, walletAddress).map((msg) => ({
+    ...msg,
+    type: TxMessageTypeUrl.DistributionWithdrawDelegatorReward,
+  }));
 };
 
 export const mapWithdrawDelegatorReward = (
@@ -159,26 +167,20 @@ export const mapWithdrawDelegatorReward = (
   tx: DecodedIndexedTx,
   walletAddress: Wallet['address'],
 ): TokenTransactionMessage[] => {
-  return getWithdrawMessages(tx, msgIndex, walletAddress);
+  return getWithdrawMessages(tx, msgIndex, walletAddress).map((msg) => ({
+    ...msg,
+    type: TxMessageTypeUrl.DistributionWithdrawDelegatorReward,
+  }));
 };
 
-// TODO
-// export const mapWithdrawValidatorReward = (
-//   msg: TxMessageValue<TxMessageTypeUrl.DistributionWithdrawDelegatorReward>,
-//   msgIndex: number,
-//   tx: DecodedIndexedTx,
-//   type: TxMessageTypeUrl,
-// ): TokenTransactionMessage | undefined => {
-//
-//   return {
-//     type,
-//     amount: msg.amount.amount,
-//     fee: getFee(msgIndex, tx),
-//     comment: tx.tx.body.memo,
-//     hash: tx.hash,
-//     recipient: msg.delegatorAddress,
-//     sender: msg.validatorAddress,
-//     timestamp: tx.height,
-//   }
-// };
+export const mapWithdrawValidatorRewardTransaction = (
+  msgIndex: number,
+  tx: DecodedIndexedTx,
+  walletAddress: Wallet['address'],
+): TokenTransactionMessage[] | undefined => {
+  return getWithdrawMessages(tx, msgIndex, walletAddress).map((msg) => ({
+    ...msg,
+    type: TxMessageTypeUrl.DistributionWithdrawValidatorCommission,
+  }));
+};
 

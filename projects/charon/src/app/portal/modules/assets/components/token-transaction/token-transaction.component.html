@@ -27,6 +27,10 @@
       <ng-container *ngSwitchCase="messageType.DistributionWithdrawDelegatorReward">
         {{ translate('withdraw') }}
       </ng-container>
+
+      <ng-container *ngSwitchCase="messageType.DistributionWithdrawValidatorCommission">
+        {{ translate('withdraw_validator') }}
+      </ng-container>
     </ng-container>
 
     <app-token-transactions-actions
