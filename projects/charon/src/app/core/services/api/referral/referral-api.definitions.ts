@@ -1,8 +1,10 @@
+import { Coin } from 'decentr-js';
+
 export interface ReferralStats {
   registered: number;
   installed: number;
   confirmed: number;
-  reward: number;
+  reward: Coin;
 }
 
 export interface ReferralTimeStats {
@@ -24,6 +26,6 @@ export interface SenderRewardLevel {
 export interface ReferralConfig {
   senderBonus: ReferralSenderBonus[];
   senderRewardLevels: SenderRewardLevel[];
-  thresholdUpdv: number;
+  thresholdPDV: string;
   thresholdDays: number;
 }

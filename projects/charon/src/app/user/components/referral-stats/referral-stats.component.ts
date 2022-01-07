@@ -5,7 +5,7 @@ import { map, share, shareReplay } from 'rxjs/operators';
 
 import { AnalyticsEvent } from '@shared/analytics';
 import { svgLink } from '@shared/svg-icons/link';
-import { MicroValuePipe } from '@shared/pipes/micro-value';
+import { MICRO_PDV_DIVISOR, MicroValuePipe } from '@shared/pipes/micro-value';
 import { ConfigService } from '@shared/services/configuration';
 import { ReferralSenderBonus, ReferralStats, ReferralTimeStats, SenderRewardLevel } from '@core/services/api';
 import { CurrencyService, ReferralService } from '@core/services';
@@ -69,7 +69,7 @@ export class ReferralStatsComponent implements OnInit {
     );
 
     this.uPDVToEarnByReferral$ = config$.pipe(
-      map((config) => config.thresholdUpdv),
+      map((config) => +config.thresholdPDV * MICRO_PDV_DIVISOR),
     );
 
     this.daysForReward$ = config$.pipe(
@@ -93,7 +93,7 @@ export class ReferralStatsComponent implements OnInit {
     );
 
     this.decRewards$ = this.stats$.pipe(
-      map((stats) => this.microValuePipe.transform(stats.reward)),
+      map((stats) => this.microValuePipe.transform(stats.reward.amount)),
     );
 
     this.usdReceived$ = combineLatest([
