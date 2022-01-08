@@ -80,12 +80,6 @@ export class ConfigService {
     );
   }
 
-  public getChainId(): Observable<string> {
-    return this.getNetworkConfig().pipe(
-      map((config) => config.network.chainId),
-    );
-  }
-
   public getMaintenanceStatus(): Observable<boolean> {
     return this.getNetworkConfig().pipe(
       map(({ maintenance}) => maintenance),
@@ -100,9 +94,9 @@ export class ConfigService {
   }
 
   public getRestNodes(): Observable<string[]> {
-    return this.getNetworkConfig().pipe(
-      map((config) => config.network.rest),
-      mapTo(['http://hera.testnet.decentr.xyz:26657']),
+    // TODO: switch to networkConfig rest
+    return this.getConfig().pipe(
+      map((config) => config.networks[NetworkId.Testnet].network.rest),
     );
   }
 
@@ -113,9 +107,8 @@ export class ConfigService {
   }
 
   public getVulcanUrl(): Observable<string> {
-    return this.getConfig().pipe(
-      map(({ vulcan }) => vulcan.url),
-      mapTo('https://vulcan.testnet.decentr.xyz'),
+    return this.getNetworkConfig().pipe(
+      map((config) => config.vulcan.url),
     );
   }
 

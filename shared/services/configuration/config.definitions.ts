@@ -18,7 +18,6 @@ export interface Network {
   };
   maintenance: boolean;
   network: {
-    chainId: string;
     rest: string[];
   };
   theseus: {
