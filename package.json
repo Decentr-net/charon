@@ -44,7 +44,7 @@
     "clamp-js": "^0.7.0",
     "crypto-js": "^4.1.1",
     "d3": "~6.0.0",
-    "decentr-js": "^3.0.0-rc7",
+    "decentr-js": "^3.0.0-rc9",
     "highcharts": "^9.3.0",
     "highcharts-angular": "^2.10.0",
     "html2canvas": "1.3.2",
