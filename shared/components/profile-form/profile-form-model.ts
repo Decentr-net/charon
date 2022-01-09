@@ -16,6 +16,10 @@ import {
 export class ProfileFormModel {
   protected static nonExistentDate(): ValidatorFn {
     return (control) => {
+      if (!control.value) {
+        return null;
+      }
+
       const parsedDate = parseDateValue(control.value || '');
       const realDate = new Date(parsedDate.year, parsedDate.month, parsedDate.day);
 
@@ -119,13 +123,15 @@ export class ProfileFormModel {
   }
 
   public getOuterValue(form: FormGroup<ProfileForm>): ProfileFormControlValue {
+    const value = form.getRawValue();
     return {
-      ...form.getRawValue(),
-      ...form.getRawValue().emails
+      ...value,
+      ...value.emails
         ? {
-          emails: form.getRawValue().emails.map(({ value }) => value),
+          emails: value.emails.map(({ value }) => value),
         }
         : undefined,
+      birthday: value.birthday || undefined,
     };
   }
 
@@ -155,7 +161,6 @@ export class ProfileFormModel {
     return new FormControl(
       '',
       [
-        Validators.required,
         BaseValidationUtil.minDate(new Date(1901, 0, 1), dateParseFn),
         BaseValidationUtil.maxDate(new Date(new Date().getFullYear(), 0, 0), dateParseFn),
         ProfileFormModel.nonExistentDate(),
@@ -176,7 +181,6 @@ export class ProfileFormModel {
     return new FormControl(
       '',
       [
-        Validators.required,
       ],
     );
   }
@@ -185,7 +189,6 @@ export class ProfileFormModel {
     return new FormControl(
       null,
       [
-        Validators.required,
       ],
     );
   }
