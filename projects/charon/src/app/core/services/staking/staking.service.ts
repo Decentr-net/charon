@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, defer, forkJoin, Observable, of, ReplaySubject } from 'rxjs';
-import { catchError, map, mergeMap, pluck, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import {
   Coin,
   DecentrStakingClient,
@@ -209,7 +209,7 @@ export class StakingService {
   }
 
   public getRedelegationFromAvailableTime(validatorSrcAddress: Validator['operatorAddress']): Observable<number | undefined> {
-    return this.getRedelegationsTimes(validatorSrcAddress, '').pipe(
+    return this.getRedelegationsTimes('', validatorSrcAddress).pipe(
       map((times) => times.sort((left, right) => right - left)),
       map((sortedTimesDesc) => sortedTimesDesc[0]),
     );
@@ -225,7 +225,7 @@ export class StakingService {
         validatorDstAddress,
       ),
       this.getStakingParameters().pipe(
-        pluck('max_entries')
+        map(({ maxEntries }) => maxEntries),
       ),
     ]).pipe(
       map(([times, maxEntries]) => times.length >= maxEntries ? times : []),
@@ -282,10 +282,16 @@ export class StakingService {
     validatorDstAddress: Validator['operatorAddress'],
   ): Observable<number[]> {
     return this.getRedelegations(validatorSrcAddress, validatorDstAddress).pipe(
-      map((redelegations) => redelegations
-        .reduce((acc, item) => [...acc, ...item.entries], [])
-      ),
-      map((entries) => entries.map((entry) => Date.parse(entry.completion_time))),
+      map((redelegationResponses) => redelegationResponses.filter(({ redelegation }) => {
+        return (!validatorSrcAddress || redelegation.validatorSrcAddress === validatorSrcAddress)
+          && (!validatorDstAddress || redelegation.validatorDstAddress === validatorDstAddress);
+      })),
+      map((redelegations) => redelegations.reduce((acc, item) => [...acc, ...item.entries], [])),
+      map((entries: RedelegationResponse['entries']) => {
+        return entries
+          .map((entry) => protoTimestampToDate(entry.redelegationEntry?.completionTime).valueOf())
+          .filter(Boolean);
+      }),
     );
   }
 
