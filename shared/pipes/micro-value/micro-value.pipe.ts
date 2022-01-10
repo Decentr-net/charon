@@ -8,6 +8,6 @@ export const MICRO_PDV_DIVISOR = 1000000;
 export class MicroValuePipe implements PipeTransform {
 
   public transform(value: string | number): number {
-    return +value / MICRO_PDV_DIVISOR;
+    return +(+value / MICRO_PDV_DIVISOR).toFixed(6);
   }
 }
