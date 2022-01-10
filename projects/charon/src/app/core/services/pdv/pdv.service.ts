@@ -119,7 +119,7 @@ export class PDVService {
       this.createClient(),
       this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([client, walletAddress]) => client.profile().getStats(walletAddress)),
+      switchMap(([client, walletAddress]) => client.profile.getStats(walletAddress)),
       map((profileStatistics) => profileStatistics.stats),
       catchError(() => of([])),
     );
