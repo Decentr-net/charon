@@ -90,7 +90,7 @@ export class DelegatePageComponent implements OnInit {
       switchMap((formValue) => formValue.validatorAddress
         ? this.delegatePageService.getDelegationFee(
             formValue.validatorAddress,
-            +formValue.amount * MICRO_PDV_DIVISOR,
+            Math.ceil(+formValue.amount * MICRO_PDV_DIVISOR),
           ).pipe(
             catchError(() => of(0)),
           )
