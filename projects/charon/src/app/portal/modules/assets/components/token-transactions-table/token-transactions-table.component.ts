@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { map} from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { groupBy } from '@shared/utils/group-by';
 import { TokenTransaction, TokenTransactionMessage } from './token-transactions-table.definitions';
+import { BlocksService } from '@core/services';
 
 @Component({
   selector: 'app-token-transactions-table',
@@ -24,9 +27,23 @@ export class TokenTransactionsTableComponent {
           height: groupByHash.items[0].height,
         })),
         height: group.key,
+        time: this.getTimeByHeight(group.key),
       };
     });
   }
 
-  public groups: { items: TokenTransaction[], height: TokenTransaction['height'] }[];
+  public groups: { items: TokenTransaction[], height: TokenTransaction['height'], time: Observable<string>; }[];
+
+  public heightTime: Set<TokenTransaction['height']> = new Set();
+
+  constructor(
+    private blocksService: BlocksService,
+  ) {
+  }
+
+  public getTimeByHeight(height: TokenTransactionMessage['height']): Observable<string> {
+    return this.blocksService.getBlock(height).pipe(
+      map((block) => block.header.time),
+    );
+  }
 }

@@ -170,6 +170,7 @@
 
   // dPortal Assets
   --color-dportal-assets-page-table-header-background: #{$color-background};
+  --color-dportal-assets-page-table-header-date-value: #{$color-grey};
   --color-dportal-assets-page-table-new-transaction-background: #{rgba($color-green, 0.08)};
   --color-dportal-assets-page-token-transactions-action: #{$color-grey};
   --color-dportal-assets-page-token-transactions-action-background: #{$color-background};
@@ -442,6 +443,7 @@
 
     // dPortal Assets
     --color-dportal-assets-page-table-header-background: #{$color-dark-grey};
+    --color-dportal-assets-page-table-header-date-value: #{$color-grey};
     --color-dportal-assets-page-table-new-transaction-background: #{rgba($color-green, 0.12)};
     --color-dportal-assets-page-token-transactions-action: #{$color-grey};
     --color-dportal-assets-page-token-transactions-action-background: #{$color-dark-grey};

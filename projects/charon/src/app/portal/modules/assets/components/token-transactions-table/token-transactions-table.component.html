@@ -4,7 +4,39 @@
       class="token-transactions-table__group-header"
       appTypeface="caption"
     >
-      {{ group.height }}
+      <div class="token-transactions-table__group-header__height">
+        {{ translate('height')}}: {{ group.height }}
+      </div>
+
+      <div class="token-transactions-table__group-header__date">
+        <div
+          *ngIf="!heightTime.has(group.height)"
+          class="token-transactions-table__group-header__date-button"
+          (click)="heightTime.add(group.height)"
+        >
+          {{ translate('show_date_time') }}
+        </div>
+
+        <div
+          *ngIf="heightTime.has(group.height)"
+          class="token-transactions-table__group-header__date-value"
+        >
+          <ng-container *ngIf="group.time | async as groupTime; else groupTimeLoading">
+            {{ groupTime | date : 'd MMM yyyy, HH:mm' }}
+          </ng-container>
+
+          <ng-template #groupTimeLoading>
+            <ngx-skeleton-loader
+              class="token-transactions-table__group-header__date__skeleton-loader"
+              [theme]="{
+                height: '16px',
+                marginBottom: '0',
+                width: '105px'
+              }"
+            ></ngx-skeleton-loader>
+          </ng-template>
+        </div>
+      </div>
     </div>
 
     <div

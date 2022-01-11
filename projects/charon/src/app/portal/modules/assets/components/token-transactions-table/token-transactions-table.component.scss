@@ -6,8 +6,37 @@
 
 .token-transactions-table__group-header {
   background-color: var(--color-dportal-assets-page-table-header-background);
-  font-weight: 700;
+  column-gap: $grid-step;
+  display: flex;
   padding: $grid-step $grid-step * 2;
+
+  &:hover {
+    .token-transactions-table__group-header__date-button {
+      opacity: 1;
+    }
+  }
+}
+
+.token-transactions-table__group-header__height {
+  font-weight: 500;
+}
+
+.token-transactions-table__group-header__date {
+  color: var(--color-dportal-assets-page-table-header-date-value);
+}
+
+.token-transactions-table__group-header__date-button {
+  cursor: pointer;
+  transition: opacity .15s ease;
+  opacity: 0;
+}
+
+.token-transactions-table__group-header__date-value {
+  font-weight: 400;
+}
+
+.token-transactions-table__group-header__date__skeleton-loader {
+  display: flex;
 }
 
 .token-transactions-table__transaction {
