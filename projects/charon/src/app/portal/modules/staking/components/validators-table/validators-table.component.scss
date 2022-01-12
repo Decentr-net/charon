@@ -60,6 +60,10 @@
   font-weight: 500;
   margin-right: $grid-step;
   padding: $grid-half-step $grid-step * 1.5 $grid-half-step $grid-step;
+
+  &:hover {
+    color: rgb(var(--color-dportal-staking-validators-table-reward-hover));
+  }
 }
 
 .validators-table__reward-icon {

@@ -194,6 +194,7 @@
   --color-dportal-staking-validators-table-voting-power: #{$color-grey};
   --color-dportal-staking-validators-table-unbonding-delegation: #{hexToRGBString($color-purple)};
   --color-dportal-staking-validators-table-reward: #{hexToRGBString($color-blue)};
+  --color-dportal-staking-validators-table-reward-hover: #{hexToRGBString($color-blue)};
   --color-dportal-staking-validators-table-empty: #{$color-light-grey};
   --color-dportal-staking-withdraw-delegator-footer-withdraw-text: #{$color-grey};
   --color-dportal-staking-withdraw-delegator-table-empty: #{$color-light-grey};
@@ -467,6 +468,7 @@
     --color-dportal-staking-validators-table-voting-power: #{$color-grey};
     --color-dportal-staking-validators-table-unbonding-delegation: #{hexToRGBString($color-purple)};
     --color-dportal-staking-validators-table-reward: #{hexToRGBString($color-blue-night)};
+    --color-dportal-staking-validators-table-reward-hover: #{hexToRGBString($color-blue)};
     --color-dportal-staking-validators-table-empty: #{$color-light-grey};
     --color-dportal-staking-withdraw-delegator-footer-withdraw-text: #{$color-grey};
     --color-dportal-staking-withdraw-delegator-table-empty: #{$color-light-grey};
