@@ -39,16 +39,36 @@ const getWithdrawMessages = (
 ): Omit<TokenTransactionMessage, 'type'>[] => {
   const logs = parseTxRawLog(tx);
 
-  const withdrawEvent = logs
+  const events = logs
     ?.find((log) => (log.msg_index || 0) === msgIndex)
-    ?.events
+    ?.events;
+
+  const transferEvent = events
     ?.find((event) => event.type === 'transfer');
 
-  if (!withdrawEvent) {
-    return [];
+  if (!transferEvent) {
+    const validator = events
+      ?.find((event) => event.type === 'withdraw_rewards')
+      ?.attributes
+      ?.find((attribute) => attribute.key === 'validator')
+      ?.value;
+
+    if (!validator) {
+      return [];
+    }
+
+    return [{
+      amount: 0,
+      fee: includeFee ? getFee(msgIndex, tx) : 0,
+      comment: '',
+      hash: tx.hash,
+      recipient: walletAddress,
+      sender: validator,
+      height: tx.height,
+    }];
   }
 
-  const transfers = withdrawEvent.attributes
+  const transfers = transferEvent.attributes
     .reduce((acc, attribute, index, attributes) => {
       const senderAttribute = attributes[index + 1];
       const amountAttribute = attributes[index + 2];
