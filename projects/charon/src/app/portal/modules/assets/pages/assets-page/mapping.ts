@@ -35,6 +35,7 @@ const getWithdrawMessages = (
   tx: DecodedIndexedTx,
   msgIndex: number,
   walletAddress: Wallet['address'],
+  includeFee: boolean = true,
 ): Omit<TokenTransactionMessage, 'type'>[] => {
   const logs = parseTxRawLog(tx);
 
@@ -74,7 +75,7 @@ const getWithdrawMessages = (
 
   return transfers.map((transfer) => ({
     amount: transfer.amount,
-    fee: 0,
+    fee: includeFee ? getFee(msgIndex, tx) : 0,
     comment: '',
     hash: tx.hash,
     recipient: walletAddress,
@@ -120,7 +121,7 @@ export const mapDelegateTransaction = (
       sender: msg.delegatorAddress,
       height: tx.height,
     },
-    ...getWithdrawMessages(tx, msgIndex, walletAddress).map((msg) => ({
+    ...getWithdrawMessages(tx, msgIndex, walletAddress, false).map((msg) => ({
       ...msg,
       type: TxMessageTypeUrl.DistributionWithdrawDelegatorReward,
     })),
@@ -137,14 +138,14 @@ export const mapUndelegateTransaction = (
     {
       type: TxMessageTypeUrl.StakingUndelegate,
       amount: msg.amount.amount,
-      fee: 0,
+      fee: getFee(0, tx),
       comment: tx.tx.body.memo,
       hash: tx.hash,
       recipient: msg.delegatorAddress,
       sender: msg.validatorAddress,
       height: tx.height,
     },
-    ...getWithdrawMessages(tx, msgIndex, walletAddress).map((msg) => ({
+    ...getWithdrawMessages(tx, msgIndex, walletAddress, false).map((msg) => ({
       ...msg,
       type: TxMessageTypeUrl.DistributionWithdrawDelegatorReward,
     })),
