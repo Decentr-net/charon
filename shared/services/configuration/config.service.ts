@@ -83,6 +83,7 @@ export class ConfigService {
   public getMaintenanceStatus(): Observable<boolean> {
     return this.getNetworkConfig().pipe(
       map(({ maintenance}) => maintenance),
+      // TODO: remove
       mapTo(false),
     );
   }

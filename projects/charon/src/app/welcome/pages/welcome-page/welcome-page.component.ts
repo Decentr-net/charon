@@ -31,6 +31,7 @@ export class WelcomePageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.networkSelector.setActiveNetworkId(NetworkId.Mainnet);
+    // TODO: switch to Mainnet
+    this.networkSelector.setActiveNetworkId(NetworkId.Testnet);
   }
 }
