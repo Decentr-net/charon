@@ -6,7 +6,7 @@ import {
   filter,
   map,
   mergeMap,
-  share,
+  shareReplay,
   startWith,
   switchMap,
 } from 'rxjs/operators';
@@ -92,7 +92,7 @@ export class MenuService extends MenuBaseService {
 
     this.profile$ = this.getProfile().pipe(
       filter((profile) => !!profile),
-      share(),
+      shareReplay(1),
     );
   }
 

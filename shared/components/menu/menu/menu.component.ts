@@ -21,7 +21,7 @@ export class MenuComponent implements OnInit {
 
   public items$: Observable<MenuItem[][]>;
 
-  public userItem: MenuUserItem;
+  public userItem$: Observable<MenuUserItem>;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -50,11 +50,6 @@ export class MenuComponent implements OnInit {
 
     this.items$ = this.menuService.getItems();
 
-    this.menuService.getUserItem().pipe(
-      untilDestroyed(this),
-    ).subscribe((userItem) => {
-      this.userItem = userItem;
-      this.changeDetectorRef.detectChanges();
-    });
+    this.userItem$ = this.menuService.getUserItem();
   }
 }

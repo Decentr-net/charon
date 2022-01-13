@@ -6,6 +6,8 @@
 
   --color-skeleton-background: #{hexToRGBString($color-skeleton-background)};
   --color-skeleton-background-animation: #{$color-skeleton-background-animation};
+  --color-skeleton-background-main-menu-loading: #{hexToRGBString($color-background-night)};
+  --color-skeleton-background-animation-main-menu-loading: #{$color-skeleton-background-animation-night};
   --color-main-text: #{$color-black};
   --color-main-background: #{$color-white};
   --color-card-background: #{$color-background};
@@ -280,6 +282,8 @@
 
     --color-skeleton-background: #{hexToRGBString($color-background-night)};
     --color-skeleton-background-animation: #{$color-skeleton-background-animation-night};
+    --color-skeleton-background-main-menu-loading: #{hexToRGBString($color-black)};
+    --color-skeleton-background-animation-main-menu-loading: #{$color-skeleton-background-animation-night};
     --color-main-text: #{$color-white};
     --color-main-background: #{$color-black};
     --color-card-background: #{$color-card-background-night};

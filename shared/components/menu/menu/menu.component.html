@@ -27,69 +27,105 @@
     class="menu-popup"
     appTypeface="paragraph"
   >
-    <div
-      class="menu-popup-items-section menu-popup-item menu__item menu__user-item"
-      *ngIf="userItem"
-      (click)="userItem.action && userItem.action()"
-    >
-      <app-avatar
-        class="menu__user-avatar"
-        [avatarUrl]="userProfile.avatar"
-      ></app-avatar>
+    <ng-template matMenuContent>
+      <div
+        class="menu-popup-items-section menu-popup-item menu__item menu__user-item"
+        *ngIf="userItem$ | async as userItem; else userItemLoading"
+        (click)="userItem.action && userItem.action()"
+      >
+        <app-avatar
+          class="menu__user-avatar"
+          [avatarUrl]="userProfile.avatar"
+        ></app-avatar>
 
-      <div>
-        <div class="menu__user-item-title menu-popup-item-title">
-          <span
-            appTextEllipsis
-            appTypeface="paragraph"
-          >
-            {{ userItem.title }}
-          </span>
-        </div>
-
-        <div class="menu__user-item__pdv-dec" appTypeface="caption">
-          <div>
-            {{ userItem.pdvValue | pdvValue }} {{ translations.pdv }}
+        <div>
+          <div class="menu__user-item-title menu-popup-item-title">
+            <span
+              appTextEllipsis
+              appTypeface="paragraph"
+            >
+              {{ userItem.title }}
+            </span>
           </div>
 
-          <div class="menu__user-item__pdv-dec__divider"></div>
+          <div class="menu__user-item__pdv-dec" appTypeface="caption">
+            <div>
+              {{ userItem.pdvValue | pdvValue }} {{ translations.pdv }}
+            </div>
 
-          <div>
-            {{ userItem.decValue | microValue | numberFormat : null : true}}
-            <app-currency-symbol></app-currency-symbol>
+            <div class="menu__user-item__pdv-dec__divider"></div>
+
+            <div>
+              {{ userItem.decValue | microValue | numberFormat : null : true}}
+              <app-currency-symbol></app-currency-symbol>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div
-      class="menu-popup-items-section"
-      *ngFor="let section of items$ | async"
-    >
-      <ng-container *ngFor="let item of section; let last = last">
-        <div
-          class="menu-popup-item menu__item"
-          [attr.data-id]="item.title | lowercase"
-          [class.is-disabled]="!item.action"
-          (click)="item.action && item.action()"
-        >
-          <svg-icon class="menu-popup-item-icon menu__item-icon" [key]="item.iconKey"></svg-icon>
+      <ng-template #userItemLoading>
+        <div class="menu-popup-items-section menu-popup-item menu__item menu__user-item">
+          <ngx-skeleton-loader
+            class="menu__user-item__skeleton-loader"
+            [appearance]="'circle'"
+            [theme]="{
+              height: '40px',
+              margin: '0',
+              width: '40px'
+            }"
+          ></ngx-skeleton-loader>
 
-          <span class="menu-popup-item-title">
-            <span>{{ item.title }}</span>
-          </span>
+          <div>
+            <ngx-skeleton-loader
+              class="menu-popup-item-title menu__user-item__skeleton-loader"
+              [theme]="{
+                height: '20px',
+                marginBottom: '4px',
+                width: '60px'
+              }"
+            ></ngx-skeleton-loader>
 
-          <div
-            class="menu-popup-item-description menu__item-description"
-            *ngIf="item.description"
-            appTypeface="caption"
-          >
-            {{ item.description }}
+            <ngx-skeleton-loader
+              class="menu__user-item__skeleton-loader"
+              [theme]="{
+                height: '16px',
+                marginBottom: '0',
+                width: '150px'
+              }"
+            ></ngx-skeleton-loader>
           </div>
         </div>
+      </ng-template>
 
-        <div class="menu-popup-items-divider" *ngIf="!last"></div>
-      </ng-container>
-    </div>
+      <div
+        class="menu-popup-items-section"
+        *ngFor="let section of items$ | async"
+      >
+        <ng-container *ngFor="let item of section; let last = last">
+          <div
+            class="menu-popup-item menu__item"
+            [attr.data-id]="item.title | lowercase"
+            [class.is-disabled]="!item.action"
+            (click)="item.action && item.action()"
+          >
+            <svg-icon class="menu-popup-item-icon menu__item-icon" [key]="item.iconKey"></svg-icon>
+
+            <span class="menu-popup-item-title">
+              <span>{{ item.title }}</span>
+            </span>
+
+            <div
+              class="menu-popup-item-description menu__item-description"
+              *ngIf="item.description"
+              appTypeface="caption"
+            >
+              {{ item.description }}
+            </div>
+          </div>
+
+          <div class="menu-popup-items-divider" *ngIf="!last"></div>
+        </ng-container>
+      </div>
+    </ng-template>
   </mat-menu>
 </ng-container>
