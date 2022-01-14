@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, defer, forkJoin, Observable, ReplaySubject } from 'rxjs';
+import { combineLatest, defer, Observable, ReplaySubject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
   Coin,
@@ -42,12 +42,9 @@ export class DistributionService {
       this.client,
       this.authService.getActiveUser()
     ]).pipe(
-      switchMap(([client, user]) => forkJoin([
-        client.getValidatorCommission(user.wallet.validatorAddress),
-        client.getValidatorOutstandingRewards(user.wallet.validatorAddress),
-      ])),
-      map(([commission, outstandingRewards]) => {
-        const coinsMap = [...commission, ...outstandingRewards]
+      switchMap(([client, user]) => client.getValidatorCommission(user.wallet.validatorAddress)),
+      map((commission) => {
+        const coinsMap = [...commission]
           .reduce((acc, coin) => ({ ...acc, [coin.denom]: (acc[coin.denom] || 0) + (+coin.amount || 0) }), {});
 
         return Object.entries(coinsMap)
