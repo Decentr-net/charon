@@ -4,6 +4,7 @@ import { BlocksService } from './blocks';
 import { CurrencyService } from './currency';
 import { DistributionService } from './distribution';
 import { FollowingService } from './following';
+import { HelpService } from './help';
 import { ImageUploaderService } from './image-uploader';
 import { NetworkSelectorService } from './network-selector';
 import { NetworkService } from './network';
@@ -20,6 +21,7 @@ export * from './currency';
 export * from './distribution';
 export * from './following';
 export * from './image-uploader';
+export * from './help';
 export * from './menu';
 export * from './network';
 export * from './network-selector';
@@ -37,6 +39,7 @@ export const CORE_SERVICES = [
   CurrencyService,
   DistributionService,
   FollowingService,
+  HelpService,
   ImageUploaderService,
   NetworkSelectorService,
   NetworkService,
