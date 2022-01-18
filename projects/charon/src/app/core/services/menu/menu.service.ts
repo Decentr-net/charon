@@ -42,7 +42,7 @@ import { svgLogoIconOrange } from '@shared/svg-icons/logo-icon-orange';
 import { svgLogoIconPink } from '@shared/svg-icons/logo-icon-pink';
 import { svgLogoIconGreen } from '@shared/svg-icons/logo-icon-green';
 
-const DECENTR_SITE_URL = 'https://decentr.net/';
+const DECENTR_SUPPORT_SITE_URL = 'https://support.decentr.net/';
 
 interface MenuItemsTranslations {
   decentr_hub: {
@@ -62,7 +62,7 @@ interface MenuItemsTranslations {
     title: string;
   };
   lock: string;
-  info_and_help: string;
+  help: string;
 }
 
 @Injectable()
@@ -144,18 +144,18 @@ export class MenuService extends MenuBaseService {
           ],
           [
             {
+              action: () => window.open(DECENTR_SUPPORT_SITE_URL, '_blank'),
+              iconKey: svgInformation.name,
+              title: itemsTranslationsObject.help,
+            },
+          ],
+          [
+            {
               action: () => this.lockService.lock(),
               iconKey: svgLock.name,
               title: itemsTranslationsObject.lock,
             },
           ],
-          [
-            {
-              action: () => window.open(DECENTR_SITE_URL, '_blank'),
-              iconKey: svgInformation.name,
-              title: itemsTranslationsObject.info_and_help,
-            },
-          ]
         ])
       );
   }

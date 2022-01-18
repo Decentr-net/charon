@@ -4,7 +4,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
 import { APP_VERSION } from '@shared/utils/version';
-import { ThemeService } from '@core/services';
+import { HelpService, ThemeService } from '@core/services';
 
 @UntilDestroy()
 @Component({
@@ -19,9 +19,12 @@ export class AppComponent {
   public isInitLoading = true;
 
   constructor(
+    helpService: HelpService,
     svgIconRegistry: SvgIconRegistry,
     themeService: ThemeService,
   ) {
+    helpService.initialize();
+
     themeService.getThemeValue().pipe(
       untilDestroyed(this),
     ).subscribe();

@@ -4,5 +4,6 @@ export abstract class Environment {
   abstract currencyApi: string;
   abstract explorer: string;
   abstract ga: string;
+  abstract help: string;
   abstract production: boolean;
 }
