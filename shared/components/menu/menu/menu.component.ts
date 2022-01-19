@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { Observable } from 'rxjs';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -15,6 +16,8 @@ import { svgDropdownExpand } from '../../../svg-icons/dropdown-expand';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent implements OnInit {
+  @ViewChild(MatMenuTrigger) menuTrigger: MatMenuTrigger;
+
   public userProfile: MenuUserProfile;
 
   public translations: MenuTranslations;
@@ -51,5 +54,9 @@ export class MenuComponent implements OnInit {
     this.items$ = this.menuService.getItems();
 
     this.userItem$ = this.menuService.getUserItem();
+
+    this.menuService.getCloseSource().pipe(
+      untilDestroyed(this),
+    ).subscribe(() => this.menuTrigger?.closeMenu());
   }
 }

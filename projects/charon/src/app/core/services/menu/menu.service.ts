@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { combineLatest, EMPTY, Observable } from 'rxjs';
 import {
   catchError,
   filter,
   map,
+  mapTo,
   mergeMap,
   shareReplay,
   startWith,
@@ -19,7 +20,7 @@ import {
   MenuService as MenuBaseService,
   MenuTranslations,
   MenuUserItem,
-  MenuUserProfile
+  MenuUserProfile,
 } from '@shared/components/menu';
 
 import { BankService, PDVService } from '@core/services';
@@ -180,6 +181,13 @@ export class MenuService extends MenuBaseService {
 
   public getTranslations(): Observable<MenuTranslations> {
     return this.translocoService.selectTranslateObject('menu', null, 'core');
+  }
+
+  public getCloseSource(): Observable<void> {
+    return this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      mapTo(void 0),
+    );
   }
 
   private getProfile(): Observable<Profile> {
