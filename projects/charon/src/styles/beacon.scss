@@ -1,5 +1,9 @@
 @import 'variables';
 
+.hsds-beacon {
+  color-scheme: initial;
+}
+
 .hsds-beacon .BeaconFabButtonFrame {
   bottom: $grid-step * 8 !important;
 }
