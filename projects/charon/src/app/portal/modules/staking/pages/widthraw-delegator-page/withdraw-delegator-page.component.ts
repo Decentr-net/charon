@@ -86,7 +86,14 @@ export class WithdrawDelegatorPageComponent implements OnInit {
   }
 
   public chooseValidator(validator: ValidatorDefinitionShort): void {
-    this.selectedItems$.next([validator]);
+    const selectedValidators = this.selectedItems$.value;
+
+    if (selectedValidators.includes(validator)) {
+      this.selectedItems$.next(selectedValidators.filter((val) => val !== validator));
+      return;
+    }
+
+    this.selectedItems$.next([...selectedValidators, validator]);
   }
 
   public chooseAll(validators: ValidatorDefinitionShort[]): void {
