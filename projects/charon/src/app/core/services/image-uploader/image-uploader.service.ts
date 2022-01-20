@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { defer, Observable } from 'rxjs';
+import { defer, firstValueFrom, Observable } from 'rxjs';
 import { map, mergeMap, pluck } from 'rxjs/operators';
 import { DecentrImageClient } from 'decentr-js';
 
@@ -24,8 +24,8 @@ export class ImageUploaderService {
   }
 
   private createClient(): Promise<DecentrImageClient> {
-    return this.configService.getCerberusUrl().pipe(
+    return firstValueFrom(this.configService.getCerberusUrl().pipe(
       map((cerberusUrl) => new DecentrImageClient(cerberusUrl)),
-    ).toPromise();
+    ));
   }
 }

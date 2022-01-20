@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, defer, Observable } from 'rxjs';
+import { BehaviorSubject, defer, firstValueFrom, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, first, map, mapTo, mergeMapTo, skip } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Wallet } from 'decentr-js';
 
 import { AuthBrowserStorageService } from '@shared/services/auth';
 import { aesDecrypt, aesEncrypt, sha256 } from '@shared/utils/crypto';
 import { uuid } from '@shared/utils/uuid';
 import { AuthUser, AuthUserCreate, AuthUserUpdate } from '../models';
-import { Wallet } from 'decentr-js';
 
 @UntilDestroy()
 @Injectable()
@@ -35,10 +35,9 @@ export class AuthService {
       untilDestroyed(this),
     ).subscribe(this.activeUser$);
 
-    return this.activeUser$.pipe(
+    return firstValueFrom(this.activeUser$.pipe(
       skip(1),
-      first(),
-    ).toPromise().then();
+    )).then();
   }
 
   public getActiveUser(): Observable<AuthUser | undefined> {
@@ -91,7 +90,7 @@ export class AuthService {
   }
 
   public logout(): Promise<void> {
-    return this.changeUser(undefined).toPromise()
+    return firstValueFrom(this.changeUser(undefined))
       .then(() => this.router.navigate(['/']))
       .then();
   }
@@ -107,9 +106,7 @@ export class AuthService {
       ? await AuthService.encryptPassword(update.password)
       : undefined;
 
-    const user = await this.authStorage.getUser(userId).pipe(
-      first(),
-    ).toPromise();
+    const user = await firstValueFrom(this.authStorage.getUser(userId));
 
     const shouldUpdateEncryptedSeed = user.encryptedSeed && update.password;
 

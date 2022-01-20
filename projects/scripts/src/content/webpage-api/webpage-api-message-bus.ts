@@ -1,5 +1,5 @@
 import { EMPTY, Observable } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Post } from 'decentr-js';
 
 import { NetworkId } from '../../../../../shared/services/configuration';
@@ -108,7 +108,7 @@ export class WebpageAPIMessageBus {
   ): Observable<WebpageAPIResponseOf<T> | WebpageAPIResponseErrorMessage> {
     return WebpageAPI_MESSAGE_CODE_MAP[requestCode]
       ? this.onMessage(WebpageAPI_MESSAGE_CODE_MAP[requestCode], id).pipe(
-        pluck('body'),
+        map(({ body }) => body)
       )
       : EMPTY;
   }

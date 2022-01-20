@@ -32,10 +32,10 @@ export class ConfigService {
         retryWhen((errors) => errors.pipe(
           delay(ONE_SECOND),
         )),
-      ).subscribe(
-        (config) => this.config$.next(config),
-        (error) => this.config$.error(error),
-      );
+      ).subscribe({
+        next: (config) => this.config$.next(config),
+        error: (error) => this.config$.error(error),
+      });
     }
 
     return this.config$.pipe(

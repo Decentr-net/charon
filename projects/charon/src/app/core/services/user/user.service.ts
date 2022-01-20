@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, defer, Observable, of, ReplaySubject, Subject, timer } from 'rxjs';
+import { combineLatest, defer, firstValueFrom, Observable, of, ReplaySubject, Subject, timer } from 'rxjs';
 import {
   catchError,
   filter,
@@ -172,12 +172,11 @@ export class UserService {
   }
 
   private createProfileClient(): Promise<DecentrProfileClient> {
-    return combineLatest([
+    return firstValueFrom(combineLatest([
       this.configService.getCerberusUrl(),
       this.configService.getTheseusUrl(),
     ]).pipe(
-      take(1),
       map(([cerberusUrl, theseusUrl]) => new DecentrProfileClient(cerberusUrl, theseusUrl)),
-    ).toPromise();
+    ));
   }
 }
