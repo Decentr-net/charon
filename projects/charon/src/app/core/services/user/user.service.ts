@@ -72,8 +72,7 @@ export class UserService {
   public getAccount(walletAddress: string, networkId?: NetworkId): Observable<Account | undefined> {
     if (networkId) {
       return this.configService.getNetworkConfig(networkId).pipe(
-        // TODO select fist nodeUrl from config
-        map(() => 'http://hera.testnet.decentr.xyz:26657'),
+        map((config) => config.network.rest[0]),
         mergeMap((nodeUrl) => DecentrAuthClient.create(nodeUrl)),
         mergeMap((client) => client.getAccount(walletAddress)),
       );
@@ -98,6 +97,19 @@ export class UserService {
     return timer(0, ONE_SECOND).pipe(
       switchMap(() => this.getAccount(walletAddress, networkId)),
       skipWhile((account) => !account),
+      take(1),
+    );
+  }
+
+  public createTestnetAccount(walletAddress: Wallet['address']): Observable<void> {
+    return this.getAccount(walletAddress, NetworkId.Testnet).pipe(
+      mergeMap((account) => account
+        ? of(void 0)
+        : this.hesoyam(walletAddress).pipe(
+          mergeMap(() => this.waitAccount(walletAddress, NetworkId.Testnet)),
+        )
+      ),
+      mapTo(void 0),
       take(1),
     );
   }

@@ -65,6 +65,10 @@ export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateC
       return false;
     }
 
+    await userService
+      .createTestnetAccount(authService.getActiveUserInstant().wallet.address)
+      .toPromise();
+
     return Promise.all([
       AuthCompletedRegistrationGuard.isProfileFilledIn(authService, userService),
       AuthCompletedRegistrationGuard.isPDVCollectionConfirmed(authService, settingsService),
