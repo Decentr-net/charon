@@ -50,7 +50,7 @@ export class EmailConfirmationPageService {
             return throwError(error);
         }
       }),
-      mergeMap(() => this.userService.hesoyam(user.wallet.address)),
+      mergeMap(() => this.userService.createTestnetAccount(user.wallet.address)),
       mergeMap(() => this.userService.waitAccount(user.wallet.address)),
       mapTo(void 0),
       tap(() => this.analyticsService.sendEvent(AnalyticsEvent.ConfirmRegistration)),

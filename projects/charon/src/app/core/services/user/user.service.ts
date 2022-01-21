@@ -111,6 +111,7 @@ export class UserService {
       ),
       mapTo(void 0),
       take(1),
+      catchError(() => of(void 0)),
     );
   }
 
