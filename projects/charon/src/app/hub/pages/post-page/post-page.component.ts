@@ -92,7 +92,7 @@ export class PostPageComponent implements OnInit {
     combineLatest([
       post$,
       post$.pipe(
-        switchMap(() => this.followingService.getFollowees(walletAddress)),
+        switchMap(() => this.followingService.getFollowees()),
       ),
       FollowingService.isFollowingUpdating$,
     ]).pipe(

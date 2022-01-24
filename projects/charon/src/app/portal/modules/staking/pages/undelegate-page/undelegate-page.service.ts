@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Observable, timer } from 'rxjs';
-import { filter, map, mapTo, pluck, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
-import { Validator } from 'decentr-js';
+import { map, mapTo, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
+import { createDecentrCoin, Validator } from 'decentr-js';
 
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { AuthService } from '@core/auth';
@@ -21,54 +21,40 @@ export class UndelegatePageService {
   ) {
   }
 
-  public get minUnelegateAmount(): number {
+  public get minUndelegateAmount(): number {
     return 1 / MICRO_PDV_DIVISOR;
   }
 
   public getBalance(): Observable<number> {
-    return combineLatest([
-      this.authService.getActiveUser().pipe(
-        pluck('wallet', 'address'),
-        filter((walletAddress) => !!walletAddress),
-      ),
-      this.networkService.getActiveNetworkAPI(),
-    ]).pipe(
-      switchMap(([walletAddress]) => this.bankService.getDECBalance(walletAddress)),
-      map((balance) => +balance),
-    );
+    return this.bankService.getDECBalance().pipe(
+      map(parseFloat),
+    )
   }
 
-  public getDelegatedAmount(validatorAddress: Validator['operator_address']): Observable<number> {
-    return combineLatest([
-      this.authService.getActiveUser().pipe(
-        pluck('wallet', 'address'),
-        filter((walletAddress) => !!walletAddress),
-      ),
-      this.networkService.getActiveNetworkAPI(),
-    ]).pipe(
-      switchMap(() => this.stakingService.getValidatorDelegation(validatorAddress)),
-      map((delegation) => +delegation?.balance.amount || 0),
+  public getDelegatedAmount(validatorAddress: Validator['operatorAddress']): Observable<number> {
+    return this.stakingService.getValidatorDelegation(validatorAddress).pipe(
+      map((coin) => +coin.amount || 0),
     );
   }
   public getUndelegationFee(
-    validatorAddress: Validator['operator_address'],
+    validatorAddress: Validator['operatorAddress'],
     amount: string,
   ): Observable<number> {
-    return this.stakingService.getUndelegationFee(validatorAddress, amount);
+    return this.stakingService.getUndelegationFee({ validatorAddress, amount: createDecentrCoin(amount) });
   }
 
-  public getValidator(address: Validator['operator_address']): Observable<Validator> {
+  public getValidator(address: Validator['operatorAddress']): Observable<Validator> {
     return this.stakingService.getValidator(address);
   }
 
-  public getUndelegationFromAvailableTime(fromValidator: Validator['operator_address']): Observable<number | undefined> {
+  public getUndelegationFromAvailableTime(fromValidator: Validator['operatorAddress']): Observable<number | undefined> {
     return this.stakingService.getUndedelegationFromAvailableTime(fromValidator);
   }
 
-  public undelegate(validatorAddress: Validator['operator_address'], amount: string): Observable<void> {
-    return this.stakingService.createUndelegation(
+  public undelegate(validatorAddress: Validator['operatorAddress'], amount: number | string): Observable<void> {
+    return this.stakingService.undelegateTokens(
       validatorAddress,
-      amount,
+      createDecentrCoin(amount),
     );
   }
 

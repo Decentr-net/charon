@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Delegation, DelegatorRewards, Pool, UnbondingDelegation, Validator, Wallet } from 'decentr-js';
+import {
+  DelegationResponse,
+  Pool,
+  QueryDelegationTotalRewardsResponse,
+  UnbondingDelegation,
+  Validator,
+  Wallet,
+} from 'decentr-js';
 
 import { buildValidatorDefinition } from '../../utils';
 import { AuthService } from '@core/auth/services';
@@ -29,16 +36,16 @@ export class ValidatorsPageService {
     ]).pipe(
       map(([
         validators,
-             pool,
-             delegations,
-             delegatorRewards,
-             selfValidator,
-             unbondingDelegations,
-           ]: [
+        pool,
+        delegations,
+        delegatorRewards,
+        selfValidator,
+        unbondingDelegations,
+     ]: [
         Validator[],
         Pool,
-        Delegation[],
-        DelegatorRewards,
+        DelegationResponse[],
+        QueryDelegationTotalRewardsResponse,
         Wallet['validatorAddress'],
         UnbondingDelegation[],
       ]) => validators.map((validator) => buildValidatorDefinition(validator, pool, delegations, delegatorRewards, selfValidator, unbondingDelegations))),
@@ -51,10 +58,9 @@ export class ValidatorsPageService {
     );
   }
 
-  public getValidatorDistribution(address: Validator['operator_address']): Observable<number> {
-    return this.distributionService.getValidatorDistribution(address).pipe(
-      map((validatorRewards) => [...(validatorRewards.self_bond_rewards || []), ...(validatorRewards.val_commission || [])]
-        .reduce((acc, { amount }) => acc + +amount, 0)),
+  public getValidatorDistribution(): Observable<number | string> {
+    return this.distributionService.getValidatorRewards().pipe(
+      map((validatorRewards) => validatorRewards[0].amount),
     );
   }
 }

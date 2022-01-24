@@ -37,6 +37,7 @@ export class GenderSelectorComponent extends CustomControl<Gender> implements On
   @Input() public translations: GenderSelectorTranslations = {
     [Gender.Female]: Gender.Female,
     [Gender.Male]: Gender.Male,
+    unspecified: Gender.Unspecified,
   };
 
   public isOpenedInPopup: boolean = !isOpenedInTab();

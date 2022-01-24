@@ -1,7 +1,8 @@
-import { ChartPoint } from '../../components/line-chart';
-import { PDVStats } from '../../services/pdv';
+import { ProfilePDVStatisticsItem } from 'decentr-js';
 
-export const mapPDVStatsToChartPoints = (stats: PDVStats[]): ChartPoint[] => {
+import { ChartPoint } from '../../components/line-chart';
+
+export const mapPDVStatsToChartPoints = (stats: ProfilePDVStatisticsItem[]): ChartPoint[] => {
   return (stats || [])
     .map(({ date, value }) => ({
       date: new Date(date).valueOf(),

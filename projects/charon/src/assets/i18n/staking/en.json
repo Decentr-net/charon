@@ -54,6 +54,11 @@
     "validators_rewards": "Validator's rewards",
     "withdraw": "Withdraw"
   },
+  "validator_status": {
+    "1": "Unbonded",
+    "2": "Unbonding",
+    "3": "Bonded"
+  },
   "validators_table": {
     "commission": "Commission",
     "delegated": "Delegated",

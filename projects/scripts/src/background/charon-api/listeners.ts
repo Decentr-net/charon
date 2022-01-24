@@ -1,4 +1,4 @@
-import { BroadcastResponse, BroadcastSuccessResponse, StdTxMessageValue, StdTxMessageValueMap } from 'decentr-js';
+import { BroadcastClientError, DeliverTxResponse } from 'decentr-js';
 
 import { MessageBus } from '../../../../../shared/message-bus';
 import { MessageCode } from '../../messages';
@@ -19,21 +19,20 @@ import {
 import QUEUE, { QueuePriority } from '../queue';
 import { CharonAPIMessageBusMap } from './message-bus-map';
 
-interface RequestCallbackParams<K extends keyof StdTxMessageValueMap> {
+interface RequestCallbackParams {
   success: boolean;
-  error?: any;
-  messageValue?: StdTxMessageValue<K>;
+  error?: BroadcastClientError;
+  messageValue?: DeliverTxResponse['data'][0];
 }
 
-const sendRequest = <K extends keyof StdTxMessageValueMap>(
-  fn: () => PromiseLike<BroadcastResponse<K>>,
-  callback: (params: RequestCallbackParams<K>) => void,
+const sendRequest = (
+  fn: () => PromiseLike<DeliverTxResponse>,
+  callback: (params: RequestCallbackParams) => void,
 ): void => {
   QUEUE.add(fn, { priority: QueuePriority.Charon })
     .then(
-      (response: BroadcastSuccessResponse<K>) => callback({
+      () => callback({
         success: true,
-        messageValue: response.stdTxValue.msg[0].value,
       }),
       (error) => callback({
         success: false,
@@ -42,14 +41,13 @@ const sendRequest = <K extends keyof StdTxMessageValueMap>(
     );
 };
 
-export const initCharonAPIListeners = () => {
+export const initCharonAPIListeners = (): void => {
   const messageBus = new MessageBus<CharonAPIMessageBusMap>();
 
   messageBus.onMessage(MessageCode.PostCreate).subscribe((message) => {
     sendRequest(
       () => createPost(
-        message.body.walletAddress,
-        message.body.post,
+        message.body.request,
         message.body.privateKey,
       ),
       message.sendResponse,
@@ -59,8 +57,7 @@ export const initCharonAPIListeners = () => {
   messageBus.onMessage(MessageCode.PostDelete).subscribe((message) => {
     sendRequest(
       () => deletePost(
-        message.body.walletAddress,
-        message.body.postIdentificationParameters,
+        message.body.request,
         message.body.privateKey,
       ),
       message.sendResponse,
@@ -70,33 +67,17 @@ export const initCharonAPIListeners = () => {
   messageBus.onMessage(MessageCode.PostLike).subscribe((message) => {
     sendRequest(
       () => likePost(
-        message.body.walletAddress,
-        message.body.postIdentificationParameters,
-        message.body.likeWeight,
+        message.body.request,
         message.body.privateKey,
       ),
       message.sendResponse,
     );
   });
 
-  messageBus.onMessage(MessageCode.CoinTransfer).subscribe((message) => {
-    sendRequest(
-      () => transferCoins(
-        message.body.transferData,
-        message.body.privateKey
-      ),
-      (response) => {
-        messageBus.sendMessage(MessageCode.CoinTransferred);
-        message.sendResponse(response);
-      },
-    );
-  });
-
   messageBus.onMessage(MessageCode.Follow).subscribe((message) => {
     sendRequest(
       () => follow(
-        message.body.follower,
-        message.body.whom,
+        message.body.request,
         message.body.privateKey,
       ),
       (response) => {
@@ -108,8 +89,7 @@ export const initCharonAPIListeners = () => {
   messageBus.onMessage(MessageCode.Unfollow).subscribe((message) => {
     sendRequest(
       () => unfollow(
-        message.body.follower,
-        message.body.whom,
+        message.body.request,
         message.body.privateKey,
       ),
       (response) => {
@@ -118,11 +98,24 @@ export const initCharonAPIListeners = () => {
     );
   });
 
+  messageBus.onMessage(MessageCode.CoinTransfer).subscribe((message) => {
+    sendRequest(
+      () => transferCoins(
+        message.body.request,
+        message.body.privateKey,
+        message.body.memo,
+      ),
+      (response) => {
+        messageBus.sendMessage(MessageCode.CoinTransferred);
+        message.sendResponse(response);
+      },
+    );
+  });
+
   messageBus.onMessage(MessageCode.ResetAccount).subscribe((message) => {
     sendRequest(
       () => resetAccount(
-        message.body.walletAddress,
-        message.body.initiator,
+        message.body.request,
         message.body.privateKey,
       ),
       (response) => {
@@ -134,9 +127,7 @@ export const initCharonAPIListeners = () => {
   messageBus.onMessage(MessageCode.Delegate).subscribe((message) => {
     sendRequest(
       () => delegate(
-        message.body.walletAddress,
-        message.body.validatorAddress,
-        message.body.amount,
+        message.body.request,
         message.body.privateKey,
       ),
       (response) => {
@@ -148,10 +139,7 @@ export const initCharonAPIListeners = () => {
   messageBus.onMessage(MessageCode.Redelegate).subscribe((message) => {
     sendRequest(
       () => redelegate(
-        message.body.walletAddress,
-        message.body.fromValidatorAddress,
-        message.body.toValidatorAddress,
-        message.body.amount,
+        message.body.request,
         message.body.privateKey,
       ),
       (response) => {
@@ -163,9 +151,7 @@ export const initCharonAPIListeners = () => {
   messageBus.onMessage(MessageCode.Undelegate).subscribe((message) => {
     sendRequest(
       () => undelegate(
-        message.body.walletAddress,
-        message.body.validatorAddress,
-        message.body.amount,
+        message.body.request,
         message.body.privateKey,
       ),
       (response) => {
@@ -177,9 +163,8 @@ export const initCharonAPIListeners = () => {
   messageBus.onMessage(MessageCode.WithdrawDelegatorRewards).subscribe((message) => {
     sendRequest(
       () => withdrawDelegatorRewards(
+        message.body.request,
         message.body.privateKey,
-        message.body.validatorAddress,
-        message.body.walletAddress,
       ),
       (response) => {
         message.sendResponse(response);
@@ -190,9 +175,8 @@ export const initCharonAPIListeners = () => {
   messageBus.onMessage(MessageCode.WithdrawValidatorRewards).subscribe((message) => {
     sendRequest(
       () => withdrawValidatorRewards(
+        message.body.request,
         message.body.privateKey,
-        message.body.validatorAddress,
-        message.body.walletAddress,
       ),
       (response) => {
         message.sendResponse(response);

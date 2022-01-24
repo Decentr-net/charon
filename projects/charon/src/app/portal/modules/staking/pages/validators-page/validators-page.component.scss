@@ -30,6 +30,10 @@
 .validators-page__header-section__withdraw {
   color: var(--color-dportal-staking-header-withdraw);
   column-gap: $grid-step * 1.5;
+
+  &:hover {
+    color: var(--color-dportal-staking-header-withdraw);
+  }
 }
 
 .validators-page__header-section__withdraw-button {

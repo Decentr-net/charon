@@ -1,7 +1,6 @@
-import { PDVStatChartPoint, PDVStats } from '../../services/pdv';
 import { calculateDifferencePercentage } from '../number';
 
-export const getPDVDayChange = (stats: (PDVStats | PDVStatChartPoint)[], currentPDV: number): number => {
+export const getPDVDayChange = (stats: ({ date: number | string; value: number })[], currentPDV: number): number => {
   const now = new Date();
   const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
 

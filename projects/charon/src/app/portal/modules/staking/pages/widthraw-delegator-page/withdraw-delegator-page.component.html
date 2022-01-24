@@ -84,6 +84,7 @@
             app-button
             color="grey"
             (click)="chooseAll(validators)"
+            [disabled]="!validators.length"
           >
             {{ translate('actions.choose_all') }}
           </button>

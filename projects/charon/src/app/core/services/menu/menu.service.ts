@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { combineLatest, EMPTY, Observable } from 'rxjs';
 import {
   catchError,
-  distinctUntilChanged,
   filter,
   map,
+  mapTo,
   mergeMap,
-  pluck,
-  share,
+  shareReplay,
   startWith,
   switchMap,
 } from 'rxjs/operators';
@@ -21,11 +20,10 @@ import {
   MenuService as MenuBaseService,
   MenuTranslations,
   MenuUserItem,
-  MenuUserProfile
+  MenuUserProfile,
 } from '@shared/components/menu';
 
-import { BankService } from '@core/services';
-import { PDVService } from '@shared/services/pdv';
+import { BankService, PDVService } from '@core/services';
 import { isOpenedInTab } from '@shared/utils/browser';
 import { Environment } from '@environments/environment.definitions';
 import { AppRoute } from '../../../app-route';
@@ -95,7 +93,7 @@ export class MenuService extends MenuBaseService {
 
     this.profile$ = this.getProfile().pipe(
       filter((profile) => !!profile),
-      share(),
+      shareReplay(1),
     );
   }
 
@@ -163,7 +161,7 @@ export class MenuService extends MenuBaseService {
   public getUserItem(): Observable<MenuUserItem> {
     return combineLatest([
       this.getUserProfile(),
-      this.pdvService.getBalanceLive(),
+      this.pdvService.getBalance(),
       this.getDECBalance(),
     ]).pipe(
       map(([user, pdvValue, decValue]) => ({
@@ -176,11 +174,8 @@ export class MenuService extends MenuBaseService {
   }
 
   public getDECBalance(): Observable<number> {
-    return this.authService.getActiveUser().pipe(
-      filter((user) => !!user),
-      switchMap(({ wallet }) => this.bankService.getDECBalance(wallet.address).pipe(
-        map((balance) => +balance),
-      )),
+    return this.bankService.getDECBalance().pipe(
+      map(parseFloat),
     );
   }
 
@@ -188,10 +183,15 @@ export class MenuService extends MenuBaseService {
     return this.translocoService.selectTranslateObject('menu', null, 'core');
   }
 
+  public getCloseSource(): Observable<void> {
+    return this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      mapTo(void 0),
+    );
+  }
+
   private getProfile(): Observable<Profile> {
-    return this.authService.getActiveUser().pipe(
-      pluck('wallet', 'address'),
-      distinctUntilChanged(),
+    return this.authService.getActiveUserAddress().pipe(
       switchMap((walletAddress) => this.userService.onProfileChanged(walletAddress).pipe(
         startWith(0),
         mergeMap(() => this.userService.getProfile(walletAddress)),

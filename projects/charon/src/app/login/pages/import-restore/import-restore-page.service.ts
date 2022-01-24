@@ -6,6 +6,7 @@ import { catchError, map, mapTo, mergeMap, switchMapTo, tap } from 'rxjs/operato
 import { TranslocoService } from '@ngneat/transloco';
 import { createWalletFromMnemonic } from 'decentr-js';
 
+import { NetworkId } from '@shared/services/configuration';
 import { BrowserType, detectBrowser } from '@shared/utils/browser';
 import { ReferralService, UserService } from '@core/services';
 import { AuthService } from '@core/auth';
@@ -27,7 +28,7 @@ export class ImportRestorePageService {
   public importUser(seedPhrase: string, password: string, skipTrackInstall = false): Observable<void> {
     const wallet = createWalletFromMnemonic(seedPhrase);
 
-    return this.userService.getAccount(wallet.address).pipe(
+    return this.userService.getAccount(wallet.address, NetworkId.Mainnet).pipe(
       mergeMap((account) => {
         return account
           ? of(account)
@@ -37,6 +38,7 @@ export class ImportRestorePageService {
             'login'
           )));
       }),
+      mergeMap(() => this.userService.createTestnetAccount(wallet.address)),
       mergeMap(() => (!skipTrackInstall && detectBrowser() === BrowserType.Decentr)
         ? this.referralService.trackInstall(wallet.address)
         : of(void 0)

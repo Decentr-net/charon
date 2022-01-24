@@ -103,10 +103,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
   public deletePost(post: Pick<PostsListItem, 'owner' | 'uuid'>): Observable<void> {
     this.spinnerService.showSpinner();
 
-    return this.postsService.deletePost({
-      author: post.owner,
-      postId: post.uuid,
-    }).pipe(
+    return this.postsService.deletePost(post).pipe(
       tap(() => {
         this.notificationService.success(this.translocoService.translate('hub.notifications.delete.success'));
         HubPostsService.deleteNotifier$.next(post.uuid);

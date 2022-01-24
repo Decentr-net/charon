@@ -1,11 +1,12 @@
-import { LikeWeight, Post } from 'decentr-js';
+import { CreatePostRequest, LikeWeight, Post, ProfilePDVStatisticsItem } from 'decentr-js';
 
-import { PDVStats } from '@shared/services/pdv';
 import { PostOwnerProfile } from '../api';
 
 export interface PostsListItem extends Post {
   author: PostOwnerProfile;
   likeWeight: LikeWeight;
   shareLink: string;
-  stats: PDVStats[] | null;
+  stats: ProfilePDVStatisticsItem[] | null;
 }
+
+export type PostCreate = Omit<CreatePostRequest, 'owner' | 'uuid'>;

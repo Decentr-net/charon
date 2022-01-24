@@ -5,7 +5,7 @@ import { Environment } from '../../../environments/environment.definitions';
 import { ONE_SECOND } from '../../utils/date';
 import { whileOnline } from '../../utils/online';
 import { ConfigApiService } from './config-api.service';
-import { Config, Network } from './config.definitions';
+import { Config, Network, NetworkId } from './config.definitions';
 import { NetworkBrowserStorageService } from '../network-storage';
 
 export class ConfigService {
@@ -44,7 +44,13 @@ export class ConfigService {
     );
   }
 
-  private getNetworkConfig(): Observable<Network> {
+  public getNetworkConfig(networkId?: NetworkId): Observable<Network> {
+    if (networkId) {
+      return this.getConfig().pipe(
+        map((config) => config.networks[networkId]),
+      );
+    }
+
     return combineLatest([
       this.getConfig(),
       this.networkBrowserStorageService.getActiveId().pipe(
@@ -74,21 +80,15 @@ export class ConfigService {
     );
   }
 
-  public getChainId(): Observable<string> {
-    return this.getNetworkConfig().pipe(
-      map((config) => config.network.chainId),
-    );
-  }
-
   public getMaintenanceStatus(): Observable<boolean> {
     return this.getNetworkConfig().pipe(
       map(({ maintenance}) => maintenance),
     );
   }
 
-  public getNetworkIds(): Observable<string[]> {
+  public getNetworkIds(): Observable<NetworkId[]> {
     return this.getConfig().pipe(
-      map((config) => Object.keys(config.networks)),
+      map((config) => Object.keys(config.networks) as NetworkId[]),
     );
   }
 
@@ -105,8 +105,8 @@ export class ConfigService {
   }
 
   public getVulcanUrl(): Observable<string> {
-    return this.getConfig().pipe(
-      map(({ vulcan }) => vulcan.url),
+    return this.getNetworkConfig().pipe(
+      map((config) => config.vulcan.url),
     );
   }
 

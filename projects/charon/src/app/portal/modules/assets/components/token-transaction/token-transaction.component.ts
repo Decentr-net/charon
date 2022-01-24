@@ -1,11 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { TxMessageTypeUrl, Wallet } from 'decentr-js';
 
-import { TokenTransaction, TokenTransactionMessage, TokenTransactionMessageType } from '../token-transactions-table';
 import { svgCopy } from '@shared/svg-icons/copy';
 import { svgLink } from '@shared/svg-icons/link';
 import { svgReceive } from '@shared/svg-icons/receive';
 import { svgSend } from '@shared/svg-icons/send';
+import { AuthService } from '@core/auth';
+import { TokenTransaction, TokenTransactionMessage } from '../token-transactions-table';
 
 @Component({
   selector: 'app-token-transaction',
@@ -13,13 +15,16 @@ import { svgSend } from '@shared/svg-icons/send';
   styleUrls: ['./token-transaction.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TokenTransactionComponent {
+export class TokenTransactionComponent implements OnInit {
   @Input() public message: Pick<TokenTransactionMessage, 'amount' | 'recipient' | 'sender' | 'type'>;
   @Input() public transaction: Pick<TokenTransaction, 'comment' | 'fee' | 'hash'>;
 
-  public messageType: typeof TokenTransactionMessageType = TokenTransactionMessageType;
+  public messageType: typeof TxMessageTypeUrl = TxMessageTypeUrl;
+
+  public walletAddress: Wallet['address'];
 
   constructor(
+    private authService: AuthService,
     private svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register([
@@ -28,5 +33,9 @@ export class TokenTransactionComponent {
       svgReceive,
       svgSend,
     ]);
+  }
+
+  public ngOnInit(): void {
+    this.walletAddress = this.authService.getActiveUserInstant().wallet.address;
   }
 }

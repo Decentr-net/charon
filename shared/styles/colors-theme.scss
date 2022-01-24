@@ -6,6 +6,8 @@
 
   --color-skeleton-background: #{hexToRGBString($color-skeleton-background)};
   --color-skeleton-background-animation: #{$color-skeleton-background-animation};
+  --color-skeleton-background-main-menu-loading: #{hexToRGBString($color-background-night)};
+  --color-skeleton-background-animation-main-menu-loading: #{$color-skeleton-background-animation-night};
   --color-main-text: #{$color-black};
   --color-main-background: #{$color-white};
   --color-card-background: #{$color-background};
@@ -170,6 +172,7 @@
 
   // dPortal Assets
   --color-dportal-assets-page-table-header-background: #{$color-background};
+  --color-dportal-assets-page-table-header-date-value: #{$color-grey};
   --color-dportal-assets-page-table-new-transaction-background: #{rgba($color-green, 0.08)};
   --color-dportal-assets-page-token-transactions-action: #{$color-grey};
   --color-dportal-assets-page-token-transactions-action-background: #{$color-background};
@@ -193,6 +196,7 @@
   --color-dportal-staking-validators-table-voting-power: #{$color-grey};
   --color-dportal-staking-validators-table-unbonding-delegation: #{hexToRGBString($color-purple)};
   --color-dportal-staking-validators-table-reward: #{hexToRGBString($color-blue)};
+  --color-dportal-staking-validators-table-reward-hover: #{hexToRGBString($color-blue)};
   --color-dportal-staking-validators-table-empty: #{$color-light-grey};
   --color-dportal-staking-withdraw-delegator-footer-withdraw-text: #{$color-grey};
   --color-dportal-staking-withdraw-delegator-table-empty: #{$color-light-grey};
@@ -278,6 +282,8 @@
 
     --color-skeleton-background: #{hexToRGBString($color-background-night)};
     --color-skeleton-background-animation: #{$color-skeleton-background-animation-night};
+    --color-skeleton-background-main-menu-loading: #{hexToRGBString($color-black)};
+    --color-skeleton-background-animation-main-menu-loading: #{$color-skeleton-background-animation-night};
     --color-main-text: #{$color-white};
     --color-main-background: #{$color-black};
     --color-card-background: #{$color-card-background-night};
@@ -442,6 +448,7 @@
 
     // dPortal Assets
     --color-dportal-assets-page-table-header-background: #{$color-dark-grey};
+    --color-dportal-assets-page-table-header-date-value: #{$color-grey};
     --color-dportal-assets-page-table-new-transaction-background: #{rgba($color-green, 0.12)};
     --color-dportal-assets-page-token-transactions-action: #{$color-grey};
     --color-dportal-assets-page-token-transactions-action-background: #{$color-dark-grey};
@@ -465,6 +472,7 @@
     --color-dportal-staking-validators-table-voting-power: #{$color-grey};
     --color-dportal-staking-validators-table-unbonding-delegation: #{hexToRGBString($color-purple)};
     --color-dportal-staking-validators-table-reward: #{hexToRGBString($color-blue-night)};
+    --color-dportal-staking-validators-table-reward-hover: #{hexToRGBString($color-blue)};
     --color-dportal-staking-validators-table-empty: #{$color-light-grey};
     --color-dportal-staking-withdraw-delegator-footer-withdraw-text: #{$color-grey};
     --color-dportal-staking-withdraw-delegator-table-empty: #{$color-light-grey};

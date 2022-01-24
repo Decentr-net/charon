@@ -32,7 +32,7 @@ import { RedelegatePageService } from './redelegate-page.service';
 
 interface RedelegateForm {
   amount: string;
-  fromValidatorAddress: Validator['operator_address'];
+  fromValidatorAddress: Validator['operatorAddress'];
   toValidator?: FormControl<Validator>;
 }
 
@@ -61,7 +61,7 @@ export class RedelegatePageComponent implements OnInit {
 
   public fromValidatorName$: Observable<Validator['description']['moniker']>;
 
-  public toValidatorCommission$: Observable<Validator['commission']['commission_rates']['rate']>;
+  public toValidatorCommission$: Observable<Validator['commission']['commissionRates']['rate']>;
 
   public validatorsFilteredOptions$: Observable<SelectOption<Validator>[]>;
 
@@ -114,7 +114,7 @@ export class RedelegatePageComponent implements OnInit {
 
     combineLatest([
       this.form.value$.pipe(
-        pluck('toValidator', 'operator_address'),
+        map((formValue) => formValue.toValidator?.operatorAddress),
       ),
       validatorAddress$,
     ]).pipe(
@@ -130,10 +130,10 @@ export class RedelegatePageComponent implements OnInit {
 
     this.fee$ = this.form.value$.pipe(
       debounceTime(300),
-      switchMap((formValue) => formValue.fromValidatorAddress && formValue.toValidator?.operator_address
+      switchMap((formValue) => formValue.fromValidatorAddress && formValue.toValidator?.operatorAddress
         ? this.redelegatePageService.getRedelegationFee(
           formValue.fromValidatorAddress,
-          formValue.toValidator?.operator_address,
+          formValue.toValidator?.operatorAddress,
           (+formValue.amount * MICRO_PDV_DIVISOR).toString(),
         ).pipe(
           catchError(() => of(0)),
@@ -157,10 +157,10 @@ export class RedelegatePageComponent implements OnInit {
     ]).pipe(
       map(([excludeAddress, validators]) => {
         return validators
-          .filter((validator) => validator.operator_address !== excludeAddress)
+          .filter((validator) => validator.operatorAddress !== excludeAddress)
           .map((validator) => ({
             label: validator.description.moniker,
-            meta: `${(+validator.commission.commission_rates.rate * 100)}%`,
+            meta: `${(+validator.commission.commissionRates.rate * 100)}%`,
             value: validator,
           }));
       }),
@@ -214,7 +214,7 @@ export class RedelegatePageComponent implements OnInit {
 
     this.redelegatePageService.redelegate(
       formValue.fromValidatorAddress,
-      formValue.toValidator?.operator_address,
+      formValue.toValidator?.operatorAddress,
       Math.floor(+formValue.amount * MICRO_PDV_DIVISOR).toString(),
     ).pipe(
       catchError((error) => {

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, defer, Observable } from 'rxjs';
-import { Wallet } from 'decentr-js';
+import { BehaviorSubject, combineLatest, defer, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { DecentrCommunityClient, Wallet } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
-import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
 import { AuthService } from '@core/auth';
-import { FollowingApiService } from '../api';
 import { NetworkService } from '../network';
 
 @Injectable()
@@ -15,7 +15,6 @@ export class FollowingService {
 
   constructor(
     private authService: AuthService,
-    private followingApiService: FollowingApiService,
     private networkService: NetworkService,
   ) {
   }
@@ -23,51 +22,59 @@ export class FollowingService {
   public follow(whom: Wallet['address']): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return defer(() => {
-      FollowingService.isFollowingUpdating$.next(true);
+    FollowingService.isFollowingUpdating$.next(true);
 
-      return new MessageBus<CharonAPIMessageBusMap>()
-        .sendMessage(MessageCode.Follow, {
-          follower: wallet.address,
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
+      .sendMessage(MessageCode.Follow, {
+        request: {
+          owner: wallet.address,
           whom,
-          privateKey: wallet.privateKey
-        })
-        .then(response => {
-          FollowingService.isFollowingUpdating$.next(false);
+        },
+        privateKey: wallet.privateKey,
+      })
+    ).pipe(
+      map((response) => {
+        FollowingService.isFollowingUpdating$.next(false);
 
-          if (!response.success) {
-            throw response.error;
-          }
-        });
-    });
+        assertMessageResponseSuccess(response);
+      }),
+    );
   }
 
   public unfollow(whom: Wallet['address']): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return defer(() => {
-      FollowingService.isFollowingUpdating$.next(true);
+    FollowingService.isFollowingUpdating$.next(true);
 
-      return new MessageBus<CharonAPIMessageBusMap>()
-        .sendMessage(MessageCode.Unfollow, {
-          follower: wallet.address,
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
+      .sendMessage(MessageCode.Unfollow, {
+        request: {
+          owner: wallet.address,
           whom,
-          privateKey: wallet.privateKey
-        })
-        .then(response => {
-          FollowingService.isFollowingUpdating$.next(false);
+        },
+        privateKey: wallet.privateKey,
+      })
+    ).pipe(
+      map((response) => {
+        FollowingService.isFollowingUpdating$.next(false);
 
-          if (!response.success) {
-            throw response.error;
-          }
-        });
-    });
+        assertMessageResponseSuccess(response);
+      }),
+    );
   }
 
-  public getFollowees(follower: Wallet['address']): Observable<Wallet['address'][]> {
-    return this.followingApiService.getFollowees(
-      this.networkService.getActiveNetworkAPIInstant(),
-      follower,
+  public getFollowees(): Observable<Wallet['address'][]> {
+    return combineLatest([
+      this.createClient(),
+      this.authService.getActiveUserAddress(),
+    ]).pipe(
+      switchMap(([client, walletAddress]) => client.getFollowees(walletAddress)),
     );
+  }
+
+  private createClient(): Promise<DecentrCommunityClient> {
+    const api = this.networkService.getActiveNetworkAPIInstant();
+
+    return DecentrCommunityClient.create(api);
   }
 }

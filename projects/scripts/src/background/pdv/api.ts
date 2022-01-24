@@ -1,6 +1,6 @@
 import { defer, Observable, of } from 'rxjs';
 import { catchError, mapTo, mergeMap, shareReplay } from 'rxjs/operators';
-import { getPDVBlacklist, PDV, PDVBlacklist, sendPDV as decentrSendPDV, Wallet } from 'decentr-js';
+import { DecentrPDVClient, PDV, PDVBlacklist, Wallet } from 'decentr-js';
 
 import QUEUE, { QueuePriority } from '../queue';
 import CONFIG_SERVICE from '../config';
@@ -9,7 +9,7 @@ const configService = CONFIG_SERVICE;
 
 export const blacklist$: Observable<PDVBlacklist> =
   configService.getCerberusUrl().pipe(
-    mergeMap((cerberusUrl) => defer(() => getPDVBlacklist(cerberusUrl)).pipe(
+    mergeMap((cerberusUrl) => defer(() => new DecentrPDVClient(cerberusUrl).getPDVBlacklist()).pipe(
       catchError(() => of({
         cookieSource: [],
       })),
@@ -19,7 +19,7 @@ export const blacklist$: Observable<PDVBlacklist> =
 
 export const sendPDV = (wallet: Wallet, pDVs: PDV[]): Observable<void> => {
   return defer(() => QUEUE.add(() => configService.getCerberusUrl().pipe(
-    mergeMap((cerberusUrl) => decentrSendPDV(cerberusUrl, pDVs, wallet)),
+    mergeMap((cerberusUrl) => new DecentrPDVClient(cerberusUrl).sendPDV(pDVs, wallet)),
     mapTo(void 0),
   ).toPromise(), { priority: QueuePriority.PDV }));
 };

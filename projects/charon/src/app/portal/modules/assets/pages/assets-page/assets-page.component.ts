@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Navigation, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgAdd } from '@shared/svg-icons/add';
@@ -59,7 +59,7 @@ export class AssetsPageComponent
   public ngOnInit(): void {
     this.assetsList$ = this.assetsPageService.getAssets();
 
-    this.totalCount$ = this.assetsPageService.getTotalTransactionCount();
+    this.totalCount$ = of(1);
   }
 
   private getLastTransferTime(navigation: Navigation): number | undefined {
