@@ -1,4 +1,4 @@
-import { delay, filter, map, mapTo, retryWhen, take } from 'rxjs/operators';
+import { delay, filter, map, retryWhen, take } from 'rxjs/operators';
 import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 
 import { Environment } from '../../../environments/environment.definitions';
@@ -83,8 +83,6 @@ export class ConfigService {
   public getMaintenanceStatus(): Observable<boolean> {
     return this.getNetworkConfig().pipe(
       map(({ maintenance}) => maintenance),
-      // TODO: remove
-      mapTo(false),
     );
   }
 
@@ -95,9 +93,8 @@ export class ConfigService {
   }
 
   public getRestNodes(): Observable<string[]> {
-    // TODO: switch to networkConfig rest
-    return this.getConfig().pipe(
-      map((config) => config.networks[NetworkId.Testnet].network.rest),
+    return this.getNetworkConfig().pipe(
+      map((config) => config.network.rest),
     );
   }
 

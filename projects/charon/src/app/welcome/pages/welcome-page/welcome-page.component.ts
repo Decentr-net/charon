@@ -4,10 +4,10 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
 import { svgNewUser } from '@shared/svg-icons/new-user';
 import { svgSeedPhrase } from '@shared/svg-icons/seed-phrase';
+import { NetworkId } from '@shared/services/configuration';
+import { NetworkSelectorService } from '@core/services';
 import { LoginRoute } from '../../../login';
 import { AppRoute } from '../../../app-route';
-import { NetworkSelectorService } from '@core/services';
-import { NetworkId } from '@shared/services/configuration';
 
 @Component({
   selector: 'app-welcome',
@@ -31,7 +31,6 @@ export class WelcomePageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    // TODO: switch to Mainnet
-    this.networkSelector.setActiveNetworkId(NetworkId.Testnet);
+    this.networkSelector.setActiveNetworkId(NetworkId.Mainnet);
   }
 }

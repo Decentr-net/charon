@@ -28,8 +28,7 @@ export class ImportRestorePageService {
   public importUser(seedPhrase: string, password: string, skipTrackInstall = false): Observable<void> {
     const wallet = createWalletFromMnemonic(seedPhrase);
 
-    // TODO: add `NetworkId.Mainnet` param
-    return this.userService.getAccount(wallet.address, NetworkId.Testnet).pipe(
+    return this.userService.getAccount(wallet.address, NetworkId.Mainnet).pipe(
       mergeMap((account) => {
         return account
           ? of(account)
