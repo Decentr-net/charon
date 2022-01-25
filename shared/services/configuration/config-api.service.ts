@@ -1,10 +1,8 @@
-import { Injectable } from '@angular/core';
 import { defer, Observable } from 'rxjs';
 
 import { Environment } from '../../../environments/environment.definitions';
 import { Config } from './config.definitions';
 
-@Injectable()
 export class ConfigApiService {
   constructor(
     private environment: Environment,

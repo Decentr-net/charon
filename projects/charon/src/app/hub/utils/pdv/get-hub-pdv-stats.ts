@@ -1,9 +1,10 @@
-import { PDVStats } from '@shared/services/pdv';
+import { ProfilePDVStatisticsItem } from 'decentr-js';
+
 import { coerceTimestamp } from '@shared/utils/date';
 import { getPDVDayChange, mapPDVStatsToChartPoints } from '@shared/utils/pdv';
 import { HubPDVStatistics } from '../../components/hub-pdv-statistics';
 
-export const getHubPDVStats = (stats: PDVStats[], pdv: number, fromDate: number): HubPDVStatistics => {
+export const getHubPDVStats = (stats: ProfilePDVStatisticsItem[], pdv: number, fromDate: number): HubPDVStatistics => {
   return {
     fromDate: coerceTimestamp(fromDate),
     pdv,

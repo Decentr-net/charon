@@ -1,16 +1,15 @@
 import { Injectable, TemplateRef, ViewContainerRef } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { combineLatest, Observable } from 'rxjs';
+import { map, pluck } from 'rxjs/operators';
+import { AdvDdvStatistics } from 'decentr-js';
 
-import { AuthService } from '@core/auth/services';
-import { AdvDdvStatistics, BalanceValueDynamic, PDVService } from '@shared/services/pdv';
+import { AuthService } from '@core/auth';
 import { coerceTimestamp } from '@shared/utils/date';
-import { CoinRateFor24Hours, CurrencyService } from '@shared/services/currency';
+import { BalanceValueDynamic, CoinRateFor24Hours, CurrencyService, PDVService, UserService } from '@core/services';
 import { HubCurrencyStatistics } from '../hub-currency-statistics';
 import { HubPDVStatistics } from '../hub-pdv-statistics';
-import { UserService } from '@core/services';
 
 interface CoinRateHistory {
   date: number;
@@ -33,7 +32,7 @@ export class HubHeaderStatsMetaService {
   }
 
   public getBalance(): Observable<BalanceValueDynamic> {
-    return this.pdvService.getBalanceWithMarginLive();
+    return this.pdvService.getBalanceWithMargin();
   }
 
   public getCoinRate(): Observable<CoinRateFor24Hours> {
@@ -54,8 +53,8 @@ export class HubHeaderStatsMetaService {
 
   public getPdvStatistics(): Observable<HubPDVStatistics> {
     return combineLatest([
-      this.pdvService.getBalanceWithMarginLive(),
-      this.pdvService.getPDVStatChartPointsLive(),
+      this.pdvService.getBalanceWithMargin(),
+      this.pdvService.getPDVStatChartPoints(),
       this.getUserRegisteredAt(),
     ]).pipe(
       map(([pdvWithMargin, pdvStatistic, userRegisteredAt]) => ({
@@ -68,7 +67,7 @@ export class HubHeaderStatsMetaService {
   }
 
   private getDecentCoinRateHistory(days: number): Observable<CoinRateHistory[]> {
-    return this.currencyService.getDecentCoinRateHistory(days).pipe(
+    return this.currencyService.getDecentrCoinRateHistory(days).pipe(
       map((historyElements) => historyElements.map((historyElement) => ({
         date: historyElement[0],
         value: historyElement[1],

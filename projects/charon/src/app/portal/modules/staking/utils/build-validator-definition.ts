@@ -1,85 +1,103 @@
 import {
-  Delegation,
-  DelegatorRewards,
+  Coin,
+  DelegationResponse,
   Pool,
+  protoTimestampToDate,
+  QueryDelegationTotalRewardsResponse,
   UnbondingDelegation,
   Validator,
-  ValidatorDistribution,
   Wallet,
 } from 'decentr-js';
 
 import { ValidatorDefinition, ValidatorDefinitionShort } from '../models';
 
+const buildUnbondingDelegation = (
+  validatorAddress: Validator['operatorAddress'],
+  unbondingDelegations: UnbondingDelegation[],
+): {
+  balance: number;
+  completionTime: Date;
+} => {
+  const validatorUnbondingDelegations = unbondingDelegations
+    .find((delegation) => delegation.validatorAddress === validatorAddress);
+
+  return (validatorUnbondingDelegations?.entries || []).reduce((acc, delegation) => ({
+    balance: acc.balance + +delegation.balance,
+    completionTime: acc.completionTime > protoTimestampToDate(delegation.completionTime)
+      ? acc.completionTime
+      : protoTimestampToDate(delegation.completionTime)
+  }), {
+    balance: 0,
+    completionTime: undefined,
+  });
+};
+
+const getDelegatedAmount = (
+  validatorAddress: Validator['operatorAddress'],
+  delegations: DelegationResponse[],
+): Coin['amount'] => {
+  return delegations
+    .find((delegation) => delegation.delegation.validatorAddress === validatorAddress)
+      ?.balance.amount;
+}
+
+const buildPartialValidatorDefinition = (
+  validator: Validator,
+  delegations: DelegationResponse[],
+  unbondingDelegations: UnbondingDelegation[],
+): Omit<ValidatorDefinitionShort, 'reward'> => {
+  return {
+    address: validator.operatorAddress,
+    delegated: getDelegatedAmount(validator.operatorAddress, delegations),
+    jailed: validator.jailed,
+    name: validator.description.moniker,
+    unbondingDelegation: buildUnbondingDelegation(validator.operatorAddress, unbondingDelegations),
+  };
+}
+
 export const buildValidatorOperatorDefinition = (
   validator: Validator,
-  delegations: Delegation[],
-  validatorRewards: ValidatorDistribution,
+  delegations: DelegationResponse[],
+  validatorRewards: Coin[],
   unbondingDelegations: UnbondingDelegation[],
 ): ValidatorDefinitionShort => {
   return {
-    address: validator.operator_address,
-    delegated: delegations
-      .find((delegation) => delegation.validator_address === validator.operator_address)
-      ?.balance.amount,
-    jailed: validator.jailed,
-    name: validator.description.moniker,
-    reward: [...(validatorRewards.self_bond_rewards || []), ...(validatorRewards.val_commission || [])]
-      .reduce((acc, { amount }) => acc + +amount, 0),
-    unbondingDelegation: (unbondingDelegations.find((delegation) => delegation.validator_address === validator.operator_address)
-      ?.entries || []).reduce((acc, delegation) => ({
-        balance: acc.balance + +delegation.balance,
-        completionTime: acc.completionTime > new Date(delegation.completion_time) ? acc.completionTime : new Date(delegation.completion_time),
-      }), {
-        balance: 0,
-        completionTime: undefined,
-      }),
+    ...buildPartialValidatorDefinition(validator, delegations, unbondingDelegations),
+    reward: +validatorRewards[0].amount,
   };
 };
 
 export const buildValidatorDefinitionShort = (
   validator: Validator,
-  delegations: Delegation[],
-  delegatorRewards: DelegatorRewards,
+  delegations: DelegationResponse[],
+  delegatorRewards: QueryDelegationTotalRewardsResponse,
   unbondingDelegations: UnbondingDelegation[],
 ): ValidatorDefinitionShort => {
   return {
-    address: validator.operator_address,
-    delegated: delegations
-      .find((delegation) => delegation.validator_address === validator.operator_address)
-      ?.balance.amount,
-    jailed: validator.jailed,
-    name: validator.description.moniker,
+    ...buildPartialValidatorDefinition(validator, delegations, unbondingDelegations),
     reward: +(delegatorRewards.rewards || [])
       .find((delegatorReward) => {
-        return delegatorReward.validator_address === validator.operator_address && delegatorReward?.reward?.length;
+        return delegatorReward.validatorAddress === validator.operatorAddress && delegatorReward?.reward?.length;
       })?.reward[0]?.amount || 0,
-    unbondingDelegation: (unbondingDelegations.find((delegation) => delegation.validator_address === validator.operator_address)
-      ?.entries || []).reduce((acc, delegation) => ({
-        balance: acc.balance + +delegation.balance,
-        completionTime: acc.completionTime > new Date(delegation.completion_time) ? acc.completionTime : new Date(delegation.completion_time),
-      }), {
-        balance: 0,
-        completionTime: undefined,
-      }),
   };
 };
 
 export const buildValidatorDefinition = (
   validator: Validator,
   pool: Pool,
-  delegations: Delegation[],
-  delegatorRewards: DelegatorRewards,
+  delegations: DelegationResponse[],
+  delegatorRewards: QueryDelegationTotalRewardsResponse,
   selfValidator: Wallet['validatorAddress'],
   unbondingDelegations: UnbondingDelegation[],
 ): ValidatorDefinition => {
   return {
     ...buildValidatorDefinitionShort(validator, delegations, delegatorRewards, unbondingDelegations),
-    commission: validator.commission.commission_rates.rate,
+    commission: validator.commission.commissionRates.rate,
     details: validator.description.details,
-    selfValidator: validator.operator_address === selfValidator,
+    selfValidator: validator.operatorAddress === selfValidator,
     status: validator.status,
     tokens: validator.tokens,
-    votingPower: +validator.tokens / pool.bonded_tokens,
+    votingPower: +validator.tokens / +pool.bondedTokens,
     website: validator.description.website,
   };
 };

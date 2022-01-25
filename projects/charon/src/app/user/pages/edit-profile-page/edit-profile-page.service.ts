@@ -50,12 +50,7 @@ export class EditProfilePageService {
   }
 
   private updateRemoteProfile(update: ProfileUpdate): Observable<void> {
-    const user = this.authService.getActiveUserInstant();
-
-    return this.userService.setProfile(
-      update,
-      user.wallet,
-    );
+    return this.userService.setProfile(update);
   }
 
   public areProfilesIdentical(profileA: ProfileUpdate, profileB: ProfileUpdate): boolean {

@@ -10,6 +10,7 @@ export const environment: Environment = {
   currencyApi: 'https://api.coingecko.com/api/v3',
   explorer: 'https://explorer.decentr.net',
   ga: 'UA-144841582-4',
+  help: 'dc44855d-b3e4-48b7-9f92-31ed086a56a5',
   production: false,
 };
 

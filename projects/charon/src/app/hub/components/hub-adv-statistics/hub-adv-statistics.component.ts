@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { AdvDdvStatistics } from 'decentr-js';
 
-import { AdvDdvStatistics } from '@shared/services/pdv';
 import { svgPath } from '@shared/svg-icons/path';
 
 @Component({

@@ -1,273 +1,231 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, defer, forkJoin, Observable, of } from 'rxjs';
-import { catchError, map, pluck, switchMap } from 'rxjs/operators';
+import { combineLatest, defer, forkJoin, Observable, of, ReplaySubject } from 'rxjs';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import {
-  calculateCreateDelegationFee,
-  calculateCreateRedelegationFee,
-  calculateCreateUnbondingDelegationFee,
-  Delegation,
-  getUnbondingDelegations,
+  Coin,
+  DecentrStakingClient,
+  DelegateTokensRequest,
+  DelegationResponse,
   Pool,
-  Redelegation,
-  RedelegationsFilterParameters,
-  StakingParameters,
+  RedelegationResponse,
+  RedelegateTokensRequest,
+  StakingParams,
   UnbondingDelegation,
+  UnbondingDelegationEntry,
+  UndelegateTokensRequest,
   Validator,
-  ValidatorStatus,
+  protoTimestampToDate,
 } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
 import { ConfigService } from '@shared/services/configuration';
 import { MessageCode } from '@scripts/messages';
-import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { AuthService } from '../../auth';
-import { StakingApiService } from '../api';
 import { NetworkService } from '../network';
-
-const DENOM = 'udec';
 
 @Injectable()
 export class StakingService {
+  private client: ReplaySubject<DecentrStakingClient> = new ReplaySubject(1);
+
   constructor(
     private authService: AuthService,
     private configService: ConfigService,
-    private stakingApiService: StakingApiService,
     private networkService: NetworkService,
   ) {
+    this.createClient()
+      .then(client => this.client.next(client));
   }
 
-  public createDelegation(validatorAddress: Validator['operator_address'], amount: string): Observable<void> {
+  public delegateTokens(request: Omit<DelegateTokensRequest, 'delegatorAddress'>): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.Delegate, {
-        amount,
-        validatorAddress,
-        walletAddress: wallet.address,
-        privateKey: wallet.privateKey
-      })).pipe(
-      map((response) => {
-        if (!response.success) {
-          throw response.error;
-        }
-
-        return void 0;
-      }),
-    );
-  }
-
-  public getDelegationFee(validatorAddress: Validator['operator_address'], amount: number): Observable<number> {
-    return this.configService.getChainId().pipe(
-      switchMap((chainId) => defer(() => calculateCreateDelegationFee(
-        this.networkService.getActiveNetworkAPIInstant(),
-        chainId,
-        {
-          delegator_address: this.authService.getActiveUserInstant().wallet.address,
-          validator_address: validatorAddress,
-          amount: {
-            amount: amount.toString(),
-            denom: DENOM,
-          },
+        request: {
+          ...request,
+          delegatorAddress: wallet.address,
         },
-      ))),
-      map((fee) => +fee[0]?.amount),
+        privateKey: wallet.privateKey,
+      })).pipe(
+        map(assertMessageResponseSuccess),
+      );
+  }
+
+  public getDelegationFee(request: Omit<DelegateTokensRequest, 'delegatorAddress'>): Observable<number> {
+    return combineLatest([
+      this.client,
+      this.authService.getActiveUser(),
+    ]).pipe(
+      switchMap(([client, user]) => client.delegateTokens({
+        ...request,
+        delegatorAddress: user.wallet.address,
+      }, user.wallet.privateKey).simulate()),
     );
   }
 
-  public createRedelegation(
-    fromValidatorAddress: Validator['operator_address'],
-    toValidatorAddress: Validator['operator_address'],
-    amount: string,
+  public redelegateTokens(
+    request: Omit<RedelegateTokensRequest, 'delegatorAddress'>,
   ): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.Redelegate, {
-        amount,
-        fromValidatorAddress,
-        toValidatorAddress,
-        walletAddress: wallet.address,
+        request: {
+          ...request,
+          delegatorAddress: wallet.address,
+        },
         privateKey: wallet.privateKey,
       })).pipe(
-      map((response) => {
-        if (!response.success) {
-          throw response.error;
-        }
-
-        return void 0;
-      }),
-    );
+        map(assertMessageResponseSuccess),
+      );
   }
 
   public getRedelegationFee(
-    fromValidatorAddress: Validator['operator_address'],
-    toValidatorAddress: Validator['operator_address'],
-    amount: string,
+    request: Omit<RedelegateTokensRequest, 'delegatorAddress'>,
   ): Observable<number> {
-    return this.configService.getChainId().pipe(
-      switchMap((chainId) => defer(() => calculateCreateRedelegationFee(
-        this.networkService.getActiveNetworkAPIInstant(),
-        chainId,
-        {
-          delegator_address: this.authService.getActiveUserInstant().wallet.address,
-          validator_src_address: fromValidatorAddress,
-          validator_dst_address: toValidatorAddress,
-          amount: {
-            amount: amount.toString(),
-            denom: DENOM,
-          },
-        },
-      ))),
-      map((fee) => +fee[0]?.amount),
-    );
-  }
-
-  public getValidatorUndelegation(fromValidator: Validator['operator_address']): Observable<UnbondingDelegation> {
     return combineLatest([
-      this.authService.getActiveUser().pipe(
-        pluck('wallet', 'address'),
-      ),
-      this.networkService.getActiveNetworkAPI(),
+      this.client,
+      this.authService.getActiveUser(),
     ]).pipe(
-      switchMap(([walletAddress, api]) => defer(() => {
-        return this.stakingApiService.getValidatorUndelegation(api, walletAddress, fromValidator);
-      }).pipe(
-        catchError(() => of({
-          delegator_address: walletAddress,
-          validator_address: fromValidator,
-          entries: [],
-        })),
-      )),
+      switchMap(([client, user]) => client.redelegateTokens({
+        ...request,
+        delegatorAddress: user.wallet.address,
+      }, user.wallet.privateKey).simulate()),
     );
   }
 
-  public createUndelegation(validatorAddress: Validator['operator_address'], amount: string): Observable<void> {
+  public getValidatorUndelegation(
+    validatorAddress: Validator['operatorAddress'],
+  ): Observable<UnbondingDelegationEntry[]> {
+    return combineLatest([
+      this.client,
+      this.authService.getActiveUserAddress(),
+    ]).pipe(
+      switchMap(([client, walletAddress]) => client.getUnbondingDelegation(walletAddress, validatorAddress)),
+      map((response: UnbondingDelegation) => response.entries),
+      catchError(() => of([])),
+    );
+  }
+
+  public undelegateTokens(validatorAddress: Validator['operatorAddress'], amount: Coin): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.Undelegate, {
-        amount,
-        validatorAddress,
-        walletAddress: wallet.address,
+        request: {
+          delegatorAddress: wallet.address,
+          validatorAddress,
+          amount,
+        },
         privateKey: wallet.privateKey,
       })).pipe(
-        map((response) => {
-          if (!response.success) {
-            throw response.error;
-          }
-
-          return void 0;
-        }),
+        map(assertMessageResponseSuccess),
       );
   }
 
-  public getUndelegationFee(validatorAddress: Validator['operator_address'], amount: string): Observable<number> {
-    return this.configService.getChainId().pipe(
-      switchMap((chainId) => defer(() => calculateCreateUnbondingDelegationFee(
-        this.networkService.getActiveNetworkAPIInstant(),
-        chainId,
-        {
-          delegator_address: this.authService.getActiveUserInstant().wallet.address,
-          validator_address: validatorAddress,
-          amount: {
-            amount,
-            denom: DENOM,
-          },
-        },
-      ))),
-      map((fee) => +fee[0]?.amount),
+  public getUndelegationFee(request: Omit<UndelegateTokensRequest, 'delegatorAddress'>,): Observable<number> {
+    return combineLatest([
+      this.client,
+      this.authService.getActiveUser(),
+    ]).pipe(
+      switchMap(([client, user]) => client.undelegateTokens({
+        ...request,
+        delegatorAddress: user.wallet.address,
+      }, user.wallet.privateKey).simulate()),
     );
   }
 
-  public getUndedelegationFromAvailableTime(fromValidator: Validator['operator_address']): Observable<number | undefined> {
+  public getUndedelegationFromAvailableTime(fromValidator: Validator['operatorAddress']): Observable<number | undefined> {
     return combineLatest([
       this.getUndelegationsTimes(fromValidator),
       this.getStakingParameters().pipe(
-        pluck('max_entries'),
+        map((params) => params.maxEntries),
       ),
     ]).pipe(
       map(([times, maxEntries]) => times.length >= maxEntries ? times : []),
-      map((times) => times.sort((left, right) => left - right)),
-      map((sortedTimesDesc) => sortedTimesDesc[0]),
+      map((times) => times.sort((left, right) => left.valueOf() - right.valueOf())),
+      map((sortedTimesDesc) => sortedTimesDesc[0]?.valueOf()),
     );
   }
 
-  public getUnbondingDelegations(
-    fromValidatorAddress?: Validator['operator_address'],
-  ): Observable<UnbondingDelegation[] | UnbondingDelegation> {
+  public getUnbondingDelegations(): Observable<UnbondingDelegation[]> {
     return combineLatest([
-      this.authService.getActiveUser().pipe(
-        pluck('wallet', 'address'),
-      ),
-      this.networkService.getActiveNetworkAPI(),
+      this.client,
+      this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([walletAddress, api]) => getUnbondingDelegations(api, walletAddress, fromValidatorAddress)),
+      switchMap(([client, walletAddress]) => client.getUnbondingDelegations(walletAddress)),
     );
   }
 
-  public getDelegations(): Observable<Delegation[]> {
+  public getUnbondingDelegation(
+    validatorAddress: Validator['operatorAddress'],
+  ): Observable<UnbondingDelegationEntry[]> {
     return combineLatest([
-      this.authService.getActiveUser().pipe(
-        pluck('wallet', 'address'),
-      ),
-      this.networkService.getActiveNetworkAPI(),
+      this.client,
+      this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([walletAddress, api]) => this.stakingApiService.getDelegations(api, walletAddress)),
+      switchMap(([client, walletAddress]) => client.getUnbondingDelegation(walletAddress, validatorAddress)),
+      map((response) => response.entries),
     );
   }
 
-  public getValidatorDelegation(validatorAddress: Validator['operator_address']): Observable<Delegation> {
+  public getDelegations(): Observable<DelegationResponse[]> {
     return combineLatest([
-      this.authService.getActiveUser().pipe(
-        pluck('wallet', 'address'),
-      ),
-      this.networkService.getActiveNetworkAPI(),
+      this.client,
+      this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([walletAddress, api]) => this.stakingApiService.getValidatorDelegation(
-        api,
+      switchMap(([client, walletAddress]) => client.getDelegations(walletAddress)),
+    );
+  }
+
+  public getValidatorDelegation(validatorAddress: Validator['operatorAddress']): Observable<Coin> {
+    return combineLatest([
+      this.client,
+      this.authService.getActiveUserAddress(),
+    ]).pipe(
+      switchMap(([client, walletAddress]) => client.getDelegation(
         walletAddress,
         validatorAddress,
       )),
     );
   }
 
-  public getRedelegations(filter?: Omit<RedelegationsFilterParameters, 'delegator'>): Observable<Redelegation[]> {
+  public getRedelegations(
+    sourceValidatorAddress: Validator['operatorAddress'],
+    destinationValidatorAddress: Validator['operatorAddress'],
+  ): Observable<RedelegationResponse[]> {
     return combineLatest([
-      this.authService.getActiveUser().pipe(
-        pluck('wallet', 'address'),
-      ),
-      this.networkService.getActiveNetworkAPI(),
+      this.client,
+      this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([walletAddress, api]) => defer(() => this.stakingApiService.getRedelegations(
-        api,
-        {
-          ...filter,
-          delegator: walletAddress,
-        },
-      )).pipe(
-        catchError(() => of([])),
+      switchMap(([client, walletAddress]) => client.getRedelegations(
+        walletAddress,
+        sourceValidatorAddress,
+        destinationValidatorAddress,
       )),
+      catchError(() => of([])),
     );
   }
 
-  public getRedelegationFromAvailableTime(fromValidator: Validator['operator_address']): Observable<number | undefined> {
-    return this.getRedelegationsTimes({ validator_to: fromValidator }).pipe(
+  public getRedelegationFromAvailableTime(validatorSrcAddress: Validator['operatorAddress']): Observable<number | undefined> {
+    return this.getRedelegationsTimes('', validatorSrcAddress).pipe(
       map((times) => times.sort((left, right) => right - left)),
       map((sortedTimesDesc) => sortedTimesDesc[0]),
     );
   }
 
   public getRedelegationToAvailableTime(
-    fromValidator: Validator['operator_address'],
-    toValidator: Validator['operator_address'],
+    validatorSrcAddress: Validator['operatorAddress'],
+    validatorDstAddress: Validator['operatorAddress'],
   ): Observable<number | undefined> {
     return combineLatest([
-      this.getRedelegationsTimes({
-        validator_from: fromValidator,
-        validator_to: toValidator,
-      }),
+      this.getRedelegationsTimes(
+        validatorSrcAddress,
+        validatorDstAddress,
+      ),
       this.getStakingParameters().pipe(
-        pluck('max_entries')
+        map(({ maxEntries }) => maxEntries),
       ),
     ]).pipe(
       map(([times, maxEntries]) => times.length >= maxEntries ? times : []),
@@ -277,20 +235,20 @@ export class StakingService {
   }
 
   public getPool(): Observable<Pool> {
-    return this.networkService.getActiveNetworkAPI().pipe(
-      switchMap((api) => this.stakingApiService.getPool(api)),
+    return this.client.pipe(
+      mergeMap((client) => client.getPool()),
     );
   }
 
   public getValidators(onlyBonded: boolean = false): Observable<Validator[]> {
-    return this.networkService.getActiveNetworkAPI().pipe(
-      switchMap((api) => forkJoin([
-        this.stakingApiService.getValidators(api),
+    return this.client.pipe(
+      mergeMap((client) => forkJoin([
+        client.getValidators('BOND_STATUS_BONDED'),
         ...onlyBonded
           ? []
           : [
-            this.stakingApiService.getValidators(api, { status: ValidatorStatus.Unbonding }),
-            this.stakingApiService.getValidators(api, { status: ValidatorStatus.Unbonded }),
+            client.getValidators('BOND_STATUS_UNBONDING'),
+            client.getValidators('BOND_STATUS_UNBONDED'),
           ],
       ])),
       map(([bonded, unbonding, unbonded]) => [
@@ -301,30 +259,45 @@ export class StakingService {
     );
   }
 
-  public getValidator(address: Validator['operator_address']): Observable<Validator> {
-    return this.networkService.getActiveNetworkAPI().pipe(
-      switchMap((api) => this.stakingApiService.getValidator(api, address)),
+  public getValidator(address: Validator['operatorAddress']): Observable<Validator> {
+    return this.client.pipe(
+      mergeMap((client) => client.getValidator(address)),
     );
   }
 
-  public getStakingParameters(): Observable<StakingParameters> {
-    return this.networkService.getActiveNetworkAPI().pipe(
-      switchMap((api) => this.stakingApiService.getStakingParameters(api)),
+  public getStakingParameters(): Observable<StakingParams> {
+    return this.client.pipe(
+      mergeMap((client) => client.getStakingParameters()),
     );
   }
 
-  private getUndelegationsTimes(fromValidator: Validator['operator_address']): Observable<number[]> {
+  private getUndelegationsTimes(fromValidator: Validator['operatorAddress']): Observable<Date[]> {
     return this.getValidatorUndelegation(fromValidator).pipe(
-      map(({ entries }) => entries.map((entry) => Date.parse(entry.completion_time))),
+      map((entries ) => entries.map((entry) => protoTimestampToDate(entry.completionTime))),
     );
   }
 
-  private getRedelegationsTimes(filter?: Omit<RedelegationsFilterParameters, 'delegator'>): Observable<number[]> {
-    return this.getRedelegations(filter).pipe(
-      map((redelegations) => redelegations
-        .reduce((acc, item) => [...acc, ...item.entries], [])
-      ),
-      map((entries) => entries.map((entry) => Date.parse(entry.completion_time))),
+  private getRedelegationsTimes(
+    validatorSrcAddress: Validator['operatorAddress'],
+    validatorDstAddress: Validator['operatorAddress'],
+  ): Observable<number[]> {
+    return this.getRedelegations(validatorSrcAddress, validatorDstAddress).pipe(
+      map((redelegationResponses) => redelegationResponses.filter(({ redelegation }) => {
+        return (!validatorSrcAddress || redelegation.validatorSrcAddress === validatorSrcAddress)
+          && (!validatorDstAddress || redelegation.validatorDstAddress === validatorDstAddress);
+      })),
+      map((redelegations) => redelegations.reduce((acc, item) => [...acc, ...item.entries], [])),
+      map((entries: RedelegationResponse['entries']) => {
+        return entries
+          .map((entry) => protoTimestampToDate(entry.redelegationEntry?.completionTime).valueOf())
+          .filter(Boolean);
+      }),
     );
+  }
+
+  private createClient(): Promise<DecentrStakingClient> {
+    const api = this.networkService.getActiveNetworkAPIInstant();
+
+    return DecentrStakingClient.create(api);
   }
 }

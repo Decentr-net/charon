@@ -1,4 +1,5 @@
 import { APP_INITIALIZER, NgModule, Optional, SkipSelf } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -7,13 +8,13 @@ import { environment } from '@environments/environment';
 import { MessageCode } from '@scripts/messages';
 import { AnalyticsModule, AnalyticsService } from '@shared/analytics';
 import { MessageBus } from '@shared/message-bus';
-import { CurrencyModule } from '@shared/services/currency';
 import { MenuModule } from '@shared/components/menu';
 import { NetworkSelectorModule, NetworkSelectorService as BaseNetworkSelectorService } from '@shared/components/network-selector';
 import { SlotModule } from '@shared/components/slot';
+import { AuthBrowserStorageService } from '@shared/services/auth';
 import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { NotificationsModule } from '@shared/services/notification';
-import { PDVModule } from '@shared/services/pdv';
+import { PDVStorageService } from '@shared/services/pdv';
 import { SettingsModule } from '@shared/services/settings';
 import { ERROR_PROCESSORS, FallbackErrorProcessor } from '@core/notifications';
 import { AppRoute } from '../app-route';
@@ -58,9 +59,6 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     AuthModule.forRoot(),
     AuthorizedLayoutModule,
     ConfigurationModule,
-    CurrencyModule.forRoot({
-      api: environment.currencyApi,
-    }),
     LockModule.forRoot({
       redirectUrl: `/${AppRoute.Login}`,
     }),
@@ -83,7 +81,6 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
         upperCase: true,
       },
     }),
-    PDVModule,
     PermissionsModule.forRoot(PermissionsService),
     PublicLayoutModule,
     SettingsModule.forRoot(),
@@ -100,7 +97,19 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     CORE_GUARDS,
     CORE_SERVICES,
     INTERCEPTORS_PROVIDERS,
-    NetworkBrowserStorageService,
+    DecimalPipe,
+    {
+      provide: AuthBrowserStorageService,
+      useClass: AuthBrowserStorageService,
+    },
+    {
+      provide: NetworkBrowserStorageService,
+      useClass: NetworkBrowserStorageService,
+    },
+    {
+      provide: PDVStorageService,
+      useClass: PDVStorageService,
+    },
     {
       provide: BaseNetworkSelectorService,
       useExisting: NetworkSelectorService,

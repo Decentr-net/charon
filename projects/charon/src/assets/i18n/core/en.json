@@ -42,7 +42,7 @@
         "description": "Decentr blockchain explorer",
         "title": "dExplorer"
       },
-      "info_and_help": "Info and Help",
+      "help": "Help center",
       "lock": "Lock account"
     },
     "pdv": "PDV"
@@ -108,7 +108,8 @@
       "female": "Female",
       "label": "Gender",
       "male": "Male",
-      "placeholder": "Select a gender"
+      "placeholder": "Select a gender",
+      "unspecified": "Unspecified"
     },
     "last_name": {
       "errors": {

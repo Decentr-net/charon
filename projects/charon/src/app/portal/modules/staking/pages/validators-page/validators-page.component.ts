@@ -5,7 +5,7 @@ import { map, share, switchMap } from 'rxjs/operators';
 import { FormControl } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ValidatorStatus, Wallet } from 'decentr-js';
+import { BondStatus, Wallet } from 'decentr-js';
 
 import { svgGetCoin } from '@shared/svg-icons/get-coin';
 import { DistributionService } from '@core/services/distribution';
@@ -65,7 +65,7 @@ export class ValidatorsPageComponent implements OnInit {
       this.onlyBondedFormControl.value$,
     ]).pipe(
       map(([validators, onlyBonded,]) => {
-        return validators.filter(({ status }) => !onlyBonded || status === ValidatorStatus.Bonded);
+        return validators.filter(({ status }) => !onlyBonded || status === BondStatus.BOND_STATUS_BONDED);
       }),
       share(),
     );
@@ -94,7 +94,7 @@ export class ValidatorsPageComponent implements OnInit {
 
   public getTotalValidatorRewards(): Observable<number> {
     return this.getSelfValidator().pipe(
-      switchMap((validator) => validator ? this.validatorsPageService.getValidatorDistribution(validator.address) : []),
+      switchMap((validator) => validator ? this.validatorsPageService.getValidatorDistribution(): []),
     );
   }
 

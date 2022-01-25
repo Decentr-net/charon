@@ -3,17 +3,14 @@ import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { combineLatest, Observable, of, timer } from 'rxjs';
 import {
   catchError,
-  distinctUntilChanged,
   map,
   mapTo,
   mergeMapTo,
-  pluck,
-  switchMap,
   take,
   tap,
 } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
-import { Wallet } from 'decentr-js';
+import { createDecentrCoin, Wallet } from 'decentr-js';
 
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { NotificationService } from '@shared/services/notification';
@@ -32,16 +29,13 @@ export class TransferPageService {
   }
 
   public getBalance(): Observable<number> {
-    return this.authService.getActiveUser().pipe(
-      pluck('wallet', 'address'),
-      distinctUntilChanged(),
-      switchMap((walletAddress) => this.bankService.getDECBalance(walletAddress)),
+    return this.bankService.getDECBalance().pipe(
       map(parseFloat),
     );
   }
 
-  public getTransferFee(to: Wallet['address'], amount: number): Observable<number> {
-    return this.bankService.getTransferFee(to, amount.toString());
+  public getTransferFee(toAddress: Wallet['address'], amount: number | string): Observable<number> {
+    return this.bankService.getTransferFee({ amount: [createDecentrCoin(amount)], toAddress });
   }
 
   public createAsyncValidWalletAddressValidator(): AsyncValidatorFn {
@@ -88,8 +82,11 @@ export class TransferPageService {
     };
   }
 
-  public transfer(to: Wallet['address'], amount: number, comment?: string): Observable<void> {
-    return this.bankService.transferCoins(to, amount.toString(), comment).pipe(
+  public transfer(toAddress: Wallet['address'], amount: number, memo?: string): Observable<void> {
+    return this.bankService.transferCoins({
+      amount: [createDecentrCoin(amount)],
+      toAddress,
+    }, memo).pipe(
       tap(() => {
         this.notificationService.success(
           this.translocoService.translate('transfer_page.notifications.success', null, 'portal'),

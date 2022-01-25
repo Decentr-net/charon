@@ -50,7 +50,7 @@ export class NetworkSelectorComponent implements OnInit {
   }
 
   public switchNetwork(network: Network): void {
-    this.networkSelectorService.setActiveNetwork(network);
+    this.networkSelectorService.setActiveNetworkId(network.id);
   }
 
   public trackByName: TrackByFunction<Network> = ({}, { name }) => name;

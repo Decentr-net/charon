@@ -32,7 +32,7 @@ import { DelegatePageService } from './delegate-page.service';
 
 export interface DelegateForm {
   amount: string;
-  validatorAddress: Validator['operator_address'];
+  validatorAddress: Validator['operatorAddress'];
   validatorName: Validator['description']['moniker'];
 }
 
@@ -59,7 +59,7 @@ export class DelegatePageComponent implements OnInit {
 
   public fee$: Observable<number>;
 
-  public validatorCommission$: Observable<Validator['commission']['commission_rates']['rate']>;
+  public validatorCommission$: Observable<Validator['commission']['commissionRates']['rate']>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -90,7 +90,7 @@ export class DelegatePageComponent implements OnInit {
       switchMap((formValue) => formValue.validatorAddress
         ? this.delegatePageService.getDelegationFee(
             formValue.validatorAddress,
-            +formValue.amount * MICRO_PDV_DIVISOR,
+            Math.ceil(+formValue.amount * MICRO_PDV_DIVISOR),
           ).pipe(
             catchError(() => of(0)),
           )
@@ -119,7 +119,7 @@ export class DelegatePageComponent implements OnInit {
     validator$.pipe(
       untilDestroyed(this),
     ).subscribe((validator) => {
-      this.form.get('validatorAddress').setValue(validator.operator_address);
+      this.form.get('validatorAddress').setValue(validator.operatorAddress);
       this.form.get('validatorName').setValue(validator.description.moniker);
     });
   }

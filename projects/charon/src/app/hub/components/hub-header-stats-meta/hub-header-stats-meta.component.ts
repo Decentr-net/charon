@@ -10,19 +10,19 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { filter, take } from 'rxjs/operators';
 import { NavigationStart, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { Observable } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { AdvDdvStatistics } from 'decentr-js'
 
-import { CoinRateFor24Hours } from '@shared/services/currency';
-import { AdvDdvStatistics, BalanceValueDynamic } from '@shared/services/pdv';
+import { svgExpandMore } from '@shared/svg-icons/expand-more';
+import { BalanceValueDynamic, CoinRateFor24Hours } from '@core/services';
 import { HubCurrencyStatistics } from '../hub-currency-statistics';
 import { HubHeaderStatsMetaService } from './hub-header-stats-meta.service';
 import { HubPDVStatistics } from '../hub-pdv-statistics';
-import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { svgExpandMore } from '@shared/svg-icons/expand-more';
 
 @UntilDestroy()
 @Component({

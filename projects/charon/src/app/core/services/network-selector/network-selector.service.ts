@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, skip, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, skip, switchMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -12,7 +12,7 @@ import {
 } from '@shared/components/network-selector';
 import { BlockchainNodeService } from '@shared/services/blockchain-node';
 import { NetworkBrowserStorageService } from '@shared/services/network-storage';
-import { ConfigService } from '@shared/services/configuration';
+import { ConfigService, NetworkId } from '@shared/services/configuration';
 
 @UntilDestroy()
 @Injectable()
@@ -28,6 +28,7 @@ export class NetworkSelectorService extends BaseNetworkSelectorService {
 
     this.networkStorage.getActiveId().pipe(
       skip(1),
+      distinctUntilChanged(),
       untilDestroyed(this),
     ).subscribe(() => location.reload());
   }
@@ -73,11 +74,11 @@ export class NetworkSelectorService extends BaseNetworkSelectorService {
     );
   }
 
-  public setActiveNetwork(network: Network): Promise<void> {
-    return this.networkStorage.setActiveId(network.id);
+  public setActiveNetworkId(networkId: NetworkId): Promise<void> {
+    return this.networkStorage.setActiveId(networkId);
   }
 
-  private getOptionConfig(networkId: string): Observable<Network> {
+  private getOptionConfig(networkId: NetworkId): Observable<Network> {
     return this.translocoService.selectTranslate(`network_selector.network.${networkId}`, null, 'core')
       .pipe(
         map((name) => ({

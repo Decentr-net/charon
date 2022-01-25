@@ -1,249 +1,171 @@
 import {
-  BroadcastResponse,
-  Decentr,
-  LikeWeight,
-  PostCreate,
-  PostIdentificationParameters,
-  StdTxMessageType,
-  TransferData,
-  Validator,
+  CreatePostRequest,
+  DecentrClient,
+  DelegateTokensRequest,
+  DeletePostRequest,
+  DeliverTxResponse,
+  FollowRequest,
+  LikeRequest,
+  RedelegateTokensRequest,
+  ResetAccountRequest,
+  SendTokensRequest,
+  UndelegateTokensRequest,
+  UnfollowRequest,
   Wallet,
+  WithdrawDelegatorRewardRequest,
+  WithdrawValidatorCommissionRequest,
 } from 'decentr-js';
-import { mergeMap } from 'rxjs/operators';
 
-import CONFIG_SERVICE from '../config';
 import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
 
-const configService = CONFIG_SERVICE;
 const networkStorage = new NetworkBrowserStorageService();
-
-const DENOM = 'udec';
 
 const getApi = () => networkStorage.getActiveAPIInstant();
 
-export const createPost = (
-  walletAddress: Wallet['address'],
-  post: PostCreate,
+const createDecentrClient = () => new DecentrClient(getApi());
+
+export const createPost = async (
+  request: CreatePostRequest,
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse<StdTxMessageType.CommunityCreatePost>> => {
-  return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).community.createPost(
-      walletAddress,
-      post,
-      {
-        broadcast: true,
-        privateKey,
-      },
-    )),
-  ).toPromise();
+): Promise<DeliverTxResponse> => {
+  const communityClient = await createDecentrClient().community();
+
+  return communityClient.createPost(
+    request,
+    privateKey,
+  ).signAndBroadcast();
 };
 
-export const deletePost = (
-  walletAddress: Wallet['address'],
-  postIdentificationParameters: PostIdentificationParameters,
+export const deletePost = async (
+  request: DeletePostRequest,
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse<StdTxMessageType.CommunityDeletePost>> => {
-  return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).community.deletePost(
-      walletAddress,
-      postIdentificationParameters,
-      {
-        broadcast: true,
-        privateKey,
-      },
-    )),
-  ).toPromise();
+): Promise<DeliverTxResponse> => {
+  const communityClient = await createDecentrClient().community();
+
+  return communityClient.deletePost(
+    request,
+    privateKey,
+  ).signAndBroadcast();
 };
 
-export const likePost = (
-  walletAddress: Wallet['address'],
-  postIdentificationParameters: PostIdentificationParameters,
-  likeWeight: LikeWeight,
+export const likePost = async (
+  request: LikeRequest,
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse<StdTxMessageType.CommunitySetLike>> => {
-  return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).community.likePost(
-      walletAddress,
-      postIdentificationParameters,
-      likeWeight,
-      {
-        broadcast: true,
-        privateKey,
-      },
-    )),
-  ).toPromise();
+): Promise<DeliverTxResponse> => {
+  const communityClient = await createDecentrClient().community();
+
+  return communityClient.setLike(
+    request,
+    privateKey,
+  ).signAndBroadcast();
 };
 
-export const transferCoins = (
-  transferData: TransferData,
+export const follow = async (
+  request: FollowRequest,
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse<StdTxMessageType.CosmosSend>> => {
-  return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).bank.sendCoin(
-      transferData,
-      {
-        broadcast: true,
-        privateKey,
-      },
-    )),
-  ).toPromise();
+): Promise<DeliverTxResponse> => {
+  const communityClient = await createDecentrClient().community();
+
+  return communityClient.follow(
+    request,
+    privateKey,
+  ).signAndBroadcast();
 };
 
-export const follow = (
-  follower: Wallet['address'],
-  whom: Wallet['address'],
+export const unfollow = async (
+  request: UnfollowRequest,
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse<StdTxMessageType.CommunityFollow>> => {
-  return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).community.follow(
-      follower,
-      whom,
-      {
-        broadcast: true,
-        privateKey,
-      },
-    )),
-  ).toPromise();
+): Promise<DeliverTxResponse> => {
+  const communityClient = await createDecentrClient().community();
+
+  return communityClient.unfollow(
+    request,
+    privateKey,
+  ).signAndBroadcast();
 };
 
-export const unfollow = (
-  follower: Wallet['address'],
-  whom: Wallet['address'],
+export const transferCoins = async (
+  request: SendTokensRequest,
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse<StdTxMessageType.CommunityUnfollow>> => {
-  return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).community.unfollow(
-      follower,
-      whom,
-      {
-        broadcast: true,
-        privateKey,
-      },
-    )),
-  ).toPromise();
+  memo?: string,
+): Promise<DeliverTxResponse> => {
+  const bankClient = await createDecentrClient().bank();
+
+  return bankClient.sendTokens(
+    request,
+    privateKey,
+    { memo },
+  ).signAndBroadcast();
 };
 
-export const resetAccount = (
-  walletAddress: Wallet['address'],
-  initiator: Wallet['address'],
+export const resetAccount = async (
+  request: ResetAccountRequest,
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse<StdTxMessageType.OperationsResetAccount>> => {
-  return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).operations.resetAccount(
-      walletAddress,
-      initiator,
-      {
-        broadcast: true,
-        privateKey,
-      },
-    )),
-  ).toPromise();
+): Promise<DeliverTxResponse> => {
+  const operationsClient = await createDecentrClient().operations();
+
+  return operationsClient.resetAccount(
+    request,
+    privateKey,
+  ).signAndBroadcast();
 };
 
-export const delegate = (
-  walletAddress: Wallet['address'],
-  validatorAddress: Validator['operator_address'],
-  amount: string,
+export const delegate = async (
+  request: DelegateTokensRequest,
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse<StdTxMessageType.CosmosDelegate>> => {
-  return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).staking.createDelegation(
-      {
-        delegator_address: walletAddress,
-        validator_address: validatorAddress,
-        amount: {
-          amount,
-          denom: DENOM,
-        },
-      },
-      {
-        broadcast: true,
-        privateKey,
-      },
-    )),
-  ).toPromise();
+): Promise<DeliverTxResponse> => {
+  const stakingClient = await createDecentrClient().staking();
+
+  return stakingClient.delegateTokens(
+    request,
+    privateKey,
+  ).signAndBroadcast();
 };
 
-export const redelegate = (
-  walletAddress: Wallet['address'],
-  fromValidatorAddress: Validator['operator_address'],
-  toValidatorAddress: Validator['operator_address'],
-  amount: string,
+export const redelegate = async (
+  request: RedelegateTokensRequest,
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse<StdTxMessageType.CosmosBeginRedelegate>> => {
-  return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).staking.createRedelegation(
-      {
-        delegator_address: walletAddress,
-        validator_src_address: fromValidatorAddress,
-        validator_dst_address: toValidatorAddress,
-        amount: {
-          amount,
-          denom: DENOM,
-        },
-      },
-      {
-        broadcast: true,
-        privateKey,
-      },
-    )),
-  ).toPromise();
+): Promise<DeliverTxResponse> => {
+  const stakingClient = await createDecentrClient().staking();
+
+  return stakingClient.redelegateTokens(
+    request,
+    privateKey,
+  ).signAndBroadcast();
 };
 
-export const undelegate = (
-  walletAddress: Wallet['address'],
-  validatorAddress: Validator['operator_address'],
-  amount: string,
+export const undelegate = async (
+  request: UndelegateTokensRequest,
   privateKey: Wallet['privateKey'],
-): Promise<BroadcastResponse<StdTxMessageType.CosmosUndelegate>> => {
-  return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).staking.createUnbondingDelegation(
-      {
-        delegator_address: walletAddress,
-        validator_address: validatorAddress,
-        amount: {
-          amount,
-          denom: DENOM,
-        },
-      },
-      {
-        broadcast: true,
-        privateKey,
-      },
-    )),
-  ).toPromise();
+): Promise<DeliverTxResponse> => {
+  const stakingClient = await createDecentrClient().staking();
+
+  return stakingClient.undelegateTokens(
+    request,
+    privateKey,
+  ).signAndBroadcast();
 };
 
-export const withdrawDelegatorRewards = (
+export const withdrawDelegatorRewards = async (
+  request: WithdrawDelegatorRewardRequest,
   privateKey: Wallet['privateKey'],
-  validatorAddress: Validator['operator_address'],
-  walletAddress: Wallet['address'],
-): Promise<BroadcastResponse<StdTxMessageType.CosmosWithdrawDelegationReward>> => {
-  return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).distribution.withdrawDelegatorRewards(
-      walletAddress,
-      {
-        broadcast: true,
-        fromValidatorAddress: validatorAddress,
-        privateKey,
-      }
-    )),
-  ).toPromise();
+): Promise<DeliverTxResponse> => {
+  const distributionClient = await createDecentrClient().distribution();
+
+  return distributionClient.withdrawDelegatorRewards(
+    request,
+    privateKey,
+  ).signAndBroadcast();
 };
 
-export const withdrawValidatorRewards = (
+export const withdrawValidatorRewards = async (
+  request: WithdrawValidatorCommissionRequest,
   privateKey: Wallet['privateKey'],
-  validatorAddress: Validator['operator_address'],
-  walletAddress: Wallet['address'],
-): Promise<BroadcastResponse<StdTxMessageType.CosmosWithdrawValidatorCommission>> => {
-  return configService.getChainId().pipe(
-    mergeMap((chainId) => new Decentr(getApi(), chainId).distribution.withdrawValidatorRewards(
-      walletAddress,
-      validatorAddress,
-      {
-        broadcast: true,
-        privateKey,
-      }
-    )),
-  ).toPromise();
+): Promise<DeliverTxResponse> => {
+  const distributionClient = await createDecentrClient().distribution();
+
+  return distributionClient.withdrawValidatorRewards(
+    request,
+    privateKey,
+  ).signAndBroadcast();
 };

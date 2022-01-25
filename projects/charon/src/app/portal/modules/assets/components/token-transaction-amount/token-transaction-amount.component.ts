@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TokenTransactionAmountComponent {
-  @Input() public amount: string;
+  @Input() public amount: number | string;
 
   @HostBinding('class')
   public get colorClass(): string {

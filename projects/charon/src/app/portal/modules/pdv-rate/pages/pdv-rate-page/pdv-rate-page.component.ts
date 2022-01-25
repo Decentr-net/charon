@@ -1,19 +1,15 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
 import { isOpenedInTab } from '@shared/utils/browser';
 import { addAmountToDate, DateAmountType } from '@shared/utils/date';
-import { BalanceValueDynamic } from '@shared/services/pdv';
-import { CoinRateFor24Hours } from '@shared/services/currency';
+import { BalanceValueDynamic, CoinRateFor24Hours } from '@core/services';
 import { PdvRatePageService, PdvReward } from './pdv-rate-page.service';
 import { PdvChartPoint } from '../../components/pdv-rate-chart';
-import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
-import { svgPublish } from '@shared/svg-icons/publish';
-import { RewardsHistoryComponent } from '../../components/rewards-histrory';
 
 interface FilterButton {
   amount: number;
@@ -56,7 +52,6 @@ export class PdvRatePageComponent implements OnInit {
   public chartData$: Observable<PdvChartPoint[]>;
 
   constructor(
-    private matDialog: MatDialog,
     private pdvRateService: PdvRatePageService,
     private svgIconRegistry: SvgIconRegistry,
   ) {
@@ -65,7 +60,6 @@ export class PdvRatePageComponent implements OnInit {
   public ngOnInit(): void {
     this.svgIconRegistry.register([
       svgLogoIcon,
-      svgPublish,
     ]);
 
     this.coinRate$ = this.pdvRateService.getCoinRate();
@@ -109,13 +103,5 @@ export class PdvRatePageComponent implements OnInit {
     }
 
     return data.filter((chartPoint) => chartPoint[0] > filterByDate);
-  }
-
-  public openRewardsHistoryPopup(): void {
-    this.matDialog.open(RewardsHistoryComponent, {
-      data: this.coinRateValue,
-      maxWidth: '95vw',
-      minWidth: '375px',
-    });
   }
 }

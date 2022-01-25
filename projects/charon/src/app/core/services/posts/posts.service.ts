@@ -1,28 +1,27 @@
 import { Injectable } from '@angular/core';
-import { defer, forkJoin, from, Observable, of } from 'rxjs';
+import { defer, forkJoin, Observable, of } from 'rxjs';
 import { catchError, map, mapTo, mergeMap, take, tap } from 'rxjs/operators';
-import { LikeWeight, Post, PostCreate, PostIdentificationParameters } from 'decentr-js';
+import { LikeWeight, Post } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
 import { getArrayUniqueValues } from '@shared/utils/array';
 import { ConfigService } from '@shared/services/configuration';
 import { ONE_SECOND } from '@shared/utils/date';
 import { retryTimes } from '@shared/utils/observable';
-import { CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { uuid } from '@shared/utils/uuid';
+import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
 import { PostsApiService, PostsListFilterOptions } from '../api';
 import { AuthService } from '../../auth';
-import { NetworkService } from '../network';
 import { NetworkSelectorService } from '../network-selector';
 import { UserService } from '../user';
-import { PostsListItem } from './posts.definitions';
+import { PostCreate, PostsListItem } from './posts.definitions';
 
 @Injectable()
 export class PostsService {
   constructor(
     private authService: AuthService,
     private configService: ConfigService,
-    private networkService: NetworkService,
     private networkSelectorService: NetworkSelectorService,
     private postsApiService: PostsApiService,
     private userService: UserService,
@@ -90,41 +89,37 @@ export class PostsService {
   }
 
   public createPost(
-    post: PostCreate,
+    request: PostCreate,
   ): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
+    const owner = wallet.address;
+    const postId = uuid();
+
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.PostCreate, {
-        post,
-        walletAddress: wallet.address,
-        privateKey: wallet.privateKey
+        request: { ...request, owner, uuid: postId },
+        privateKey: wallet.privateKey,
       })).pipe(
-        map((response) => {
-          if (!response.success) {
-            throw response.error;
-          }
-
-          return response.messageValue;
-        }),
-        mergeMap((createdPost) => this.getPost(createdPost).pipe(
+        map((response) => assertMessageResponseSuccess(response)),
+        mergeMap(() => this.getPost({ owner, uuid: postId }).pipe(
           retryTimes(10, ONE_SECOND),
           mapTo(void 0),
         )),
       );
   }
 
-  public likePost(post: Pick<Post, 'owner' | 'uuid'>, likeWeight: LikeWeight): Observable<void> {
+  public likePost(post: Pick<Post, 'owner' | 'uuid'>, weight: LikeWeight): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return from(new MessageBus<CharonAPIMessageBusMap>()
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.PostLike, {
-        walletAddress: wallet.address,
-        postIdentificationParameters: {
-          author: post.owner,
-          postId: post.uuid,
+        request: {
+          owner: wallet.address,
+          postOwner: post.owner,
+          postUuid: post.uuid,
+          weight,
         },
-        likeWeight,
         privateKey: wallet.privateKey
       })
       .then(response => {
@@ -135,14 +130,17 @@ export class PostsService {
   }
 
   public deletePost(
-    post: PostIdentificationParameters,
+    post: Pick<Post, 'owner' | 'uuid'>,
   ): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return from(new MessageBus<CharonAPIMessageBusMap>()
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.PostDelete, {
-        walletAddress: wallet.address,
-        postIdentificationParameters: post,
+        request: {
+          owner: wallet.address,
+          postOwner: post.owner,
+          postUuid: post.uuid,
+        },
         privateKey: wallet.privateKey
       })).pipe(
         tap((response) => {
@@ -150,7 +148,7 @@ export class PostsService {
             throw response.error;
           }
         }),
-        mergeMap(() => this.getPost({ owner: post.author, uuid: post.postId }).pipe(
+        mergeMap(() => this.getPost(post).pipe(
           mapTo(true),
           catchError(() => of(false)),
           map((postExists) => {

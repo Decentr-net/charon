@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AdvDdvStatistics } from 'decentr-js';
 
-import { AdvDdvStatistics } from '@shared/services/pdv';
 import { HubCurrencyStatistics } from '../hub-currency-statistics';
 import { HubPDVStatistics } from '../hub-pdv-statistics';
 

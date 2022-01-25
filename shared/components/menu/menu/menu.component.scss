@@ -79,7 +79,22 @@ $menu--user-avatar--size: 40px;
 }
 
 .menu__item-icon {
+  color: $color-grey;
   display: inline-flex;
   flex-shrink: 0;
   font-size: 24px;
+}
+
+::ng-deep {
+  .menu__user-item__skeleton-loader {
+    display: flex;
+
+    .loader {
+      background-color: rgb(var(--color-skeleton-background-main-menu-loading)) !important;
+
+      &:before {
+        background-image: var(--color-skeleton-background-animation-main-menu-loading) !important;
+      }
+    }
+  }
 }

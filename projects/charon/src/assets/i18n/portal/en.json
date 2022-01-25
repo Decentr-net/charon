@@ -17,7 +17,7 @@
     "no_pdv_rate": "You have no PDV Rate data",
     "not_enough_pdv_rate": "Not enough data for the chart",
     "rewards": {
-      "time": "The PDV rewards will be given out on the next block height of: {{nextHeight}} (current: {{currentHeight}})",
+      "time": "The PDV rewards will be given out at",
       "pdv_reward": "PDV rewards",
       "view_log": "View PDV rewards log"
     }
@@ -49,15 +49,17 @@
     "composite_transaction": "Composite transaction",
     "composite_tx": "Composite tx",
     "copy_tx": "Copy transaction hash",
-    "decentr": "Decentr",
+    "delegated": "Delegated",
     "fee": "Fee",
     "from": "From",
+    "height": "Height",
     "memo": "Memo",
     "open_link": "View on dExplorer",
-    "pdv_rewards": "PDV rewards",
     "received": "Received",
     "sent": "Sent",
+    "show_date_time": "Show date & time",
     "to": "To",
+    "undelegated": "Undelegated",
     "wallet_address_copied": "The transaction hash was copied successfully",
     "withdraw": "Withdraw rewards",
     "withdraw_validator": "Withdraw validator's rewards"

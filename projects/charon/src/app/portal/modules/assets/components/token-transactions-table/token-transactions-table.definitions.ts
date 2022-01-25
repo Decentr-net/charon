@@ -1,27 +1,16 @@
-import { BankCoin, StdTxFee, Wallet } from 'decentr-js';
-
-export enum TokenTransactionMessageType {
-  TransferSent,
-  TransferReceived,
-  WithdrawRewards,
-  PdvRewards,
-  WithdrawDelegate,
-  WithdrawUndelegate,
-  WithdrawRedelegate,
-  WithdrawValidatorRewards,
-}
+import { TxMessageTypeUrl, Wallet } from 'decentr-js';
 
 export interface TokenTransactionMessage {
-  amount: BankCoin;
+  amount: number | string;
   comment: string;
-  fee: StdTxFee;
+  fee: number;
   hash: string;
   recipient: Wallet['address'];
   sender: Wallet['address'];
-  type: TokenTransactionMessageType;
-  timestamp: number;
+  type: TxMessageTypeUrl;
+  height: number;
 }
 
-export interface TokenTransaction extends Pick<TokenTransactionMessage, 'amount' | 'comment' | 'fee' | 'hash' | 'timestamp'> {
+export interface TokenTransaction extends Pick<TokenTransactionMessage, 'amount' | 'comment' | 'fee' | 'hash' | 'height'> {
   messages: Pick<TokenTransactionMessage, 'amount' | 'recipient' | 'sender' | 'type'>[];
 }

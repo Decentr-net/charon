@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { combineLatest, from, Observable } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 
@@ -10,7 +9,6 @@ interface AuthBrowserStorageData<T extends User> {
   readonly users: T[];
 }
 
-@Injectable()
 export class AuthBrowserStorageService<T extends User = User> {
   private readonly browserStorage
     = BrowserLocalStorage.getInstance().useSection<AuthBrowserStorageData<T>>('auth');

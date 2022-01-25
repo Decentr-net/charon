@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Observable, timer } from 'rxjs';
-import { filter, map, mapTo, pluck, shareReplay, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
-import { Validator } from 'decentr-js';
+import { map, mapTo, shareReplay, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
+import { createDecentrCoin, Validator } from 'decentr-js';
 
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { AuthService } from '@core/auth';
@@ -32,32 +32,18 @@ export class RedelegatePageService {
   }
 
   public getBalance(): Observable<number> {
-    return combineLatest([
-      this.authService.getActiveUser().pipe(
-        pluck('wallet', 'address'),
-        filter((walletAddress) => !!walletAddress),
-      ),
-      this.networkService.getActiveNetworkAPI(),
-    ]).pipe(
-      switchMap(([walletAddress]) => this.bankService.getDECBalance(walletAddress)),
-      map((balance) => +balance),
+    return this.bankService.getDECBalance().pipe(
+      map(parseFloat),
     );
   }
 
-  public getDelegatedAmount(validatorAddress: Validator['operator_address']): Observable<number> {
-    return combineLatest([
-      this.authService.getActiveUser().pipe(
-        pluck('wallet', 'address'),
-        filter((walletAddress) => !!walletAddress),
-      ),
-      this.networkService.getActiveNetworkAPI(),
-    ]).pipe(
-      switchMap(() => this.stakingService.getValidatorDelegation(validatorAddress)),
-      map((delegation) => +delegation?.balance.amount || 0),
+  public getDelegatedAmount(validatorAddress: Validator['operatorAddress']): Observable<number> {
+    return this.stakingService.getValidatorDelegation(validatorAddress).pipe(
+      map((coin) => +coin.amount || 0),
     );
   }
 
-  public getValidator(address: Validator['operator_address']): Observable<Validator> {
+  public getValidator(address: Validator['operatorAddress']): Observable<Validator> {
     return this.stakingService.getValidator(address);
   }
 
@@ -66,23 +52,27 @@ export class RedelegatePageService {
   }
 
   public getRedelegationFee(
-    fromValidatorAddress: Validator['operator_address'],
-    toValidatorAddress: Validator['operator_address'],
+    validatorSrcAddress: Validator['operatorAddress'],
+    validatorDstAddress: Validator['operatorAddress'],
     amount: string,
   ): Observable<number> {
-    return this.stakingService.getRedelegationFee(fromValidatorAddress, toValidatorAddress, amount);
+    return this.stakingService.getRedelegationFee({
+      validatorSrcAddress,
+      validatorDstAddress,
+      amount: createDecentrCoin(amount),
+    });
   }
 
   public redelegate(
-    fromValidatorAddress: Validator['operator_address'],
-    toValidatorAddress: Validator['operator_address'],
-    amount: string,
+    validatorSrcAddress: Validator['operatorAddress'],
+    validatorDstAddress: Validator['operatorAddress'],
+    amount: number | string,
   ): Observable<void> {
-    return this.stakingService.createRedelegation(
-      fromValidatorAddress,
-      toValidatorAddress,
-      amount,
-    );
+    return this.stakingService.redelegateTokens({
+      validatorSrcAddress,
+      validatorDstAddress,
+      amount: createDecentrCoin(amount),
+    });
   }
 
   public navigateBack(): void {
@@ -150,13 +140,13 @@ export class RedelegatePageService {
     };
   }
 
-  public getRedelegationFromAvailableTime(fromValidator: Validator['operator_address']): Observable<number | undefined> {
+  public getRedelegationFromAvailableTime(fromValidator: Validator['operatorAddress']): Observable<number | undefined> {
     return this.stakingService.getRedelegationFromAvailableTime(fromValidator);
   }
 
   public getRedelegationToAvailableTime(
-    fromValidator: Validator['operator_address'],
-    toValidator: Validator['operator_address'],
+    fromValidator: Validator['operatorAddress'],
+    toValidator: Validator['operatorAddress'],
   ): Observable<number | undefined> {
     return this.stakingService.getRedelegationToAvailableTime(fromValidator, toValidator);
   }

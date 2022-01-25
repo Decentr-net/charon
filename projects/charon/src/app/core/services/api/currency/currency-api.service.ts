@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { Environment } from '@environments/environment.definitions';
 import { CoinRateHistoryResponse, CoinRateResponse } from './currency-api.definitions';
 
 @Injectable()
 export class CurrencyApiService {
   constructor(
     private http: HttpClient,
-    private api: string,
+    private environment: Environment,
   ) {
   }
 
@@ -22,7 +23,7 @@ export class CurrencyApiService {
     }
 
     return this.http.get<CoinRateResponse>(
-      `${this.api}/simple/price`,
+      `${this.environment.currencyApi}/simple/price`,
       {
         params,
       }
@@ -41,7 +42,7 @@ export class CurrencyApiService {
       .append(`vs_currency`, currency);
 
     return this.http.get<CoinRateHistoryResponse>(
-      `${this.api}/coins/${blockchainId}/market_chart`,
+      `${this.environment.currencyApi}/coins/${blockchainId}/market_chart`,
       {
         params,
       }

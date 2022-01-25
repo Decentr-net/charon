@@ -22,11 +22,15 @@
       </div>
 
       <div class="token-complex-transaction__amount" appTypeface="paragraph">
-        <app-token-transaction-amount [amount]="transaction.amount.amount"></app-token-transaction-amount>
+        <app-token-transaction-amount [amount]="transaction.amount"></app-token-transaction-amount>
       </div>
 
-      <div class="token-complex-transaction__fee" appTypeface="caption">
-        {{ translate('fee') }}: {{ transaction?.fee.amount[0].amount | microValue | numberFormat : null : true }}
+      <div
+        class="token-complex-transaction__fee"
+        *ngIf="+transaction?.fee"
+        appTypeface="caption"
+      >
+        {{ translate('fee') }}: {{ transaction.fee | microValue | numberFormat : null : true }}
         <app-currency-symbol></app-currency-symbol>
       </div>
 

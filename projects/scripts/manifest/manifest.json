@@ -30,10 +30,7 @@
     "management",
     "storage",
     "tabs",
-    "unlimitedStorage",
-    "<all_urls>",
-    "webRequest",
-    "webRequestBlocking"
+    "unlimitedStorage"
   ],
   "content_scripts": [
     {

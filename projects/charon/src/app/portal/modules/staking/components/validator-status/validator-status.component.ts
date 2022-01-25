@@ -1,8 +1,20 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { Validator, ValidatorStatus } from 'decentr-js';
+import { BondStatus, Validator } from 'decentr-js';
 
 import { validatorStatusIcons } from '@shared/svg-icons/validator-status';
+import { svgBonded } from '@shared/svg-icons/validator-status/bonded';
+import { svgUnbonding } from '@shared/svg-icons/validator-status/unbonding';
+import { svgUnbonded } from '@shared/svg-icons/validator-status/unbonded';
+
+const VALIDATOR_STATUS_ICON_MAP: Record<BondStatus, string> = {
+  [BondStatus.BOND_STATUS_BONDED]: svgBonded.name,
+  [BondStatus.BOND_STATUS_UNBONDING]: svgUnbonding.name,
+  [BondStatus.BOND_STATUS_UNBONDED]: svgUnbonded.name,
+
+  [BondStatus.BOND_STATUS_UNSPECIFIED]: '',
+  [BondStatus.UNRECOGNIZED]: '',
+};
 
 @Component({
   selector: 'app-validator-status',
@@ -19,21 +31,21 @@ export class ValidatorStatusComponent implements OnInit {
 
   @HostBinding('class.mod-unbonded')
   public get isUnbonded(): boolean {
-    return this.status === ValidatorStatus.Unbonded;
+    return this.status === BondStatus.BOND_STATUS_UNBONDED;
   }
 
   @HostBinding('class.mod-unbonding')
   public get isUnbonding(): boolean {
-    return this.status === ValidatorStatus.Unbonding;
+    return this.status === BondStatus.BOND_STATUS_UNBONDING;
   }
 
   @HostBinding('class.mod-bonded')
   public get isBonded(): boolean {
-    return this.status === ValidatorStatus.Bonded;
+    return this.status === BondStatus.BOND_STATUS_BONDED;
   }
 
-  public readonly validatorStatus: typeof ValidatorStatus = ValidatorStatus;
-  public validatorStatusName: string;
+  public readonly validatorStatus: typeof BondStatus = BondStatus;
+  public validatorStatusIcon: string;
 
   constructor(
     svgIconRegistry: SvgIconRegistry,
@@ -44,6 +56,6 @@ export class ValidatorStatusComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.validatorStatusName = this.validatorStatus[this.status];
+    this.validatorStatusIcon = VALIDATOR_STATUS_ICON_MAP[this.status];
   }
 }

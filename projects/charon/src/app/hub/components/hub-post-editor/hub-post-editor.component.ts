@@ -5,13 +5,14 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 import { ControlsOf, ControlValueAccessor, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { PostCreate } from 'decentr-js';
+import { CreatePostRequest } from 'decentr-js';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { BaseValidationUtil } from '@shared/utils/validation';
 import { getHTMLImagesCount } from '@shared/utils/html';
 import { svgAddImage } from '@shared/svg-icons/add-image';
 import { svgClear } from '@shared/svg-icons/clear';
+import { PostCreate } from '@core/services';
 
 @UntilDestroy()
 @Component({
@@ -105,7 +106,7 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
     return this.form.valid ? null : { invalid: {} };
   }
 
-  public writeValue(value: PostCreate): void {
+  public writeValue(value: CreatePostRequest): void {
     if (!value) {
       return this.form.reset();
     }

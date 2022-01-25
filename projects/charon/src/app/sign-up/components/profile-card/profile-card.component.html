@@ -19,7 +19,7 @@
       <span
         class="profile-card__name__ban-label"
         appTypeface="caption"
-        *ngIf="banned$ | async"
+        *ngIf="profile.banned"
         [appTooltip]="translate('banned.tooltip')"
       >
         {{ translate('banned.label') }}

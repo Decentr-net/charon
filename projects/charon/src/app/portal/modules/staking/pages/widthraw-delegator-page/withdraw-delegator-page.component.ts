@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, filter, finalize, map, pluck, startWith, switchMap, take } from 'rxjs/operators';
-import { BehaviorSubject, combineLatest, EMPTY, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, EMPTY, Observable, of } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -60,7 +60,10 @@ export class WithdrawDelegatorPageComponent implements OnInit {
   public ngOnInit(): void {
     this.selectedItemsRewards$ = this.getSelectedItemsRewards();
 
-    this.totalDelegatorRewards$ = this.distributionService.getTotalDelegatorRewards();
+    this.totalDelegatorRewards$ = this.distributionService.getTotalDelegatorRewards().pipe(
+      map((rewards) => +rewards[0]?.amount),
+      catchError(() => of(0)),
+    );
 
     this.validators$ = this.withdrawDelegatorPageService.getValidators();
 
@@ -83,7 +86,14 @@ export class WithdrawDelegatorPageComponent implements OnInit {
   }
 
   public chooseValidator(validator: ValidatorDefinitionShort): void {
-    this.selectedItems$.next([validator]);
+    const selectedValidators = this.selectedItems$.value;
+
+    if (selectedValidators.includes(validator)) {
+      this.selectedItems$.next(selectedValidators.filter((val) => val !== validator));
+      return;
+    }
+
+    this.selectedItems$.next([...selectedValidators, validator]);
   }
 
   public chooseAll(validators: ValidatorDefinitionShort[]): void {
@@ -93,7 +103,9 @@ export class WithdrawDelegatorPageComponent implements OnInit {
   public getFee(): Observable<number> {
     return this.selectedItems$.pipe(
       filter((items) => items.length > 0),
-      switchMap((items) => this.distributionService.calculateWithdrawDelegatorRewardsFee(items.length > 1 ? undefined : items[0].address)),
+      switchMap((items) => this.distributionService
+        .calculateWithdrawDelegatorRewardsFee(items.map((validator) => validator.address))
+      ),
       startWith(0),
     );
   }
@@ -101,8 +113,8 @@ export class WithdrawDelegatorPageComponent implements OnInit {
   public onSubmit(): void {
     this.spinnerService.showSpinner();
 
-    this.distributionService.createDistribution(
-      this.selectedItems$.value.length > 1 ? undefined : this.selectedItems$.value[0].address
+    this.distributionService.withdrawDelegatorRewards(
+      this.selectedItems$.value.map((validator) => validator.address),
     ).pipe(
       catchError((error) => {
         this.notificationService.error(error);
