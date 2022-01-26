@@ -4,13 +4,15 @@ import { firstValueFrom } from 'rxjs';
 
 import { SettingsService } from '@shared/services/settings';
 import { AuthService } from '@core/auth';
-import { UserService } from '@core/services';
+import { NetworkService, UserService } from '@core/services';
 import { AppRoute } from '../../../app-route';
+import { NetworkId } from '@shared/services/configuration';
 
 @Injectable()
 export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateChild, CanLoad {
   constructor(
     private authService: AuthService,
+    private networkService: NetworkService,
     private userService: UserService,
     private settingsService: SettingsService,
     private router: Router,
@@ -54,6 +56,7 @@ export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateC
 
   public static async isAuthFlowCompleted(
     authService: AuthService,
+    networkService: NetworkService,
     userService: UserService,
     settingsService: SettingsService,
   ): Promise<boolean> {
@@ -63,9 +66,14 @@ export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateC
       return false;
     }
 
-    await firstValueFrom(userService
-      .createTestnetAccount(authService.getActiveUserInstant().wallet.address)
-    );
+    const isTestnetNetwork = await firstValueFrom(networkService.getActiveNetworkId())
+      .then((networkId) => networkId === NetworkId.Testnet);
+
+    if (isTestnetNetwork) {
+      await firstValueFrom(userService
+        .createTestnetAccount(authService.getActiveUserInstant().wallet.address)
+      );
+    }
 
     return Promise.all([
       AuthCompletedRegistrationGuard.isProfileFilledIn(authService, userService),
@@ -80,6 +88,7 @@ export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateC
 
     const isAuthFlowCompleted = await AuthCompletedRegistrationGuard.isAuthFlowCompleted(
       this.authService,
+      this.networkService,
       this.userService,
       this.settingsService,
     );
