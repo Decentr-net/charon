@@ -113,7 +113,7 @@ export class DelegatePageComponent implements OnInit {
     );
 
     this.validatorCommission$ = validator$.pipe(
-      pluck('commission', 'commission_rates', 'rate'),
+      map((validator) => validator.commission.commissionRates.rate),
     );
 
     validator$.pipe(

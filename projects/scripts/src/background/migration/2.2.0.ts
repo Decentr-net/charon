@@ -1,4 +1,4 @@
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { PDVType } from 'decentr-js';
 
 import { AuthBrowserStorageService } from '../../../../../shared/services/auth';
@@ -6,9 +6,7 @@ import { NetworkBrowserStorageService } from '../../../../../shared/services/net
 import { PDV_STORAGE_SERVICE } from '../pdv/storage';
 
 const clearBadPDVs = async (): Promise<void> => {
-  const users = await new AuthBrowserStorageService().getUsers().pipe(
-    take(1),
-  ).toPromise();
+  const users = await firstValueFrom(new AuthBrowserStorageService().getUsers());
 
   const tasks = users.map(({ wallet: { address } }) => {
     return PDV_STORAGE_SERVICE.getUserAccumulatedPDV(address)

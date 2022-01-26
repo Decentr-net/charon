@@ -6,6 +6,7 @@ import {
   catchError,
   debounceTime,
   finalize,
+  map,
   pluck,
   share,
   shareReplay,
@@ -125,7 +126,7 @@ export class UndelegatePageComponent implements OnInit {
     );
 
     this.validatorCommission$ = validator$.pipe(
-      pluck('commission', 'commission_rates', 'rate'),
+      map((validator) => validator.commission.commissionRates.rate),
     );
 
     validator$.pipe(

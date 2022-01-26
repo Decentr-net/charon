@@ -1,4 +1,5 @@
 import * as browser from 'webextension-polyfill';
+import { firstValueFrom } from 'rxjs';
 import { Post } from 'decentr-js';
 
 import { AppRoute } from '../../../../charon/src/app/app-route';
@@ -51,7 +52,7 @@ export const openExtension = (path?: string, popup?: boolean): Promise<void> => 
 };
 
 export const openPost = async (post: Pick<Post, 'owner' | 'uuid'>, networkId: NetworkId): Promise<void> => {
-  const networkIds = await CONFIG_SERVICE.getNetworkIds().toPromise();
+  const networkIds = await firstValueFrom(CONFIG_SERVICE.getNetworkIds());
 
   if (!networkIds.includes(networkId)) {
     return Promise.reject('Invalid network');

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, CanLoad, Router, UrlTree } from '@angular/router';
-import { first } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 
 import { SettingsService } from '@shared/services/settings';
 import { AuthService } from '@core/auth';
@@ -28,7 +28,7 @@ export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateC
     }
 
     const wallet = authService.getActiveUserInstant().wallet;
-    const profile = await userService.getProfile(wallet.address, wallet).toPromise();
+    const profile = await firstValueFrom(userService.getProfile(wallet.address, wallet));
 
     return !!profile?.emails?.length;
   }
@@ -45,13 +45,11 @@ export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateC
 
     const walletAddress = authService.getActiveUserInstant().wallet.address;
 
-    return settingsService.getUserSettingsService(walletAddress)
-      .pdv
-      .getCollectionConfirmed()
-      .pipe(
-        first(),
-      )
-      .toPromise();
+    return firstValueFrom(
+      settingsService.getUserSettingsService(walletAddress)
+        .pdv
+        .getCollectionConfirmed(),
+    );
   }
 
   public static async isAuthFlowCompleted(
@@ -65,9 +63,9 @@ export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateC
       return false;
     }
 
-    await userService
+    await firstValueFrom(userService
       .createTestnetAccount(authService.getActiveUserInstant().wallet.address)
-      .toPromise();
+    );
 
     return Promise.all([
       AuthCompletedRegistrationGuard.isProfileFilledIn(authService, userService),

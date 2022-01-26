@@ -4,7 +4,7 @@ import {
   CanDeactivate,
 } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 
 import { LockService } from '../services';
 
@@ -16,10 +16,7 @@ export class LockGuard implements CanActivate, CanActivateChild, CanDeactivate<v
   }
 
   public async canActivate(): Promise<boolean> {
-    const isLocked = await this.lockService.lockedState$
-      .pipe(
-        take(1),
-      ).toPromise();
+    const isLocked = await firstValueFrom(this.lockService.lockedState$);
 
     if (isLocked) {
       await this.lockService.navigateToLockedUrl();

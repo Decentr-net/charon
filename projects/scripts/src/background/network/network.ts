@@ -1,4 +1,4 @@
-import { defer, Observable, of, throwError } from 'rxjs';
+import { defer, firstValueFrom, Observable, of, throwError } from 'rxjs';
 import {
   delay,
   distinctUntilChanged,
@@ -56,13 +56,9 @@ const getRandomRest = (): Observable<string> => {
 };
 
 const setNetworkId = async (): Promise<void> => {
-  let activeNetworkId = await networkStorage.getActiveId().pipe(
-    first(),
-  ).toPromise();
+  let activeNetworkId = await firstValueFrom(networkStorage.getActiveId());
 
-  const networkIds = await CONFIG_SERVICE.getNetworkIds().pipe(
-    first(),
-  ).toPromise();
+  const networkIds = await firstValueFrom(CONFIG_SERVICE.getNetworkIds());
 
   if (!activeNetworkId || !networkIds.includes(activeNetworkId)) {
     activeNetworkId = networkIds[0];
