@@ -10,7 +10,6 @@ export enum NodeAvailability {
 
 export class BlockchainNodeService {
   public getNodeAvailability(nodeAddress: string): Observable<NodeAvailability> {
-    return of(NodeAvailability.Available);
     return defer(() => DecentrNodeClient.create(nodeAddress)).pipe(
       mergeMap((client) => client.getNodeInfo()),
       mapTo(NodeAvailability.Available),
