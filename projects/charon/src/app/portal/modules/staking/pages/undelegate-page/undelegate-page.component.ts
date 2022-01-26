@@ -106,7 +106,7 @@ export class UndelegatePageComponent implements OnInit {
       switchMap((formValue) => formValue.validatorAddress
         ? this.undelegatePageService.getUndelegationFee(
             formValue.validatorAddress,
-            (+formValue.amount * MICRO_PDV_DIVISOR).toString(),
+            Math.ceil(+formValue.amount * MICRO_PDV_DIVISOR).toString(),
           ).pipe(
             catchError(() => of(0)),
           )
