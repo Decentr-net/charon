@@ -26,8 +26,10 @@ export class ActivityPageService extends InfiniteLoadingService<ActivityListItem
   }
 
   protected getNextItems(): Observable<ActivityListItem[]> {
+    const lastItem = this.list.value[this.list.value.length - 1];
+
     return this.pdvService.getPDVList({
-      from: this.list.value.length,
+      from: lastItem?.timestamp,
       limit: this.loadingCount,
     }).pipe(
       tap((pdvList) => pdvList.length < this.loadingCount && this.canLoadMore.next(false)),
