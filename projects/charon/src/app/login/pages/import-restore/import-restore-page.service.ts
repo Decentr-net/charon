@@ -76,7 +76,7 @@ export class ImportRestorePageService {
       const wallet = createWalletFromMnemonic(control.value);
 
       return timer(300).pipe(
-        switchMapTo(this.userService.getAccount(wallet.address)),
+        switchMapTo(this.userService.getAccount(wallet.address, NetworkId.Mainnet)),
         catchError(() => of(undefined)),
         map((account) => account ? null : { exists: false }),
         tap((error) => control.setErrors(error)),
