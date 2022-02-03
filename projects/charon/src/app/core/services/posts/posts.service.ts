@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { defer, forkJoin, Observable, of } from 'rxjs';
-import { catchError, map, mapTo, mergeMap, take, tap } from 'rxjs/operators';
-import { LikeWeight, Post } from 'decentr-js';
+import { catchError, map, mapTo, mergeMap, take } from 'rxjs/operators';
+import { LikeWeight, Post, PostsListFilterOptions } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
 import { getArrayUniqueValues } from '@shared/utils/array';
@@ -11,9 +11,9 @@ import { retryTimes } from '@shared/utils/observable';
 import { uuid } from '@shared/utils/uuid';
 import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
-import { PostsApiService, PostsListFilterOptions } from '../api';
 import { AuthService } from '../../auth';
-import { NetworkSelectorService } from '../network-selector';
+import { DecentrService } from '../decentr';
+import { NetworkService } from '../network';
 import { UserService } from '../user';
 import { PostCreate, PostsListItem } from './posts.definitions';
 
@@ -22,25 +22,27 @@ export class PostsService {
   constructor(
     private authService: AuthService,
     private configService: ConfigService,
-    private networkSelectorService: NetworkSelectorService,
-    private postsApiService: PostsApiService,
+    private decentrService: DecentrService,
+    private networkService: NetworkService,
     private userService: UserService,
   ) {
   }
 
   public getPost(postIdentificationParameters: Pick<Post, 'owner' | 'uuid'>): Observable<PostsListItem> {
     return forkJoin([
-      this.postsApiService.getPost(
-        postIdentificationParameters,
-        this.authService.getActiveUserInstant().wallet.address,
+      this.decentrService.theseusClient.pipe(
+        mergeMap((theseusClient) => theseusClient.posts.getPost(
+          postIdentificationParameters,
+          this.authService.getActiveUserInstant().wallet.address,
+        ))
       ),
       this.userService.getProfile(postIdentificationParameters.owner),
       this.configService.getShareUrl(),
-      this.networkSelectorService.getActiveNetwork().pipe(
+      this.networkService.getActiveNetworkId().pipe(
         take(1),
       ),
     ]).pipe(
-      map(([postResponse, profile, shareUrl, network]) => ({
+      map(([postResponse, profile, shareUrl, networkId]) => ({
         ...postResponse.post,
         author: {
           ...profile,
@@ -48,16 +50,17 @@ export class PostsService {
           postsCount: postResponse.profileStats.postsCount,
         },
         stats: postResponse.stats || [],
-        shareLink: this.createShareLink(shareUrl, network.id, postResponse.post.slug),
+        shareLink: this.createShareLink(shareUrl, networkId, postResponse.post.slug),
       })),
     );
   }
 
   public getPosts(filterOptions?: PostsListFilterOptions): Observable<PostsListItem[]> {
-    return this.postsApiService.getPosts({
-      requestedBy: this.authService.getActiveUserInstant().wallet.address,
-      ...filterOptions,
-    }).pipe(
+    return this.decentrService.theseusClient.pipe(
+      mergeMap((theseusClient) => theseusClient.posts.getPosts({
+        requestedBy: this.authService.getActiveUserInstant().wallet.address,
+        ...filterOptions,
+      })),
       mergeMap((postsListResponse) => {
         if (!postsListResponse.posts.length) {
           return of([]);
@@ -68,11 +71,11 @@ export class PostsService {
         return forkJoin([
           this.userService.getProfiles(addresses),
           this.configService.getShareUrl(),
-          this.networkSelectorService.getActiveNetwork().pipe(
+          this.networkService.getActiveNetworkId().pipe(
             take(1),
           ),
         ]).pipe(
-          map(([profiles, shareUrl, network]) => {
+          map(([profiles, shareUrl, networkId]) => {
             return postsListResponse.posts.map((post) => ({
               ...post,
               author: {
@@ -80,7 +83,7 @@ export class PostsService {
                 postsCount: postsListResponse.profileStats[post.owner].postsCount,
               },
               stats: postsListResponse.stats[`${post.owner}/${post.uuid}`] || [],
-              shareLink: this.createShareLink(shareUrl, network.id, post.slug),
+              shareLink: this.createShareLink(shareUrl, networkId, post.slug),
             }));
           })
         );
@@ -122,11 +125,9 @@ export class PostsService {
         },
         privateKey: wallet.privateKey
       })
-      .then(response => {
-        if (!response.success) {
-          throw response.error;
-        }
-      }));
+    ).pipe(
+      map(assertMessageResponseSuccess),
+    );
   }
 
   public deletePost(
@@ -143,11 +144,7 @@ export class PostsService {
         },
         privateKey: wallet.privateKey
       })).pipe(
-        tap((response) => {
-          if (!response.success) {
-            throw response.error;
-          }
-        }),
+        map(assertMessageResponseSuccess),
         mergeMap(() => this.getPost(post).pipe(
           mapTo(true),
           catchError(() => of(false)),

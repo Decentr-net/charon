@@ -41,7 +41,7 @@ export class TransferPageService {
   public createAsyncValidWalletAddressValidator(): AsyncValidatorFn {
     return (control) => {
       if (!control.value) {
-        return null;
+        return of(null);
       }
 
       if (control.value === this.authService.getActiveUserInstant().wallet.address) {
@@ -64,7 +64,7 @@ export class TransferPageService {
       const amount = parseFloat(amountControl.value.toString());
 
       if (isNaN(amount)) {
-        return null;
+        return of(null);
       }
 
       return timer(300).pipe(

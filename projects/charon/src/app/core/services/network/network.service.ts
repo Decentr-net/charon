@@ -28,6 +28,10 @@ export class NetworkService {
     return this.networkStorage.getActiveAPIInstant();
   }
 
+  public getActiveNetworkAPI(): Observable<string> {
+    return this.networkStorage.getActiveAPI();
+  }
+
   public getActiveNetworkId(): Observable<NetworkId> {
     return this.networkStorage.getActiveId();
   }

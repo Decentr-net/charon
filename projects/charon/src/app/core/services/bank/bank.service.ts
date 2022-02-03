@@ -1,47 +1,40 @@
 import { Injectable } from '@angular/core';
-import { DecentrBankClient, Coin, SendTokensRequest } from 'decentr-js';
-import { combineLatest, defer, Observable, of, ReplaySubject } from 'rxjs';
+import { Coin, SendTokensRequest } from 'decentr-js';
+import { combineLatest, defer, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { MessageBus } from '@shared/message-bus';
 import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
 import { AuthService } from '../../auth';
-import { NetworkService } from '../network';
+import { DecentrService } from '../decentr';
 
 @Injectable()
 export class BankService {
-  private client: ReplaySubject<DecentrBankClient> = new ReplaySubject(1);
-
   constructor(
     private authService: AuthService,
-    private networkService: NetworkService,
+    private decentrService: DecentrService,
   ) {
-    this.createClient()
-      .then(client => this.client.next(client));
   }
 
   public getDECBalance(): Observable<string> {
     return combineLatest([
-      this.client,
+      this.decentrService.decentrClient,
       this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([client, walletAddress]) => client.getDenomBalance(walletAddress)),
+      switchMap(([client, walletAddress]) => client.bank.getDenomBalance(walletAddress)),
       map((coin: Coin) => coin?.amount || '0'),
       catchError(() => of('0')),
     );
   }
 
   public getTransferFee(request: Omit<SendTokensRequest, 'fromAddress'>): Observable<number> {
-    return combineLatest([
-      this.client,
-      this.authService.getActiveUser(),
-    ]).pipe(
-      switchMap(([client, user]) => client.sendTokens({
-        fromAddress: user.wallet.address,
+    return this.decentrService.decentrClient.pipe(
+      switchMap((client) => client.bank.sendTokens({
+        fromAddress: this.authService.getActiveUserInstant().wallet.address,
         toAddress: request.toAddress,
         amount: request.amount,
-      }, user.wallet.privateKey).simulate()),
+      }).simulate()),
     );
   }
 
@@ -63,11 +56,5 @@ export class BankService {
     ).pipe(
       map(assertMessageResponseSuccess),
     );
-  }
-
-  private createClient(): Promise<DecentrBankClient> {
-    const api = this.networkService.getActiveNetworkAPIInstant();
-
-    return DecentrBankClient.create(api);
   }
 }

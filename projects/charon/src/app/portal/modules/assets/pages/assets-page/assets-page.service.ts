@@ -1,13 +1,13 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { coerceArray } from '@angular/cdk/coercion';
-import { combineLatest, Observable, of, ReplaySubject } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, mergeMap, take } from 'rxjs/operators';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { DecentrTxClient, DecodedIndexedTx, TxMessageTypeUrl, TxMessageValue } from 'decentr-js';
+import { DecodedIndexedTx, TxMessageTypeUrl, TxMessageValue } from 'decentr-js';
 
 import { InfiniteLoadingService } from '@shared/utils/infinite-loading';
 import { AuthService } from '@core/auth';
-import { BankService, BlocksService, NetworkService } from '@core/services';
+import { BankService, BlocksService, DecentrService, NetworkService } from '@core/services';
 import { Asset } from './assets-page.definitions';
 import { TokenTransactionMessage } from '../../components/token-transactions-table';
 import {
@@ -25,18 +25,14 @@ export class AssetsPageService
   extends InfiniteLoadingService<TokenTransactionMessage>
   implements OnDestroy {
 
-  private txClient: ReplaySubject<DecentrTxClient> = new ReplaySubject(1);
-
   constructor(
     private authService: AuthService,
     private blocksService: BlocksService,
+    private decentrService: DecentrService,
     private networkService: NetworkService,
     private bankService: BankService,
   ) {
     super();
-
-    this.createClient()
-      .then((client) => this.txClient.next(client));
 
     this.loadMoreItems();
   }
@@ -84,11 +80,11 @@ export class AssetsPageService
     const walletAddress = this.authService.getActiveUserInstant().wallet.address;
 
     return combineLatest([
-      this.txClient.pipe(
-        mergeMap((client) => client.search({ sentFromOrTo: walletAddress })),
+      this.decentrService.decentrClient.pipe(
+        mergeMap((decentrClient) => decentrClient.tx.search({ sentFromOrTo: walletAddress })),
       ),
-      this.txClient.pipe(
-        mergeMap((client) => client.search({ tags: [
+      this.decentrService.decentrClient.pipe(
+        mergeMap((decentrClient) => decentrClient.tx.search({ tags: [
           {
             key: 'message.module',
             value: 'staking',
@@ -99,8 +95,8 @@ export class AssetsPageService
           },
         ]})),
       ),
-      this.txClient.pipe(
-        mergeMap((client) => client.search({ tags: [
+      this.decentrService.decentrClient.pipe(
+        mergeMap((decentrClient) => decentrClient.tx.search({ tags: [
           {
             key: 'message.module',
             value: 'distribution',
@@ -176,11 +172,5 @@ export class AssetsPageService
 
         return [...acc, ...tokenTransaction ? coerceArray(tokenTransaction) : []];
       }, []);
-  }
-
-  private createClient(): Promise<DecentrTxClient> {
-    const nodeUrl = this.networkService.getActiveNetworkAPIInstant();
-
-    return DecentrTxClient.create(nodeUrl);
   }
 }

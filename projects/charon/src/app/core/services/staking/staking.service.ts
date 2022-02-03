@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, defer, forkJoin, Observable, of, ReplaySubject } from 'rxjs';
+import { combineLatest, defer, forkJoin, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import {
   Coin,
-  DecentrStakingClient,
   DelegateTokensRequest,
   DelegationResponse,
   Pool,
@@ -18,23 +17,17 @@ import {
 } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
-import { ConfigService } from '@shared/services/configuration';
 import { MessageCode } from '@scripts/messages';
 import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { AuthService } from '../../auth';
-import { NetworkService } from '../network';
+import { DecentrService } from '../decentr';
 
 @Injectable()
 export class StakingService {
-  private client: ReplaySubject<DecentrStakingClient> = new ReplaySubject(1);
-
-  constructor(
+    constructor(
     private authService: AuthService,
-    private configService: ConfigService,
-    private networkService: NetworkService,
+    private decentrService: DecentrService,
   ) {
-    this.createClient()
-      .then(client => this.client.next(client));
   }
 
   public delegateTokens(request: Omit<DelegateTokensRequest, 'delegatorAddress'>): Observable<void> {
@@ -54,13 +47,13 @@ export class StakingService {
 
   public getDelegationFee(request: Omit<DelegateTokensRequest, 'delegatorAddress'>): Observable<number> {
     return combineLatest([
-      this.client,
+      this.decentrService.decentrClient,
       this.authService.getActiveUser(),
     ]).pipe(
-      switchMap(([client, user]) => client.delegateTokens({
+      switchMap(([decentrClient, user]) => decentrClient.staking.delegateTokens({
         ...request,
         delegatorAddress: user.wallet.address,
-      }, user.wallet.privateKey).simulate()),
+      }).simulate()),
     );
   }
 
@@ -85,13 +78,13 @@ export class StakingService {
     request: Omit<RedelegateTokensRequest, 'delegatorAddress'>,
   ): Observable<number> {
     return combineLatest([
-      this.client,
+      this.decentrService.decentrClient,
       this.authService.getActiveUser(),
     ]).pipe(
-      switchMap(([client, user]) => client.redelegateTokens({
+      switchMap(([decentrClient, user]) => decentrClient.staking.redelegateTokens({
         ...request,
         delegatorAddress: user.wallet.address,
-      }, user.wallet.privateKey).simulate()),
+      }).simulate()),
     );
   }
 
@@ -99,10 +92,10 @@ export class StakingService {
     validatorAddress: Validator['operatorAddress'],
   ): Observable<UnbondingDelegationEntry[]> {
     return combineLatest([
-      this.client,
+      this.decentrService.decentrClient,
       this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([client, walletAddress]) => client.getUnbondingDelegation(walletAddress, validatorAddress)),
+      switchMap(([decentrClient, walletAddress]) => decentrClient.staking.getUnbondingDelegation(walletAddress, validatorAddress)),
       map((response: UnbondingDelegation) => response.entries),
       catchError(() => of([])),
     );
@@ -126,13 +119,13 @@ export class StakingService {
 
   public getUndelegationFee(request: Omit<UndelegateTokensRequest, 'delegatorAddress'>,): Observable<number> {
     return combineLatest([
-      this.client,
+      this.decentrService.decentrClient,
       this.authService.getActiveUser(),
     ]).pipe(
-      switchMap(([client, user]) => client.undelegateTokens({
+      switchMap(([decentrClient, user]) => decentrClient.staking.undelegateTokens({
         ...request,
         delegatorAddress: user.wallet.address,
-      }, user.wallet.privateKey).simulate()),
+      }).simulate()),
     );
   }
 
@@ -151,10 +144,10 @@ export class StakingService {
 
   public getUnbondingDelegations(): Observable<UnbondingDelegation[]> {
     return combineLatest([
-      this.client,
+      this.decentrService.decentrClient,
       this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([client, walletAddress]) => client.getUnbondingDelegations(walletAddress)),
+      switchMap(([decentrClient, walletAddress]) => decentrClient.staking.getUnbondingDelegations(walletAddress)),
     );
   }
 
@@ -162,29 +155,29 @@ export class StakingService {
     validatorAddress: Validator['operatorAddress'],
   ): Observable<UnbondingDelegationEntry[]> {
     return combineLatest([
-      this.client,
+      this.decentrService.decentrClient,
       this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([client, walletAddress]) => client.getUnbondingDelegation(walletAddress, validatorAddress)),
+      switchMap(([decentrClient, walletAddress]) => decentrClient.staking.getUnbondingDelegation(walletAddress, validatorAddress)),
       map((response) => response.entries),
     );
   }
 
   public getDelegations(): Observable<DelegationResponse[]> {
     return combineLatest([
-      this.client,
+      this.decentrService.decentrClient,
       this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([client, walletAddress]) => client.getDelegations(walletAddress)),
+      switchMap(([decentrClient, walletAddress]) => decentrClient.staking.getDelegations(walletAddress)),
     );
   }
 
   public getValidatorDelegation(validatorAddress: Validator['operatorAddress']): Observable<Coin> {
     return combineLatest([
-      this.client,
+      this.decentrService.decentrClient,
       this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([client, walletAddress]) => client.getDelegation(
+      switchMap(([decentrClient, walletAddress]) => decentrClient.staking.getDelegation(
         walletAddress,
         validatorAddress,
       )),
@@ -196,10 +189,10 @@ export class StakingService {
     destinationValidatorAddress: Validator['operatorAddress'],
   ): Observable<RedelegationResponse[]> {
     return combineLatest([
-      this.client,
+      this.decentrService.decentrClient,
       this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([client, walletAddress]) => client.getRedelegations(
+      switchMap(([decentrClient, walletAddress]) => decentrClient.staking.getRedelegations(
         walletAddress,
         sourceValidatorAddress,
         destinationValidatorAddress,
@@ -235,20 +228,21 @@ export class StakingService {
   }
 
   public getPool(): Observable<Pool> {
-    return this.client.pipe(
-      mergeMap((client) => client.getPool()),
+    return this.decentrService.decentrClient.pipe(
+      mergeMap((decentrClient) => decentrClient.staking.getPool()),
     );
   }
 
   public getValidators(onlyBonded: boolean = false): Observable<Validator[]> {
-    return this.client.pipe(
-      mergeMap((client) => forkJoin([
-        client.getValidators('BOND_STATUS_BONDED'),
+    return this.decentrService.decentrClient.pipe(
+      map((decentrClient) => decentrClient.staking),
+      mergeMap((stakingClient) => forkJoin([
+        stakingClient.getValidators('BOND_STATUS_BONDED'),
         ...onlyBonded
           ? []
           : [
-            client.getValidators('BOND_STATUS_UNBONDING'),
-            client.getValidators('BOND_STATUS_UNBONDED'),
+            stakingClient.getValidators('BOND_STATUS_UNBONDING'),
+            stakingClient.getValidators('BOND_STATUS_UNBONDED'),
           ],
       ])),
       map(([bonded, unbonding, unbonded]) => [
@@ -260,14 +254,14 @@ export class StakingService {
   }
 
   public getValidator(address: Validator['operatorAddress']): Observable<Validator> {
-    return this.client.pipe(
-      mergeMap((client) => client.getValidator(address)),
+    return this.decentrService.decentrClient.pipe(
+      mergeMap((decentrClient) => decentrClient.staking.getValidator(address)),
     );
   }
 
   public getStakingParameters(): Observable<StakingParams> {
-    return this.client.pipe(
-      mergeMap((client) => client.getStakingParameters()),
+    return this.decentrService.decentrClient.pipe(
+      mergeMap((decentrClient) => decentrClient.staking.getStakingParameters()),
     );
   }
 
@@ -293,11 +287,5 @@ export class StakingService {
           .filter(Boolean);
       }),
     );
-  }
-
-  private createClient(): Promise<DecentrStakingClient> {
-    const api = this.networkService.getActiveNetworkAPIInstant();
-
-    return DecentrStakingClient.create(api);
   }
 }

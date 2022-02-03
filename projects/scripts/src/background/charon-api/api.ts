@@ -22,17 +22,16 @@ const networkStorage = new NetworkBrowserStorageService();
 
 const getApi = () => networkStorage.getActiveAPIInstant();
 
-const createDecentrClient = () => new DecentrClient(getApi());
+const createDecentrClient = async (privateKey: Wallet['privateKey']) => DecentrClient.create(getApi(), privateKey);
 
 export const createPost = async (
   request: CreatePostRequest,
   privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const communityClient = await createDecentrClient().community();
+  const decentrClient = await createDecentrClient(privateKey);
 
-  return communityClient.createPost(
+  return decentrClient.community.createPost(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
@@ -40,11 +39,10 @@ export const deletePost = async (
   request: DeletePostRequest,
   privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const communityClient = await createDecentrClient().community();
+  const decentrClient = await createDecentrClient(privateKey);
 
-  return communityClient.deletePost(
+  return decentrClient.community.deletePost(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
@@ -52,11 +50,10 @@ export const likePost = async (
   request: LikeRequest,
   privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const communityClient = await createDecentrClient().community();
+  const decentrClient = await createDecentrClient(privateKey);
 
-  return communityClient.setLike(
+  return decentrClient.community.setLike(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
@@ -64,11 +61,10 @@ export const follow = async (
   request: FollowRequest,
   privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const communityClient = await createDecentrClient().community();
+  const decentrClient = await createDecentrClient(privateKey);
 
-  return communityClient.follow(
+  return decentrClient.community.follow(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
@@ -76,11 +72,10 @@ export const unfollow = async (
   request: UnfollowRequest,
   privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const communityClient = await createDecentrClient().community();
+  const decentrClient = await createDecentrClient(privateKey);
 
-  return communityClient.unfollow(
+  return decentrClient.community.unfollow(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
@@ -89,11 +84,10 @@ export const transferCoins = async (
   privateKey: Wallet['privateKey'],
   memo?: string,
 ): Promise<DeliverTxResponse> => {
-  const bankClient = await createDecentrClient().bank();
+  const decentrClient = await createDecentrClient(privateKey);
 
-  return bankClient.sendTokens(
+  return decentrClient.bank.sendTokens(
     request,
-    privateKey,
     { memo },
   ).signAndBroadcast();
 };
@@ -102,11 +96,10 @@ export const resetAccount = async (
   request: ResetAccountRequest,
   privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const operationsClient = await createDecentrClient().operations();
+  const decentrClient = await createDecentrClient(privateKey);
 
-  return operationsClient.resetAccount(
+  return decentrClient.operations.resetAccount(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
@@ -114,11 +107,10 @@ export const delegate = async (
   request: DelegateTokensRequest,
   privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const stakingClient = await createDecentrClient().staking();
+  const decentrClient = await createDecentrClient(privateKey);
 
-  return stakingClient.delegateTokens(
+  return decentrClient.staking.delegateTokens(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
@@ -126,11 +118,10 @@ export const redelegate = async (
   request: RedelegateTokensRequest,
   privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const stakingClient = await createDecentrClient().staking();
+  const decentrClient = await createDecentrClient(privateKey);
 
-  return stakingClient.redelegateTokens(
+  return decentrClient.staking.redelegateTokens(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
@@ -138,11 +129,10 @@ export const undelegate = async (
   request: UndelegateTokensRequest,
   privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const stakingClient = await createDecentrClient().staking();
+  const decentrClient = await createDecentrClient(privateKey);
 
-  return stakingClient.undelegateTokens(
+  return decentrClient.staking.undelegateTokens(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
@@ -150,11 +140,10 @@ export const withdrawDelegatorRewards = async (
   request: WithdrawDelegatorRewardRequest,
   privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const distributionClient = await createDecentrClient().distribution();
+  const decentrClient = await createDecentrClient(privateKey);
 
-  return distributionClient.withdrawDelegatorRewards(
+  return decentrClient.distribution.withdrawDelegatorRewards(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
@@ -162,10 +151,9 @@ export const withdrawValidatorRewards = async (
   request: WithdrawValidatorCommissionRequest,
   privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const distributionClient = await createDecentrClient().distribution();
+  const decentrClient = await createDecentrClient(privateKey);
 
-  return distributionClient.withdrawValidatorRewards(
+  return decentrClient.distribution.withdrawValidatorRewards(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
