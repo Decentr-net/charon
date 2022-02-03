@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input, OnChanges } from '@angular/core';
+import { SenderRewardLevel } from 'decentr-js';
 
-import { SenderRewardLevel } from '@core/services/api';
 
 interface ProgressBarSection {
   width: number;

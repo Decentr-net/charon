@@ -1,7 +1,9 @@
+import { BlockchainNodeService } from '@shared/services/blockchain-node';
 import { CORE_API_SERVICES } from './api';
 import { BankService } from './bank';
 import { BlocksService } from './blocks';
 import { CurrencyService } from './currency';
+import { DecentrService } from './decentr';
 import { DistributionService } from './distribution';
 import { FollowingService } from './following';
 import { HelpService } from './help';
@@ -19,6 +21,7 @@ import { UserService } from './user';
 export * from './bank';
 export * from './blocks';
 export * from './currency';
+export * from './decentr';
 export * from './distribution';
 export * from './following';
 export * from './image-uploader';
@@ -37,7 +40,9 @@ export * from './user';
 export const CORE_SERVICES = [
   CORE_API_SERVICES,
   BankService,
+  BlockchainNodeService,
   BlocksService,
+  DecentrService,
   CurrencyService,
   DistributionService,
   FollowingService,

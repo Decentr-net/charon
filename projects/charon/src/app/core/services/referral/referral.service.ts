@@ -1,39 +1,50 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, switchMap } from 'rxjs/operators';
-import { Wallet } from 'decentr-js';
+import { ReferralConfig, ReferralTimeStats, Wallet } from 'decentr-js';
 
 import { AuthService } from '@core/auth';
-import { ReferralApiService, ReferralConfig, ReferralTimeStats } from '@core/services/api';
+import { DecentrService } from '@core/services';
 
 @Injectable()
 export class ReferralService {
   constructor(
-    private referralApiService: ReferralApiService,
+    private decentrService: DecentrService,
     private authService: AuthService,
   ) {
   }
 
   public getCode(): Observable<string> {
-    return this.authService.getActiveUserAddress().pipe(
-      filter((address) => !!address),
-      switchMap((address) => this.referralApiService.getCode(address)),
+    return combineLatest([
+      this.authService.getActiveUserAddress().pipe(
+        filter((address) => !!address),
+      ),
+      this.decentrService.vulcanClient,
+    ]).pipe(
+      switchMap(([address, vulcanClient]) => vulcanClient.referral.getCode(address)),
     );
   }
 
   public getConfig(): Observable<ReferralConfig> {
-    return this.referralApiService.getConfig();
+    return this.decentrService.vulcanClient.pipe(
+      switchMap((vulcanClient) => vulcanClient.referral.getConfig()),
+    );
   }
 
   public getStats(): Observable<ReferralTimeStats> {
-    return this.authService.getActiveUserAddress().pipe(
-      filter((address) => !!address),
-      switchMap((address) => this.referralApiService.getStats(address)),
+    return combineLatest([
+      this.authService.getActiveUserAddress().pipe(
+        filter((address) => !!address),
+      ),
+      this.decentrService.vulcanClient,
+    ]).pipe(
+      switchMap(([address, vulcanClient]) => vulcanClient.referral.getStats(address)),
     );
   }
 
   public trackInstall(walletAddress: Wallet['address']): Observable<void> {
-    return this.referralApiService.trackInstall(walletAddress).pipe(
+    return this.decentrService.vulcanClient.pipe(
+      switchMap((vulcanClient) => vulcanClient.referral.trackInstall(walletAddress)),
       catchError(() => of(void 0)),
     );
   }

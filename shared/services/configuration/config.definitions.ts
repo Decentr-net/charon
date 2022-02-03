@@ -35,9 +35,6 @@ export interface Config {
     enabled: boolean;
     servers: VPNServer[];
   };
-  vulcan: {
-    url: string;
-  };
   referral: {
     url: string;
   };

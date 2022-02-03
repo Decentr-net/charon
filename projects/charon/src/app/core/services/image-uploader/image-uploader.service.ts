@@ -1,31 +1,24 @@
 import { Injectable } from '@angular/core';
-import { defer, firstValueFrom, Observable } from 'rxjs';
-import { map, mergeMap, pluck } from 'rxjs/operators';
-import { DecentrImageClient } from 'decentr-js';
+import { Observable } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 
-import { ConfigService } from '@shared/services/configuration';
-import { AuthService } from '@core/auth';
+import { AuthService } from '../../auth';
+import { DecentrService } from '../decentr';
 
 @Injectable()
 export class ImageUploaderService {
   constructor(
     private authService: AuthService,
-    private configService: ConfigService,
+    private decentrService: DecentrService,
   ) {
   }
 
   public upload(image: File): Observable<string> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return defer(() => this.createClient()).pipe(
-      mergeMap((client) => client.saveImage(image, wallet)),
-      pluck('hd'),
-    )
-  }
-
-  private createClient(): Promise<DecentrImageClient> {
-    return firstValueFrom(this.configService.getCerberusUrl().pipe(
-      map((cerberusUrl) => new DecentrImageClient(cerberusUrl)),
-    ));
+    return this.decentrService.cerberusClient.pipe(
+      mergeMap((cerberusClient) => cerberusClient.image.save(image, wallet)),
+      map((response) => response.hd),
+    );
   }
 }

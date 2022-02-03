@@ -1,6 +1,9 @@
-import { CreatePostRequest, LikeWeight, Post, ProfilePDVStatisticsItem } from 'decentr-js';
+import { CreatePostRequest, LikeWeight, Post, Profile, ProfilePDVStatisticsItem } from 'decentr-js';
 
-import { PostOwnerProfile } from '../api';
+export interface PostOwnerProfile extends Profile {
+  profileExists: boolean;
+  postsCount: number;
+}
 
 export interface PostsListItem extends Post {
   author: PostOwnerProfile;
