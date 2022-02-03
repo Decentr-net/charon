@@ -8,6 +8,7 @@ import {
   QueryList,
   TrackByFunction,
 } from '@angular/core';
+import { Sort } from '@angular/material/sort';
 
 import { DataTableColumnDefDirective, DataTableEmptyRowDefDirective } from './directives';
 
@@ -24,6 +25,7 @@ export class DataTableComponent<T> {
   @Input() selectedItems: T[] = [];
 
   @Output() itemClick: EventEmitter<T> = new EventEmitter();
+  @Output() sortClick: EventEmitter<Sort> = new EventEmitter();
 
   @ContentChildren(DataTableColumnDefDirective)
   public dataTableColumnDefs: QueryList<DataTableColumnDefDirective>;
@@ -49,6 +51,10 @@ export class DataTableComponent<T> {
 
   public onItemClick(item: T): void {
     this.itemClick.emit(item);
+  }
+
+  public sortChange(sortState: Sort): void {
+    this.sortClick.emit(sortState);
   }
 
   public trackByColumnIdOrName: TrackByFunction<DataTableColumnDefDirective> = ({}, { idOrName }) => idOrName;

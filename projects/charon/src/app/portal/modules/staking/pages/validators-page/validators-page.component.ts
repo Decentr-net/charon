@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, share, switchMap } from 'rxjs/operators';
 import { FormControl } from '@ngneat/reactive-forms';
+import { Sort } from '@angular/material/sort';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BondStatus, Wallet } from 'decentr-js';
@@ -25,6 +26,8 @@ import { ValidatorsPageService } from './validators-page.service';
   ],
 })
 export class ValidatorsPageComponent implements OnInit {
+  public validatorsSort: BehaviorSubject<Sort> = new BehaviorSubject(undefined);
+
   public stakingRoute: typeof StakingRoute = StakingRoute;
 
   public validators$: Observable<ValidatorDefinition[]>;
@@ -63,9 +66,24 @@ export class ValidatorsPageComponent implements OnInit {
     this.validators$ = combineLatest([
       this.validatorsPageService.getValidators(),
       this.onlyBondedFormControl.value$,
+      this.validatorsSort,
     ]).pipe(
-      map(([validators, onlyBonded,]) => {
-        return validators.filter(({ status }) => !onlyBonded || status === BondStatus.BOND_STATUS_BONDED);
+      map(([validators, onlyBonded, sort]) => {
+        return validators
+          .filter(({ status }) => !onlyBonded || status === BondStatus.BOND_STATUS_BONDED)
+          .sort((left, right) => {
+            if (!sort || !sort.direction) {
+              return 0;
+            }
+
+            const leftValue = left[sort.active] || 0;
+            const rightValue = right[sort.active] || 0;
+
+            return (typeof leftValue === 'number'
+              ? leftValue - rightValue
+              : leftValue.toString().localeCompare(rightValue)
+            ) * (sort.direction === 'asc' ? 1 : -1);
+          });
       }),
       share(),
     );
@@ -103,5 +121,9 @@ export class ValidatorsPageComponent implements OnInit {
       relativeTo: this.activatedRoute,
       queryParams: { [INITIAL_VALIDATOR_ADDRESS_PARAM]: validator.address },
     });
+  }
+
+  public sort(sort: Sort): void {
+    this.validatorsSort.next(sort);
   }
 }

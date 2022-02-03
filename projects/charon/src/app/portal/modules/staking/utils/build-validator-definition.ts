@@ -48,7 +48,7 @@ const buildPartialValidatorDefinition = (
 ): Omit<ValidatorDefinitionShort, 'reward'> => {
   return {
     address: validator.operatorAddress,
-    delegated: getDelegatedAmount(validator.operatorAddress, delegations),
+    delegated: +getDelegatedAmount(validator.operatorAddress, delegations),
     jailed: validator.jailed,
     name: validator.description.moniker,
     unbondingDelegation: buildUnbondingDelegation(validator.operatorAddress, unbondingDelegations),
@@ -92,11 +92,11 @@ export const buildValidatorDefinition = (
 ): ValidatorDefinition => {
   return {
     ...buildValidatorDefinitionShort(validator, delegations, delegatorRewards, unbondingDelegations),
-    commission: validator.commission.commissionRates.rate,
+    commission: +validator.commission.commissionRates.rate,
     details: validator.description.details,
     selfValidator: validator.operatorAddress === selfValidator,
     status: validator.status,
-    tokens: validator.tokens,
+    tokens: +validator.tokens,
     votingPower: +validator.tokens / +pool.bondedTokens,
     website: validator.description.website,
   };
