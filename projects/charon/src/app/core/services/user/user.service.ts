@@ -56,7 +56,7 @@ export class UserService {
   }
 
   public hesoyam(walletAddress: Wallet['address']): Observable<void> {
-    return this.decentrService.vulcanClient.pipe(
+    return this.decentrService.createVulcanClient(NetworkId.Testnet).pipe(
       mergeMap((vulcanClient) => vulcanClient.registration.hesoyam(walletAddress)),
     );
   }

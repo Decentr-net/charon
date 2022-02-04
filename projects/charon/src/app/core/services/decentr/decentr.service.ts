@@ -60,4 +60,11 @@ export class DecentrService {
       mergeMap((nodeUrl) => DecentrClient.create(nodeUrl)),
     );
   }
+
+  public createVulcanClient(networkId: NetworkId): Observable<VulcanClient> {
+    return this.configService.getNetworkConfig(networkId).pipe(
+      map((config) => config.vulcan.url),
+      map((vulcanUrl) => new VulcanClient(vulcanUrl)),
+    );
+  }
 }
