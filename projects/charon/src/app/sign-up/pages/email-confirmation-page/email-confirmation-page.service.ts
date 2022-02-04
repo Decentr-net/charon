@@ -29,7 +29,7 @@ export class EmailConfirmationPageService {
 
     return this.userService.confirmUser(code, user.primaryEmail).pipe(
       catchError((error) => {
-        switch (error.status) {
+        switch (error?.response?.status) {
           case HttpStatusCode.Conflict:
             return throwError(new TranslatedError(
               this.translocoService.translate(
