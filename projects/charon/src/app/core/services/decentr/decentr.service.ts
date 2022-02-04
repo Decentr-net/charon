@@ -22,10 +22,7 @@ export class DecentrService {
       networkService.getActiveNetworkAPI(),
       authService.getActiveUser(),
     ]).pipe(
-      switchMap(([api, user]) => {
-        console.log(api);
-        return DecentrClient.create(api, user?.wallet?.privateKey)
-      }),
+      switchMap(([api, user]) =>  DecentrClient.create(api, user?.wallet?.privateKey)),
       untilDestroyed(this),
     ).subscribe((decentrClient) => this.decentrClient$.next(decentrClient));
   }
