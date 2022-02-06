@@ -41,145 +41,36 @@ const sendRequest = (
     );
 };
 
+const CHARON_API_LISTENER_MAP: Record<
+  Exclude<MessageCode, MessageCode.ApplicationStarted | MessageCode.Location>,
+  (...args) => Promise<DeliverTxResponse>
+> = {
+  [MessageCode.PostCreate]: createPost,
+  [MessageCode.PostDelete]: deletePost,
+  [MessageCode.PostLike]: likePost,
+  [MessageCode.Follow]: follow,
+  [MessageCode.Unfollow]: unfollow,
+  [MessageCode.CoinTransfer]: transferCoins,
+  [MessageCode.ResetAccount]: resetAccount,
+  [MessageCode.Delegate]: delegate,
+  [MessageCode.Undelegate]: undelegate,
+  [MessageCode.Redelegate]: redelegate,
+  [MessageCode.WithdrawDelegatorRewards]: withdrawDelegatorRewards,
+  [MessageCode.WithdrawValidatorRewards]: withdrawValidatorRewards,
+}
+
 export const initCharonAPIListeners = (): void => {
   const messageBus = new MessageBus<CharonAPIMessageBusMap>();
 
-  messageBus.onMessage(MessageCode.PostCreate).subscribe((message) => {
-    sendRequest(
-      () => createPost(
-        message.body.request,
-        message.body.privateKey,
-      ),
-      message.sendResponse,
-    );
-  });
-
-  messageBus.onMessage(MessageCode.PostDelete).subscribe((message) => {
-    sendRequest(
-      () => deletePost(
-        message.body.request,
-        message.body.privateKey,
-      ),
-      message.sendResponse,
-    );
-  });
-
-  messageBus.onMessage(MessageCode.PostLike).subscribe((message) => {
-    sendRequest(
-      () => likePost(
-        message.body.request,
-        message.body.privateKey,
-      ),
-      message.sendResponse,
-    );
-  });
-
-  messageBus.onMessage(MessageCode.Follow).subscribe((message) => {
-    sendRequest(
-      () => follow(
-        message.body.request,
-        message.body.privateKey,
-      ),
-      (response) => {
-        message.sendResponse(response);
-      },
-    );
-  });
-
-  messageBus.onMessage(MessageCode.Unfollow).subscribe((message) => {
-    sendRequest(
-      () => unfollow(
-        message.body.request,
-        message.body.privateKey,
-      ),
-      (response) => {
-        message.sendResponse(response);
-      },
-    );
-  });
-
-  messageBus.onMessage(MessageCode.CoinTransfer).subscribe((message) => {
-    sendRequest(
-      () => transferCoins(
-        message.body.request,
-        message.body.privateKey,
-        message.body.memo,
-      ),
-      (response) => {
-        message.sendResponse(response);
-      },
-    );
-  });
-
-  messageBus.onMessage(MessageCode.ResetAccount).subscribe((message) => {
-    sendRequest(
-      () => resetAccount(
-        message.body.request,
-        message.body.privateKey,
-      ),
-      (response) => {
-        message.sendResponse(response);
-      },
-    );
-  });
-
-  messageBus.onMessage(MessageCode.Delegate).subscribe((message) => {
-    sendRequest(
-      () => delegate(
-        message.body.request,
-        message.body.privateKey,
-      ),
-      (response) => {
-        message.sendResponse(response);
-      },
-    );
-  });
-
-  messageBus.onMessage(MessageCode.Redelegate).subscribe((message) => {
-    sendRequest(
-      () => redelegate(
-        message.body.request,
-        message.body.privateKey,
-      ),
-      (response) => {
-        message.sendResponse(response);
-      },
-    );
-  });
-
-  messageBus.onMessage(MessageCode.Undelegate).subscribe((message) => {
-    sendRequest(
-      () => undelegate(
-        message.body.request,
-        message.body.privateKey,
-      ),
-      (response) => {
-        message.sendResponse(response);
-      },
-    );
-  });
-
-  messageBus.onMessage(MessageCode.WithdrawDelegatorRewards).subscribe((message) => {
-    sendRequest(
-      () => withdrawDelegatorRewards(
-        message.body.request,
-        message.body.privateKey,
-      ),
-      (response) => {
-        message.sendResponse(response);
-      },
-    );
-  });
-
-  messageBus.onMessage(MessageCode.WithdrawValidatorRewards).subscribe((message) => {
-    sendRequest(
-      () => withdrawValidatorRewards(
-        message.body.request,
-        message.body.privateKey,
-      ),
-      (response) => {
-        message.sendResponse(response);
-      },
-    );
-  });
+  Object.entries(CHARON_API_LISTENER_MAP).forEach(([messageCode, handler]) => {
+    messageBus.onMessage(messageCode).subscribe((message) => {
+      sendRequest(
+        () => handler(
+          message.body.request,
+          message.body.memo,
+        ),
+        message.sendResponse,
+      );
+    });
+  })
 };

@@ -39,7 +39,6 @@ export class StakingService {
           ...request,
           delegatorAddress: wallet.address,
         },
-        privateKey: wallet.privateKey,
       })).pipe(
         map(assertMessageResponseSuccess),
       );
@@ -68,7 +67,6 @@ export class StakingService {
           ...request,
           delegatorAddress: wallet.address,
         },
-        privateKey: wallet.privateKey,
       })).pipe(
         map(assertMessageResponseSuccess),
       );
@@ -111,7 +109,6 @@ export class StakingService {
           validatorAddress,
           amount,
         },
-        privateKey: wallet.privateKey,
       })).pipe(
         map(assertMessageResponseSuccess),
       );

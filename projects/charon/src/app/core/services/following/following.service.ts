@@ -30,7 +30,6 @@ export class FollowingService {
           owner: wallet.address,
           whom,
         },
-        privateKey: wallet.privateKey,
       })
     ).pipe(
       map((response) => {
@@ -52,7 +51,6 @@ export class FollowingService {
           owner: wallet.address,
           whom,
         },
-        privateKey: wallet.privateKey,
       })
     ).pipe(
       map((response) => {

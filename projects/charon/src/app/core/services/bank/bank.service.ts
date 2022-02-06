@@ -51,7 +51,6 @@ export class BankService {
           fromAddress: wallet.address,
         },
         memo,
-        privateKey: wallet.privateKey,
       })
     ).pipe(
       map(assertMessageResponseSuccess),

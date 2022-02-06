@@ -108,7 +108,6 @@ export class UserService {
 
   public resetAccount(
     walletAddress: Wallet['address'],
-    privateKey: Wallet['privateKey'],
   ): Observable<void> {
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.ResetAccount, {
@@ -116,7 +115,6 @@ export class UserService {
           owner: walletAddress,
           address: walletAddress,
         },
-        privateKey,
       })
     ).pipe(
       map(assertMessageResponseSuccess),

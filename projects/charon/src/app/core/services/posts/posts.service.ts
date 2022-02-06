@@ -102,7 +102,6 @@ export class PostsService {
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.PostCreate, {
         request: { ...request, owner, uuid: postId },
-        privateKey: wallet.privateKey,
       })).pipe(
         map((response) => assertMessageResponseSuccess(response)),
         mergeMap(() => this.getPost({ owner, uuid: postId }).pipe(
@@ -123,7 +122,6 @@ export class PostsService {
           postUuid: post.uuid,
           weight,
         },
-        privateKey: wallet.privateKey
       })
     ).pipe(
       map(assertMessageResponseSuccess),
@@ -142,7 +140,6 @@ export class PostsService {
           postOwner: post.owner,
           postUuid: post.uuid,
         },
-        privateKey: wallet.privateKey
       })).pipe(
         map(assertMessageResponseSuccess),
         mergeMap(() => this.getPost(post).pipe(

@@ -83,7 +83,6 @@ export class DistributionService {
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.WithdrawDelegatorRewards, {
         request,
-        privateKey: wallet.privateKey,
       })
     ).pipe(
       map(assertMessageResponseSuccess),
@@ -98,7 +97,6 @@ export class DistributionService {
         request: {
           validatorAddress: wallet.validatorAddress,
         },
-        privateKey: wallet.privateKey,
       })
     ).pipe(
       map(assertMessageResponseSuccess),
