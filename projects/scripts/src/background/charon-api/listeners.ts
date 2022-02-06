@@ -106,7 +106,6 @@ export const initCharonAPIListeners = (): void => {
         message.body.memo,
       ),
       (response) => {
-        messageBus.sendMessage(MessageCode.CoinTransferred);
         message.sendResponse(response);
       },
     );
