@@ -7,12 +7,17 @@ import {
   WebpageAPIRequestMessageMap,
   WebpageAPIResponseErrorMessage,
 } from '../webpage-api-message-bus';
+import { connect, getBalance, getWalletAddress, isConnected } from './common';
 import { openPost } from './share';
 
 const REQUEST_HANDLER_MAP: Record<
   WebpageAPIRequestMessageCode,
   (params: WebpageAPIRequestMessageMap[WebpageAPIRequestMessageCode]) => Promise<unknown> | Observable<unknown>
 > = {
+  [WebpageAPIRequestMessageCode.Connect]: connect,
+  [WebpageAPIRequestMessageCode.GetBalance]: getBalance,
+  [WebpageAPIRequestMessageCode.GetWalletAddress]: getWalletAddress,
+  [WebpageAPIRequestMessageCode.IsConnected]: isConnected,
   [WebpageAPIRequestMessageCode.OpenPost]: openPost,
 };
 

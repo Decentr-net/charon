@@ -4,4 +4,5 @@ export const LOCK_SERVICES = [
   LockService,
 ];
 
+export * from './lock.definitions';
 export * from './lock.service';

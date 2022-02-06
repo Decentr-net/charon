@@ -3,13 +3,18 @@
   color: var(--color-main-text);
   display: block;
 
+  &.mod-popup-view {
+    .app-init-loading {
+      min-height: 594px;
+    }
+  }
+
   .app-init-loading {
     align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     height: 100vh;
-    min-height: 594px;
 
     &__icon {
       display: inline-flex;

@@ -59,7 +59,7 @@
   <ng-template #restore>
     <a
       class="login-page__restore-link"
-      [routerLink]="[loginRoute.Restore]"
+      (click)="navigateToRestorePage()"
       appTypeface="paragraph"
     >
       {{ translate('restore') }}
