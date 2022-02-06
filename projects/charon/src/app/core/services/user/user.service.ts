@@ -1,23 +1,7 @@
 import { Injectable } from '@angular/core';
 import { defer, Observable, of, Subject, timer } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  mapTo,
-  mergeMap,
-  skipWhile,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs/operators';
-import {
-  Account,
-  KeyPair,
-  Profile,
-  ProfileUpdate,
-  Wallet,
-} from 'decentr-js';
+import { catchError, filter, map, mapTo, mergeMap, skipWhile, switchMap, take, tap, } from 'rxjs/operators';
+import { Account, KeyPair, Profile, ProfileUpdate, Wallet, } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
 import { NetworkId } from '@shared/services/configuration';
@@ -44,13 +28,13 @@ export class UserService {
   }
 
   public createUser(email: string, walletAddress: string): Observable<void> {
-    return this.decentrService.vulcanClient.pipe(
+    return this.decentrService.createVulcanClient(NetworkId.Mainnet).pipe(
       mergeMap((vulcanClient) => vulcanClient.registration.register(walletAddress, email)),
     );
   }
 
   public confirmUser(code: string, email: string): Observable<void> {
-    return this.decentrService.vulcanClient.pipe(
+    return this.decentrService.createVulcanClient(NetworkId.Mainnet).pipe(
       mergeMap((vulcanClient) => vulcanClient.registration.confirm(email, code)),
     );
   }
