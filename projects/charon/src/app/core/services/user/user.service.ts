@@ -8,7 +8,7 @@ import { NetworkId } from '@shared/services/configuration';
 import { PDVStorageService } from '@shared/services/pdv';
 import { SettingsService } from '@shared/services/settings';
 import { ONE_SECOND } from '@shared/utils/date';
-import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api/message-bus-map';
 import { MessageCode } from '@scripts/messages';
 import { AuthService } from '../../auth';
 import { DecentrService } from '../decentr';

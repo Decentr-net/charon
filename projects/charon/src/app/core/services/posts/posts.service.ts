@@ -9,7 +9,7 @@ import { ConfigService } from '@shared/services/configuration';
 import { ONE_SECOND } from '@shared/utils/date';
 import { retryTimes } from '@shared/utils/observable';
 import { uuid } from '@shared/utils/uuid';
-import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api/message-bus-map';
 import { MessageCode } from '@scripts/messages';
 import { AuthService } from '../../auth';
 import { DecentrService } from '../decentr';

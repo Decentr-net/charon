@@ -4,7 +4,7 @@ import { combineLatest, defer, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { MessageBus } from '@shared/message-bus';
-import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api/message-bus-map';
 import { MessageCode } from '@scripts/messages';
 import { AuthService } from '../../auth';
 import { DecentrService } from '../decentr';

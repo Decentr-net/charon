@@ -4,7 +4,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { Wallet } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
-import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api/message-bus-map';
 import { MessageCode } from '@scripts/messages';
 import { AuthService } from '../../auth';
 import { DecentrService } from '../decentr';

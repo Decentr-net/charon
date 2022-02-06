@@ -18,7 +18,7 @@ import {
 
 import { MessageBus } from '@shared/message-bus';
 import { MessageCode } from '@scripts/messages';
-import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api/message-bus-map';
 import { AuthService } from '../../auth';
 import { DecentrService } from '../decentr';
 
