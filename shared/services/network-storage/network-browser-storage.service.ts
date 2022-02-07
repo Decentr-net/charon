@@ -1,5 +1,5 @@
-import { BehaviorSubject, from, merge, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, mergeMap, startWith } from 'rxjs/operators';
+import { BehaviorSubject, merge, Observable } from 'rxjs';
+import { distinctUntilChanged, filter } from 'rxjs/operators';
 
 import { BrowserLocalStorage, BrowserStorage } from '../browser-storage';
 import { NetworkId } from '../configuration';
@@ -42,10 +42,11 @@ export class NetworkBrowserStorageService {
   }
 
   public getActiveId(): Observable<NetworkStorage['id']> {
-    return from(this.browserStorage.get('id')).pipe(
-      mergeMap((id) => this.browserStorage.onChange('id').pipe(
-        startWith(id),
-      )),
+    return merge(
+      this.browserStorage.onChange('id'),
+      this.browserStorage.get('id'),
+    ).pipe(
+      distinctUntilChanged(),
     );
   }
 
