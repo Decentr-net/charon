@@ -1,5 +1,5 @@
 import { HttpStatusCode } from '@angular/common/http';
-import { defer, EMPTY, merge, Observable, of, partition, pipe, throwError, timer } from 'rxjs';
+import { defer, EMPTY, merge, Observable, of, partition, pipe, tap, throwError, timer } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -99,21 +99,30 @@ const collectPDVIntoStorage = (): Observable<void> => {
 };
 
 const sendPDVBlocks = (): Observable<void> => {
+  let isProcessing = false;
+
   return whileUserActive((user) => {
     return PDV_STORAGE_SERVICE.getUserAccumulatedPDVChanges(user.wallet.address).pipe(
+      filter(() => !isProcessing),
+      tap(() => isProcessing = true),
       concatMap((accumulated) => configService.getPDVCountToSend().pipe(
         mergeMap(({ maxPDVCount }) => {
-          return accumulated.length >= maxPDVCount
-            ? of({
+          if (accumulated.length >= maxPDVCount) {
+            return of({
               toSend: accumulated.slice(0, maxPDVCount),
               rest: accumulated.slice(maxPDVCount),
             })
-            : EMPTY;
+          }
+
+          isProcessing = false;
+          return EMPTY;
         }),
       )),
       concatMap(({ toSend, rest }) => {
         return defer(() => PDV_STORAGE_SERVICE.setUserAccumulatedPDV(user.wallet.address, rest)).pipe(
           mergeMap(() => sendPDV(user.wallet, toSend)),
+          delay(ONE_MINUTE),
+          tap(() => isProcessing = false),
           catchError((error) => {
             const errorStatus = error?.response?.status;
 
@@ -122,6 +131,7 @@ const sendPDVBlocks = (): Observable<void> => {
             }
 
             return defer(() => mergePDVsIntoAccumulated(user.wallet.address, toSend, true)).pipe(
+              tap(() => isProcessing = false),
               mergeMap(() => throwError(errorStatus)),
             );
           }),
