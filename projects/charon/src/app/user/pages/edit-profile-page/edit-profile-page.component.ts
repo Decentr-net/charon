@@ -111,16 +111,17 @@ export class EditProfilePageComponent implements OnInit {
       }),
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
-    ).subscribe(() => {
-      this.notificationService.success(
-        this.translocoService.translate('edit_profile_page.toastr.successful_update', null, 'user'),
-      );
+    ).subscribe({
+      next: () => {
+        this.notificationService.success(
+          this.translocoService.translate('edit_profile_page.toastr.successful_update', null, 'user'),
+        );
 
-      this.router.navigate(['../'], {
-        relativeTo: this.activatedRoute
-      });
-    }, (error) => {
-      this.notificationService.error(error);
+        this.router.navigate(['../'], {
+          relativeTo: this.activatedRoute
+        });
+      },
+      error: (error) => this.notificationService.error(error),
     });
   }
 

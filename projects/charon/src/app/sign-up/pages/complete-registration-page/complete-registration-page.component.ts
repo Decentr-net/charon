@@ -79,10 +79,9 @@ export class CompleteRegistrationPageComponent implements OnInit {
         finalize(() => this.spinnerService.hideSpinner()),
         untilDestroyed(this),
       )
-      .subscribe(() => {
-        this.router.navigate([AppRoute.SignUp, SignUpRoute.PDVConsent]);
-      }, (error) => {
-        this.notificationService.error(error);
+      .subscribe({
+        next: () => this.router.navigate([AppRoute.SignUp, SignUpRoute.PDVConsent]),
+        error: (error) => this.notificationService.error(error),
       });
   }
 

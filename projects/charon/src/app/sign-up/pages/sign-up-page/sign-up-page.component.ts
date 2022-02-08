@@ -76,14 +76,13 @@ export class SignUpPageComponent implements OnInit {
       .pipe(
         finalize(() => this.spinnerService.hideSpinner()),
       )
-      .subscribe(() => {
-        this.ngZone.run(() => {
+      .subscribe({
+        next: () => this.ngZone.run(() => {
           this.router.navigate([SignUpRoute.EmailConfirmation], {
             relativeTo: this.activatedRoute,
           });
-        });
-      }, (error) => {
-        this.notificationService.error(error);
+        }),
+        error: (error) => this.notificationService.error(error),
       });
   }
 
