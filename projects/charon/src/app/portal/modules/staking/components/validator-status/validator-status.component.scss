@@ -27,7 +27,7 @@
   &.mod-unbonded {
     $unbonded-color: var(--color-validator-status-unbonded);
 
-    color: $unbonded-color;
+    color: rgb($unbonded-color);
 
     &.mod-filled {
       background-color: rgba($unbonded-color, 0.08);
