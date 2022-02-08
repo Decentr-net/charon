@@ -78,7 +78,9 @@
           [type]="item.type"
         ></app-pdv-type-icon>
 
-        {{ item.title }}
+        <span appTextEllipsis>
+          {{ item.title }}
+        </span>
       </div>
 
       <ng-container appExpansionListColumnDef="pdv">
