@@ -32,7 +32,7 @@ export class ImportRestorePageService {
       mergeMap((account) => {
         return account
           ? of(account)
-          : throwError(new TranslatedError(this.translocoService.translate(
+          : throwError(() => new TranslatedError(this.translocoService.translate(
             'import_restore_page.errors.account_not_found',
             null,
             'login'

@@ -23,14 +23,14 @@ export class CompleteRegistrationPageService {
       catchError((error) => {
         switch (error?.response?.status) {
           case HttpStatusCode.TooManyRequests:
-            return throwError(new TranslatedError(
+            return throwError(() => new TranslatedError(
               this.translocoService.translate(
                 `sign_up.complete_registration.toastr.errors.${HttpStatusCode.TooManyRequests}`,
                 null,
               ),
             ));
           default:
-            return throwError(error);
+            return throwError(() => error);
         }
       }),
     );

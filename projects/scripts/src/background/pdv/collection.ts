@@ -132,12 +132,12 @@ const sendPDVBlocks = (): Observable<void> => {
 
             return defer(() => mergePDVsIntoAccumulated(user.wallet.address, toSend, true)).pipe(
               tap(() => isProcessing = false),
-              mergeMap(() => throwError(errorStatus)),
+              mergeMap(() => throwError(() => error)),
             );
           }),
         );
       }),
-      retryWhen((errorStatus: Observable<number>) => errorStatus.pipe(
+      retryWhen((error: Observable<number>) => error.pipe(
         delay(ONE_MINUTE * 5),
       )),
     );

@@ -32,7 +32,7 @@ export class MaintenanceInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         this.navigationService.redirectToMaintenancePage();
 
-        return throwError(error);
+        return throwError(() => error);
       }),
       mergeMap((isMaintenance) => next.handle(req).pipe(
         map((event: HttpEvent<void>) => {

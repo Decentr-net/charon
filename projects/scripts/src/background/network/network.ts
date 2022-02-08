@@ -30,7 +30,7 @@ const getRandomRest = (): Observable<string> => {
       switchMap((isMaintenance) => {
         if (isMaintenance) {
           CONFIG_SERVICE.forceUpdate();
-          return throwError(new Error());
+          return throwError(() => new Error());
         }
 
         return CONFIG_SERVICE.getRestNodes();
@@ -45,7 +45,10 @@ const getRandomRest = (): Observable<string> => {
       const node = nodes[random];
 
       return blockchainNodeService.getNodeAvailability(node).pipe(
-        mergeMap(isAvailable => isAvailable !== NodeAvailability.Available  ? throwError('error') : of(node)),
+        mergeMap((isAvailable) => isAvailable !== NodeAvailability.Available
+          ? throwError(() => new Error())
+          : of(node)
+        ),
       );
     }),
     retryWhen((errors) => errors.pipe(

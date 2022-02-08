@@ -98,7 +98,7 @@ export class EditProfilePageComponent implements OnInit {
       catchError((error) => {
         switch (error?.response?.status) {
           case HttpStatusCode.TooManyRequests:
-            return throwError(new TranslatedError(
+            return throwError(() => new TranslatedError(
               this.translocoService.translate(
                 `edit_profile_page.toastr.errors.${HttpStatusCode.TooManyRequests}`,
                 null,
@@ -106,7 +106,7 @@ export class EditProfilePageComponent implements OnInit {
               ),
             ));
           default:
-            return throwError(error);
+            return throwError(() => error);
         }
       }),
       finalize(() => this.spinnerService.hideSpinner()),
