@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, pluck, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -113,7 +113,7 @@ export class PostPageComponent implements OnInit {
     });
 
     post$.pipe(
-      pluck('uuid'),
+      map((post) => post.uuid),
       distinctUntilChanged(),
       untilDestroyed(this),
     ).subscribe(() => this.elementRef.nativeElement.scrollTop = 0);

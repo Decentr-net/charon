@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EMPTY, Observable } from 'rxjs';
-import { catchError, filter, finalize, map, mergeMap, pluck, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, finalize, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -61,7 +61,7 @@ export class UserMenuPageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.profile$ = this.authService.getActiveUser().pipe(
-      pluck('wallet'),
+      map((user) => user.wallet),
       switchMap((wallet) => this.userService.getProfile(wallet.address, wallet)),
       catchError(() => EMPTY),
     );

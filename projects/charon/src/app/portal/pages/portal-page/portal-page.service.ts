@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, pluck } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { NotificationService } from '@shared/services/notification';
@@ -16,10 +15,7 @@ export class PortalPageService {
   }
 
   public getWalletAddress(): Observable<string> {
-    return this.authService.getActiveUser().pipe(
-      pluck('wallet', 'address'),
-      distinctUntilChanged(),
-    );
+    return this.authService.getActiveUserAddress();
   }
 
   public onWalletAddressCopied(): void {

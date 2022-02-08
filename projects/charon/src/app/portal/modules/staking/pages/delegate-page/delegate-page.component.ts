@@ -132,7 +132,7 @@ export class DelegatePageComponent implements OnInit {
     combineLatest([
       this.balance$,
       this.form.value$.pipe(
-        pluck('validatorAddress'),
+        map(((value) => value.validatorAddress)),
       ),
     ]).pipe(
       take(1),

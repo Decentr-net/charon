@@ -1,5 +1,5 @@
 import { EMPTY, from, Observable } from 'rxjs';
-import { mergeMap, pluck, startWith, switchMap } from 'rxjs/operators';
+import { map, mergeMap, startWith, switchMap } from 'rxjs/operators';
 
 const requestLocationPermission = (): Promise<PermissionStatus> => {
   return navigator.permissions.query({ name: 'geolocation' });
@@ -21,7 +21,7 @@ const listenLocationPermissionState = (): Observable<PermissionState> => {
   return from(requestLocationPermission()).pipe(
     mergeMap((status) => watchPermissionStatusChange(status).pipe(
       startWith(status),
-      pluck('state'),
+      map((status) => status.state),
     )),
   );
 };

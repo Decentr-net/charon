@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
-import { map, pluck, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { PDVTypesSettingsTranslations } from '@shared/components/pdv-types-settings';
-import { AuthService } from '@core/auth/services';
 import { SettingsService } from '@shared/services/settings';
+import { AuthService } from '@core/auth/services';
+import { UserService } from '@core/services';
 import { SignUpRoute } from '../../sign-up-route';
-import { UserService } from '../../../core/services';
 
 @Component({
   selector: 'app-pdv-consent-page',
@@ -42,8 +42,7 @@ export class PDVConsentPageComponent implements OnInit {
       })),
     );
 
-    this.hasProfile$ = this.authService.getActiveUser().pipe(
-      pluck('wallet', 'address'),
+    this.hasProfile$ = this.authService.getActiveUserAddress().pipe(
       switchMap((walletAddress) => this.userService.getProfile(walletAddress)),
       map((profile) => !!profile),
     );
