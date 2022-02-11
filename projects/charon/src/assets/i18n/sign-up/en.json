@@ -55,6 +55,7 @@
         }
       }
     },
+    "check_spam": "Please, check your spam folder in case email is missing.",
     "did_not_get_code": "Didn't get the email or you couldn't find it?",
     "ensure": "Just want to ensure that we're dealing with real people.",
     "register_new_account": "Register new account",
