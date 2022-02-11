@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
+import { AppRoute } from '../../../app-route';
 import { svgLogoIconOrange } from '@shared/svg-icons/logo-icon-orange';
 import { svgWallet } from '@shared/svg-icons/wallet';
 import { isOpenedInTab } from '@shared/utils/browser';
@@ -10,6 +12,7 @@ import {
   AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT,
   AUTHORIZED_LAYOUT_HEADER_META_SLOT,
 } from '@core/layout/authorized-layout';
+import { NavigationService } from '@core/navigation';
 import { PortalPageService } from './portal-page.service';
 
 @Component({
@@ -32,7 +35,9 @@ export class PortalPageComponent implements OnInit {
   public walletAddress$: Observable<string>;
 
   constructor(
+    private navigationService: NavigationService,
     private portalPageService: PortalPageService,
+    private router: Router,
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register([
@@ -43,6 +48,14 @@ export class PortalPageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.walletAddress$ = this.portalPageService.getWalletAddress();
+  }
+
+  public openInTab(): void {
+    const dPortalRoute = `/${AppRoute.Portal}`;
+
+    isOpenedInTab()
+      ? this.router.navigate([dPortalRoute])
+      : this.navigationService.openInNewTab(dPortalRoute);
   }
 
   public onWalletAddressCopied(): void {

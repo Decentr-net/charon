@@ -1,14 +1,13 @@
 <ng-container *transloco="let translate; read: 'portal.portal_page'">
   <app-portal-navigation></app-portal-navigation>
 
-  <a
+  <div
     class="portal-page__logo"
     *appSlot="headerLogoSlot"
-    [routerLink]="['./']"
-    [target]="isOpenedInPopup ? 'blank' : ''"
+    (click)="openInTab()"
   >
     <div class="portal-page__logo-icon"></div>
-  </a>
+  </div>
 
   <div
     *appSlot="headerActionsSlot"
