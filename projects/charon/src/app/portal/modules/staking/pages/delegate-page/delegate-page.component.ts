@@ -146,7 +146,7 @@ export class DelegatePageComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    if (this.form.invalid) {
+    if (!this.form.valid) {
       this.ngForm.onSubmit(void 0);
       return;
     }

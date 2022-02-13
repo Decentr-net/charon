@@ -39,7 +39,7 @@ export class RestoreSeedDialogComponent implements OnInit {
   }
 
   public async onSubmit(): Promise<void> {
-    if (this.passwordForm.invalid) {
+    if (!this.passwordForm.valid) {
       return;
     }
 

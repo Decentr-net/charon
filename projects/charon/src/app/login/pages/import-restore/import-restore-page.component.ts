@@ -89,7 +89,7 @@ export class ImportRestorePageComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    if (this.form.invalid) {
+    if (!this.form.valid) {
       return;
     }
 
