@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AsyncValidatorFn } from '@angular/forms';
-import { Observable, of, throwError, timer } from 'rxjs';
-import { catchError, map, mapTo, mergeMap, switchMapTo, tap } from 'rxjs/operators';
+import { defer, Observable, of, timer } from 'rxjs';
+import { catchError, map, mergeMap, switchMapTo, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { createWalletFromMnemonic } from 'decentr-js';
 
@@ -11,7 +11,6 @@ import { BrowserType, detectBrowser } from '@shared/utils/browser';
 import { ReferralService, UserService } from '@core/services';
 import { AuthService } from '@core/auth';
 import { LockService } from '@core/lock';
-import { TranslatedError } from '@core/notifications';
 
 @Injectable()
 export class ImportRestorePageService {
@@ -28,28 +27,17 @@ export class ImportRestorePageService {
   public importUser(seedPhrase: string, password: string, skipTrackInstall = false): Observable<void> {
     const wallet = createWalletFromMnemonic(seedPhrase);
 
-    return this.userService.getAccount(wallet.address, NetworkId.Mainnet).pipe(
-      mergeMap((account) => {
-        return account
-          ? of(account)
-          : throwError(() => new TranslatedError(this.translocoService.translate(
-            'import_restore_page.errors.account_not_found',
-            null,
-            'login'
-          )));
-      }),
-      mergeMap(() => this.userService.createTestnetAccount(wallet.address)),
+    return defer(() => this.authService.createUser({
+      wallet,
+      password,
+      seed: seedPhrase,
+    })).pipe(
+      mergeMap((id) => this.authService.changeUser(id)),
       mergeMap(() => (!skipTrackInstall && detectBrowser() === BrowserType.Decentr)
         ? this.referralService.trackInstall(wallet.address)
         : of(void 0)
       ),
-      mergeMap(() => this.authService.createUser({
-        wallet,
-        password,
-        seed: seedPhrase,
-      })),
-      mergeMap((id) => this.authService.changeUser(id)),
-      mapTo(void 0),
+      mergeMap(() => this.userService.createTestnetAccount(wallet.address)),
     );
   }
 
