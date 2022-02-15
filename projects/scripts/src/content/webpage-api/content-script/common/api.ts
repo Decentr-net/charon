@@ -8,6 +8,7 @@ import { NetworkBrowserStorageService } from '../../../../../../../shared/servic
 import { SettingsService } from '../../../../../../../shared/services/settings';
 import { MessageBus } from '../../../../../../../shared/message-bus';
 import { WebpageAPIMessageBusMap, WebpageAPIMessageCode } from '../../../../background/webpage-api';
+import { WebpageAPIResponseMessageCode, WebpageAPIResponseMessageMap } from '../../webpage-api-message-bus';
 
 const messageBus = new MessageBus<WebpageAPIMessageBusMap>();
 
@@ -20,22 +21,26 @@ const getDecentrClient = (): Observable<DecentrClient> => {
   return networkBrowserStorageService.getActiveAPI().pipe(
     switchMap((api) => DecentrClient.create(api)),
   );
-}
+};
 
-const getWallet = (): Observable<Wallet> => {
+export const getNetwork = (): Observable<WebpageAPIResponseMessageMap[WebpageAPIResponseMessageCode.GetNetwork]> => {
+  return networkBrowserStorageService.getActiveId();
+};
+
+export const getWallet = (): Observable<Wallet> => {
   return authBrowserStorageService.getActiveUser().pipe(
     map((user) => user?.wallet),
     distinctUntilChanged((prev, curr) => prev?.address === curr?.address),
   );
 };
 
-export const getWalletAddress = (): Observable<Wallet['address']> => {
+export const getWalletAddress = (): Observable<WebpageAPIResponseMessageMap[WebpageAPIResponseMessageCode.GetWalletAddress]> => {
   return getWallet().pipe(
     map((wallet) => wallet?.address),
   );
 };
 
-export const getBalance = (): Observable<string> => {
+export const getBalance = (): Observable<WebpageAPIResponseMessageMap[WebpageAPIResponseMessageCode.GetBalance]> => {
   return combineLatest([
     getWalletAddress(),
     getDecentrClient(),
@@ -49,7 +54,7 @@ export const getBalance = (): Observable<string> => {
   );
 };
 
-export const isConnected = (): Observable<boolean> => {
+export const isConnected = (): Observable<WebpageAPIResponseMessageMap[WebpageAPIResponseMessageCode.IsConnected]> => {
   return getWalletAddress().pipe(
     switchMap((walletAddress) => {
       if (!walletAddress) {
