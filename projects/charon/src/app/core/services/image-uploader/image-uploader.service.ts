@@ -17,7 +17,7 @@ export class ImageUploaderService {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
     return this.decentrService.cerberusClient.pipe(
-      mergeMap((cerberusClient) => cerberusClient.image.save(image, wallet)),
+      mergeMap((cerberusClient) => cerberusClient.image.save(image, wallet.privateKey)),
       map((response) => response.hd),
     );
   }

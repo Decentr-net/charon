@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { defer, Observable, of, Subject, timer } from 'rxjs';
 import { catchError, filter, map, mapTo, mergeMap, skipWhile, switchMap, take, tap, } from 'rxjs/operators';
-import { Account, KeyPair, Profile, ProfileUpdate, Wallet, } from 'decentr-js';
+import { Account, Profile, ProfileUpdate, Wallet, } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
 import { NetworkId } from '@shared/services/configuration';
@@ -84,15 +84,15 @@ export class UserService {
     );
   }
 
-  public getProfile(walletAddress: string, keys?: KeyPair): Observable<Profile> {
+  public getProfile(walletAddress: string, privateKey?: Wallet['privateKey']): Observable<Profile> {
     return this.decentrService.cerberusClient.pipe(
-      mergeMap((cerberusClient) => cerberusClient.profile.getProfile(walletAddress, keys)),
+      mergeMap((cerberusClient) => cerberusClient.profile.getProfile(walletAddress, privateKey)),
     );
   }
 
-  public getProfiles(walletAddresses: Wallet['address'][], keys?: KeyPair): Observable<Record<Wallet['address'], Profile>> {
+  public getProfiles(walletAddresses: Wallet['address'][], privateKey?: Wallet['privateKey']): Observable<Record<Wallet['address'], Profile>> {
     return this.decentrService.cerberusClient.pipe(
-      mergeMap((cerberusClient) => cerberusClient.profile.getProfiles(walletAddresses, keys)),
+      mergeMap((cerberusClient) => cerberusClient.profile.getProfiles(walletAddresses, privateKey)),
     );
   }
 
@@ -100,7 +100,7 @@ export class UserService {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
     return this.decentrService.cerberusClient.pipe(
-      mergeMap((cerberusClient) => cerberusClient.profile.setProfile(profile, wallet)),
+      mergeMap((cerberusClient) => cerberusClient.profile.setProfile(profile, wallet.privateKey)),
       mapTo(void 0),
       tap(() => this.profileChanged$.next(wallet.address)),
     );

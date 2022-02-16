@@ -120,7 +120,7 @@ const sendPDVBlocks = (): Observable<void> => {
       )),
       concatMap(({ toSend, rest }) => {
         return defer(() => PDV_STORAGE_SERVICE.setUserAccumulatedPDV(user.wallet.address, rest)).pipe(
-          mergeMap(() => sendPDV(user.wallet, toSend)),
+          mergeMap(() => sendPDV(toSend, user.wallet.privateKey)),
           delay(ONE_MINUTE),
           tap(() => isProcessing = false),
           catchError((error) => {

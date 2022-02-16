@@ -24,9 +24,9 @@ export const blacklist$: Observable<PDVBlacklist> = (() => {
   );
 })();
 
-export const sendPDV = (wallet: Wallet, pDVs: PDV[]): Observable<void> => {
+export const sendPDV = (pDVs: PDV[], privateKey: Wallet['privateKey']): Observable<void> => {
   return defer(() => QUEUE.add(() => firstValueFrom(configService.getCerberusUrl().pipe(
-    mergeMap((cerberusUrl) => new CerberusClient(cerberusUrl).pdv.sendPDV(pDVs, wallet)),
+    mergeMap((cerberusUrl) => new CerberusClient(cerberusUrl).pdv.sendPDV(pDVs, privateKey)),
     mapTo(void 0),
   )), { priority: QueuePriority.PDV }));
 };
