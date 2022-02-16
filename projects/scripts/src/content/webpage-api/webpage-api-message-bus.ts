@@ -1,6 +1,6 @@
 import { EMPTY, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Post, SwapDestinationNetwork, SwapDetails, SwapListPaginationOptions } from 'decentr-js';
+import { Post, SwapDetails, SwapListPaginationOptions, Wallet } from 'decentr-js';
 
 import { NetworkId } from '../../../../../shared/services/configuration/config.definitions';
 import { uuid } from '../../../../../shared/utils/uuid';
@@ -11,7 +11,6 @@ export enum WebpageAPIRequestMessageCode {
   GetBalance = 'WEBPAGE_API_GET_BALANCE',
   GetNetwork = 'WEBPAGE_API_GET_NETWORK',
   GetSwapById = 'WEBPAGE_API_GET_SWAP_BY_ID',
-  GetSwapFee = 'WEBPAGE_API_GET_SWAP_FEE',
   GetSwapList = 'WEBPAGE_API_GET_SWAP_LIST',
   GetWalletAddress = 'WEBPAGE_API_GET_WALLET_ADDRESS',
   IsConnected = 'WEBPAGE_API_IS_CONNECTED',
@@ -23,7 +22,6 @@ export enum WebpageAPIResponseMessageCode {
   GetBalance = 'WEBPAGE_API_GET_BALANCE_RESPONSE',
   GetNetwork = 'WEBPAGE_API_GET_NETWORK_RESPONSE',
   GetSwapById = 'WEBPAGE_API_GET_SWAP_BY_ID_RESPONSE',
-  GetSwapFee = 'WEBPAGE_API_GET_SWAP_FEE_RESPONSE',
   GetSwapList = 'WEBPAGE_API_GET_SWAP_LIST_RESPONSE',
   GetWalletAddress = 'WEBPAGE_API_GET_WALLET_ADDRESS_RESPONSE',
   IsConnected = 'WEBPAGE_API_IS_CONNECTED_RESPONSE',
@@ -33,17 +31,12 @@ export enum WebpageAPIResponseMessageCode {
 export interface WebpageAPIRequestMessageMap {
   [WebpageAPIRequestMessageCode.Connect]: undefined;
   [WebpageAPIRequestMessageCode.CreateSwap]: {
-    address: string;
-    network: SwapDestinationNetwork;
+    receiverAddress: Wallet['address'];
+    txHash: string;
   };
   [WebpageAPIRequestMessageCode.GetBalance]: undefined;
   [WebpageAPIRequestMessageCode.GetNetwork]: undefined;
   [WebpageAPIRequestMessageCode.GetSwapById]: SwapDetails['id'];
-  [WebpageAPIRequestMessageCode.GetSwapFee]: {
-    address: string;
-    amount: number;
-    network: SwapDestinationNetwork;
-  };
   [WebpageAPIRequestMessageCode.GetSwapList]: SwapListPaginationOptions;
   [WebpageAPIRequestMessageCode.GetWalletAddress]: undefined;
   [WebpageAPIRequestMessageCode.IsConnected]: undefined;
@@ -67,7 +60,6 @@ export interface WebpageAPIResponseMessageMap {
   [WebpageAPIResponseMessageCode.GetBalance]: string;
   [WebpageAPIResponseMessageCode.GetNetwork]: NetworkId;
   [WebpageAPIResponseMessageCode.GetSwapById]: SwapDetails;
-  [WebpageAPIResponseMessageCode.GetSwapFee]: string;
   [WebpageAPIResponseMessageCode.GetSwapList]: SwapDetails[];
   [WebpageAPIResponseMessageCode.GetWalletAddress]: string;
   [WebpageAPIResponseMessageCode.IsConnected]: boolean;
@@ -80,7 +72,6 @@ interface WebpageAPIMessageCodeMap {
   [WebpageAPIRequestMessageCode.GetBalance]: WebpageAPIResponseMessageCode.GetBalance;
   [WebpageAPIRequestMessageCode.GetNetwork]: WebpageAPIResponseMessageCode.GetNetwork;
   [WebpageAPIRequestMessageCode.GetSwapById]: WebpageAPIResponseMessageCode.GetSwapById;
-  [WebpageAPIRequestMessageCode.GetSwapFee]: WebpageAPIResponseMessageCode.GetSwapFee;
   [WebpageAPIRequestMessageCode.GetSwapList]: WebpageAPIResponseMessageCode.GetSwapList;
   [WebpageAPIRequestMessageCode.GetWalletAddress]: WebpageAPIResponseMessageCode.GetWalletAddress;
   [WebpageAPIRequestMessageCode.IsConnected]: WebpageAPIResponseMessageCode.IsConnected;
@@ -93,7 +84,6 @@ const WEBPAGE_API_MESSAGE_CODE_MAP: WebpageAPIMessageCodeMap = {
   [WebpageAPIRequestMessageCode.GetBalance]: WebpageAPIResponseMessageCode.GetBalance,
   [WebpageAPIRequestMessageCode.GetNetwork]: WebpageAPIResponseMessageCode.GetNetwork,
   [WebpageAPIRequestMessageCode.GetSwapById]: WebpageAPIResponseMessageCode.GetSwapById,
-  [WebpageAPIRequestMessageCode.GetSwapFee]: WebpageAPIResponseMessageCode.GetSwapFee,
   [WebpageAPIRequestMessageCode.GetSwapList]: WebpageAPIResponseMessageCode.GetSwapList,
   [WebpageAPIRequestMessageCode.GetWalletAddress]: WebpageAPIResponseMessageCode.GetWalletAddress,
   [WebpageAPIRequestMessageCode.IsConnected]: WebpageAPIResponseMessageCode.IsConnected,

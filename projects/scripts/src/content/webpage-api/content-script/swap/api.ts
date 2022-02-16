@@ -24,7 +24,11 @@ export const createSwap = (
     getHermesClient(),
     getWallet(),
   ]).pipe(
-    switchMap(([hermesClient, wallet]) => hermesClient.swap.createSwap(wallet, params.address, params.network))
+    switchMap(([hermesClient, wallet]) => hermesClient.swap.createSwap(
+      wallet.privateKey,
+      params.receiverAddress,
+      params.txHash,
+    )),
   ));
 };
 
@@ -35,15 +39,8 @@ export const getSwapById = (
     getHermesClient(),
     getWallet(),
   ]).pipe(
-    switchMap(([hermesClient, wallet]) => hermesClient.swap.getSwapById(wallet, swapId)),
+    switchMap(([hermesClient, wallet]) => hermesClient.swap.getSwapById(wallet.privateKey, swapId)),
   ));
-};
-
-export const getSwapFee = (
-  params: WebpageAPIRequestMessageMap[WebpageAPIRequestMessageCode.GetSwapFee],
-): Promise<WebpageAPIResponseMessageMap[WebpageAPIResponseMessageCode.GetSwapFee]> => {
-  return firstValueFrom(getHermesClient())
-    .then((hermesClient) => hermesClient.swap.getFee(params.address, params.network, params.amount));
 };
 
 export const getSwapList = (
@@ -53,6 +50,6 @@ export const getSwapList = (
     getHermesClient(),
     getWallet(),
   ]).pipe(
-    switchMap(([hermesClient, wallet]) => hermesClient.swap.getSwapList(wallet, params)),
+    switchMap(([hermesClient, wallet]) => hermesClient.swap.getSwapList(wallet.privateKey, params)),
   ));
 };

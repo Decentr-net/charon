@@ -1,4 +1,4 @@
-import { SwapDestinationNetwork, SwapDetails, SwapListPaginationOptions } from 'decentr-js';
+import { SwapDetails, SwapListPaginationOptions, Wallet } from 'decentr-js';
 import { firstValueFrom } from 'rxjs';
 import {
   WebpageAPIMessageBus,
@@ -9,11 +9,11 @@ import {
 const messageBus = new WebpageAPIMessageBus();
 
 export const createSwap = (
-  address: string,
-  network: SwapDestinationNetwork,
+  receiverAddress: Wallet['address'],
+  txHash: string,
 ): Promise<WebpageAPIResponseMessageMap[WebpageAPIResponseMessageCode.CreateSwap]> => {
   return firstValueFrom(
-    messageBus.sendRequest(WebpageAPIRequestMessageCode.CreateSwap, { address, network }),
+    messageBus.sendRequest(WebpageAPIRequestMessageCode.CreateSwap, { receiverAddress, txHash }),
   );
 };
 
@@ -22,16 +22,6 @@ export const getSwapById = (
 ): Promise<WebpageAPIResponseMessageMap[WebpageAPIResponseMessageCode.GetSwapById]> => {
   return firstValueFrom(
     messageBus.sendRequest(WebpageAPIRequestMessageCode.GetSwapById, swapId),
-  );
-};
-
-export const getSwapFee = (
-  address: string,
-  network: SwapDestinationNetwork,
-  amount: number,
-): Promise<WebpageAPIResponseMessageMap[WebpageAPIResponseMessageCode.GetSwapFee]> => {
-  return firstValueFrom(
-    messageBus.sendRequest(WebpageAPIRequestMessageCode.GetSwapFee, { address, amount, network }),
   );
 };
 
