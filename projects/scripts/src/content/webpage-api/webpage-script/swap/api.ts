@@ -11,9 +11,10 @@ const messageBus = new WebpageAPIMessageBus();
 export const createSwap = (
   receiverAddress: Wallet['address'],
   txHash: string,
+  signature: string,
 ): Promise<WebpageAPIResponseMessageMap[WebpageAPIResponseMessageCode.CreateSwap]> => {
   return firstValueFrom(
-    messageBus.sendRequest(WebpageAPIRequestMessageCode.CreateSwap, { receiverAddress, txHash }),
+    messageBus.sendRequest(WebpageAPIRequestMessageCode.CreateSwap, { receiverAddress, txHash, signature }),
   );
 };
 

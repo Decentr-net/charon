@@ -28,6 +28,7 @@ export const createSwap = (
       wallet.privateKey,
       params.receiverAddress,
       params.txHash,
+      params.signature,
     )),
   ));
 };

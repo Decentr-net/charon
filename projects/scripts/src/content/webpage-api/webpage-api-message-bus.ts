@@ -33,6 +33,7 @@ export interface WebpageAPIRequestMessageMap {
   [WebpageAPIRequestMessageCode.CreateSwap]: {
     receiverAddress: Wallet['address'];
     txHash: string;
+    signature: string;
   };
   [WebpageAPIRequestMessageCode.GetBalance]: undefined;
   [WebpageAPIRequestMessageCode.GetNetwork]: undefined;
