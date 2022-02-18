@@ -29,11 +29,12 @@ export class ActivityPageService extends InfiniteLoadingService<ActivityListItem
     const lastItem = this.list.value[this.list.value.length - 1];
 
     return this.pdvService.getPDVList({
-      from: lastItem?.timestamp,
+      from: lastItem?.unixTimestamp,
       limit: this.loadingCount,
     }).pipe(
       tap((pdvList) => pdvList.length < this.loadingCount && this.canLoadMore.next(false)),
       map((pdvList) => pdvList.map((pdvListItem) => ({
+        unixTimestamp: pdvListItem,
         timestamp: coerceTimestamp(pdvListItem),
         pdvBlocks: this.pdvService.getPDVDetails(pdvListItem).pipe(
           map((details) => details.pdv),
