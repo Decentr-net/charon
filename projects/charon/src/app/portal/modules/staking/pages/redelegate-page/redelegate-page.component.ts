@@ -171,7 +171,7 @@ export class RedelegatePageComponent implements OnInit {
     );
 
     this.toValidatorCommission$ = toValidatorValue$.pipe(
-      map((validator) => validator.commission.commissionRates.rate),
+      map((validator) => validator?.commission?.commissionRates?.rate),
     );
 
     this.validatorsFilteredOptions$ = combineLatest([
