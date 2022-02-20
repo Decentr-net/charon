@@ -28,7 +28,7 @@ const parseTxRawLog = (tx: DecodedIndexedTx): TxLog[] | undefined => {
 const getFee = (msgIndex: number, tx: DecodedIndexedTx): number => {
   return msgIndex > 0
     ? 0
-    : +tx.tx.authInfo.fee.amount[0].amount;
+    : +tx.tx.authInfo.fee.amount[0]?.amount || 0;
 };
 
 const getWithdrawMessages = (
