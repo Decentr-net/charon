@@ -22,7 +22,7 @@ import { SettingsService } from '../../../../../shared/services/settings/setting
 import { ONE_MINUTE, ONE_SECOND } from '../../../../../shared/utils/date';
 import CONFIG_SERVICE from '../config';
 import { whileUserActive } from '../auth/while-user-active';
-import { blacklist$, sendPDV } from './api';
+import { blacklist$, sendPDV, validatePDV } from './api';
 import { listenAdvertiserPDVs } from './advertiser-id';
 import { listenCookiePDVs } from './cookies';
 import { listenSearchHistoryPDVs } from './search-history';
@@ -111,7 +111,7 @@ const sendPDVBlocks = (): Observable<void> => {
             return of({
               toSend: accumulated.slice(0, maxPDVCount),
               rest: accumulated.slice(maxPDVCount),
-            })
+            });
           }
 
           isProcessing = false;
@@ -130,7 +130,15 @@ const sendPDVBlocks = (): Observable<void> => {
               configService.forceUpdate();
             }
 
-            return defer(() => mergePDVsIntoAccumulated(user.wallet.address, toSend, true)).pipe(
+            const validPDV$ = errorStatus === HttpStatusCode.BadRequest
+              ? validatePDV(toSend).pipe(
+                map((invalidPDVIndexes) => toSend.filter(({}, i) => !invalidPDVIndexes.includes(i))),
+                catchError(() => of([])),
+              )
+              : of(toSend);
+
+            return validPDV$.pipe(
+              mergeMap((validPDV) => mergePDVsIntoAccumulated(user.wallet.address, validPDV, true)),
               tap(() => isProcessing = false),
               mergeMap(() => throwError(() => error)),
             );

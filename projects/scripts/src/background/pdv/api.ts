@@ -30,3 +30,9 @@ export const sendPDV = (pDVs: PDV[], privateKey: Wallet['privateKey']): Observab
     mapTo(void 0),
   )), { priority: QueuePriority.PDV }));
 };
+
+export const validatePDV = (pDVs: PDV[]): Observable<number[]> => {
+  return configService.getCerberusUrl().pipe(
+    mergeMap((cerberusUrl) => new CerberusClient(cerberusUrl).pdv.validate(pDVs)),
+  );
+};
