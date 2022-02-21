@@ -53,7 +53,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
 
     const user = this.authService.getActiveUserInstant();
 
-    this.userService.getProfile(user.wallet.address, user.wallet).pipe(
+    this.userService.getProfile(user.wallet.address, user.wallet.privateKey).pipe(
       map((profile) => profile || {} as Profile),
       untilDestroyed(this),
     ).subscribe((profile) => {

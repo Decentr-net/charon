@@ -62,7 +62,7 @@ export class UserMenuPageComponent implements OnInit {
   public ngOnInit(): void {
     this.profile$ = this.authService.getActiveUser().pipe(
       map((user) => user.wallet),
-      switchMap((wallet) => this.userService.getProfile(wallet.address, wallet)),
+      switchMap((wallet) => this.userService.getProfile(wallet.address, wallet.privateKey)),
       catchError(() => EMPTY),
     );
 

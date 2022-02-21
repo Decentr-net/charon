@@ -30,7 +30,7 @@ export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateC
     }
 
     const wallet = authService.getActiveUserInstant().wallet;
-    const profile = await firstValueFrom(userService.getProfile(wallet.address, wallet));
+    const profile = await firstValueFrom(userService.getProfile(wallet.address, wallet.privateKey));
 
     return !!profile?.emails?.length;
   }

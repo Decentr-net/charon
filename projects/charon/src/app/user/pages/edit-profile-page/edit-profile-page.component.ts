@@ -73,7 +73,7 @@ export class EditProfilePageComponent implements OnInit {
 
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    this.userService.getProfile(wallet.address, wallet).pipe(
+    this.userService.getProfile(wallet.address, wallet.privateKey).pipe(
       untilDestroyed(this),
     ).subscribe((profile) => {
       this.profile = profile;
