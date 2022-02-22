@@ -18,7 +18,7 @@ export class EditProfilePageService {
   public createCurrentPasswordValidAsyncValidator(): AsyncValidatorFn {
     return async (control) => {
       if (!control.value) {
-        return of(null);
+        return null;
       }
 
       const validPassword = await this.authService.validateCurrentUserPassword(control.value);
