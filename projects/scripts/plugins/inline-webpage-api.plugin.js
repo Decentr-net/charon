@@ -10,6 +10,8 @@ const readScript = (name) => fs.readFileSync(
 
 const INLINE_SCRIPT_NAME = 'webpage-api';
 
+const CONTENT_API_SCRIPT_NAME = 'content-api-script';
+
 const inlineWebpageAPI = () => {
   const webpageAPIScript = readScript(`${INLINE_SCRIPT_NAME}.js`)
     .replace(/\/\*([\s\S]*?)\*\//g, '')
@@ -18,13 +20,13 @@ const inlineWebpageAPI = () => {
     // TODO: think about another way
     .replace('`mapTo()`', 'mapTo');
 
-  const contentScript = readScript('content-script.js');
+  const contentScript = readScript(`${CONTENT_API_SCRIPT_NAME}.js`);
 
   const newContentScript = contentScript
     .replace('WEBPAGE_API_CODE', webpageAPIScript);
 
   fs.writeFileSync(
-    getScriptPath('content-script.js'),
+    getScriptPath(`${CONTENT_API_SCRIPT_NAME}.js`),
     newContentScript,
   );
 
@@ -42,4 +44,5 @@ class InlineWebpageAPIPlugin {
 module.exports = {
   InlineWebpageAPIPlugin,
   INLINE_SCRIPT_NAME,
+  CONTENT_API_SCRIPT_NAME,
 };
