@@ -26,7 +26,7 @@ interface PopupOptions {
 const openPopupTab = (
   url: string,
   options?: PopupOptions,
-): Promise<void> => {
+): Promise<browser.Windows.Window> => {
   const height = options?.height || 500;
   const width = options?.width || 400;
   const popupOptions = {
@@ -43,11 +43,10 @@ const openPopupTab = (
     type: 'popup',
     ...popupOptions,
   })
-    .then((popupWindow) => browser.windows.update(popupWindow.id, popupOptions))
-    .then();
+    .then((popupWindow) => browser.windows.update(popupWindow.id, popupOptions));
 };
 
-export const openExtension = async (path?: string, popupOptions?: PopupOptions): Promise<void> => {
+export const openExtension = async (path?: string, popupOptions?: PopupOptions): Promise<browser.Windows.Window> => {
   const url = createExtensionUrl(path);
 
   const charonTabs = await browser.tabs.query({ title: APP_TITLE });
@@ -73,15 +72,23 @@ export const openPost = async (post: Pick<Post, 'owner' | 'uuid'>, networkId: Ne
 
   const path = `/${AppRoute.Hub}/${HubRoute.Posts}/0/${HubRoute.Post}/${post.owner}/${post.uuid}`;
 
-  return openExtension(path);
+  return openExtension(path).then();
 };
 
-export const unlock = (): void => {
+let currentUnlockWindow: browser.Windows.Window;
+export const unlock = async (): Promise<void> => {
+  await browser.windows.update(currentUnlockWindow?.id, { focused: true })
+    .catch(() => currentUnlockWindow = undefined)
+
+  if (currentUnlockWindow) {
+    return;
+  }
+
   const queryParams = new URLSearchParams();
   queryParams.append(LockParam.ReturnUrl, LockReturnUrlParam.Close);
   queryParams.append(POPUP_TAB_QUERY_PARAM, Boolean(true).toString());
 
   const path = `/${AppRoute.Login}?${queryParams.toString()}`;
 
-  openExtension(path, { height: 380, width: 420 });
+  currentUnlockWindow = await openExtension(path, { height: 380, width: 420 });
 };
