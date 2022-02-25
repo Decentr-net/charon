@@ -13,6 +13,10 @@ export const connect = (): void => {
   messageBus.sendRequest(WebpageAPIRequestMessageCode.Connect, undefined);
 };
 
+export const getMaintenance = (): Observable<WebpageAPIResponseMessageMap[WebpageAPIResponseMessageCode.GetMaintenance]> => {
+  return messageBus.sendRequest(WebpageAPIRequestMessageCode.GetMaintenance, undefined);
+};
+
 export const getNetwork = (): Observable<WebpageAPIResponseMessageMap[WebpageAPIResponseMessageCode.GetNetwork]> => {
   return messageBus.sendRequest(WebpageAPIRequestMessageCode.GetNetwork, undefined);
 };

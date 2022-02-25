@@ -9,6 +9,7 @@ export enum WebpageAPIRequestMessageCode {
   Connect = 'WEBPAGE_API_CONNECT',
   CreateSwap = 'WEBPAGE_API_CREATE_SWAP',
   GetBalance = 'WEBPAGE_API_GET_BALANCE',
+  GetMaintenance = 'WEBPAGE_API_GET_MAINTENANCE',
   GetNetwork = 'WEBPAGE_API_GET_NETWORK',
   GetSwapById = 'WEBPAGE_API_GET_SWAP_BY_ID',
   GetSwapList = 'WEBPAGE_API_GET_SWAP_LIST',
@@ -20,6 +21,7 @@ export enum WebpageAPIRequestMessageCode {
 export enum WebpageAPIResponseMessageCode {
   CreateSwap = 'WEBPAGE_API_CREATE_SWAP_RESPONSE',
   GetBalance = 'WEBPAGE_API_GET_BALANCE_RESPONSE',
+  GetMaintenance = 'WEBPAGE_API_GET_MAINTENANCE_RESPONSE',
   GetNetwork = 'WEBPAGE_API_GET_NETWORK_RESPONSE',
   GetSwapById = 'WEBPAGE_API_GET_SWAP_BY_ID_RESPONSE',
   GetSwapList = 'WEBPAGE_API_GET_SWAP_LIST_RESPONSE',
@@ -36,6 +38,7 @@ export interface WebpageAPIRequestMessageMap {
     signature: string;
   };
   [WebpageAPIRequestMessageCode.GetBalance]: undefined;
+  [WebpageAPIRequestMessageCode.GetMaintenance]: undefined;
   [WebpageAPIRequestMessageCode.GetNetwork]: undefined;
   [WebpageAPIRequestMessageCode.GetSwapById]: SwapDetails['id'];
   [WebpageAPIRequestMessageCode.GetSwapList]: SwapListPaginationOptions;
@@ -59,6 +62,7 @@ export const isWebpageAPIResponseErrorMessage = (obj: unknown): obj is WebpageAP
 export interface WebpageAPIResponseMessageMap {
   [WebpageAPIResponseMessageCode.CreateSwap]: SwapDetails;
   [WebpageAPIResponseMessageCode.GetBalance]: string;
+  [WebpageAPIResponseMessageCode.GetMaintenance]: boolean;
   [WebpageAPIResponseMessageCode.GetNetwork]: NetworkId;
   [WebpageAPIResponseMessageCode.GetSwapById]: SwapDetails;
   [WebpageAPIResponseMessageCode.GetSwapList]: SwapDetails[];
@@ -71,6 +75,7 @@ interface WebpageAPIMessageCodeMap {
   [WebpageAPIRequestMessageCode.Connect]: undefined;
   [WebpageAPIRequestMessageCode.CreateSwap]: WebpageAPIResponseMessageCode.CreateSwap;
   [WebpageAPIRequestMessageCode.GetBalance]: WebpageAPIResponseMessageCode.GetBalance;
+  [WebpageAPIRequestMessageCode.GetMaintenance]: WebpageAPIResponseMessageCode.GetMaintenance;
   [WebpageAPIRequestMessageCode.GetNetwork]: WebpageAPIResponseMessageCode.GetNetwork;
   [WebpageAPIRequestMessageCode.GetSwapById]: WebpageAPIResponseMessageCode.GetSwapById;
   [WebpageAPIRequestMessageCode.GetSwapList]: WebpageAPIResponseMessageCode.GetSwapList;
@@ -83,6 +88,7 @@ const WEBPAGE_API_MESSAGE_CODE_MAP: WebpageAPIMessageCodeMap = {
   [WebpageAPIRequestMessageCode.Connect]: undefined,
   [WebpageAPIRequestMessageCode.CreateSwap]: WebpageAPIResponseMessageCode.CreateSwap,
   [WebpageAPIRequestMessageCode.GetBalance]: WebpageAPIResponseMessageCode.GetBalance,
+  [WebpageAPIRequestMessageCode.GetMaintenance]: WebpageAPIResponseMessageCode.GetMaintenance,
   [WebpageAPIRequestMessageCode.GetNetwork]: WebpageAPIResponseMessageCode.GetNetwork,
   [WebpageAPIRequestMessageCode.GetSwapById]: WebpageAPIResponseMessageCode.GetSwapById,
   [WebpageAPIRequestMessageCode.GetSwapList]: WebpageAPIResponseMessageCode.GetSwapList,

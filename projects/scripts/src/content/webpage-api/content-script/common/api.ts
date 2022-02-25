@@ -1,19 +1,22 @@
 import { combineLatest, firstValueFrom, Observable, of, switchMap } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { DecentrClient, Wallet } from 'decentr-js';
 
 import { AuthBrowserStorageService } from '../../../../../../../shared/services/auth';
 import { LockBrowserStorageService } from '../../../../../../../shared/services/lock';
+import { ConfigService } from '../../../../../../../shared/services/configuration';
 import { NetworkBrowserStorageService } from '../../../../../../../shared/services/network-storage';
 import { SettingsService } from '../../../../../../../shared/services/settings';
 import { MessageBus } from '../../../../../../../shared/message-bus';
 import { WebpageAPIMessageBusMap, WebpageAPIMessageCode } from '../../../../background/webpage-api';
+import { environment } from '../../../../../../../environments/environment';
 import { WebpageAPIResponseMessageCode, WebpageAPIResponseMessageMap } from '../../webpage-api-message-bus';
 
 const messageBus = new MessageBus<WebpageAPIMessageBusMap>();
 
 const authBrowserStorageService = new AuthBrowserStorageService();
 const networkBrowserStorageService = new NetworkBrowserStorageService();
+const configService = new ConfigService(environment, networkBrowserStorageService);
 const lockBrowserStorageService = new LockBrowserStorageService();
 const settingsService = new SettingsService();
 
@@ -25,6 +28,13 @@ const getDecentrClient = (): Observable<DecentrClient> => {
 
 export const getNetwork = (): Observable<WebpageAPIResponseMessageMap[WebpageAPIResponseMessageCode.GetNetwork]> => {
   return networkBrowserStorageService.getActiveId();
+};
+
+export const getMaintenance = (): Observable<WebpageAPIResponseMessageMap[WebpageAPIResponseMessageCode.GetMaintenance]> => {
+  return networkBrowserStorageService.getActiveId().pipe(
+    filter(Boolean),
+    switchMap(() => configService.getMaintenanceStatus()),
+  );
 };
 
 export const getWallet = (): Observable<Wallet> => {
