@@ -6,6 +6,7 @@ import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
+import { AutoFocusModule } from '../../../directives/auto-focus';
 import { NumericModule } from '../../../directives/numeric';
 import { TypefaceModule } from '../../../directives/typeface';
 import { InputComponent } from './input.component';
@@ -18,6 +19,7 @@ import { InputComponent } from './input.component';
     InputComponent,
   ],
   imports: [
+    AutoFocusModule,
     CommonModule,
     FormsModule,
     NgxTrimDirectiveModule,
