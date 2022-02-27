@@ -58,7 +58,7 @@ export class ValidatorsPageService {
     );
   }
 
-  public getValidatorDistribution(): Observable<number | string> {
+  public getValidatorDistribution(): Observable<string> {
     return this.distributionService.getValidatorRewards().pipe(
       map((validatorRewards) => validatorRewards[0].amount),
     );

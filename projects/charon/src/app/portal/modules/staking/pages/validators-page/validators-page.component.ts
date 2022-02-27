@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map, share, switchMap } from 'rxjs/operators';
 import { FormControl } from '@ngneat/reactive-forms';
 import { Sort } from '@angular/material/sort';
@@ -40,7 +40,7 @@ export class ValidatorsPageComponent implements OnInit {
 
   public selfValidator$: Observable<ValidatorDefinition>;
 
-  public totalValidatorRewards: number;
+  public totalValidatorRewards: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -110,9 +110,9 @@ export class ValidatorsPageComponent implements OnInit {
     });
   }
 
-  public getTotalValidatorRewards(): Observable<number> {
+  public getTotalValidatorRewards(): Observable<string> {
     return this.getSelfValidator().pipe(
-      switchMap((validator) => validator ? this.validatorsPageService.getValidatorDistribution(): []),
+      switchMap((validator) => validator ? this.validatorsPageService.getValidatorDistribution() : of('0')),
     );
   }
 
