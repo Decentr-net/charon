@@ -1,13 +1,13 @@
 import { TokenComplexTransactionComponent } from './token-complex-transaction';
 import { TokenTransactionComponent } from './token-transaction';
-import { TokenTransactionsActionsComponent } from './token-transactions-actions';
-import { TokenTransactionsTableComponent } from './token-transactions-table';
+import { TokenTransactionActionsComponent } from './token-transaction-actions';
 import { TokenTransactionAmountComponent } from './token-transaction-amount';
+import { TokenTransactionsTableComponent } from './token-transactions-table';
 
 export const ASSETS_COMPONENTS = [
   TokenComplexTransactionComponent,
-  TokenTransactionAmountComponent,
   TokenTransactionComponent,
-  TokenTransactionsActionsComponent,
+  TokenTransactionActionsComponent,
+  TokenTransactionAmountComponent,
   TokenTransactionsTableComponent,
 ];
