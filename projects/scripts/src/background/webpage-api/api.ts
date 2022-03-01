@@ -77,12 +77,8 @@ export const openPost = async (post: Pick<Post, 'owner' | 'uuid'>, networkId: Ne
 
 let currentUnlockWindow: browser.Windows.Window;
 export const unlock = async (): Promise<void> => {
-  await browser.windows.update(currentUnlockWindow?.id, { focused: true })
-    .catch(() => currentUnlockWindow = undefined)
-
-  if (currentUnlockWindow) {
-    return;
-  }
+  await browser.windows.remove(currentUnlockWindow?.id)
+    .catch(() => undefined);
 
   const queryParams = new URLSearchParams();
   queryParams.append(LockParam.ReturnUrl, LockReturnUrlParam.Close);
