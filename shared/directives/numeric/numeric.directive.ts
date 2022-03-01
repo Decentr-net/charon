@@ -88,7 +88,7 @@ export class NumericDirective implements OnInit {
       return;
     }
 
-    if (+key >= 0 && +key <= 9) {
+    if (parseInt(key) >= 0 && parseInt(key) <= 9) {
       return;
     }
 
