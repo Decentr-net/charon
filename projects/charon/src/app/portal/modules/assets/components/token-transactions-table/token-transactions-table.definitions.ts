@@ -1,16 +1,4 @@
-import { TxMessageTypeUrl, Wallet } from 'decentr-js';
+import { TokenSingleTransaction } from '../token-single-transaction';
+import { TokenComplexTransaction } from '../token-complex-transaction';
 
-export interface TokenTransactionMessage {
-  amount: number | string;
-  comment: string;
-  fee: number;
-  hash: string;
-  recipient: Wallet['address'];
-  sender: Wallet['address'];
-  type: TxMessageTypeUrl;
-  height: number;
-}
-
-export interface TokenTransaction extends Pick<TokenTransactionMessage, 'amount' | 'comment' | 'fee' | 'hash' | 'height'> {
-  messages: Pick<TokenTransactionMessage, 'amount' | 'recipient' | 'sender' | 'type'>[];
-}
+export type TokenTransaction = TokenSingleTransaction | TokenComplexTransaction;

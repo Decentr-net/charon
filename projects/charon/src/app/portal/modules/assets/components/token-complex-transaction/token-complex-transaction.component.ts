@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { isOpenedInTab } from '@shared/utils/browser';
-import { TokenTransaction } from '../token-transactions-table';
 import { svgTransaction } from '@shared/svg-icons/transaction';
+import { TokenComplexTransaction } from './token-complex-transaction';
 
 @Component({
   selector: 'app-token-complex-transaction',
@@ -12,7 +12,7 @@ import { svgTransaction } from '@shared/svg-icons/transaction';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TokenComplexTransactionComponent implements OnInit {
-  @Input() public transaction: TokenTransaction;
+  @Input() public transaction: TokenComplexTransaction;
 
   public isOpenedInPopup: boolean = !isOpenedInTab();
 
