@@ -33,11 +33,9 @@
     </button>
   </div>
 
-  <ng-container *appBrowserTabView>
-    <app-network-selector
-      *appSlot="headerMetaSlot"
-    ></app-network-selector>
-  </ng-container>
+  <app-network-selector
+    *appSlot="headerMetaSlot"
+  ></app-network-selector>
 
   <router-outlet></router-outlet>
 </ng-container>

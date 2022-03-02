@@ -20,6 +20,9 @@ export interface Network {
   network: {
     rest: string[];
   };
+  swap: {
+    url: string;
+  };
   theseus: {
     url: string;
   };

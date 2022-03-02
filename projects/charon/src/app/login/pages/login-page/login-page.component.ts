@@ -53,6 +53,10 @@ export class LoginPageComponent implements OnInit {
     }
   }
 
+  public navigateToRestorePage(): void {
+    this.loginPageService.navigateToRestorePage();
+  }
+
   private createForm(): FormGroup<ControlsOf<LoginForm>> {
     return this.formBuilder.group({
       password: [

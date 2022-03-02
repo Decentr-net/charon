@@ -127,4 +127,10 @@ export class ConfigService {
       map((config) => config.share.url),
     );
   }
+
+  public getSwapUrl(): Observable<string> {
+    return this.getNetworkConfig().pipe(
+      map((config) => config.swap.url),
+    );
+  }
 }

@@ -20,8 +20,7 @@ import { ONE_SECOND } from '@shared/utils/date';
 import { AppRoute } from '../../../app-route';
 import { AuthService } from '../../auth';
 import { LOCK_ACTIVITY_SOURCE, LOCK_REDIRECT_URL } from '../lock.tokens';
-
-export const LOCK_RETURN_URL_PARAM = 'returnUrl';
+import { LockParam, LockReturnUrlParam } from './lock.definitions';
 
 @UntilDestroy()
 @Injectable()
@@ -110,13 +109,18 @@ export class LockService {
 
     return this.navigate(this.lockRedirectUrl, {
       queryParams: {
-        [LOCK_RETURN_URL_PARAM]: this.router.url,
-      }
+        [LockParam.ReturnUrl]: this.router.url,
+      },
     });
   }
 
   public navigateToUnlockedUrl(): Promise<boolean> {
-    const returnUrl = this.activatedRoute.snapshot.queryParamMap.get(LOCK_RETURN_URL_PARAM);
+    const returnUrl = this.activatedRoute.snapshot.queryParamMap.get(LockParam.ReturnUrl);
+
+    if (returnUrl === LockReturnUrlParam.Close) {
+      window.close();
+      return Promise.resolve(true);
+    }
 
     return this.navigate(isOpenedInTab() ? this.router.parseUrl(returnUrl || '/') : AppRoute.Portal);
   }
