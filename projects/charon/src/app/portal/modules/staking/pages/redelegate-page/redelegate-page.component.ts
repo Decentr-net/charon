@@ -160,7 +160,7 @@ export class RedelegatePageComponent implements OnInit {
           .filter((validator) => validator.operatorAddress !== excludeAddress)
           .map((validator) => ({
             label: validator.description.moniker,
-            meta: `${(+validator.commission.commissionRates.rate * 100)}%`,
+            meta: `${parseInt(`${+validator.commission.commissionRates.rate * 100}`)}%`,
             value: validator,
           }));
       }),
