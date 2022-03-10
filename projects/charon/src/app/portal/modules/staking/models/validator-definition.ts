@@ -1,16 +1,16 @@
-import { Coin, Validator } from 'decentr-js';
+import { Validator } from 'decentr-js';
 
 export interface ValidatorDefinition {
   address: Validator['operatorAddress'];
-  commission: Validator['commission']['commissionRates']['rate'];
-  delegated: Coin['amount'];
+  commission: number;
+  delegated: number;
   details: Validator['description']['details'];
   jailed: Validator['jailed'];
   name: Validator['description']['moniker'];
   reward: number;
   selfValidator: boolean;
   status: Validator['status'];
-  tokens: Validator['tokens'];
+  tokens: number;
   website: Validator['description']['website'];
   unbondingDelegation: {
     balance: number;

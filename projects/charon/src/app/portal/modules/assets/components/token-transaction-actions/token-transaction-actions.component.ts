@@ -8,11 +8,11 @@ import { svgLink } from '@shared/svg-icons/link';
 
 @Component({
   selector: 'app-token-transactions-actions',
-  templateUrl: './token-transactions-actions.component.html',
-  styleUrls: ['./token-transactions-actions.component.scss'],
+  templateUrl: './token-transaction-actions.component.html',
+  styleUrls: ['./token-transaction-actions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TokenTransactionsActionsComponent implements OnInit {
+export class TokenTransactionActionsComponent implements OnInit {
   @Input() public txhash: string;
 
   constructor(

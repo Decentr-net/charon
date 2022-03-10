@@ -27,9 +27,9 @@ export class SignUpPageService {
 
     return this.userService.createUser(user.primaryEmail, wallet.address).pipe(
       catchError((error) => {
-        let errorToThrow: Error;
+        let errorToThrow: Error = error;
 
-        switch (error.status) {
+        switch (error?.response?.status) {
           case HttpStatusCode.BadRequest:
             errorToThrow = new TranslatedError(
               this.translocoService.translate('sign_up_page.errors.invalid_email', null, 'sign-up')
@@ -47,12 +47,9 @@ export class SignUpPageService {
             );
             break;
           }
-          default: {
-            errorToThrow = error;
-          }
         }
 
-        return throwError(errorToThrow);
+        return throwError(() => errorToThrow);
       }),
       mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
       mergeMap(() => this.authService.createUser({

@@ -1,5 +1,5 @@
 import { HttpStatusCode } from '@angular/common/http';
-import { defer, EMPTY, merge, Observable, of, partition, pipe, throwError, timer } from 'rxjs';
+import { defer, EMPTY, merge, Observable, of, partition, pipe, tap, throwError, timer } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -22,7 +22,7 @@ import { SettingsService } from '../../../../../shared/services/settings/setting
 import { ONE_MINUTE, ONE_SECOND } from '../../../../../shared/utils/date';
 import CONFIG_SERVICE from '../config';
 import { whileUserActive } from '../auth/while-user-active';
-import { blacklist$, sendPDV } from './api';
+import { blacklist$, sendPDV, validatePDV } from './api';
 import { listenAdvertiserPDVs } from './advertiser-id';
 import { listenCookiePDVs } from './cookies';
 import { listenSearchHistoryPDVs } from './search-history';
@@ -99,21 +99,30 @@ const collectPDVIntoStorage = (): Observable<void> => {
 };
 
 const sendPDVBlocks = (): Observable<void> => {
+  let isProcessing = false;
+
   return whileUserActive((user) => {
     return PDV_STORAGE_SERVICE.getUserAccumulatedPDVChanges(user.wallet.address).pipe(
+      filter(() => !isProcessing),
+      tap(() => isProcessing = true),
       concatMap((accumulated) => configService.getPDVCountToSend().pipe(
         mergeMap(({ maxPDVCount }) => {
-          return accumulated.length >= maxPDVCount
-            ? of({
+          if (accumulated.length >= maxPDVCount) {
+            return of({
               toSend: accumulated.slice(0, maxPDVCount),
               rest: accumulated.slice(maxPDVCount),
-            })
-            : EMPTY;
+            });
+          }
+
+          isProcessing = false;
+          return EMPTY;
         }),
       )),
       concatMap(({ toSend, rest }) => {
         return defer(() => PDV_STORAGE_SERVICE.setUserAccumulatedPDV(user.wallet.address, rest)).pipe(
-          mergeMap(() => sendPDV(user.wallet, toSend)),
+          mergeMap(() => sendPDV(toSend, user.wallet.privateKey)),
+          delay(ONE_MINUTE),
+          tap(() => isProcessing = false),
           catchError((error) => {
             const errorStatus = error?.response?.status;
 
@@ -121,13 +130,22 @@ const sendPDVBlocks = (): Observable<void> => {
               configService.forceUpdate();
             }
 
-            return defer(() => mergePDVsIntoAccumulated(user.wallet.address, toSend, true)).pipe(
-              mergeMap(() => throwError(errorStatus)),
+            const validPDV$ = errorStatus === HttpStatusCode.BadRequest
+              ? validatePDV(toSend).pipe(
+                map((invalidPDVIndexes) => toSend.filter(({}, i) => !invalidPDVIndexes.includes(i))),
+                catchError(() => of([])),
+              )
+              : of(toSend);
+
+            return validPDV$.pipe(
+              mergeMap((validPDV) => mergePDVsIntoAccumulated(user.wallet.address, validPDV, true)),
+              tap(() => isProcessing = false),
+              mergeMap(() => throwError(() => error)),
             );
           }),
         );
       }),
-      retryWhen((errorStatus: Observable<number>) => errorStatus.pipe(
+      retryWhen((error: Observable<number>) => error.pipe(
         delay(ONE_MINUTE * 5),
       )),
     );

@@ -6,6 +6,7 @@ import {
   catchError,
   debounceTime,
   finalize,
+  map,
   pluck,
   share,
   shareReplay,
@@ -106,7 +107,7 @@ export class UndelegatePageComponent implements OnInit {
       switchMap((formValue) => formValue.validatorAddress
         ? this.undelegatePageService.getUndelegationFee(
             formValue.validatorAddress,
-            (+formValue.amount * MICRO_PDV_DIVISOR).toString(),
+            Math.ceil(+formValue.amount * MICRO_PDV_DIVISOR).toString(),
           ).pipe(
             catchError(() => of(0)),
           )
@@ -125,7 +126,7 @@ export class UndelegatePageComponent implements OnInit {
     );
 
     this.validatorCommission$ = validator$.pipe(
-      pluck('commission', 'commission_rates', 'rate'),
+      map((validator) => validator.commission.commissionRates.rate),
     );
 
     validator$.pipe(
@@ -146,7 +147,7 @@ export class UndelegatePageComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    if (this.form.invalid) {
+    if (!this.form.valid) {
       this.ngForm.onSubmit(void 0);
       return;
     }

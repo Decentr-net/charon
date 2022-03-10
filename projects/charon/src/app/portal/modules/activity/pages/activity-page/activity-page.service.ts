@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Observable } from 'rxjs';
-import { map, pluck, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { PDV, PDVType } from 'decentr-js';
 
 import { coerceTimestamp } from '@shared/utils/date';
@@ -26,15 +26,18 @@ export class ActivityPageService extends InfiniteLoadingService<ActivityListItem
   }
 
   protected getNextItems(): Observable<ActivityListItem[]> {
+    const lastItem = this.list.value[this.list.value.length - 1];
+
     return this.pdvService.getPDVList({
-      from: this.list.value.length,
+      from: lastItem?.unixTimestamp,
       limit: this.loadingCount,
     }).pipe(
       tap((pdvList) => pdvList.length < this.loadingCount && this.canLoadMore.next(false)),
       map((pdvList) => pdvList.map((pdvListItem) => ({
+        unixTimestamp: pdvListItem,
         timestamp: coerceTimestamp(pdvListItem),
         pdvBlocks: this.pdvService.getPDVDetails(pdvListItem).pipe(
-          pluck('pdv'),
+          map((details) => details.pdv),
           map((pdvs) => this.groupPDVs(pdvs).map((pdvGroup) => ({
             type: pdvGroup[0].type,
             title: this.getPDVBlockTitle(pdvGroup[0]),

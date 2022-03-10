@@ -43,6 +43,10 @@
   }
 }
 
+.activity-page__expansion-list__mat-panel-title {
+  display: block;
+}
+
 .activity-page--pdv-description {
   color: var(--color-main-text);
   column-gap: $grid-step;

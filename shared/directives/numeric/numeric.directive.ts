@@ -1,4 +1,5 @@
-import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, OnInit, Optional } from '@angular/core';
+import { NgControl } from '@angular/forms';
 import { fromEvent } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -12,6 +13,7 @@ export class NumericDirective implements OnInit {
   private previousValue: string;
 
   constructor(
+    @Optional() private control: NgControl,
     private elementRef: ElementRef<HTMLInputElement>,
   ) {
   }
@@ -86,7 +88,7 @@ export class NumericDirective implements OnInit {
       return;
     }
 
-    if (+key >= 0 && +key <= 9) {
+    if (parseInt(key) >= 0 && parseInt(key) <= 9) {
       return;
     }
 
@@ -98,6 +100,9 @@ export class NumericDirective implements OnInit {
   }
 
   private setValue(value: number | string): void {
-    this.elementRef.nativeElement.value = value.toString();
+    const valueToSet = value.toString();
+
+    this.elementRef.nativeElement.value = valueToSet;
+    this.control?.control.setValue(valueToSet);
   }
 }

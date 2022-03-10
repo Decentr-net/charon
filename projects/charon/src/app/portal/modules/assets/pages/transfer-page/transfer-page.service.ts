@@ -41,7 +41,7 @@ export class TransferPageService {
   public createAsyncValidWalletAddressValidator(): AsyncValidatorFn {
     return (control) => {
       if (!control.value) {
-        return null;
+        return of(null);
       }
 
       if (control.value === this.authService.getActiveUserInstant().wallet.address) {
@@ -64,7 +64,7 @@ export class TransferPageService {
       const amount = parseFloat(amountControl.value.toString());
 
       if (isNaN(amount)) {
-        return null;
+        return of(null);
       }
 
       return timer(300).pipe(
@@ -87,12 +87,11 @@ export class TransferPageService {
       amount: [createDecentrCoin(amount)],
       toAddress,
     }, memo).pipe(
-      tap(() => {
-        this.notificationService.success(
+      tap({
+        next: () => this.notificationService.success(
           this.translocoService.translate('transfer_page.notifications.success', null, 'portal'),
-        );
-      }, (error) => {
-        this.notificationService.error(error);
+        ),
+        error: (error) => this.notificationService.error(error),
       }),
     );
   }

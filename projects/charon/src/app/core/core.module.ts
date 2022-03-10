@@ -1,6 +1,7 @@
 import { APP_INITIALIZER, NgModule, Optional, SkipSelf } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { firstValueFrom } from 'rxjs';
 import { ToastrModule } from 'ngx-toastr';
 
 import { Environment } from '@environments/environment.definitions';
@@ -39,7 +40,7 @@ export function initAuthFactory(authService: AuthService): () => void {
 
 export function isMaintenanceFactory(configService: ConfigService, navigationService: NavigationService): () => void {
   return () => {
-    configService.getMaintenanceStatus().pipe().toPromise().then((isMaintenance) => {
+    firstValueFrom(configService.getMaintenanceStatus()).then((isMaintenance) => {
       if (isMaintenance) {
         throw true;
       }

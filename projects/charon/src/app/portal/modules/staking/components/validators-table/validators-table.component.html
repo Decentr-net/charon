@@ -2,9 +2,10 @@
   *transloco="let translate; read: 'staking.validators_table'"
   [data]="data"
   [trackBy]="trackByAddress"
+  (sortClick)="sortClick.emit($event)"
 >
   <div
-    *dataTableColumnDef="let validator; name: translate('validator')"
+    *dataTableColumnDef="let validator; name: translate('validator'); id: 'name'"
     class="validators-table__validator"
   >
     <a [routerLink]="[validator.address]">
@@ -27,7 +28,7 @@
     </div>
   </div>
 
-  <ng-container *dataTableColumnDef="let validator; name: translate('voting_power')">
+  <ng-container *dataTableColumnDef="let validator; name: translate('voting_power'); id: 'tokens'">
     {{ validator.tokens | microValue | numberFormat : '1.0-0' : true }}
 
     <div
@@ -39,12 +40,12 @@
   </ng-container>
 
   <app-validator-status
-    *dataTableColumnDef="let validator; name: translate('status')"
+    *dataTableColumnDef="let validator; name: translate('status'); id: 'status'"
     [status]="validator.status"
     class="validators-table__validator-status"
   ></app-validator-status>
 
-  <ng-container *dataTableColumnDef="let validator; name: translate('commission')">
+  <ng-container *dataTableColumnDef="let validator; name: translate('commission'); id: 'commission'">
     {{ validator.commission | percent }}
   </ng-container>
 
@@ -52,7 +53,7 @@
     *dataTableColumnDef="
       let validator;
       name: translate('delegated') | appCurrencySymbol : true | async;
-      id: translate('delegated');
+      id: 'delegated';
       align: 'right'
     "
   >

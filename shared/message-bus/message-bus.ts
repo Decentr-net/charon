@@ -22,6 +22,14 @@ export interface MessageGot<T extends MessageMap, MessageCode extends keyof T> e
   sendResponse: (response: T[MessageCode]['response']) => void;
 }
 
+type MessageSourceListener<T extends MessageMap, MessageCode extends keyof T> = (
+  message: MessageSent<T, MessageCode>,
+  sender,
+) => Promise<T[MessageCode]['response']> | void;
+
+type MessageSource<T extends MessageMap, MessageCode extends keyof T>
+  = Browser.Events.Event<MessageSourceListener<T, MessageCode>>;
+
 export class MessageBus<T extends MessageMap> {
   public sendMessage<MessageCode extends keyof T = keyof T>(
     code: MessageCode,
@@ -32,81 +40,49 @@ export class MessageBus<T extends MessageMap> {
     return Browser.runtime.sendMessage(messageSent).catch(() => void 0);
   }
 
-  // available only in background script (Firefox)
-  public sendMessageToCurrentTab<MessageCode extends keyof T = keyof T>(
-    code: MessageCode,
-    body?: T[MessageCode]['body']
-  ): Promise<T[MessageCode]['response']> {
-    const messageSent: MessageSent<T, MessageCode> = { code, body };
-
-    return Browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
-      return Browser.tabs.sendMessage(tabs[0].id, messageSent);
-    });
-  }
-
-  // available only in background script (Firefox)
-  public sendMessageToTabs<MessageCode extends keyof T = keyof T>(
-    tabIds: Browser.Tabs.Tab['id'][],
-    code: MessageCode,
-    body?: T[MessageCode]['body']
-  ): Promise<T[MessageCode]['response'][]> {
-    const messageSent: MessageSent<T, MessageCode> = { code, body };
-
-    return Browser.tabs.query({ currentWindow: true }).then((tabs) => {
-      const receivers = tabs.filter((tab) => tabIds.includes(tab.id));
-
-      if (!receivers.length) {
-        return Promise.resolve([]);
-      }
-
-      return Promise.all(receivers.map(({ id }) => Browser.tabs.sendMessage(id, messageSent)));
-    });
-  }
-
   public onMessage<MessageCode extends keyof T>(messageCode: MessageCode): Observable<MessageGot<T, MessageCode>> {
-    return new Observable((subscriber) => {
-      const listener: (
-        message: MessageSent<T, MessageCode>,
-        sender: Browser.Runtime.MessageSender,
-      ) => Promise<T[MessageCode]['response']> | void = (message, sender) => {
-
-        if (message.code !== messageCode) {
-          return;
-        }
-
-        return new Promise((resolve) => subscriber.next(({
-          sender,
-          body: message.body,
-          sendResponse: resolve,
-        })));
-      };
-
-      Browser.runtime.onMessage.addListener(listener);
-
-      return () => Browser.runtime.onMessage.removeListener(listener);
-    });
+    return this.buildOnMessageListener(Browser.runtime.onMessage, messageCode);
   }
 
   public onMessageSync<MessageCode extends keyof T>(messageCode: MessageCode): Observable<MessageGotSync<T, MessageCode>> {
+    return this.buildOnMessageListener(Browser.runtime.onMessage, messageCode, true);
+  }
+
+  private buildOnMessageListener<MessageCode extends keyof T>(
+    source: MessageSource<T, MessageCode>,
+    messageCode: MessageCode,
+  ): Observable<MessageGot<T, MessageCode>>;
+
+  private buildOnMessageListener<MessageCode extends keyof T>(
+    source: MessageSource<T, MessageCode>,
+    messageCode: MessageCode,
+    sync: true,
+  ): Observable<MessageGotSync<T, MessageCode>>;
+
+  private buildOnMessageListener<MessageCode extends keyof T>(
+    source: MessageSource<T, MessageCode>,
+    messageCode: MessageCode,
+    sync?: boolean
+  ): Observable<MessageGot<T, MessageCode> | MessageGotSync<T, MessageCode>> {
     return new Observable((subscriber) => {
-      const listener: (
-        message: MessageSent<T, MessageCode>,
-        sender: Browser.Runtime.MessageSender,
-      ) => Promise<T[MessageCode]['response']> | void = (message, sender) => {
+      const listener: MessageSourceListener<T, MessageCode> = (message, sender) => {
 
         if (message.code !== messageCode) {
           return;
         }
 
-        subscriber.next({
-          sender,
-          body: message.body,
-        });
+        return sync
+          ? subscriber.next({ body: message.body, sender })
+          : new Promise((resolve) => subscriber.next({
+            body: message.body,
+            sender,
+            sendResponse: resolve,
+          }));
       };
 
-      Browser.runtime.onMessage.addListener(listener);
+      source.addListener(listener);
 
-      return () => Browser.runtime.onMessage.removeListener(listener);
+      return () => source.removeListener(listener);
     });
   }
 }

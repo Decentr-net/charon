@@ -113,7 +113,7 @@ export class DelegatePageComponent implements OnInit {
     );
 
     this.validatorCommission$ = validator$.pipe(
-      pluck('commission', 'commission_rates', 'rate'),
+      map((validator) => validator.commission.commissionRates.rate),
     );
 
     validator$.pipe(
@@ -132,7 +132,7 @@ export class DelegatePageComponent implements OnInit {
     combineLatest([
       this.balance$,
       this.form.value$.pipe(
-        pluck('validatorAddress'),
+        map(((value) => value.validatorAddress)),
       ),
     ]).pipe(
       take(1),
@@ -146,7 +146,7 @@ export class DelegatePageComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    if (this.form.invalid) {
+    if (!this.form.valid) {
       this.ngForm.onSubmit(void 0);
       return;
     }

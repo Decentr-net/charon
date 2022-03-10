@@ -89,11 +89,12 @@ export class EmailConfirmationPageComponent implements OnInit {
         finalize(() => this.spinnerService.hideSpinner()),
         untilDestroyed(this),
       )
-      .subscribe(() => {
-        this.emailConfirmationPageService.dispose();
-        this.router.navigate([AppRoute.SignUp, SignUpRoute.CompleteRegistration]);
-      }, (error) => {
-        this.notificationService.error(error);
+      .subscribe({
+        next: () => {
+          this.emailConfirmationPageService.dispose();
+          this.router.navigate([AppRoute.SignUp, SignUpRoute.CompleteRegistration]);
+        },
+        error: (error) => this.notificationService.error(error),
       });
   }
 
@@ -105,10 +106,9 @@ export class EmailConfirmationPageComponent implements OnInit {
         finalize(() => this.spinnerService.hideSpinner()),
         untilDestroyed(this),
       )
-      .subscribe(() => {
-        this.resetTimer();
-      }, (error) => {
-        this.notificationService.error(error);
+      .subscribe({
+        next: () => this.resetTimer(),
+        error: (error) => this.notificationService.error(error),
       });
   }
 

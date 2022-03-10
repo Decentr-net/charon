@@ -1,11 +1,11 @@
 {
   "maintenance_page": {
-    "title": "The extension is temporarily unavailable due to scheduled maintenance.\nPlease, try again later."
+    "title": "The extension is temporarily unavailable due to scheduled maintenance.\nPlease try again later."
   },
   "offline_page": {
-    "title": "You are offline.\nPlease, check your internet connection."
+    "title": "You are offline.\nPlease check your internet connection."
   },
   "update_page": {
-    "title": "This version of the extension is no longer supported.\n\nPlease, go to <a href='https://decentr.net' target='_blank'>Decentr.net</a> and download the latest version of the browser."
+    "title": "This version of the extension is no longer supported.\n\nPlease go to <a href='https://decentr.net' target='_blank'>Decentr.net</a> and download the latest version of the browser."
   }
 }

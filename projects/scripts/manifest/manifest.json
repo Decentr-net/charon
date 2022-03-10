@@ -44,6 +44,15 @@
       ],
       "run_at": "document_start",
       "all_frames": true
+    },
+    {
+      "js": [
+        "scripts/content-api-script.js"
+      ],
+      "matches": [
+        "*://*.decentr.net/*"
+      ],
+      "run_at": "document_start"
     }
   ],
   "background": {

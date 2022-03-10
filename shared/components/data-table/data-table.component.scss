@@ -28,6 +28,14 @@
 .data-table__header-row__cell {
   font-weight: 500;
   padding: $grid-step $grid-step * 2 $grid-half-step;
+
+  &.mod-align-right {
+    ::ng-deep {
+      .mat-sort-header-container {
+        justify-content: flex-end;
+      }
+    }
+  }
 }
 
 .data-table__row {

@@ -4,7 +4,6 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, distinctUntilChanged, map, mergeMap, startWith, switchMap } from 'rxjs/operators';
 import {
   AdvDdvStatistics,
-  DecentrClient,
   PDVDetails,
   PDVListItem,
   PDVListPaginationOptions,
@@ -14,39 +13,34 @@ import {
   TokenPool,
 } from 'decentr-js';
 
-import { ConfigService } from '@shared/services/configuration';
 import { PDVStorageService } from '@shared/services/pdv';
 import { getPDVDayChange, mapPDVStatsToChartPoints } from '@shared/utils/pdv';
 import { AuthService } from '../../auth';
-import { NetworkService } from '../network';
+import { DecentrService } from '../decentr';
 import { BalanceValueDynamic, PDVStatChartPoint } from './pdv.definitions';
 
 @Injectable()
 export class PDVService {
   constructor(
     private authService: AuthService,
-    private configService: ConfigService,
+    private decentrService: DecentrService,
     private decimalPipe: DecimalPipe,
-    private networkService: NetworkService,
     private pdvStorageService: PDVStorageService,
   ) {
   }
 
   public getAdvDdvStats(): Observable<AdvDdvStatistics> {
-    return this.createClient().pipe(
-      switchMap((client) => client.token()),
-      mergeMap((tokenClient) => tokenClient.getAdvDdvStats()),
+    return this.decentrService.theseusClient.pipe(
+      mergeMap((theseusClient) => theseusClient.profile.getAdvDdvStats()),
     );
   }
 
   public getBalance(): Observable<string> {
     return combineLatest([
-      this.createClient().pipe(
-        switchMap((client) => client.token()),
-      ),
+      this.decentrService.decentrClient,
       this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([tokenClient, walletAddress]) => tokenClient.getBalance(walletAddress)),
+      switchMap(([decentrClient, walletAddress]) => decentrClient.token.getBalance(walletAddress)),
     );
   }
 
@@ -78,19 +72,16 @@ export class PDVService {
 
   public getPDVDelta(): Observable<TokenDelta> {
     return combineLatest([
-      this.createClient().pipe(
-        switchMap((client) => client.token()),
-      ),
+      this.decentrService.cerberusClient,
       this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([tokenClient, walletAddress]) => tokenClient.getDelta(walletAddress)),
+      switchMap(([cerberusClient, walletAddress]) => cerberusClient.rewards.getDelta(walletAddress)),
     );
   }
 
   public getPool(): Observable<TokenPool> {
-    return this.createClient().pipe(
-      switchMap((client) => client.token()),
-      mergeMap((tokenClient) => tokenClient.getPool()),
+    return this.decentrService.cerberusClient.pipe(
+      switchMap((cerberusClient) => cerberusClient.rewards.getPool()),
     );
   }
 
@@ -99,8 +90,8 @@ export class PDVService {
   ): Observable<PDVListItem[]> {
     const walletAddress = this.authService.getActiveUserInstant().wallet.address;
 
-    return this.createClient().pipe(
-      switchMap((client) => client.pdv.getPDVList(walletAddress, paginationOptions)),
+    return this.decentrService.cerberusClient.pipe(
+      switchMap((cerberusClient) => cerberusClient.pdv.getPDVList(walletAddress, paginationOptions)),
     );
   }
 
@@ -109,17 +100,17 @@ export class PDVService {
   ): Observable<PDVDetails> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return this.createClient().pipe(
-      switchMap((client) => client.pdv.getPDVDetails(address, wallet)),
+    return this.decentrService.cerberusClient.pipe(
+      switchMap((cerberusClient) => cerberusClient.pdv.getPDVDetails(address, wallet)),
     );
   }
 
   public getPDVStats(): Observable<ProfilePDVStatisticsItem[]> {
     return combineLatest([
-      this.createClient(),
+      this.decentrService.theseusClient,
       this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([client, walletAddress]) => client.profile.getStats(walletAddress)),
+      switchMap(([theseusClient, walletAddress]) => theseusClient.profile.getProfileStats(walletAddress)),
       map((profileStatistics) => profileStatistics.stats),
       catchError(() => of([])),
     );
@@ -132,20 +123,8 @@ export class PDVService {
   }
 
   public getRewards(): Observable<PDVRewards> {
-    return this.createClient().pipe(
-      switchMap((client) => client.pdv.getRewards()),
-    );
-  }
-
-  private createClient(): Observable<DecentrClient> {
-    return combineLatest([
-      this.configService.getCerberusUrl(),
-      this.configService.getTheseusUrl(),
-      of(this.networkService.getActiveNetworkAPIInstant()),
-    ]).pipe(
-      map(([cerberusUrl, theseusUrl, nodeUrl]) =>
-        new DecentrClient(nodeUrl, { cerberus: cerberusUrl, theseus: theseusUrl }),
-      ),
+    return this.decentrService.cerberusClient.pipe(
+      switchMap((cerberusClient) => cerberusClient.configuration.getPDVRewards()),
     );
   }
 }

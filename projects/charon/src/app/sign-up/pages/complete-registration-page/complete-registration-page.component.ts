@@ -53,7 +53,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
 
     const user = this.authService.getActiveUserInstant();
 
-    this.userService.getProfile(user.wallet.address, user.wallet).pipe(
+    this.userService.getProfile(user.wallet.address, user.wallet.privateKey).pipe(
       map((profile) => profile || {} as Profile),
       untilDestroyed(this),
     ).subscribe((profile) => {
@@ -79,10 +79,9 @@ export class CompleteRegistrationPageComponent implements OnInit {
         finalize(() => this.spinnerService.hideSpinner()),
         untilDestroyed(this),
       )
-      .subscribe(() => {
-        this.router.navigate([AppRoute.SignUp, SignUpRoute.PDVConsent]);
-      }, (error) => {
-        this.notificationService.error(error);
+      .subscribe({
+        next: () => this.router.navigate([AppRoute.SignUp, SignUpRoute.PDVConsent]),
+        error: (error) => this.notificationService.error(error),
       });
   }
 

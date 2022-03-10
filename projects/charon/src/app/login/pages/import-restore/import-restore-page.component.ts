@@ -89,7 +89,7 @@ export class ImportRestorePageComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    if (this.form.invalid) {
+    if (!this.form.valid) {
       return;
     }
 
@@ -105,10 +105,9 @@ export class ImportRestorePageComponent implements OnInit {
     method.pipe(
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
-    ).subscribe(() => {
-      this.ngZone.run(() => this.router.navigate(['/']));
-    }, (error) => {
-      this.notificationService.error(error);
+    ).subscribe({
+      next: () => this.ngZone.run(() => this.router.navigate(['/'])),
+      error: (error) => this.notificationService.error(error),
     });
   }
 

@@ -1,6 +1,8 @@
 <table
   class="data-table__table"
   cdk-table
+  matSort
+  (matSortChange)="sortChange($event)"
   [dataSource]="data"
   [trackBy]="trackBy"
 >
@@ -10,9 +12,11 @@
   >
     <th
       class="data-table__header-row__cell"
-      [style.textAlign]="column.align"
+      [ngClass]="'mod-align-' + column.align"
       [style.width]="column.width"
       cdk-header-cell
+      [mat-sort-header]="column.id"
+      [disabled]="!sortClick.observed"
       *cdkHeaderCellDef
       appTypeface="caption"
     >

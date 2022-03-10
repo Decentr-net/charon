@@ -5,6 +5,10 @@ import { NetworkId } from '../../../../../shared/services/configuration';
 import { WebpageAPIMessageCode } from './messages';
 
 export interface WebpageAPIMessageBusMap extends MessageMap {
+  [WebpageAPIMessageCode.OpenExtension]: {
+    body: undefined;
+    response: undefined;
+  };
   [WebpageAPIMessageCode.OpenPost]: {
     body: {
       post: Pick<Post, 'owner' | 'uuid'>;
@@ -13,5 +17,9 @@ export interface WebpageAPIMessageBusMap extends MessageMap {
     response: {
       error?: Error,
     };
+  };
+  [WebpageAPIMessageCode.Unlock]: {
+    body: undefined;
+    response: undefined;
   };
 }

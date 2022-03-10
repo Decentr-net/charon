@@ -134,7 +134,7 @@ export class RedelegatePageComponent implements OnInit {
         ? this.redelegatePageService.getRedelegationFee(
           formValue.fromValidatorAddress,
           formValue.toValidator?.operatorAddress,
-          (+formValue.amount * MICRO_PDV_DIVISOR).toString(),
+          Math.ceil(+formValue.amount * MICRO_PDV_DIVISOR).toString(),
         ).pipe(
           catchError(() => of(0)),
         )
@@ -171,7 +171,7 @@ export class RedelegatePageComponent implements OnInit {
     );
 
     this.toValidatorCommission$ = toValidatorValue$.pipe(
-      pluck('commission', 'commission_rates', 'rate'),
+      map((validator) => validator?.commission?.commissionRates?.rate),
     );
 
     this.validatorsFilteredOptions$ = combineLatest([
@@ -203,7 +203,7 @@ export class RedelegatePageComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    if (this.form.invalid) {
+    if (!this.form.valid) {
       this.ngForm.onSubmit(void 0);
       return;
     }

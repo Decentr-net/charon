@@ -32,10 +32,10 @@ export class ConfigService {
         retryWhen((errors) => errors.pipe(
           delay(ONE_SECOND),
         )),
-      ).subscribe(
-        (config) => this.config$.next(config),
-        (error) => this.config$.error(error),
-      );
+      ).subscribe({
+        next: (config) => this.config$.next(config),
+        error: (error) => this.config$.error(error),
+      });
     }
 
     return this.config$.pipe(
@@ -125,6 +125,12 @@ export class ConfigService {
   public getShareUrl(): Observable<string> {
     return this.getConfig().pipe(
       map((config) => config.share.url),
+    );
+  }
+
+  public getSwapUrl(): Observable<string> {
+    return this.getNetworkConfig().pipe(
+      map((config) => config.swap.url),
     );
   }
 }

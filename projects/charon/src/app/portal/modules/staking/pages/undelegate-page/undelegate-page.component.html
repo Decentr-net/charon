@@ -29,6 +29,7 @@
         <app-input
           class="undelegate-page__form__amount-control"
           *ngIf="!undelegationAvailableTime; else undelegationLimitReached"
+          [numeric]="true"
           formControlName="amount"
           appTypeface="header-3"
         >

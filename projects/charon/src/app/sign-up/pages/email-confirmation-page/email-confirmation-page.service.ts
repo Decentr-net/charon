@@ -29,9 +29,9 @@ export class EmailConfirmationPageService {
 
     return this.userService.confirmUser(code, user.primaryEmail).pipe(
       catchError((error) => {
-        switch (error.status) {
+        switch (error?.response?.status) {
           case HttpStatusCode.Conflict:
-            return throwError(new TranslatedError(
+            return throwError(() => new TranslatedError(
               this.translocoService.translate(
                 'email_confirmation_page.errors.account_conflict',
                 null,
@@ -39,7 +39,7 @@ export class EmailConfirmationPageService {
               )
             ));
           case HttpStatusCode.NotFound:
-            return throwError(new TranslatedError(
+            return throwError(() => new TranslatedError(
               this.translocoService.translate(
                 'email_confirmation_page.errors.account_not_found',
                 null,
@@ -47,7 +47,7 @@ export class EmailConfirmationPageService {
               )
             ));
           default:
-            return throwError(error);
+            return throwError(() => error);
         }
       }),
       mergeMap(() => this.userService.createTestnetAccount(user.wallet.address)),
@@ -96,10 +96,14 @@ export class EmailConfirmationPageService {
       .pipe(
         catchError((error) => {
           const errorToThrow = (error.status === HttpStatusCode.Conflict)
-            ? this.translocoService.translate('email_confirmation_page.errors.account_conflict', null, 'sign-up')
+            ? new TranslatedError(this.translocoService.translate(
+              'email_confirmation_page.errors.account_conflict',
+              null,
+              'sign-up'
+            ))
             : error;
 
-          return throwError(errorToThrow);
+          return throwError(() => errorToThrow);
         }),
         mergeMap(() => this.signUpStoreService.setLastEmailSendingTime()),
         tap(() => this.analyticsService.sendEvent(AnalyticsEvent.SendEmailCode)),

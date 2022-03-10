@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, Observable, timer } from 'rxjs';
+import { combineLatest, Observable, of, timer } from 'rxjs';
 import { map, mapTo, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
 import { createDecentrCoin, Validator } from 'decentr-js';
 
@@ -71,7 +71,7 @@ export class UndelegatePageService {
       const amount = parseFloat(amountControl.value.toString());
 
       if (isNaN(amount)) {
-        return null;
+        return of(null);
       }
 
       return timer(300).pipe(
@@ -92,7 +92,7 @@ export class UndelegatePageService {
       const amount = parseFloat(amountControl.value.toString());
 
       if (isNaN(amount)) {
-        return null;
+        return of(null);
       }
 
       return timer(300).pipe(

@@ -1,4 +1,4 @@
-import { defer, Observable, of, throwError } from 'rxjs';
+import { defer, firstValueFrom, Observable, of, throwError } from 'rxjs';
 import {
   delay,
   distinctUntilChanged,
@@ -30,7 +30,7 @@ const getRandomRest = (): Observable<string> => {
       switchMap((isMaintenance) => {
         if (isMaintenance) {
           CONFIG_SERVICE.forceUpdate();
-          return throwError(new Error());
+          return throwError(() => new Error());
         }
 
         return CONFIG_SERVICE.getRestNodes();
@@ -45,7 +45,10 @@ const getRandomRest = (): Observable<string> => {
       const node = nodes[random];
 
       return blockchainNodeService.getNodeAvailability(node).pipe(
-        mergeMap(isAvailable => isAvailable !== NodeAvailability.Available  ? throwError('error') : of(node)),
+        mergeMap((isAvailable) => isAvailable !== NodeAvailability.Available
+          ? throwError(() => new Error())
+          : of(node)
+        ),
       );
     }),
     retryWhen((errors) => errors.pipe(
@@ -56,13 +59,9 @@ const getRandomRest = (): Observable<string> => {
 };
 
 const setNetworkId = async (): Promise<void> => {
-  let activeNetworkId = await networkStorage.getActiveId().pipe(
-    first(),
-  ).toPromise();
+  let activeNetworkId = await firstValueFrom(networkStorage.getActiveId());
 
-  const networkIds = await CONFIG_SERVICE.getNetworkIds().pipe(
-    first(),
-  ).toPromise();
+  const networkIds = await firstValueFrom(CONFIG_SERVICE.getNetworkIds());
 
   if (!activeNetworkId || !networkIds.includes(activeNetworkId)) {
     activeNetworkId = networkIds[0];

@@ -41,6 +41,7 @@
     *ngIf="validators$ | async as validators; else tablesLoading;"
     [data]="validators"
     (validatorRewardClick)="onValidatorRewardClick($event)"
+    (sortClick)="sort($event)"
   ></app-validators-table>
 
   <ng-template #withDrawButton let-balance="balance" let-label="label">

@@ -1,4 +1,5 @@
-import { map, mergeMap, take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 import { ProfileUpdate } from 'decentr-js';
 
 import { AuthBrowserStorageService, User } from '../../../../../shared/services/auth';
@@ -24,8 +25,7 @@ const clearToolbarStorage = (): Promise<void> => {
 const clearProfilesData = (): Promise<void> => {
   const authStorageService = new AuthBrowserStorageService<OldUser>();
 
-  return authStorageService.getUsers().pipe(
-    take(1),
+  return firstValueFrom(authStorageService.getUsers().pipe(
     map((users) => {
       users.forEach((user) => {
         delete user.avatar;
@@ -46,7 +46,7 @@ const clearProfilesData = (): Promise<void> => {
       return users;
     }),
     mergeMap((users) => authStorageService.setUsers(users)),
-  ).toPromise();
+  ));
 };
 
 export const migrate = async (): Promise<void> => {

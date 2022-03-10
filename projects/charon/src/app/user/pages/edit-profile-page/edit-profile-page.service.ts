@@ -39,7 +39,7 @@ export class EditProfilePageService {
       password: undefined,
     };
 
-    return this.userService.getProfile(user.wallet.address, user.wallet).pipe(
+    return this.userService.getProfile(user.wallet.address, user.wallet.privateKey).pipe(
       mergeMap((oldProfile) => {
         return this.areProfilesIdentical(oldProfile, remoteUpdate)
           ? of(void 0)

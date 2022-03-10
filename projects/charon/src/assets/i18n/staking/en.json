@@ -100,7 +100,7 @@
       },
       "to_validator": {
         "errors": {
-          "isValidator": "Please, choose a validator",
+          "isValidator": "Please choose a validator",
           "required": "Validator is required"
         },
         "commission": "Withdrawal commission",

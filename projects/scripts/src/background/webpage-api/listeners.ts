@@ -4,7 +4,7 @@ import { catchError, mergeMap } from 'rxjs/operators';
 import { MessageBus } from '../../../../../shared/message-bus';
 import { WebpageAPIMessageBusMap } from './message-bus-map';
 import { WebpageAPIMessageCode } from './messages';
-import { openPost } from './api';
+import { openExtension, openPost, unlock } from './api';
 
 export const initWebpageAPIListeners = () => {
   const messageBus = new MessageBus<WebpageAPIMessageBusMap>();
@@ -18,4 +18,10 @@ export const initWebpageAPIListeners = () => {
         }),
       )),
     ).subscribe();
+
+  messageBus.onMessageSync(WebpageAPIMessageCode.OpenExtension)
+    .subscribe(() => openExtension());
+
+  messageBus.onMessageSync(WebpageAPIMessageCode.Unlock)
+    .subscribe(() => unlock());
 };

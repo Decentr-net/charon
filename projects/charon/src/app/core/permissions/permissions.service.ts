@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Wallet } from 'decentr-js';
 
@@ -7,7 +8,6 @@ import { PermissionsService as BasePermissionsService } from '@shared/permission
 import { AuthService } from '../auth';
 import { UserService } from '../services';
 import { UserPermissions } from './permissions';
-import { of } from 'rxjs';
 
 @UntilDestroy()
 @Injectable()
@@ -22,9 +22,7 @@ export class PermissionsService extends BasePermissionsService<UserPermissions> 
   }
 
   private initModeratorPermissions(): void {
-    this.authService.getActiveUser().pipe(
-      pluck('wallet', 'address'),
-      distinctUntilChanged(),
+    this.authService.getActiveUserAddress().pipe(
       switchMap((walletAddress: Wallet['address']) => {
         return walletAddress
           ? this.userService.getModeratorAddresses().pipe(

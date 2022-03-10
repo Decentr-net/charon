@@ -8,6 +8,12 @@
   justify-content: center;
   min-height: 600px;
   padding: $grid-step * 3;
+
+  &::ng-deep {
+    a {
+      color: $color-primary;
+    }
+  }
 }
 
 .technical-page__container {

@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { ReferralSenderBonus } from 'decentr-js';
 
 import { svgReferral } from '@shared/svg-icons/referral';
 import { svgStar } from '@shared/svg-icons/star';
-import { ReferralSenderBonus } from '@core/services/api';
 
 @Component({
   selector: 'app-referral-bonus-milestones',

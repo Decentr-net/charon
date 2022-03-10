@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, defer, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { DecentrCommunityClient, Wallet } from 'decentr-js';
+import { Wallet } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
-import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api/message-bus-map';
 import { MessageCode } from '@scripts/messages';
-import { AuthService } from '@core/auth';
-import { NetworkService } from '../network';
+import { AuthService } from '../../auth';
+import { DecentrService } from '../decentr';
 
 @Injectable()
 export class FollowingService {
@@ -15,7 +15,7 @@ export class FollowingService {
 
   constructor(
     private authService: AuthService,
-    private networkService: NetworkService,
+    private decentrService: DecentrService,
   ) {
   }
 
@@ -30,7 +30,6 @@ export class FollowingService {
           owner: wallet.address,
           whom,
         },
-        privateKey: wallet.privateKey,
       })
     ).pipe(
       map((response) => {
@@ -52,7 +51,6 @@ export class FollowingService {
           owner: wallet.address,
           whom,
         },
-        privateKey: wallet.privateKey,
       })
     ).pipe(
       map((response) => {
@@ -65,16 +63,10 @@ export class FollowingService {
 
   public getFollowees(): Observable<Wallet['address'][]> {
     return combineLatest([
-      this.createClient(),
+      this.decentrService.decentrClient,
       this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([client, walletAddress]) => client.getFollowees(walletAddress)),
+      switchMap(([decentrClient, walletAddress]) => decentrClient.community.getFollowees(walletAddress)),
     );
-  }
-
-  private createClient(): Promise<DecentrCommunityClient> {
-    const api = this.networkService.getActiveNetworkAPIInstant();
-
-    return DecentrCommunityClient.create(api);
   }
 }

@@ -1,37 +1,32 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, defer, Observable, ReplaySubject } from 'rxjs';
+import { combineLatest, defer, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
   Coin,
-  DecentrDistributionClient,
   QueryDelegationTotalRewardsResponse,
   Validator,
 } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
-import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api/message-bus-map';
 import { MessageCode } from '@scripts/messages';
 import { AuthService } from '../../auth';
-import { NetworkService } from '../network';
+import { DecentrService } from '../decentr';
 
 @Injectable()
 export class DistributionService {
-  private client: ReplaySubject<DecentrDistributionClient> = new ReplaySubject(1);
-
   constructor(
     private authService: AuthService,
-    private networkService: NetworkService,
+    private decentrService: DecentrService,
   ) {
-    this.createClient()
-      .then(client => this.client.next(client));
   }
 
   public getDelegatorRewards(): Observable<QueryDelegationTotalRewardsResponse> {
     return combineLatest([
-      this.client,
+      this.decentrService.decentrClient,
       this.authService.getActiveUserAddress(),
     ]).pipe(
-      switchMap(([client, walletAddress]) => client.getDelegatorRewards(
+      switchMap(([client, walletAddress]) => client.distribution.getDelegatorRewards(
         walletAddress,
       )),
     )
@@ -39,10 +34,10 @@ export class DistributionService {
 
   public getValidatorRewards(): Observable<Coin[]> {
     return combineLatest([
-      this.client,
+      this.decentrService.decentrClient,
       this.authService.getActiveUser()
     ]).pipe(
-      switchMap(([client, user]) => client.getValidatorCommission(user.wallet.validatorAddress)),
+      switchMap(([client, user]) => client.distribution.getValidatorCommission(user.wallet.validatorAddress)),
       map((commission) => {
         const coinsMap = [...commission]
           .reduce((acc, coin) => ({ ...acc, [coin.denom]: (acc[coin.denom] || 0) + (+coin.amount || 0) }), {});
@@ -63,14 +58,14 @@ export class DistributionService {
     validatorAddresses: Validator['operatorAddress'][],
   ): Observable<number> {
     return combineLatest([
-      this.client,
+      this.decentrService.decentrClient,
       this.authService.getActiveUser()
     ]).pipe(
       switchMap(([client, user]) => {
         const requests = validatorAddresses
           .map((validatorAddress) => ({ validatorAddress, delegatorAddress: user.wallet.address }));
 
-        return client.withdrawDelegatorRewards(requests, user.wallet.privateKey).simulate();
+        return client.distribution.withdrawDelegatorRewards(requests).simulate();
       }),
     );
   }
@@ -88,7 +83,6 @@ export class DistributionService {
     return defer(() => new MessageBus<CharonAPIMessageBusMap>()
       .sendMessage(MessageCode.WithdrawDelegatorRewards, {
         request,
-        privateKey: wallet.privateKey,
       })
     ).pipe(
       map(assertMessageResponseSuccess),
@@ -103,7 +97,6 @@ export class DistributionService {
         request: {
           validatorAddress: wallet.validatorAddress,
         },
-        privateKey: wallet.privateKey,
       })
     ).pipe(
       map(assertMessageResponseSuccess),
@@ -112,23 +105,16 @@ export class DistributionService {
 
   public calculateWithdrawValidatorRewardsFee(): Observable<number> {
     return combineLatest([
-      this.client,
+      this.decentrService.decentrClient,
       this.authService.getActiveUser()
     ]).pipe(
       switchMap(([client, user]) => {
-        return client.withdrawValidatorRewards(
+        return client.distribution.withdrawValidatorRewards(
           {
             validatorAddress: user.wallet.validatorAddress,
           },
-          user.wallet.privateKey,
         ).simulate();
       }),
     );
-  }
-
-  private createClient(): Promise<DecentrDistributionClient> {
-    const api = this.networkService.getActiveNetworkAPIInstant();
-
-    return DecentrDistributionClient.create(api);
   }
 }

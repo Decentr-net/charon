@@ -1,25 +1,38 @@
-import { defer, Observable, of } from 'rxjs';
-import { catchError, mapTo, mergeMap, shareReplay } from 'rxjs/operators';
-import { DecentrPDVClient, PDV, PDVBlacklist, Wallet } from 'decentr-js';
+import { defer, firstValueFrom, Observable, of, ReplaySubject, switchMap, take } from 'rxjs';
+import { catchError, mapTo, mergeMap } from 'rxjs/operators';
+import { CerberusClient, PDV, PDVBlacklist, Wallet } from 'decentr-js';
 
+import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
 import QUEUE, { QueuePriority } from '../queue';
 import CONFIG_SERVICE from '../config';
 
 const configService = CONFIG_SERVICE;
 
-export const blacklist$: Observable<PDVBlacklist> =
-  configService.getCerberusUrl().pipe(
-    mergeMap((cerberusUrl) => defer(() => new DecentrPDVClient(cerberusUrl).getPDVBlacklist()).pipe(
-      catchError(() => of({
-        cookieSource: [],
-      })),
-    )),
-    shareReplay(1),
-  );
+export const blacklist$: Observable<PDVBlacklist> = (() => {
+  const blacklistSource$ = new ReplaySubject<PDVBlacklist>(1);
 
-export const sendPDV = (wallet: Wallet, pDVs: PDV[]): Observable<void> => {
-  return defer(() => QUEUE.add(() => configService.getCerberusUrl().pipe(
-    mergeMap((cerberusUrl) => new DecentrPDVClient(cerberusUrl).sendPDV(pDVs, wallet)),
+  new NetworkBrowserStorageService().getActiveId().pipe(
+    switchMap(() => configService.getCerberusUrl()),
+    switchMap((cerberusUrl) => new CerberusClient(cerberusUrl).configuration.getPDVBlacklist()),
+    catchError(() => of({
+      cookieSource: [],
+    })),
+  ).subscribe(blacklistSource$);
+
+  return blacklistSource$.pipe(
+    take(1),
+  );
+})();
+
+export const sendPDV = (pDVs: PDV[], privateKey: Wallet['privateKey']): Observable<void> => {
+  return defer(() => QUEUE.add(() => firstValueFrom(configService.getCerberusUrl().pipe(
+    mergeMap((cerberusUrl) => new CerberusClient(cerberusUrl).pdv.sendPDV(pDVs, privateKey)),
     mapTo(void 0),
-  ).toPromise(), { priority: QueuePriority.PDV }));
+  )), { priority: QueuePriority.PDV }));
+};
+
+export const validatePDV = (pDVs: PDV[]): Observable<number[]> => {
+  return configService.getCerberusUrl().pipe(
+    mergeMap((cerberusUrl) => new CerberusClient(cerberusUrl).pdv.validate(pDVs)),
+  );
 };

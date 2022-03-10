@@ -1,3 +1,5 @@
+import { combineLatest, firstValueFrom, Observable, ReplaySubject, switchMap, take, tap } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import {
   CreatePostRequest,
   DecentrClient,
@@ -11,161 +13,150 @@ import {
   SendTokensRequest,
   UndelegateTokensRequest,
   UnfollowRequest,
-  Wallet,
   WithdrawDelegatorRewardRequest,
   WithdrawValidatorCommissionRequest,
 } from 'decentr-js';
 
+import { AuthBrowserStorageService } from '../../../../../shared/services/auth';
 import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
 
-const networkStorage = new NetworkBrowserStorageService();
+const decentrClient$: Observable<DecentrClient> = (() => {
+  const networkStorage = new NetworkBrowserStorageService();
 
-const getApi = () => networkStorage.getActiveAPIInstant();
+  const clientSource$ = new ReplaySubject<DecentrClient>(1);
 
-const createDecentrClient = () => new DecentrClient(getApi());
+  combineLatest([
+    networkStorage.getActiveAPI(),
+    new AuthBrowserStorageService().getActiveUser(),
+  ]).pipe(
+    tap(() => clientSource$.next(undefined)),
+    switchMap(([api, user]) => DecentrClient.create(api, user?.wallet?.privateKey)),
+  ).subscribe(clientSource$);
+
+  return clientSource$.pipe(
+    filter(Boolean),
+    take(1),
+  );
+})();
 
 export const createPost = async (
   request: CreatePostRequest,
-  privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const communityClient = await createDecentrClient().community();
+  const decentrClient = await firstValueFrom(decentrClient$);
 
-  return communityClient.createPost(
+  return decentrClient.community.createPost(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
 export const deletePost = async (
   request: DeletePostRequest,
-  privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const communityClient = await createDecentrClient().community();
+  const decentrClient = await firstValueFrom(decentrClient$);
 
-  return communityClient.deletePost(
+  return decentrClient.community.deletePost(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
 export const likePost = async (
   request: LikeRequest,
-  privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const communityClient = await createDecentrClient().community();
+  const decentrClient = await firstValueFrom(decentrClient$);
 
-  return communityClient.setLike(
+  return decentrClient.community.setLike(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
 export const follow = async (
   request: FollowRequest,
-  privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const communityClient = await createDecentrClient().community();
+  const decentrClient = await firstValueFrom(decentrClient$);
 
-  return communityClient.follow(
+  return decentrClient.community.follow(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
 export const unfollow = async (
   request: UnfollowRequest,
-  privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const communityClient = await createDecentrClient().community();
+  const decentrClient = await firstValueFrom(decentrClient$);
 
-  return communityClient.unfollow(
+  return decentrClient.community.unfollow(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
 export const transferCoins = async (
   request: SendTokensRequest,
-  privateKey: Wallet['privateKey'],
   memo?: string,
 ): Promise<DeliverTxResponse> => {
-  const bankClient = await createDecentrClient().bank();
+  const decentrClient = await firstValueFrom(decentrClient$);
 
-  return bankClient.sendTokens(
+  return decentrClient.bank.sendTokens(
     request,
-    privateKey,
     { memo },
   ).signAndBroadcast();
 };
 
 export const resetAccount = async (
   request: ResetAccountRequest,
-  privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const operationsClient = await createDecentrClient().operations();
+  const decentrClient = await firstValueFrom(decentrClient$);
 
-  return operationsClient.resetAccount(
+  return decentrClient.operations.resetAccount(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
 export const delegate = async (
   request: DelegateTokensRequest,
-  privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const stakingClient = await createDecentrClient().staking();
+  const decentrClient = await firstValueFrom(decentrClient$);
 
-  return stakingClient.delegateTokens(
+  return decentrClient.staking.delegateTokens(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
 export const redelegate = async (
   request: RedelegateTokensRequest,
-  privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const stakingClient = await createDecentrClient().staking();
+  const decentrClient = await firstValueFrom(decentrClient$);
 
-  return stakingClient.redelegateTokens(
+  return decentrClient.staking.redelegateTokens(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
 export const undelegate = async (
   request: UndelegateTokensRequest,
-  privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const stakingClient = await createDecentrClient().staking();
+  const decentrClient = await firstValueFrom(decentrClient$);
 
-  return stakingClient.undelegateTokens(
+  return decentrClient.staking.undelegateTokens(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
 export const withdrawDelegatorRewards = async (
   request: WithdrawDelegatorRewardRequest,
-  privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const distributionClient = await createDecentrClient().distribution();
+  const decentrClient = await firstValueFrom(decentrClient$);
 
-  return distributionClient.withdrawDelegatorRewards(
+  return decentrClient.distribution.withdrawDelegatorRewards(
     request,
-    privateKey,
   ).signAndBroadcast();
 };
 
 export const withdrawValidatorRewards = async (
   request: WithdrawValidatorCommissionRequest,
-  privateKey: Wallet['privateKey'],
 ): Promise<DeliverTxResponse> => {
-  const distributionClient = await createDecentrClient().distribution();
+  const decentrClient = await firstValueFrom(decentrClient$);
 
-  return distributionClient.withdrawValidatorRewards(
+  return decentrClient.distribution.withdrawValidatorRewards(
     request,
-    privateKey,
   ).signAndBroadcast();
 };

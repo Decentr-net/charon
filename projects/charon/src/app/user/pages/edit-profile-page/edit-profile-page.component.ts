@@ -73,7 +73,7 @@ export class EditProfilePageComponent implements OnInit {
 
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    this.userService.getProfile(wallet.address, wallet).pipe(
+    this.userService.getProfile(wallet.address, wallet.privateKey).pipe(
       untilDestroyed(this),
     ).subscribe((profile) => {
       this.profile = profile;
@@ -98,7 +98,7 @@ export class EditProfilePageComponent implements OnInit {
       catchError((error) => {
         switch (error?.response?.status) {
           case HttpStatusCode.TooManyRequests:
-            return throwError(new TranslatedError(
+            return throwError(() => new TranslatedError(
               this.translocoService.translate(
                 `edit_profile_page.toastr.errors.${HttpStatusCode.TooManyRequests}`,
                 null,
@@ -106,21 +106,22 @@ export class EditProfilePageComponent implements OnInit {
               ),
             ));
           default:
-            return throwError(error);
+            return throwError(() => error);
         }
       }),
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
-    ).subscribe(() => {
-      this.notificationService.success(
-        this.translocoService.translate('edit_profile_page.toastr.successful_update', null, 'user'),
-      );
+    ).subscribe({
+      next: () => {
+        this.notificationService.success(
+          this.translocoService.translate('edit_profile_page.toastr.successful_update', null, 'user'),
+        );
 
-      this.router.navigate(['../'], {
-        relativeTo: this.activatedRoute
-      });
-    }, (error) => {
-      this.notificationService.error(error);
+        this.router.navigate(['../'], {
+          relativeTo: this.activatedRoute
+        });
+      },
+      error: (error) => this.notificationService.error(error),
     });
   }
 

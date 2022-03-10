@@ -66,7 +66,7 @@ export class HubImageUploaderDirective implements OnInit {
         return errorKey
           ? this.translocoService.selectTranslate(`hub_image_uploader.errors.${errorKey}`, null, 'hub').pipe(
             take(1),
-            mergeMap((errorTranslate) => throwError(new TranslatedError(errorTranslate))),
+            mergeMap((errorTranslate) => throwError(() => new TranslatedError(errorTranslate))),
           )
           : of(image);
       }),

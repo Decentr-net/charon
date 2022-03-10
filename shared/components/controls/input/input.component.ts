@@ -50,6 +50,8 @@ export class InputComponent extends CustomControl<string> implements OnInit {
 
   @Input() public numeric: boolean = false;
 
+  @Input() public autofocus: boolean = false;
+
   @ViewChild('inputElement') public inputElement: ElementRef<HTMLElement>;
   @ViewChild('textareaElement') public textareaElement: ElementRef<HTMLElement>;
 

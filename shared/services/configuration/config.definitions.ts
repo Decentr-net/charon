@@ -20,6 +20,9 @@ export interface Network {
   network: {
     rest: string[];
   };
+  swap: {
+    url: string;
+  };
   theseus: {
     url: string;
   };
@@ -34,9 +37,6 @@ export interface Config {
   vpn: {
     enabled: boolean;
     servers: VPNServer[];
-  };
-  vulcan: {
-    url: string;
   };
   referral: {
     url: string;

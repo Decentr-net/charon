@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 import { getParentUrlFromSnapshots } from '@shared/utils/routing';
 import { AuthService } from '@core/auth';
@@ -21,7 +22,7 @@ export class EmailConfirmationGuard implements CanActivate {
     }
 
     const wallet = authService.getActiveUserInstant().wallet;
-    const account = await userService.getAccount(wallet.address).toPromise();
+    const account = await firstValueFrom(userService.getAccount(wallet.address));
 
     return !account;
   }

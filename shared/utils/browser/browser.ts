@@ -18,12 +18,6 @@ export const openExtensionInNewTab = (relativeUrl: string): Promise<Browser.Tabs
   });
 };
 
-export const isOpenedInTab = (): boolean => {
-  return !Browser.extension || Browser.extension
-    .getViews({ type: 'tab' })
-    .some(extensionWindow => extensionWindow === window);
-};
-
 export const detectBrowser = (): BrowserType => {
   const userAgent = window.navigator.userAgent;
 

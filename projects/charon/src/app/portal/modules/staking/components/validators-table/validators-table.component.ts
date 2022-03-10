@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TrackByFunction } from '@angular/core';
+import { Sort } from '@angular/material/sort';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgPiggyBank } from '@shared/svg-icons/piggy-bank';
@@ -15,6 +16,7 @@ export class ValidatorsTableComponent {
   @Input() data: ValidatorDefinition[];
 
   @Output() validatorRewardClick: EventEmitter<ValidatorDefinition> = new EventEmitter();
+  @Output() sortClick: EventEmitter<Sort> = new EventEmitter();
 
   constructor(
     svgIconRegistry: SvgIconRegistry,

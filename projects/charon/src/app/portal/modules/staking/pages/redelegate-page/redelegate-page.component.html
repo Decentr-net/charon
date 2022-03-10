@@ -29,6 +29,7 @@
         <app-input
           class="redelegate-page__form__amount-control"
           *ngIf="!redelegationToAvailableTime; else redelegationLimitReached"
+          [numeric]="true"
           formControlName="amount"
           appTypeface="header-3"
         >

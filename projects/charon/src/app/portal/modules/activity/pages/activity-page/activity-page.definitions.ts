@@ -15,6 +15,7 @@ export interface ActivityListItemPDVBlock {
 }
 
 export interface ActivityListItem {
+  unixTimestamp: number;
   timestamp: number;
   pdvBlocks: Observable<ActivityListItemPDVBlock[]>;
 }

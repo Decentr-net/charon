@@ -43,6 +43,7 @@
     (focus)="onFocus()"
     (blur)="onBlur()"
     [attr.type]="type ==='password' && valueSecured ? 'password' : 'text'"
+    [appAutoFocus]="autofocus"
     trim="blur"
   ></textarea>
 </ng-template>
@@ -60,6 +61,7 @@
     (focus)="onFocus()"
     (blur)="onBlur()"
     [appNumeric]="numeric"
+    [appAutoFocus]="autofocus"
     trim="blur"
   >
 </ng-template>

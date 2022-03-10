@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, share, shareReplay } from 'rxjs/operators';
+import { ReferralSenderBonus, ReferralStats, ReferralTimeStats, SenderRewardLevel } from 'decentr-js';
 
 import { AnalyticsEvent } from '@shared/analytics';
 import { svgLink } from '@shared/svg-icons/link';
 import { MICRO_PDV_DIVISOR, MicroValuePipe } from '@shared/pipes/micro-value';
 import { ConfigService } from '@shared/services/configuration';
-import { ReferralSenderBonus, ReferralStats, ReferralTimeStats, SenderRewardLevel } from '@core/services/api';
 import { CurrencyService, ReferralService } from '@core/services';
 
 type TimeOption = keyof ReferralTimeStats;

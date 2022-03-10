@@ -24,6 +24,7 @@
     <app-input
       type="password"
       formControlName="password"
+      [autofocus]="true"
     >
       <ng-container ngProjectAs="[label]">
         {{ translate('form.password.label') }}
@@ -58,7 +59,7 @@
   <ng-template #restore>
     <a
       class="login-page__restore-link"
-      [routerLink]="[loginRoute.Restore]"
+      (click)="navigateToRestorePage()"
       appTypeface="paragraph"
     >
       {{ translate('restore') }}

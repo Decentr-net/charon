@@ -2,7 +2,7 @@ import { Injectable, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { combineLatest, Observable } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { AdvDdvStatistics } from 'decentr-js';
 
 import { AuthService } from '@core/auth';
@@ -47,7 +47,7 @@ export class HubHeaderStatsMetaService {
     const user = this.authService.getActiveUserInstant();
 
     return this.userService.getProfile(user.wallet.address).pipe(
-      pluck('createdAt'),
+      map((profile) => profile.createdAt),
     );
   }
 
