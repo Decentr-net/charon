@@ -7,17 +7,16 @@ import { svgLink } from '@shared/svg-icons/link';
 import { svgReceive } from '@shared/svg-icons/receive';
 import { svgSend } from '@shared/svg-icons/send';
 import { AuthService } from '@core/auth';
-import { TokenTransaction, TokenTransactionMessage } from '../token-transactions-table';
+import { TokenSingleTransaction, TokenTransactionMessage } from './token-single-transaction';
 
 @Component({
-  selector: 'app-token-transaction',
-  templateUrl: './token-transaction.component.html',
-  styleUrls: ['./token-transaction.component.scss'],
+  selector: 'app-token-single-transaction',
+  templateUrl: './token-single-transaction.component.html',
+  styleUrls: ['./token-single-transaction.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TokenTransactionComponent implements OnInit {
-  @Input() public message: Pick<TokenTransactionMessage, 'amount' | 'recipient' | 'sender' | 'type'>;
-  @Input() public transaction: Pick<TokenTransaction, 'comment' | 'fee' | 'hash'>;
+export class TokenSingleTransactionComponent implements OnInit {
+  @Input() public transaction: TokenSingleTransaction | TokenTransactionMessage;
 
   public messageType: typeof TxMessageTypeUrl = TxMessageTypeUrl;
 

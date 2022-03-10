@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 
-import { TokenTransactionMessage } from '../../components/token-transactions-table';
+import { TokenTransaction } from '../../components';
 
 export interface Asset {
   balance: string;
-  transactions: Observable<TokenTransactionMessage[][]>;
+  transactions: Observable<TokenTransaction[][]>;
 }

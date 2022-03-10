@@ -8,7 +8,7 @@ import { svgSend } from '@shared/svg-icons/send';
 import { isOpenedInTab } from '@shared/utils/browser';
 import { InfiniteLoadingPresenter } from '@shared/utils/infinite-loading';
 import { PortalRoute } from '../../../../portal-route';
-import { TokenTransactionMessage } from '../../components/token-transactions-table';
+import { TokenTransaction } from '../../components';
 import { Asset } from './assets-page.definitions';
 import { AssetsPageService } from './assets-page.service';
 
@@ -22,7 +22,7 @@ import { AssetsPageService } from './assets-page.service';
   ],
 })
 export class AssetsPageComponent
-  extends InfiniteLoadingPresenter<TokenTransactionMessage>
+  extends InfiniteLoadingPresenter<TokenTransaction>
   implements OnInit
 {
   public readonly isOpenedInTab: boolean = isOpenedInTab();
