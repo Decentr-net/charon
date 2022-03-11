@@ -1,9 +1,9 @@
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { Cookies } from 'webextension-polyfill';
 import { CookiePDV, PDVType } from 'decentr-js';
 
 import { listenCookiesSet } from './events';
+import { trackDomains } from './domain-track';
 
 export const parseExpirationDate = (expirationDate: number | undefined): number | undefined => {
   if (!expirationDate) {
@@ -21,9 +21,15 @@ export const parseDomain = (domain: string): string | undefined => {
 }
 
 export const listenCookiePDVs = (): Observable<CookiePDV> => {
-  return listenCookiesSet().pipe(
-    filter((cookie) => !!parseDomain(cookie.domain)),
-    map((cookie: Cookies.Cookie) => {
+  return combineLatest([
+    listenCookiesSet(),
+    trackDomains(),
+  ]).pipe(
+    filter(([cookie, trackedDomains]) => {
+      const domain = parseDomain(cookie.domain);
+      return !!domain && trackedDomains.some((trackedDomain) => trackedDomain.includes(domain));
+    }),
+    map(([cookie]) => {
       const domain = parseDomain(cookie.domain);
 
       const expirationDate = parseExpirationDate(cookie.expirationDate);
