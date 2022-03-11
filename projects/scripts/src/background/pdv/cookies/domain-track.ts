@@ -1,5 +1,5 @@
-import { merge, Observable, Subject, tap } from 'rxjs';
-import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
+import { defer, from, merge, mergeMap, Observable, Subject, tap } from 'rxjs';
+import { distinctUntilChanged, filter, map, startWith } from 'rxjs/operators';
 import * as Browser from 'webextension-polyfill';
 
 import { ONE_SECOND } from '../../../../../../shared/utils/date';
@@ -20,15 +20,27 @@ export const onTabCreated = (): Observable<Browser.Tabs.Tab> => {
 
 export const onTabUpdated = (): Observable<Browser.Tabs.Tab> => {
   return new Observable((subscriber) => {
-    const listener = (tabId: number, changeInfo: Browser.Tabs.OnUpdatedChangeInfoType, tab: Browser.Tabs.Tab) => {
-      if (changeInfo.url) {
-        subscriber.next(tab);
-      }
+    const listener = async (tabId: number) => {
+      const tab = await Browser.tabs.get(tabId);
+      subscriber.next(tab);
     };
 
     Browser.tabs.onUpdated.addListener(listener);
 
     return () => Browser.tabs.onUpdated.removeListener(listener);
+  });
+};
+
+export const onTabActivated = (): Observable<Browser.Tabs.Tab> => {
+  return new Observable((subscriber) => {
+    const listener = async (changeInfo: Browser.Tabs.OnActivatedActiveInfoType) => {
+      const tab = await Browser.tabs.get(changeInfo.tabId);
+      subscriber.next(tab);
+    };
+
+    Browser.tabs.onActivated.addListener(listener);
+
+    return () => Browser.tabs.onActivated.removeListener(listener);
   });
 };
 
@@ -70,7 +82,7 @@ export const trackDomains = (): Observable<string[]> => {
     tabTrackMapChange$.next();
 
     setTimeout(() => {
-      if (!tabTrackMap.has(tab.id) || dontNeedUpdate()) {
+      if (!tabTrackMap.has(tab.id) || dontNeedUpdate() || !tab.active) {
         return;
       }
 
@@ -85,13 +97,24 @@ export const trackDomains = (): Observable<string[]> => {
   };
 
   const trackProcess$ = merge(
-    onTabCreated().pipe(
+    merge(
+      defer(() => Browser.tabs.query({ pinned: false })).pipe(
+        mergeMap(from),
+      ),
+      onTabCreated(),
+      onTabUpdated(),
+      onTabActivated(),
+    ).pipe(
+      filter((tab) => tab.active),
       tap((tab) => addTab(tab)),
     ),
-    onTabUpdated().pipe(
-      tap((tab) => addTab(tab)),
-    ),
-    onTabRemoved().pipe(
+    merge(
+      onTabUpdated().pipe(
+        filter((tab) => !tab.active),
+        map((tab) => tab.id),
+      ),
+      onTabRemoved(),
+    ).pipe(
       tap((tabId) => removeTab(tabId)),
     ),
   );
