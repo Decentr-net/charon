@@ -1,4 +1,4 @@
-import { merge, mergeMap, Observable, Subject, tap } from 'rxjs';
+import { merge, Observable, Subject, tap } from 'rxjs';
 import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
 import * as Browser from 'webextension-polyfill';
 
@@ -18,9 +18,13 @@ export const onTabCreated = (): Observable<Browser.Tabs.Tab> => {
   });
 };
 
-export const onTabUpdated = (): Observable<number> => {
+export const onTabUpdated = (): Observable<Browser.Tabs.Tab> => {
   return new Observable((subscriber) => {
-    const listener = (tabId: number) => subscriber.next(tabId);
+    const listener = (tabId: number, changeInfo: Browser.Tabs.OnUpdatedChangeInfoType, tab: Browser.Tabs.Tab) => {
+      if (changeInfo.url) {
+        subscriber.next(tab);
+      }
+    };
 
     Browser.tabs.onUpdated.addListener(listener);
 
@@ -38,29 +42,26 @@ export const onTabRemoved = (): Observable<number> => {
   });
 };
 
-const getTabDomain = (tab: Browser.Tabs.Tab) => new URL(tab.url).hostname;
+const getTabDomain = (tabUrl: string): string | undefined => {
+  try {
+    return new URL(tabUrl).hostname;
+  } catch {
+    return undefined;
+  }
+};
 
 export const trackDomains = (): Observable<string[]> => {
   const tabTrackMap = new Map<number, string | undefined>();
-
   const tabTrackMapChange$ = new Subject<void>();
 
-  const domains$ = tabTrackMapChange$.pipe(
-    startWith(void 0),
-    map(() => [...new Set(tabTrackMap.values())].filter(Boolean)),
-    distinctUntilChanged((prev, curr) => prev.join() === curr.join()),
-  );
-
-  const removeTab = (tabId: number) => {
-    tabTrackMap.delete(tabId);
-    tabTrackMapChange$.next();
-  };
-
   const addTab = (tab: Browser.Tabs.Tab) => {
+    const tabDomain = getTabDomain(tab.url);
+    const dontNeedUpdate = () => tabTrackMap.get(tab.id) === tabDomain;
+
     if (
-      !tab.url
-      || tabTrackMap.get(tab.id) === getTabDomain(tab)
-      || EXCLUDED_URL_PARTS.some((urlPart) => tab?.url.includes(urlPart))
+      !tabDomain
+      || dontNeedUpdate()
+      || EXCLUDED_URL_PARTS.some((urlPart) => tab.url.includes(urlPart))
     ) {
       return;
     }
@@ -69,13 +70,18 @@ export const trackDomains = (): Observable<string[]> => {
     tabTrackMapChange$.next();
 
     setTimeout(() => {
-      if (!tabTrackMap.has(tab.id)) {
+      if (!tabTrackMap.has(tab.id) || dontNeedUpdate()) {
         return;
       }
 
-      tabTrackMap.set(tab.id, getTabDomain(tab));
+      tabTrackMap.set(tab.id, tabDomain);
       tabTrackMapChange$.next();
     }, DOMAIN_TRACK_TIME);
+  };
+
+  const removeTab = (tabId: number) => {
+    tabTrackMap.delete(tabId);
+    tabTrackMapChange$.next();
   };
 
   const trackProcess$ = merge(
@@ -83,12 +89,17 @@ export const trackDomains = (): Observable<string[]> => {
       tap((tab) => addTab(tab)),
     ),
     onTabUpdated().pipe(
-      mergeMap((tabId) => Browser.tabs.get(tabId)),
-      tap((tab: Browser.Tabs.Tab) => addTab(tab)),
+      tap((tab) => addTab(tab)),
     ),
     onTabRemoved().pipe(
       tap((tabId) => removeTab(tabId)),
     ),
+  );
+
+  const domains$ = tabTrackMapChange$.pipe(
+    startWith(void 0),
+    map(() => [...new Set(tabTrackMap.values())].filter(Boolean)),
+    distinctUntilChanged((prev, curr) => prev.join() === curr.join()),
   );
 
   return new Observable<string[]>((subscriber) => {

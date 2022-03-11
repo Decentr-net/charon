@@ -1,9 +1,9 @@
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, ReplaySubject, switchMap } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CookiePDV, PDVType } from 'decentr-js';
 
-import { listenCookiesSet } from './events';
 import { trackDomains } from './domain-track';
+import { listenCookiesSet } from './events';
 
 export const parseExpirationDate = (expirationDate: number | undefined): number | undefined => {
   if (!expirationDate) {
@@ -20,36 +20,40 @@ export const parseDomain = (domain: string): string | undefined => {
   return domainMatch && domainMatch[0];
 }
 
-export const listenCookiePDVs = (): Observable<CookiePDV> => {
-  return combineLatest([
-    listenCookiesSet(),
-    trackDomains(),
-  ]).pipe(
-    filter(([cookie, trackedDomains]) => {
-      const domain = parseDomain(cookie.domain);
-      return !!domain && trackedDomains.some((trackedDomain) => trackedDomain.includes(domain));
-    }),
-    map(([cookie]) => {
-      const domain = parseDomain(cookie.domain);
+const listenDomainCookiePDVs = (trackedDomains): Observable<CookiePDV> => listenCookiesSet().pipe(
+  filter((cookie) => {
+    const domain = parseDomain(cookie.domain);
+    return !!domain && trackedDomains.some((trackedDomain) => trackedDomain.includes(domain));
+  }),
+  map((cookie) => {
+    const domain = parseDomain(cookie.domain);
 
-      const expirationDate = parseExpirationDate(cookie.expirationDate);
+    const expirationDate = parseExpirationDate(cookie.expirationDate);
 
-      return {
-        type: PDVType.Cookie,
-        domain,
-        expirationDate,
-        hostOnly: cookie.hostOnly,
-        name: cookie.name,
+    return {
+      type: PDVType.Cookie,
+      domain,
+      expirationDate,
+      hostOnly: cookie.hostOnly,
+      name: cookie.name,
+      path: cookie.path,
+      sameSite: cookie.sameSite,
+      secure: cookie.secure,
+      source: {
+        host: domain,
         path: cookie.path,
-        sameSite: cookie.sameSite,
-        secure: cookie.secure,
-        source: {
-          host: domain,
-          path: cookie.path,
-        },
-        timestamp: new Date().toISOString(),
-        value: cookie.value,
-      };
-    }),
+      },
+      timestamp: new Date().toISOString(),
+      value: cookie.value,
+    };
+  }),
+);
+
+const trackedDomains$ = new ReplaySubject(1);
+trackDomains().subscribe(trackedDomains$);
+
+export const listenCookiePDVs = (): Observable<CookiePDV> => {
+  return trackedDomains$.pipe(
+    switchMap((domains) => listenDomainCookiePDVs(domains)),
   );
 };
