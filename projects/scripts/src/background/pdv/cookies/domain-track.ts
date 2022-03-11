@@ -6,7 +6,7 @@ import { ONE_SECOND } from '../../../../../../shared/utils/date';
 
 const DOMAIN_TRACK_TIME = ONE_SECOND * 5;
 
-const EXCLUDED_URL_PARTS = ['chrome://'];
+const EXCLUDED_URL_PARTS = ['chrome://', 'decentr://', 'decentr-extension://'];
 
 export const onTabCreated = (): Observable<Browser.Tabs.Tab> => {
   return new Observable((subscriber) => {
