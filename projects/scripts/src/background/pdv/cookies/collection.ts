@@ -21,31 +21,33 @@ export const parseDomain = (domain: string): string | undefined => {
   return domainMatch && domainMatch[0];
 }
 
-const listenAllCookiePDVs = (): Observable<CookiePDV> => listenCookiesSet().pipe(
-  filter((cookie) => !!parseDomain(cookie.domain)),
-  map((cookie) => {
-    const domain = parseDomain(cookie.domain);
+const listenAllCookiePDVs = (): Observable<CookiePDV> => {
+  return listenCookiesSet().pipe(
+    filter((cookie) => !!parseDomain(cookie.domain)),
+    map((cookie) => {
+      const domain = parseDomain(cookie.domain);
 
-    const expirationDate = parseExpirationDate(cookie.expirationDate);
+      const expirationDate = parseExpirationDate(cookie.expirationDate);
 
-    return {
-      type: PDVType.Cookie,
-      domain,
-      expirationDate,
-      hostOnly: cookie.hostOnly,
-      name: cookie.name,
-      path: cookie.path,
-      sameSite: cookie.sameSite,
-      secure: cookie.secure,
-      source: {
-        host: domain,
+      return {
+        type: PDVType.Cookie,
+        domain,
+        expirationDate,
+        hostOnly: cookie.hostOnly,
+        name: cookie.name,
         path: cookie.path,
-      },
-      timestamp: new Date().toISOString(),
-      value: cookie.value,
-    };
-  }),
-);
+        sameSite: cookie.sameSite,
+        secure: cookie.secure,
+        source: {
+          host: domain,
+          path: cookie.path,
+        },
+        timestamp: new Date().toISOString(),
+        value: cookie.value,
+      };
+    }),
+  );
+};
 
 const trackedDomains$ = new ReplaySubject<string[]>(1);
 trackDomains().subscribe(trackedDomains$);
