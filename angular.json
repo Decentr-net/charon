@@ -31,7 +31,8 @@
             "tsConfig": "projects/charon/tsconfig.app.json",
             "assets": [
               "projects/charon/src/favicon.ico",
-              "projects/charon/src/assets"
+              "projects/charon/src/assets",
+              "projects/charon/src/scripts"
             ],
             "styles": [
               "projects/charon/src/styles.scss",
