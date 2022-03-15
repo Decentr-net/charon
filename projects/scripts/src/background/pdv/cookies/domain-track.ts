@@ -1,5 +1,5 @@
-import { defer, from, merge, mergeMap, Observable, Subject, tap } from 'rxjs';
-import { distinctUntilChanged, filter, map, startWith } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, defer, from, merge, mergeMap, Observable, tap } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import * as Browser from 'webextension-polyfill';
 
 import { ONE_SECOND } from '../../../../../../shared/utils/date';
@@ -62,38 +62,72 @@ const getTabDomain = (tabUrl: string): string | undefined => {
   }
 };
 
-export const trackDomains = (): Observable<string[]> => {
-  const tabTrackMap = new Map<number, string | undefined>();
-  const tabTrackMapChange$ = new Subject<void>();
+interface TabInfo {
+  domain: string;
+  approved: boolean;
+}
+
+export interface TrackedDomains {
+  all: string[];
+  approved: string[];
+}
+
+export const trackDomains = (): Observable<TrackedDomains> => {
+  const tabTrackMap = new Map<number, TabInfo>();
+  const tabTrackMapChange$ = new BehaviorSubject<Map<number, TabInfo>>(tabTrackMap);
+
+  const tabApproveTimeoutMap = new Map<number, number>();
 
   const addTab = (tab: Browser.Tabs.Tab) => {
-    const tabDomain = getTabDomain(tab.url);
-    const dontNeedUpdate = () => tabTrackMap.get(tab.id) === tabDomain;
+    const domain = getTabDomain(tab.url);
 
     if (
-      !tabDomain
-      || dontNeedUpdate()
+      !domain
+      || tabTrackMap.get(tab.id)?.domain === domain
       || EXCLUDED_URL_PARTS.some((urlPart) => tab.url.includes(urlPart))
     ) {
       return;
     }
 
-    tabTrackMap.set(tab.id, undefined);
-    tabTrackMapChange$.next();
+    tabApproveTimeoutMap.delete(tab.id);
 
-    setTimeout(() => {
-      if (!tabTrackMap.has(tab.id) || dontNeedUpdate() || !tab.active) {
-        return;
-      }
-
-      tabTrackMap.set(tab.id, tabDomain);
-      tabTrackMapChange$.next();
-    }, DOMAIN_TRACK_TIME);
+    tabTrackMap.set(tab.id, { domain, approved: false });
+    tabTrackMapChange$.next(tabTrackMap);
   };
 
   const removeTab = (tabId: number) => {
+    tabApproveTimeoutMap.delete(tabId);
+
     tabTrackMap.delete(tabId);
-    tabTrackMapChange$.next();
+    tabTrackMapChange$.next(tabTrackMap);
+  };
+
+  const startApproveTab = (tab: Browser.Tabs.Tab) => {
+    const timeout = window.setTimeout(() => {
+      if (!tabTrackMap.has(tab.id) || tabTrackMap.get(tab.id).approved || !tab.active) {
+        return;
+      }
+
+      tabApproveTimeoutMap.delete(tab.id);
+
+      tabTrackMap.set(tab.id, { ...tabTrackMap.get(tab.id), approved: true });
+      tabTrackMapChange$.next(tabTrackMap);
+    }, DOMAIN_TRACK_TIME);
+
+    tabApproveTimeoutMap.set(tab.id, timeout);
+  };
+
+  const unapproveOtherTabs = (activeTabId: number) => {
+    [...tabTrackMap.keys()]
+      .filter((tabId) => tabId !== activeTabId)
+      .forEach((tabId) => {
+        tabTrackMap.set(tabId, { ...tabTrackMap.get(tabId), approved: false });
+
+        window.clearTimeout(tabApproveTimeoutMap.get(tabId));
+        tabApproveTimeoutMap.delete(tabId);
+      });
+
+    tabTrackMapChange$.next(tabTrackMap);
   };
 
   const trackProcess$ = merge(
@@ -103,31 +137,50 @@ export const trackDomains = (): Observable<string[]> => {
       ),
       onTabCreated(),
       onTabUpdated(),
-      onTabActivated(),
     ).pipe(
-      filter((tab) => tab.active),
       tap((tab) => addTab(tab)),
     ),
+    onTabActivated().pipe(
+      tap((tab) => {
+        unapproveOtherTabs(tab.id);
+        startApproveTab(tab);
+      }),
+    ),
     merge(
-      onTabUpdated().pipe(
-        filter((tab) => !tab.active),
-        map((tab) => tab.id),
-      ),
       onTabRemoved(),
     ).pipe(
       tap((tabId) => removeTab(tabId)),
     ),
   );
 
-  const domains$ = tabTrackMapChange$.pipe(
-    startWith(void 0),
-    map(() => [...new Set(tabTrackMap.values())].filter(Boolean)),
-    distinctUntilChanged((prev, curr) => prev.join() === curr.join()),
+  const distinctDomains = (source$: Observable<string[]>): Observable<string[]> => {
+    return source$.pipe(
+      map((domains) => [...new Set(domains.sort())]),
+      distinctUntilChanged((prev, curr) => prev.join() === curr.join()),
+    );
+  }
+
+  const allDomains$: Observable<string[]> = tabTrackMapChange$.pipe(
+    map((tabMap) => [...tabMap.values()].map(({ domain }) => domain)),
+    distinctDomains,
   );
 
-  return new Observable<string[]>((subscriber) => {
+  const approvedDomains$: Observable<string[]> = tabTrackMapChange$.pipe(
+    map((tabMap) => [...tabMap.values()]
+      .filter(({ approved }) => approved)
+      .map(({ domain }) => domain)
+    ),
+    distinctDomains,
+  );
+
+  return new Observable((subscriber) => {
     const trackSubscription = trackProcess$.subscribe();
-    const domainsSubscription = domains$.subscribe(subscriber);
+    const domainsSubscription = combineLatest([
+      allDomains$,
+      approvedDomains$,
+    ]).pipe(
+      map(([all, approved]: [string[], string[]]) => ({ all, approved })),
+    ).subscribe(subscriber);
 
     return () => {
       tabTrackMapChange$.complete();

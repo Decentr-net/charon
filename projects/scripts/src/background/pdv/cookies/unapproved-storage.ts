@@ -1,10 +1,12 @@
 import { CookiePDV } from 'decentr-js';
 
+import { PDVUniqueStore } from '../pdv-unique-store';
+
 export class UnapprovedStorage {
   private storage: CookiePDV[] = [];
 
   public add(pdv: CookiePDV): void {
-    this.storage = ([...this.storage, pdv]);
+    this.storage = new PDVUniqueStore([...this.storage, pdv]).getAll() as CookiePDV[];
   }
 
   public ejectByDomains(domains: string[]): CookiePDV[] {

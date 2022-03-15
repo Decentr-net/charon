@@ -2,7 +2,7 @@ import { EMPTY, from, mergeMap, Observable, ReplaySubject, tap } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CookiePDV, PDVType } from 'decentr-js';
 
-import { trackDomains } from './domain-track';
+import { trackDomains, TrackedDomains } from './domain-track';
 import { listenCookiesSet } from './events';
 import { UnapprovedStorage } from './unapproved-storage';
 
@@ -49,7 +49,7 @@ const listenAllCookiePDVs = (): Observable<CookiePDV> => {
   );
 };
 
-const trackedDomains$ = new ReplaySubject<string[]>(1);
+const trackedDomains$ = new ReplaySubject<TrackedDomains>(1);
 trackDomains().subscribe(trackedDomains$);
 
 const unapprovedStorage = new UnapprovedStorage();
@@ -57,8 +57,8 @@ listenAllCookiePDVs().subscribe((pdv) => unapprovedStorage.add(pdv));
 
 export const listenCookiePDVs = (): Observable<CookiePDV> => {
   return trackedDomains$.pipe(
-    tap((domains) => unapprovedStorage.removeOldDomains(domains)),
-    map((domains) => unapprovedStorage.ejectByDomains(domains)),
+    tap((domains) => unapprovedStorage.removeOldDomains(domains.all)),
+    map((domains) => unapprovedStorage.ejectByDomains(domains.approved)),
     mergeMap((pdvs) => pdvs.length ? from(pdvs) : EMPTY),
   );
 };
