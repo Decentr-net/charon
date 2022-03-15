@@ -1,4 +1,13 @@
-import { BehaviorSubject, combineLatest, defer, from, merge, mergeMap, Observable, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  defer,
+  from,
+  merge,
+  mergeMap,
+  Observable,
+  tap,
+} from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import * as Browser from 'webextension-polyfill';
 
@@ -82,6 +91,11 @@ export const trackDomains = (): Observable<TrackedDomains> => {
 
   const tabApproveTimeoutMap = new Map<number, number>();
 
+  const resetApprove = (tabId: number) => {
+    clearTimeout(tabApproveTimeoutMap.get(tabId));
+    tabApproveTimeoutMap.delete(tabId);
+  };
+
   const addTab = (tab: Browser.Tabs.Tab) => {
     const domain = getTabDomain(tab.url);
 
@@ -93,42 +107,40 @@ export const trackDomains = (): Observable<TrackedDomains> => {
       return;
     }
 
-    tabApproveTimeoutMap.delete(tab.id);
+    resetApprove(tab.id);
 
     tabTrackMap.set(tab.id, { domain, approved: false });
     tabTrackMapChange$.next(tabTrackMap);
   };
 
   const removeTab = (tabId: number) => {
-    tabApproveTimeoutMap.delete(tabId);
+    resetApprove(tabId);
 
     tabTrackMap.delete(tabId);
     tabTrackMapChange$.next(tabTrackMap);
   };
 
   const startApproveTab = (tab: Browser.Tabs.Tab) => {
-    const timeout = window.setTimeout(() => {
+    const approveTimeout = window.setTimeout(() => {
       if (!tabTrackMap.has(tab.id) || tabTrackMap.get(tab.id).approved || !tab.active) {
         return;
       }
 
-      tabApproveTimeoutMap.delete(tab.id);
+      resetApprove(tab.id);
 
       tabTrackMap.set(tab.id, { ...tabTrackMap.get(tab.id), approved: true });
       tabTrackMapChange$.next(tabTrackMap);
     }, DOMAIN_TRACK_TIME);
 
-    tabApproveTimeoutMap.set(tab.id, timeout);
+    tabApproveTimeoutMap.set(tab.id, approveTimeout);
   };
 
   const unapproveOtherTabs = (activeTabId: number) => {
     [...tabTrackMap.keys()]
       .filter((tabId) => tabId !== activeTabId)
       .forEach((tabId) => {
+        resetApprove(tabId);
         tabTrackMap.set(tabId, { ...tabTrackMap.get(tabId), approved: false });
-
-        window.clearTimeout(tabApproveTimeoutMap.get(tabId));
-        tabApproveTimeoutMap.delete(tabId);
       });
 
     tabTrackMapChange$.next(tabTrackMap);
