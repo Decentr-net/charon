@@ -21,8 +21,10 @@ export const onTabCreated = (): Observable<Browser.Tabs.Tab> => {
 export const onTabUpdated = (): Observable<Browser.Tabs.Tab> => {
   return new Observable((subscriber) => {
     const listener = async (tabId: number) => {
-      const tab = await Browser.tabs.get(tabId);
-      subscriber.next(tab);
+      try {
+        const tab = await Browser.tabs.get(tabId);
+        subscriber.next(tab);
+      } catch {}
     };
 
     Browser.tabs.onUpdated.addListener(listener);
@@ -34,8 +36,10 @@ export const onTabUpdated = (): Observable<Browser.Tabs.Tab> => {
 export const onTabActivated = (): Observable<Browser.Tabs.Tab> => {
   return new Observable((subscriber) => {
     const listener = async (changeInfo: Browser.Tabs.OnActivatedActiveInfoType) => {
-      const tab = await Browser.tabs.get(changeInfo.tabId);
-      subscriber.next(tab);
+      try {
+        const tab = await Browser.tabs.get(changeInfo.tabId);
+        subscriber.next(tab);
+      } catch {}
     };
 
     Browser.tabs.onActivated.addListener(listener);
