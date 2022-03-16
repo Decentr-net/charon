@@ -1,5 +1,5 @@
 import { fromEvent, Observable, OperatorFunction, partition, pipe } from 'rxjs';
-import { map, repeatWhen, takeUntil } from 'rxjs/operators';
+import { map, repeat, takeUntil } from 'rxjs/operators';
 
 export const documentVisibility = (): { visible$: Observable<void>, invisible$: Observable<void> } => {
   const [visible$, invisible$] = partition(
@@ -17,6 +17,8 @@ export const whileDocumentVisible = <T>(): OperatorFunction<T, T> => {
 
   return pipe(
     takeUntil(invisible$),
-    repeatWhen(() => visible$),
+    repeat({
+      delay: () => visible$,
+    }),
   );
 };

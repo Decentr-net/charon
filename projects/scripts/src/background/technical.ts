@@ -1,6 +1,5 @@
 import { partition, pipe } from 'rxjs';
-import { repeatWhen, takeUntil } from 'rxjs/operators';
-
+import { repeat, takeUntil } from 'rxjs/operators';
 
 import { compareSemver } from '../../../../shared/utils/number';
 import { APP_VERSION } from '../../../../shared/utils/version';
@@ -14,6 +13,8 @@ export const whileVersionSupported = () => {
 
   return pipe(
     takeUntil(versionUnsupported$),
-    repeatWhen(() => versionSupported$),
+    repeat({
+      delay: () => versionSupported$,
+    }),
   );
 };

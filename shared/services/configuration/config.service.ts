@@ -1,5 +1,5 @@
-import { delay, filter, map, retryWhen, take } from 'rxjs/operators';
-import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
+import { combineLatest, Observable, ReplaySubject, Subscription, timer } from 'rxjs';
+import { filter, map, retry, take } from 'rxjs/operators';
 
 import { Environment } from '../../../environments/environment.definitions';
 import { ONE_SECOND } from '../../utils/date';
@@ -29,9 +29,9 @@ export class ConfigService {
 
       this.configSubscription = this.configApiService.getConfig().pipe(
         whileOnline,
-        retryWhen((errors) => errors.pipe(
-          delay(ONE_SECOND),
-        )),
+        retry({
+          delay: ONE_SECOND,
+        }),
       ).subscribe({
         next: (config) => this.config$.next(config),
         error: (error) => this.config$.error(error),

@@ -1,5 +1,5 @@
-import { fromEvent, merge, Observable, of, partition } from 'rxjs';
-import { map, repeatWhen, takeUntil } from 'rxjs/operators';
+import { fromEvent, merge, Observable, partition } from 'rxjs';
+import { map, repeat, takeUntil } from 'rxjs/operators';
 
 export const whileOnline = <T>(source$: Observable<T>): Observable<T> => {
   const [online$, offline$] = partition(
@@ -10,13 +10,14 @@ export const whileOnline = <T>(source$: Observable<T>): Observable<T> => {
       fromEvent(window, 'offline').pipe(
         map(() => false),
       ),
-      of(navigator.onLine),
     ),
     Boolean,
   );
 
   return source$.pipe(
     takeUntil(offline$),
-    repeatWhen(() => online$),
+    repeat({
+      delay: () => online$,
+    }),
   );
 };

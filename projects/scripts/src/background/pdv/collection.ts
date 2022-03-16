@@ -11,8 +11,7 @@ import {
   pluck,
   reduce,
   repeat,
-  repeatWhen,
-  retryWhen,
+  retry,
   switchMap,
   takeUntil,
 } from 'rxjs/operators';
@@ -50,7 +49,9 @@ const whilePDVAllowed = (pdvType: PDVType, walletAddress: Wallet['address']) => 
 
   return pipe(
     takeUntil(forbidden$),
-    repeatWhen(() => allowed$),
+    repeat({
+      delay: () => allowed$,
+    }),
   );
 };
 
@@ -145,9 +146,9 @@ const sendPDVBlocks = (): Observable<void> => {
           }),
         );
       }),
-      retryWhen((error: Observable<number>) => error.pipe(
-        delay(ONE_MINUTE * 5),
-      )),
+      retry({
+        delay: ONE_MINUTE * 5,
+      }),
     );
   });
 }

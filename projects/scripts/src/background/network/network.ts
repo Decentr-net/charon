@@ -1,11 +1,11 @@
-import { defer, firstValueFrom, Observable, of, throwError } from 'rxjs';
+import { defer, firstValueFrom, Observable, of, throwError, timer } from 'rxjs';
 import {
   delay,
   distinctUntilChanged,
   first,
   map,
   mergeMap,
-  retryWhen,
+  retry,
   startWith,
   switchMap,
   tap,
@@ -35,9 +35,9 @@ const getRandomRest = (): Observable<string> => {
 
         return CONFIG_SERVICE.getRestNodes();
       }),
-      retryWhen((errors) => errors.pipe(
-        delay(ONE_SECOND * 30),
-      )),
+      retry({
+        delay: ONE_SECOND * 30,
+      }),
     )),
   )).pipe(
     mergeMap((nodes) => {
@@ -51,9 +51,9 @@ const getRandomRest = (): Observable<string> => {
         ),
       );
     }),
-    retryWhen((errors) => errors.pipe(
-      delay(ONE_SECOND),
-    )),
+    retry({
+      delay: ONE_SECOND,
+    }),
     first(),
   );
 };
