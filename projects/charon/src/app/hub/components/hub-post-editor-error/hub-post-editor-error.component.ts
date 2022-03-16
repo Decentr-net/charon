@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/forms';
 import { combineLatest, merge } from 'rxjs';
-import { distinctUntilChanged, map, mapTo, startWith, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
@@ -53,7 +53,7 @@ export class HubPostEditorErrorComponent implements OnInit {
     const isSubmitted$ = control.statusChanges.pipe(
       startWith(0),
       switchMap(() => this.formGroup.ngSubmit.pipe(
-        mapTo(true),
+        map(() => true),
         startWith(false),
       )),
       distinctUntilChanged(),

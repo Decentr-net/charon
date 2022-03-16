@@ -3,7 +3,7 @@ import {
   delay,
   distinctUntilChanged,
   first,
-  mapTo,
+  map,
   mergeMap,
   retryWhen,
   startWith,
@@ -73,7 +73,7 @@ const setNetworkId = async (): Promise<void> => {
 const setRandomNetwork = (): Observable<void> => {
   return getRandomRest().pipe(
     tap((api) => networkStorage.setActiveAPI(api)),
-    mapTo(void 0),
+    map(() => void 0),
   );
 };
 

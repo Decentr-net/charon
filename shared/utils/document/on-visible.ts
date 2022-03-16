@@ -1,10 +1,10 @@
 import { fromEvent, Observable, OperatorFunction, partition, pipe } from 'rxjs';
-import { mapTo, repeatWhen, takeUntil } from 'rxjs/operators';
+import { map, repeatWhen, takeUntil } from 'rxjs/operators';
 
 export const documentVisibility = (): { visible$: Observable<void>, invisible$: Observable<void> } => {
   const [visible$, invisible$] = partition(
     fromEvent(document, 'visibilitychange').pipe(
-      mapTo(void 0),
+      map(() => void 0),
     ),
     () => document.visibilityState === 'visible',
   );

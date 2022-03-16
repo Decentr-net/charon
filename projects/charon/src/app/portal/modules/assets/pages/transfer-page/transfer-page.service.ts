@@ -4,8 +4,7 @@ import { combineLatest, Observable, of, timer } from 'rxjs';
 import {
   catchError,
   map,
-  mapTo,
-  mergeMapTo,
+  mergeMap,
   take,
   tap,
 } from 'rxjs/operators';
@@ -49,7 +48,7 @@ export class TransferPageService {
       }
 
       return timer(300).pipe(
-        mergeMapTo(this.userService.getAccount(control.value)),
+        mergeMap(() => this.userService.getAccount(control.value)),
         catchError(() => of(undefined)),
         map((account) => account ? null : { exists: false }),
       );
@@ -68,7 +67,7 @@ export class TransferPageService {
       }
 
       return timer(300).pipe(
-        mergeMapTo(combineLatest([
+        mergeMap(() => combineLatest([
           this.getBalance(),
           fee$,
         ])),
@@ -77,7 +76,7 @@ export class TransferPageService {
           const error = (balance - fee) / MICRO_PDV_DIVISOR >= amount ? null : { insufficient: false };
           amountControl.setErrors(error);
         }),
-        mapTo(null),
+        map(() => null),
       );
     };
   }

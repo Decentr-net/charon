@@ -1,5 +1,5 @@
 import { NEVER, Observable, timer } from 'rxjs';
-import { filter, map, mapTo, startWith, switchMap } from 'rxjs/operators';
+import { filter, map, startWith, switchMap } from 'rxjs/operators';
 
 export const createSecondsTimer = (
   secondsPeriod: number,
@@ -9,7 +9,7 @@ export const createSecondsTimer = (
   const tickPeriod = 1000;
 
   return resetSource.pipe(
-    mapTo(secondsPeriod),
+    map(() => secondsPeriod),
     startWith(initialSeconds),
     switchMap((seconds) => timer(0, tickPeriod).pipe(
       map((secondsLast) => seconds - secondsLast),

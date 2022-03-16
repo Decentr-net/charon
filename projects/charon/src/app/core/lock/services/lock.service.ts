@@ -4,10 +4,9 @@ import { fromEvent, merge, Observable, ReplaySubject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
-  mapTo,
+  map,
   mergeMap,
-  mergeMapTo,
-  switchMapTo,
+  switchMap,
   take,
   takeUntil,
   throttleTime,
@@ -59,14 +58,14 @@ export class LockService {
   public get locked$(): Observable<void> {
     return this.isLocked$.pipe(
       filter(Boolean),
-      mapTo(void 0),
+      map(() => void 0),
     );
   }
 
   public get unlocked$(): Observable<void> {
     return this.isLocked$.pipe(
       filter((isLocked) => !isLocked),
-      mapTo(void 0),
+      map(() => void 0),
     );
   }
 
@@ -74,7 +73,7 @@ export class LockService {
     return this.isWorking$.pipe(
       distinctUntilChanged(),
       filter(Boolean),
-      mapTo(void 0),
+      map(() => void 0),
     );
   }
 
@@ -82,7 +81,7 @@ export class LockService {
     return this.isWorking$.pipe(
       distinctUntilChanged(),
       filter((isWorking) => !isWorking),
-      mapTo(void 0),
+      map(() => void 0),
     );
   }
 
@@ -134,7 +133,7 @@ export class LockService {
     this.initActivityUpdateSubscription();
 
     this.locked$.pipe(
-      switchMapTo(this.unlocked$.pipe(
+      switchMap(() => this.unlocked$.pipe(
         take(1),
       )),
       untilDestroyed(this),
@@ -143,7 +142,7 @@ export class LockService {
     });
 
     this.whenWorking(this.unlocked$.pipe(
-      switchMapTo(this.locked$.pipe(
+      switchMap(() => this.locked$.pipe(
         take(1),
       ))),
     ).pipe(
@@ -189,7 +188,7 @@ export class LockService {
 
   private whenWorking<T>(observable: Observable<T>): Observable<T> {
     return this.started$.pipe(
-      mergeMapTo(observable.pipe(
+      mergeMap(() => observable.pipe(
         takeUntil(this.stopped$),
       )),
     );

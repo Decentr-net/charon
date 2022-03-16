@@ -13,7 +13,7 @@ import {
 import { DOCUMENT } from '@angular/common';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BehaviorSubject, combineLatest, EMPTY, fromEvent, merge, Observable, of } from 'rxjs';
-import { distinctUntilChanged, filter, map, mapTo, startWith, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, startWith, switchMap } from 'rxjs/operators';
 import { ControlValueAccessor } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -182,7 +182,7 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
         ? combineLatest(images.map((image) => image.complete
           ? of(image)
           : fromEvent(image, 'load').pipe(
-            mapTo(image),
+            map(() => image),
             startWith(0),
           )
         ))
@@ -217,7 +217,7 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
         return !this.nativeElement.contains(target)
           && this.ignoreSelectionReset.every((elem) => !elem.parentElement.contains(target));
       }),
-      mapTo(null),
+      map(() => null),
     );
 
     return merge(

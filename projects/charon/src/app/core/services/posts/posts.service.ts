@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { defer, forkJoin, Observable, of } from 'rxjs';
-import { catchError, map, mapTo, mergeMap, take } from 'rxjs/operators';
+import { catchError, map, mergeMap, take } from 'rxjs/operators';
 import { LikeWeight, Post, PostsListFilterOptions } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
@@ -106,7 +106,7 @@ export class PostsService {
         map((response) => assertMessageResponseSuccess(response)),
         mergeMap(() => this.getPost({ owner, uuid: postId }).pipe(
           retryTimes(10, ONE_SECOND),
-          mapTo(void 0),
+          map(() => void 0),
         )),
       );
   }
@@ -143,7 +143,7 @@ export class PostsService {
       })).pipe(
         map(assertMessageResponseSuccess),
         mergeMap(() => this.getPost(post).pipe(
-          mapTo(true),
+          map(() => true),
           catchError(() => of(false)),
           map((postExists) => {
             if (postExists) {

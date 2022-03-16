@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { defer, Observable, of, Subject, timer } from 'rxjs';
-import { catchError, filter, map, mapTo, mergeMap, skipWhile, switchMap, take, tap, } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, skipWhile, switchMap, take, tap, } from 'rxjs/operators';
 import { Account, Profile, ProfileUpdate, Wallet, } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
@@ -78,7 +78,7 @@ export class UserService {
           mergeMap(() => this.waitAccount(walletAddress, NetworkId.Testnet)),
         )
       ),
-      mapTo(void 0),
+      map(() => void 0),
       take(1),
       catchError(() => of(void 0)),
     );
@@ -101,7 +101,7 @@ export class UserService {
 
     return this.decentrService.cerberusClient.pipe(
       mergeMap((cerberusClient) => cerberusClient.profile.setProfile(profile, wallet.privateKey)),
-      mapTo(void 0),
+      map(() => void 0),
       tap(() => this.profileChanged$.next(wallet.address)),
     );
   }
@@ -126,7 +126,7 @@ export class UserService {
   public onProfileChanged(walletAddress: Wallet['address']): Observable<void> {
     return this.profileChanged$.pipe(
       filter((walletAddressChanged) => walletAddressChanged === walletAddress),
-      mapTo(void 0),
+      map(() => void 0),
     );
   }
 }

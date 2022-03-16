@@ -1,6 +1,6 @@
 import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { Observable, partition } from 'rxjs';
-import { delay, switchMapTo } from 'rxjs/operators';
+import { delay, switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AuthService } from '@core/auth';
@@ -26,7 +26,7 @@ export class FollowingPageService extends HubPostsService implements OnDestroy {
     );
 
     followingUpdating$.pipe(
-      switchMapTo(followingUpdated$),
+      switchMap(() => followingUpdated$),
       delay(ONE_SECOND * 5),
       untilDestroyed(this),
     ).subscribe(() => this.reload());

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Observable, of, timer } from 'rxjs';
-import { map, mapTo, shareReplay, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
+import { map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 import { createDecentrCoin, Validator } from 'decentr-js';
 
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
@@ -92,7 +92,7 @@ export class RedelegatePageService {
       }
 
       return timer(300).pipe(
-        switchMapTo(delegatedAmount$),
+        switchMap(() => delegatedAmount$),
         take(1),
         map((delegatedAmount) => {
           return delegatedAmount / MICRO_PDV_DIVISOR >= amount ? null : { insufficient: false };
@@ -123,7 +123,7 @@ export class RedelegatePageService {
           const amountErrors = amountControl.errors || error;
           amountControl.setErrors(amountErrors);
         }),
-        mapTo(null),
+        map(() => null),
       );
     };
   }

@@ -6,7 +6,7 @@ import {
   Optional
 } from '@angular/core';
 import { EMPTY, merge, Observable } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { SubmitSourceDirective } from '../../directives/submit-source';
 import { InputContainerControl } from './input-container-control';
@@ -32,7 +32,7 @@ export class InputContainerComponent implements AfterContentInit {
       this.submitSource ? this.submitSource.ngSubmit : EMPTY,
       this.input?.touched || EMPTY,
     ).pipe(
-      mapTo(true),
+      map(() => true),
     );
   }
 }

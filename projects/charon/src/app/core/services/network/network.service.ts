@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, firstValueFrom, merge, Observable, of } from 'rxjs';
-import { filter, map, mapTo } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import { ConfigService, NetworkId } from '@shared/services/configuration';
 import { NetworkBrowserStorageService } from '@shared/services/network-storage';
@@ -20,7 +20,7 @@ export class NetworkService {
       this.isAPIInstantiated(),
     ).pipe(
       filter(Boolean),
-      mapTo(void 0),
+      map(() => void 0),
     ));
   }
 

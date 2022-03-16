@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AsyncValidatorFn } from '@angular/forms';
 import { defer, Observable, of, timer } from 'rxjs';
-import { catchError, map, mergeMap, switchMapTo, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { createWalletFromMnemonic } from 'decentr-js';
 
@@ -64,7 +64,7 @@ export class ImportRestorePageService {
       const wallet = createWalletFromMnemonic(control.value);
 
       return timer(300).pipe(
-        switchMapTo(this.userService.getAccount(wallet.address, NetworkId.Mainnet)),
+        switchMap(() => this.userService.getAccount(wallet.address, NetworkId.Mainnet)),
         catchError(() => of(undefined)),
         map((account) => account ? null : { exists: false }),
         tap((error) => control.setErrors(error)),

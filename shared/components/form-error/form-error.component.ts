@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnInit, Optional } from '@angular/core';
 import { AbstractControl, ControlContainer } from '@angular/forms';
 import { merge, Observable, ReplaySubject } from 'rxjs';
-import { distinctUntilChanged, map, mapTo, startWith, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 
 import { FORM_ERROR_TRANSLOCO_READ } from './form-error.tokens';
 
@@ -40,7 +40,7 @@ export class FormErrorComponent implements OnInit, OnChanges {
         control.valueChanges,
       ).pipe(
         startWith(0),
-        mapTo(control),
+        map(() => control),
       )),
       map((control) => {
         if (!control.errors) {

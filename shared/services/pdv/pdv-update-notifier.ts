@@ -1,5 +1,5 @@
 import { Observable, Subject, Subscription, timer } from 'rxjs';
-import { debounceTime, mapTo, repeat, takeUntil } from 'rxjs/operators';
+import { debounceTime, map, repeat, takeUntil } from 'rxjs/operators';
 
 import { MessageBus } from '../../message-bus';
 import { ONE_MINUTE } from '../../utils/date';
@@ -17,7 +17,7 @@ export class PDVUpdateNotifier {
     return PDVUpdateNotifier.messageBus.onMessageSync(messageCode)
       .pipe(
         debounceTime(1000),
-        mapTo(void 0),
+        map(() => void 0),
       );
   }
 
