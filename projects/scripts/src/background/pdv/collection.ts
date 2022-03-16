@@ -1,5 +1,5 @@
 import { HttpStatusCode } from '@angular/common/http';
-import { defer, EMPTY, merge, Observable, of, partition, pipe, tap, throwError, timer } from 'rxjs';
+import { bufferTime, defer, EMPTY, merge, Observable, of, partition, pipe, throwError } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -9,11 +9,11 @@ import {
   map,
   mergeMap,
   pluck,
-  reduce,
   repeat,
   retry,
   switchMap,
   takeUntil,
+  tap,
 } from 'rxjs/operators';
 import { PDV, PDVType, Wallet } from 'decentr-js';
 
@@ -88,14 +88,9 @@ const getAllPDVSource = (walletAddress: Wallet['address']) => merge(
 
 const collectPDVIntoStorage = (): Observable<void> => {
   return whileUserActive((user) => getAllPDVSource(user.wallet.address).pipe(
-    takeUntil(timer(ONE_SECOND * 10)),
-    reduce((acc, pdv) => [
-      ...acc,
-      pdv,
-    ], []),
+    bufferTime(ONE_SECOND * 10),
     filter((newPDVs) => newPDVs.length > 0),
     concatMap((newPDVs) => mergePDVsIntoAccumulated(user.wallet.address, newPDVs)),
-    repeat(),
   ));
 };
 

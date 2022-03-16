@@ -1,8 +1,8 @@
-import { EMPTY, from, mergeMap, Observable, ReplaySubject, tap } from 'rxjs';
+import { EMPTY, from, mergeMap, Observable, tap } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CookiePDV, PDVType } from 'decentr-js';
 
-import { trackDomains, TrackedDomains } from './domain-track';
+import { trackDomains } from './domain-track';
 import { listenCookiesSet } from './events';
 import { UnapprovedStorage } from './unapproved-storage';
 
@@ -49,16 +49,21 @@ const listenAllCookiePDVs = (): Observable<CookiePDV> => {
   );
 };
 
-const trackedDomains$ = new ReplaySubject<TrackedDomains>(1);
-trackDomains().subscribe(trackedDomains$);
-
-const unapprovedStorage = new UnapprovedStorage();
-listenAllCookiePDVs().subscribe((pdv) => unapprovedStorage.add(pdv));
-
 export const listenCookiePDVs = (): Observable<CookiePDV> => {
-  return trackedDomains$.pipe(
-    tap((domains) => unapprovedStorage.removeOldDomains(domains.all)),
-    map((domains) => unapprovedStorage.ejectByDomains(domains.approved)),
-    mergeMap((pdvs) => pdvs.length ? from(pdvs) : EMPTY),
-  );
+  return new Observable<CookiePDV>((subscriber) => {
+    const unapprovedStorage = new UnapprovedStorage();
+    const cookieSubscription = listenAllCookiePDVs()
+      .subscribe((pdv) => unapprovedStorage.add(pdv));
+
+    const pdvSubscription = trackDomains().pipe(
+      tap((domains) => unapprovedStorage.removeOldDomains(domains.all)),
+      map((domains) => unapprovedStorage.ejectByDomains(domains.approved)),
+      mergeMap((pdvs) => pdvs.length ? from(pdvs) : EMPTY),
+    ).subscribe(subscriber);
+
+    return () => {
+      cookieSubscription.unsubscribe();
+      pdvSubscription.unsubscribe();
+    };
+  });
 };
