@@ -134,7 +134,7 @@ export class RedelegatePageComponent implements OnInit {
         ? this.redelegatePageService.getRedelegationFee(
           formValue.fromValidatorAddress,
           formValue.toValidator?.operatorAddress,
-          Math.ceil(+formValue.amount * MICRO_PDV_DIVISOR).toString(),
+          Math.round(+formValue.amount * MICRO_PDV_DIVISOR).toString(),
         ).pipe(
           catchError(() => of(0)),
         )
@@ -215,7 +215,7 @@ export class RedelegatePageComponent implements OnInit {
     this.redelegatePageService.redelegate(
       formValue.fromValidatorAddress,
       formValue.toValidator?.operatorAddress,
-      Math.floor(+formValue.amount * MICRO_PDV_DIVISOR).toString(),
+      Math.round(+formValue.amount * MICRO_PDV_DIVISOR).toString(),
     ).pipe(
       catchError((error) => {
         this.notificationService.error(error);
