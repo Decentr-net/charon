@@ -102,8 +102,8 @@
       "tooltip": "You are banned. Please contact the Decentr support team"
     },
     "coming_soon": "coming soon",
-    "connect_mobile_app": "Connect mobile app",
-    "connect_mobile_app_hint": "Scan QR code to login on your mobile browser.",
+    "link_device": "Connect mobile app",
+    "link_device_hint": "Scan QR code to login on your mobile browser.",
     "delete": "Delete account",
     "delete_hint": "We’ll clean all the cookies and other information connected with your account.\nYou’ll be able to recover your account with seed phrase.",
     "delete_confirmation": {
