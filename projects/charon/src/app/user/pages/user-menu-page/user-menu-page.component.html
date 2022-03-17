@@ -103,6 +103,27 @@
 
     <button
       class="user-menu-page__menu-block__button mod-disable-align"
+      app-button
+      color="grey"
+      appTypeface="paragraph"
+      (click)="linkDevice()"
+    >
+      <svg-icon key="qr"></svg-icon>
+
+      <div>
+        <span>{{ translate('connect_mobile_app') }}</span>
+
+        <div
+          class="user-menu-page__menu-block__button-hint"
+          appTypeface="caption"
+        >
+          {{ translate('connect_mobile_app_hint') }}
+        </div>
+      </div>
+    </button>
+
+    <button
+      class="user-menu-page__menu-block__button mod-disable-align"
       *ngIf="canRestoreSeed$ | async"
       app-button
       color="grey"

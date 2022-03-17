@@ -1,0 +1,47 @@
+@use 'sass:math';
+@import 'variables';
+
+:host {
+  display: block;
+  margin-top: $grid-step;
+  position: relative;
+}
+
+.qr-login-dialog__content {
+  column-gap: $grid-step * 3;
+  display: flex;
+}
+
+.qr-login-dialog__content-title {
+  font-weight: 500;
+  margin-bottom: $grid-step * 2;
+}
+
+.qr-login-dialog__content-steps {
+  > li {
+    list-style-type: decimal;
+    margin-bottom: $grid-step * 1.5;
+    margin-left: $grid-step * 2.5;
+  }
+}
+
+.qr-login-dialog__content-steps-hint {
+  color: var(--color-userpage-qr-login-steps-hint);
+  margin-top: math.div($grid-step, 2);
+}
+
+.qr-login-dialog__content-help {
+  color: var(--color-userpage-qr-login-steps-help);
+}
+
+.qr-login-dialog__actions {
+  column-gap: $grid-step * 1.5;
+  justify-content: flex-end;
+  margin: $grid-step 0 0;
+  padding: 0;
+}
+
+.qr-login-dialog__button {
+  position: absolute;
+  right: 0;
+}
