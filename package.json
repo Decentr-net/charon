@@ -50,6 +50,7 @@
     "html2canvas": "~1.4.1",
     "inputmask": "^5.0.7",
     "jspdf": "^2.5.1",
+    "ng-qrcode": "^6.0.0",
     "ngx-skeleton-loader": "^5.0.0",
     "ngx-toastr": "^14.2.2",
     "ngx-trim-directive": "^2.0.0",

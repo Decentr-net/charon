@@ -14,13 +14,15 @@ import { svgLock } from '@shared/svg-icons/lock';
 import { svgMoon } from '@shared/svg-icons/moon';
 import { svgRefresh } from '@shared/svg-icons/refresh';
 import { svgSettings } from '@shared/svg-icons/settings';
+import { svgQr } from '@shared/svg-icons/qr';
 import { ConfirmationDialogService } from '@shared/components/confirmation-dialog';
-import { NotificationService } from '@shared/services/notification';
 import { AuthService } from '@core/auth';
 import { LockService } from '@core/lock';
+import { NotificationService } from '@shared/services/notification';
+import { QrLoginDialogComponent } from '../../components/qr-login-dialog';
+import { RestoreSeedDialogComponent } from '../../components';
 import { SpinnerService, UserService } from '@core/services';
 import { UserRoute } from '../../user-route';
-import { RestoreSeedDialogComponent } from '../../components';
 
 @UntilDestroy()
 @Component({
@@ -56,6 +58,7 @@ export class UserMenuPageComponent implements OnInit {
       svgMoon,
       svgRefresh,
       svgSettings,
+      svgQr,
     ]);
   }
 
@@ -120,5 +123,9 @@ export class UserMenuPageComponent implements OnInit {
 
   public restoreSeedPhrase(): void {
     this.matDialog.open(RestoreSeedDialogComponent);
+  }
+
+  public linkDevice(): void {
+    this.matDialog.open(QrLoginDialogComponent);
   }
 }

@@ -1,0 +1,69 @@
+<ng-container *transloco="let translate; read: 'user.qr_login_dialog'">
+  <mat-dialog-content
+    class="qr-login-dialog__content"
+  >
+    <qr-code
+      centerImageSize="50"
+      centerImageSrc="./assets/images/logo/logo-icon.png"
+      errorCorrectionLevel="L"
+      margin="3"
+      size="200"
+      [value]="qrEncryptedSeed"
+    ></qr-code>
+
+    <div>
+      <div
+        class="qr-login-dialog__content-title"
+        appTypeface="subheader"
+      >
+        {{ translate('title') }}
+      </div>
+
+      <ol
+        class="qr-login-dialog__content-steps"
+        appTypeface="paragraph"
+      >
+        <li>
+          {{ translate('step1') }}
+        </li>
+
+        <li>
+          {{ translate('step2') }}
+        </li>
+
+        <li>
+          {{ translate('step3') }}
+
+          <div
+            class="qr-login-dialog__content-steps-hint"
+            appTypeface="caption"
+          >
+            {{ translate('step3_hint') }}
+          </div>
+        </li>
+      </ol>
+
+      <a
+        class="qr-login-dialog__content-help"
+        [href]="helpLink"
+        target="_blank"
+        appTypeface="paragraph"
+      >
+        {{ translate('help') }}
+      </a>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions
+    class="qr-login-dialog__actions"
+  >
+    <button
+      class="qr-login-dialog__button"
+      app-button
+      color="grey"
+      mat-dialog-close
+    >
+      {{ translate('close') }}
+    </button>
+  </mat-dialog-actions>
+</ng-container>

@@ -220,6 +220,8 @@
   --color-userpage-menu-block-coming-soon: #{$color-blue};
   --color-userpage-profile-bio: #{$color-grey};
   --color-userpage-profile-ban: #{hexToRGBString($color-red)};
+  --color-userpage-qr-login-steps-hint: #{$color-grey};
+  --color-userpage-qr-login-steps-help: #{$color-blue};
   --color-referral-stats-grid-label: #{$color-grey};
   --color-referral-stats-grid-reward-for-referral: #{$color-grey};
   --color-referral-stats-grid-reward-for-referral-background: #{$color-background};
@@ -496,6 +498,8 @@
     --color-userpage-menu-block-coming-soon: #{$color-blue-night};
     --color-userpage-profile-bio: #{$color-grey-night};
     --color-userpage-profile-ban: #{hexToRGBString($color-red-night)};
+    --color-userpage-qr-login-steps-hint: #{$color-grey-night};
+    --color-userpage-qr-login-steps-help: #{$color-blue-night};
     --color-referral-stats-grid-label: #{$color-grey-night};
     --color-referral-stats-grid-reward-for-referral: #{$color-grey-night};
     --color-referral-stats-grid-reward-for-referral-background: #{$color-background-night};

@@ -4,10 +4,11 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { QrCodeModule } from 'ng-qrcode';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 import { AnalyticsModule } from '@shared/analytics';
 import { AvatarModule } from '@shared/components/avatar';
@@ -68,16 +69,17 @@ import { UserRoutingModule } from './user-routing.module';
     PdvTypesSettingsModule,
     ProfileFormModule,
     ReactiveFormsModule,
+    QrCodeModule,
     RxReactiveFormsModule,
     SeedModule,
     SlotModule,
     SubmitSourceModule,
     SvgIconsModule,
     ThemeToggleModule,
+    TooltipModule,
     TranslocoModule,
     TypefaceModule,
     UserRoutingModule,
-    TooltipModule,
   ],
   declarations: [
     USER_COMPONENTS,
