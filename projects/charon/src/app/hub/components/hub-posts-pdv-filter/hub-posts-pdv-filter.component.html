@@ -1,0 +1,15 @@
+<ng-container *transloco="let translate; read: 'hub.hub_posts_pdv_filter'">
+  <ul
+    class="hub-posts-pdv-filter__buttons"
+    appTypeface="caption"
+  >
+    <li
+      *ngFor="let button of buttons"
+      class="hub-posts-pdv-filter__button"
+      [class.mod-active]="(activeFilter$ | async) === button.id"
+      (click)="setFilter(button.id)"
+    >
+      {{ translate(button.i18nKey) }}
+    </li>
+  </ul>
+</ng-container>

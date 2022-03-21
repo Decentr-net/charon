@@ -11,6 +11,12 @@ $hub-posts-page--columns: repeat(4, minmax(0, 1fr));
   overflow-y: auto;
 }
 
+.posts-page__filter-posts {
+  display: flex;
+  justify-content: center;
+  margin-top: $grid-step * 3;
+}
+
 .posts-page__spinner {
   display: block;
   margin: $grid-step * 8 auto;

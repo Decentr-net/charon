@@ -1,6 +1,7 @@
 import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { Observable, partition } from 'rxjs';
 import { delay, switchMap } from 'rxjs/operators';
+import { PostsListFilterOptions } from 'decentr-js';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AuthService } from '@core/auth';
@@ -36,11 +37,12 @@ export class FollowingPageService extends HubPostsService implements OnDestroy {
     this.dispose();
   }
 
-  protected loadPosts(fromPost: PostsListItem | undefined, count: number): Observable<PostsListItem[]> {
+  protected loadPosts(fromPost: PostsListItem | undefined, count: number, filter: PostsListFilterOptions): Observable<PostsListItem[]> {
     return this.postsService.getPosts({
       after: fromPost && `${fromPost.owner}/${fromPost.uuid}`,
       followedBy: this.authService.getActiveUserInstant().wallet.address,
       limit: count,
+      ...filter,
     });
   }
 }
