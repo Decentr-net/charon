@@ -1,5 +1,4 @@
 export enum MessageCode {
-  ApplicationStarted = 'CHARON_APPLICATION_STARTED',
   Delegate = 'CHARON_DELEGATE',
   Follow = 'CHARON_FOLLOW',
   PostCreate = 'CHARON_POST_CREATE',

@@ -6,9 +6,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
-import { MessageCode } from '@scripts/messages';
 import { AnalyticsModule, AnalyticsService } from '@shared/analytics';
-import { MessageBus } from '@shared/message-bus';
 import { MenuModule } from '@shared/components/menu';
 import { NetworkSelectorModule, NetworkSelectorService as BaseNetworkSelectorService } from '@shared/components/network-selector';
 import { SlotModule } from '@shared/components/slot';
@@ -147,8 +145,6 @@ export class CoreModule {
     if (parentModule) {
       throw new Error('CoreModule has already been loaded. Import CoreModule in the AppModule only.');
     }
-
-    new MessageBus().sendMessage(MessageCode.ApplicationStarted);
 
     analyticsService.initialize();
   }

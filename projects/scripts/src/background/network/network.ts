@@ -1,45 +1,23 @@
-import { defer, firstValueFrom, Observable, of, throwError, timer } from 'rxjs';
-import {
-  delay,
-  distinctUntilChanged,
-  first,
-  map,
-  mergeMap,
-  retry,
-  startWith,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { combineLatest, EMPTY, firstValueFrom, Observable, of, throwError } from 'rxjs';
+import { distinctUntilChanged, first, mergeMap, retry, switchMap } from 'rxjs/operators';
 
 import CONFIG_SERVICE from '../config';
-import { MessageBus } from '../../../../../shared/message-bus';
 import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
 import { BlockchainNodeService, NodeAvailability } from '../../../../../shared/services/blockchain-node';
 import { ONE_SECOND } from '../../../../../shared/utils/date';
-import { MessageCode } from '../../messages';
 
 const blockchainNodeService = new BlockchainNodeService();
-const messageBus = new MessageBus();
 const networkStorage = new NetworkBrowserStorageService();
 
 const getRandomRest = (): Observable<string> => {
-  return defer(() => messageBus.onMessageSync(MessageCode.ApplicationStarted).pipe(
-    tap(() => CONFIG_SERVICE.forceUpdate()),
-    startWith(void 0),
-    switchMap(() => defer(() => CONFIG_SERVICE.getMaintenanceStatus()).pipe(
-      switchMap((isMaintenance) => {
-        if (isMaintenance) {
-          CONFIG_SERVICE.forceUpdate();
-          return throwError(() => new Error());
-        }
-
-        return CONFIG_SERVICE.getRestNodes();
-      }),
-      retry({
-        delay: ONE_SECOND * 30,
-      }),
-    )),
-  )).pipe(
+  return CONFIG_SERVICE.getMaintenanceStatus().pipe(
+    switchMap((isMaintenance) => isMaintenance
+      ? throwError(() => new Error())
+      : CONFIG_SERVICE.getRestNodes()
+    ),
+    retry({
+      delay: ONE_SECOND * 5,
+    }),
     mergeMap((nodes) => {
       const random = Math.floor(Math.random() * nodes.length);
       const node = nodes[random];
@@ -72,8 +50,7 @@ const setNetworkId = async (): Promise<void> => {
 
 const setRandomNetwork = (): Observable<void> => {
   return getRandomRest().pipe(
-    tap((api) => networkStorage.setActiveAPI(api)),
-    map(() => void 0),
+    mergeMap((api) => networkStorage.setActiveAPI(api)),
   );
 };
 
@@ -84,7 +61,18 @@ const handleNetworkIdChange = () => {
   ).subscribe();
 };
 
+const handleNodeListChange = () => {
+  combineLatest([
+    networkStorage.getActiveAPI(),
+    CONFIG_SERVICE.getRestNodes(true),
+  ]).pipe(
+    switchMap(([activeNode, nodes]) => (!activeNode || nodes.includes(activeNode)) ? EMPTY : setRandomNetwork()),
+  ).subscribe();
+};
+
 export const initNetwork = (): Promise<void> => {
   handleNetworkIdChange();
-  return setNetworkId();
+  handleNodeListChange();
+
+  return firstValueFrom(networkStorage.getActiveId()).then();
 };
