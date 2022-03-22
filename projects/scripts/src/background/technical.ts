@@ -18,3 +18,17 @@ export const whileVersionSupported = <T>(source$: Observable<T>): Observable<T> 
     }),
   );
 };
+
+export const whileNoMaintenance = <T>(source$: Observable<T>): Observable<T> => {
+  const [isMaintenance$, noMaintenance$] = partition(
+    CONFIG_SERVICE.getMaintenanceStatus(true),
+    Boolean,
+  );
+
+  return source$.pipe(
+    takeUntil(isMaintenance$),
+    repeat({
+      delay: () => noMaintenance$,
+    }),
+  );
+};

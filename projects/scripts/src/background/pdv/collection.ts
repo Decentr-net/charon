@@ -21,6 +21,7 @@ import { SettingsService } from '../../../../../shared/services/settings/setting
 import { ONE_MINUTE, ONE_SECOND } from '../../../../../shared/utils/date';
 import CONFIG_SERVICE from '../config';
 import { whileUserActive } from '../auth/while-user-active';
+import { whileNoMaintenance } from '../technical';
 import { blacklist$, sendPDV, validatePDV } from './api';
 import { listenAdvertiserPDVs } from './advertiser-id';
 import { listenCookiePDVs } from './cookies';
@@ -153,13 +154,9 @@ const sendPDVBlocks = (): Observable<void> => {
   });
 }
 
-export const initPDVCollection = (): Observable<void> => {
-  return new Observable<void>((subscriber) => {
-    const subscriptions = [
-      sendPDVBlocks().subscribe(() => subscriber.next()),
-      collectPDVIntoStorage().subscribe(),
-    ];
-
-    return () => subscriptions.map((sub) => sub.unsubscribe());
-  });
-}
+export const initPDVCollection = (): Observable<void> => merge(
+  collectPDVIntoStorage(),
+  sendPDVBlocks().pipe(
+    whileNoMaintenance,
+  ),
+);
