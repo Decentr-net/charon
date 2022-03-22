@@ -1,4 +1,4 @@
-import { fromEvent, merge, Observable, partition } from 'rxjs';
+import { fromEvent, merge, Observable, of, partition } from 'rxjs';
 import { map, repeat, takeUntil } from 'rxjs/operators';
 
 export const whileOnline = <T>(source$: Observable<T>): Observable<T> => {
@@ -15,7 +15,10 @@ export const whileOnline = <T>(source$: Observable<T>): Observable<T> => {
   );
 
   return source$.pipe(
-    takeUntil(offline$),
+    takeUntil(merge(
+      offline$,
+      ...navigator.onLine ? [] : [of(void 0)],
+    )),
     repeat({
       delay: () => online$,
     }),
