@@ -52,14 +52,14 @@ export class DecentrService {
   }
 
   public createDecentrClient(networkId: NetworkId): Observable<DecentrClient> {
-    return this.configService.getNetworkConfig(networkId).pipe(
+    return this.configService.getNetworkConfig({ networkId }).pipe(
       map((config) => config.network.rest[0]),
       mergeMap((nodeUrl) => DecentrClient.create(nodeUrl)),
     );
   }
 
   public createVulcanClient(networkId: NetworkId): Observable<VulcanClient> {
-    return this.configService.getNetworkConfig(networkId).pipe(
+    return this.configService.getNetworkConfig({ networkId }).pipe(
       map((config) => config.vulcan.url),
       map((vulcanUrl) => new VulcanClient(vulcanUrl)),
     );
