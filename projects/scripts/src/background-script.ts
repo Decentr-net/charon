@@ -19,7 +19,7 @@ import { handleMultipleInstallations } from './background/installation';
   initMessageListeners();
 
   initPDVCollection().pipe(
-    whileVersionSupported(),
+    whileVersionSupported,
   ).subscribe();
 
   initContextMenu();
