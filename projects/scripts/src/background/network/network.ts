@@ -1,5 +1,5 @@
-import { combineLatest, EMPTY, firstValueFrom, Observable, of, throwError } from 'rxjs';
-import { distinctUntilChanged, first, mergeMap, retry, switchMap } from 'rxjs/operators';
+import { combineLatest, EMPTY, firstValueFrom, Observable, of, tap, throwError } from 'rxjs';
+import { distinctUntilChanged, filter, first, mergeMap, retry, switchMap } from 'rxjs/operators';
 
 import CONFIG_SERVICE from '../config';
 import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
@@ -48,11 +48,16 @@ const setNetworkId = async (): Promise<void> => {
   return networkStorage.setActiveId(activeNetworkId);
 };
 
-const setRandomNetwork = (): Observable<void> => {
+const setRandomNetwork = (): Observable<void> => (() => {
+  let isSettingNetwork = false;
+
   return getRandomRest().pipe(
+    filter(() => !isSettingNetwork),
+    tap(() => isSettingNetwork = true),
     mergeMap((api) => networkStorage.setActiveAPI(api)),
+    tap(() => isSettingNetwork = false),
   );
-};
+})();
 
 const handleNetworkIdChange = () => {
   networkStorage.getActiveId().pipe(
