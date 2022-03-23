@@ -1,5 +1,5 @@
 import { combineLatest, firstValueFrom, Observable, of, switchMap } from 'rxjs';
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { DecentrClient, Wallet } from 'decentr-js';
 
 import { AuthBrowserStorageService } from '../../../../../../../shared/services/auth';
@@ -16,7 +16,6 @@ const messageBus = new MessageBus<WebpageAPIMessageBusMap>();
 
 const authBrowserStorageService = new AuthBrowserStorageService();
 const networkBrowserStorageService = new NetworkBrowserStorageService();
-const configService = new ConfigService(environment, networkBrowserStorageService);
 const lockBrowserStorageService = new LockBrowserStorageService();
 const settingsService = new SettingsService();
 
@@ -31,10 +30,7 @@ export const getNetwork = (): Observable<WebpageAPIResponseMessageMap[WebpageAPI
 };
 
 export const getMaintenance = (): Observable<WebpageAPIResponseMessageMap[WebpageAPIResponseMessageCode.GetMaintenance]> => {
-  return networkBrowserStorageService.getActiveId().pipe(
-    filter(Boolean),
-    switchMap(() => configService.getMaintenanceStatus()),
-  );
+  return new ConfigService(environment, networkBrowserStorageService).getMaintenanceStatus(true);
 };
 
 export const getWallet = (): Observable<Wallet> => {
