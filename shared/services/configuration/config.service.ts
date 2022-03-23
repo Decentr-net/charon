@@ -21,7 +21,7 @@ export class ConfigService {
   ) {
     this.update$.pipe(
       startWith(void 0),
-      switchMap(() => timer(0, ONE_SECOND * 10)),
+      switchMap(() => timer(0, ONE_SECOND * 30)),
       tap(() => this.config$.next(void 0)),
       switchMap(() => this.configApiService.getConfig().pipe(
         retry({
