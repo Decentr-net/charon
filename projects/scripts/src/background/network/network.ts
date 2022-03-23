@@ -3,7 +3,7 @@ import { distinctUntilChanged, first, mergeMap, retry, switchMap } from 'rxjs/op
 
 import CONFIG_SERVICE from '../config';
 import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
-import { BlockchainNodeService, NodeAvailability } from '../../../../../shared/services/blockchain-node';
+import { BlockchainNodeService } from '../../../../../shared/services/blockchain-node';
 import { ONE_SECOND } from '../../../../../shared/utils/date';
 
 const blockchainNodeService = new BlockchainNodeService();
@@ -23,9 +23,9 @@ const getRandomRest = (): Observable<string> => {
       const node = nodes[random];
 
       return blockchainNodeService.getNodeAvailability(node).pipe(
-        mergeMap((isAvailable) => isAvailable !== NodeAvailability.Available
-          ? throwError(() => new Error())
-          : of(node)
+        mergeMap((isAvailable) => isAvailable
+          ? of(node)
+          : throwError(() => new Error())
         ),
       );
     }),
