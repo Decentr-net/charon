@@ -75,6 +75,7 @@ export class AssetsPageService
   protected getNextItems(): Observable<TokenTransaction[]> {
     return this.searchTransactions().pipe(
       map((transactions) => transactions.map((tx) => this.mapTransaction(tx))),
+      map((transactions) => transactions.filter(Boolean)),
     );
   }
 
@@ -117,7 +118,7 @@ export class AssetsPageService
     );
   }
 
-  private mapTransaction(tx: DecodedIndexedTx): TokenTransaction {
+  private mapTransaction(tx: DecodedIndexedTx): TokenTransaction | undefined {
     const walletAddress = this.authService.getActiveUserInstant().wallet.address;
 
     const fee = +tx.tx.authInfo.fee.amount[0]?.amount || 0;
