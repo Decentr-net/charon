@@ -132,6 +132,11 @@
   --color-dhub-post-editor-text-image-uploader-icon-container-background: #{$color-background};
   --color-dhub-post-editor-text-image-uploader-icon-container-background-hover: #{$color-outlines};
 
+  --color-dhub-post-pdv-filter: #{$color-grey};
+  --color-dhub-post-pdv-filter-background: #{$color-background};
+  --color-dhub-post-pdv-filter-border: #{$color-outlines};
+  --color-dhub-post-pdv-filter-active: #{$color-white};
+  --color-dhub-post-pdv-filter-active-background: #{$color-blue};
   --color-dhub-post-delete-confirmation: #{$color-white};
   --color-dhub-post-delete-confirmation-background: #{$color-dark-grey};
   --color-dhub-post-card-background: #{$color-white};
@@ -411,6 +416,11 @@
     --color-dhub-post-editor-text-image-uploader-icon-container-background: #{$color-dark-grey};
     --color-dhub-post-editor-text-image-uploader-icon-container-background-hover: #{$color-dark-grey};
 
+    --color-dhub-post-pdv-filter: #{$color-grey-night};
+    --color-dhub-post-pdv-filter-background: #{$color-background-night};
+    --color-dhub-post-pdv-filter-border: #{$color-outlines-night};
+    --color-dhub-post-pdv-filter-active: #{$color-white};
+    --color-dhub-post-pdv-filter-active-background: #{$color-blue-night};
     --color-dhub-post-delete-confirmation: #{$color-white};
     --color-dhub-post-delete-confirmation-background: #{$color-dark-grey};
     --color-dhub-post-card-background: #{$color-black};

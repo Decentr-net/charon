@@ -14,6 +14,10 @@
   <ng-template [ngIf]="!isPostOutletActivated">
     <app-hub-navigation></app-hub-navigation>
 
+    <app-hub-posts-pdv-filter
+      class="posts-page__filter-posts"
+    ></app-hub-posts-pdv-filter>
+
     <ng-template [ngIf]="(isLoading$ | async) === false && posts?.length === 0">
       <div class="posts-page__no-posts">{{ translate('no_posts') }}</div>
     </ng-template>

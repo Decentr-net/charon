@@ -136,6 +136,11 @@
       "copy_notification": "Post url copied"
     }
   },
+  "hub_posts_pdv_filter": {
+    "positive": "Positive PDV",
+    "positive_neutral": "Positive & Neutral",
+    "all": "All posts"
+  },
   "hub_posts_page": {
     "no_posts": "There are no posts created",
     "top_posts": "Top posts"

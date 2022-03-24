@@ -1,5 +1,6 @@
 import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
+import { PostsListFilterOptions } from 'decentr-js';
 
 import { AuthService } from '@core/auth';
 import { HubPostsService } from '../../services';
@@ -21,13 +22,14 @@ export class MyPostsPageService extends HubPostsService implements OnDestroy {
     this.dispose();
   }
 
-  protected loadPosts(fromPost: PostsListItem | undefined, count: number): Observable<PostsListItem[]> {
+  protected loadPosts(fromPost: PostsListItem | undefined, count: number, filter: PostsListFilterOptions): Observable<PostsListItem[]> {
     const { wallet: { address } } = this.authService.getActiveUserInstant();
 
     return this.postsService.getPosts({
       after: fromPost && `${fromPost.owner}/${fromPost.uuid}`,
       limit: count,
       owner: address,
+      ...filter,
     });
   }
 }
