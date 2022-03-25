@@ -55,7 +55,7 @@ export abstract class CustomControl<T> extends ControlValueAccessor<T> implement
     });
   }
 
-  public registerOnTouched(fn: () => void): void {
+  public override registerOnTouched(fn: () => void): void {
     this.onTouched = () => {
       fn();
       this.touched.next();

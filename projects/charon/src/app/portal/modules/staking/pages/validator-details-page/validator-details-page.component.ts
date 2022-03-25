@@ -33,7 +33,7 @@ export class ValidatorDetailsPageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.validatorDetails$ = this.activatedRoute.params.pipe(
-      mergeMap((params) => this.validatorDetailsPageService.getValidator(params.validatorAddressParam)),
+      mergeMap((params) => this.validatorDetailsPageService.getValidator(params[StakingRoute.ValidatorAddressParam])),
       catchError(() => {
         this.router.navigate(['../'], {
           relativeTo: this.activatedRoute,

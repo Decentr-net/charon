@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { ControlValueAccessor, FormArray, FormControl, FormGroup } from '@ngneat/reactive-forms';
+import { ControlValueAccessor, FormArray, FormControl } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -9,7 +9,7 @@ import { ProfileFormModel } from './profile-form-model';
 import {
   ArrayControlName,
   EmailForm,
-  ProfileForm,
+  FormGroupType,
   ProfileFormControlName,
   ProfileFormControlValue,
   TranslationsConfig,
@@ -38,13 +38,13 @@ import { GenderSelectorTranslations } from '../controls';
 export class ProfileFormComponent extends ControlValueAccessor<ProfileFormControlValue> implements OnInit, Validator {
   @Input() public translationsConfig: TranslationsConfig;
 
-  public readonly form: FormGroup<ProfileForm>;
+  public readonly form: FormGroupType;
 
   public readonly maxAdditionalEmailsCount: number = 9;
 
   public readonly controlName: typeof ProfileFormControlName = ProfileFormControlName;
 
-  public genderTranslations$: Observable<GenderSelectorTranslations>;
+  public genderTranslations$: Observable<GenderSelectorTranslations & { placeholder: string }>;
 
   constructor(
     private formModel: ProfileFormModel,

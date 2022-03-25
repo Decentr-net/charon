@@ -46,7 +46,7 @@ export class AssetsPageService
     this.dispose();
   }
 
-  public get canLoadMore$(): Observable<boolean> {
+  public override get canLoadMore$(): Observable<boolean> {
     return of(false);
   }
 
@@ -204,5 +204,7 @@ export class AssetsPageService
         comment,
       );
     }
+
+    return undefined;
   }
 }

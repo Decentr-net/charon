@@ -1,4 +1,4 @@
-import Browser from 'webextension-polyfill';
+import * as Browser from 'webextension-polyfill';
 
 export const isInstalledAsExtension = (): Promise<boolean> => {
   return Browser.management.getAll()

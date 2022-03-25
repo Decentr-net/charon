@@ -8,8 +8,6 @@ import { HubPostsService } from '../../services';
 
 @Injectable()
 export class HubTopPostsService extends HubPostsService implements OnDestroy {
-  protected loadingInitialCount: number = 4;
-  protected loadingMoreCount: number = 4;
   protected includeProfile: boolean = false;
 
   protected postsCategory: PostCategory;

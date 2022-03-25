@@ -63,6 +63,6 @@ export class AssetsPageComponent
   }
 
   private getLastTransferTime(navigation: Navigation): number | undefined {
-    return navigation?.extras?.state?.lastTransferTime;
+    return navigation?.extras?.state?.['lastTransferTime'];
   }
 }

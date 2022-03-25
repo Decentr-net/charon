@@ -28,6 +28,8 @@ export class SanitizePipe implements PipeTransform {
         return this.domSanitizer.bypassSecurityTrustStyle(target);
       case 'url':
         return this.domSanitizer.bypassSecurityTrustUrl(target);
+      default:
+        return target;
     }
   }
 }

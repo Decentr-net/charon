@@ -11,13 +11,13 @@ export const listenAdvertiserPDVs = (): Observable<AdvertiserPDV> => {
       const advertiser = ADVERTISERS.find((advertiserConfig) => advertiserConfig.domainRegex.test(cookie.domain));
 
       if (!advertiser) {
-        return;
+        return undefined;
       }
 
       const isAdvertiserCookie = advertiser.cookieRegex.some((cookieRegex) => cookieRegex.test(cookie.name.toLowerCase()));
 
       if (!isAdvertiserCookie) {
-        return;
+        return undefined;
       }
 
       return {

@@ -6,7 +6,7 @@ import { ControlsOf, FormArray, FormControl, FormGroup } from '@ngneat/reactive-
 import { BaseValidationUtil } from '../../utils/validation';
 import { parseDateValue } from '../controls';
 import {
-  EmailForm,
+  EmailForm, FormGroupType,
   ProfileForm,
   ProfileFormControlName,
   ProfileFormControlValue,
@@ -36,7 +36,7 @@ export class ProfileFormModel {
     };
   }
 
-  public getEmailsFormArray(form: FormGroup<ProfileForm>): FormArray<EmailForm> {
+  public getEmailsFormArray(form: FormGroupType): FormArray<EmailForm> {
     if (!form.controls.emails) {
       form.addControl(ProfileFormControlName.Emails, new FormArray([]));
     }
@@ -45,18 +45,18 @@ export class ProfileFormModel {
   }
 
 
-  public addEmail(form: FormGroup<ProfileForm>): void {
+  public addEmail(form: FormGroupType): void {
     this.getEmailsFormArray(form).push(
       this.createEmailGroup(),
     );
   }
 
-  public removeEmail(form: FormGroup<ProfileForm>, index: number): void {
+  public removeEmail(form: FormGroupType, index: number): void {
     this.getEmailsFormArray(form).removeAt(index);
   }
 
-  public createForm(): FormGroup<ProfileForm> {
-    const form = new FormGroup({}) as FormGroup<ProfileForm>;
+  public createForm(): FormGroupType {
+    const form = new FormGroup({}) as FormGroupType;
 
     const avatarControl = this.createAvatarControl();
     if (avatarControl) {
@@ -94,7 +94,7 @@ export class ProfileFormModel {
   }
 
   public patchForm(
-    form: FormGroup<ProfileForm>,
+    form: FormGroupType,
     value: ProfileFormControlValue,
     options?: { emitEvent: boolean },
   ): void {
@@ -122,7 +122,7 @@ export class ProfileFormModel {
     form.patchValue(patch, options);
   }
 
-  public getOuterValue(form: FormGroup<ProfileForm>): ProfileFormControlValue {
+  public getOuterValue(form: FormGroupType): ProfileFormControlValue {
     const value = form.getRawValue();
     return {
       ...value,

@@ -8,8 +8,8 @@ import { PostsListItem } from '../../../core/services';
 
 @Injectable()
 export class MyPostsPageService extends HubPostsService implements OnDestroy {
-  protected loadingInitialCount: number = 20;
-  protected loadingMoreCount: number = 20;
+  protected override loadingInitialCount: number = 20;
+  protected override loadingMoreCount: number = 20;
 
   constructor(
     private authService: AuthService,
