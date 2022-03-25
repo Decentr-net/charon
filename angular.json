@@ -15,6 +15,9 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
         }
       },
       "root": "projects/charon",
@@ -29,6 +32,7 @@
             "main": "projects/charon/src/main.ts",
             "polyfills": "projects/charon/src/polyfills.ts",
             "tsConfig": "projects/charon/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "projects/charon/src/favicon.ico",
               "projects/charon/src/assets",
@@ -54,31 +58,10 @@
             "extractLicenses": false,
             "buildOptimizer": false,
             "sourceMap": true,
-            "optimization": false,
             "namedChunks": true
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-                {
-                  "replace": "environments/environment.ts",
-                  "with": "environments/environment.prod.ts"
-                }
-              ],
-              "optimization": {
-                "scripts": true,
-                "styles": {
-                  "minify": true,
-                  "inlineCritical": false
-                },
-                "fonts": true
-              },
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -90,21 +73,45 @@
                   "maximumWarning": "6kb",
                   "maximumError": "10kb"
                 }
-              ]
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "environments/environment.ts",
+                  "with": "environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              }
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
-          "defaultConfiguration": ""
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "charon:build"
-          },
           "configurations": {
             "production": {
               "browserTarget": "charon:build:production"
+            },
+            "development": {
+              "browserTarget": "charon:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -119,6 +126,7 @@
             "polyfills": "projects/charon/src/polyfills.ts",
             "tsConfig": "projects/charon/tsconfig.spec.json",
             "karmaConfig": "projects/charon/karma.conf.js",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "projects/charon/src/favicon.ico",
               "projects/charon/src/assets"
@@ -139,13 +147,16 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "projects/charon/src/**/*.ts",
-              "projects/charon/src/**/*.html"
+              "projects/charon/**/*.ts",
+              "projects/charon/**/*.html"
             ]
           }
         }
       }
     }
   },
-  "defaultProject": "charon"
+  "defaultProject": "charon",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }

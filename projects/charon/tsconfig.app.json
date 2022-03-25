@@ -2,16 +2,8 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "../../out-tsc/app",
-    "types": ["resize-observer-browser", "google.analytics"],
-    "paths": {
-      "@core/*": ["src/app/core/*"],
-      "@environments/*": ["../../environments/*"],
-      "@scripts/*": ["../scripts/src/*"],
-      "@shared/*": ["../../shared/*"]
-    },
-    "resolveJsonModule": true
+    "types": ["resize-observer-browser", "google.analytics"]
   },
   "files": [
     "src/main.ts",
