@@ -147,8 +147,10 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
+              "shared/**/*.ts",
               "projects/charon/**/*.ts",
-              "projects/charon/**/*.html"
+              "projects/charon/**/*.html",
+              "projects/scripts/src/**/*.ts"
             ]
           }
         }

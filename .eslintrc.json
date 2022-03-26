@@ -1,6 +1,8 @@
 {
   "root": true,
   "ignorePatterns": [
+    "index.html",
+    "**/svg-icons/**/*.ts"
   ],
   "overrides": [
     {
@@ -16,6 +18,46 @@
       "extends": [
         "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
+        "plugin:import/recommended",
+        "plugin:import/typescript",
+        "airbnb-typescript/base"
+      ],
+      "rules": {
+        "@typescript-eslint/indent": [
+          "off"
+        ],
+        "@angular-eslint/no-input-rename": [
+          "off"
+        ],
+        "@typescript-eslint/no-inferrable-types": [
+          "off"
+        ],
+        "@typescript-eslint/no-useless-constructor": [
+          "off"
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.component.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {
+        "max-len": [
+          "error",
+          {
+            "code": 140
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.component.ts"
+      ],
+      "extends": [
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
@@ -34,20 +76,7 @@
             "prefix": "app",
             "style": "kebab-case"
           }
-        ],
-        "@typescript-eslint/no-inferrable-types": [
-          "off"
         ]
-      }
-    },
-    {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
-      "rules": {
       }
     }
   ]
