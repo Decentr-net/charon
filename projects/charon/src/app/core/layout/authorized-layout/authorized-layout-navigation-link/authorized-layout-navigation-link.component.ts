@@ -7,7 +7,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, V
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthorizedLayoutNavigationLinkComponent implements AfterViewInit {
-  @Input() public dot: boolean = true;
+  @Input() public dot = true;
 
   @ViewChild('titleContainer', { static: true }) public titleContainer: ElementRef<HTMLElement>;
 

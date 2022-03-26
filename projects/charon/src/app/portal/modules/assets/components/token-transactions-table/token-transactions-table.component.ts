@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, TrackByFunction } from '@angular/core';
-import { map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { groupBy } from '@shared/utils/group-by';

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
+import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ControlValueAccessor, FormArray, FormControl } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
@@ -106,7 +106,7 @@ export class ProfileFormComponent extends ControlValueAccessor<ProfileFormContro
     }
   }
 
-  public validate(control: AbstractControl): ValidationErrors | null {
+  public validate(): ValidationErrors | null {
     if (this.form.invalid) {
       return {
         invalid: true,

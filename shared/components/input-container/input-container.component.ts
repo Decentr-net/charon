@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChild,
-  Optional
+  Optional,
 } from '@angular/core';
 import { EMPTY, merge, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

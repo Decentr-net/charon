@@ -31,7 +31,7 @@ const fixPDV = (pdv: PDV): PDV | undefined => {
   }
 
   return pdv;
-}
+};
 
 export const migrate = async () => {
   const browserStorage = BrowserLocalStorage.getInstance<{ pdv: OldPDVStorage }>();
@@ -41,7 +41,7 @@ export const migrate = async () => {
   const newStorageValue = Object.entries(pdvStorageValue || {})
     .reduce((acc, [walletAddress, value]) => {
       const unwrappedReadyBlocks = (value.readyBlocks || [])
-        .reduce((acc, block) => [...acc, ...block.pDVs], []);
+        .reduce((blocksAcc, block) => [...blocksAcc, ...block.pDVs], []);
 
       const newPDVs = new PDVUniqueStore([...unwrappedReadyBlocks, ...value.accumulated || []])
         .getAll()
@@ -57,4 +57,4 @@ export const migrate = async () => {
     }, {});
 
   await browserStorage.set('pdv', newStorageValue);
-}
+};

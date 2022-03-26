@@ -1,3 +1,3 @@
-import initWebpageAPI from './content/webpage-api'
+import initWebpageAPI from './content/webpage-api';
 
 initWebpageAPI();

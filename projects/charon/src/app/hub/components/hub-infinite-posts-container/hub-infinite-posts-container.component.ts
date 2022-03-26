@@ -7,11 +7,11 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HubInfinitePostsContainerComponent {
-  @Input() public isLoading: boolean = false;
+  @Input() public isLoading = false;
 
-  @Input() public canLoadMore: boolean = true;
+  @Input() public canLoadMore = true;
 
-  @Input() public useIntersection: boolean = false;
+  @Input() public useIntersection = false;
 
   @Output() public readonly loadMore: EventEmitter<void> = new EventEmitter();
 

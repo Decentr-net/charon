@@ -39,6 +39,7 @@ import { PortalRoute } from '../../../portal';
 })
 export class PostPageComponent implements OnInit {
   public readonly appRoute: typeof AppRoute = AppRoute;
+
   public readonly hubRoute: typeof HubRoute = HubRoute;
 
   public post: PostsListItem;

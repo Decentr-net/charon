@@ -8,7 +8,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   selector: 'input[appNumeric]',
 })
 export class NumericDirective implements OnInit {
-  @Input('appNumeric') public enabled: boolean = true;
+  @Input('appNumeric') public enabled = true;
 
   private previousValue: string;
 

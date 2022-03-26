@@ -40,7 +40,7 @@ export function isMaintenanceFactory(configService: ConfigService, navigationSer
   return () => {
     firstValueFrom(configService.getMaintenanceStatus()).then((isMaintenance) => {
       if (isMaintenance) {
-        throw true;
+        throw new Error();
       }
     }).catch(() => {
       navigationService.redirectToMaintenancePage();

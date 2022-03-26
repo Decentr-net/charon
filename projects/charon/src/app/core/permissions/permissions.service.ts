@@ -32,9 +32,11 @@ export class PermissionsService extends BasePermissionsService<UserPermissions> 
       }),
       untilDestroyed(this),
     ).subscribe((isModerator) => {
-      isModerator
-        ? this.addPermissions(UserPermissions.DELETE_POST)
-        : this.removePermissions(UserPermissions.DELETE_POST);
+      if (isModerator) {
+        this.addPermissions(UserPermissions.DELETE_POST);
+      } else {
+        this.removePermissions(UserPermissions.DELETE_POST);
+      }
     });
   }
 }

@@ -48,7 +48,7 @@ export class WithdrawValidatorPageComponent implements OnInit {
 
   public getSelectedItemsRewards(): Observable<number> {
     return this.selectedItems$.pipe(
-      map((items) => items.reduce((sum, item) => sum + item.reward, 0))
+      map((items) => items.reduce((sum, item) => sum + item.reward, 0)),
     );
   }
 
@@ -72,7 +72,7 @@ export class WithdrawValidatorPageComponent implements OnInit {
         return validators.find(({ address }) => address === initialSelectedValidatorAddress);
       }),
       filter((selectedValidator) => !!selectedValidator),
-      untilDestroyed(this)
+      untilDestroyed(this),
     ).subscribe((selectedValidator) => {
       this.chooseValidator(selectedValidator);
     });

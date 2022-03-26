@@ -44,13 +44,13 @@ export class ConfigService {
         map((config) => config.networks[options.networkId]),
       )
       : combineLatest([
-          this.getConfig(),
-          this.networkBrowserStorageService.getActiveId().pipe(
-            filter((id) => !!id),
-          ),
-        ]).pipe(
-          map(([config, networkId]) => config.networks[networkId]),
-        );
+        this.getConfig(),
+        this.networkBrowserStorageService.getActiveId().pipe(
+          filter((id) => !!id),
+        ),
+      ]).pipe(
+        map(([config, networkId]) => config.networks[networkId]),
+      );
 
     return configSource$.pipe(
       this.listenConfigOperator(!!options.listen),
@@ -61,77 +61,77 @@ export class ConfigService {
     this.update$.next();
   }
 
-  public getAppMinVersionRequired(listen: boolean = false): Observable<string> {
+  public getAppMinVersionRequired(listen = false): Observable<string> {
     return this.getConfig().pipe(
       map(({ minVersion }) => minVersion),
       this.listenConfigOperator(listen),
     );
   }
 
-  public getCerberusUrl(listen: boolean = false): Observable<string> {
+  public getCerberusUrl(listen = false): Observable<string> {
     return this.getNetworkConfig({ listen }).pipe(
       map((config) => config.cerberus.url),
     );
   }
 
-  public getMaintenanceStatus(listen: boolean = false): Observable<boolean> {
+  public getMaintenanceStatus(listen = false): Observable<boolean> {
     return this.getNetworkConfig({ listen }).pipe(
-      map(({ maintenance}) => maintenance),
+      map(({ maintenance }) => maintenance),
     );
   }
 
-  public getNetworkIds(listen: boolean = false): Observable<NetworkId[]> {
+  public getNetworkIds(listen = false): Observable<NetworkId[]> {
     return this.getConfig().pipe(
       map((config) => Object.keys(config.networks) as NetworkId[]),
       this.listenConfigOperator(listen),
     );
   }
 
-  public getRestNodes(listen: boolean = false): Observable<string[]> {
+  public getRestNodes(listen = false): Observable<string[]> {
     return this.getNetworkConfig({ listen }).pipe(
       map((config) => config.network.rest),
     );
   }
 
-  public getPDVCountToSend(listen: boolean = false): Observable<Pick<Network['cerberus'], 'minPDVCount' | 'maxPDVCount'>> {
+  public getPDVCountToSend(listen = false): Observable<Pick<Network['cerberus'], 'minPDVCount' | 'maxPDVCount'>> {
     return this.getNetworkConfig({ listen }).pipe(
       map((config) => config.cerberus),
     );
   }
 
-  public getVulcanUrl(listen: boolean = false): Observable<string> {
+  public getVulcanUrl(listen = false): Observable<string> {
     return this.getNetworkConfig({ listen }).pipe(
       map((config) => config.vulcan.url),
     );
   }
 
-  public getTheseusUrl(listen: boolean = false): Observable<string> {
+  public getTheseusUrl(listen = false): Observable<string> {
     return this.getNetworkConfig({ listen }).pipe(
       map((config) => config.theseus.url),
     );
   }
 
-  public getReferralUrl(listen: boolean = false): Observable<string> {
+  public getReferralUrl(listen = false): Observable<string> {
     return this.getConfig().pipe(
       map((config) => config.referral.url),
       this.listenConfigOperator(listen),
     );
   }
 
-  public getShareUrl(listen: boolean = false): Observable<string> {
+  public getShareUrl(listen = false): Observable<string> {
     return this.getConfig().pipe(
       map((config) => config.share.url),
       this.listenConfigOperator(listen),
     );
   }
 
-  public getSwapUrl(listen: boolean = false): Observable<string> {
+  public getSwapUrl(listen = false): Observable<string> {
     return this.getNetworkConfig({ listen }).pipe(
       map((config) => config.swap.url),
     );
   }
 
-  private listenConfigOperator<T>(listen: boolean = true) {
+  private listenConfigOperator<T>(listen = true) {
     return (source$: Observable<T>) => listen
       ? source$
       : source$.pipe(

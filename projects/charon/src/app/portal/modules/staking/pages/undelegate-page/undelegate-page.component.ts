@@ -47,7 +47,7 @@ interface UndelegateForm {
     {
       provide: FORM_ERROR_TRANSLOCO_READ,
       useValue: 'staking.undelegate_page.form',
-    }
+    },
   ],
 })
 export class UndelegatePageComponent implements OnInit {
@@ -106,12 +106,12 @@ export class UndelegatePageComponent implements OnInit {
       debounceTime(300),
       switchMap((formValue) => formValue.validatorAddress
         ? this.undelegatePageService.getUndelegationFee(
-            formValue.validatorAddress,
-            Math.round(+formValue.amount * MICRO_PDV_DIVISOR).toString(),
-          ).pipe(
-            catchError(() => of(0)),
-          )
-        : of(0)
+          formValue.validatorAddress,
+          Math.round(+formValue.amount * MICRO_PDV_DIVISOR).toString(),
+        ).pipe(
+          catchError(() => of(0)),
+        )
+        : of(0),
       ),
     );
 

@@ -12,7 +12,10 @@ import { HubPDVStatistics } from '../hub-pdv-statistics';
 })
 export class HubDashboardComponent {
   @Input() public advDdvStatistics: AdvDdvStatistics;
+
   @Input() public estimatedBalance: string;
+
   @Input() public pdvStatistics: HubPDVStatistics;
+
   @Input() public rateStatistics: HubCurrencyStatistics;
 }

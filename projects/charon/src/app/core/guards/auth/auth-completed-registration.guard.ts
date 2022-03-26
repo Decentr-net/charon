@@ -70,8 +70,8 @@ export class AuthCompletedRegistrationGuard implements CanActivate, CanActivateC
       .then((networkId) => networkId === NetworkId.Testnet);
 
     if (isTestnetNetwork) {
-      await firstValueFrom(userService
-        .createTestnetAccount(authService.getActiveUserInstant().wallet.address)
+      await firstValueFrom(
+        userService.createTestnetAccount(authService.getActiveUserInstant().wallet.address),
       );
     }
 

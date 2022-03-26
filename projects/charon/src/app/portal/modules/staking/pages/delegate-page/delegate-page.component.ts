@@ -47,7 +47,7 @@ export interface DelegateForm {
     {
       provide: FORM_ERROR_TRANSLOCO_READ,
       useValue: 'staking.delegate_page.form',
-    }
+    },
   ],
 })
 export class DelegatePageComponent implements OnInit {
@@ -89,11 +89,11 @@ export class DelegatePageComponent implements OnInit {
       debounceTime(300),
       switchMap((formValue) => formValue.validatorAddress
         ? this.delegatePageService.getDelegationFee(
-            formValue.validatorAddress,
-            Math.round(+formValue.amount * MICRO_PDV_DIVISOR),
-          ).pipe(
-            catchError(() => of(0)),
-          )
+          formValue.validatorAddress,
+          Math.round(+formValue.amount * MICRO_PDV_DIVISOR),
+        ).pipe(
+          catchError(() => of(0)),
+        )
         : of(0),
       ),
     );

@@ -26,6 +26,7 @@ interface LoginForm {
 })
 export class LoginPageComponent implements OnInit {
   public readonly loginRoute: typeof LoginRoute = LoginRoute;
+
   public form: FormGroup<ControlsOf<LoginForm>>;
 
   @HostBinding('class.mod-tab-view')

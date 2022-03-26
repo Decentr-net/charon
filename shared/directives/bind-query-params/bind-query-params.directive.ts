@@ -3,7 +3,7 @@ import { ControlContainer } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 @Directive({
-  selector: '[appBindQueryParams]'
+  selector: '[appBindQueryParams]',
 })
 export class BindQueryParamsDirective implements AfterViewInit {
   constructor(

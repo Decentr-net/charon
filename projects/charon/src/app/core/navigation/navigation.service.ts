@@ -28,7 +28,7 @@ export class NavigationService {
   }
 
   public async back(fallbackUrl: string[], startsWith?: string): Promise<void> {
-    let urlToNavigate: string = '';
+    let urlToNavigate = '';
 
     do {
       urlToNavigate = this.previousPageUrls.pop();

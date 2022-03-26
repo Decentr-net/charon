@@ -15,7 +15,7 @@ interface ProgressBarSection {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReferralRewardMilestonesComponent implements OnChanges {
-  @Input() public referrals: number = 0;
+  @Input() public referrals = 0;
 
   @Input() public rewards: SenderRewardLevel[] = [];
 
@@ -23,7 +23,7 @@ export class ReferralRewardMilestonesComponent implements OnChanges {
 
   public activeSection: ProgressBarSection;
 
-  public progress: number = 0;
+  public progress = 0;
 
   private readonly infiniteSectionWidth = 18;
 

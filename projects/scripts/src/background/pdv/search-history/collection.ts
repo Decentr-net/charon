@@ -12,4 +12,4 @@ export const listenSearchHistoryPDVs = (): Observable<SearchHistoryPDV> => {
       timestamp: new Date().toISOString(),
     })),
   );
-}
+};

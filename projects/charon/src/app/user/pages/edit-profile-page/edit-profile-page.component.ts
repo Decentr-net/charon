@@ -41,6 +41,7 @@ export class EditProfilePageComponent implements OnInit {
   @HostBinding('class.container') public readonly useContainerClass: boolean = true;
 
   public appRoute: typeof AppRoute = AppRoute;
+
   public form: FormGroup<ControlsOf<EditProfileForm>>;
 
   public profile: Profile;
@@ -118,7 +119,7 @@ export class EditProfilePageComponent implements OnInit {
         );
 
         this.router.navigate(['../'], {
-          relativeTo: this.activatedRoute
+          relativeTo: this.activatedRoute,
         });
       },
       error: (error) => this.notificationService.error(error),

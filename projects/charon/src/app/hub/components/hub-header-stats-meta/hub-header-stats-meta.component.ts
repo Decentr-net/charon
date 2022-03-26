@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { AdvDdvStatistics } from 'decentr-js'
+import { AdvDdvStatistics } from 'decentr-js';
 
 import { svgExpandMore } from '@shared/svg-icons/expand-more';
 import { BalanceValueDynamic, CoinRateFor24Hours } from '@core/services';
@@ -40,11 +40,15 @@ export class HubHeaderStatsMetaComponent implements OnInit {
   @ViewChild('detailsTemplate', { static: true }) public detailsTemplate: TemplateRef<void>;
 
   public balance: BalanceValueDynamic;
+
   public coinRate$: Observable<CoinRateFor24Hours>;
+
   public estimatedBalance$: Observable<string>;
 
   public advDdvStatistics: AdvDdvStatistics;
+
   public pdvStatistics: HubPDVStatistics;
+
   public rateStatistics: HubCurrencyStatistics;
 
   private overlayRef: OverlayRef;
@@ -107,14 +111,18 @@ export class HubHeaderStatsMetaComponent implements OnInit {
 
   @HostListener('click')
   public switchDetailsView(): void {
-    this.isDetailsOpened ? this.hideDetails() : this.showDetails();
+    if (this.isDetailsOpened) {
+      this.hideDetails();
+    } else {
+      this.showDetails();
+    }
   }
 
   public showDetails(): void {
     this.overlayRef = this.hubHeaderStatsMetaService.openDetailsOverlay(
       this.detailsTemplate,
       this.viewContainerRef,
-      this.detailsAnchorElement || this.elementRef.nativeElement
+      this.detailsAnchorElement || this.elementRef.nativeElement,
     );
 
     this.overlayRef.detachments().pipe(

@@ -153,7 +153,7 @@ export class MenuService extends MenuBaseService {
               title: itemsTranslationsObject.lock,
             },
           ],
-        ])
+        ]),
       );
   }
 

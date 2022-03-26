@@ -28,6 +28,7 @@ interface AccountForm extends AccountData {
 })
 export class AccountFormComponent implements OnInit {
   @Output() public back: EventEmitter<AccountData> = new EventEmitter();
+
   @Output() public submitted: EventEmitter<AccountData> = new EventEmitter();
 
   public form: FormGroup<ControlsOf<AccountForm>>;

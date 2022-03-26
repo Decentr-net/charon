@@ -5,7 +5,7 @@ import {
   ElementRef,
   OnInit,
   Optional,
-  Renderer2
+  Renderer2,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';

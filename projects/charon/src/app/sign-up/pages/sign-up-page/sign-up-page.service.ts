@@ -32,18 +32,18 @@ export class SignUpPageService {
         switch (error?.response?.status) {
           case HttpStatusCode.BadRequest:
             errorToThrow = new TranslatedError(
-              this.translocoService.translate('sign_up_page.errors.invalid_email', null, 'sign-up')
+              this.translocoService.translate('sign_up_page.errors.invalid_email', null, 'sign-up'),
             );
             break;
           case HttpStatusCode.Conflict: {
             errorToThrow = new TranslatedError(
-              this.translocoService.translate('sign_up_page.errors.account_conflict', null, 'sign-up')
+              this.translocoService.translate('sign_up_page.errors.account_conflict', null, 'sign-up'),
             );
             break;
           }
           case HttpStatusCode.TooManyRequests: {
             errorToThrow = new TranslatedError(
-              this.translocoService.translate('sign_up_page.errors.too_many_requests', null, 'sign-up')
+              this.translocoService.translate('sign_up_page.errors.too_many_requests', null, 'sign-up'),
             );
             break;
           }

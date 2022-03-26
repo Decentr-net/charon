@@ -29,6 +29,7 @@ enum SignUpTab {
 })
 export class SignUpPageComponent implements OnInit {
   public activeTab: SignUpTab = SignUpTab.SeedPhrase;
+
   public tab: typeof SignUpTab = SignUpTab;
 
   public seedPhrase: string;

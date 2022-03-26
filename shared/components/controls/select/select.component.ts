@@ -45,7 +45,7 @@ export class SelectComponent<T> extends CustomControl<string> implements OnInit 
 
   private isFocused: boolean;
 
-  public isOpenedInPopup: boolean = !isOpenedInTab();
+  public isOpenedInPopup = !isOpenedInTab();
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,

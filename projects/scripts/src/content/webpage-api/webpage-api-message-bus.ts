@@ -51,7 +51,7 @@ export interface WebpageAPIRequestMessageMap {
 }
 
 export class WebpageAPIResponseErrorMessage {
-  constructor(public readonly webpageAPIError: any) {
+  constructor(public readonly webpageAPIError: unknown) {
   }
 }
 
@@ -164,7 +164,7 @@ export class WebpageAPIMessageBus {
   ): Observable<WebpageAPIResponseOf<T> | WebpageAPIResponseErrorMessage> {
     return WEBPAGE_API_MESSAGE_CODE_MAP[requestCode]
       ? this.onMessage(WEBPAGE_API_MESSAGE_CODE_MAP[requestCode], id).pipe(
-        map(({ body }) => body)
+        map(({ body }) => body),
       )
       : EMPTY;
   }

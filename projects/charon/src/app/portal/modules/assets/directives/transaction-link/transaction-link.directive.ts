@@ -8,7 +8,7 @@ import { NetworkSelectorService } from '@core/services';
 
 @UntilDestroy()
 @Directive({
-  selector: 'a[appTransactionLink]'
+  selector: 'a[appTransactionLink]',
 })
 export class TransactionLinkDirective implements OnInit {
   private transactionIdSource: ReplaySubject<string> = new ReplaySubject(1);

@@ -13,8 +13,9 @@ export enum ThemeMode {
 @UntilDestroy()
 @Injectable()
 export class ThemeService {
-  private themeStorage: BrowserStorage<{ theme: ThemeMode }> = BrowserLocalStorage.getInstance();
   public themeChanged$: Subject<void> = new Subject();
+
+  private themeStorage: BrowserStorage<{ theme: ThemeMode }> = BrowserLocalStorage.getInstance();
 
   constructor() {
     this.getThemeValue().pipe(

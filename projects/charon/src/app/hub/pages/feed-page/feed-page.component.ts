@@ -12,7 +12,7 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import {
   AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT,
-  AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT
+  AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT,
 } from '@core/layout/authorized-layout';
 import { PostsListItem } from '@core/services';
 import { HubPostsService } from '../../services';
@@ -36,9 +36,11 @@ import { svgEdit } from '@shared/svg-icons/edit';
 })
 export class FeedPageComponent implements OnInit {
   public headerActionsSlotName = AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT;
+
   public headerLogoSlotName = AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT;
 
   public appRoute: typeof AppRoute = AppRoute;
+
   public hubRoute: typeof HubRoute = HubRoute;
 
   public isPostOutletActivated: boolean;
@@ -64,7 +66,7 @@ export class FeedPageComponent implements OnInit {
 
   public postLinkFn: (post: PostsListItem) => unknown[] = (post) => {
     return ['./', { outlets: { primary: null, post: [HubRoute.Post, post.owner, post.uuid] } }];
-  }
+  };
 
   public onPostOutletActivate(): void {
     this.isPostOutletActivated = true;

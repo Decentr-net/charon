@@ -35,7 +35,7 @@ export class ImportRestorePageService {
       mergeMap((id) => this.authService.changeUser(id)),
       mergeMap(() => (!skipTrackInstall && detectBrowser() === BrowserType.Decentr)
         ? this.referralService.trackInstall(wallet.address)
-        : of(void 0)
+        : of(void 0),
       ),
       mergeMap(() => this.userService.createTestnetAccount(wallet.address)),
     );

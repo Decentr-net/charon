@@ -8,7 +8,7 @@ import { DragScrollDirective } from './drag-scroll.directive';
   ],
   exports: [
     DragScrollDirective,
-  ]
+  ],
 })
 export class DragScrollModule {
 }

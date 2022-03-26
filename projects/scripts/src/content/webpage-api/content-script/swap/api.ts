@@ -15,7 +15,7 @@ const getHermesClient = (): Observable<HermesClient> => {
   return CONFIG_SERVICE.getSwapUrl().pipe(
     map((api) => new HermesClient(api)),
   );
-}
+};
 
 export const createSwap = (
   params: WebpageAPIRequestMessageMap[WebpageAPIRequestMessageCode.CreateSwap],

@@ -8,7 +8,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 })
 export class HubPostTimeComponent {
   @Input() time: number;
-  @Input() isUnix: boolean = true;
+
+  @Input() isUnix = true;
 
   public get timestamp(): number {
     return this.time * (this.isUnix ? 1000 : 1);

@@ -22,8 +22,8 @@ export const addAmountToDate = (dt: Date, amount: number, dateType: DateAmountTy
   }
 };
 
-export const coerceTimestamp = (input: any): number => {
-  const date = isNaN(Date.parse(input)) ? Number(input) : input;
+export const coerceTimestamp = (input: number | string | Date): number => {
+  const date = isNaN(Date.parse(input.toString())) ? Number(input) : input;
 
   return Number(new Date(date).valueOf().toString().padEnd(13, '0'));
 };

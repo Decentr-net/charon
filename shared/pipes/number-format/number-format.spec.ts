@@ -17,7 +17,7 @@ describe('number-format pipe', () => {
       true,
       null,
       thousandSeparator,
-    )).toBe(`0`);
+    )).toBe('0');
   });
 
   it(`should return 0${customDecimalSeparator}00`, function () {
@@ -35,7 +35,7 @@ describe('number-format pipe', () => {
       null,
       false,
       null,
-    )).toBe(`-1`);
+    )).toBe('-1');
   });
 
   it(`should return -1${defaultDecimalSeparator}0`, function () {
@@ -55,7 +55,7 @@ describe('number-format pipe', () => {
       true,
       null,
       thousandSeparator,
-    )).toBe(`1`);
+    )).toBe('1');
   });
 
   it(`should return 1${customDecimalSeparator}0`, function () {
@@ -93,7 +93,7 @@ describe('number-format pipe', () => {
       true,
       customDecimalSeparator,
       '*',
-    )).toBe(`1*000*000`);
+    )).toBe('1*000*000');
   });
 
   it(`should return 2000000${customDecimalSeparator}0`, function () {

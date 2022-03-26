@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgChartArrowDown } from '../../svg-icons/chart-arrow-down';
@@ -13,6 +13,7 @@ import { svgChartArrowUp } from '../../svg-icons/chart-arrow-up';
 })
 export class MarginLabelComponent implements OnChanges {
   @Input() public dayMargin: number;
+
   @Input() public digitsInfo: string;
 
   @HostBinding('class.mod-negative')
@@ -40,9 +41,11 @@ export class MarginLabelComponent implements OnChanges {
     ]);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     this.marginIcon = this.isNegative
-      ? 'chart-arrow-down' : this.isPositive
-        ? 'chart-arrow-up' : 'chart-arrow-flat';
+      ? 'chart-arrow-down'
+      : this.isPositive
+        ? 'chart-arrow-up'
+        : 'chart-arrow-flat';
   }
 }

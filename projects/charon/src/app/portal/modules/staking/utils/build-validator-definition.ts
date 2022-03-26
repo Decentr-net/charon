@@ -25,7 +25,7 @@ const buildUnbondingDelegation = (
     balance: acc.balance + +delegation.balance,
     completionTime: acc.completionTime > protoTimestampToDate(delegation.completionTime)
       ? acc.completionTime
-      : protoTimestampToDate(delegation.completionTime)
+      : protoTimestampToDate(delegation.completionTime),
   }), {
     balance: 0,
     completionTime: undefined,
@@ -37,9 +37,8 @@ const getDelegatedAmount = (
   delegations: DelegationResponse[],
 ): Coin['amount'] => {
   return delegations
-    .find((delegation) => delegation.delegation.validatorAddress === validatorAddress)
-      ?.balance.amount;
-}
+    .find((delegation) => delegation.delegation.validatorAddress === validatorAddress)?.balance.amount;
+};
 
 const buildPartialValidatorDefinition = (
   validator: Validator,
@@ -53,7 +52,7 @@ const buildPartialValidatorDefinition = (
     name: validator.description.moniker,
     unbondingDelegation: buildUnbondingDelegation(validator.operatorAddress, unbondingDelegations),
   };
-}
+};
 
 export const buildValidatorOperatorDefinition = (
   validator: Validator,

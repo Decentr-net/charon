@@ -22,7 +22,7 @@ export class CurrencyService {
 
     return this.currencyApiService.getCoinRate([blockchainId], [currencyId])
       .pipe(
-        map((rates) => rates[blockchainId][currencyId])
+        map((rates) => rates[blockchainId][currencyId]),
       );
   }
 
@@ -35,8 +35,8 @@ export class CurrencyService {
       .pipe(
         map((rates) => ({
           dayMargin: rates[blockchainId][lastDayChange],
-          value: rates[blockchainId][currencyId]
-        }))
+          value: rates[blockchainId][currencyId],
+        })),
       );
   }
 
@@ -46,7 +46,7 @@ export class CurrencyService {
 
     return this.currencyApiService.getCoinRateHistory(blockchainId, currencyId, days)
       .pipe(
-        map((rateHistory) => rateHistory.prices)
+        map((rateHistory) => rateHistory.prices),
       );
   }
 }

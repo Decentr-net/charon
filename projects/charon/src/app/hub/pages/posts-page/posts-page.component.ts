@@ -29,7 +29,7 @@ import { HubPostsService } from '../../services';
   providers: [
     {
       provide: HubPostsService,
-      useClass: PostsPageService
+      useClass: PostsPageService,
     },
   ],
 })
@@ -37,10 +37,13 @@ export class PostsPageComponent implements OnInit {
   public headerActionsSlotName = AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT;
 
   public appRoute: typeof AppRoute = AppRoute;
+
   public hubRoute: typeof HubRoute = HubRoute;
 
   public isLoading$: Observable<boolean>;
+
   public canLoadMore$: Observable<boolean>;
+
   public posts: PostsListItem[];
 
   public postsCategory: PostCategory;
@@ -74,7 +77,7 @@ export class PostsPageComponent implements OnInit {
     });
 
     this.isLoading$ = this.postsPageService.isLoading$.pipe(
-      share()
+      share(),
     );
 
     this.canLoadMore$ = this.postsPageService.canLoadMore$;

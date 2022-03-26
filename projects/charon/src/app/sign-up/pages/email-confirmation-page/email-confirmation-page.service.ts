@@ -36,7 +36,7 @@ export class EmailConfirmationPageService {
                 'email_confirmation_page.errors.account_conflict',
                 null,
                 'sign-up',
-              )
+              ),
             ));
           case HttpStatusCode.NotFound:
             return throwError(() => new TranslatedError(
@@ -44,7 +44,7 @@ export class EmailConfirmationPageService {
                 'email_confirmation_page.errors.account_not_found',
                 null,
                 'sign-up',
-              )
+              ),
             ));
           default:
             return throwError(() => error);
@@ -99,7 +99,7 @@ export class EmailConfirmationPageService {
             ? new TranslatedError(this.translocoService.translate(
               'email_confirmation_page.errors.account_conflict',
               null,
-              'sign-up'
+              'sign-up',
             ))
             : error;
 

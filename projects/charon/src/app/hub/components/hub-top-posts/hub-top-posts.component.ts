@@ -33,7 +33,9 @@ export class HubTopPostsComponent implements OnInit {
   public hubRoute: typeof HubRoute = HubRoute;
 
   public isLoading$: Observable<boolean>;
+
   public posts$: Observable<PostsListItem[]>;
+
   public canLoadMore$: Observable<boolean>;
 
   public category$: ReplaySubject<PostCategory> = new ReplaySubject(1);
@@ -51,7 +53,7 @@ export class HubTopPostsComponent implements OnInit {
     this.canLoadMore$ = this.hubTopPostsService.canLoadMore$;
 
     this.category$.pipe(
-      untilDestroyed(this)
+      untilDestroyed(this),
     ).subscribe((category) => {
       this.hubTopPostsService.setCategory(category);
     });

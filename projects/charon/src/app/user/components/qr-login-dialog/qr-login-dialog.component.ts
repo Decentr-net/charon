@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { AuthService } from '@core/auth';
 
-const helpLink: string = 'https://support.decentr.net/article/62-how-to-login-using-qr-code';
+const helpLink = 'https://support.decentr.net/article/62-how-to-login-using-qr-code';
 
 @Component({
   selector: 'app-qr-login-dialog',
@@ -12,6 +12,7 @@ const helpLink: string = 'https://support.decentr.net/article/62-how-to-login-us
 })
 export class QrLoginDialogComponent implements OnInit {
   public helpLink: string;
+
   public qrEncryptedSeed: string;
 
   constructor(
@@ -22,7 +23,7 @@ export class QrLoginDialogComponent implements OnInit {
   public ngOnInit(): void {
     const encryptedSeed = this.authService.getActiveUserInstant().encryptedSeed;
 
-    this.qrEncryptedSeed = `decentr://login?encryptedSeed=${encryptedSeed}`
+    this.qrEncryptedSeed = `decentr://login?encryptedSeed=${encryptedSeed}`;
 
     this.helpLink = helpLink;
   }

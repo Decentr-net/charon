@@ -26,6 +26,7 @@ import { svgCheck } from '../../../svg-icons/check';
 })
 export class AvatarSelectorComponent extends ControlValueAccessor<string> implements AfterViewInit {
   public avatars: string[] = USER_AVATARS;
+
   public value: string;
 
   constructor(
@@ -50,7 +51,7 @@ export class AvatarSelectorComponent extends ControlValueAccessor<string> implem
     this.onChange(this.value);
   }
 
-  public writeValue(value: any): void {
+  public writeValue(value: string): void {
     this.value = value;
     this.changeDetectorRef.detectChanges();
   }

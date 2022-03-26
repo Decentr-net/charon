@@ -20,5 +20,5 @@ import { HubPostsService } from '../../services';
 export class MyPostsPageComponent {
   public postLinkFn: (post: PostsListItem) => unknown[] = (post) => {
     return ['../', { outlets: { primary: [HubFeedRoute.MyPosts], post: [HubRoute.Post, post.owner, post.uuid] } }];
-  }
+  };
 }

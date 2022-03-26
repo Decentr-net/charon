@@ -41,10 +41,9 @@ const sendRequest = (
     );
 };
 
-const CHARON_API_LISTENER_MAP: Record<
-  Exclude<MessageCode, MessageCode.Location>,
-  (...args) => Promise<DeliverTxResponse>
-> = {
+type CharonAPIMessageCode = Exclude<MessageCode, MessageCode.Location>;
+
+const CHARON_API_LISTENER_MAP: Record<CharonAPIMessageCode, (...args) => Promise<DeliverTxResponse>> = {
   [MessageCode.PostCreate]: createPost,
   [MessageCode.PostDelete]: deletePost,
   [MessageCode.PostLike]: likePost,
@@ -57,20 +56,20 @@ const CHARON_API_LISTENER_MAP: Record<
   [MessageCode.Redelegate]: redelegate,
   [MessageCode.WithdrawDelegatorRewards]: withdrawDelegatorRewards,
   [MessageCode.WithdrawValidatorRewards]: withdrawValidatorRewards,
-}
+};
 
 export const initCharonAPIListeners = (): void => {
   const messageBus = new MessageBus<CharonAPIMessageBusMap>();
 
   Object.entries(CHARON_API_LISTENER_MAP).forEach(([messageCode, handler]) => {
-    messageBus.onMessage(messageCode).subscribe((message) => {
+    messageBus.onMessage(messageCode as CharonAPIMessageCode).subscribe((message) => {
       sendRequest(
         () => handler(
           message.body.request,
-          message.body.memo,
+          (message.body as CharonAPIMessageBusMap[MessageCode.CoinTransfer]['body']).memo,
         ),
         message.sendResponse,
       );
     });
-  })
+  });
 };

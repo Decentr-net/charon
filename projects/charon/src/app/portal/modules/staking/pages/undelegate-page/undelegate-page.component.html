@@ -41,7 +41,8 @@
           </span>
 
           <span ngProjectAs="[footer]">
-            {{ translate('form.amount.fee') }}: {{ (fee$ | async | microValue | numberFormat : null : true) || '-' }} <app-currency-symbol></app-currency-symbol>
+            {{ translate('form.amount.fee') }}: {{ (fee$ | async | microValue | numberFormat : null : true) || '-' }}
+            <app-currency-symbol></app-currency-symbol>
           </span>
         </app-input>
 

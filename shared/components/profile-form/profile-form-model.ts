@@ -123,15 +123,15 @@ export class ProfileFormModel {
   }
 
   public getOuterValue(form: FormGroupType): ProfileFormControlValue {
-    const value = form.getRawValue();
+    const formValue = form.getRawValue();
     return {
-      ...value,
-      ...value.emails
+      ...formValue,
+      ...formValue.emails
         ? {
-          emails: value.emails.map(({ value }) => value),
+          emails: formValue.emails.map(({ value }) => value),
         }
         : undefined,
-      birthday: value.birthday || undefined,
+      birthday: formValue.birthday || undefined,
     };
   }
 
@@ -139,8 +139,9 @@ export class ProfileFormModel {
     return new FormControl(
       null,
       [
-      Validators.required,
-    ]);
+        Validators.required,
+      ],
+    );
   }
 
   protected createBioControl(): FormControl<ProfileForm['bio']> | undefined {

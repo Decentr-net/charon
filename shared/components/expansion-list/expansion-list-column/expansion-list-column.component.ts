@@ -26,7 +26,7 @@ import { ExpansionListService } from '../expansion-list/expansion-list.service';
 export class ExpansionListColumnComponent<T> implements OnInit {
   @Input() public columnDef: ExpansionListColumnDefDirective<T>;
 
-  @Input() public singleDisplayMode: boolean = false;
+  @Input() public singleDisplayMode = false;
 
   @ViewChild('cellsContainer') public cellsContainer: ElementRef<HTMLDivElement>;
 
@@ -43,11 +43,11 @@ export class ExpansionListColumnComponent<T> implements OnInit {
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    private expansionListService: ExpansionListService<any>
+    private expansionListService: ExpansionListService<unknown>,
   ) {
   }
 
-  public get parentActiveItem(): Observable<any | undefined> {
+  public get parentActiveItem(): Observable<unknown | undefined> {
     return this.columnDef.getParentActiveItem();
   }
 
@@ -107,6 +107,6 @@ export class ExpansionListColumnComponent<T> implements OnInit {
   }
 
   public back(): void {
-    this.expansionListService.setActiveColumn(this.columnDef.parentColumnDef || this.columnDef);
+    this.expansionListService.setActiveColumn((this.columnDef.parentColumnDef || this.columnDef) as never);
   }
 }

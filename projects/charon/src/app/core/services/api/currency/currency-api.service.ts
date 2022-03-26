@@ -15,18 +15,18 @@ export class CurrencyApiService {
 
   public getCoinRate(blockchainIds: string[], currencies: string[], include24hChange?: boolean): Observable<CoinRateResponse> {
     let params = new HttpParams()
-      .append(`ids`, blockchainIds.join())
-      .append(`vs_currencies`, currencies.join());
+      .append('ids', blockchainIds.join())
+      .append('vs_currencies', currencies.join());
 
     if (include24hChange) {
-      params = params.append(`include_24hr_change`, include24hChange.toString());
+      params = params.append('include_24hr_change', include24hChange.toString());
     }
 
     return this.http.get<CoinRateResponse>(
       `${this.environment.currencyApi}/simple/price`,
       {
         params,
-      }
+      },
     );
   }
 
@@ -37,15 +37,15 @@ export class CurrencyApiService {
     interval: 'daily' | null = 'daily',
   ): Observable<CoinRateHistoryResponse> {
     const params = new HttpParams()
-      .append(`days`, days.toString())
-      .append(`interval`, interval)
-      .append(`vs_currency`, currency);
+      .append('days', days.toString())
+      .append('interval', interval)
+      .append('vs_currency', currency);
 
     return this.http.get<CoinRateHistoryResponse>(
       `${this.environment.currencyApi}/coins/${blockchainId}/market_chart`,
       {
         params,
-      }
+      },
     );
   }
 }

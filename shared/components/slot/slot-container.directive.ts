@@ -9,6 +9,7 @@ import { SlotService, SlotTemplate } from './slot.service';
 })
 export class SlotContainerDirective implements OnInit {
   @Input('appSlotContainer') public forSlot: symbol;
+
   @Input('appSlotContainerRootElement') public rootElement: HTMLElement;
 
   constructor(

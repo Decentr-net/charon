@@ -110,7 +110,7 @@ export class ReferralStatsComponent implements OnInit {
       map(([stats, config]) => config.senderRewardLevels
         .slice()
         .reverse()
-        .find((level) => (level.from - 1) <= stats.confirmed).reward
+        .find((level) => (level.from - 1) <= stats.confirmed).reward,
       ),
       map(this.microValuePipe.transform),
     );
@@ -125,7 +125,7 @@ export class ReferralStatsComponent implements OnInit {
 
     this.senderRewards$ = config$.pipe(
       map(({ senderRewardLevels }) => senderRewardLevels),
-    )
+    );
 
     this.isLoaded$ = combineLatest([
       config$,

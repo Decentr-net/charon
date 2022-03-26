@@ -22,7 +22,7 @@ export class WithdrawDelegatorPageService {
       this.distributionService.getDelegatorRewards(),
       this.stakingService.getUnbondingDelegations(),
     ]).pipe(
-      map(([validators, delegations, delegatorRewards,unbondingDelegations]: [
+      map(([validators, delegations, delegatorRewards, unbondingDelegations]: [
         Validator[],
         DelegationResponse[],
         QueryDelegationTotalRewardsResponse,

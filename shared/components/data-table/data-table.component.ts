@@ -20,11 +20,13 @@ import { DataTableColumnDefDirective, DataTableEmptyRowDefDirective } from './di
 })
 export class DataTableComponent<T> {
   @Input() public data: T[];
+
   @Input() public trackBy: TrackByFunction<T>;
 
   @Input() selectedItems: T[] = [];
 
   @Output() itemClick: EventEmitter<T> = new EventEmitter();
+
   @Output() sortClick: EventEmitter<Sort> = new EventEmitter();
 
   @ContentChildren(DataTableColumnDefDirective)

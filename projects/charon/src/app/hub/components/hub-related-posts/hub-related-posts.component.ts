@@ -37,11 +37,12 @@ export class HubRelatedPostsComponent implements OnInit {
   @Input() public routerLinkFn: (post: Post) => string[];
 
   public isLoading$: Observable<boolean>;
+
   public posts$: Observable<PostsListItem[]>;
 
   public trackByPostId: TrackByFunction<PostsListItem> = this.hubRelatedPostsService.trackByPostId;
 
-  public postsCount: number = 4;
+  public postsCount = 4;
 
   private excludeID$: BehaviorSubject<Post['uuid']> = new BehaviorSubject(void 0);
 
@@ -51,11 +52,12 @@ export class HubRelatedPostsComponent implements OnInit {
   public ngOnInit(): void {
     this.posts$ = this.excludeID$.pipe(
       switchMap((excludeId) => this.hubRelatedPostsService.posts$.pipe(
-      map((posts) => {
-        return posts.filter(({ uuid }) => uuid !== excludeId)
-          .slice(0, this.postsCount);
-      }),
-    )));
+        map((posts) => {
+          return posts.filter(({ uuid }) => uuid !== excludeId)
+            .slice(0, this.postsCount);
+        }),
+      )),
+    );
 
     this.isLoading$ = this.hubRelatedPostsService.isLoading$;
 

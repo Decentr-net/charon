@@ -26,10 +26,12 @@ import { PortalPageService } from './portal-page.service';
 })
 export class PortalPageComponent implements OnInit {
   @HostBinding('class.mod-popup-view')
-  public isOpenedInPopup: boolean = !isOpenedInTab();
+  public isOpenedInPopup = !isOpenedInTab();
 
   public readonly headerActionsSlot = AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT;
+
   public readonly headerLogoSlot = AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT;
+
   public readonly headerMetaSlot = AUTHORIZED_LAYOUT_HEADER_META_SLOT;
 
   public walletAddress$: Observable<string>;
@@ -53,9 +55,11 @@ export class PortalPageComponent implements OnInit {
   public openInTab(): void {
     const dPortalRoute = `/${AppRoute.Portal}`;
 
-    isOpenedInTab()
-      ? this.router.navigate([dPortalRoute])
-      : this.navigationService.openInNewTab(dPortalRoute);
+    if (isOpenedInTab()) {
+      this.router.navigate([dPortalRoute]);
+    } else {
+      this.navigationService.openInNewTab(dPortalRoute);
+    }
   }
 
   public onWalletAddressCopied(): void {

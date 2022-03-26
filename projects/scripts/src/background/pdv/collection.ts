@@ -42,7 +42,7 @@ const whilePDVAllowed = (pdvType: PDVType, walletAddress: Wallet['address']) => 
         pluck(pdvType),
         distinctUntilChanged(),
       )
-      : of(false)
+      : of(false),
     ),
   );
 
@@ -80,7 +80,7 @@ const getAllPDVSource = (walletAddress: Wallet['address']) => merge(
     return source().pipe(
       whilePDVAllowed(pdvType as PDVType, walletAddress),
       mergeMap((pdv: PDV) => isPDVBlacklisted(pdv).pipe(
-        map((isPDVBlacklisted) => isPDVBlacklisted ? void 0 : pdv),
+        map((isBlacklisted) => isBlacklisted ? void 0 : pdv),
       )),
       filter((pdv) => !!pdv),
     );
@@ -147,7 +147,7 @@ const sendPDVBlocks = (): Observable<void> => {
       }),
     );
   });
-}
+};
 
 export const initPDVCollection = (): Observable<void> => merge(
   collectPDVIntoStorage(),

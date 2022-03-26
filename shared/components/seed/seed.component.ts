@@ -23,6 +23,7 @@ export class SeedComponent implements OnInit {
   @ViewChild('pdfTemplate', { static: false }) public pdfTemplate: ElementRef<HTMLElement>;
 
   public isSeedPhraseVisible = false;
+
   public securedSeedPhrase: string;
 
   public analyticsEvent: typeof AnalyticsEvent = AnalyticsEvent;
@@ -51,7 +52,7 @@ export class SeedComponent implements OnInit {
 
   public onSeedPhraseCopied(): void {
     this.notificationService.success(
-      this.translocoService.translate('seed.seed_copied', null, 'shared')
+      this.translocoService.translate('seed.seed_copied', null, 'shared'),
     );
   }
 

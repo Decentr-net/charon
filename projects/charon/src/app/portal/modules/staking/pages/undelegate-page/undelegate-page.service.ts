@@ -28,7 +28,7 @@ export class UndelegatePageService {
   public getBalance(): Observable<number> {
     return this.bankService.getDECBalance().pipe(
       map(parseFloat),
-    )
+    );
   }
 
   public getDelegatedAmount(validatorAddress: Validator['operatorAddress']): Observable<number> {
@@ -36,6 +36,7 @@ export class UndelegatePageService {
       map((coin) => +coin.amount || 0),
     );
   }
+
   public getUndelegationFee(
     validatorAddress: Validator['operatorAddress'],
     amount: string,

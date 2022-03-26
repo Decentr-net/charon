@@ -23,8 +23,8 @@ import { AssetsPageService } from './assets-page.service';
 })
 export class AssetsPageComponent
   extends InfiniteLoadingPresenter<TokenTransaction>
-  implements OnInit
-{
+  implements OnInit {
+
   public readonly isOpenedInTab: boolean = isOpenedInTab();
 
   public assetsList$: Observable<Asset[]>;

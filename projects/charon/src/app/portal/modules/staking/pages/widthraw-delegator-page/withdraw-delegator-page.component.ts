@@ -53,7 +53,7 @@ export class WithdrawDelegatorPageComponent implements OnInit {
 
   public getSelectedItemsRewards(): Observable<number> {
     return this.selectedItems$.pipe(
-      map((items) => items.reduce((sum, item) => sum + item.reward, 0))
+      map((items) => items.reduce((sum, item) => sum + item.reward, 0)),
     );
   }
 
@@ -79,7 +79,7 @@ export class WithdrawDelegatorPageComponent implements OnInit {
         return validators.find(({ address }) => address === initialSelectedValidatorAddress);
       }),
       filter((selectedValidator) => !!selectedValidator),
-      untilDestroyed(this)
+      untilDestroyed(this),
     ).subscribe((selectedValidator) => {
       this.chooseValidator(selectedValidator);
     });
@@ -104,7 +104,7 @@ export class WithdrawDelegatorPageComponent implements OnInit {
     return this.selectedItems$.pipe(
       filter((items) => items.length > 0),
       switchMap((items) => this.distributionService
-        .calculateWithdrawDelegatorRewardsFee(items.map((validator) => validator.address))
+        .calculateWithdrawDelegatorRewardsFee(items.map((validator) => validator.address)),
       ),
       startWith(0),
     );

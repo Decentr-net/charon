@@ -12,7 +12,7 @@ export class DataTableColumnDefDirective {
 
   @Input('dataTableColumnDefWidth') public width: string;
 
-  constructor(public templateRef: TemplateRef<{ $implicit: any }>) {
+  constructor(public templateRef: TemplateRef<never>) {
   }
 
   public get idOrName(): string {

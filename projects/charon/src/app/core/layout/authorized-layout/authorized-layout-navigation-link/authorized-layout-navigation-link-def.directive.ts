@@ -8,11 +8,11 @@ import { AuthorizedLayoutNavigationDefDirective } from '../authorized-layout-nav
 export class AuthorizedLayoutNavigationLinkDefDirective implements OnInit, OnDestroy {
   @Input('appAuthorizedLayoutNavigationLinkDef') public link: string | string[];
 
-  @Input('appAuthorizedLayoutNavigationLinkDefDot') public dot: boolean = false;
+  @Input('appAuthorizedLayoutNavigationLinkDefDot') public dot = false;
 
-  @Input('appAuthorizedLayoutNavigationLinkDefColorClass') public colorClass: string = '';
+  @Input('appAuthorizedLayoutNavigationLinkDefColorClass') public colorClass = '';
 
-  @Input('appAuthorizedLayoutNavigationLinkDefExact') public exact: boolean = true;
+  @Input('appAuthorizedLayoutNavigationLinkDefExact') public exact = true;
 
   constructor(
     private navigationDef: AuthorizedLayoutNavigationDefDirective,

@@ -17,7 +17,7 @@ export class ExistingValidatorGuard implements CanActivate {
 
   public canActivate(
     route: ActivatedRouteSnapshot,
-    routerState: RouterStateSnapshot
+    routerState: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> {
     const validatorAddress = route.paramMap.get(StakingRoute.ValidatorAddressParam);
 

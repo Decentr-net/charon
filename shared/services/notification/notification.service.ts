@@ -27,7 +27,7 @@ export class NotificationService {
     const errorObservable = isObservable(processedError) ? processedError : of(processedError);
 
     errorObservable.pipe(
-      take(1)
+      take(1),
     ).subscribe((message: string) => {
       this.toastrService.error(message);
     });

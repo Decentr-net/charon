@@ -2,7 +2,7 @@ import { from, Observable } from 'rxjs';
 import { distinctUntilChanged, map, skip, startWith, switchMap } from 'rxjs/operators';
 import { BrowserStorage } from './browser-storage.definitons';
 
-export class BrowserStorageSection<T extends {}> implements BrowserStorage<T> {
+export class BrowserStorageSection<T> implements BrowserStorage<T> {
   constructor(
     private parentStorage: BrowserStorage<Record<string, T>>,
     private section: string,
@@ -17,10 +17,10 @@ export class BrowserStorageSection<T extends {}> implements BrowserStorage<T> {
   public async set<K extends keyof T>(key: K, value: T[K]): Promise<void> {
     const sectionValue = await this.getSectionValue();
     const newSectionValue = {
-      ...sectionValue,
+      ...sectionValue as T,
       [key]: value,
     };
-    return this.setSectionValue(newSectionValue);
+    return this.setSectionValue(newSectionValue as T);
   }
 
   public async remove(key: keyof T): Promise<void> {
@@ -53,7 +53,7 @@ export class BrowserStorageSection<T extends {}> implements BrowserStorage<T> {
   }
 
   public useSection<Child>(section: string): BrowserStorage<Child> {
-    return new BrowserStorageSection<Child>(this as BrowserStorage<Record<string, Child>>, section);
+    return new BrowserStorageSection<Child>(this as unknown as BrowserStorage<Record<keyof T, Child>>, section);
   }
 
   private getSectionValue(): Promise<T> {

@@ -11,7 +11,7 @@ export const groupBy = <T, K extends keyof T>(items: T[], key: K): GroupedBy<T, 
   }, new Map());
 
   const group = [];
-  groupMap.forEach((groupItems, key) => group.push({ items: groupItems, key }));
+  groupMap.forEach((groupItems, groupKey) => group.push({ items: groupItems, key: groupKey }));
 
   return group;
 };

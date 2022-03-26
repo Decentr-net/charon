@@ -12,7 +12,7 @@ import { svgDelete } from '@shared/svg-icons/delete';
 export class HubPostDeleteButtonComponent {
   @Output() public delete: EventEmitter<void> = new EventEmitter();
 
-  public isExpanded: boolean = false;
+  public isExpanded = false;
 
   constructor(
     svgIconRegistry: SvgIconRegistry,

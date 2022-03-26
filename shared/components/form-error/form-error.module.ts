@@ -9,7 +9,7 @@ import { FormErrorComponent } from './form-error.component';
     FormErrorComponent,
   ],
   exports: [
-    FormErrorComponent
+    FormErrorComponent,
   ],
   imports: [
     CommonModule,

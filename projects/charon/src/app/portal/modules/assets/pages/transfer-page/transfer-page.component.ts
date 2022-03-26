@@ -45,7 +45,7 @@ export class TransferPageComponent implements OnInit {
   public isPageDisabled = false;
 
   @HostBinding('class.mod-popup-view')
-  public isOpenedInPopup: boolean = !isOpenedInTab();
+  public isOpenedInPopup = !isOpenedInTab();
 
   public balance$: Observable<number>;
 
@@ -163,7 +163,7 @@ export class TransferPageComponent implements OnInit {
     });
   }
 
-  private getFeeStream(form: FormGroup<ControlsOf<TransferForm>>, defaultValue: number = 0): Observable<number> {
+  private getFeeStream(form: FormGroup<ControlsOf<TransferForm>>, defaultValue = 0): Observable<number> {
     return form.value$.pipe(
       debounceTime(300),
       switchMap((formValue) => {
@@ -175,8 +175,7 @@ export class TransferPageComponent implements OnInit {
             catchError(() => of(defaultValue)),
           )
           : of(defaultValue);
-        }
-      ),
+      }),
       share(),
     );
   }

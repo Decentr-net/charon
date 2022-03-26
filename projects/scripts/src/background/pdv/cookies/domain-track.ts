@@ -174,7 +174,7 @@ export const trackDomains = (): Observable<TrackedDomains> => {
       map((domains) => [...new Set(domains.sort())]),
       distinctUntilChanged((prev, curr) => prev.join() === curr.join()),
     );
-  }
+  };
 
   const allDomains$: Observable<string[]> = tabTrackMapChange$.pipe(
     map((tabMap) => [...tabMap.values()].map(({ domain }) => domain)),
@@ -184,7 +184,7 @@ export const trackDomains = (): Observable<TrackedDomains> => {
   const approvedDomains$: Observable<string[]> = tabTrackMapChange$.pipe(
     map((tabMap) => [...tabMap.values()]
       .filter(({ approved }) => approved)
-      .map(({ domain }) => domain)
+      .map(({ domain }) => domain),
     ),
     distinctDomains,
   );

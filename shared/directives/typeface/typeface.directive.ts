@@ -1,12 +1,12 @@
 import { Directive, ElementRef, Input, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
 
 export type Typeface = 'caption'
-  | 'paragraph'
-  | 'subheader'
-  | 'header-4'
-  | 'header-3'
-  | 'header-2'
-  | 'header-1';
+| 'paragraph'
+| 'subheader'
+| 'header-4'
+| 'header-3'
+| 'header-2'
+| 'header-1';
 
 @Directive({
   selector: '[appTypeface]',

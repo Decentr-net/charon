@@ -92,7 +92,8 @@
             class="validator-details__footer-delegated-value"
             [class.mod-empty]="!+validatorDetails.delegated"
           >
-            {{ validatorDetails.delegated && (validatorDetails.delegated | microValue | numberFormat : null : true) || '0' }}&nbsp;<app-currency-symbol></app-currency-symbol>
+            {{ validatorDetails.delegated && (validatorDetails.delegated | microValue | numberFormat : null : true) || '0' }}
+            <app-currency-symbol></app-currency-symbol>
           </div>
         </div>
 
@@ -104,11 +105,14 @@
           <div
             class="validator-details__footer-unbonding-value"
           >
-            {{ validatorDetails.unbondingDelegation.balance | microValue | numberFormat : '1.0-6' : true }}&nbsp;<app-currency-symbol></app-currency-symbol>
+            {{ validatorDetails.unbondingDelegation.balance | microValue | numberFormat : '1.0-6' : true }}
+            <app-currency-symbol></app-currency-symbol>
           </div>
 
           <div class="validator-details__footer-unbonding-label">
-            {{ translate('unbonding_delegations', { completionTime: validatorDetails.unbondingDelegation.completionTime | date : 'd MMM yyyy, HH:mm'}) }}
+            {{ translate('unbonding_delegations', {
+              completionTime: validatorDetails.unbondingDelegation.completionTime | date : 'd MMM yyyy, HH:mm'
+            }) }}
           </div>
         </div>
       </div>

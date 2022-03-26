@@ -41,7 +41,7 @@ export class ValidatorsPageService {
         delegatorRewards,
         selfValidator,
         unbondingDelegations,
-     ]: [
+      ]: [
         Validator[],
         Pool,
         DelegationResponse[],

@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { PDV, PDVType } from 'decentr-js';
 
-export const ACTIVITY_DATE_FORMAT: string = 'dd/MM/yyyy HH:mm';
+export const ACTIVITY_DATE_FORMAT = 'dd/MM/yyyy HH:mm';
 
 export interface ActivityListItemPDV {
   title: string;

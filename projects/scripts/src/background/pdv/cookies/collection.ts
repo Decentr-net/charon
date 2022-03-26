@@ -14,12 +14,12 @@ export const parseExpirationDate = (expirationDate: number | undefined): number 
   const expirationDateInt = Math.round(expirationDate);
   const isExpirationDateTooBig = expirationDateInt > Number.MAX_SAFE_INTEGER;
   return isExpirationDateTooBig ? undefined : expirationDateInt;
-}
+};
 
 export const parseDomain = (domain: string): string | undefined => {
   const domainMatch = domain.match(/((?!-))(xn--)?[a-z0-9][a-z0-9-_]{0,61}[a-z0-9]{0,1}\.(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,})$/);
   return domainMatch && domainMatch[0];
-}
+};
 
 const listenAllCookiePDVs = (): Observable<CookiePDV> => {
   return listenCookiesSet().pipe(

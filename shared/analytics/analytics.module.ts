@@ -10,8 +10,8 @@ import { AnalyticsClickEventDirective } from '@shared/analytics/directives/analy
     ANALYTICS_DIRECTIVES,
   ],
   exports: [
-    AnalyticsClickEventDirective
-  ]
+    AnalyticsClickEventDirective,
+  ],
 })
 export class AnalyticsModule {
   public static forRoot(trackerId: string): ModuleWithProviders<AnalyticsModule> {

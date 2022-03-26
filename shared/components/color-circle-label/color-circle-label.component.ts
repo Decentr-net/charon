@@ -11,6 +11,7 @@ export type ColorCircleType = 'filled' | 'hole';
 })
 export class ColorCircleLabelComponent {
   @Input() public color: ColorCircleLabelColor;
+
   @Input() public circleType: ColorCircleType = 'filled';
 
   public get circleClasses(): string {

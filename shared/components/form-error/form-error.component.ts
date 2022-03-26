@@ -13,11 +13,14 @@ import { FORM_ERROR_TRANSLOCO_READ } from './form-error.tokens';
 })
 export class FormErrorComponent implements OnInit, OnChanges {
   @Input() public control: AbstractControl;
+
   @Input() public controlName: string;
+
   @Input() public i18nControlKey: string;
 
   public translocoRead: string;
-  public error$: Observable<{ key: string; params: any }> | null;
+
+  public error$: Observable<{ key: string; params: Record<string, string> }> | null;
 
   private innerControl: ReplaySubject<AbstractControl> = new ReplaySubject(1);
 

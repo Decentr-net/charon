@@ -8,7 +8,7 @@ import { HubPostsService } from '../../services';
 
 @Injectable()
 export class HubTopPostsService extends HubPostsService implements OnDestroy {
-  protected includeProfile: boolean = false;
+  protected includeProfile = false;
 
   protected postsCategory: PostCategory;
 

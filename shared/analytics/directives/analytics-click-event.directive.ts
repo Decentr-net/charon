@@ -4,7 +4,7 @@ import { AnalyticsEvent } from '../analytics.definitions';
 import { AnalyticsService } from '../analytics.service';
 
 @Directive({
-  selector: '[appAnalyticsClickEvent]'
+  selector: '[appAnalyticsClickEvent]',
 })
 export class AnalyticsClickEventDirective {
   @Input('appAnalyticsClickEvent') public event: AnalyticsEvent;

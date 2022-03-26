@@ -54,8 +54,8 @@ export class PdvRateChartComponent implements OnInit {
   }
 
   private getChartOptions(value: PdvChartPoint[]): Highcharts.Options {
-    const component = new ComponentFactoryClass<TooltipModule, TooltipComponent>
-    (this.injector, this.compiler).createComponent(TooltipModule, TooltipComponent);
+    const component = new ComponentFactoryClass<TooltipModule, TooltipComponent>(this.injector, this.compiler)
+      .createComponent(TooltipModule, TooltipComponent);
 
     const defaultOptions: Highcharts.Options = {
       credits: {

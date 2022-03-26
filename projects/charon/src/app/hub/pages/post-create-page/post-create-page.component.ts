@@ -27,7 +27,7 @@ import { PostCreatePageService } from './post-create-page.service';
 export class PostCreatePageComponent implements OnInit {
   public readonly headerActionsSlotName = AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT;
 
-  public formId: string = 'POST_CREATE_FORM';
+  public formId = 'POST_CREATE_FORM';
 
   public postControl: FormControl<CreatePostRequest> = new FormControl();
 

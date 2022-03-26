@@ -5,7 +5,7 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpResponse
+  HttpResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { ConfigService } from '@shared/services/configuration';

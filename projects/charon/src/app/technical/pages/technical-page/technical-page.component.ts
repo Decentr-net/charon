@@ -13,6 +13,7 @@ import { TechnicalPageRouteData } from './technical-page.definitons';
 })
 export class TechnicalPageComponent {
   public i18nPageKey: string;
+
   public isNetworkSelectorVisible: boolean;
 
   constructor(

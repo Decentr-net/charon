@@ -87,28 +87,32 @@ export class AssetsPageService
         mergeMap((decentrClient) => decentrClient.tx.search({ sentFromOrTo: walletAddress })),
       ),
       this.decentrService.decentrClient.pipe(
-        mergeMap((decentrClient) => decentrClient.tx.search({ tags: [
-          {
-            key: 'message.module',
-            value: 'staking',
-          },
-          {
-            key: 'message.sender',
-            value: walletAddress,
-          },
-        ]})),
+        mergeMap((decentrClient) => decentrClient.tx.search({
+          tags: [
+            {
+              key: 'message.module',
+              value: 'staking',
+            },
+            {
+              key: 'message.sender',
+              value: walletAddress,
+            },
+          ],
+        })),
       ),
       this.decentrService.decentrClient.pipe(
-        mergeMap((decentrClient) => decentrClient.tx.search({ tags: [
-          {
-            key: 'message.module',
-            value: 'distribution',
-          },
-          {
-            key: 'message.sender',
-            value: walletAddress,
-          },
-        ]})),
+        mergeMap((decentrClient) => decentrClient.tx.search({
+          tags: [
+            {
+              key: 'message.module',
+              value: 'distribution',
+            },
+            {
+              key: 'message.sender',
+              value: walletAddress,
+            },
+          ],
+        })),
       ),
     ]).pipe(
       map((txArrays) => txArrays.reduce((acc, txs) => [...acc, ...txs], [])),

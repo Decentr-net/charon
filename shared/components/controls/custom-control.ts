@@ -37,21 +37,29 @@ export abstract class CustomControl<T> extends ControlValueAccessor<T> implement
       startWith(0),
       untilDestroyed(this),
     ).subscribe(() => {
-      this.value
-        ? this.renderer2.removeClass(this.elementRef.nativeElement, 'is-empty')
-        : this.renderer2.addClass(this.elementRef.nativeElement, 'is-empty');
+      if (this.value) {
+        this.renderer2.removeClass(this.elementRef.nativeElement, 'is-empty');
+      } else {
+        this.renderer2.addClass(this.elementRef.nativeElement, 'is-empty');
+      }
 
-      this.ngControl.invalid
-        ? this.renderer2.addClass(this.elementRef.nativeElement, 'is-invalid')
-        : this.renderer2.removeClass(this.elementRef.nativeElement, 'is-invalid');
+      if (this.ngControl.invalid) {
+        this.renderer2.addClass(this.elementRef.nativeElement, 'is-invalid');
+      } else {
+        this.renderer2.removeClass(this.elementRef.nativeElement, 'is-invalid');
+      }
 
-      this.ngControl.touched
-        ? this.renderer2.addClass(this.elementRef.nativeElement, 'is-touched')
-        : this.renderer2.removeClass(this.elementRef.nativeElement, 'is-touched');
+      if (this.ngControl.touched) {
+        this.renderer2.addClass(this.elementRef.nativeElement, 'is-touched');
+      } else {
+        this.renderer2.removeClass(this.elementRef.nativeElement, 'is-touched');
+      }
 
-      this.submitSource?.submitted
-        ? this.renderer2.addClass(this.elementRef.nativeElement, 'is-submitted')
-        : this.renderer2.removeClass(this.elementRef.nativeElement, 'is-submitted');
+      if (this.submitSource?.submitted) {
+        this.renderer2.addClass(this.elementRef.nativeElement, 'is-submitted');
+      } else {
+        this.renderer2.removeClass(this.elementRef.nativeElement, 'is-submitted');
+      }
     });
   }
 
@@ -70,8 +78,10 @@ export abstract class CustomControl<T> extends ControlValueAccessor<T> implement
   public setDisabledState(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
 
-    isDisabled
-      ? this.renderer2.addClass(this.elementRef.nativeElement, 'is-disabled')
-      : this.renderer2.removeClass(this.elementRef.nativeElement, 'is-disabled');
+    if (isDisabled) {
+      this.renderer2.addClass(this.elementRef.nativeElement, 'is-disabled');
+    } else {
+      this.renderer2.removeClass(this.elementRef.nativeElement, 'is-disabled');
+    }
   }
 }

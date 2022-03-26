@@ -40,7 +40,7 @@ export class GenderSelectorComponent extends CustomControl<Gender> implements On
     unspecified: Gender.Unspecified,
   };
 
-  public isOpenedInPopup: boolean = !isOpenedInTab();
+  public isOpenedInPopup = !isOpenedInTab();
 
   public gender: typeof Gender = Gender;
 

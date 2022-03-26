@@ -1,4 +1,5 @@
 import {
+  BroadcastClientError,
   CreatePostRequest,
   DelegateTokensRequest,
   DeletePostRequest,
@@ -18,7 +19,7 @@ import { MessageCode } from '../../messages';
 
 interface MessageResponse {
   success: boolean;
-  error?: any;
+  error?: BroadcastClientError | Error;
 }
 
 export interface CharonAPIMessageBusMap extends MessageMap {
@@ -99,6 +100,6 @@ export interface CharonAPIMessageBusMap extends MessageMap {
 
 export const assertMessageResponseSuccess = (response: MessageResponse): void => {
   if (!response.success) {
-    throw response.error;
+    throw response.error as Error;
   }
 };

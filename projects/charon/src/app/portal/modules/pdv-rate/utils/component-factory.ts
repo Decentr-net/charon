@@ -9,5 +9,5 @@ export class ComponentFactoryClass<M, C> {
       .create(this.injector)
       .componentFactoryResolver.resolveComponentFactory(component);
     return factory.create(this.injector);
-  }
+  };
 }

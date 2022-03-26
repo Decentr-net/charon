@@ -32,7 +32,7 @@ import { CustomControl } from '../custom-control';
 export class DateInputComponent extends CustomControl<string> implements OnInit {
   @ViewChild('inputElement') public inputElement: ElementRef<HTMLElement>;
 
-  public isOpenedInPopup: boolean = !isOpenedInTab();
+  public isOpenedInPopup = !isOpenedInTab();
 
   public inputFormat = 'yyyy-mm-dd';
 

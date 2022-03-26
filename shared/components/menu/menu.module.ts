@@ -37,7 +37,7 @@ export interface MenuModuleConfig {
     TypefaceModule,
   ],
   declarations: [
-    MenuComponent
+    MenuComponent,
   ],
   exports: [
     MenuComponent,

@@ -7,7 +7,7 @@ import { NetworkBrowserStorageService } from '../../services/network-storage';
 @Injectable()
 export class CurrencySymbolService {
   constructor(
-    private networkBrowserStorageService: NetworkBrowserStorageService
+    private networkBrowserStorageService: NetworkBrowserStorageService,
   ) {
   }
 

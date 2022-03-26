@@ -32,11 +32,17 @@ export class PdvRatePageComponent implements OnInit {
   public readonly isOpenedInPopup: boolean = !isOpenedInTab();
 
   public coinRate$: Observable<CoinRateFor24Hours>;
+
   public coinRateValue: number;
+
   public estimatedBalance$: Observable<string>;
+
   public pdvChartPoints$: Observable<PdvChartPoint[]>;
+
   public pdvRate$: Observable<BalanceValueDynamic>;
+
   public pdvReward$: Observable<PdvReward>;
+
   public pdvRewardUSD$: Observable<number>;
 
   public filterButtons: FilterButton[] = [
@@ -49,6 +55,7 @@ export class PdvRatePageComponent implements OnInit {
   ];
 
   public activeFilter$ = new BehaviorSubject(this.filterButtons[this.filterButtons.length - 1]);
+
   public chartData$: Observable<PdvChartPoint[]>;
 
   constructor(
