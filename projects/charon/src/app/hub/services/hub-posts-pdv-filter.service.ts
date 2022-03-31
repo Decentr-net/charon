@@ -24,7 +24,7 @@ export class HubPostsPdvFilterService {
     [PostPdvFilter.ALL]: {},
   };
 
-  private postsFilter$: BehaviorSubject<PostPdvFilter> = new BehaviorSubject(PostPdvFilter.POSITIVE);
+  private postsFilter$: BehaviorSubject<PostPdvFilter> = new BehaviorSubject(PostPdvFilter.POSITIVE_NEUTRAL);
 
   public getFilterValue(): Observable<PostsListFilterOptions> {
     return this.getFilterId().pipe(
