@@ -106,6 +106,27 @@
       app-button
       color="grey"
       appTypeface="paragraph"
+      (click)="linkKeplr()"
+    >
+      <svg-icon key="link"></svg-icon>
+
+      <div>
+        <span>{{ translate('link_keplr') }}</span>
+
+        <div
+          class="user-menu-page__menu-block__button-hint"
+          appTypeface="caption"
+        >
+          {{ translate('link_keplr_hint') }}
+        </div>
+      </div>
+    </button>
+
+    <button
+      class="user-menu-page__menu-block__button mod-disable-align"
+      app-button
+      color="grey"
+      appTypeface="paragraph"
       (click)="linkDevice()"
     >
       <svg-icon key="qr"></svg-icon>

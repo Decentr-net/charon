@@ -10,6 +10,7 @@ import { Profile } from 'decentr-js';
 import { svgDelete } from '@shared/svg-icons/delete';
 import { svgEdit } from '@shared/svg-icons/edit';
 import { svgImportAccount } from '@shared/svg-icons/import-account';
+import { svgLink } from '@shared/svg-icons/link';
 import { svgLock } from '@shared/svg-icons/lock';
 import { svgMoon } from '@shared/svg-icons/moon';
 import { svgRefresh } from '@shared/svg-icons/refresh';
@@ -23,6 +24,8 @@ import { QrLoginDialogComponent } from '../../components/qr-login-dialog';
 import { RestoreSeedDialogComponent } from '../../components';
 import { SpinnerService, UserService } from '@core/services';
 import { UserRoute } from '../../user-route';
+
+const keplrLink: string = 'https://keplr.decentr.net/?connect=true&chain=decentr';
 
 @UntilDestroy()
 @Component({
@@ -54,6 +57,7 @@ export class UserMenuPageComponent implements OnInit {
       svgDelete,
       svgEdit,
       svgImportAccount,
+      svgLink,
       svgLock,
       svgMoon,
       svgRefresh,
@@ -127,5 +131,9 @@ export class UserMenuPageComponent implements OnInit {
 
   public linkDevice(): void {
     this.matDialog.open(QrLoginDialogComponent);
+  }
+
+  public linkKeplr(): void {
+    window.open(keplrLink, '_blank');
   }
 }

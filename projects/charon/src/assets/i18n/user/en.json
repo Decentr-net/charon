@@ -104,6 +104,8 @@
     "coming_soon": "coming soon",
     "link_device": "Connect mobile app",
     "link_device_hint": "Scan QR code to login on your mobile browser.",
+    "link_keplr": "Connect Keplr",
+    "link_keplr_hint": "You'll be able to use Decentr network in Keplr extension.",
     "delete": "Delete account",
     "delete_hint": "We’ll clean all the cookies and other information connected with your account.\nYou’ll be able to recover your account with seed phrase.",
     "delete_confirmation": {
