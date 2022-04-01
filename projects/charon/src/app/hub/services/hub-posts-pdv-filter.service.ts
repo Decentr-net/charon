@@ -24,7 +24,9 @@ export class HubPostsPdvFilterService {
     [PostPdvFilter.ALL]: {},
   };
 
-  private postsFilter$: BehaviorSubject<PostPdvFilter> = new BehaviorSubject(PostPdvFilter.POSITIVE_NEUTRAL);
+  private readonly defaultFilter = PostPdvFilter.POSITIVE_NEUTRAL;
+
+  private postsFilter$: BehaviorSubject<PostPdvFilter> = new BehaviorSubject(this.defaultFilter);
 
   public getFilterValue(): Observable<PostsListFilterOptions> {
     return this.getFilterId().pipe(
@@ -36,6 +38,10 @@ export class HubPostsPdvFilterService {
     return this.postsFilter$.pipe(
       distinctUntilChanged(),
     );
+  }
+
+  public resetFilter(): void {
+    this.postsFilter$.next(this.defaultFilter);
   }
 
   public setFilterId(value: PostPdvFilter): void {
