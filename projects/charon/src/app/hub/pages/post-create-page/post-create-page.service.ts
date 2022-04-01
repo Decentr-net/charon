@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable } from 'rxjs';
-import { catchError, finalize, mergeMap, tap } from 'rxjs/operators';
+import { defer, EMPTY, Observable } from 'rxjs';
+import { catchError, finalize, map, mergeMap, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { CreatePostRequest, Wallet } from 'decentr-js';
 
 import { BrowserLocalStorage } from '@shared/services/browser-storage';
 import { NotificationService } from '@shared/services/notification';
 import { AuthService } from '@core/auth/services';
-import { PostsService, SpinnerService } from '@core/services';
+import { PostsListItem, PostsService, SpinnerService } from '@core/services';
 
 interface PostStorageValue {
   draft: Record<Wallet['address'], CreatePostRequest>;
@@ -48,7 +48,7 @@ export class PostCreatePageService {
     return this.saveDraft(undefined);
   }
 
-  public createPost(post: CreatePostRequest): Observable<void> {
+  public createPost(post: CreatePostRequest): Observable<PostsListItem> {
     this.spinnerService.showSpinner();
 
     return this.postsService.createPost(post).pipe(
@@ -57,7 +57,9 @@ export class PostCreatePageService {
 
         return EMPTY;
       }),
-      mergeMap(() => this.removeDraft()),
+      mergeMap((post) => defer(() => this.removeDraft()).pipe(
+        map(() => post),
+      )),
       tap(() => {
         this.notificationService.success(
           this.translocoService.translate('notifications.create.success', null, 'hub')

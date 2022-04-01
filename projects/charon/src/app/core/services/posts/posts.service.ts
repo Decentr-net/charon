@@ -92,7 +92,7 @@ export class PostsService {
 
   public createPost(
     request: PostCreate,
-  ): Observable<void> {
+  ): Observable<PostsListItem> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
     const owner = wallet.address;
@@ -108,7 +108,6 @@ export class PostsService {
             count: 10,
             delay: ONE_SECOND,
           }),
-          map(() => void 0),
         )),
       );
   }

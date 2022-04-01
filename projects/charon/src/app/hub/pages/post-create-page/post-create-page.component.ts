@@ -62,7 +62,14 @@ export class PostCreatePageComponent implements OnInit {
 
     this.postCreatePageService.createPost(post).pipe(
       untilDestroyed(this),
-    ).subscribe(() => this.router.navigate([AppRoute.Hub, HubRoute.Posts, post.category]));
+    ).subscribe((createdPost) => this.router.navigate([
+      AppRoute.Hub,
+      HubRoute.Posts,
+      post.category,
+      HubRoute.Post,
+      createdPost.owner,
+      createdPost.uuid,
+    ]));
   }
 
   private createAutoSaveObservable(): Observable<void> {
