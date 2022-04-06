@@ -1,7 +1,7 @@
 import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { PostCategory } from 'decentr-js';
+import { PostCategory, PostsListFilterOptions } from 'decentr-js';
 
 import { PostsListItem } from '@core/services';
 import { HubPostsService } from '../../services';
@@ -27,12 +27,13 @@ export class HubTopPostsService extends HubPostsService implements OnDestroy {
     this.reload();
   }
 
-  protected loadPosts(fromPost: PostsListItem | undefined, count: number): Observable<PostsListItem[]> {
+  protected loadPosts(fromPost: PostsListItem | undefined, count: number, filter: PostsListFilterOptions): Observable<PostsListItem[]> {
     return this.postsService.getPosts({
       after: fromPost && `${fromPost.owner}/${fromPost.uuid}`,
       category: this.postsCategory,
       limit: count,
       sortBy: 'pdv',
+      ...filter,
     }).pipe(
       catchError((error) => {
         this.notificationService.error(error);

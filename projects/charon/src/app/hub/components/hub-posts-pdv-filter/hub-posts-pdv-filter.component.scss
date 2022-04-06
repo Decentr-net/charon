@@ -1,0 +1,43 @@
+@import 'variables';
+
+:host {
+  display: block;
+}
+
+.hub-posts-pdv-filter__buttons {
+  align-items: center;
+  display: flex;
+}
+
+.hub-posts-pdv-filter__button {
+  $border: 1px solid var(--color-dhub-post-pdv-filter-border);
+
+  border-top: $border;
+  border-bottom: $border;
+  background-color: var(--color-dhub-post-pdv-filter-background);
+  border-left: 1px solid var(--color-dhub-post-pdv-filter-border);
+  color: var(--color-dhub-post-pdv-filter);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  min-width: 140px;
+  padding: $grid-step;
+
+  &:first-child {
+    border-left: $border;
+    border-bottom-left-radius: $border-radius;
+    border-top-left-radius: $border-radius;
+  }
+
+  &:last-child {
+    border-right: $border;
+    border-bottom-right-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+  }
+
+  &.mod-active {
+    background-color: var(--color-dhub-post-pdv-filter-active-background);
+    border-color: var(--color-dhub-post-pdv-filter-active-background);
+    color: var(--color-dhub-post-pdv-filter-active);
+  }
+}

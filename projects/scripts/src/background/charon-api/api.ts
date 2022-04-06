@@ -1,5 +1,5 @@
 import { combineLatest, firstValueFrom, Observable, ReplaySubject, switchMap, take, tap } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { debounceTime, filter } from 'rxjs/operators';
 import {
   CreatePostRequest,
   DecentrClient,
@@ -19,6 +19,7 @@ import {
 
 import { AuthBrowserStorageService } from '../../../../../shared/services/auth';
 import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
+import { ONE_SECOND } from '../../../../../shared/utils/date';
 
 const decentrClient$: Observable<DecentrClient> = (() => {
   const networkStorage = new NetworkBrowserStorageService();
@@ -29,6 +30,7 @@ const decentrClient$: Observable<DecentrClient> = (() => {
     networkStorage.getActiveAPI(),
     new AuthBrowserStorageService().getActiveUser(),
   ]).pipe(
+    debounceTime(ONE_SECOND),
     tap(() => clientSource$.next(undefined)),
     switchMap(([api, user]) => DecentrClient.create(api, user?.wallet?.privateKey)),
   ).subscribe(clientSource$);

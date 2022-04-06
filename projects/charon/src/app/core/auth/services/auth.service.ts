@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, defer, firstValueFrom, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, first, map, mapTo, mergeMapTo, skip } from 'rxjs/operators';
+import { distinctUntilChanged, filter, first, map, mergeMap, skip } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Wallet } from 'decentr-js';
 
@@ -75,9 +75,9 @@ export class AuthService {
 
   public changeUser(userId: AuthUser['id']): Observable<void> {
     return defer(() => this.authStorage.setActiveUserId(userId)).pipe(
-      mergeMapTo(this.activeUser$),
+      mergeMap(() => this.activeUser$),
       filter((activeUser) => activeUser?.id === userId),
-      mapTo(void 0),
+      map(() => void 0),
       first(),
     );
   }

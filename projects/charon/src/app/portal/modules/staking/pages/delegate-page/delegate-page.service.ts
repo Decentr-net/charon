@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Observable, of, timer } from 'rxjs';
-import { map, mapTo, switchMap, take, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { createDecentrCoin, Validator } from 'decentr-js';
 
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
@@ -80,7 +80,7 @@ export class DelegatePageService {
           const error = (balance - +fee) / MICRO_PDV_DIVISOR >= amount ? null : { insufficient: false };
           amountControl.setErrors(error);
         }),
-        mapTo(null),
+        map(() => null),
       );
     };
   }

@@ -42,7 +42,7 @@ const sendRequest = (
 };
 
 const CHARON_API_LISTENER_MAP: Record<
-  Exclude<MessageCode, MessageCode.ApplicationStarted | MessageCode.Location>,
+  Exclude<MessageCode, MessageCode.Location>,
   (...args) => Promise<DeliverTxResponse>
 > = {
   [MessageCode.PostCreate]: createPost,

@@ -8,6 +8,7 @@ import { BrowserLocalStorage } from '@shared/services/browser-storage';
 import { NotificationService } from '@shared/services/notification';
 import { AuthService } from '@core/auth/services';
 import { PostsService, SpinnerService } from '@core/services';
+import { HubPostsPdvFilterService } from '../../services';
 
 interface PostStorageValue {
   draft: Record<Wallet['address'], CreatePostRequest>;
@@ -23,6 +24,7 @@ export class PostCreatePageService {
     private authService: AuthService,
     private notificationService: NotificationService,
     private postsService: PostsService,
+    private postsPdvFilterService: HubPostsPdvFilterService,
     private spinnerService: SpinnerService,
     private translocoService: TranslocoService,
   ) {
@@ -59,6 +61,8 @@ export class PostCreatePageService {
       }),
       mergeMap(() => this.removeDraft()),
       tap(() => {
+        this.postsPdvFilterService.resetFilter();
+
         this.notificationService.success(
           this.translocoService.translate('notifications.create.success', null, 'hub')
         );

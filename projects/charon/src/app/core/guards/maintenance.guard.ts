@@ -14,10 +14,7 @@ export class MaintenanceGuard implements CanActivate {
   }
 
   public canActivate(): Observable<boolean | UrlTree> {
-    this.configService.forceUpdate();
-
     return this.configService.getMaintenanceStatus().pipe(
-      map((isMaintenance) => isMaintenance),
       catchError(() => of(true)),
       map(canActivate => canActivate || this.router.createUrlTree(['/'])),
     );

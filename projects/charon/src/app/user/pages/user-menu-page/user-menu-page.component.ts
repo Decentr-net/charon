@@ -10,17 +10,22 @@ import { Profile } from 'decentr-js';
 import { svgDelete } from '@shared/svg-icons/delete';
 import { svgEdit } from '@shared/svg-icons/edit';
 import { svgImportAccount } from '@shared/svg-icons/import-account';
+import { svgLink } from '@shared/svg-icons/link';
 import { svgLock } from '@shared/svg-icons/lock';
 import { svgMoon } from '@shared/svg-icons/moon';
 import { svgRefresh } from '@shared/svg-icons/refresh';
 import { svgSettings } from '@shared/svg-icons/settings';
+import { svgQr } from '@shared/svg-icons/qr';
 import { ConfirmationDialogService } from '@shared/components/confirmation-dialog';
-import { NotificationService } from '@shared/services/notification';
 import { AuthService } from '@core/auth';
 import { LockService } from '@core/lock';
+import { NotificationService } from '@shared/services/notification';
+import { QrLoginDialogComponent } from '../../components/qr-login-dialog';
+import { RestoreSeedDialogComponent } from '../../components';
 import { SpinnerService, UserService } from '@core/services';
 import { UserRoute } from '../../user-route';
-import { RestoreSeedDialogComponent } from '../../components';
+
+const keplrLink: string = 'https://keplr.decentr.net/?connect=true&chain=decentr';
 
 @UntilDestroy()
 @Component({
@@ -52,10 +57,12 @@ export class UserMenuPageComponent implements OnInit {
       svgDelete,
       svgEdit,
       svgImportAccount,
+      svgLink,
       svgLock,
       svgMoon,
       svgRefresh,
       svgSettings,
+      svgQr,
     ]);
   }
 
@@ -120,5 +127,13 @@ export class UserMenuPageComponent implements OnInit {
 
   public restoreSeedPhrase(): void {
     this.matDialog.open(RestoreSeedDialogComponent);
+  }
+
+  public linkDevice(): void {
+    this.matDialog.open(QrLoginDialogComponent);
+  }
+
+  public linkKeplr(): void {
+    window.open(keplrLink, '_blank');
   }
 }

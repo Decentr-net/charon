@@ -1,5 +1,5 @@
 import { HttpStatusCode } from '@angular/common/http';
-import { defer, EMPTY, merge, Observable, of, partition, pipe, tap, throwError, timer } from 'rxjs';
+import { bufferTime, defer, EMPTY, merge, Observable, of, partition, pipe, throwError } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -9,12 +9,11 @@ import {
   map,
   mergeMap,
   pluck,
-  reduce,
   repeat,
-  repeatWhen,
-  retryWhen,
+  retry,
   switchMap,
   takeUntil,
+  tap,
 } from 'rxjs/operators';
 import { PDV, PDVType, Wallet } from 'decentr-js';
 
@@ -22,6 +21,7 @@ import { SettingsService } from '../../../../../shared/services/settings/setting
 import { ONE_MINUTE, ONE_SECOND } from '../../../../../shared/utils/date';
 import CONFIG_SERVICE from '../config';
 import { whileUserActive } from '../auth/while-user-active';
+import { whileNoMaintenance } from '../technical';
 import { blacklist$, sendPDV, validatePDV } from './api';
 import { listenAdvertiserPDVs } from './advertiser-id';
 import { listenCookiePDVs } from './cookies';
@@ -50,7 +50,9 @@ const whilePDVAllowed = (pdvType: PDVType, walletAddress: Wallet['address']) => 
 
   return pipe(
     takeUntil(forbidden$),
-    repeatWhen(() => allowed$),
+    repeat({
+      delay: () => allowed$,
+    }),
   );
 };
 
@@ -87,14 +89,9 @@ const getAllPDVSource = (walletAddress: Wallet['address']) => merge(
 
 const collectPDVIntoStorage = (): Observable<void> => {
   return whileUserActive((user) => getAllPDVSource(user.wallet.address).pipe(
-    takeUntil(timer(ONE_SECOND * 10)),
-    reduce((acc, pdv) => [
-      ...acc,
-      pdv,
-    ], []),
+    bufferTime(ONE_SECOND * 10),
     filter((newPDVs) => newPDVs.length > 0),
     concatMap((newPDVs) => mergePDVsIntoAccumulated(user.wallet.address, newPDVs)),
-    repeat(),
   ));
 };
 
@@ -145,20 +142,16 @@ const sendPDVBlocks = (): Observable<void> => {
           }),
         );
       }),
-      retryWhen((error: Observable<number>) => error.pipe(
-        delay(ONE_MINUTE * 5),
-      )),
+      retry({
+        delay: ONE_MINUTE * 5,
+      }),
     );
   });
 }
 
-export const initPDVCollection = (): Observable<void> => {
-  return new Observable<void>((subscriber) => {
-    const subscriptions = [
-      sendPDVBlocks().subscribe(() => subscriber.next()),
-      collectPDVIntoStorage().subscribe(),
-    ];
-
-    return () => subscriptions.map((sub) => sub.unsubscribe());
-  });
-}
+export const initPDVCollection = (): Observable<void> => merge(
+  collectPDVIntoStorage(),
+  sendPDVBlocks().pipe(
+    whileNoMaintenance,
+  ),
+);

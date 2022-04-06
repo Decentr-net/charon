@@ -4,13 +4,11 @@ import {
   Component,
   ElementRef,
   OnInit,
-  TrackByFunction,
 } from '@angular/core';
-import { fromEvent, Observable, timer } from 'rxjs';
+import { fromEvent, timer } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { Post } from 'decentr-js';
 
 import {
   AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT,
@@ -43,9 +41,6 @@ export class FeedPageComponent implements OnInit {
   public appRoute: typeof AppRoute = AppRoute;
   public hubRoute: typeof HubRoute = HubRoute;
 
-  public isLoading$: Observable<boolean>;
-  public posts$: Observable<PostsListItem[]>;
-
   public isPostOutletActivated: boolean;
 
   private scrollPosition: number;
@@ -53,7 +48,6 @@ export class FeedPageComponent implements OnInit {
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private elementRef: ElementRef<HTMLElement>,
-    private feedPageService: HubPostsService,
     svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register([
@@ -62,27 +56,15 @@ export class FeedPageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.posts$ = this.feedPageService.posts$;
-
-    this.isLoading$ = this.feedPageService.isLoading$;
-
-    this.feedPageService.loadInitialPosts();
-
     fromEvent(this.elementRef.nativeElement, 'scroll').pipe(
       filter(() => !this.isPostOutletActivated),
       untilDestroyed(this),
     ).subscribe(() => this.scrollPosition = this.elementRef.nativeElement.scrollTop);
   }
 
-  public loadMore(): void {
-    this.feedPageService.loadMorePosts();
-  }
-
   public postLinkFn: (post: PostsListItem) => unknown[] = (post) => {
     return ['./', { outlets: { primary: null, post: [HubRoute.Post, post.owner, post.uuid] } }];
   }
-
-  public trackByPostId: TrackByFunction<Post> = ({}, { uuid }) => uuid;
 
   public onPostOutletActivate(): void {
     this.isPostOutletActivated = true;

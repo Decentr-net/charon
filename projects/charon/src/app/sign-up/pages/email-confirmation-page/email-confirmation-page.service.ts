@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpStatusCode } from '@angular/common/http';
 import { forkJoin, from, Observable, throwError } from 'rxjs';
-import { catchError, map, mapTo, mergeMap, startWith, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, startWith, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { AnalyticsEvent, AnalyticsService } from '@shared/analytics';
@@ -52,7 +52,7 @@ export class EmailConfirmationPageService {
       }),
       mergeMap(() => this.userService.createTestnetAccount(user.wallet.address)),
       mergeMap(() => this.userService.waitAccount(user.wallet.address)),
-      mapTo(void 0),
+      map(() => void 0),
       tap(() => this.analyticsService.sendEvent(AnalyticsEvent.ConfirmRegistration)),
     );
   }
@@ -85,7 +85,7 @@ export class EmailConfirmationPageService {
       this.dispose(),
     ])
       .pipe(
-        mapTo(void 0),
+        map(() => void 0),
       );
   }
 

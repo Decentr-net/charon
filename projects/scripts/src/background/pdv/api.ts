@@ -1,5 +1,5 @@
 import { defer, firstValueFrom, Observable, of, ReplaySubject, switchMap, take } from 'rxjs';
-import { catchError, mapTo, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { CerberusClient, PDV, PDVBlacklist, Wallet } from 'decentr-js';
 
 import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
@@ -27,7 +27,7 @@ export const blacklist$: Observable<PDVBlacklist> = (() => {
 export const sendPDV = (pDVs: PDV[], privateKey: Wallet['privateKey']): Observable<void> => {
   return defer(() => QUEUE.add(() => firstValueFrom(configService.getCerberusUrl().pipe(
     mergeMap((cerberusUrl) => new CerberusClient(cerberusUrl).pdv.sendPDV(pDVs, privateKey)),
-    mapTo(void 0),
+    map(() => void 0),
   )), { priority: QueuePriority.PDV }));
 };
 

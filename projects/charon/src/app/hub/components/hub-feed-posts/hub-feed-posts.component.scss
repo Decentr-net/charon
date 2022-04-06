@@ -4,6 +4,12 @@
   display: block;
 }
 
+.hub-wall-posts__filter-posts {
+  display: flex;
+  justify-content: center;
+  margin-bottom: $grid-step * 3;
+}
+
 .hub-wall-posts__post-card {
   border-top: 1px solid var(--color-outlines);
   cursor: pointer;

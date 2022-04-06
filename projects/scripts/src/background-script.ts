@@ -1,4 +1,3 @@
-import { PDVUpdateNotifier } from '../../../shared/services/pdv/pdv-update-notifier';
 import { initMessageListeners } from './background/listeners';
 import { initAutoLock } from './background/lock';
 import { initMigration } from './background/migration';
@@ -19,12 +18,9 @@ import { handleMultipleInstallations } from './background/installation';
 
   initMessageListeners();
 
-  const pdvUpdateNotifier = new PDVUpdateNotifier();
-  pdvUpdateNotifier.start();
-
   initPDVCollection().pipe(
-    whileVersionSupported(),
-  ).subscribe(() => pdvUpdateNotifier.notify());
+    whileVersionSupported,
+  ).subscribe();
 
   initContextMenu();
 })();

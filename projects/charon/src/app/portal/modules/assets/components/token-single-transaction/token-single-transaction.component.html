@@ -5,15 +5,15 @@
 >
   <svg-icon
     class="token-transaction__icon"
-    [class.color-negative]="message.amount < 0"
-    [class.color-positive]="message.amount >= 0"
-    [key]="message.amount > 0 ? 'receive' : 'send'"
+    [class.color-negative]="transaction.amount < 0"
+    [class.color-positive]="transaction.amount >= 0"
+    [key]="transaction.amount > 0 ? 'receive' : 'send'"
   ></svg-icon>
 
   <div class="token-transaction__operation">
-    <ng-container [ngSwitch]="message.type">
+    <ng-container [ngSwitch]="transaction.type">
       <ng-container *ngSwitchCase="messageType.BankSend">
-        {{ translate(message.amount < 0 ? 'sent' : 'received') }}
+        {{ translate(transaction.amount < 0 ? 'sent' : 'received') }}
       </ng-container>
 
       <ng-container *ngSwitchCase="messageType.StakingDelegate">
@@ -34,37 +34,37 @@
     </ng-container>
 
     <app-token-transactions-actions
-      *ngIf="transaction?.hash"
-      [txhash]="transaction?.hash"
+      *ngIf="transaction.hash"
+      [txhash]="transaction.hash"
     ></app-token-transactions-actions>
   </div>
 
   <app-token-transaction-amount
     class="token-transaction__amount"
-    [amount]="message.amount"
+    [amount]="transaction.amount"
   ></app-token-transaction-amount>
 
   <div class="token-transaction__address" appTextEllipsis appTypeface="caption">
-    <ng-container *ngIf="message.amount < 0">
-      {{ translate('to') }}: {{ message.recipient }}
+    <ng-container *ngIf="transaction.amount < 0">
+      {{ translate('to') }}: {{ transaction.recipient }}
     </ng-container>
 
-    <ng-container *ngIf="message.amount >= 0">
-      {{ translate('from') }}: {{ message.sender }}
+    <ng-container *ngIf="transaction.amount >= 0">
+      {{ translate('from') }}: {{ transaction.sender }}
     </ng-container>
   </div>
 
-  <div *ngIf="+transaction?.fee" class="token-transaction__fee" appTypeface="caption">
+  <div *ngIf="transaction.fee" class="token-transaction__fee" appTypeface="caption">
     {{ translate('fee') }}
     : {{ transaction.fee | microValue | numberFormat : null : true }}
     <app-currency-symbol></app-currency-symbol>
   </div>
 
   <div
-    *ngIf="transaction?.comment"
+    *ngIf="transaction.comment"
     class="token-transaction__memo"
     appTypeface="caption"
   >
-    {{ translate('memo') }}: {{ transaction?.comment }}
+    {{ translate('memo') }}: {{ transaction.comment }}
   </div>
 </div>

@@ -5,7 +5,6 @@ import {
   catchError,
   filter,
   map,
-  mapTo,
   mergeMap,
   shareReplay,
   startWith,
@@ -186,7 +185,7 @@ export class MenuService extends MenuBaseService {
   public getCloseSource(): Observable<void> {
     return this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd),
-      mapTo(void 0),
+      map(() => void 0),
     );
   }
 

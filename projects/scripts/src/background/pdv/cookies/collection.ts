@@ -1,9 +1,10 @@
-import { Observable } from 'rxjs';
+import { EMPTY, from, mergeMap, Observable, tap } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { Cookies } from 'webextension-polyfill';
 import { CookiePDV, PDVType } from 'decentr-js';
 
+import { trackDomains } from './domain-track';
 import { listenCookiesSet } from './events';
+import { UnapprovedStorage } from './unapproved-storage';
 
 export const parseExpirationDate = (expirationDate: number | undefined): number | undefined => {
   if (!expirationDate) {
@@ -20,10 +21,10 @@ export const parseDomain = (domain: string): string | undefined => {
   return domainMatch && domainMatch[0];
 }
 
-export const listenCookiePDVs = (): Observable<CookiePDV> => {
+const listenAllCookiePDVs = (): Observable<CookiePDV> => {
   return listenCookiesSet().pipe(
     filter((cookie) => !!parseDomain(cookie.domain)),
-    map((cookie: Cookies.Cookie) => {
+    map((cookie) => {
       const domain = parseDomain(cookie.domain);
 
       const expirationDate = parseExpirationDate(cookie.expirationDate);
@@ -46,4 +47,23 @@ export const listenCookiePDVs = (): Observable<CookiePDV> => {
       };
     }),
   );
+};
+
+export const listenCookiePDVs = (): Observable<CookiePDV> => {
+  return new Observable<CookiePDV>((subscriber) => {
+    const unapprovedStorage = new UnapprovedStorage();
+    const cookieSubscription = listenAllCookiePDVs()
+      .subscribe((pdv) => unapprovedStorage.add(pdv));
+
+    const pdvSubscription = trackDomains().pipe(
+      tap((domains) => unapprovedStorage.removeOldDomains(domains.all)),
+      map((domains) => unapprovedStorage.ejectByDomains(domains.approved)),
+      mergeMap((pdvs) => pdvs.length ? from(pdvs) : EMPTY),
+    ).subscribe(subscriber);
+
+    return () => {
+      cookieSubscription.unsubscribe();
+      pdvSubscription.unsubscribe();
+    };
+  });
 };

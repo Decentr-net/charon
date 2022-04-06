@@ -1,23 +1,18 @@
 import { Injector, TrackByFunction } from '@angular/core';
 import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
-import {
-  catchError,
-  distinctUntilChanged,
-  finalize,
-  map,
-  switchMap,
-  takeUntil,
-  tap,
-} from 'rxjs/operators';
+import { catchError, distinctUntilChanged, finalize, map, switchMap, takeUntil, tap, } from 'rxjs/operators';
+import { PostsListFilterOptions } from 'decentr-js';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { NotificationService } from '@shared/services/notification';
 import { PostsListItem, PostsService, SpinnerService } from '@core/services';
 import { HubLikesService } from './hub-likes.service';
+import { HubPostsPdvFilterService } from './hub-posts-pdv-filter.service';
 
 export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
   private static deleteNotifier$: Subject<PostsListItem['uuid']> = new Subject();
 
+  protected readonly hubPostsPdvFilterService: HubPostsPdvFilterService;
   protected readonly likesService: HubLikesService;
   protected readonly notificationService: NotificationService;
   protected readonly postsService: PostsService;
@@ -27,6 +22,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
   protected loadingMoreCount: number = 4;
   protected loadingInitialCount: number = 4;
 
+  private activePdvFilter: PostsListFilterOptions;
   private posts: BehaviorSubject<T[]> = new BehaviorSubject([]);
   private isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private loadMore: Subject<number> = new Subject();
@@ -36,15 +32,23 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
   private readonly stopLoading$: Subject<void> = new Subject<void>();
 
   protected constructor(injector: Injector) {
+    this.hubPostsPdvFilterService = injector.get(HubPostsPdvFilterService);
     this.likesService = injector.get(HubLikesService);
     this.notificationService = injector.get(NotificationService);
     this.postsService = injector.get(PostsService);
     this.spinnerService = injector.get(SpinnerService);
     this.translocoService = injector.get(TranslocoService);
 
+    this.hubPostsPdvFilterService.getFilterValue().pipe(
+      takeUntil(this.dispose$),
+    ).subscribe((activePdvFilter) => {
+      this.activePdvFilter = activePdvFilter;
+      this.reload();
+    });
+
     this.loadMore.pipe(
       tap(() => this.isLoading.next(true)),
-      switchMap((count) => this.loadPosts(this.getLastPost(), count).pipe(
+      switchMap((count) => this.loadPosts(this.getLastPost(), count, this.activePdvFilter).pipe(
         map((posts) => posts.filter((post) => !!+post.createdAt)),
         tap((posts) => (posts.length < count) && this.canLoadMore.next(false)),
         takeUntil(this.stopLoading$),
@@ -139,7 +143,7 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
 
   public trackByPostId: TrackByFunction<T> = ({}, { uuid }) => uuid;
 
-  protected abstract loadPosts(fromPost: T | undefined, count: number): Observable<T[]>;
+  protected abstract loadPosts(fromPost: T | undefined, count: number, filter?: PostsListFilterOptions): Observable<T[]>;
 
   private getLastPost(): T | undefined {
     return this.posts.value[this.posts.value.length - 1];

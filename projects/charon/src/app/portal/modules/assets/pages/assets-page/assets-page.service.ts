@@ -8,8 +8,13 @@ import { DecodedIndexedTx, TxMessageTypeUrl, TxMessageValue } from 'decentr-js';
 import { InfiniteLoadingService } from '@shared/utils/infinite-loading';
 import { AuthService } from '@core/auth';
 import { BankService, BlocksService, DecentrService, NetworkService } from '@core/services';
+import {
+  TokenComplexTransaction,
+  TokenSingleTransaction,
+  TokenTransaction,
+  TokenTransactionMessage,
+} from '../../components';
 import { Asset } from './assets-page.definitions';
-import { TokenTransactionMessage } from '../../components/token-transactions-table';
 import {
   mapDelegateTransaction,
   mapRedelegateTransaction,
@@ -22,7 +27,7 @@ import {
 @UntilDestroy()
 @Injectable()
 export class AssetsPageService
-  extends InfiniteLoadingService<TokenTransactionMessage>
+  extends InfiniteLoadingService<TokenTransaction>
   implements OnDestroy {
 
   constructor(
@@ -67,12 +72,10 @@ export class AssetsPageService
     );
   }
 
-  protected getNextItems(): Observable<TokenTransactionMessage[]> {
+  protected getNextItems(): Observable<TokenTransaction[]> {
     return this.searchTransactions().pipe(
-      map((transactions) => transactions
-        .map((tx) => this.mapTransaction(tx))
-        .reduce((acc, messages) => [...acc, ...messages], [])
-      ),
+      map((transactions) => transactions.map((tx) => this.mapTransaction(tx))),
+      map((transactions) => transactions.filter(Boolean)),
     );
   }
 
@@ -115,12 +118,15 @@ export class AssetsPageService
     );
   }
 
-  private mapTransaction(tx: DecodedIndexedTx): TokenTransactionMessage[] {
+  private mapTransaction(tx: DecodedIndexedTx): TokenTransaction | undefined {
     const walletAddress = this.authService.getActiveUserInstant().wallet.address;
 
-    return tx.tx.body.messages
+    const fee = +tx.tx.authInfo.fee.amount[0]?.amount || 0;
+    const comment = tx.tx.body.memo;
+
+    const mappedMessages: TokenTransactionMessage[] = tx.tx.body.messages
       .reduce((acc, msg, msgIndex) => {
-        let tokenTransaction: TokenTransactionMessage | TokenTransactionMessage[];
+        let tokenTransactionMessage: TokenTransactionMessage | TokenTransactionMessage[];
 
         switch (msg.typeUrl) {
           case TxMessageTypeUrl.BankSend: {
@@ -130,13 +136,13 @@ export class AssetsPageService
               break;
             }
 
-            tokenTransaction = mapSendTransaction(msgValue, msgIndex, tx, walletAddress);
+            tokenTransactionMessage = mapSendTransaction(msgValue, walletAddress);
 
             break;
           }
 
           case TxMessageTypeUrl.DistributionWithdrawDelegatorReward: {
-            tokenTransaction = mapWithdrawDelegatorReward(msgIndex, tx, walletAddress);
+            tokenTransactionMessage = mapWithdrawDelegatorReward(msgIndex, tx, walletAddress);
 
             break;
           }
@@ -144,7 +150,7 @@ export class AssetsPageService
           case TxMessageTypeUrl.StakingDelegate: {
             const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.StakingDelegate>;
 
-            tokenTransaction = mapDelegateTransaction(msgValue, msgIndex, tx, walletAddress);
+            tokenTransactionMessage = mapDelegateTransaction(msgValue, msgIndex, tx, walletAddress);
 
             break;
           }
@@ -152,25 +158,51 @@ export class AssetsPageService
           case TxMessageTypeUrl.StakingUndelegate: {
             const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.StakingUndelegate>;
 
-            tokenTransaction = mapUndelegateTransaction(msgValue, msgIndex, tx, walletAddress);
+            tokenTransactionMessage = mapUndelegateTransaction(msgValue, msgIndex, tx, walletAddress);
 
             break;
           }
 
           case TxMessageTypeUrl.StakingBeginRedelegate: {
-            tokenTransaction = mapRedelegateTransaction(msgIndex, tx, walletAddress);
+            tokenTransactionMessage = mapRedelegateTransaction(msgIndex, tx, walletAddress);
 
             break;
           }
 
           case TxMessageTypeUrl.DistributionWithdrawValidatorCommission: {
-            tokenTransaction = mapWithdrawValidatorRewardTransaction(msgIndex, tx, walletAddress);
+            tokenTransactionMessage = mapWithdrawValidatorRewardTransaction(msgIndex, tx, walletAddress);
 
             break;
           }
         }
 
-        return [...acc, ...tokenTransaction ? coerceArray(tokenTransaction) : []];
+        return [...acc, ...tokenTransactionMessage ? coerceArray(tokenTransactionMessage) : []];
       }, []);
+
+    if (mappedMessages.length > 1) {
+      return new TokenComplexTransaction(
+        tx.hash,
+        tx.height,
+        fee,
+        mappedMessages.reduce((acc, message) => acc + message.amount, 0),
+        mappedMessages,
+        comment,
+      );
+    }
+
+    if (mappedMessages.length === 1) {
+      const message = mappedMessages[0];
+
+      return new TokenSingleTransaction(
+        message.type,
+        tx.hash,
+        tx.height,
+        fee,
+        message.amount,
+        message.recipient,
+        message.sender,
+        comment,
+      );
+    }
   }
 }

@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { defer, forkJoin, Observable, of } from 'rxjs';
-import { catchError, map, mapTo, mergeMap, take } from 'rxjs/operators';
+import { defer, forkJoin, Observable, of, retry } from 'rxjs';
+import { catchError, map, mergeMap, take } from 'rxjs/operators';
 import { LikeWeight, Post, PostsListFilterOptions } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
 import { getArrayUniqueValues } from '@shared/utils/array';
 import { ConfigService } from '@shared/services/configuration';
 import { ONE_SECOND } from '@shared/utils/date';
-import { retryTimes } from '@shared/utils/observable';
 import { uuid } from '@shared/utils/uuid';
 import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api/message-bus-map';
 import { MessageCode } from '@scripts/messages';
@@ -105,8 +104,11 @@ export class PostsService {
       })).pipe(
         map((response) => assertMessageResponseSuccess(response)),
         mergeMap(() => this.getPost({ owner, uuid: postId }).pipe(
-          retryTimes(10, ONE_SECOND),
-          mapTo(void 0),
+          retry({
+            count: 10,
+            delay: ONE_SECOND,
+          }),
+          map(() => void 0),
         )),
       );
   }
@@ -143,7 +145,7 @@ export class PostsService {
       })).pipe(
         map(assertMessageResponseSuccess),
         mergeMap(() => this.getPost(post).pipe(
-          mapTo(true),
+          map(() => true),
           catchError(() => of(false)),
           map((postExists) => {
             if (postExists) {
@@ -152,7 +154,10 @@ export class PostsService {
 
             return void 0;
           }),
-          retryTimes(10, ONE_SECOND),
+          retry({
+            count: 10,
+            delay: ONE_SECOND,
+          }),
         )),
       );
   }

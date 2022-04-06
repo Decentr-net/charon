@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, pluck, switchMapTo, take } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, pluck, switchMap, take } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { coerceObservable } from '../../../utils/observable';
@@ -75,7 +75,7 @@ export class ExpansionListColumnComponent<T> implements OnInit {
 
     const newItemsLoaded$ = this.isLoading$.pipe(
       filter((isLoading) => isLoading),
-      switchMapTo(this.items$.pipe(
+      switchMap(() => this.items$.pipe(
         filter((items) => !!items),
         take(1),
       )),

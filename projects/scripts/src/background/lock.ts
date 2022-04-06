@@ -1,5 +1,5 @@
 import { EMPTY, forkJoin, Observable, of } from 'rxjs';
-import { debounceTime, mapTo, mergeMap, switchMap } from 'rxjs/operators';
+import { debounceTime, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Wallet } from 'decentr-js';
 
 import { LockBrowserStorageService } from '../../../../shared/services/lock';
@@ -22,7 +22,7 @@ const listenActivityEnd = (): Observable<void> => {
         )
         : EMPTY
       ),
-      mapTo(void 0),
+      map(() => void 0),
     );
   });
 };
