@@ -24,7 +24,7 @@
         {{ translate('last_24_hours') }}
 
         <ng-container *appBrowserTabView>
-          | {{ translate('pending')}}: {{ estimatedBalance$ | async }} PDV
+          | {{ translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async }) }}
         </ng-container>
       </div>
     </div>

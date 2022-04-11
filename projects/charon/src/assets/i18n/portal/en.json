@@ -17,7 +17,6 @@
     "last_24_hours": "in the last 24 hours",
     "no_pdv_rate": "You have no PDV Rate data",
     "not_enough_pdv_rate": "Not enough data for the chart",
-    "pending": "Pending",
     "rewards": {
       "time": "The PDV rewards will be given out at",
       "pdv_reward": "PDV rewards",
