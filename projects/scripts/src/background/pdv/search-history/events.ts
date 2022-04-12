@@ -8,7 +8,11 @@ export type SearchQuery = Pick<SearchHistoryPDV, 'engine' | 'domain' | 'query'>;
 
 export const listenSearchQueries = (): Observable<SearchQuery> => {
   return new Observable((subscriber) => {
-    const listener = ({}, changeInfo: Browser.Tabs.OnUpdatedChangeInfoType) => {
+    const listener = ({}, changeInfo: Browser.Tabs.OnUpdatedChangeInfoType, tab) => {
+      if (!tab.active) {
+        return;
+      }
+
       const url = changeInfo.url;
 
       if (!url) {
