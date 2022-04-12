@@ -5,6 +5,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
+import { BrowserViewModule } from '@shared/directives/browser-view';
 import { ButtonModule } from '@shared/components/button';
 import { CurrencySymbolModule } from '@shared/components/currency-symbol';
 import { DataTableModule } from '@shared/components/data-table';
@@ -24,6 +25,7 @@ import { PdvRateRoutingModule } from './pdv-rate-routing.module';
     PDV_RATE_PAGES,
   ],
   imports: [
+    BrowserViewModule,
     ButtonModule,
     DataTableModule,
     CommonModule,

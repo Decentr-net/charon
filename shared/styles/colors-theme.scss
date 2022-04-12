@@ -160,6 +160,7 @@
   --color-dhub-statistics: #{$color-white};
 
   // dPortal PDV rate
+  --color-dportal-pdv-rate-margin-pending: #{$color-grey};
   --color-dportal-pdv-rate-chart-filter: #{$color-grey};
   --color-dportal-pdv-rate-chart-filter-background: #{$color-background};
   --color-dportal-pdv-rate-chart-filter-active: #{$color-black};
@@ -443,6 +444,7 @@
     --color-dhub-statistics: #{$color-white};
 
     // dPortal PDV rate
+    --color-dportal-pdv-rate-margin-pending: #{$color-grey};
     --color-dportal-pdv-rate-chart-filter: #{$color-grey};
     --color-dportal-pdv-rate-chart-filter-background: #{$color-dark-grey};
     --color-dportal-pdv-rate-chart-filter-active: #{$color-white};

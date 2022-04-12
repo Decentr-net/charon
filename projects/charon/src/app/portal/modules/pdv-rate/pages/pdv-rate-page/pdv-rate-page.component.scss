@@ -83,6 +83,10 @@ $popup-side-padding: $grid-step * 2;
   flex-direction: column;
 }
 
+.pdv-rate__pdv-margin-pending {
+  color: var(--color-dportal-pdv-rate-margin-pending);
+}
+
 .pdv-rate__pdv-filter {
   margin-top: $grid-step;
 }

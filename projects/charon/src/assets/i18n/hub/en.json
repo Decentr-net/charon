@@ -28,7 +28,7 @@
   },
   "hub_header_stats_meta": {
     "dec": "DEC",
-    "estimated_balance": "In progress: {{estimatedBalance}} PDV",
+    "estimated_balance": "Pending: {{estimatedBalance}} PDV",
     "pdv": "My PDV"
   },
   "hub_my_posts_page": {
@@ -94,7 +94,7 @@
   },
   "hub_pdv_statistics": {
     "activity_from": "Activity from",
-    "estimated_balance": "In progress: {{estimatedBalance}} PDV",
+    "estimated_balance": "Pending: {{estimatedBalance}} PDV",
     "no_chart_data": "You have no PDV Rate data",
     "not_enough_chart_data": "Not enough data PDV for the chart",
     "my_pdv": "My PDV",

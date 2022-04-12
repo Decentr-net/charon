@@ -13,7 +13,8 @@
     "transactions": "Transactions"
   },
   "pdv_rate": {
-    "estimated_balance": "In progress: {{estimatedBalance}} PDV",
+    "estimated_balance": "Pending: {{estimatedBalance}} PDV",
+    "last_24_hours": "in the last 24 hours",
     "no_pdv_rate": "You have no PDV Rate data",
     "not_enough_pdv_rate": "Not enough data for the chart",
     "rewards": {
