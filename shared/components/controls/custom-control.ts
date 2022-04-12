@@ -27,6 +27,15 @@ export abstract class CustomControl<T> extends ControlValueAccessor<T> implement
     ngControl.valueAccessor = this;
   }
 
+
+  public set hasWarningError(value: boolean) {
+    if (value) {
+      this.renderer2.addClass(this.elementRef.nativeElement, 'mod-warning');
+    } else {
+      this.renderer2.removeClass(this.elementRef.nativeElement, 'mod-warning');
+    }
+  }
+
   public init(): void {
     merge(
       this.ngControl.statusChanges,

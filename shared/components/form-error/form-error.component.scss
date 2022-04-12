@@ -4,3 +4,9 @@
   color: $color-negative;
   display: block;
 }
+
+.form-error__container {
+  &.mod-warning {
+    color: orange;
+  }
+}

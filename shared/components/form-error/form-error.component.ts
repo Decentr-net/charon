@@ -3,6 +3,7 @@ import { AbstractControl, ControlContainer } from '@angular/forms';
 import { merge, Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 
+import { FormWarningError } from './form-warning-error';
 import { FORM_ERROR_TRANSLOCO_READ } from './form-error.tokens';
 
 @Component({
@@ -20,7 +21,7 @@ export class FormErrorComponent implements OnInit, OnChanges {
 
   public translocoRead: string;
 
-  public error$: Observable<{ key: string; params: Record<string, string> }> | null;
+  public error$: Observable<{ key: string; params: Record<string, string>, isWarning: boolean } | null>;
 
   private innerControl: ReplaySubject<AbstractControl> = new ReplaySubject(1);
 
@@ -50,10 +51,20 @@ export class FormErrorComponent implements OnInit, OnChanges {
           return null;
         }
 
-        const firstEntry = Object.entries(control.errors)[0];
+        const [errorKey, errorValue] = Object.entries(control.errors)[0];
+
+        if (errorValue instanceof FormWarningError) {
+          return {
+            key: errorKey,
+            params: errorValue.params,
+            isWarning: true,
+          };
+        }
+
         return {
-          key: firstEntry[0],
-          params: firstEntry[1],
+          key: errorKey,
+          params: errorValue,
+          isWarning: false,
         };
       }),
       distinctUntilChanged(),
