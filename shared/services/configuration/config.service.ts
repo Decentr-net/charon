@@ -13,7 +13,6 @@ export class ConfigService {
     private configSource: ConfigSource,
     private networkBrowserStorageService: NetworkBrowserStorageService,
   ) {
-    console.log(configSource);
     this.update$.pipe(
       startWith(void 0),
       switchMap(() => this.configSource.getConfig()),
