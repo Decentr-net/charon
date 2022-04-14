@@ -30,7 +30,7 @@ export class TransactionLinkDirective implements OnInit {
     this.renderer.setAttribute(this.elementRef.nativeElement, 'target', '_blank');
 
     combineLatest([
-      this.networkSelectorService.getActiveNetwork(true),
+      this.networkSelectorService.getActiveNetwork(),
       this.transactionIdSource,
     ]).pipe(
       map(([network, transactionId]) => `${this.environment.explorer}/transactions/${transactionId}?networkId=${network.id}`),

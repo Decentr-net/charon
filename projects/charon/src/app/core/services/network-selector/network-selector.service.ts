@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, map, skip, switchMap } from 'rxjs/operators';
+import { map, skip, switchMap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { Environment } from '@environments/environment.definitions';
 import {
   Network,
   NetworkSelectorService as BaseNetworkSelectorService,
   NetworkSelectorTranslations,
 } from '@shared/components/network-selector';
-import { BlockchainNodeService } from '@shared/services/blockchain-node';
 import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { ConfigService, NetworkId } from '@shared/services/configuration';
 
@@ -18,8 +16,6 @@ import { ConfigService, NetworkId } from '@shared/services/configuration';
 @Injectable()
 export class NetworkSelectorService extends BaseNetworkSelectorService {
   constructor(
-    private blockchainNodeService: BlockchainNodeService,
-    private environment: Environment,
     private configService: ConfigService,
     private networkStorage: NetworkBrowserStorageService,
     private translocoService: TranslocoService,
@@ -28,32 +24,21 @@ export class NetworkSelectorService extends BaseNetworkSelectorService {
 
     this.networkStorage.getActiveId().pipe(
       skip(1),
-      distinctUntilChanged(),
       untilDestroyed(this),
     ).subscribe(() => location.reload());
   }
 
-  public getNetworks(disableForceUpdate?: boolean): Observable<Network[]> {
-    return new Observable((subscriber) => {
-      const subscription = (() => {
-        if (!disableForceUpdate) {
-          this.configService.forceUpdate();
-        }
-
-        return this.configService.getNetworkIds().pipe(
-          switchMap((networkIds) => {
-            return combineLatest(networkIds.map((networkId) => this.getOptionConfig(networkId)));
-          }),
-        ).subscribe((networks) => subscriber.next(networks));
-      })();
-
-      return () => subscription.unsubscribe();
-    });
+  public getNetworks(): Observable<Network[]> {
+    return this.configService.getNetworkIds().pipe(
+      switchMap((networkIds) => {
+        return combineLatest(networkIds.map((networkId) => this.getOptionConfig(networkId)));
+      }),
+    );
   }
 
-  public getActiveNetwork(disableForceUpdate?: boolean): Observable<Network> {
+  public getActiveNetwork(): Observable<Network> {
     return combineLatest([
-      this.getNetworks(disableForceUpdate),
+      this.getNetworks(),
       this.networkStorage.getActiveId(),
     ]).pipe(
       map(([networks, activeNetworkId]) => networks.find(({ id }) => id === activeNetworkId)),
