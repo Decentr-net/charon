@@ -1,16 +1,16 @@
 import { Injectable, NgModule } from '@angular/core';
 
+import { ConfigSource } from './config.definitions';
 import { ConfigService } from './config.service';
-import { Environment } from '../../../environments/environment.definitions';
 import { NetworkBrowserStorageService } from '../network-storage';
 
 @Injectable()
 class ConfigServiceInjectable extends ConfigService {
   constructor(
-    environment: Environment,
+    configSource: ConfigSource,
     networkBrowserStorageService: NetworkBrowserStorageService,
   ) {
-    super(environment, networkBrowserStorageService);
+    super(configSource, networkBrowserStorageService);
   }
 }
 
