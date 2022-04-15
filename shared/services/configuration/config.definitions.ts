@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+
 export enum NetworkId {
   Mainnet = 'mainnet',
   Testnet = 'testnet',
@@ -44,4 +46,8 @@ export interface Config {
   share: {
     url: string;
   };
+}
+
+export abstract class ConfigSource {
+  public abstract getConfig(): Observable<Config>;
 }

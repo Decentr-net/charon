@@ -2,7 +2,6 @@ import { combineLatest, firstValueFrom, Observable, switchMap } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HermesClient } from 'decentr-js';
 
-import CONFIG_SERVICE from '../../../../background/config';
 import {
   WebpageAPIRequestMessageCode,
   WebpageAPIRequestMessageMap,
@@ -10,6 +9,7 @@ import {
   WebpageAPIResponseMessageMap,
 } from '../../webpage-api-message-bus';
 import { getWallet } from '../common';
+import { CONFIG_SERVICE } from '../config';
 
 const getHermesClient = (): Observable<HermesClient> => {
   return CONFIG_SERVICE.getSwapUrl().pipe(

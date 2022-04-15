@@ -1,38 +1,25 @@
-import { combineLatest, Observable, ReplaySubject, Subject, switchMap, tap, timer } from 'rxjs';
-import { filter, map, retry, startWith, take } from 'rxjs/operators';
+import { combineLatest, Observable, ReplaySubject, Subject, switchMap } from 'rxjs';
+import { filter, map, startWith, take } from 'rxjs/operators';
 
-import { Environment } from '../../../environments/environment.definitions';
-import { ONE_SECOND } from '../../utils/date';
-import { whileOnline } from '../../utils/online';
-import { ConfigApiService } from './config-api.service';
-import { Config, Network, NetworkId } from './config.definitions';
+import { Config, ConfigSource, Network, NetworkId } from './config.definitions';
 import { NetworkBrowserStorageService } from '../network-storage';
 
 export class ConfigService {
   private config$: ReplaySubject<Config> = new ReplaySubject(1);
 
-  private readonly configApiService: ConfigApiService = new ConfigApiService(this.environment);
-
   private readonly update$: Subject<void> = new Subject();
 
   constructor(
-    private environment: Environment,
+    private configSource: ConfigSource,
     private networkBrowserStorageService: NetworkBrowserStorageService,
   ) {
     this.update$.pipe(
       startWith(void 0),
-      switchMap(() => timer(0, ONE_SECOND * 30)),
-      tap(() => this.config$.next(void 0)),
-      switchMap(() => this.configApiService.getConfig().pipe(
-        retry({
-          delay: ONE_SECOND,
-        }),
-      )),
-      whileOnline,
+      switchMap(() => this.configSource.getConfig()),
     ).subscribe(this.config$);
   }
 
-  private getConfig(): Observable<Config> {
+  public getConfig(): Observable<Config> {
     return this.config$.pipe(
       filter((config) => !!config),
     );
@@ -58,6 +45,7 @@ export class ConfigService {
   }
 
   public forceUpdate(): void {
+    this.config$.next(void 0);
     this.update$.next();
   }
 

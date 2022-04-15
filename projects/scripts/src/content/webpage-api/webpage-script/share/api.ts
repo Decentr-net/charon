@@ -1,7 +1,7 @@
 import { firstValueFrom } from 'rxjs';
 import { Post } from 'decentr-js';
 
-import { NetworkId } from '../../../../../../../shared/services/configuration';
+import { NetworkId } from '../../../../../../../shared/services/configuration/config.definitions';
 import { WebpageAPIMessageBus, WebpageAPIRequestMessageCode } from '../../webpage-api-message-bus';
 
 const messageBus = new WebpageAPIMessageBus();
