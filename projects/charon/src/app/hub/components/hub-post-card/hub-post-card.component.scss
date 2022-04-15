@@ -105,13 +105,6 @@ $hub-post-card--horizontal--image-width: 31%;
   color: var(--color-dhub-post-card-time);
 }
 
-.hub-post-card__remove-icon {
-  cursor: pointer;
-  display: inline-flex;
-  font-size: 20px;
-  margin-left: $grid-step;
-}
-
 .hub-post-card__title {
   @include clamp(4);
   font-weight: 700;

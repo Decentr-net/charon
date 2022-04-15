@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'typeface';
 
 $hub-currency-statistic--background-color: linear-gradient(0deg, $color-light-blue 0%, $color-blue 100%);
 
@@ -21,7 +22,7 @@ $hub-currency-statistic--background-color: linear-gradient(0deg, $color-light-bl
   color: var(--color-chart-tooltip);
   display: flex;
   flex-direction: column;
-  font-size: 13px;
+  line-height: normal;
   min-width: max-content;
   padding: $grid-half-step;
 
