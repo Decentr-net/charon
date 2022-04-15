@@ -3,7 +3,7 @@ import { coerceArray } from '@angular/cdk/coercion';
 import { combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, mergeMap, take } from 'rxjs/operators';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { DecodedIndexedTx, TxMessageTypeUrl, TxMessageValue } from 'decentr-js';
+import { DecodedIndexedTx, TxMessageTypeUrl, TxMessageValue, Wallet } from 'decentr-js';
 
 import { InfiniteLoadingService } from '@shared/utils/infinite-loading';
 import { AuthService } from '@core/auth';
@@ -73,15 +73,15 @@ export class AssetsPageService
   }
 
   protected getNextItems(): Observable<TokenTransaction[]> {
-    return this.searchTransactions().pipe(
-      map((transactions) => transactions.map((tx) => this.mapTransaction(tx))),
+    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
+
+    return this.searchTransactions(walletAddress).pipe(
+      map((transactions) => transactions.map((tx) => this.mapTransaction(tx, walletAddress))),
       map((transactions) => transactions.filter(Boolean)),
     );
   }
 
-  private searchTransactions(): Observable<DecodedIndexedTx[]> {
-    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
-
+  private searchTransactions(walletAddress: Wallet['address']): Observable<DecodedIndexedTx[]> {
     return combineLatest([
       this.decentrService.decentrClient.pipe(
         mergeMap((decentrClient) => decentrClient.tx.search({ sentFromOrTo: walletAddress })),
@@ -122,9 +122,7 @@ export class AssetsPageService
     );
   }
 
-  private mapTransaction(tx: DecodedIndexedTx): TokenTransaction | undefined {
-    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
-
+  private mapTransaction(tx: DecodedIndexedTx, walletAddress: Wallet['address']): TokenTransaction | undefined {
     const fee = +tx.tx.authInfo.fee.amount[0]?.amount || 0;
     const comment = tx.tx.body.memo;
 
