@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Navigation, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
@@ -37,8 +37,6 @@ export class AssetsPageComponent
 
   public readonly portalRoute: typeof PortalRoute = PortalRoute;
 
-  public lastTransferTime: number;
-
   public totalCount$: Observable<number>;
 
   constructor(
@@ -52,17 +50,11 @@ export class AssetsPageComponent
       svgAdd,
       svgSend,
     ]);
-
-    this.lastTransferTime = this.getLastTransferTime(this.router.getCurrentNavigation());
   }
 
   public ngOnInit(): void {
     this.assetsList$ = this.assetsPageService.getAssets();
 
     this.totalCount$ = of(1);
-  }
-
-  private getLastTransferTime(navigation: Navigation): number | undefined {
-    return navigation?.extras?.state?.['lastTransferTime'];
   }
 }

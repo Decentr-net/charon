@@ -21,8 +21,6 @@ interface TokenTransactionGroup {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TokenTransactionsTableComponent {
-  @Input() public newTransactionsAfter: number;
-
   @Input() public set transactions(value: TokenTransaction[]) {
     this.groups = groupBy(value || [], 'height').map((group) => ({
       items: group.items,

@@ -18,7 +18,6 @@ import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
 import { svgDecentrHub } from '@shared/svg-icons/decentr-hub';
 import { isOpenedInTab } from '@shared/utils/browser';
-import { ONE_SECOND } from '@shared/utils/date';
 import {
   RECEIVER_WALLET_PARAM,
   TRANSFER_START_AMOUNT,
@@ -91,8 +90,6 @@ export class TransferPageComponent implements OnInit {
 
     const formValue = this.form.getRawValue();
 
-    const transferTime = Date.now() - ONE_SECOND * 5;
-
     this.transferPageService.transfer(
       formValue.data.to,
       this.getUDecAmount(formValue.data.amount),
@@ -104,7 +101,7 @@ export class TransferPageComponent implements OnInit {
       }),
       untilDestroyed(this),
     ).subscribe(() => {
-      this.navigateToAssets(transferTime);
+      this.navigateToAssets();
     });
   }
 
@@ -154,12 +151,9 @@ export class TransferPageComponent implements OnInit {
     return Math.round(amount * MICRO_PDV_DIVISOR);
   }
 
-  private navigateToAssets(transferTime?: number): void {
+  private navigateToAssets(): void {
     this.router.navigate(['../'], {
       relativeTo: this.activatedRoute,
-      state: {
-        lastTransferTime: transferTime,
-      },
     });
   }
 
