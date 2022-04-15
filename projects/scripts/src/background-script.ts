@@ -13,6 +13,8 @@ import { initializeConfigPort } from './background/config';
 
   initMigration();
 
+  initializeConfigPort();
+
   await initNetwork();
 
   initAutoLock();
@@ -24,6 +26,4 @@ import { initializeConfigPort } from './background/config';
   ).subscribe();
 
   initContextMenu();
-
-  initializeConfigPort();
 })();
