@@ -19,7 +19,7 @@ $transfer-page--padding: $grid-step * 2;
     }
   }
 
-  &.mod-popup-view {
+  .mod-popup-view & {
     .transfer-page__form__inputs-container {
       display: block;
     }
@@ -40,7 +40,7 @@ $transfer-page--padding: $grid-step * 2;
     }
   }
 
-  &:not(.mod-popup-view) {
+  .mod-tab-view & {
     border: $transfer-page--border;
     border-radius: $border-radius;
   }

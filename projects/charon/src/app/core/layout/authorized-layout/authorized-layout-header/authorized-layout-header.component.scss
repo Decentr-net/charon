@@ -6,11 +6,9 @@
   justify-content: space-between;
   height: 76px;
 
-  &:not(.mod-popup-view) {
+  .mod-popup-view & {
     .authorized-layout-header__section {
-      align-items: center;
-      display: flex;
-      column-gap: $grid-step * 3;
+      column-gap: $grid-step * 2;
     }
   }
 }
@@ -18,7 +16,7 @@
 .authorized-layout-header__section {
   align-items: center;
   display: flex;
-  column-gap: $grid-step * 2;
+  column-gap: $grid-step * 3;
 }
 
 .authorized-layout-header__actions-container {

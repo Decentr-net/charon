@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
@@ -25,9 +25,6 @@ import { PortalPageService } from './portal-page.service';
   ],
 })
 export class PortalPageComponent implements OnInit {
-  @HostBinding('class.mod-popup-view')
-  public isOpenedInPopup = !isOpenedInTab();
-
   public readonly headerActionsSlot = AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT;
 
   public readonly headerLogoSlot = AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT;

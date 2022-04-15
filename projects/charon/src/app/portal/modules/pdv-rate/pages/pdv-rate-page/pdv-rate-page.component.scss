@@ -5,7 +5,7 @@ $popup-side-padding: $grid-step * 2;
 :host {
   display: block;
 
-  &.mod-popup-view {
+  .mod-popup-view & {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -36,7 +36,7 @@ $popup-side-padding: $grid-step * 2;
     }
   }
 
-  &:not(.mod-popup-view) {
+  .mod-tab-view & {
     padding-bottom: $grid-step * 2;
 
     .pdv-rate__pdv,

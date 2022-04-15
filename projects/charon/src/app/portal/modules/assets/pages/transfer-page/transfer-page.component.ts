@@ -43,7 +43,6 @@ export class TransferPageComponent implements OnInit {
   @HostBinding('class.is-disabled')
   public isPageDisabled = false;
 
-  @HostBinding('class.mod-popup-view')
   public isOpenedInPopup = !isOpenedInTab();
 
   public balance$: Observable<number>;

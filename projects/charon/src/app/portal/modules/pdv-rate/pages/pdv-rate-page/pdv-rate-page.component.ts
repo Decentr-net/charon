@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
@@ -28,7 +28,6 @@ interface FilterButton {
   ],
 })
 export class PdvRatePageComponent implements OnInit {
-  @HostBinding('class.mod-popup-view')
   public readonly isOpenedInPopup: boolean = !isOpenedInTab();
 
   public coinRate$: Observable<CoinRateFor24Hours>;

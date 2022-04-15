@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
 
 import { isOpenedInTab } from '@shared/utils/browser';
 
@@ -13,7 +13,7 @@ export const AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT = Symbol('AUTHORIZED_LAYOUT_H
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthorizedLayoutHeaderComponent implements OnInit {
-  @HostBinding('class.mod-popup-view') public isOpenedInPopup: boolean;
+  public isOpenedInPopup: boolean;
 
   public readonly logoSlotName: symbol = AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT;
 
