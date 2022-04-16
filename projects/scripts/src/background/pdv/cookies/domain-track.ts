@@ -8,14 +8,12 @@ import {
   Observable,
   tap,
 } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import * as Browser from 'webextension-polyfill';
 
 import { ONE_SECOND } from '../../../../../../shared/utils/date';
 
 const DOMAIN_TRACK_TIME = ONE_SECOND * 5;
-
-const EXCLUDED_URL_PARTS = ['chrome://', 'decentr://', 'decentr-extension://'];
 
 export const onTabCreated = (): Observable<Browser.Tabs.Tab> => {
   return new Observable((subscriber) => {
@@ -29,8 +27,12 @@ export const onTabCreated = (): Observable<Browser.Tabs.Tab> => {
 
 export const onTabUpdated = (): Observable<Browser.Tabs.Tab> => {
   return new Observable((subscriber) => {
-    const listener = async (tabId: number) => {
+    const listener = async (tabId: number, changeInfo: Browser.Tabs.OnUpdatedChangeInfoType) => {
       try {
+        if (changeInfo.status !== 'complete') {
+          return;
+        }
+
         const tab = await Browser.tabs.get(tabId);
         subscriber.next(tab);
       } catch {}
@@ -91,7 +93,7 @@ export const trackDomains = (): Observable<TrackedDomains> => {
 
   const tabApproveTimeoutMap = new Map<number, number>();
 
-  const resetApprove = (tabId: number) => {
+  const resetApproveTimeout = (tabId: number) => {
     clearTimeout(tabApproveTimeoutMap.get(tabId));
     tabApproveTimeoutMap.delete(tabId);
   };
@@ -102,19 +104,18 @@ export const trackDomains = (): Observable<TrackedDomains> => {
     if (
       !domain
       || tabTrackMap.get(tab.id)?.domain === domain
-      || EXCLUDED_URL_PARTS.some((urlPart) => tab.url.includes(urlPart))
     ) {
       return;
     }
 
-    resetApprove(tab.id);
+    resetApproveTimeout(tab.id);
 
     tabTrackMap.set(tab.id, { domain, approved: false });
     tabTrackMapChange$.next(tabTrackMap);
   };
 
   const removeTab = (tabId: number) => {
-    resetApprove(tabId);
+    resetApproveTimeout(tabId);
 
     tabTrackMap.delete(tabId);
     tabTrackMapChange$.next(tabTrackMap);
@@ -126,7 +127,7 @@ export const trackDomains = (): Observable<TrackedDomains> => {
         return;
       }
 
-      resetApprove(tab.id);
+      resetApproveTimeout(tab.id);
 
       tabTrackMap.set(tab.id, { ...tabTrackMap.get(tab.id), approved: true });
       tabTrackMapChange$.next(tabTrackMap);
@@ -139,7 +140,7 @@ export const trackDomains = (): Observable<TrackedDomains> => {
     [...tabTrackMap.keys()]
       .filter((tabId) => tabId !== activeTabId)
       .forEach((tabId) => {
-        resetApprove(tabId);
+        resetApproveTimeout(tabId);
         tabTrackMap.set(tabId, { ...tabTrackMap.get(tabId), approved: false });
       });
 
@@ -156,11 +157,18 @@ export const trackDomains = (): Observable<TrackedDomains> => {
     ).pipe(
       tap((tab) => addTab(tab)),
     ),
-    onTabActivated().pipe(
-      tap((tab) => {
-        unapproveOtherTabs(tab.id);
-        startApproveTab(tab);
-      }),
+    merge(
+      defer(() => Browser.tabs.query({ active: true })).pipe(
+        mergeMap(from),
+      ),
+      onTabUpdated().pipe(
+        filter((tab) => tab.active),
+      ),
+      onTabActivated().pipe(
+        tap((tab) => unapproveOtherTabs(tab.id)),
+      ),
+    ).pipe(
+      tap((tab) => startApproveTab(tab)),
     ),
     merge(
       onTabRemoved(),
