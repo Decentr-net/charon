@@ -19,12 +19,8 @@ export class SignUpStoreService {
     return this.store.set('lastEmailSendingTime', time);
   }
 
-  public getLastEmailSendingTime(): Promise<number | undefined> {
-    return this.store.get('lastEmailSendingTime');
-  }
-
-  public onLastEmailSendingTimeChange(): Observable<number> {
-    return this.store.onChange('lastEmailSendingTime');
+  public getLastEmailSendingTime(): Observable<number | undefined> {
+    return this.store.observe('lastEmailSendingTime');
   }
 
   public clear(): Promise<void> {
