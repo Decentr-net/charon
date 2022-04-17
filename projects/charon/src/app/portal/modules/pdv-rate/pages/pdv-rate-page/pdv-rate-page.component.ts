@@ -7,7 +7,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
 import { isOpenedInTab } from '@shared/utils/browser';
 import { addAmountToDate, DateAmountType } from '@shared/utils/date';
-import { BalanceValueDynamic, CoinRateFor24Hours } from '@core/services';
+import { BalanceValueDynamic } from '@core/services';
 import { PdvRatePageService, PdvReward } from './pdv-rate-page.service';
 import { PdvChartPoint } from '../../components/pdv-rate-chart';
 
@@ -30,7 +30,7 @@ interface FilterButton {
 export class PdvRatePageComponent implements OnInit {
   public readonly isOpenedInPopup: boolean = !isOpenedInTab();
 
-  public coinRate$: Observable<CoinRateFor24Hours>;
+  public coinRate$: Observable<number>;
 
   public coinRateValue: number;
 
@@ -77,14 +77,14 @@ export class PdvRatePageComponent implements OnInit {
     this.pdvRateService.getCoinRate().pipe(
       untilDestroyed(this),
     ).subscribe((coinRate) => {
-      this.coinRateValue = coinRate.value;
+      this.coinRateValue = coinRate;
     });
 
     this.pdvRewardUSD$ = combineLatest([
       this.coinRate$,
       this.pdvReward$,
     ]).pipe(
-      map(([{ value: coinRate }, { reward }]) => this.pdvRateService.getPdvRewardUSD(coinRate, reward)),
+      map(([coinRate, { reward }]) => this.pdvRateService.getPdvRewardUSD(coinRate, reward)),
     );
 
     this.chartData$ = combineLatest([
