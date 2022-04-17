@@ -15,7 +15,6 @@ import { PostsService } from './posts';
 import { ReferralService } from './referral';
 import { SpinnerService } from './spinner';
 import { StakingService } from './staking';
-import { ThemeService } from './theme';
 import { UserService } from './user';
 
 export * from './bank';
@@ -34,7 +33,6 @@ export * from './posts';
 export * from './referral';
 export * from './spinner';
 export * from './staking';
-export * from './theme';
 export * from './user';
 
 export const CORE_SERVICES = [
@@ -55,6 +53,5 @@ export const CORE_SERVICES = [
   ReferralService,
   SpinnerService,
   StakingService,
-  ThemeService,
   UserService,
 ];

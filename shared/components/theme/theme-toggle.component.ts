@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { ThemeMode, ThemeService } from '@core/services';
+import { ThemeMode, ThemeService } from './theme.service';
 
 @UntilDestroy()
 @Component({
@@ -23,13 +23,12 @@ export class ThemeToggleComponent implements OnInit {
     this.themeService.getThemeValue().pipe(
       untilDestroyed(this),
     ).subscribe((themeMode) => {
-      this.themeService.themeChanged$.next();
       this.value = themeMode === ThemeMode.Dark;
       this.changeDetectorRef.detectChanges();
     });
   }
 
-  public onToggleTheme(value: ThemeMode): void {
+  public onToggleTheme(value: boolean): void {
     const themeMode = value ? ThemeMode.Dark : ThemeMode.Light;
 
     this.themeService.setThemeValue(themeMode);
