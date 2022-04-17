@@ -5,7 +5,7 @@ import {
   ElementRef,
   OnInit,
 } from '@angular/core';
-import { fromEvent, timer } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
@@ -20,6 +20,7 @@ import { FeedPageService } from './feed-page.service';
 import { AppRoute } from '../../../app-route';
 import { HubRoute } from '../../hub-route';
 import { svgEdit } from '@shared/svg-icons/edit';
+import { ScrollablePage } from '../scrollable-page';
 
 @UntilDestroy()
 @Component({
@@ -32,9 +33,13 @@ import { svgEdit } from '@shared/svg-icons/edit';
       provide: HubPostsService,
       useClass: FeedPageService,
     },
+    {
+      provide: ScrollablePage,
+      useExisting: FeedPageComponent,
+    },
   ],
 })
-export class FeedPageComponent implements OnInit {
+export class FeedPageComponent extends ScrollablePage implements OnInit {
   public headerActionsSlotName = AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT;
 
   public headerLogoSlotName = AUTHORIZED_LAYOUT_HEADER_LOGO_SLOT;
@@ -49,9 +54,11 @@ export class FeedPageComponent implements OnInit {
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    private elementRef: ElementRef<HTMLElement>,
+    elementRef: ElementRef<HTMLElement>,
     svgIconRegistry: SvgIconRegistry,
   ) {
+    super(elementRef);
+
     svgIconRegistry.register([
       svgEdit,
     ]);
@@ -80,11 +87,5 @@ export class FeedPageComponent implements OnInit {
     this.changeDetectorRef.detectChanges();
 
     this.setScrollTop(this.scrollPosition);
-  }
-
-  private setScrollTop(value: number): void {
-    timer(0).pipe(
-      untilDestroyed(this),
-    ).subscribe(() => this.elementRef.nativeElement.scrollTop = value || 0);
   }
 }
