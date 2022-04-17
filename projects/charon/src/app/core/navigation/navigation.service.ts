@@ -35,14 +35,13 @@ export class NavigationService {
     }
     while (urlToNavigate && !urlToNavigate.startsWith(startsWith || '') || urlToNavigate === this.router.url);
 
-    if (urlToNavigate) {
-      const success = await this.router.navigateByUrl(urlToNavigate);
-      if (success !== false) {
-        return Promise.resolve();
-      }
+    const useFallback = !urlToNavigate || !await this.router.navigateByUrl(urlToNavigate);
+
+    if (useFallback) {
+      await this.router.navigate(fallbackUrl);
     }
 
-    await this.router.navigate(fallbackUrl);
+    this.previousPageUrls.pop();
   }
 
   private getUrlChanges(): Observable<string> {
