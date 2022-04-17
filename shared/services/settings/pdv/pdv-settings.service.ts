@@ -1,6 +1,6 @@
 import { PDVType } from 'decentr-js';
-import { defer, Observable } from 'rxjs';
-import { map, mergeMap, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { BrowserStorage } from '../../browser-storage';
 import { CollectedPDVTypesSettings, PDVSettings } from './pdv-settings.definitions';
@@ -19,10 +19,7 @@ export class PDVSettingsService {
   }
 
   public getCollectedPDVTypes(): Observable<CollectedPDVTypesSettings> {
-    return defer(() => this.storage.get('collectedTypes')).pipe(
-      mergeMap((settings) => this.storage.onChange('collectedTypes').pipe(
-        startWith(settings),
-      )),
+    return this.storage.observe('collectedTypes').pipe(
       map((settings) => ({
         ...DEFAULT_COLLECTED_PDV_TYPES_SETTINGS,
         ...settings,
@@ -35,11 +32,7 @@ export class PDVSettingsService {
   }
 
   public getCollectionConfirmed(): Observable<boolean> {
-    return defer(() => this.storage.get('collectionConfirmed')).pipe(
-      mergeMap((value) => this.storage.onChange('collectionConfirmed').pipe(
-        startWith(value),
-      )),
-    );
+    return this.storage.observe('collectionConfirmed');
   }
 
   public setCollectionConfirmed(value: boolean): Promise<void> {

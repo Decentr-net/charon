@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { merge, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { pairwise, startWith } from 'rxjs/operators';
 
 import { BrowserLocalStorage, BrowserStorage } from '@shared/services/browser-storage';
@@ -29,10 +29,7 @@ export class ThemeService {
   }
 
   public getThemeValue(): Observable<ThemeMode> {
-    return merge(
-      this.themeStorage.get('theme'),
-      this.themeStorage.onChange('theme'),
-    );
+    return this.themeStorage.observe('theme');
   }
 
   public setThemeValue(value: ThemeMode): Promise<void> {

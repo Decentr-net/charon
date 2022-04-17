@@ -1,5 +1,5 @@
-import { defer, Observable } from 'rxjs';
-import { map, mergeMap, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { ONE_HOUR } from '../../../utils/date';
 import { BrowserStorage } from '../../browser-storage';
@@ -14,10 +14,7 @@ export class LockSettingsService {
   }
 
   public getLockDelay(): Observable<LockSettings['delay']> {
-    return defer(() => this.storage.get('delay')).pipe(
-      mergeMap((settings) => this.storage.onChange('delay').pipe(
-        startWith(settings),
-      )),
+    return this.storage.observe('delay').pipe(
       map((delay) => typeof delay === 'number' ? delay : DEFAULT_LOCK_DELAY),
     );
   }

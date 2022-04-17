@@ -1,5 +1,5 @@
-import { defer, Observable } from 'rxjs';
-import { map, mergeMap, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { PDV, Wallet } from 'decentr-js';
 
 import { BrowserLocalStorage, BrowserStorage } from '../browser-storage';
@@ -25,10 +25,7 @@ export class PDVStorageService {
   public getUserAccumulatedPDVChanges(walletAddress: Wallet['address']): Observable<PDV[]> {
     const userPDVStorage = this.getUserPDVStorage(walletAddress);
 
-    return defer(() => userPDVStorage.get('accumulated')).pipe(
-      mergeMap((accumulated) => userPDVStorage.onChange('accumulated').pipe(
-        startWith(accumulated),
-      )),
+    return userPDVStorage.observe('accumulated').pipe(
       map((accumulated) => accumulated || []),
     );
   }

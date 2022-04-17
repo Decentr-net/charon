@@ -1,5 +1,4 @@
-import { from, Observable } from 'rxjs';
-import { mergeMap, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { BrowserLocalStorage } from '../browser-storage';
 
@@ -22,7 +21,7 @@ export class LockBrowserStorageService {
   }
 
   public getLockedChanges(): Observable<boolean> {
-    return this.getStorageValueChanges('locked');
+    return this.lockStorage.observe('locked');
   }
 
   public setLastActivityTime(value: number): Promise<void> {
@@ -34,18 +33,10 @@ export class LockBrowserStorageService {
   }
 
   public getLastActivityTimeChanges(): Observable<number> {
-    return this.getStorageValueChanges('lastActivityTime');
+    return this.lockStorage.observe('lastActivityTime');
   }
 
   public clear(): Promise<void> {
     return this.lockStorage.clear();
-  }
-
-  private getStorageValueChanges<K extends keyof LockStorage>(key: K): Observable<LockStorage[K]> {
-    return from(this.lockStorage.get(key)).pipe(
-      mergeMap((isLocked) => this.lockStorage.onChange(key).pipe(
-        startWith(isLocked),
-      )),
-    );
   }
 }

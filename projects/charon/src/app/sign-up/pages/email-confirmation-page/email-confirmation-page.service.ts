@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpStatusCode } from '@angular/common/http';
-import { forkJoin, from, Observable, throwError } from 'rxjs';
-import { catchError, map, mergeMap, startWith, tap } from 'rxjs/operators';
+import { forkJoin, Observable, throwError } from 'rxjs';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { AnalyticsEvent, AnalyticsService } from '@shared/analytics';
@@ -63,10 +63,7 @@ export class EmailConfirmationPageService {
   }
 
   public getEmailTimer(resetSource: Observable<void>): Observable<number> {
-    return from(this.signUpStoreService.getLastEmailSendingTime()).pipe(
-      mergeMap((lastSendingTime) => this.signUpStoreService.onLastEmailSendingTimeChange().pipe(
-        startWith(lastSendingTime),
-      )),
+    return this.signUpStoreService.getLastEmailSendingTime().pipe(
       map((lastSendingTime) => (Date.now() - (lastSendingTime || RESEND_DELAY_SEC * 1000)) / 1000),
       map(Math.floor),
       mergeMap((sentSecondsLast) => createSecondsTimer(
