@@ -29,10 +29,12 @@ export abstract class CustomControl<T> extends ControlValueAccessor<T> implement
 
 
   public set hasWarningError(value: boolean) {
+    const warningClass = 'mod-warning';
+
     if (value) {
-      this.renderer2.addClass(this.elementRef.nativeElement, 'mod-warning');
+      this.renderer2.addClass(this.elementRef.nativeElement, warningClass);
     } else {
-      this.renderer2.removeClass(this.elementRef.nativeElement, 'mod-warning');
+      this.renderer2.removeClass(this.elementRef.nativeElement, warningClass);
     }
   }
 
@@ -46,28 +48,33 @@ export abstract class CustomControl<T> extends ControlValueAccessor<T> implement
       startWith(0),
       untilDestroyed(this),
     ).subscribe(() => {
+      const emptyClass = 'is-empty';
+      const invalidClass = 'is-invalid';
+      const touchedClass = 'is-touched';
+      const submittedClass = 'is-submitted';
+
       if (this.value) {
-        this.renderer2.removeClass(this.elementRef.nativeElement, 'is-empty');
+        this.renderer2.removeClass(this.elementRef.nativeElement, emptyClass);
       } else {
-        this.renderer2.addClass(this.elementRef.nativeElement, 'is-empty');
+        this.renderer2.addClass(this.elementRef.nativeElement, emptyClass);
       }
 
       if (this.ngControl.invalid) {
-        this.renderer2.addClass(this.elementRef.nativeElement, 'is-invalid');
+        this.renderer2.addClass(this.elementRef.nativeElement, invalidClass);
       } else {
-        this.renderer2.removeClass(this.elementRef.nativeElement, 'is-invalid');
+        this.renderer2.removeClass(this.elementRef.nativeElement, invalidClass);
       }
 
       if (this.ngControl.touched) {
-        this.renderer2.addClass(this.elementRef.nativeElement, 'is-touched');
+        this.renderer2.addClass(this.elementRef.nativeElement, touchedClass);
       } else {
-        this.renderer2.removeClass(this.elementRef.nativeElement, 'is-touched');
+        this.renderer2.removeClass(this.elementRef.nativeElement, touchedClass);
       }
 
       if (this.submitSource?.submitted) {
-        this.renderer2.addClass(this.elementRef.nativeElement, 'is-submitted');
+        this.renderer2.addClass(this.elementRef.nativeElement, submittedClass);
       } else {
-        this.renderer2.removeClass(this.elementRef.nativeElement, 'is-submitted');
+        this.renderer2.removeClass(this.elementRef.nativeElement, submittedClass);
       }
     });
   }
@@ -85,12 +92,13 @@ export abstract class CustomControl<T> extends ControlValueAccessor<T> implement
   }
 
   public setDisabledState(isDisabled: boolean): void {
+    const disabledClass = 'is-disabled';
     this.isDisabled = isDisabled;
 
     if (isDisabled) {
-      this.renderer2.addClass(this.elementRef.nativeElement, 'is-disabled');
+      this.renderer2.addClass(this.elementRef.nativeElement, disabledClass);
     } else {
-      this.renderer2.removeClass(this.elementRef.nativeElement, 'is-disabled');
+      this.renderer2.removeClass(this.elementRef.nativeElement, disabledClass);
     }
   }
 }
