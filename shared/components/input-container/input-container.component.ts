@@ -6,11 +6,14 @@ import {
   Optional,
 } from '@angular/core';
 import { EMPTY, merge, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { SubmitSourceDirective } from '../../directives/submit-source';
+import { FormErrorComponent } from '../form-error';
 import { InputContainerControl } from './input-container-control';
 
+@UntilDestroy()
 @Component({
   selector: 'app-input-container',
   styleUrls: ['./input-container.component.scss'],
@@ -19,6 +22,8 @@ import { InputContainerControl } from './input-container-control';
 })
 export class InputContainerComponent implements AfterContentInit {
   @ContentChild(InputContainerControl) public input: InputContainerControl;
+
+  @ContentChild(FormErrorComponent) public formError: FormErrorComponent;
 
   public showError$: Observable<boolean>;
 
@@ -34,5 +39,13 @@ export class InputContainerComponent implements AfterContentInit {
     ).pipe(
       map(() => true),
     );
+
+    this.formError?.error$.pipe(
+      filter(() => !!this.input),
+      map((error) => error?.isWarning),
+      untilDestroyed(this),
+    ).subscribe((hasWarningError) => {
+      this.input.hasWarningError = hasWarningError;
+    });
   }
 }

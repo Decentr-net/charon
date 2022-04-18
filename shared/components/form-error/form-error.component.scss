@@ -1,6 +1,12 @@
 @import '../../styles/variables';
 
 :host {
-  color: $color-negative;
+  color: var(--color-input-label-invalid);
   display: block;
+}
+
+.form-error__container {
+  &.mod-warning {
+    color: var(--color-input-label-warning);
+  }
 }

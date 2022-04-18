@@ -13,6 +13,12 @@
       .input__label {
         color: var(--color-input-label-invalid);
       }
+
+      &.mod-warning {
+        .input__label {
+          color: var(--color-input-label-warning);
+        }
+      }
     }
   }
 
