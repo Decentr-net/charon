@@ -8,6 +8,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 import { ButtonModule } from '@shared/components/button';
 import { ButtonBackModule } from '@shared/components/button-back';
+import { InputContainerModule } from '@shared/components/input-container';
 import { InputModule } from '@shared/components/controls';
 import { CurrencySymbolModule } from '@shared/components/currency-symbol';
 import { ExpansionListModule } from '@shared/components/expansion-list';
@@ -44,6 +45,7 @@ import { AssetsRoutingModule } from './assets-routing.module';
     CurrencySymbolModule,
     ExpansionListModule,
     FormErrorModule,
+    InputContainerModule,
     InputModule,
     IntersectionModule,
     MatExpansionModule,

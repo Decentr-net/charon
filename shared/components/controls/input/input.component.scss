@@ -16,7 +16,7 @@
 
       &.mod-warning {
         .input__label {
-          color: orange;
+          color: var(--color-input-label-warning);
         }
       }
     }

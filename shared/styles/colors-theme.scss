@@ -26,6 +26,7 @@
   --color-input-text: #{$color-black};
   --color-input-label: #{$color-grey};
   --color-input-label-invalid: #{$color-negative};
+  --color-input-label-warning: #{$color-orange};
   --color-input-placeholder: #{$color-grey};
   --color-input-icon: #{$color-black};
   --color-input-footer: #{$color-grey};
@@ -310,6 +311,7 @@
     --color-input-text: #{$color-white};
     --color-input-label: #{$color-grey};
     --color-input-label-invalid: #{$color-negative};
+    --color-input-label-warning: #{$color-orange-night};
     --color-input-placeholder: #{$color-grey};
     --color-input-icon: #{$color-light-grey};
     --color-input-footer: #{$color-grey};
