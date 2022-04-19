@@ -1,5 +1,15 @@
 import { HttpStatusCode } from '@angular/common/http';
-import { bufferTime, defer, EMPTY, merge, Observable, of, partition, pipe, throwError } from 'rxjs';
+import {
+  bufferTime,
+  defer,
+  EMPTY,
+  merge,
+  Observable,
+  of,
+  partition,
+  pipe,
+  throwError,
+} from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -11,6 +21,7 @@ import {
   pluck,
   repeat,
   retry,
+  shareReplay,
   switchMap,
   takeUntil,
   tap,
@@ -37,13 +48,14 @@ const whilePDVAllowed = (pdvType: PDVType, walletAddress: Wallet['address']) => 
   const pdvSettingsService = settingsService.getUserSettingsService(walletAddress).pdv;
 
   const settingStatus$ = pdvSettingsService.getCollectionConfirmed().pipe(
+    shareReplay(1),
     switchMap((isCollectionConfirmed) => isCollectionConfirmed
       ? pdvSettingsService.getCollectedPDVTypes().pipe(
         pluck(pdvType),
-        distinctUntilChanged(),
       )
       : of(false),
     ),
+    distinctUntilChanged(),
   );
 
   const [allowed$, forbidden$] = partition(settingStatus$, (value: boolean) => value);
