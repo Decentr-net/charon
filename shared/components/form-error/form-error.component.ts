@@ -3,7 +3,7 @@ import { AbstractControl, ControlContainer } from '@angular/forms';
 import { merge, Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 
-import { FormWarningError } from './form-warning-error';
+import { FormControlWarn } from '@shared/forms';
 import { FORM_ERROR_TRANSLOCO_READ } from './form-error.tokens';
 
 @Component({
@@ -23,7 +23,7 @@ export class FormErrorComponent implements OnInit, OnChanges {
 
   public error$: Observable<{ key: string; params: Record<string, string>, isWarning: boolean } | null>;
 
-  private innerControl: ReplaySubject<AbstractControl> = new ReplaySubject(1);
+  private innerControl: ReplaySubject<AbstractControl | FormControlWarn<any>> = new ReplaySubject(1);
 
   constructor(
     @Optional() private controlContainer: ControlContainer,
@@ -47,25 +47,27 @@ export class FormErrorComponent implements OnInit, OnChanges {
         map(() => control),
       )),
       map((control) => {
-        if (!control.errors) {
-          return null;
-        }
+        if (control.errors) {
+          const [errorKey, errorValue] = Object.entries(control.errors)[0];
 
-        const [errorKey, errorValue] = Object.entries(control.errors)[0];
-
-        if (errorValue instanceof FormWarningError) {
           return {
             key: errorKey,
-            params: errorValue.params,
+            params: errorValue,
+            isWarning: false,
+          };
+        }
+
+        if (control instanceof FormControlWarn && control.warnings) {
+          const [warningKey, warningValue] = Object.entries(control.warnings)[0];
+
+          return {
+            key: warningKey,
+            params: warningValue,
             isWarning: true,
           };
         }
 
-        return {
-          key: errorKey,
-          params: errorValue,
-          isWarning: false,
-        };
+        return null;
       }),
       distinctUntilChanged(),
     );

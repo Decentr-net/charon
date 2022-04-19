@@ -14,6 +14,7 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
+import { FormControlWarn } from '@shared/forms';
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
 import { svgDecentrHub } from '@shared/svg-icons/decentr-hub';
@@ -115,7 +116,7 @@ export class TransferPageComponent implements OnInit {
             Validators.pattern('^((0)|(([1-9])([0-9]+)?)(0+)?)\\.?\\d{0,6}$'),
           ],
         ],
-        [RECEIVER_WALLET_PARAM]: [
+        [RECEIVER_WALLET_PARAM]: new FormControlWarn(
           '',
           [
             Validators.required,
@@ -123,7 +124,7 @@ export class TransferPageComponent implements OnInit {
           [
             this.transferPageService.createAsyncValidWalletAddressValidator(),
           ],
-        ],
+        ),
       }),
       comment: this.formBuilder.control(
         '',
