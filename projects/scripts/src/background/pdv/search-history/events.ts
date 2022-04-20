@@ -8,12 +8,18 @@ export type SearchQuery = Pick<SearchHistoryPDV, 'engine' | 'domain' | 'query'>;
 
 export const listenSearchQueries = (): Observable<SearchQuery> => {
   return new Observable((subscriber) => {
-    const listener = ({}, changeInfo: Browser.Tabs.OnUpdatedChangeInfoType, tab) => {
+    const listener = async (tabId: number, changeInfo: Browser.Tabs.OnUpdatedChangeInfoType) => {
+      if (changeInfo.status !== 'complete') {
+        return;
+      }
+
+      const tab = await Browser.tabs.get(tabId);
+
       if (!tab.active) {
         return;
       }
 
-      const url = changeInfo.url;
+      const url = tab.url;
 
       if (!url) {
         return;
