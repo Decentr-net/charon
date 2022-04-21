@@ -13,9 +13,10 @@ export const listenSearchQueries = (): Observable<SearchQuery> => {
         return;
       }
 
-      const tab = await Browser.tabs.get(tabId);
+      const tab = await Browser.tabs.get(tabId)
+        .catch(() => undefined);
 
-      if (!tab.active) {
+      if (!tab?.active) {
         return;
       }
 
