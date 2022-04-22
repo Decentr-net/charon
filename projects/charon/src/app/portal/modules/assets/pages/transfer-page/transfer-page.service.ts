@@ -48,7 +48,7 @@ export class TransferPageService {
         return of({ myAddress: false });
       }
 
-      if (!WalletAddressVerifier.verify(control.value) || !WalletAddressVerifier.verifyDecentr(control.value)) {
+      if (!WalletAddressVerifier.verifyDecentr(control.value)) {
         return of({ invalidAddress: false });
       }
 
