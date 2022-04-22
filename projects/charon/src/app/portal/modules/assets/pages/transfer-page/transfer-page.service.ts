@@ -9,7 +9,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
-import { createDecentrCoin, Wallet } from 'decentr-js';
+import { createDecentrCoin, Wallet, WalletAddressVerifier } from 'decentr-js';
 
 import { FormControlWarn } from '@shared/forms';
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
@@ -46,6 +46,10 @@ export class TransferPageService {
 
       if (control.value === this.authService.getActiveUserInstant().wallet.address) {
         return of({ myAddress: false });
+      }
+
+      if (!WalletAddressVerifier.verifyDecentr(control.value)) {
+        return of({ invalidAddress: false });
       }
 
       return timer(300).pipe(

@@ -2,6 +2,7 @@
 
 $transfer-page--border: 2px solid var(--color-outlines);
 $transfer-page--padding: $grid-step * 2;
+$transfer-page--input-height: 145px;
 
 :host {
   display: block;
@@ -73,7 +74,7 @@ $transfer-page--padding: $grid-step * 2;
 }
 
 .transfer-page__form__inputs-container {
-  align-items: center;
+  align-items: start;
   display: grid;
   column-gap: $grid-step * 2;
   grid-template-areas: 'amount icon to'
@@ -84,11 +85,12 @@ $transfer-page--padding: $grid-step * 2;
 
 .transfer-page__form__control-amount {
   grid-area: amount;
+  min-height: $transfer-page--input-height;
 }
 
 .transfer-page__form__control-to {
   grid-area: to;
-  height: 100%;
+  min-height: $transfer-page--input-height;
 }
 
 .transfer-page__form__control-memo {
@@ -100,13 +102,13 @@ $transfer-page--padding: $grid-step * 2;
 .transfer-page__form__icon {
   color: var(--color-dportal-transfer-page-form-arrow);
   flex-grow: 1;
+  min-height: $transfer-page--input-height;
   transform: rotate(180deg);
 }
 
 .transfer-page__form__icon-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
   row-gap: $grid-step;
 }
 
