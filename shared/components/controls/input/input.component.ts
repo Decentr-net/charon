@@ -52,6 +52,8 @@ export class InputComponent extends CustomControl<string> implements OnInit {
 
   @Input() public autofocus = false;
 
+  @Input() public isSpellcheckDisabled = false;
+
   @ViewChild('inputElement') public inputElement: ElementRef<HTMLElement>;
 
   @ViewChild('textareaElement') public textareaElement: ElementRef<HTMLElement>;
