@@ -80,7 +80,8 @@
       },
       "to": {
         "errors": {
-          "exists": "Enter valid wallet address",
+          "exists": "Make sure the address to send funds is correct. Funds may be irretrievably lost if sent to the wrong address.",
+          "invalidAddress": "Make sure you entered the valid Decentr wallet address",
           "myAddress": "You cannot send to your own account",
           "required": "Wallet address is required"
         },
