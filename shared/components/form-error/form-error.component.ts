@@ -23,7 +23,7 @@ export class FormErrorComponent implements OnInit, OnChanges {
 
   public error$: Observable<{ key: string; params: Record<string, string>, isWarning: boolean } | null>;
 
-  private innerControl: ReplaySubject<AbstractControl | FormControlWarn<any>> = new ReplaySubject(1);
+  private innerControl: ReplaySubject<AbstractControl | FormControlWarn<unknown>> = new ReplaySubject(1);
 
   constructor(
     @Optional() private controlContainer: ControlContainer,
