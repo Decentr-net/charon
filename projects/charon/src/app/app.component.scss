@@ -4,6 +4,7 @@
   background-color: var(--color-main-background);
   color: var(--color-main-text);
   display: block;
+  min-width: max-content;
 
   &.mod-popup-view {
     .app-init-loading {
