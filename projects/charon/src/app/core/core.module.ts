@@ -32,6 +32,7 @@ import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES, MenuService, NetworkSelectorService, NetworkService } from './services';
 import { PermissionsService } from './permissions';
 import { PasswordModule } from '@shared/components/password';
+import { ThemeModule } from '@shared/components/theme';
 
 export function initAuthFactory(authService: AuthService): () => void {
   return () => authService.init();
@@ -86,6 +87,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     SettingsModule.forRoot(),
     SlotModule.forRoot(),
     SvgIconRootModule,
+    ThemeModule.forRoot(),
     ToastrModule.forRoot({
       closeButton: true,
       positionClass: 'toast-top-center',

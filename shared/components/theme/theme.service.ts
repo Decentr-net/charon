@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable } from 'rxjs';
-import { pairwise } from 'rxjs/operators';
+import { pairwise, startWith } from 'rxjs/operators';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { BrowserLocalStorage, BrowserStorage } from '@shared/services/browser-storage';
 
@@ -11,14 +11,13 @@ export enum ThemeMode {
 }
 
 @UntilDestroy()
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ThemeService {
   private themeStorage: BrowserStorage<{ theme: ThemeMode }> = BrowserLocalStorage.getInstance();
 
-  constructor() {
+  public initialize(): void {
     this.getThemeValue().pipe(
+      startWith(undefined),
       pairwise(),
       untilDestroyed(this),
     ).subscribe(([previousTheme, currentTheme]) => {
