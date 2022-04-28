@@ -1,4 +1,5 @@
-const { DefinePlugin, NormalModuleReplacementPlugin } = require('webpack');
+const { resolve } = require('path');
+const { DefinePlugin } = require('webpack');
 const { merge: webpackMerge } = require('webpack-merge');
 const { config: baseConfig, manifestPluginFn } = require('./webpack.config.base');
 
@@ -8,12 +9,13 @@ module.exports = webpackMerge(baseConfig, {
     manifestPluginFn({
       "content_security_policy": "script-src 'self' 'wasm-eval' https://ssl.google-analytics.com https://beacon-v2.helpscout.net; object-src 'self'",
     }),
-    new NormalModuleReplacementPlugin(
-      /environments\/environment\.ts/,
-      './environment.prod.ts',
-    ),
     new DefinePlugin({
       IS_QA_MODE: process.env.QA,
     }),
   ],
+  resolve: {
+    alias: {
+      [resolve(__dirname, '../../environments/environment.ts')]: resolve(__dirname, '../../environments/environment.prod.ts'),
+    },
+  },
 });
