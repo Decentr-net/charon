@@ -7,7 +7,7 @@ const requestLocationPermission = (): Promise<PermissionStatus> => {
 
 const watchPermissionStatusChange = (permissionStatus: PermissionStatus): Observable<PermissionStatus> => {
   return new Observable((subscriber) => {
-    const listener = function(): void {
+    const listener = function (): void {
       subscriber.next(this);
     };
 
@@ -19,8 +19,8 @@ const watchPermissionStatusChange = (permissionStatus: PermissionStatus): Observ
 
 const listenLocationPermissionState = (): Observable<PermissionState> => {
   return from(requestLocationPermission()).pipe(
-    mergeMap((status) => watchPermissionStatusChange(status).pipe(
-      startWith(status),
+    mergeMap((permissionStatus) => watchPermissionStatusChange(permissionStatus).pipe(
+      startWith(permissionStatus),
       map((status) => status.state),
     )),
   );
@@ -36,6 +36,6 @@ const watchPosition = (): Observable<GeolocationPosition> => {
 
 export const watchPositionOnAllowedSites = (): Observable<GeolocationPosition> => {
   return listenLocationPermissionState().pipe(
-    switchMap((state) => state === 'granted' ? watchPosition() : EMPTY)
+    switchMap((state) => state === 'granted' ? watchPosition() : EMPTY),
   );
 };

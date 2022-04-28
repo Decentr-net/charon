@@ -11,42 +11,38 @@ export interface CoinRateFor24Hours {
 
 @Injectable()
 export class CurrencyService {
+  private readonly blockchainId = 'decentr';
+
+  private readonly currencyId = 'usd';
+
   constructor(
     private currencyApiService: CurrencyApiService,
   ) {
   }
 
   public getDecentrCoinRateForUsd(): Observable<number> {
-    const blockchainId = 'decentr';
-    const currencyId = 'usd';
-
-    return this.currencyApiService.getCoinRate([blockchainId], [currencyId])
+    return this.currencyApiService.getCoinRate([this.blockchainId], [this.currencyId])
       .pipe(
-        map((rates) => rates[blockchainId][currencyId])
+        map((rates) => rates[this.blockchainId][this.currencyId]),
       );
   }
 
   public getDecentrCoinRateForUsd24hours(): Observable<CoinRateFor24Hours> {
-    const blockchainId = 'decentr';
-    const currencyId = 'usd';
-    const lastDayChange = `${currencyId}_24h_change`;
+    const lastDayChange = `${this.currencyId}_24h_change`;
 
-    return this.currencyApiService.getCoinRate([blockchainId], [currencyId], true)
+    return this.currencyApiService.getCoinRate([this.blockchainId], [this.currencyId], true)
       .pipe(
         map((rates) => ({
-          dayMargin: rates[blockchainId][lastDayChange],
-          value: rates[blockchainId][currencyId]
-        }))
+          dayMargin: rates[this.blockchainId][lastDayChange],
+          value: rates[this.blockchainId][this.currencyId],
+        })),
       );
   }
 
   public getDecentrCoinRateHistory(days: number): Observable<CoinRateHistoryResponse['prices']> {
-    const blockchainId = 'decentr';
-    const currencyId = 'usd';
-
-    return this.currencyApiService.getCoinRateHistory(blockchainId, currencyId, days)
+    return this.currencyApiService.getCoinRateHistory(this.blockchainId, this.currencyId, days)
       .pipe(
-        map((rateHistory) => rateHistory.prices)
+        map((rateHistory) => rateHistory.prices),
       );
   }
 }

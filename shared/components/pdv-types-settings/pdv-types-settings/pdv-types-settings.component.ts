@@ -6,9 +6,8 @@ import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 
 import { AuthBrowserStorageService } from '../../../services/auth';
-import { CollectedPDVTypesSettings } from '../../../services/settings';
+import { CollectedPDVTypesSettings, SettingsService } from '../../../services/settings';
 import { PDVTypesToggleTranslations } from '../pdv-types-toggle';
-import { SettingsService } from '../../../services/settings';
 import { svgArrowLeft } from '../../../svg-icons/arrow-left';
 import { svgSpeedometer } from '../../../svg-icons/speedometer';
 

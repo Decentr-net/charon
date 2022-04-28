@@ -7,6 +7,7 @@ export type SlotTemplate = TemplateRef<{ rootElement: HTMLElement }>;
 @Injectable()
 export class SlotService {
   private readonly slotMap: Map<symbol, SlotTemplate> = new Map();
+
   private readonly slotMapChanged$: Subject<symbol> = new Subject();
 
   public registerSlot(name: symbol, template: SlotTemplate): void {

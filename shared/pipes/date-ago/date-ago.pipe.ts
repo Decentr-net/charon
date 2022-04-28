@@ -39,7 +39,7 @@ export class DateAgoPipe implements PipeTransform, OnDestroy {
       .pipe(
         map(() => this.ngZone.run(() => this.changeDetectorRef.markForCheck())),
       )
-      .subscribe()
+      .subscribe(),
     );
 
     if (Number.isNaN(seconds)) {
@@ -75,7 +75,7 @@ export class DateAgoPipe implements PipeTransform, OnDestroy {
     ).pipe(
       map((translate) => params.value
         ? `${params.value} ${translate}`
-        : translate
+        : translate,
       ),
     );
   }

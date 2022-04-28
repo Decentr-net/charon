@@ -32,8 +32,9 @@ const openPopupTab = (
   const popupOptions = {
     height,
     left: Math.min(
-      Math.max((options.screenX || 0) + (options.outerWidth || window.screen.width) - width, 0
-    ), window.screen.width - width),
+      Math.max((options.screenX || 0) + (options.outerWidth || window.screen.width) - width, 0),
+      window.screen.width - width,
+    ),
     top: Math.max(options.screenY || 0, 0),
     width,
   };

@@ -1,7 +1,10 @@
+@import 'typeface';
+
 :host {
   background-color: var(--color-main-background);
   color: var(--color-main-text);
   display: block;
+  min-width: max-content;
 
   &.mod-popup-view {
     .app-init-loading {
@@ -18,12 +21,11 @@
 
     &__icon {
       display: inline-flex;
-      font-size: 50px;
       margin-bottom: .5rem;
     }
 
     &__message {
-      font-size: 18px;
+      @include typeface-paragraph;
     }
   }
 }

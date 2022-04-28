@@ -9,6 +9,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class DragScrollDirective implements OnInit {
   private defaultCursor: string;
+
   private dragScrollElement: HTMLElement;
 
   constructor(

@@ -11,7 +11,7 @@ import {
   Output,
   SimpleChanges,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
@@ -31,42 +31,61 @@ import { LineChartTooltipDirective } from './line-chart-tooltip.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineChartComponent implements AfterViewInit, OnChanges {
-  @ContentChild(LineChartTooltipDirective, { static: false, read: TemplateRef }) tooltipRef: TemplateRef<{}>;
+  @ContentChild(LineChartTooltipDirective, { static: false, read: TemplateRef }) tooltipRef: TemplateRef<unknown>;
 
   @ViewChild('tooltipContainer', { static: true }) tooltipContainerRef: ElementRef;
+
   @ViewChild('chart', { static: false }) chartRef: ElementRef;
 
   @Input() public data: ChartPoint[];
+
   @Input() private color: string = '#000000';
+
   @Input() private isMinYZero: boolean = false;
+
   @Input() private lineWidth: number = 2;
+
   @Input() private showArea: boolean = false;
+
   @Input() private showHoverLine: boolean = false;
+
   @Input() private showTooltip: boolean = false;
 
   @Output() public chartPointHovered: EventEmitter<ChartPoint> = new EventEmitter();
 
   private containerHeight: number;
+
   private containerWidth: number;
+
   private height: number;
+
   private margin = {
     bottom: 5,
     left: 5,
     right: 5,
     top: 5,
   };
+
   private width: number;
 
   private chartContainer: d3.Selection<SVGSVGElement, unknown, null, undefined>;
+
   public chartPointActive: ChartPoint;
+
   private hoverLine: d3.Selection<SVGGElement, unknown, null, undefined>;
+
   private onMouserMoveSubj = new Subject<MouseEvent>();
+
   private svg: d3.Selection<SVGSVGElement, unknown, null, undefined>;
-  private tooltip: d3.Selection<any, unknown, HTMLElement, any>;
+
+  private tooltip: d3.Selection<Element, unknown, HTMLElement, unknown>;
 
   private area: d3.Area<ChartPoint>;
+
   private line: d3.Line<ChartPoint>;
+
   private x: d3.ScaleTime<number, number>;
+
   private y: d3.ScaleLinear<number, number>;
 
   private bisectDate = d3.bisector((d: ChartPoint): Date => {
@@ -89,7 +108,7 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
     }
 
     observeResize(this.chartRef.nativeElement).pipe(
-      untilDestroyed(this)
+      untilDestroyed(this),
     ).subscribe(() => this.repaint());
 
     this.onMouserMoveSubj.pipe(
@@ -199,7 +218,7 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
     }
 
     this.cdRef.detectChanges();
-  }
+  };
 
   public onMouseMove = (event: MouseEvent): void => {
     const positionX = d3.pointer(event)[0];
@@ -239,11 +258,11 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
     }
 
     this.cdRef.detectChanges();
-  }
+  };
 
   public onMouseLeave = (): void => {
     this.clearHoverItems();
-  }
+  };
 
   private clearHoverItems(): void {
     if (this.showHoverLine) {

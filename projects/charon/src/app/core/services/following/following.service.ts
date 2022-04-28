@@ -24,14 +24,15 @@ export class FollowingService {
 
     FollowingService.isFollowingUpdating$.next(true);
 
-    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
-      .sendMessage(MessageCode.Follow, {
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
+      MessageCode.Follow,
+      {
         request: {
           owner: wallet.address,
           whom,
         },
-      })
-    ).pipe(
+      },
+    )).pipe(
       map((response) => {
         FollowingService.isFollowingUpdating$.next(false);
 
@@ -45,14 +46,15 @@ export class FollowingService {
 
     FollowingService.isFollowingUpdating$.next(true);
 
-    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
-      .sendMessage(MessageCode.Unfollow, {
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
+      MessageCode.Unfollow,
+      {
         request: {
           owner: wallet.address,
           whom,
         },
-      })
-    ).pipe(
+      },
+    )).pipe(
       map((response) => {
         FollowingService.isFollowingUpdating$.next(false);
 

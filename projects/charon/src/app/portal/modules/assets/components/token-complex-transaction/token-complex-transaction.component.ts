@@ -14,7 +14,7 @@ import { TokenComplexTransaction } from './token-complex-transaction';
 export class TokenComplexTransactionComponent implements OnInit {
   @Input() public transaction: TokenComplexTransaction;
 
-  public isOpenedInPopup: boolean = !isOpenedInTab();
+  public isOpenedInPopup = !isOpenedInTab();
 
   constructor(
     private svgIconRegistry: SvgIconRegistry,

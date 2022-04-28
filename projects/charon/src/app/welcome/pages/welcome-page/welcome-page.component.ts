@@ -17,11 +17,12 @@ import { AppRoute } from '../../../app-route';
 })
 export class WelcomePageComponent implements OnInit {
   public readonly appRoute: typeof AppRoute = AppRoute;
+
   public readonly loginRoute: typeof LoginRoute = LoginRoute;
 
   constructor(
     private networkSelector: NetworkSelectorService,
-    svgIconRegistry: SvgIconRegistry
+    svgIconRegistry: SvgIconRegistry,
   ) {
     svgIconRegistry.register([
       svgLogoIcon,

@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Compiler, Component, ElementRef, Injector, Input, OnInit } from '@angular/core';
-import { ThemeService } from '@core/services';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as Highcharts from 'highcharts';
 import { combineLatest, ReplaySubject } from 'rxjs';
-import { startWith } from 'rxjs/operators';
 
+import { ThemeService } from '@shared/components/theme';
 import { ComponentFactoryClass } from '../../utils/component-factory';
 import { TooltipComponent, TooltipModule } from '../tooltip';
 
@@ -37,9 +36,7 @@ export class PdvRateChartComponent implements OnInit {
   public ngOnInit(): void {
     combineLatest([
       this.setData$,
-      this.themeService.themeChanged$.pipe(
-        startWith(undefined),
-      ),
+      this.themeService.getThemeValue(),
     ]).pipe(
       untilDestroyed(this),
     ).subscribe(([value]) => this.paintChart(value));
@@ -54,8 +51,8 @@ export class PdvRateChartComponent implements OnInit {
   }
 
   private getChartOptions(value: PdvChartPoint[]): Highcharts.Options {
-    const component = new ComponentFactoryClass<TooltipModule, TooltipComponent>
-    (this.injector, this.compiler).createComponent(TooltipModule, TooltipComponent);
+    const component = new ComponentFactoryClass<TooltipModule, TooltipComponent>(this.injector, this.compiler)
+      .createComponent(TooltipModule, TooltipComponent);
 
     const defaultOptions: Highcharts.Options = {
       credits: {

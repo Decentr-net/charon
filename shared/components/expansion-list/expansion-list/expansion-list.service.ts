@@ -8,7 +8,7 @@ import { ExpansionListColumnDefDirective } from '../expansion-list-column';
 export class ExpansionListService<T> {
   private readonly data: ReplaySubject<T[]> = new ReplaySubject(1);
 
-  private readonly activeColumn: ReplaySubject<ExpansionListColumnDefDirective<any>> = new ReplaySubject();
+  private readonly activeColumn: ReplaySubject<ExpansionListColumnDefDirective<unknown>> = new ReplaySubject();
 
   public getData(): Observable<T[]> {
     return this.data;
@@ -18,13 +18,13 @@ export class ExpansionListService<T> {
     this.data.next(data);
   }
 
-  public getActiveColumn(): Observable<ExpansionListColumnDefDirective<any>> {
+  public getActiveColumn(): Observable<ExpansionListColumnDefDirective<unknown>> {
     return this.activeColumn.pipe(
       distinctUntilChanged(),
     );
   }
 
-  public setActiveColumn(column: ExpansionListColumnDefDirective<any>): void {
+  public setActiveColumn(column: ExpansionListColumnDefDirective<unknown>): void {
     this.activeColumn.next(column);
   }
 }

@@ -20,7 +20,7 @@ const listenActivityEnd = (): Observable<void> => {
         ? lockStorage.getLastActivityTimeChanges().pipe(
           debounceTime(lockDelay),
         )
-        : EMPTY
+        : EMPTY,
       ),
       map(() => void 0),
     );

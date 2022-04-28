@@ -3,13 +3,13 @@
 $popup-side-padding: $grid-step * 2;
 
 :host {
-  &.mod-tab-view {
+  .mod-tab-view & {
     display: grid;
     grid-template-rows: max-content 1fr max-content;
     height: 100vh;
   }
 
-  &.mod-popup-view {
+  .mod-popup-view & {
     $popup-view--header-width: 420px;
 
     display: flex;

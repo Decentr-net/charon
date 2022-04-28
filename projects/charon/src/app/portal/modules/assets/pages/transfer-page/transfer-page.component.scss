@@ -2,6 +2,7 @@
 
 $transfer-page--border: 2px solid var(--color-outlines);
 $transfer-page--padding: $grid-step * 2;
+$transfer-page--input-height: 145px;
 
 :host {
   display: block;
@@ -19,7 +20,7 @@ $transfer-page--padding: $grid-step * 2;
     }
   }
 
-  &.mod-popup-view {
+  .mod-popup-view & {
     .transfer-page__form__inputs-container {
       display: block;
     }
@@ -40,7 +41,7 @@ $transfer-page--padding: $grid-step * 2;
     }
   }
 
-  &:not(.mod-popup-view) {
+  .mod-tab-view & {
     border: $transfer-page--border;
     border-radius: $border-radius;
   }
@@ -73,11 +74,10 @@ $transfer-page--padding: $grid-step * 2;
 }
 
 .transfer-page__form__inputs-container {
-  align-items: center;
+  align-items: start;
   display: grid;
   column-gap: $grid-step * 2;
   grid-template-areas: 'amount icon to'
-                       'error-amount empty error-to'
                        'memo memo memo';
   grid-template-columns: 1fr max-content 1fr;
   padding-bottom: $grid-step;
@@ -85,19 +85,12 @@ $transfer-page--padding: $grid-step * 2;
 
 .transfer-page__form__control-amount {
   grid-area: amount;
-}
-
-.transfer-page__form__error-amount {
-  grid-area: error-amount;
+  min-height: $transfer-page--input-height;
 }
 
 .transfer-page__form__control-to {
   grid-area: to;
-  height: 100%;
-}
-
-.transfer-page__form__error-to {
-  grid-area: error-to;
+  min-height: $transfer-page--input-height;
 }
 
 .transfer-page__form__control-memo {
@@ -108,8 +101,19 @@ $transfer-page--padding: $grid-step * 2;
 
 .transfer-page__form__icon {
   color: var(--color-dportal-transfer-page-form-arrow);
-  font-size: 48px;
+  flex-grow: 1;
+  min-height: $transfer-page--input-height;
   transform: rotate(180deg);
+}
+
+.transfer-page__form__icon-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: $grid-step;
+}
+
+.transfer-page__form__icon-dummy {
+  min-height: $grid-step * 2;
 }
 
 .transfer-page__form__error {

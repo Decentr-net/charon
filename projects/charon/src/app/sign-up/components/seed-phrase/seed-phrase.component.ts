@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgLoud } from '@shared/svg-icons/loud';
@@ -13,6 +13,7 @@ export class SeedPhraseComponent {
   @Input() public seedPhrase: string;
 
   @Output() public readonly back: EventEmitter<void> = new EventEmitter();
+
   @Output() public readonly next: EventEmitter<void> = new EventEmitter();
 
   constructor(

@@ -6,11 +6,14 @@ import { initPDVCollection } from './background/pdv';
 import { whileVersionSupported } from './background/technical';
 import initContextMenu from './background/context-menu';
 import { handleMultipleInstallations } from './background/installation';
+import { initializeConfigPort } from './background/config';
 
 (async () => {
   await handleMultipleInstallations();
 
   initMigration();
+
+  initializeConfigPort();
 
   await initNetwork();
 

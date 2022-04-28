@@ -45,6 +45,7 @@ export class ValidatorStatusComponent implements OnInit {
   }
 
   public readonly validatorStatus: typeof BondStatus = BondStatus;
+
   public validatorStatusIcon: string;
 
   constructor(

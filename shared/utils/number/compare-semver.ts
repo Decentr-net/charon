@@ -1,3 +1,7 @@
+const splitVersion = (version: string): number[] => {
+  return version.split('.').map((num) => +num);
+};
+
 export const compareSemver = (a: string, b: string): -1 | 0 | 1 => {
   const aArr = splitVersion(a);
   const bArr = splitVersion(b);
@@ -16,8 +20,4 @@ export const compareSemver = (a: string, b: string): -1 | 0 | 1 => {
   }
 
   return 0;
-};
-
-const splitVersion = (version: string): number[] => {
-  return version.split('.').map((num) => +num);
 };

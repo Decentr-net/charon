@@ -10,7 +10,6 @@ import { CurrencySymbolModule } from '@shared/components/currency-symbol';
 import { TextEllipsisModule } from '../../directives/text-ellipsis';
 import { TypefaceModule } from '../../directives/typeface';
 import { PdvValueModule } from '../../pipes/pdv-value';
-import { SanitizeModule } from '../../pipes/sanitize';
 import { AvatarModule } from '../avatar';
 import { MenuComponent } from './menu';
 import { MenuService } from './menu.service';
@@ -34,12 +33,11 @@ export interface MenuModuleConfig {
     PdvValueModule,
     SvgIconsModule,
     RouterModule,
-    SanitizeModule,
     TextEllipsisModule,
     TypefaceModule,
   ],
   declarations: [
-    MenuComponent
+    MenuComponent,
   ],
   exports: [
     MenuComponent,

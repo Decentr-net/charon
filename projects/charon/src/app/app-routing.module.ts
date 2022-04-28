@@ -1,8 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { BrowserTabGuard, MaintenanceGuard, OfflineGuard, SupportedVersionGuard, UpdateGuard } from '@core/guards';
-import { AuthCompletedRegistrationGuard, UnauthGuard } from '@core/guards';
+import {
+  AuthCompletedRegistrationGuard,
+  BrowserTabGuard,
+  MaintenanceGuard,
+  OfflineGuard,
+  SupportedVersionGuard,
+  UnauthGuard,
+  UpdateGuard,
+} from '@core/guards';
 import { AuthorizedLayoutComponent } from '@core/layout/authorized-layout';
 import { PUBLIC_LAYOUT_INCLUDE_LOGO_KEY, PublicLayoutComponent } from '@core/layout/public-layout';
 import { LockGuard } from '@core/lock';
@@ -136,7 +143,7 @@ const ROUTES: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(ROUTES, { useHash: true, relativeLinkResolution: 'legacy' })
+    RouterModule.forRoot(ROUTES, { useHash: true, relativeLinkResolution: 'legacy' }),
   ],
   exports: [
     RouterModule,

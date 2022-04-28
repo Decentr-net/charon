@@ -4,7 +4,7 @@ import {
   Component,
   ElementRef,
   OnInit,
-  TrackByFunction,
+  Optional,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
@@ -26,6 +26,7 @@ import { HubProfile } from '../../components/hub-profile-card';
 import { PostPageService } from './post-page.service';
 import { getHubPDVStats } from '../../utils/pdv';
 import { PortalRoute } from '../../../portal';
+import { ScrollablePage } from '../scrollable-page';
 
 @UntilDestroy()
 @Component({
@@ -39,6 +40,7 @@ import { PortalRoute } from '../../../portal';
 })
 export class PostPageComponent implements OnInit {
   public readonly appRoute: typeof AppRoute = AppRoute;
+
   public readonly hubRoute: typeof HubRoute = HubRoute;
 
   public post: PostsListItem;
@@ -53,8 +55,6 @@ export class PostPageComponent implements OnInit {
 
   public readonly analyticsEvent: typeof AnalyticsEvent = AnalyticsEvent;
 
-  public trackByPostId: TrackByFunction<PostsListItem> = ({}, { uuid }) => uuid;
-
   public postLinkFn: (post: PostsListItem) => string[] = (post) => ['../../', post.owner, post.uuid];
 
   constructor(
@@ -66,6 +66,7 @@ export class PostPageComponent implements OnInit {
     private svgIconRegistry: SvgIconRegistry,
     private router: Router,
     private translocoService: TranslocoService,
+    @Optional() private scrollablePage: ScrollablePage,
   ) {
   }
 
@@ -81,6 +82,8 @@ export class PostPageComponent implements OnInit {
     post$.pipe(
       untilDestroyed(this),
     ).subscribe((post) => {
+      this.scrollablePage?.setScrollTop(0);
+
       this.isFollowingAuthor = undefined;
       this.post = post;
 

@@ -27,6 +27,17 @@ export abstract class CustomControl<T> extends ControlValueAccessor<T> implement
     ngControl.valueAccessor = this;
   }
 
+
+  public set hasWarningError(value: boolean) {
+    const warningClass = 'mod-warning';
+
+    if (value) {
+      this.renderer2.addClass(this.elementRef.nativeElement, warningClass);
+    } else {
+      this.renderer2.removeClass(this.elementRef.nativeElement, warningClass);
+    }
+  }
+
   public init(): void {
     merge(
       this.ngControl.statusChanges,
@@ -37,25 +48,38 @@ export abstract class CustomControl<T> extends ControlValueAccessor<T> implement
       startWith(0),
       untilDestroyed(this),
     ).subscribe(() => {
-      this.value
-        ? this.renderer2.removeClass(this.elementRef.nativeElement, 'is-empty')
-        : this.renderer2.addClass(this.elementRef.nativeElement, 'is-empty');
+      const emptyClass = 'is-empty';
+      const invalidClass = 'is-invalid';
+      const touchedClass = 'is-touched';
+      const submittedClass = 'is-submitted';
 
-      this.ngControl.invalid
-        ? this.renderer2.addClass(this.elementRef.nativeElement, 'is-invalid')
-        : this.renderer2.removeClass(this.elementRef.nativeElement, 'is-invalid');
+      if (this.value) {
+        this.renderer2.removeClass(this.elementRef.nativeElement, emptyClass);
+      } else {
+        this.renderer2.addClass(this.elementRef.nativeElement, emptyClass);
+      }
 
-      this.ngControl.touched
-        ? this.renderer2.addClass(this.elementRef.nativeElement, 'is-touched')
-        : this.renderer2.removeClass(this.elementRef.nativeElement, 'is-touched');
+      if (this.ngControl.invalid) {
+        this.renderer2.addClass(this.elementRef.nativeElement, invalidClass);
+      } else {
+        this.renderer2.removeClass(this.elementRef.nativeElement, invalidClass);
+      }
 
-      this.submitSource?.submitted
-        ? this.renderer2.addClass(this.elementRef.nativeElement, 'is-submitted')
-        : this.renderer2.removeClass(this.elementRef.nativeElement, 'is-submitted');
+      if (this.ngControl.touched) {
+        this.renderer2.addClass(this.elementRef.nativeElement, touchedClass);
+      } else {
+        this.renderer2.removeClass(this.elementRef.nativeElement, touchedClass);
+      }
+
+      if (this.submitSource?.submitted) {
+        this.renderer2.addClass(this.elementRef.nativeElement, submittedClass);
+      } else {
+        this.renderer2.removeClass(this.elementRef.nativeElement, submittedClass);
+      }
     });
   }
 
-  public registerOnTouched(fn: () => void): void {
+  public override registerOnTouched(fn: () => void): void {
     this.onTouched = () => {
       fn();
       this.touched.next();
@@ -68,10 +92,13 @@ export abstract class CustomControl<T> extends ControlValueAccessor<T> implement
   }
 
   public setDisabledState(isDisabled: boolean): void {
+    const disabledClass = 'is-disabled';
     this.isDisabled = isDisabled;
 
-    isDisabled
-      ? this.renderer2.addClass(this.elementRef.nativeElement, 'is-disabled')
-      : this.renderer2.removeClass(this.elementRef.nativeElement, 'is-disabled');
+    if (isDisabled) {
+      this.renderer2.addClass(this.elementRef.nativeElement, disabledClass);
+    } else {
+      this.renderer2.removeClass(this.elementRef.nativeElement, disabledClass);
+    }
   }
 }

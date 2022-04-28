@@ -59,7 +59,7 @@ export class PDVService {
   public getEstimatedBalance(): Observable<string> {
     return combineLatest([
       this.authService.getActiveUserAddress().pipe(
-        switchMap((walletAddress) => this.pdvStorageService.getUserAccumulatedPDVChanges(walletAddress))
+        switchMap((walletAddress) => this.pdvStorageService.getUserAccumulatedPDVChanges(walletAddress)),
       ),
       this.getRewards(),
     ]).pipe(

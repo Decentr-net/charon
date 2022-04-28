@@ -24,7 +24,7 @@ import { DecentrService } from '../decentr';
 
 @Injectable()
 export class StakingService {
-    constructor(
+  constructor(
     private authService: AuthService,
     private decentrService: DecentrService,
   ) {
@@ -33,15 +33,17 @@ export class StakingService {
   public delegateTokens(request: Omit<DelegateTokensRequest, 'delegatorAddress'>): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
-      .sendMessage(MessageCode.Delegate, {
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
+      MessageCode.Delegate,
+      {
         request: {
           ...request,
           delegatorAddress: wallet.address,
         },
-      })).pipe(
-        map(assertMessageResponseSuccess),
-      );
+      },
+    )).pipe(
+      map(assertMessageResponseSuccess),
+    );
   }
 
   public getDelegationFee(request: Omit<DelegateTokensRequest, 'delegatorAddress'>): Observable<number> {
@@ -67,9 +69,10 @@ export class StakingService {
           ...request,
           delegatorAddress: wallet.address,
         },
-      })).pipe(
-        map(assertMessageResponseSuccess),
-      );
+      }),
+    ).pipe(
+      map(assertMessageResponseSuccess),
+    );
   }
 
   public getRedelegationFee(
@@ -102,19 +105,21 @@ export class StakingService {
   public undelegateTokens(validatorAddress: Validator['operatorAddress'], amount: Coin): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
-      .sendMessage(MessageCode.Undelegate, {
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
+      MessageCode.Undelegate,
+      {
         request: {
           delegatorAddress: wallet.address,
           validatorAddress,
           amount,
         },
-      })).pipe(
-        map(assertMessageResponseSuccess),
-      );
+      },
+    )).pipe(
+      map(assertMessageResponseSuccess),
+    );
   }
 
-  public getUndelegationFee(request: Omit<UndelegateTokensRequest, 'delegatorAddress'>,): Observable<number> {
+  public getUndelegationFee(request: Omit<UndelegateTokensRequest, 'delegatorAddress'>): Observable<number> {
     return combineLatest([
       this.decentrService.decentrClient,
       this.authService.getActiveUser(),
@@ -230,7 +235,7 @@ export class StakingService {
     );
   }
 
-  public getValidators(onlyBonded: boolean = false): Observable<Validator[]> {
+  public getValidators(onlyBonded = false): Observable<Validator[]> {
     return this.decentrService.decentrClient.pipe(
       map((decentrClient) => decentrClient.staking),
       mergeMap((stakingClient) => forkJoin([

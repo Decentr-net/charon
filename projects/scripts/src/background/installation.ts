@@ -1,4 +1,4 @@
-import Browser from 'webextension-polyfill';
+import * as Browser from 'webextension-polyfill';
 
 import { isInstalledAsExtension } from '../../../../shared/utils/browser';
 

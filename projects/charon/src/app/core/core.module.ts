@@ -15,12 +15,13 @@ import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { NotificationsModule } from '@shared/services/notification';
 import { PDVStorageService } from '@shared/services/pdv';
 import { SettingsModule } from '@shared/services/settings';
+import { ConfigPortSource } from '@scripts/background/config/sources/config-port-source';
 import { ERROR_PROCESSORS, FallbackErrorProcessor } from '@core/notifications';
 import { AppRoute } from '../app-route';
 import { AuthModule, AuthService } from './auth';
 import { AuthorizedLayoutModule } from './layout/authorized-layout';
 import { LockModule } from './lock';
-import { ConfigService, ConfigurationModule } from '@shared/services/configuration';
+import { ConfigService, ConfigSource, ConfigurationModule } from '@shared/services/configuration';
 import { CORE_GUARDS } from './guards';
 import { INTERCEPTORS_PROVIDERS } from './interceptors';
 import { NavigationModule, NavigationService } from './navigation';
@@ -31,6 +32,7 @@ import { TranslocoRootModule } from './transloco';
 import { CORE_SERVICES, MenuService, NetworkSelectorService, NetworkService } from './services';
 import { PermissionsService } from './permissions';
 import { PasswordModule } from '@shared/components/password';
+import { ThemeModule } from '@shared/components/theme';
 
 export function initAuthFactory(authService: AuthService): () => void {
   return () => authService.init();
@@ -40,7 +42,7 @@ export function isMaintenanceFactory(configService: ConfigService, navigationSer
   return () => {
     firstValueFrom(configService.getMaintenanceStatus()).then((isMaintenance) => {
       if (isMaintenance) {
-        throw true;
+        throw new Error();
       }
     }).catch(() => {
       navigationService.redirectToMaintenancePage();
@@ -85,6 +87,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     SettingsModule.forRoot(),
     SlotModule.forRoot(),
     SvgIconRootModule,
+    ThemeModule.forRoot(),
     ToastrModule.forRoot({
       closeButton: true,
       positionClass: 'toast-top-center',
@@ -112,6 +115,10 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     {
       provide: BaseNetworkSelectorService,
       useExisting: NetworkSelectorService,
+    },
+    {
+      provide: ConfigSource,
+      useClass: ConfigPortSource,
     },
     {
       provide: Environment,

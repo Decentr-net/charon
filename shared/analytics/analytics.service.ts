@@ -8,7 +8,7 @@ import {
   ANALYTICS_EVENT_MAP,
   ANALYTICS_TRACKER_ID,
   AnalyticsEvent,
-  AnalyticsEventOptions
+  AnalyticsEventOptions,
 } from './analytics.definitions';
 
 @UntilDestroy()

@@ -2,7 +2,11 @@ import * as commonAPI from './common';
 import * as shareAPI from './share';
 import * as swapAPI from './swap';
 
-(window as any).charon = {
+type WindowWithCharonAPI = Window & typeof global & {
+  charon: unknown;
+};
+
+(window as WindowWithCharonAPI).charon = {
   ...commonAPI,
   ...shareAPI,
   ...swapAPI,

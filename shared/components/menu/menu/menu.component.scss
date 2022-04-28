@@ -44,7 +44,6 @@ $menu--user-avatar--size: 40px;
 .menu__trigger-icon {
   color: $color-grey;
   display: inline-flex;
-  font-size: 24px;
   min-width: 1em;
   transition: color .3s ease;
 }
@@ -82,7 +81,6 @@ $menu--user-avatar--size: 40px;
   color: $color-grey;
   display: inline-flex;
   flex-shrink: 0;
-  font-size: 24px;
 }
 
 ::ng-deep {

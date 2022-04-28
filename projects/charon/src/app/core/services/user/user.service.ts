@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { defer, Observable, of, Subject, timer } from 'rxjs';
-import { catchError, filter, map, mergeMap, skipWhile, switchMap, take, tap, } from 'rxjs/operators';
-import { Account, Profile, ProfileUpdate, Wallet, } from 'decentr-js';
+import { catchError, filter, map, mergeMap, skipWhile, switchMap, take, tap } from 'rxjs/operators';
+import { Account, Profile, ProfileUpdate, Wallet } from 'decentr-js';
 
 import { MessageBus } from '@shared/message-bus';
 import { NetworkId } from '@shared/services/configuration';
@@ -51,7 +51,7 @@ export class UserService {
       : this.decentrService.decentrClient;
 
     return decentrClient.pipe(
-      mergeMap((decentrClient) => decentrClient.auth.getAccount(walletAddress))
+      mergeMap((decentrClientInstance) => decentrClientInstance.auth.getAccount(walletAddress)),
     );
   }
 
@@ -76,7 +76,7 @@ export class UserService {
         ? of(void 0)
         : this.hesoyam(walletAddress).pipe(
           mergeMap(() => this.waitAccount(walletAddress, NetworkId.Testnet)),
-        )
+        ),
       ),
       map(() => void 0),
       take(1),
@@ -109,14 +109,15 @@ export class UserService {
   public resetAccount(
     walletAddress: Wallet['address'],
   ): Observable<void> {
-    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
-      .sendMessage(MessageCode.ResetAccount, {
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
+      MessageCode.ResetAccount,
+      {
         request: {
           owner: walletAddress,
           address: walletAddress,
         },
-      })
-    ).pipe(
+      },
+    )).pipe(
       map(assertMessageResponseSuccess),
       mergeMap(() => this.settingsService.getUserSettingsService(walletAddress).clear()),
       mergeMap(() => this.pdvStorageService.clearUserPDV(walletAddress)),

@@ -7,9 +7,15 @@
   padding: $grid-step * 2;
   width: 100%;
 
-  &.is-invalid {
-    &.is-submitted,
-    &.is-touched {
+  &.is-submitted,
+  &.is-touched {
+    &.mod-warning {
+      .input__label {
+        color: var(--color-input-label-warning);
+      }
+    }
+
+    &.is-invalid {
       .input__label {
         color: var(--color-input-label-invalid);
       }

@@ -27,7 +27,7 @@ export const ANALYTICS_EVENT_MAP: Record<AnalyticsEvent, AnalyticsEventOptions> 
   [AnalyticsEvent.CopyPostLink]: {
     category: 'dhub',
     action: 'copy',
-    label: 'Copy dHub post link'
+    label: 'Copy dHub post link',
   },
   [AnalyticsEvent.CopyReferralCode]: {
     category: 'profile',
@@ -59,6 +59,6 @@ export const ANALYTICS_EVENT_MAP: Record<AnalyticsEvent, AnalyticsEventOptions> 
     action: 'send',
     label: 'Resend Email Code',
   },
-}
+};
 
 export const ANALYTICS_TRACKER_ID: InjectionToken<string> = new InjectionToken('ANALYTICS_TRACKER_ID');

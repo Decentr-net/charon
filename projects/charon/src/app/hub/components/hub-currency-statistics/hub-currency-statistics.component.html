@@ -44,6 +44,7 @@
       <div
         *appLineChartTooltip="let chartPoint"
         class="hub-currency-statistics__tooltip"
+        appTypeface="caption"
       >
         {{ chartPoint.value | currency : 'USD' :'symbol' :'1.4' }}
         <div class="hub-currency-statistics__tooltip-date">

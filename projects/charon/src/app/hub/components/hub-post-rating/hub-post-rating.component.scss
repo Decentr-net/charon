@@ -4,12 +4,12 @@
 @import 'typeface';
 
 :host {
+  @include typeface-caption;
+
   align-items: center;
   color: var(--color-dhub-post-rating);
   column-gap: $grid-step * 2;
   display: flex;
-  font-size: 12px;
-  line-height: 16px;
   overflow: hidden;
 
   &.mod-filled {

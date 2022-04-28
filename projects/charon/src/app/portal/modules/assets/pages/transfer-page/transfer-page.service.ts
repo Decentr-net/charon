@@ -9,8 +9,9 @@ import {
   tap,
 } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
-import { createDecentrCoin, Wallet } from 'decentr-js';
+import { createDecentrCoin, Wallet, WalletAddressVerifier } from 'decentr-js';
 
+import { FormControlWarn } from '@shared/forms';
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { NotificationService } from '@shared/services/notification';
 import { AuthService } from '@core/auth';
@@ -38,7 +39,7 @@ export class TransferPageService {
   }
 
   public createAsyncValidWalletAddressValidator(): AsyncValidatorFn {
-    return (control) => {
+    return (control: FormControlWarn<string>) => {
       if (!control.value) {
         return of(null);
       }
@@ -47,10 +48,16 @@ export class TransferPageService {
         return of({ myAddress: false });
       }
 
+      if (!WalletAddressVerifier.verifyDecentr(control.value)) {
+        return of({ invalidAddress: false });
+      }
+
       return timer(300).pipe(
         mergeMap(() => this.userService.getAccount(control.value)),
         catchError(() => of(undefined)),
         map((account) => account ? null : { exists: false }),
+        tap((warning) => control.warnings = warning),
+        map(() => undefined),
       );
     };
   }

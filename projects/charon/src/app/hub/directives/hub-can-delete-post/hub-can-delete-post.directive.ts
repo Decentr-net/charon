@@ -10,7 +10,7 @@ import { AuthService } from '@core/auth';
 
 @UntilDestroy()
 @Directive({
-  selector: '[appHubCanDeletePost]'
+  selector: '[appHubCanDeletePost]',
 })
 export class HubCanDeletePostDirective implements OnInit {
   @Input('appHubCanDeletePost') public set postAuthor(value: Post['owner']) {
@@ -23,7 +23,7 @@ export class HubCanDeletePostDirective implements OnInit {
     private authService: AuthService,
     private permissionsService: PermissionsService,
     private templateRef: TemplateRef<void>,
-    private viewContainerRef: ViewContainerRef
+    private viewContainerRef: ViewContainerRef,
   ) { }
 
   public ngOnInit(): void {
@@ -39,7 +39,7 @@ export class HubCanDeletePostDirective implements OnInit {
       untilDestroyed(this),
     ).subscribe((canDelete) => canDelete
       ? this.viewContainerRef.createEmbeddedView(this.templateRef)
-      : this.viewContainerRef.clear()
+      : this.viewContainerRef.clear(),
     );
   }
 }

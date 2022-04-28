@@ -29,7 +29,7 @@
   >
 
     <div class="transfer-page__form__inputs-container">
-      <ng-container formGroupName="data" appBindQueryParams>
+      <app-input-container formGroupName="data" appBindQueryParams>
         <app-input
           class="transfer-page__form__control-amount"
           formControlName="amount"
@@ -46,24 +46,27 @@
         </app-input>
 
         <app-form-error
-          class="transfer-page__form__error transfer-page__form__error-amount"
           controlName="amount"
-          appTypeface="caption"
         ></app-form-error>
-      </ng-container>
+      </app-input-container>
 
-      <svg-icon
-        *appBrowserTabView
-        class="transfer-page__form__icon"
-        key="arrow-left"
-        size="xl"
-      ></svg-icon>
+      <div class="transfer-page__form__icon-container">
+        <svg-icon
+          *appBrowserTabView
+          class="transfer-page__form__icon"
+          key="arrow-left"
+          size="xl"
+        ></svg-icon>
 
-      <ng-container formGroupName="data">
+        <div class="transfer-page__form__icon-dummy"></div>
+      </div>
+
+      <app-input-container formGroupName="data">
         <app-input
           class="transfer-page__form__control-to"
           rows="2"
           [resize]="false"
+          [spellcheck]="false"
           formControlName="to"
           [appTypeface]="isOpenedInPopup ? 'paragraph' : 'subheader'"
           [placeholder]="translate('form.to.placeholder')"
@@ -71,14 +74,10 @@
           <span ngProjectAs="[label]">{{ translate('form.to.label') }}</span>
         </app-input>
 
-        <div class="transfer-page__form__error transfer-page__form__error-to">
-          <app-form-error
-            *ngIf="form.controls.data.controls.to.touched"
-            controlName="to"
-            appTypeface="caption"
-          ></app-form-error>
-        </div>
-      </ng-container>
+        <app-form-error
+          controlName="to"
+        ></app-form-error>
+      </app-input-container>
 
       <app-input
         class="transfer-page__form__control-memo"

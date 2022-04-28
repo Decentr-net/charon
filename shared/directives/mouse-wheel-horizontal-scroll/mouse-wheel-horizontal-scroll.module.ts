@@ -8,7 +8,7 @@ import { MouseWheelHorizontalScrollDirective } from './mouse-wheel-horizontal-sc
   ],
   exports: [
     MouseWheelHorizontalScrollDirective,
-  ]
+  ],
 })
 export class MouseWheelHorizontalScrollModule {
 }

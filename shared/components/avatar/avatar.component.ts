@@ -1,7 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { SvgIconRegistry } from '@ngneat/svg-icon';
-
-import { USER_AVATARS } from './avatar.definitions';
 
 @Component({
   selector: 'app-avatar',

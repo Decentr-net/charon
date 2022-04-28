@@ -23,7 +23,9 @@ export class HubFeedPostsComponent implements OnInit {
   @Input() public postLinkFn: (post: PostsListItem) => unknown[];
 
   public isLoading$: Observable<boolean>;
+
   public posts$: Observable<PostsListItem[]>;
+
   public canLoadMore$: Observable<boolean>;
 
   @ContentChild('noPosts') public noPostsTemplate: TemplateRef<void>;

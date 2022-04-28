@@ -33,7 +33,7 @@ export class PostsService {
         mergeMap((theseusClient) => theseusClient.posts.getPost(
           postIdentificationParameters,
           this.authService.getActiveUserInstant().wallet.address,
-        ))
+        )),
       ),
       this.userService.getProfile(postIdentificationParameters.owner),
       this.configService.getShareUrl(),
@@ -84,7 +84,7 @@ export class PostsService {
               stats: postsListResponse.stats[`${post.owner}/${post.uuid}`] || [],
               shareLink: this.createShareLink(shareUrl, networkId, post.slug),
             }));
-          })
+          }),
         );
       }),
     );
@@ -98,34 +98,37 @@ export class PostsService {
     const owner = wallet.address;
     const postId = uuid();
 
-    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
-      .sendMessage(MessageCode.PostCreate, {
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
+      MessageCode.PostCreate,
+      {
         request: { ...request, owner, uuid: postId },
-      })).pipe(
-        map((response) => assertMessageResponseSuccess(response)),
-        mergeMap(() => this.getPost({ owner, uuid: postId }).pipe(
-          retry({
-            count: 10,
-            delay: ONE_SECOND,
-          }),
-          map(() => void 0),
-        )),
-      );
+      },
+    )).pipe(
+      map((response) => assertMessageResponseSuccess(response)),
+      mergeMap(() => this.getPost({ owner, uuid: postId }).pipe(
+        retry({
+          count: 10,
+          delay: ONE_SECOND,
+        }),
+        map(() => void 0),
+      )),
+    );
   }
 
   public likePost(post: Pick<Post, 'owner' | 'uuid'>, weight: LikeWeight): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
-      .sendMessage(MessageCode.PostLike, {
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
+      MessageCode.PostLike,
+      {
         request: {
           owner: wallet.address,
           postOwner: post.owner,
           postUuid: post.uuid,
           weight,
         },
-      })
-    ).pipe(
+      },
+    )).pipe(
       map(assertMessageResponseSuccess),
     );
   }
@@ -135,31 +138,33 @@ export class PostsService {
   ): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
-      .sendMessage(MessageCode.PostDelete, {
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
+      MessageCode.PostDelete,
+      {
         request: {
           owner: wallet.address,
           postOwner: post.owner,
           postUuid: post.uuid,
         },
-      })).pipe(
-        map(assertMessageResponseSuccess),
-        mergeMap(() => this.getPost(post).pipe(
-          map(() => true),
-          catchError(() => of(false)),
-          map((postExists) => {
-            if (postExists) {
-              throw new Error();
-            }
+      },
+    )).pipe(
+      map(assertMessageResponseSuccess),
+      mergeMap(() => this.getPost(post).pipe(
+        map(() => true),
+        catchError(() => of(false)),
+        map((postExists) => {
+          if (postExists) {
+            throw new Error();
+          }
 
-            return void 0;
-          }),
-          retry({
-            count: 10,
-            delay: ONE_SECOND,
-          }),
-        )),
-      );
+          return void 0;
+        }),
+        retry({
+          count: 10,
+          delay: ONE_SECOND,
+        }),
+      )),
+    );
   }
 
   private createShareLink(shareUrl: string, networkId: string, slug: Post['slug']): string {

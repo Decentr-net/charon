@@ -39,14 +39,14 @@ const ROUTES: Routes = [
     component: CompleteRegistrationPageComponent,
     canActivate: [
       CompleteRegistrationGuard,
-    ]
+    ],
   },
   {
     path: SignUpRoute.PDVConsent,
     component: PDVConsentPageComponent,
     canActivate: [
       PDVConsentGuard,
-    ]
+    ],
   },
   {
     path: SignUpRoute.Success,
@@ -58,7 +58,7 @@ const ROUTES: Routes = [
   {
     path: '**',
     redirectTo: '',
-  }
+  },
 ];
 
 @NgModule({

@@ -48,11 +48,14 @@ export class InputComponent extends CustomControl<string> implements OnInit {
 
   @Input() public maxlength = -1;
 
-  @Input() public numeric: boolean = false;
+  @Input() public numeric = false;
 
-  @Input() public autofocus: boolean = false;
+  @Input() public autofocus = false;
+
+  @Input() public spellcheck = undefined;
 
   @ViewChild('inputElement') public inputElement: ElementRef<HTMLElement>;
+
   @ViewChild('textareaElement') public textareaElement: ElementRef<HTMLElement>;
 
   @HostBinding('class.typeface-paragraph')
@@ -63,7 +66,7 @@ export class InputComponent extends CustomControl<string> implements OnInit {
     return this.type === 'password' && this.eye;
   }
 
-  public isOpenedInPopup: boolean = !isOpenedInTab();
+  public isOpenedInPopup = !isOpenedInTab();
 
   public valueSecured = true;
 

@@ -26,6 +26,7 @@
   --color-input-text: #{$color-black};
   --color-input-label: #{$color-grey};
   --color-input-label-invalid: #{$color-negative};
+  --color-input-label-warning: #{$color-orange};
   --color-input-placeholder: #{$color-grey};
   --color-input-icon: #{$color-black};
   --color-input-footer: #{$color-grey};
@@ -160,6 +161,7 @@
   --color-dhub-statistics: #{$color-white};
 
   // dPortal PDV rate
+  --color-dportal-pdv-rate-margin-pending: #{$color-grey};
   --color-dportal-pdv-rate-chart-filter: #{$color-grey};
   --color-dportal-pdv-rate-chart-filter-background: #{$color-background};
   --color-dportal-pdv-rate-chart-filter-active: #{$color-black};
@@ -309,6 +311,7 @@
     --color-input-text: #{$color-white};
     --color-input-label: #{$color-grey};
     --color-input-label-invalid: #{$color-negative};
+    --color-input-label-warning: #{$color-orange-night};
     --color-input-placeholder: #{$color-grey};
     --color-input-icon: #{$color-light-grey};
     --color-input-footer: #{$color-grey};
@@ -443,6 +446,7 @@
     --color-dhub-statistics: #{$color-white};
 
     // dPortal PDV rate
+    --color-dportal-pdv-rate-margin-pending: #{$color-grey};
     --color-dportal-pdv-rate-chart-filter: #{$color-grey};
     --color-dportal-pdv-rate-chart-filter-background: #{$color-dark-grey};
     --color-dportal-pdv-rate-chart-filter-active: #{$color-white};

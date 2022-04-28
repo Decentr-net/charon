@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, TrackByFunction } from '@angular/core';
-import { map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { groupBy } from '@shared/utils/group-by';
@@ -21,8 +21,6 @@ interface TokenTransactionGroup {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TokenTransactionsTableComponent {
-  @Input() public newTransactionsAfter: number;
-
   @Input() public set transactions(value: TokenTransaction[]) {
     this.groups = groupBy(value || [], 'height').map((group) => ({
       items: group.items,

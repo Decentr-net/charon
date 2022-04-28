@@ -2,8 +2,9 @@ import { SwapDetails, SwapListPaginationOptions, Wallet } from 'decentr-js';
 import { firstValueFrom } from 'rxjs';
 import {
   WebpageAPIMessageBus,
-  WebpageAPIRequestMessageCode, WebpageAPIResponseMessageCode,
-  WebpageAPIResponseMessageMap
+  WebpageAPIRequestMessageCode,
+  WebpageAPIResponseMessageCode,
+  WebpageAPIResponseMessageMap,
 } from '../../webpage-api-message-bus';
 
 const messageBus = new WebpageAPIMessageBus();

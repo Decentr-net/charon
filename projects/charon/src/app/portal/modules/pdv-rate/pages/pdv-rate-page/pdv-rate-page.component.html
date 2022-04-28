@@ -7,16 +7,26 @@
       <div
         class="pdv-rate__pdv-value"
         [appTypeface]="isOpenedInPopup ? 'subheader' : 'header-3'"
-        [matTooltip]="translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async })"
+        [matTooltip]="isOpenedInPopup ? translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async }) : ''"
       >
         {{ pdvRate.value | pdvValue }} PDV
       </div>
 
-      <app-margin-label
-        class="pdv-rate__pdv-margin"
-        [dayMargin]="pdvRate.dayMargin"
-        [digitsInfo]="'1.0-5'"
-      ></app-margin-label>
+      <div
+        class="pdv-rate__pdv-margin-pending"
+        appTypeface="paragraph"
+      >
+        <app-margin-label
+          [dayMargin]="pdvRate.dayMargin"
+          [digitsInfo]="'1.0-5'"
+        ></app-margin-label>
+
+        {{ translate('last_24_hours') }}
+
+        <ng-container *appBrowserTabView>
+          | {{ translate('estimated_balance', { estimatedBalance: estimatedBalance$ | async }) }}
+        </ng-container>
+      </div>
     </div>
 
     <ul
@@ -60,7 +70,7 @@
     ></svg-icon>
 
     <div [appTypeface]="isOpenedInPopup ? 'subheader' : 'header-3'">
-      1 DEC = {{ coinRate.value | currency : 'USD' : 'symbol' : '1.4' }}
+      1 DEC = {{ coinRate | currency : 'USD' : 'symbol' : '1.4' }}
     </div>
   </ng-container>
 </div>

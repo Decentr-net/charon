@@ -1,4 +1,5 @@
 import { ProfileUpdate } from 'decentr-js';
+import { ControlsOf, FormGroup } from '@ngneat/reactive-forms';
 
 export enum ProfileFormControlName {
   Avatar = 'avatar',
@@ -27,3 +28,5 @@ export interface EmailForm {
 export interface ProfileForm extends Omit<ProfileFormControlValue, 'emails'> {
   emails?: EmailForm[];
 }
+
+export type FormGroupType = FormGroup<ControlsOf<ProfileForm>>;

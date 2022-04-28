@@ -4,7 +4,7 @@
   display: block;
   padding: 0 $grid-step * 2 $grid-step * 2;
 
-  &.mod-tab-view {
+  .mod-tab-view & {
     padding: 0;
 
     .login-page__card {

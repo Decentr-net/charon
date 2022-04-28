@@ -5,7 +5,7 @@ $popup-side-padding: $grid-step * 2;
 :host {
   display: block;
 
-  &.mod-popup-view {
+  .mod-popup-view & {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -30,13 +30,9 @@ $popup-side-padding: $grid-step * 2;
       border-top: $grid-half-step solid var(--color-outlines);
       padding: $grid-step * 2 $popup-side-padding;
     }
-
-    .pdv-rate__currency-icon {
-      font-size: 24px;
-    }
   }
 
-  &:not(.mod-popup-view) {
+  .mod-tab-view & {
     padding-bottom: $grid-step * 2;
 
     .pdv-rate__pdv,
@@ -81,6 +77,10 @@ $popup-side-padding: $grid-step * 2;
   font-weight: 500;
   display: flex;
   flex-direction: column;
+}
+
+.pdv-rate__pdv-margin-pending {
+  color: var(--color-dportal-pdv-rate-margin-pending);
 }
 
 .pdv-rate__pdv-filter {
@@ -136,7 +136,6 @@ $popup-side-padding: $grid-step * 2;
 
 .pdv-rate__currency-icon {
   display: flex;
-  font-size: 64px;
   margin-right: $grid-step * 2;
 }
 

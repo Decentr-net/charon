@@ -29,13 +29,13 @@ export class DistributionService {
       switchMap(([client, walletAddress]) => client.distribution.getDelegatorRewards(
         walletAddress,
       )),
-    )
+    );
   }
 
   public getValidatorRewards(): Observable<Coin[]> {
     return combineLatest([
       this.decentrService.decentrClient,
-      this.authService.getActiveUser()
+      this.authService.getActiveUser(),
     ]).pipe(
       switchMap(([client, user]) => client.distribution.getValidatorCommission(user.wallet.validatorAddress)),
       map((commission) => {
@@ -59,7 +59,7 @@ export class DistributionService {
   ): Observable<number> {
     return combineLatest([
       this.decentrService.decentrClient,
-      this.authService.getActiveUser()
+      this.authService.getActiveUser(),
     ]).pipe(
       switchMap(([client, user]) => {
         const requests = validatorAddresses
@@ -78,13 +78,14 @@ export class DistributionService {
     const request = validatorAddresses.map((validatorAddress) => ({
       delegatorAddress: wallet.address,
       validatorAddress,
-    }))
+    }));
 
-    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
-      .sendMessage(MessageCode.WithdrawDelegatorRewards, {
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
+      MessageCode.WithdrawDelegatorRewards,
+      {
         request,
-      })
-    ).pipe(
+      },
+    )).pipe(
       map(assertMessageResponseSuccess),
     );
   }
@@ -92,13 +93,14 @@ export class DistributionService {
   public withdrawValidatorRewards(): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
-      .sendMessage(MessageCode.WithdrawValidatorRewards, {
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
+      MessageCode.WithdrawValidatorRewards,
+      {
         request: {
           validatorAddress: wallet.validatorAddress,
         },
-      })
-    ).pipe(
+      },
+    )).pipe(
       map(assertMessageResponseSuccess),
     );
   }
@@ -106,7 +108,7 @@ export class DistributionService {
   public calculateWithdrawValidatorRewardsFee(): Observable<number> {
     return combineLatest([
       this.decentrService.decentrClient,
-      this.authService.getActiveUser()
+      this.authService.getActiveUser(),
     ]).pipe(
       switchMap(([client, user]) => {
         return client.distribution.withdrawValidatorRewards(

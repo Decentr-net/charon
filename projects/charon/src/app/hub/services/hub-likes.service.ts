@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
 import { LikeWeight } from 'decentr-js';
 
@@ -69,8 +69,9 @@ export class HubLikesService {
               dislikesCount: post.dislikesCount + 1,
               ...HubLikesService.getPostPDVUpdate(post, -2),
             };
+          default:
+            return {};
         }
-        break;
       case LikeWeight.LIKE_WEIGHT_DOWN:
         switch (newLikeWeight) {
           case LikeWeight.LIKE_WEIGHT_UP:
@@ -100,7 +101,11 @@ export class HubLikesService {
               dislikesCount: post.dislikesCount + 1,
               ...HubLikesService.getPostPDVUpdate(post, -1),
             };
+          default:
+            return {};
         }
+      default:
+        return {};
     }
   }
 
@@ -152,7 +157,7 @@ export class HubLikesService {
 
   public likePost(post: PostsListItem, likeWeight: LikeWeight): Observable<void> {
     if (HubLikesService.isLikeUpdating.value) {
-      return;
+      return EMPTY;
     }
 
     HubLikesService.isLikeUpdating.next(true);

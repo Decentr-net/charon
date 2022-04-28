@@ -5,7 +5,7 @@
   height: 100%;
   margin: 0 auto;
 
-  &:not(.mod-popup-view) {
+  .mod-tab-view & {
     padding: $grid-step * 2 $page-side-padding;
     width: $page-width + $page-side-padding * 2;
   }

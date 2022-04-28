@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ValidationErrors,
   Validator,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { ControlsOf, ControlValueAccessor, FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -71,7 +70,7 @@ export class PasswordFormComponent extends ControlValueAccessor<string> implemen
     });
   }
 
-  public validate(control: AbstractControl): ValidationErrors | null {
+  public validate(): ValidationErrors | null {
     if (this.form.invalid) {
       return {
         invalid: true,

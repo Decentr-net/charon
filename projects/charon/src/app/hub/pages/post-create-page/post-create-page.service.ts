@@ -64,7 +64,7 @@ export class PostCreatePageService {
         this.postsPdvFilterService.resetFilter();
 
         this.notificationService.success(
-          this.translocoService.translate('notifications.create.success', null, 'hub')
+          this.translocoService.translate('notifications.create.success', null, 'hub'),
         );
       }),
       finalize(() => this.spinnerService.hideSpinner()),

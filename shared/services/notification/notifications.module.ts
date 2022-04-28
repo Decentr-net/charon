@@ -6,7 +6,7 @@ import { NotificationService } from './notification.service';
 import { ERROR_PROCESSOR, FALLBACK_ERROR_PROCESSOR } from './notification.tokens';
 
 @NgModule({
-  providers: [NotificationService]
+  providers: [NotificationService],
 })
 export class NotificationsModule {
   public static forRoot(config: {
@@ -20,10 +20,10 @@ export class NotificationsModule {
         ...config?.fallbackErrorProcessor
           ? [{
             provide: FALLBACK_ERROR_PROCESSOR,
-            useClass: config?.fallbackErrorProcessor
+            useClass: config?.fallbackErrorProcessor,
           }]
-          : []
-      ]
+          : [],
+      ],
     };
   }
 

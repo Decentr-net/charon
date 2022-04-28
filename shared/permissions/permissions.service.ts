@@ -32,7 +32,7 @@ export class PermissionsService<T = string | number> {
 
   public removePermissions(permissions: T | T[]): void {
     this.permissions$.next(
-      excludeArrayValues(this.getPermissionsInstant(), coerceArray(permissions))
+      excludeArrayValues(this.getPermissionsInstant(), coerceArray(permissions)),
     );
   }
 

@@ -1,6 +1,6 @@
 import { Injector, TrackByFunction } from '@angular/core';
 import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
-import { catchError, distinctUntilChanged, finalize, map, switchMap, takeUntil, tap, } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, finalize, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { PostsListFilterOptions } from 'decentr-js';
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -13,22 +13,33 @@ export abstract class HubPostsService<T extends PostsListItem = PostsListItem> {
   private static deleteNotifier$: Subject<PostsListItem['uuid']> = new Subject();
 
   protected readonly hubPostsPdvFilterService: HubPostsPdvFilterService;
+
   protected readonly likesService: HubLikesService;
+
   protected readonly notificationService: NotificationService;
+
   protected readonly postsService: PostsService;
+
   protected readonly spinnerService: SpinnerService;
+
   protected readonly translocoService: TranslocoService;
 
-  protected loadingMoreCount: number = 4;
-  protected loadingInitialCount: number = 4;
+  protected loadingMoreCount = 4;
+
+  protected loadingInitialCount = 4;
 
   private activePdvFilter: PostsListFilterOptions;
+
   private posts: BehaviorSubject<T[]> = new BehaviorSubject([]);
+
   private isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
   private loadMore: Subject<number> = new Subject();
+
   private canLoadMore: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   private readonly dispose$: Subject<void> = new Subject();
+
   private readonly stopLoading$: Subject<void> = new Subject<void>();
 
   protected constructor(injector: Injector) {

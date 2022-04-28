@@ -16,6 +16,7 @@ export class ValidatorsTableComponent {
   @Input() data: ValidatorDefinition[];
 
   @Output() validatorRewardClick: EventEmitter<ValidatorDefinition> = new EventEmitter();
+
   @Output() sortClick: EventEmitter<Sort> = new EventEmitter();
 
   constructor(

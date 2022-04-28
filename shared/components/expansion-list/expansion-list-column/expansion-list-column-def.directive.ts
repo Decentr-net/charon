@@ -25,9 +25,9 @@ import { ExpansionListHeaderCellDefDirective } from '../expansion-list-header-ce
 export class ExpansionListColumnDefDirective<T> implements OnInit {
   @Input('appExpansionListColumnDef') public pluck: string;
 
-  @Input('appExpansionListColumnDefChooseFirst') public chooseFirst: boolean = true;
+  @Input('appExpansionListColumnDefChooseFirst') public chooseFirst = true;
 
-  @Input('appExpansionListColumnDefColspan') public colspan: number = 1;
+  @Input('appExpansionListColumnDefColspan') public colspan = 1;
 
   @Input('appExpansionListColumnDefTrackBy') public trackBy: TrackByFunction<T>;
 
@@ -42,7 +42,7 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
 
   public columnFooterTemplate: TemplateRef<{ $implicit: T[] }>;
 
-  public loadingTemplate: TemplateRef<{ $implicit: any }>;
+  public loadingTemplate: TemplateRef<unknown>;
 
   private activeItem: BehaviorSubject<T | undefined> = new BehaviorSubject(undefined);
 
@@ -84,7 +84,7 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
     );
   }
 
-  public getParentActiveItem(): Observable<any | undefined> {
+  public getParentActiveItem(): Observable<unknown | undefined> {
     return this.parentColumnDef?.getActiveItem() || of(undefined);
   }
 
@@ -104,7 +104,7 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
     this.columnFooterTemplate = template;
   }
 
-  public registerLoadingTemplate(template: TemplateRef<{ $implicit: any }>): void {
+  public registerLoadingTemplate(template: TemplateRef<unknown>): void {
     this.loadingTemplate = template;
   }
 
@@ -118,7 +118,7 @@ export class ExpansionListColumnDefDirective<T> implements OnInit {
     }
 
     this.parentColumnDef.getActiveItem().pipe(
-      tap((item) => item && this.expansionListService.setActiveColumn(this)),
+      tap((item) => item && this.expansionListService.setActiveColumn(this as never)),
       tap(() => this.items.next(undefined)),
       switchMap((item) => item ? coerceObservable(this.pluck ? item[this.pluck] : item) : of([])),
       map((items) => items && coerceArray(items)),

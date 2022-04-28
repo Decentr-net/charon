@@ -47,7 +47,7 @@ interface RedelegateForm {
     {
       provide: FORM_ERROR_TRANSLOCO_READ,
       useValue: 'staking.redelegate_page.form',
-    }
+    },
   ],
 })
 export class RedelegatePageComponent implements OnInit {
@@ -120,7 +120,7 @@ export class RedelegatePageComponent implements OnInit {
     ]).pipe(
       switchMap(([toValidator, fromValidator]) => toValidator
         ? this.redelegatePageService.getRedelegationToAvailableTime(fromValidator, toValidator)
-        : of(undefined)
+        : of(undefined),
       ),
       untilDestroyed(this),
     ).subscribe((redelegationToAvailableTime) => {
@@ -138,7 +138,7 @@ export class RedelegatePageComponent implements OnInit {
         ).pipe(
           catchError(() => of(0)),
         )
-        : of(0)
+        : of(0),
       ),
     );
 

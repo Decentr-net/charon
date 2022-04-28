@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { isOpenedInTab } from '@shared/utils/browser';
 import { svgLogo } from '@shared/svg-icons/logo';
 
 export const PUBLIC_LAYOUT_INCLUDE_LOGO_KEY = 'includeLogo';
@@ -17,9 +16,6 @@ export const PUBLIC_LAYOUT_INCLUDE_LOGO_KEY = 'includeLogo';
 })
 export class PublicLayoutComponent implements OnInit {
   public includeLogo$: Observable<boolean>;
-
-  @HostBinding('class.mod-tab-view')
-  public isTabView = isOpenedInTab();
 
   constructor(
     private activatedRoute: ActivatedRoute,

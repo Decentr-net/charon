@@ -22,9 +22,13 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class HubPostEditorErrorComponent implements OnInit {
   @Input() public anchorElement: HTMLElement;
+
   @Input() public control: AbstractControl;
+
   @Input() public controlName: string;
+
   @Input() public i18nControlKey: string;
+
   @Input() public position: 'top' | 'bottom' = 'bottom';
 
   public display: boolean;

@@ -7,7 +7,7 @@ import { observeResize } from '../../utils/observe-resize';
 
 @UntilDestroy()
 @Directive({
-  selector: '[appTextClamp]'
+  selector: '[appTextClamp]',
 })
 export class TextClampDirective implements OnInit {
   constructor(
@@ -22,7 +22,7 @@ export class TextClampDirective implements OnInit {
       .pipe(
         auditTime(100),
         distinctUntilChanged((prev, curr) => prev.height === curr.height),
-        untilDestroyed(this)
+        untilDestroyed(this),
       ).subscribe(() => {
         clamp(element, { clamp: 'auto' });
       });

@@ -7,7 +7,7 @@ import { PermissionsService } from '../permissions.service';
 
 @UntilDestroy()
 @Directive({
-  selector: '[appHasPermission]'
+  selector: '[appHasPermission]',
 })
 export class HasPermissionDirective<T> implements OnInit {
   @Input('appHasPermission') set permissions(value: T | T[]) {

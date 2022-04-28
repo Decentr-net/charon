@@ -184,9 +184,9 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
           : fromEvent(image, 'load').pipe(
             map(() => image),
             startWith(0),
-          )
+          ),
         ))
-        : of([])
+        : of([]),
       ),
       map((images) => images.filter(Boolean)),
     );
@@ -205,7 +205,7 @@ export class TextEditorComponent extends ControlValueAccessor<string> implements
   private listenSelectionRange(): Observable<Range> {
     const rangeSet$ = merge(
       this.value$,
-      fromEvent(document, 'selectionchange')
+      fromEvent(document, 'selectionchange'),
     ).pipe(
       filter(() => document.activeElement === this.editorElement),
       map(() => document.getSelection().getRangeAt(0)),

@@ -29,7 +29,7 @@ export class HubPostRatingComponent implements OnInit {
     this.post$.next(value);
   }
 
-  @Input() @HostBinding('class.mod-filled') public filled: boolean = false;
+  @Input() @HostBinding('class.mod-filled') public filled = false;
 
   public post$: ReplaySubject<PostsListItem> = new ReplaySubject(1);
 
@@ -89,7 +89,7 @@ export class HubPostRatingComponent implements OnInit {
       post,
       post.likeWeight === newLikeWeight
         ? LikeWeight.LIKE_WEIGHT_ZERO
-        : newLikeWeight
+        : newLikeWeight,
     ).pipe(
       take(1),
     ).subscribe();

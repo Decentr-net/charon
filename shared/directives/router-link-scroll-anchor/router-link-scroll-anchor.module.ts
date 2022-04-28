@@ -8,7 +8,7 @@ import { RouterLinkScrollAnchorDirective } from './router-link-scroll-anchor.dir
   ],
   exports: [
     RouterLinkScrollAnchorDirective,
-  ]
+  ],
 })
 export class RouterLinkScrollAnchorModule {
 }

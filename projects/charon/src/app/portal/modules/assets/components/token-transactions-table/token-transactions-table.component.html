@@ -41,7 +41,6 @@
 
     <div
       *ngFor="let transaction of group.items"
-      [class.mod-new]="transaction.height > newTransactionsAfter"
       appTypeface="paragraph"
       class="token-transactions-table__transaction"
     >

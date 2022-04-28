@@ -153,7 +153,7 @@ export class MenuService extends MenuBaseService {
               title: itemsTranslationsObject.lock,
             },
           ],
-        ])
+        ]),
       );
   }
 
@@ -182,7 +182,7 @@ export class MenuService extends MenuBaseService {
     return this.translocoService.selectTranslateObject('menu', null, 'core');
   }
 
-  public getCloseSource(): Observable<void> {
+  public override getCloseSource(): Observable<void> {
     return this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd),
       map(() => void 0),

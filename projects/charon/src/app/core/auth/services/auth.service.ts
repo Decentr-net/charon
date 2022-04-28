@@ -122,7 +122,7 @@ export class AuthService {
       userId,
       {
         encryptedSeed: newEncryptedSeed || user.encryptedSeed,
-        ...passwordHash ? { passwordHash} : {},
+        ...passwordHash ? { passwordHash } : {},
       });
   }
 

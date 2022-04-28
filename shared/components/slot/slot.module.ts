@@ -11,7 +11,7 @@ import { SlotService } from './slot.service';
   ],
   exports: [
     SlotContainerDirective,
-    SlotDirective
+    SlotDirective,
   ],
 })
 export class SlotModule {

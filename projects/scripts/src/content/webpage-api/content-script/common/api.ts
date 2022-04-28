@@ -4,13 +4,13 @@ import { DecentrClient, Wallet } from 'decentr-js';
 
 import { AuthBrowserStorageService } from '../../../../../../../shared/services/auth';
 import { LockBrowserStorageService } from '../../../../../../../shared/services/lock';
-import { ConfigService } from '../../../../../../../shared/services/configuration';
 import { NetworkBrowserStorageService } from '../../../../../../../shared/services/network-storage';
 import { SettingsService } from '../../../../../../../shared/services/settings';
 import { MessageBus } from '../../../../../../../shared/message-bus';
-import { WebpageAPIMessageBusMap, WebpageAPIMessageCode } from '../../../../background/webpage-api';
-import { environment } from '../../../../../../../environments/environment';
+import { WebpageAPIMessageBusMap } from '../../../../background/webpage-api/message-bus-map';
+import { WebpageAPIMessageCode } from '../../../../background/webpage-api/messages';
 import { WebpageAPIResponseMessageCode, WebpageAPIResponseMessageMap } from '../../webpage-api-message-bus';
+import { CONFIG_SERVICE } from '../config';
 
 const messageBus = new MessageBus<WebpageAPIMessageBusMap>();
 
@@ -30,7 +30,7 @@ export const getNetwork = (): Observable<WebpageAPIResponseMessageMap[WebpageAPI
 };
 
 export const getMaintenance = (): Observable<WebpageAPIResponseMessageMap[WebpageAPIResponseMessageCode.GetMaintenance]> => {
-  return new ConfigService(environment, networkBrowserStorageService).getMaintenanceStatus(true);
+  return CONFIG_SERVICE.getMaintenanceStatus(true);
 };
 
 export const getWallet = (): Observable<Wallet> => {

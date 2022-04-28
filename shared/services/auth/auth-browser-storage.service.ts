@@ -1,5 +1,5 @@
-import { combineLatest, from, Observable } from 'rxjs';
-import { map, mergeMap, startWith } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { BrowserLocalStorage } from '../browser-storage';
 import { User } from './user';
@@ -14,10 +14,7 @@ export class AuthBrowserStorageService<T extends User = User> {
     = BrowserLocalStorage.getInstance().useSection<AuthBrowserStorageData<T>>('auth');
 
   public getUsers(): Observable<T[]> {
-    return from(this.browserStorage.get('users')).pipe(
-      mergeMap((users) => this.browserStorage.onChange('users').pipe(
-        startWith(users as T[]),
-      )),
+    return this.browserStorage.observe('users').pipe(
       map(users => users || []),
     );
   }
@@ -78,10 +75,6 @@ export class AuthBrowserStorageService<T extends User = User> {
   }
 
   private getActiveUserId(): Observable<T['id']> {
-    return from(this.browserStorage.get('activeUserId')).pipe(
-      mergeMap((activeUserId) => this.browserStorage.onChange('activeUserId').pipe(
-        startWith(activeUserId as T['id']),
-      )),
-    );
+    return this.browserStorage.observe('activeUserId');
   }
 }

@@ -15,9 +15,9 @@ export class PdvValuePipe implements PipeTransform {
 
   public transform(
     value: string | number,
-    convertToMu: boolean = false,
-    digitsInfo: string = '1.6',
-    digitsInfoMicro: string = '1.0-1',
+    convertToMu = false,
+    digitsInfo = '1.6',
+    digitsInfoMicro = '1.0-1',
   ): string {
     return Number(value) === 0
       ? '0'

@@ -12,8 +12,9 @@ import { ONE_SECOND } from '../../../../../../../shared/utils/date';
 @UntilDestroy()
 @Injectable()
 export class FollowingPageService extends HubPostsService implements OnDestroy {
-  protected loadingInitialCount: number = 20;
-  protected loadingMoreCount: number = 20;
+  protected override loadingInitialCount = 20;
+
+  protected override loadingMoreCount = 20;
 
   constructor(
     private authService: AuthService,

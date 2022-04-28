@@ -47,6 +47,7 @@ export class CodeInputComponent implements OnInit, AfterViewInit, ControlValueAc
   public formArray: FormArray<string> = new FormArray([]);
 
   public onChange: (value: string | null) => void = noop;
+
   public onTouched: () => void = noop;
 
   constructor(private elementRef: ElementRef) {

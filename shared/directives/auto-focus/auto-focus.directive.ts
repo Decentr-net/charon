@@ -4,7 +4,7 @@ import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
   selector: '[appAutoFocus]',
 })
 export class AutoFocusDirective implements AfterViewInit {
-  @Input('appAutoFocus') public enabled: boolean = true;
+  @Input('appAutoFocus') public enabled = true;
 
   constructor(
     private elementRef: ElementRef<HTMLElement>,

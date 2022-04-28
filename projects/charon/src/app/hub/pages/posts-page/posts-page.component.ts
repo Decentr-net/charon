@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Post, PostCategory } from 'decentr-js';
-import { fromEvent, Observable, timer } from 'rxjs';
+import { fromEvent, Observable } from 'rxjs';
 import { filter, pluck, share } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -19,6 +19,7 @@ import { AppRoute } from '../../../app-route';
 import { PostsPageService } from './posts-page.service';
 import { HubCategoryRouteParam, HubRoute } from '../../hub-route';
 import { HubPostsService } from '../../services';
+import { ScrollablePage } from '../scrollable-page';
 
 @UntilDestroy()
 @Component({
@@ -29,18 +30,25 @@ import { HubPostsService } from '../../services';
   providers: [
     {
       provide: HubPostsService,
-      useClass: PostsPageService
+      useClass: PostsPageService,
+    },
+    {
+      provide: ScrollablePage,
+      useExisting: PostsPageComponent,
     },
   ],
 })
-export class PostsPageComponent implements OnInit {
+export class PostsPageComponent extends ScrollablePage implements OnInit {
   public headerActionsSlotName = AUTHORIZED_LAYOUT_HEADER_ACTIONS_SLOT;
 
   public appRoute: typeof AppRoute = AppRoute;
+
   public hubRoute: typeof HubRoute = HubRoute;
 
   public isLoading$: Observable<boolean>;
+
   public canLoadMore$: Observable<boolean>;
+
   public posts: PostsListItem[];
 
   public postsCategory: PostCategory;
@@ -56,10 +64,12 @@ export class PostsPageComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private changeDetectorRef: ChangeDetectorRef,
-    private elementRef: ElementRef<HTMLElement>,
+    elementRef: ElementRef<HTMLElement>,
     private postsPageService: HubPostsService,
     svgIconRegistry: SvgIconRegistry,
   ) {
+    super(elementRef);
+
     svgIconRegistry.register([
       svgEdit,
     ]);
@@ -74,7 +84,7 @@ export class PostsPageComponent implements OnInit {
     });
 
     this.isLoading$ = this.postsPageService.isLoading$.pipe(
-      share()
+      share(),
     );
 
     this.canLoadMore$ = this.postsPageService.canLoadMore$;
@@ -107,11 +117,5 @@ export class PostsPageComponent implements OnInit {
     this.isPostOutletActivated = false;
 
     this.setScrollTop(this.scrollPosition);
-  }
-
-  private setScrollTop(value: number): void {
-    timer(0).pipe(
-      untilDestroyed(this),
-    ).subscribe(() => this.elementRef.nativeElement.scrollTop = value || 0);
   }
 }

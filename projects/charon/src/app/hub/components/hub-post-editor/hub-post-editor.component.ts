@@ -43,7 +43,9 @@ export class HubPostEditorComponent extends ControlValueAccessor<PostCreate> imp
   public form: FormGroup<ControlsOf<PostCreate>>;
 
   public imagesCount$: Observable<number>;
+
   public readonly maxImagesCount = 5;
+
   public imageLimitReached$: Observable<boolean>;
 
   public textImagePositionTop: number;

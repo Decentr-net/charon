@@ -8,11 +8,12 @@ import { NavigationService } from '../navigation.service';
 })
 export class NavigateBackDirective {
   @Input('appNavigateBack') fallbackUrl: string[];
+
   @Input('appNavigateBackStartsWith') startsWith: string | string[];
 
   constructor(
     private navigationService: NavigationService,
-    ) {
+  ) {
   }
 
   @HostListener('click')

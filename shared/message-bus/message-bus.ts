@@ -3,8 +3,8 @@ import * as Browser from 'webextension-polyfill';
 
 export interface MessageMap {
   [code: string]: {
-    body?: any;
-    response?: any;
+    body?: unknown;
+    response?: unknown;
   };
 }
 
@@ -33,7 +33,7 @@ type MessageSource<T extends MessageMap, MessageCode extends keyof T>
 export class MessageBus<T extends MessageMap> {
   public sendMessage<MessageCode extends keyof T = keyof T>(
     code: MessageCode,
-    body?: T[MessageCode]['body']
+    body?: T[MessageCode]['body'],
   ): Promise<T[MessageCode]['response']> {
     const messageSent: MessageSent<T, MessageCode> = { code, body };
 
@@ -62,7 +62,7 @@ export class MessageBus<T extends MessageMap> {
   private buildOnMessageListener<MessageCode extends keyof T>(
     source: MessageSource<T, MessageCode>,
     messageCode: MessageCode,
-    sync?: boolean
+    sync?: boolean,
   ): Observable<MessageGot<T, MessageCode> | MessageGotSync<T, MessageCode>> {
     return new Observable((subscriber) => {
       const listener: MessageSourceListener<T, MessageCode> = (message, sender) => {

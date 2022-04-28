@@ -44,15 +44,16 @@ export class BankService {
   ): Observable<void> {
     const wallet = this.authService.getActiveUserInstant().wallet;
 
-    return defer(() => new MessageBus<CharonAPIMessageBusMap>()
-      .sendMessage(MessageCode.CoinTransfer, {
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
+      MessageCode.CoinTransfer,
+      {
         request: {
           ...request,
           fromAddress: wallet.address,
         },
         memo,
-      })
-    ).pipe(
+      },
+    )).pipe(
       map(assertMessageResponseSuccess),
     );
   }

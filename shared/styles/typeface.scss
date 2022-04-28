@@ -1,34 +1,62 @@
-body .typeface-caption {
+@mixin typeface-caption {
   font-size: 12px;
   line-height: 16px;
 }
 
-body .typeface-paragraph {
+@mixin typeface-paragraph {
   font-size: 16px;
   line-height: 24px;
 }
 
-body .typeface-subheader {
+@mixin typeface-subheader {
   font-size: 24px;
   line-height: 36px;
 }
 
-body .typeface-header-4 {
+@mixin typeface-header-4 {
   font-size: 36px;
   line-height: 54px;
 }
 
-body .typeface-header-3 {
+@mixin typeface-header-3 {
   font-size: 54px;
   line-height: 68px;
 }
 
-body .typeface-header-2 {
+@mixin typeface-header-2 {
   font-size: 80px;
   line-height: 100px;
 }
 
-body .typeface-header-1 {
+@mixin typeface-header-1 {
   font-size: 120px;
   line-height: 140px;
+}
+
+body .typeface-caption {
+  @include typeface-caption;
+}
+
+body .typeface-paragraph {
+  @include typeface-paragraph;
+}
+
+body .typeface-subheader {
+  @include typeface-subheader;
+}
+
+body .typeface-header-4 {
+  @include typeface-header-4;
+}
+
+body .typeface-header-3 {
+  @include typeface-header-3;
+}
+
+body .typeface-header-2 {
+  @include typeface-header-2;
+}
+
+body .typeface-header-1 {
+  @include typeface-header-1;
 }

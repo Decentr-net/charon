@@ -3,7 +3,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
-import { BalanceValueDynamic, BlocksService, CoinRateFor24Hours, CurrencyService, PDVService } from '@core/services';
+import { BalanceValueDynamic, BlocksService, CurrencyService, PDVService } from '@core/services';
 import { PdvChartPoint } from '../../components/pdv-rate-chart';
 
 export interface PdvReward {
@@ -21,8 +21,8 @@ export class PdvRatePageService {
   ) {
   }
 
-  public getCoinRate(): Observable<CoinRateFor24Hours> {
-    return this.currencyService.getDecentrCoinRateForUsd24hours();
+  public getCoinRate(): Observable<number> {
+    return this.currencyService.getDecentrCoinRateForUsd();
   }
 
   public getPdvRateWithMargin(): Observable<BalanceValueDynamic> {

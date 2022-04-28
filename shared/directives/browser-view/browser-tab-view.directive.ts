@@ -3,7 +3,7 @@ import { AfterViewInit, Directive, TemplateRef, ViewContainerRef } from '@angula
 import { isOpenedInTab } from '../../utils/browser';
 
 @Directive({
-  selector: '[appBrowserTabView]'
+  selector: '[appBrowserTabView]',
 })
 export class BrowserTabViewDirective implements AfterViewInit {
   constructor(

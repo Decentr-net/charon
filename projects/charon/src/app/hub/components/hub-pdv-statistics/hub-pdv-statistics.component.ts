@@ -22,8 +22,11 @@ export interface PDVStatisticsTranslations {
 })
 export class HubPdvStatisticsComponent {
   @Input() public estimatedBalance: string;
+
   @Input() public hideNoDataLabels: boolean;
+
   @Input() public statistics: HubPDVStatistics;
+
   @Input() public translations: PDVStatisticsTranslations;
 
   public get isNeutral(): boolean {

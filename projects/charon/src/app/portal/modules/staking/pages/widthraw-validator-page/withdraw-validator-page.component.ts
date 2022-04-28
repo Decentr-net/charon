@@ -12,8 +12,7 @@ import { NotificationService } from '@shared/services/notification';
 import { ValidatorDefinitionShort } from '../../models';
 import { WithdrawValidatorPageService } from './withdraw-validator-page.service';
 import { exponentialToFixed } from '@shared/utils/number';
-
-const VALIDATOR_ADDRESS_PARAM = 'validatorAddressParam';
+import { StakingRoute } from '../../staking-route';
 
 @UntilDestroy()
 @Component({
@@ -49,7 +48,7 @@ export class WithdrawValidatorPageComponent implements OnInit {
 
   public getSelectedItemsRewards(): Observable<number> {
     return this.selectedItems$.pipe(
-      map((items) => items.reduce((sum, item) => sum + item.reward, 0))
+      map((items) => items.reduce((sum, item) => sum + item.reward, 0)),
     );
   }
 
@@ -57,7 +56,7 @@ export class WithdrawValidatorPageComponent implements OnInit {
     this.selectedItemsRewards$ = this.getSelectedItemsRewards();
 
     this.validators$ = this.activatedRoute.params.pipe(
-      pluck(VALIDATOR_ADDRESS_PARAM),
+      pluck(StakingRoute.ValidatorAddressParam),
       switchMap((validatorAddress) => this.withdrawValidatorPageService.getValidator(validatorAddress)),
     );
 
@@ -65,7 +64,7 @@ export class WithdrawValidatorPageComponent implements OnInit {
 
     combineLatest([
       this.activatedRoute.params.pipe(
-        pluck(VALIDATOR_ADDRESS_PARAM),
+        pluck(StakingRoute.ValidatorAddressParam),
       ),
       this.validators$,
     ]).pipe(
@@ -73,7 +72,7 @@ export class WithdrawValidatorPageComponent implements OnInit {
         return validators.find(({ address }) => address === initialSelectedValidatorAddress);
       }),
       filter((selectedValidator) => !!selectedValidator),
-      untilDestroyed(this)
+      untilDestroyed(this),
     ).subscribe((selectedValidator) => {
       this.chooseValidator(selectedValidator);
     });

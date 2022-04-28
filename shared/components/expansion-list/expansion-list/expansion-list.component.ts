@@ -33,7 +33,7 @@ export class ExpansionListComponent<T> implements AfterViewInit {
   public singleColumnMode: boolean;
 
   @HostBinding('class.mod-bordered')
-  @Input() public border: boolean = true;
+  @Input() public border = true;
 
   @HostBinding('style.gridTemplateColumns')
   public get gridTemplateColumnsStyle(): string {
@@ -47,7 +47,7 @@ export class ExpansionListComponent<T> implements AfterViewInit {
   @ContentChildren(ExpansionListColumnDefDirective)
   public columnsDefs: QueryList<ExpansionListColumnDefDirective<T | T[keyof T]>>;
 
-  public columnToDisplay: ExpansionListColumnDefDirective<any>;
+  public columnToDisplay: ExpansionListColumnDefDirective<unknown>;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -56,7 +56,7 @@ export class ExpansionListComponent<T> implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.expansionListService.setActiveColumn(this.columnsDefs.first);
+    this.expansionListService.setActiveColumn(this.columnsDefs.first as never);
 
     this.expansionListService.getActiveColumn().pipe(
       untilDestroyed(this),

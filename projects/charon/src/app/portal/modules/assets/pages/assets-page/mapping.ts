@@ -101,7 +101,7 @@ export const mapSendTransaction = (
     recipient: msg.toAddress,
     sender: msg.fromAddress,
   };
-}
+};
 
 export const mapDelegateTransaction = (
   msg: TxMessageValue<TxMessageTypeUrl.StakingDelegate>,
@@ -116,8 +116,8 @@ export const mapDelegateTransaction = (
       recipient: msg.validatorAddress,
       sender: msg.delegatorAddress,
     },
-    ...getWithdrawMessages(tx, msgIndex, walletAddress).map((msg) => ({
-      ...msg,
+    ...getWithdrawMessages(tx, msgIndex, walletAddress).map((withdrawMsg) => ({
+      ...withdrawMsg,
       type: TxMessageTypeUrl.DistributionWithdrawDelegatorReward,
     })),
   ];
@@ -136,8 +136,8 @@ export const mapUndelegateTransaction = (
       recipient: msg.delegatorAddress,
       sender: msg.validatorAddress,
     },
-    ...getWithdrawMessages(tx, msgIndex, walletAddress).map((msg) => ({
-      ...msg,
+    ...getWithdrawMessages(tx, msgIndex, walletAddress).map((withdrawMsg) => ({
+      ...withdrawMsg,
       type: TxMessageTypeUrl.DistributionWithdrawDelegatorReward,
     })),
   ];

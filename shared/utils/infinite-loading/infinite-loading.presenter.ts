@@ -3,7 +3,9 @@ import { InfiniteLoadingService } from './infinite-loading.service';
 
 export class InfiniteLoadingPresenter<T> {
   public isLoading$: Observable<boolean>;
+
   public list$: Observable<T[]>;
+
   public canLoadMore$: Observable<boolean>;
 
   constructor(protected infiniteLoadingService: InfiniteLoadingService<T>) {

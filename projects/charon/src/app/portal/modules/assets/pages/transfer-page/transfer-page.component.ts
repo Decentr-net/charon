@@ -14,11 +14,11 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
+import { FormControlWarn } from '@shared/forms';
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
 import { svgArrowLeft } from '@shared/svg-icons/arrow-left';
 import { svgDecentrHub } from '@shared/svg-icons/decentr-hub';
 import { isOpenedInTab } from '@shared/utils/browser';
-import { ONE_SECOND } from '@shared/utils/date';
 import {
   RECEIVER_WALLET_PARAM,
   TRANSFER_START_AMOUNT,
@@ -44,8 +44,7 @@ export class TransferPageComponent implements OnInit {
   @HostBinding('class.is-disabled')
   public isPageDisabled = false;
 
-  @HostBinding('class.mod-popup-view')
-  public isOpenedInPopup: boolean = !isOpenedInTab();
+  public isOpenedInPopup = !isOpenedInTab();
 
   public balance$: Observable<number>;
 
@@ -91,8 +90,6 @@ export class TransferPageComponent implements OnInit {
 
     const formValue = this.form.getRawValue();
 
-    const transferTime = Date.now() - ONE_SECOND * 5;
-
     this.transferPageService.transfer(
       formValue.data.to,
       this.getUDecAmount(formValue.data.amount),
@@ -104,7 +101,7 @@ export class TransferPageComponent implements OnInit {
       }),
       untilDestroyed(this),
     ).subscribe(() => {
-      this.navigateToAssets(transferTime);
+      this.navigateToAssets();
     });
   }
 
@@ -119,7 +116,7 @@ export class TransferPageComponent implements OnInit {
             Validators.pattern('^((0)|(([1-9])([0-9]+)?)(0+)?)\\.?\\d{0,6}$'),
           ],
         ],
-        [RECEIVER_WALLET_PARAM]: [
+        [RECEIVER_WALLET_PARAM]: new FormControlWarn(
           '',
           [
             Validators.required,
@@ -127,7 +124,7 @@ export class TransferPageComponent implements OnInit {
           [
             this.transferPageService.createAsyncValidWalletAddressValidator(),
           ],
-        ],
+        ),
       }),
       comment: this.formBuilder.control(
         '',
@@ -154,16 +151,13 @@ export class TransferPageComponent implements OnInit {
     return Math.round(amount * MICRO_PDV_DIVISOR);
   }
 
-  private navigateToAssets(transferTime?: number): void {
+  private navigateToAssets(): void {
     this.router.navigate(['../'], {
       relativeTo: this.activatedRoute,
-      state: {
-        lastTransferTime: transferTime,
-      },
     });
   }
 
-  private getFeeStream(form: FormGroup<ControlsOf<TransferForm>>, defaultValue: number = 0): Observable<number> {
+  private getFeeStream(form: FormGroup<ControlsOf<TransferForm>>, defaultValue = 0): Observable<number> {
     return form.value$.pipe(
       debounceTime(300),
       switchMap((formValue) => {
@@ -175,8 +169,7 @@ export class TransferPageComponent implements OnInit {
             catchError(() => of(defaultValue)),
           )
           : of(defaultValue);
-        }
-      ),
+      }),
       share(),
     );
   }

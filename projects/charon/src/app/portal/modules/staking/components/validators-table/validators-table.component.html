@@ -61,7 +61,9 @@
       <span
         class="validators-table__unbonding-delegation"
         *ngIf="validator.unbondingDelegation.balance"
-        [appTooltip]="translate('unbonding_delegations', { completionTime: validator.unbondingDelegation.completionTime | date : 'd MMM yyyy, HH:mm'})"
+        [appTooltip]="translate('unbonding_delegations', {
+          completionTime: validator.unbondingDelegation.completionTime | date : 'd MMM yyyy, HH:mm'
+        })"
         appTypeface="caption"
       >
         <svg-icon

@@ -9,6 +9,7 @@ export class HelpService {
   }
 
   private get beacon(): (...args) => void {
+    // eslint-disable-next-line @typescript-eslint/dot-notation
     return window['Beacon'];
   }
 
