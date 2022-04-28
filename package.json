@@ -6,7 +6,7 @@
     "build": "npm run clean && npm-run-all --parallel build:charon build:scripts",
     "build:prod": "npm run clean && npm-run-all --parallel build:charon:prod build:scripts:prod && npm run pack",
     "build:prod:qa": "npm run clean && npm-run-all --parallel build:charon:prod build:scripts:prod:qa && npm run pack",
-    "build:charon": "ng build charon",
+    "build:charon": "ng build charon --configuration development",
     "build:charon:prod": "ng build charon --configuration production",
     "build:charon:stats": "ng build charon --stats-json",
     "build:scripts": "webpack --config projects/scripts/webpack.config.dev.js",
@@ -20,7 +20,7 @@
     "pack_named": "cd dist && bestzip ../charon_$(date +'%Y%m%d-%H%M')_v$(node -p -e \"require('../package.json').version\")_$(echo $BROWSER).zip *",
     "test": "ng test",
     "watch": "npm run clean && npm-run-all --parallel watch:charon watch:scripts",
-    "watch:charon": "ng build charon --watch --delete-output-path=false --sourceMap=false",
+    "watch:charon": "ng build charon --configuration development --watch --delete-output-path=false --sourceMap=false",
     "watch:scripts": "webpack --config projects/scripts/webpack.config.dev.js -w",
     "prepare": "husky install"
   },
