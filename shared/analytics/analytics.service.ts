@@ -16,6 +16,8 @@ import {
 export class AnalyticsService {
   private initialized: ReplaySubject<UniversalAnalytics.ga> = new ReplaySubject(1);
 
+  private serviceInitialized: boolean = false;
+
   constructor(
     @Inject(ANALYTICS_TRACKER_ID) private trackerId: string,
     private router: Router,
@@ -23,6 +25,10 @@ export class AnalyticsService {
   }
 
   public initialize(): void {
+    if (this.serviceInitialized) {
+      return;
+    }
+
     this.injectScript();
 
     this.setTrackingId();
@@ -30,6 +36,8 @@ export class AnalyticsService {
     this.setBeaconMode();
 
     this.initializePageTracking();
+
+    this.serviceInitialized = true;
   }
 
   private initializePageTracking(): void {
