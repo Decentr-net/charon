@@ -24,10 +24,6 @@ export class NetworkService {
     ));
   }
 
-  public getActiveNetworkAPIInstant(): string {
-    return this.networkStorage.getActiveAPIInstant();
-  }
-
   public getActiveNetworkAPI(): Observable<string> {
     return this.networkStorage.getActiveAPI();
   }
