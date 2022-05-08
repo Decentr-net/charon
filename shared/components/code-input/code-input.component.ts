@@ -52,6 +52,9 @@ export class CodeInputComponent implements OnInit, AfterViewInit, ControlValueAc
 
   constructor(private elementRef: ElementRef) {
     fromEvent(this.elementRef.nativeElement, 'keydown', { capture: true })
+      .pipe(
+        untilDestroyed(this),
+      )
       .subscribe((event: KeyboardEvent) => this.onKeydown(event));
   }
 
