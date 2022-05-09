@@ -7,6 +7,7 @@
   },
   "assets_page": {
     "add_token": "Add token",
+    "loading_failed": "Loading failed. Try again later",
     "no_transactions": "You have no transactions for the selected token",
     "send": "Send",
     "tokens": "Tokens",

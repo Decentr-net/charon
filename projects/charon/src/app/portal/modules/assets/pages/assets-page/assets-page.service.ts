@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { coerceArray } from '@angular/cdk/coercion';
 import { combineLatest, Observable, of } from 'rxjs';
-import { distinctUntilChanged, map, mergeMap, take } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, map, mergeMap, take } from 'rxjs/operators';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { DecodedIndexedTx, TxMessageTypeUrl, TxMessageValue, Wallet } from 'decentr-js';
 
@@ -29,6 +29,12 @@ import {
 export class AssetsPageService
   extends InfiniteLoadingService<TokenTransaction>
   implements OnDestroy {
+
+  private loadingFailed: boolean;
+
+  public get isLoadingFailed(): boolean {
+    return this.loadingFailed;
+  }
 
   constructor(
     private authService: AuthService,
@@ -78,6 +84,10 @@ export class AssetsPageService
     return this.searchTransactions(walletAddress).pipe(
       map((transactions) => transactions.map((tx) => this.mapTransaction(tx, walletAddress))),
       map((transactions) => transactions.filter(Boolean)),
+      catchError(() => {
+        this.loadingFailed = true;
+        return of([]);
+      }),
     );
   }
 
