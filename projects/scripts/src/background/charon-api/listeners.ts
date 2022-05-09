@@ -16,7 +16,7 @@ import {
   withdrawDelegatorRewards,
   withdrawValidatorRewards,
 } from './api';
-import QUEUE, { QueuePriority } from '../queue';
+import QUEUE from '../queue';
 import { CharonAPIMessageBusMap } from './message-bus-map';
 
 interface RequestCallbackParams {
@@ -29,7 +29,7 @@ const sendRequest = (
   fn: () => PromiseLike<DeliverTxResponse>,
   callback: (params: RequestCallbackParams) => void,
 ): void => {
-  QUEUE.add(fn, { priority: QueuePriority.Charon })
+  QUEUE.add(fn)
     .then(
       () => callback({
         success: true,
