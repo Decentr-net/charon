@@ -253,6 +253,9 @@
   --color-login-hint: #{$color-grey};
   --color-login-restore-link: #{$color-blue};
 
+  // Technical
+  --color-technical-link: #{$color-blue};
+
   // Shared
   --color-data-table-header: #{$color-grey};
   --color-data-table-row-background-hover: #{$color-background};
@@ -537,6 +540,9 @@
     --color-login-subtitle: #{$color-grey};
     --color-login-hint: #{$color-grey};
     --color-login-restore-link: #{$color-blue-night};
+
+    // Technical
+    --color-technical-link: #{$color-blue-night};
 
     // Shared
     --color-data-table-header: #{$color-grey};

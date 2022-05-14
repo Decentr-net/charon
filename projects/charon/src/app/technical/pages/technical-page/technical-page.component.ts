@@ -1,7 +1,8 @@
 import { ActivatedRoute } from '@angular/router';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
+import { isOpenedInPopup } from '@shared/utils/browser';
 import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
 import { TechnicalPageRouteData } from './technical-page.definitons';
 
@@ -12,6 +13,8 @@ import { TechnicalPageRouteData } from './technical-page.definitons';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TechnicalPageComponent {
+  @HostBinding('class.mod-popup-view') public isOpenedInPopup = isOpenedInPopup();
+
   public i18nPageKey: string;
 
   public isNetworkSelectorVisible: boolean;

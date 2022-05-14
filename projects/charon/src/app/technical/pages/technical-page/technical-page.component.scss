@@ -11,8 +11,12 @@
 
   &::ng-deep {
     a {
-      color: $color-primary;
+      color: var(--color-technical-link);
     }
+  }
+
+  &.mod-popup-view {
+    max-width: 376px;
   }
 }
 
