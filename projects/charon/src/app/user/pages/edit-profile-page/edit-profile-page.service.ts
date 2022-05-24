@@ -37,6 +37,7 @@ export class EditProfilePageService {
     const remoteUpdate = {
       ...update,
       password: undefined,
+      oldPassword: undefined,
     };
 
     return this.userService.getProfile(user.wallet.address, user.wallet.privateKey).pipe(
