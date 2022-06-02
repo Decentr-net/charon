@@ -41,6 +41,11 @@ export class PortalNavigationComponent implements OnInit {
         i18nKey: 'portal.portal_navigation.staking',
         link: ['/', AppRoute.Portal, PortalRoute.Staking],
       },
+      {
+        colorClass: 'color-primary',
+        i18nKey: 'portal.portal_navigation.vpn',
+        link: ['/', AppRoute.Portal, PortalRoute.Vpn],
+      },
     ];
   }
 }

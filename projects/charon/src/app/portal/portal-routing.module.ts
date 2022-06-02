@@ -33,6 +33,10 @@ const ROUTES: Routes = [
           BrowserTabGuard,
         ],
       },
+      {
+        path: PortalRoute.Vpn,
+        loadChildren: () => import('./modules').then((m) => m.VpnModule),
+      },
     ],
   },
   {

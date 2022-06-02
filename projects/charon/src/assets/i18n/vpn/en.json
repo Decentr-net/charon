@@ -1,0 +1,23 @@
+{
+  "vpn_page": {
+    "no_data": "There are no nodes available",
+    "show_only_subscribed": "Show only subscribed",
+    "title": "VPN",
+    "nodes_expansion": {
+      "download_speed": "Download speed",
+      "price": "Price",
+      "upload_speed": "Upload speed",
+      "connect": {
+        "actions": {
+          "connect": "Connect",
+          "disconnect": "Disconnect"
+        }
+      },
+      "subscribe": {
+        "actions": {
+          "subscribe": "Subscribe"
+        }
+      }
+    }
+  }
+}

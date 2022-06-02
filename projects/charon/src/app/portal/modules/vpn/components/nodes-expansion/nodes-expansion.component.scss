@@ -1,0 +1,57 @@
+@use 'sass:math';
+@import 'variables';
+
+:host {
+  ::ng-deep {
+    .mat-expansion-panel-spacing {
+      margin: unset;
+    }
+
+    .mat-expansion-panel {
+      border-bottom: 1px solid var(--color-outlines);
+      box-shadow: unset;
+      color: var(--color-main-text);
+    }
+
+    .mat-expansion-panel-header-title {
+      margin-right: $grid-step;
+      flex-grow: 0;
+    }
+
+    .mat-expansion-panel-header {
+      border-bottom: 1px solid var(--color-outlines);
+      height: auto;
+      padding: $grid-step * 2;
+    }
+
+    .mat-expansion-panel-header-description {
+      align-items: self-start;
+      color: var(--color-main-text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mat-expansion-panel-body {
+      padding: $grid-step * 2;
+    }
+  }
+}
+
+.nodes-expansion__flag-icon {
+  flex-shrink: 0;
+}
+
+.nodes-expansion__title {
+  align-items: center;
+  display: flex;
+  font-weight: 500;
+}
+
+.nodes-expansion__subscribed-icon {
+  color: var(--color-dportal-vpn-node-subscrided);
+  margin-left: math.div($grid-step, 2);
+}
+
+.nodes-expansion__description {
+  color: var(--color-dportal-vpn-node-details-description);
+}

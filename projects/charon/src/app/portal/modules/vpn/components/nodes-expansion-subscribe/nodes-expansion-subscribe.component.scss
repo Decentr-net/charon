@@ -1,0 +1,26 @@
+@import 'variables';
+
+.nodes-expansion-subscribe__form {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nodes-expansion-subscribe__deposit {
+  align-items: center;
+  display: flex;
+}
+
+.nodes-expansion-subscribe__deposit-input {
+  width: 200px;
+}
+
+.nodes-expansion-subscribe__deposit-amount {
+  align-items: center;
+  border: 1px solid var(--color-outlines);
+  border-radius: $border-radius;
+  display: flex;
+  font-weight: 500;
+  margin-left: $grid-step * 1.5;
+  padding: $grid-step * 1.5 $grid-step * 2.5;
+}

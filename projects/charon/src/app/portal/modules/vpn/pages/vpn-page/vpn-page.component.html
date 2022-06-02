@@ -1,0 +1,42 @@
+<ng-container *transloco="let translate; read: 'vpn.vpn_page'">
+  <div class="vpn-page__header">
+    <div class="vpn-page__header-title" appTypeface="subheader">
+      {{ translate('title') }}
+    </div>
+
+    <div class="vpn-page__header-toggle">
+      <mat-slide-toggle [formControl]="onlySubscribedFormControl">
+        {{ translate('show_only_subscribed') }}
+      </mat-slide-toggle>
+    </div>
+  </div>
+
+  <div class="vpn-page__divider"></div>
+
+  <div class="vpn-page__content">
+    <ng-container *ngIf="nodes; else nodesLoading">
+      <app-nodes-expansion
+        *ngIf="nodes.length > 0; else nodesNoData"
+        class="vpn-page__nodes-expansion"
+        [nodes]="nodes"
+      ></app-nodes-expansion>
+    </ng-container>
+  </div>
+
+  <ng-template #nodesLoading>
+    <ngx-skeleton-loader
+      class="vpn-page__loader"
+      count="5"
+      [theme]="{
+        height: '40px',
+        width: '100%'
+    }"
+    ></ngx-skeleton-loader>
+  </ng-template>
+
+  <ng-template #nodesNoData>
+    <div class="vpn-page__no-data">
+      {{ translate('no_data') }}
+    </div>
+  </ng-template>
+</ng-container>

@@ -1,0 +1,26 @@
+<div
+  class="input-counter__icon-amount"
+>
+  <svg-icon
+    class="input-counter__icon"
+    key="logo-icon"
+  >
+  </svg-icon>
+    {{ displayWith(value) }}
+</div>
+
+<div class="input-counter__signs">
+  <div
+    class="input-counter__signs-plus"
+    (click)="increment()"
+  >
+    +
+  </div>
+
+  <div
+    class="input-counter__signs-minus"
+    (click)="decrement()"
+  >
+    -
+  </div>
+</div>

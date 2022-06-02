@@ -219,6 +219,12 @@
   --color-dportal-staking-undelegate-hint: #{hexToRGBString($color-blue)};
   --color-dportal-staking-jailed: #{hexToRGBString($color-red)};
 
+  // dPortal VPN
+  --color-dportal-vpn-node-subscrided: #{$color-blue};
+  --color-dportal-vpn-node-details-description: #{$color-grey};
+  --color-dportal-vpn-node-details-disconnect-background: #{$color-red};
+  --color-dportal-vpn-nodes-list-no-data: #{$color-grey};
+
   // User page
   --color-userpage-app-version: #{$color-grey};
   --color-userpage-menu-block-disabled-background: #{$color-background};
@@ -506,6 +512,12 @@
     --color-dportal-staking-delegate-warning: #{hexToRGBString($color-red)};
     --color-dportal-staking-undelegate-hint: #{hexToRGBString($color-blue-night)};
     --color-dportal-staking-jailed: #{hexToRGBString($color-red)};
+
+    // dPortal VPN
+    --color-dportal-vpn-node-subscrided: #{$color-blue-night};
+    --color-dportal-vpn-node-details-description: #{$color-grey-night};
+    --color-dportal-vpn-node-details-disconnect-background: #{$color-red-night};
+    --color-dportal-vpn-nodes-list-no-data: #{$color-grey-night};
 
     // User page
     --color-userpage-app-version: #{$color-grey-night};

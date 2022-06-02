@@ -1,0 +1,32 @@
+<form
+  *transloco="let translate; read: 'vpn.vpn_page.nodes_expansion.subscribe'"
+  class="nodes-expansion-subscribe__form"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
+  <div
+    class="nodes-expansion-subscribe__deposit"
+  >
+    <app-input-counter
+      class="nodes-expansion-subscribe__deposit-input"
+      formControlName="deposit"
+      [min]="+node.price.amount"
+      [step]="+node.price.amount"
+      [displayWith]="displayWith"
+    >
+    </app-input-counter>
+
+    <div
+      class="nodes-expansion-subscribe__deposit-amount"
+    >
+      {{ depositCapacity$ | async }} GB
+    </div>
+  </div>
+
+  <button
+    app-button
+    [type]="'submit'"
+  >
+    {{ translate('actions.subscribe') }}
+  </button>
+</form>

@@ -1,0 +1,25 @@
+<ng-container
+  *transloco="let translate; read: 'vpn.vpn_page.nodes_expansion.connect'"
+>
+  <div
+    class="nodes-expansion-connect__deposit"
+  >
+    <div
+      *ngIf="depositCapacity$ | async as depositCapacity"
+      class="nodes-expansion-connect__deposit-amount"
+    >
+      {{ +(depositCapacity?.consumed || 0) | appBytesSize }} /
+      {{ +(depositCapacity?.allocated || 0) | appBytesSize }}
+    </div>
+  </div>
+
+
+  <button
+    app-button
+    class="nodes-expansion-connect__actions"
+    [class.mod-red]="isConnected"
+    (click)="toggleVPN()"
+  >
+    {{ translate(isConnected ? 'actions.disconnect' : 'actions.connect') }}
+  </button>
+</ng-container>

@@ -1,0 +1,55 @@
+@import 'variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &.mod-bordered {
+    border: 2px solid var(--color-outlines);
+    border-radius: $border-radius;
+  }
+}
+
+.vpn-page__header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: $grid-step * 2;
+  width: 100%;
+}
+
+.vpn-page__header-title {
+  font-weight: 500;
+}
+
+.vpn-page__divider {
+  background-color: var(--color-outlines);
+  flex-shrink: 0;
+  height: 2px;
+  width: 100%;
+
+  &.mod-wide {
+    height: 4px;
+    margin: 0 (-$grid-step * 2);
+  }
+}
+
+.vpn-page__nodes-expansion {
+  width: 100%;
+}
+
+.vpn-page__no-data {
+  align-self: center;
+  display: flex;
+  color: var(--color-dportal-vpn-nodes-list-no-data);
+  justify-content: center;
+  margin: $grid-step * 2;
+}
+
+.vpn-page__loader {
+  display: block;
+  margin-top: $grid-step * 2;
+  padding: 0 $grid-step;
+  width: 100%;
+}

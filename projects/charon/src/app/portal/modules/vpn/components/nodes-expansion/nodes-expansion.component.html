@@ -1,0 +1,48 @@
+<ng-container *transloco="let translate; read: 'vpn.vpn_page.nodes_expansion'">
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let node of nodes; trackBy: trackByAddress">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <svg-icon
+            class="nodes-expansion__flag-icon"
+            [key]="countryNameToCode(node.location.country)"
+            size="lg"
+          ></svg-icon>
+        </mat-panel-title>
+
+        <mat-panel-description>
+          <div
+            class="nodes-expansion__title"
+            appTypeface="paragraph"
+          >
+            {{ node.moniker }} | {{ node.location.city }}
+
+            <svg-icon
+              *ngIf="node.subscriptions?.length"
+              class="nodes-expansion__subscribed-icon"
+              key="check"
+              size="xs"
+            ></svg-icon>
+          </div>
+
+          <div class="nodes-expansion__description" appTypeface="caption">
+            {{ translate('price') }}: {{ node.price | appPrice }}/GB |
+            {{ translate('upload_speed') }}: {{ node.bandwidth.upload | appBytesSize }}/s |
+            {{ translate('download_speed') }}: {{ node.bandwidth.download | appBytesSize }}/s
+          </div>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <app-nodes-expansion-subscribe
+        *ngIf="!node.subscriptions?.length"
+        [node]="node"
+      ></app-nodes-expansion-subscribe>
+
+      <app-nodes-expansion-connect
+        *ngIf="node.subscriptions?.length"
+        [node]="node"
+      ></app-nodes-expansion-connect>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+</ng-container>
