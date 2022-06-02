@@ -1,4 +1,4 @@
-import { DecodedIndexedTx, TxMessageTypeUrl, TxMessageValue, Wallet } from 'decentr-js';
+import { DecodedIndexedTx, CosmosTxMessageTypeUrl, TxMessageValue, Wallet } from 'decentr-js';
 
 import { TokenTransactionMessage } from '../../components';
 
@@ -90,13 +90,13 @@ const getWithdrawMessages = (
 };
 
 export const mapSendTransaction = (
-  msg: TxMessageValue<TxMessageTypeUrl.BankSend>,
+  msg: TxMessageValue<CosmosTxMessageTypeUrl.BankSend>,
   walletAddress: Wallet['address'],
 ): TokenTransactionMessage => {
   const amount = (msg.fromAddress === walletAddress ? -1 : 1) * +msg.amount[0].amount;
 
   return {
-    type: TxMessageTypeUrl.BankSend,
+    type: CosmosTxMessageTypeUrl.BankSend,
     amount,
     recipient: msg.toAddress,
     sender: msg.fromAddress,
@@ -104,41 +104,41 @@ export const mapSendTransaction = (
 };
 
 export const mapDelegateTransaction = (
-  msg: TxMessageValue<TxMessageTypeUrl.StakingDelegate>,
+  msg: TxMessageValue<CosmosTxMessageTypeUrl.StakingDelegate>,
   msgIndex: number,
   tx: DecodedIndexedTx,
   walletAddress: Wallet['address'],
 ): TokenTransactionMessage[] => {
   return [
     {
-      type: TxMessageTypeUrl.StakingDelegate,
+      type: CosmosTxMessageTypeUrl.StakingDelegate,
       amount: -msg.amount.amount,
       recipient: msg.validatorAddress,
       sender: msg.delegatorAddress,
     },
     ...getWithdrawMessages(tx, msgIndex, walletAddress).map((withdrawMsg) => ({
       ...withdrawMsg,
-      type: TxMessageTypeUrl.DistributionWithdrawDelegatorReward,
+      type: CosmosTxMessageTypeUrl.DistributionWithdrawDelegatorReward,
     })),
   ];
 };
 
 export const mapUndelegateTransaction = (
-  msg: TxMessageValue<TxMessageTypeUrl.StakingUndelegate>,
+  msg: TxMessageValue<CosmosTxMessageTypeUrl.StakingUndelegate>,
   msgIndex: number,
   tx: DecodedIndexedTx,
   walletAddress: Wallet['address'],
 ): TokenTransactionMessage[] => {
   return [
     {
-      type: TxMessageTypeUrl.StakingUndelegate,
+      type: CosmosTxMessageTypeUrl.StakingUndelegate,
       amount: +msg.amount.amount,
       recipient: msg.delegatorAddress,
       sender: msg.validatorAddress,
     },
     ...getWithdrawMessages(tx, msgIndex, walletAddress).map((withdrawMsg) => ({
       ...withdrawMsg,
-      type: TxMessageTypeUrl.DistributionWithdrawDelegatorReward,
+      type: CosmosTxMessageTypeUrl.DistributionWithdrawDelegatorReward,
     })),
   ];
 };
@@ -150,7 +150,7 @@ export const mapRedelegateTransaction = (
 ): TokenTransactionMessage[] => {
   return getWithdrawMessages(tx, msgIndex, walletAddress).map((msg) => ({
     ...msg,
-    type: TxMessageTypeUrl.DistributionWithdrawDelegatorReward,
+    type: CosmosTxMessageTypeUrl.DistributionWithdrawDelegatorReward,
   }));
 };
 
@@ -161,7 +161,7 @@ export const mapWithdrawDelegatorReward = (
 ): TokenTransactionMessage[] => {
   return getWithdrawMessages(tx, msgIndex, walletAddress).map((msg) => ({
     ...msg,
-    type: TxMessageTypeUrl.DistributionWithdrawDelegatorReward,
+    type: CosmosTxMessageTypeUrl.DistributionWithdrawDelegatorReward,
   }));
 };
 
@@ -172,7 +172,7 @@ export const mapWithdrawValidatorRewardTransaction = (
 ): TokenTransactionMessage[] => {
   return getWithdrawMessages(tx, msgIndex, walletAddress).map((msg) => ({
     ...msg,
-    type: TxMessageTypeUrl.DistributionWithdrawValidatorCommission,
+    type: CosmosTxMessageTypeUrl.DistributionWithdrawValidatorCommission,
   }));
 };
 

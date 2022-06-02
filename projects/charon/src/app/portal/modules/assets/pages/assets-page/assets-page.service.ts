@@ -3,7 +3,7 @@ import { coerceArray } from '@angular/cdk/coercion';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, distinctUntilChanged, map, mergeMap, take } from 'rxjs/operators';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { DecodedIndexedTx, TxMessageTypeUrl, TxMessageValue, Wallet } from 'decentr-js';
+import { CosmosTxMessageTypeUrl, DecodedIndexedTx, TxMessageValue, Wallet } from 'decentr-js';
 
 import { InfiniteLoadingService } from '@shared/utils/infinite-loading';
 import { AuthService } from '@core/auth';
@@ -141,8 +141,8 @@ export class AssetsPageService
         let tokenTransactionMessage: TokenTransactionMessage | TokenTransactionMessage[];
 
         switch (msg.typeUrl) {
-          case TxMessageTypeUrl.BankSend: {
-            const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.BankSend>;
+          case CosmosTxMessageTypeUrl.BankSend: {
+            const msgValue = msg.value as TxMessageValue<CosmosTxMessageTypeUrl.BankSend>;
 
             if (![msgValue.toAddress, msgValue.fromAddress].includes(walletAddress)) {
               break;
@@ -153,35 +153,35 @@ export class AssetsPageService
             break;
           }
 
-          case TxMessageTypeUrl.DistributionWithdrawDelegatorReward: {
+          case CosmosTxMessageTypeUrl.DistributionWithdrawDelegatorReward: {
             tokenTransactionMessage = mapWithdrawDelegatorReward(msgIndex, tx, walletAddress);
 
             break;
           }
 
-          case TxMessageTypeUrl.StakingDelegate: {
-            const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.StakingDelegate>;
+          case CosmosTxMessageTypeUrl.StakingDelegate: {
+            const msgValue = msg.value as TxMessageValue<CosmosTxMessageTypeUrl.StakingDelegate>;
 
             tokenTransactionMessage = mapDelegateTransaction(msgValue, msgIndex, tx, walletAddress);
 
             break;
           }
 
-          case TxMessageTypeUrl.StakingUndelegate: {
-            const msgValue = msg.value as TxMessageValue<TxMessageTypeUrl.StakingUndelegate>;
+          case CosmosTxMessageTypeUrl.StakingUndelegate: {
+            const msgValue = msg.value as TxMessageValue<CosmosTxMessageTypeUrl.StakingUndelegate>;
 
             tokenTransactionMessage = mapUndelegateTransaction(msgValue, msgIndex, tx, walletAddress);
 
             break;
           }
 
-          case TxMessageTypeUrl.StakingBeginRedelegate: {
+          case CosmosTxMessageTypeUrl.StakingBeginRedelegate: {
             tokenTransactionMessage = mapRedelegateTransaction(msgIndex, tx, walletAddress);
 
             break;
           }
 
-          case TxMessageTypeUrl.DistributionWithdrawValidatorCommission: {
+          case CosmosTxMessageTypeUrl.DistributionWithdrawValidatorCommission: {
             tokenTransactionMessage = mapWithdrawValidatorRewardTransaction(msgIndex, tx, walletAddress);
 
             break;
