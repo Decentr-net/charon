@@ -5,7 +5,7 @@ import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { flagsIcons } from '@shared/svg-icons/flags';
 import { isOpenedInTab } from '@shared/utils/browser';
-import { SentinelNodeStatus } from '@shared/services/sentinel';
+import { SentinelNodeStatusWithSubscriptions } from '@core/services/sentinel';
 import { VpnPageService } from './vpn-page.service';
 
 @Component({
@@ -20,7 +20,7 @@ import { VpnPageService } from './vpn-page.service';
 export class VpnPageComponent implements OnInit {
   @HostBinding('class.mod-bordered') public hasBorder: boolean = isOpenedInTab();
 
-  public nodes: SentinelNodeStatus[] | undefined;
+  public nodes: SentinelNodeStatusWithSubscriptions[] | undefined;
 
   public onlySubscribedFormControl: FormControl<boolean> = new FormControl(false);
 

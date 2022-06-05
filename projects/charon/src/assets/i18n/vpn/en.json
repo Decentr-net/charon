@@ -16,6 +16,9 @@
       "subscribe": {
         "actions": {
           "subscribe": "Subscribe"
+        },
+        "notifications": {
+          "subscribed": "Successfully subscribed"
         }
       }
     }

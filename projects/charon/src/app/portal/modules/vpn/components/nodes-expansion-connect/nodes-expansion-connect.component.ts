@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { forkJoin, map, Observable, of } from 'rxjs';
 import { SentinelQuota } from 'decentr-js';
 
-import { SentinelNodeStatus, SentinelService } from '@shared/services/sentinel';
+import { SentinelNodeStatusWithSubscriptions, SentinelService } from '@core/services/sentinel';
 
 @Component({
   selector: 'app-nodes-expansion-connect',
@@ -10,8 +10,8 @@ import { SentinelNodeStatus, SentinelService } from '@shared/services/sentinel';
   styleUrls: ['./nodes-expansion-connect.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NodesExpansionConnectComponent {
-  @Input() public node!: SentinelNodeStatus;
+export class NodesExpansionConnectComponent implements OnInit {
+  @Input() public node!: SentinelNodeStatusWithSubscriptions;
 
   public depositCapacity$!: Observable<Omit<SentinelQuota, 'address'>>;
 
@@ -25,7 +25,7 @@ export class NodesExpansionConnectComponent {
   public ngOnInit(): void {
     const SentinelQuotaInitial = { allocated: '0', consumed: '0' };
 
-    this.depositCapacity$ = forkJoin([...(this.node.subscriptions || [])]
+    this.depositCapacity$ = forkJoin(this.node.subscriptions
       .map((subscription) => subscription?.id
         ? this.sentinelService.getQuotas(subscription?.id).pipe(map((quota) => quota[0]))
         : of(SentinelQuotaInitial),

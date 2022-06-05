@@ -12,8 +12,8 @@ import { VPN_PAGES } from './pages';
 import { ButtonModule } from '@shared/components/button';
 import { BytesSizeModule } from '@shared/pipes/bytes-size';
 import { InputCounterModule } from '@shared/components/input-counter';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { PriceModule } from '@shared/pipes/price';
-import { SentinelModule } from '@shared/services/sentinel';
 import { TypefaceModule } from '@shared/directives/typeface';
 import { VpnRoutingModule } from './vpn-routing.module';
 
@@ -30,8 +30,8 @@ import { VpnRoutingModule } from './vpn-routing.module';
     MatExpansionModule,
     MatSlideToggleModule,
     NgxSkeletonLoaderModule,
+    OverlayModule,
     PriceModule,
-    SentinelModule,
     SvgIconsModule,
     ReactiveFormsModule,
     TranslocoModule,

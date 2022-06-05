@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, TrackByFunction } from '@ang
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgCheck } from '@shared/svg-icons/check';
-import { SentinelNodeStatus } from '@shared/services/sentinel';
+import { SentinelNodeStatusWithSubscriptions } from '@core/services/sentinel';
 import { countryNameToCode } from '../../utils/country';
 
 @Component({
@@ -12,7 +12,7 @@ import { countryNameToCode } from '../../utils/country';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NodesExpansionComponent {
-  @Input() public nodes: SentinelNodeStatus[] | undefined | null;
+  @Input() public nodes: SentinelNodeStatusWithSubscriptions[] | undefined | null;
 
   public countryNameToCode = countryNameToCode;
 
@@ -24,5 +24,5 @@ export class NodesExpansionComponent {
     ]);
   }
 
-  public trackByAddress: TrackByFunction<SentinelNodeStatus> = ({}, { address }) => address;
+  public trackByAddress: TrackByFunction<SentinelNodeStatusWithSubscriptions> = ({}, { address }) => address;
 }

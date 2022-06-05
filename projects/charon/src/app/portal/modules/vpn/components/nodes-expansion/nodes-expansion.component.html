@@ -15,7 +15,7 @@
             class="nodes-expansion__title"
             appTypeface="paragraph"
           >
-            {{ node.moniker }} | {{ node.location.city }}
+            {{ node.moniker }} | {{ node.location.country }}, {{ node.location.city }}
 
             <svg-icon
               *ngIf="node.subscriptions?.length"
@@ -33,15 +33,16 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <app-nodes-expansion-subscribe
-        *ngIf="!node.subscriptions?.length"
-        [node]="node"
-      ></app-nodes-expansion-subscribe>
-
       <app-nodes-expansion-connect
-        *ngIf="node.subscriptions?.length"
+        *ngIf="node.subscriptions?.length; else connect"
         [node]="node"
       ></app-nodes-expansion-connect>
+
+      <ng-template #connect>
+        <app-nodes-expansion-subscribe
+          [node]="node"
+        ></app-nodes-expansion-subscribe>
+      </ng-template>
 
     </mat-expansion-panel>
   </mat-accordion>

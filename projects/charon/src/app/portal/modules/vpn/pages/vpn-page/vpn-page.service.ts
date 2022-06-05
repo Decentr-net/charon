@@ -1,28 +1,24 @@
 import { Injectable } from '@angular/core';
-import { catchError, combineLatest, forkJoin, map, mergeMap, Observable, of } from 'rxjs';
-import {
-  SentinelDeposit,
-  SentinelNode,
-  SentinelSession,
-  SentinelSubscription,
-  transformWalletAddress,
-} from 'decentr-js';
+import { catchError, forkJoin, map, mergeMap, Observable, of } from 'rxjs';
+import { SentinelDeposit, SentinelNode, SentinelSession, SentinelSubscription } from 'decentr-js';
 
-import { AuthService } from '@core/auth';
-import { SentinelNodeStatus, SentinelService } from '@shared/services/sentinel';
-import { Denom } from '@shared/pipes/price';
+import {
+  DEFAULT_DENOM,
+  SentinelNodeStatus,
+  SentinelNodeStatusWithSubscriptions,
+  SentinelService,
+} from '@core/services/sentinel';
 
 @Injectable()
 export class VpnPageService {
 
   constructor(
-    private authService: AuthService,
     private sentinelService: SentinelService,
   ) {
   }
 
   public getAvailableNodes(): Observable<SentinelNode[]> {
-    return this.sentinelService.getNodes(Denom.IBC_UDEC);
+    return this.sentinelService.getNodes(DEFAULT_DENOM);
   }
 
   public getNodeStatus(address: string): Observable<SentinelNodeStatus | undefined> {
@@ -31,38 +27,31 @@ export class VpnPageService {
     );
   }
 
-  public getAvailableNodesDetails(): Observable<SentinelNodeStatus[]> {
-    const walletAddress = this.authService.getActiveUserInstant().wallet.address;
-    const sentWalletAddress = transformWalletAddress(walletAddress, 'sent');
-
+  public getAvailableNodesDetails(): Observable<SentinelNodeStatusWithSubscriptions[]> {
     return this.getAvailableNodes().pipe(
       mergeMap((nodes) => nodes.length > 0
-        ? combineLatest(
-          [
-            this.getSubscriptionsForAddress(sentWalletAddress),
-            forkJoin([...nodes].map((node) => this.getNodeStatus(node.remoteUrl))),
-          ],
-        ).pipe(
-          map(([subscriptions, nodesStatuses]) => [...nodesStatuses].map((nodesStatus) => nodesStatus
-            ? ({
-              ...nodesStatus,
-              subscriptions: subscriptions.filter((subscription) => subscription?.node === nodesStatus?.address) || [],
-            })
-            : undefined,
-          )),
+        ? forkJoin([
+          this.getSubscriptionsForAddress(),
+          forkJoin(nodes.map((node) => this.getNodeStatus(node.remoteUrl))).pipe(
+            map((nodeStatuses) => nodeStatuses.filter(Boolean)),
+          ),
+        ]).pipe(
+          map(([subscriptions, nodesStatuses]) => nodesStatuses.map((nodesStatus) => ({
+            ...nodesStatus,
+            subscriptions: subscriptions.filter((subscription) => subscription?.node === nodesStatus?.address) || [],
+          }))),
         )
         : of([]),
       ),
-      map((nodes) => nodes.filter((node) => !!node)),
     );
   }
 
-  public getSubscriptionsForAddress(address: string): Observable<SentinelSubscription[]> {
-    return this.sentinelService.getSubscriptionsForAddress(address);
+  public getSubscriptionsForAddress(): Observable<SentinelSubscription[]> {
+    return this.sentinelService.getSubscriptionsForAddress();
   }
 
-  public getSessionsForAddress(address: string): Observable<SentinelSession[]> {
-    return this.sentinelService.getSessionsForAddress(address);
+  public getSessionsForAddress(): Observable<SentinelSession[]> {
+    return this.sentinelService.getSessionsForAddress();
   }
 
   public getDeposit(address: string): Observable<SentinelDeposit | undefined> {

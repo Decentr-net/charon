@@ -144,6 +144,7 @@ const countriesNameCode = [
   { name: 'Mayotte', code: 'YT' },
   { name: 'Mexico', code: 'MX' },
   { name: 'Micronesia, Federated States of', code: 'FM' },
+  { name: 'Moldova', code: 'MD' },
   { name: 'Moldova, Republic of', code: 'MD' },
   { name: 'Monaco', code: 'MC' },
   { name: 'Mongolia', code: 'MN' },

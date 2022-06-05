@@ -12,6 +12,7 @@ import { NetworkService } from './network';
 import { PDVService } from './pdv';
 import { PostsService } from './posts';
 import { ReferralService } from './referral';
+import { SentinelService } from './sentinel';
 import { SpinnerService } from './spinner';
 import { StakingService } from './staking';
 import { UserService } from './user';
@@ -49,6 +50,7 @@ export const CORE_SERVICES = [
   PDVService,
   PostsService,
   ReferralService,
+  SentinelService,
   SpinnerService,
   StakingService,
   UserService,
