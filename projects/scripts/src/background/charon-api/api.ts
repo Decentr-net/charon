@@ -99,8 +99,7 @@ export const transferCoins = async (
 
   return decentrClient.bank.sendTokens(
     request,
-    { memo },
-  ).signAndBroadcast();
+  ).signAndBroadcast(memo);
 };
 
 export const resetAccount = async (
