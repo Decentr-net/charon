@@ -1,6 +1,6 @@
 import { Coin, SentinelNodeStatus as NodeStatus, SentinelSubscription } from 'decentr-js';
 
-import { Denom } from '@shared/pipes/price';
+import { Denom } from '../../pipes/price/price.definitions';
 
 export const DEFAULT_DENOM = Denom.IBC_UDEC;
 

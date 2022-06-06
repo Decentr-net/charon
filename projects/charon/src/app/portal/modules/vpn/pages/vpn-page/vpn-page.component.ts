@@ -3,10 +3,10 @@ import { combineLatest, map, startWith } from 'rxjs';
 import { FormControl } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
+import { VpnPageService } from './vpn-page.service';
 import { flagsIcons } from '@shared/svg-icons/flags';
 import { isOpenedInTab } from '@shared/utils/browser';
-import { SentinelNodeStatusWithSubscriptions } from '@core/services/sentinel';
-import { VpnPageService } from './vpn-page.service';
+import { SentinelNodeStatusWithSubscriptions } from '@shared/models/sentinel';
 
 @Component({
   selector: 'app-vpn-page',

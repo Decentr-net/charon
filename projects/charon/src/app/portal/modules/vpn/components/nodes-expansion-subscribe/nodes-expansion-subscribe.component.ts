@@ -6,11 +6,12 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Validators } from '@angular/forms';
 
-import { DEFAULT_DENOM, SentinelNodeStatusWithSubscriptions, SentinelService } from '@core/services/sentinel';
+import { SentinelService } from '@core/services/sentinel';
+import { SpinnerService } from '@core/services';
+import { DEFAULT_DENOM, SentinelNodeStatusWithSubscriptions } from '@shared/models/sentinel';
 import { filterCoinsByDenom, priceFromString } from '@shared/utils/price';
 import { NotificationService } from '@shared/services/notification';
 import { PricePipe } from '@shared/pipes/price';
-import { SpinnerService } from '@core/services';
 
 interface Form {
   deposit: number;

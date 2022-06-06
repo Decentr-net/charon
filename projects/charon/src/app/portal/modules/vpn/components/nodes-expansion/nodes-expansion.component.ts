@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, TrackByFunction } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
-import { svgCheck } from '@shared/svg-icons/check';
-import { SentinelNodeStatusWithSubscriptions } from '@core/services/sentinel';
 import { countryNameToCode } from '../../utils/country';
+import { svgCheck } from '@shared/svg-icons/check';
+import { SentinelNodeStatusWithSubscriptions } from '@shared/models/sentinel';
 
 @Component({
   selector: 'app-nodes-expansion',

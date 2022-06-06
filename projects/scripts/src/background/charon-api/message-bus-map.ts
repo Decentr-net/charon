@@ -8,6 +8,7 @@ import {
   RedelegateTokensRequest,
   ResetAccountRequest,
   SendTokensRequest,
+  SubscribeToNodeRequest,
   UndelegateTokensRequest,
   UnfollowRequest,
   WithdrawDelegatorRewardRequest,
@@ -93,6 +94,12 @@ export interface CharonAPIMessageBusMap extends MessageMap {
   [MessageCode.WithdrawValidatorRewards]: {
     body: {
       request: WithdrawValidatorCommissionRequest,
+    },
+    response: MessageResponse;
+  };
+  [MessageCode.SentinelSubscribeToNode]: {
+    body: {
+      request: SubscribeToNodeRequest,
     },
     response: MessageResponse;
   };

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { defer, first, map, Observable, of, ReplaySubject, switchMap } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { defer, first, map, Observable, ReplaySubject, switchMap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
   Coin,
@@ -17,11 +16,14 @@ import {
 } from 'decentr-js';
 import Long from 'long';
 
-import { ConfigService } from '@shared/services/configuration';
 import { AuthService } from '@core/auth';
-import { DEFAULT_DENOM, SentinelNodeStatus } from '@core/services/sentinel';
+import { ConfigService } from '@shared/services/configuration';
+import { DEFAULT_DENOM, SentinelNodeStatus } from '@shared/models/sentinel';
 import { getSentinelWalletAddress } from '@shared/utils/sentinel-wallet';
+import { MessageBus } from '@shared/message-bus';
 import { priceFromString } from '@shared/utils/price';
+import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
+import { MessageCode } from '@scripts/messages';
 
 @UntilDestroy()
 @Injectable()
@@ -88,7 +90,6 @@ export class SentinelService {
         status: SentinelStatus.STATUS_ACTIVE,
         address: this.sentinelWalletAddress,
       })),
-      tap(console.log),
     );
   }
 
@@ -119,17 +120,18 @@ export class SentinelService {
     );
   }
 
-  public subscribeToNode(nodeAddress: string, deposit: Coin): Observable<boolean> {
-    const request = {
-      from: this.sentinelWalletAddress,
-      address: nodeAddress,
-      deposit,
-    };
-
-    return this.sentinelClient.pipe(
-      switchMap((client) => client.subscription.subscribeToNode(request).signAndBroadcast()),
-      map(() => true),
-      catchError(() => of(false)),
+  public subscribeToNode(nodeAddress: string, deposit: Coin): Observable<void> {
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
+      MessageCode.SentinelSubscribeToNode,
+      {
+        request: {
+          from: this.sentinelWalletAddress,
+          address: nodeAddress,
+          deposit,
+        },
+      },
+    )).pipe(
+      map(assertMessageResponseSuccess),
     );
   }
 }

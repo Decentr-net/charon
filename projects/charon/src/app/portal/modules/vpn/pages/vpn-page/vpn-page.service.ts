@@ -2,12 +2,8 @@ import { Injectable } from '@angular/core';
 import { catchError, forkJoin, map, mergeMap, Observable, of } from 'rxjs';
 import { SentinelDeposit, SentinelNode, SentinelSession, SentinelSubscription } from 'decentr-js';
 
-import {
-  DEFAULT_DENOM,
-  SentinelNodeStatus,
-  SentinelNodeStatusWithSubscriptions,
-  SentinelService,
-} from '@core/services/sentinel';
+import { SentinelService } from '@core/services/sentinel';
+import { DEFAULT_DENOM, SentinelNodeStatus, SentinelNodeStatusWithSubscriptions } from '@shared/models/sentinel';
 
 @Injectable()
 export class VpnPageService {

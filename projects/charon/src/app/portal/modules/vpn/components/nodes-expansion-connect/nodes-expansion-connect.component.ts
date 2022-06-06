@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { forkJoin, map, Observable, of } from 'rxjs';
 import { SentinelQuota } from 'decentr-js';
 
-import { SentinelNodeStatusWithSubscriptions, SentinelService } from '@core/services/sentinel';
+import { SentinelNodeStatusWithSubscriptions } from '@shared/models/sentinel';
+import { SentinelService } from '@core/services/sentinel';
 
 @Component({
   selector: 'app-nodes-expansion-connect',

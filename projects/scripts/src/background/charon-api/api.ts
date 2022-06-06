@@ -1,13 +1,19 @@
+import { combineLatest, firstValueFrom, Observable, ReplaySubject, switchMap, take, tap } from 'rxjs';
+import { debounceTime, filter } from 'rxjs/operators';
 import {
   CreatePostRequest,
+  Decimal,
   DelegateTokensRequest,
   DeletePostRequest,
   DeliverTxResponse,
   FollowRequest,
   LikeRequest,
+  Price,
   RedelegateTokensRequest,
   ResetAccountRequest,
   SendTokensRequest,
+  SentinelClient,
+  SubscribeToNodeRequest,
   UndelegateTokensRequest,
   UnfollowRequest,
   WithdrawDelegatorRewardRequest,
@@ -15,6 +21,31 @@ import {
 } from 'decentr-js';
 
 import { getDecentrClient } from '../client';
+import CONFIG_SERVICE from '../config';
+import { AuthBrowserStorageService } from '@shared/services/auth';
+import { ONE_SECOND } from '@shared/utils/date';
+import { DEFAULT_DENOM } from '@shared/models/sentinel';
+
+const sentinelClient$: Observable<SentinelClient> = (() => {
+  const clientSource$ = new ReplaySubject<SentinelClient>(1);
+
+  combineLatest([
+    CONFIG_SERVICE.getVpnUrl(),
+    new AuthBrowserStorageService().getActiveUser(),
+  ]).pipe(
+    debounceTime(ONE_SECOND),
+    tap(() => clientSource$.next(undefined)),
+    switchMap(([api, user]) => SentinelClient.create(api, {
+      gasPrice: new Price(Decimal.fromUserInput('1.7', 6), DEFAULT_DENOM),
+      privateKey: user?.wallet?.privateKey,
+    })),
+  ).subscribe(clientSource$);
+
+  return clientSource$.pipe(
+    filter(Boolean),
+    take(1),
+  );
+})();
 
 export const createPost = async (
   request: CreatePostRequest,
@@ -133,6 +164,16 @@ export const withdrawValidatorRewards = async (
   const decentrClient = await getDecentrClient();
 
   return decentrClient.distribution.withdrawValidatorRewards(
+    request,
+  ).signAndBroadcast();
+};
+
+export const sentinelSubscribeToNode = async (
+  request: SubscribeToNodeRequest,
+): Promise<DeliverTxResponse> => {
+  const sentinelClient = await firstValueFrom(sentinelClient$);
+
+  return sentinelClient.subscription.subscribeToNode(
     request,
   ).signAndBroadcast();
 };

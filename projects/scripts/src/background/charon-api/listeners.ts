@@ -10,6 +10,7 @@ import {
   likePost,
   redelegate,
   resetAccount,
+  sentinelSubscribeToNode,
   transferCoins,
   undelegate,
   unfollow,
@@ -56,6 +57,7 @@ const CHARON_API_LISTENER_MAP: Record<CharonAPIMessageCode, (...args) => Promise
   [MessageCode.Redelegate]: redelegate,
   [MessageCode.WithdrawDelegatorRewards]: withdrawDelegatorRewards,
   [MessageCode.WithdrawValidatorRewards]: withdrawValidatorRewards,
+  [MessageCode.SentinelSubscribeToNode]: sentinelSubscribeToNode,
 };
 
 export const initCharonAPIListeners = (): void => {
