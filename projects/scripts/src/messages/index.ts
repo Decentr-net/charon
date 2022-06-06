@@ -9,6 +9,8 @@ export enum MessageCode {
   Redelegate = 'CHARON_REDELEGATE',
   ResetAccount = 'CHARON_RESET_ACCOUNT',
   SentinelSubscribeToNode = 'SENTINEL_SUBSCRIBE_TO_NODE',
+  SentinelStartSession = 'SENTINEL_START_SESSION',
+  SentinelEndSession = 'SENTINEL_END_SESSION',
   Undelegate = 'CHARON_UNDELEGATE',
   Unfollow = 'CHARON_UNFOLLOW',
   WithdrawDelegatorRewards = 'CHARON_WITHDRAW_DELEGATOR_REWARDS',

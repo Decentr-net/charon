@@ -6,6 +6,7 @@ import {
   DelegateTokensRequest,
   DeletePostRequest,
   DeliverTxResponse,
+  EndSessionRequest,
   FollowRequest,
   LikeRequest,
   Price,
@@ -13,6 +14,7 @@ import {
   ResetAccountRequest,
   SendTokensRequest,
   SentinelClient,
+  StartSessionRequest,
   SubscribeToNodeRequest,
   UndelegateTokensRequest,
   UnfollowRequest,
@@ -174,6 +176,26 @@ export const sentinelSubscribeToNode = async (
   const sentinelClient = await firstValueFrom(sentinelClient$);
 
   return sentinelClient.subscription.subscribeToNode(
+    request,
+  ).signAndBroadcast();
+};
+
+export const sentinelStartSession = async (
+  request: StartSessionRequest,
+): Promise<DeliverTxResponse> => {
+  const sentinelClient = await firstValueFrom(sentinelClient$);
+
+  return sentinelClient.session.startSession(
+    request,
+  ).signAndBroadcast();
+};
+
+export const sentinelEndSession = async (
+  request: EndSessionRequest,
+): Promise<DeliverTxResponse> => {
+  const sentinelClient = await firstValueFrom(sentinelClient$);
+
+  return sentinelClient.session.endSession(
     request,
   ).signAndBroadcast();
 };

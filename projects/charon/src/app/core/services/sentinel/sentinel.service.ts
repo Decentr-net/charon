@@ -134,4 +134,34 @@ export class SentinelService {
       map(assertMessageResponseSuccess),
     );
   }
+
+  public startSession(node: string, id: Long): Observable<void> {
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
+      MessageCode.SentinelStartSession,
+      {
+        request:{
+          from: this.sentinelWalletAddress,
+          id,
+          node,
+        },
+      },
+    )).pipe(
+      map(assertMessageResponseSuccess),
+    );
+  }
+
+  public endSession(node: string, id: Long): Observable<void> {
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
+      MessageCode.SentinelEndSession,
+      {
+        request:{
+          from: this.sentinelWalletAddress,
+          id,
+          rating: Long.fromInt(0),
+        },
+      },
+    )).pipe(
+      map(assertMessageResponseSuccess),
+    );
+  }
 }

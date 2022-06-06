@@ -10,6 +10,8 @@ import {
   likePost,
   redelegate,
   resetAccount,
+  sentinelEndSession,
+  sentinelStartSession,
   sentinelSubscribeToNode,
   transferCoins,
   undelegate,
@@ -57,6 +59,8 @@ const CHARON_API_LISTENER_MAP: Record<CharonAPIMessageCode, (...args) => Promise
   [MessageCode.Redelegate]: redelegate,
   [MessageCode.WithdrawDelegatorRewards]: withdrawDelegatorRewards,
   [MessageCode.WithdrawValidatorRewards]: withdrawValidatorRewards,
+  [MessageCode.SentinelStartSession]: sentinelStartSession,
+  [MessageCode.SentinelEndSession]: sentinelEndSession,
   [MessageCode.SentinelSubscribeToNode]: sentinelSubscribeToNode,
 };
 

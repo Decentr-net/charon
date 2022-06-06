@@ -3,11 +3,13 @@ import {
   CreatePostRequest,
   DelegateTokensRequest,
   DeletePostRequest,
+  EndSessionRequest,
   FollowRequest,
   LikeRequest,
   RedelegateTokensRequest,
   ResetAccountRequest,
   SendTokensRequest,
+  StartSessionRequest,
   SubscribeToNodeRequest,
   UndelegateTokensRequest,
   UnfollowRequest,
@@ -94,6 +96,18 @@ export interface CharonAPIMessageBusMap extends MessageMap {
   [MessageCode.WithdrawValidatorRewards]: {
     body: {
       request: WithdrawValidatorCommissionRequest,
+    },
+    response: MessageResponse;
+  };
+  [MessageCode.SentinelStartSession]: {
+    body: {
+      request: StartSessionRequest,
+    },
+    response: MessageResponse;
+  };
+  [MessageCode.SentinelEndSession]: {
+    body: {
+      request: EndSessionRequest,
     },
     response: MessageResponse;
   };
