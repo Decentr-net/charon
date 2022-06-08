@@ -20,6 +20,9 @@
 }
 
 .vpn-page__header-title {
+  align-items: center;
+  column-gap: $grid-step;
+  display: flex;
   font-weight: 500;
 }
 

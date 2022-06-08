@@ -19,6 +19,7 @@
         *ngIf="nodes.length > 0; else nodesNoData"
         class="vpn-page__nodes-expansion"
         [nodes]="nodes"
+        [sessions]="sessions$ | async"
       ></app-nodes-expansion>
     </ng-container>
   </div>

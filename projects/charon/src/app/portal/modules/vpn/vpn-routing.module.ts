@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { VpnPageComponent, } from './pages';
+import { VpnPageComponent } from './pages';
 
 const ROUTES: Routes = [
   {

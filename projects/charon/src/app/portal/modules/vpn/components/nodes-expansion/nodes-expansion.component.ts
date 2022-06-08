@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, TrackByFunction } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { SentinelSession } from 'decentr-js';
 
-import { countryNameToCode } from '../../utils/country';
 import { svgCheck } from '@shared/svg-icons/check';
+import { countryNameToCode } from '../../utils/country';
 import { SentinelNodeStatusWithSubscriptions } from '@shared/models/sentinel';
 
 @Component({
@@ -13,6 +14,8 @@ import { SentinelNodeStatusWithSubscriptions } from '@shared/models/sentinel';
 })
 export class NodesExpansionComponent {
   @Input() public nodes: SentinelNodeStatusWithSubscriptions[] | undefined | null;
+
+  @Input() public sessions: SentinelSession[];
 
   public countryNameToCode = countryNameToCode;
 

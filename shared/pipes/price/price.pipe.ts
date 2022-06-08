@@ -19,13 +19,13 @@ export class PricePipe implements PipeTransform {
   }
 
   public transform(price: Coin, showDenom: boolean = true, digitsInfo: string = '1.0-6'): string {
-    const amount = this.transformAmount(price.amount, digitsInfo);
-    const denom = showDenom ? ' ' + this.convertDenom(price.denom) : '';
+    const amount = this.transformAmount(price?.amount, digitsInfo);
+    const denom = showDenom ? ' ' + this.convertDenom(price?.denom) : '';
 
     return `${amount}${denom}`;
   }
 
   public convertDenom(denom: string): string {
-    return DENOM_MAP[denom as Denom] || denom;
+    return DENOM_MAP[denom as Denom] || denom || '';
   }
 }

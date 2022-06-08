@@ -33,10 +33,14 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <app-nodes-expansion-connect
-        *ngIf="node.subscriptions?.length; else connect"
-        [node]="node"
-      ></app-nodes-expansion-connect>
+      <ng-container *ngIf="node.subscriptions?.length > 0; else connect">
+        <app-nodes-expansion-connect
+          *ngFor="let subscription of node.subscriptions"
+          [node]="node"
+          [sessions]="sessions"
+          [subscription]="subscription"
+        ></app-nodes-expansion-connect>
+      </ng-container>
 
       <ng-template #connect>
         <app-nodes-expansion-subscribe

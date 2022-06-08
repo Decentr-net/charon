@@ -25,6 +25,11 @@ interface MessageResponse {
   error?: BroadcastClientError | Error;
 }
 
+export interface EndStartSessionRequest {
+  endSession: EndSessionRequest;
+  startSession: StartSessionRequest;
+}
+
 export interface CharonAPIMessageBusMap extends MessageMap {
   [MessageCode.PostCreate]: {
     body: {
@@ -101,7 +106,7 @@ export interface CharonAPIMessageBusMap extends MessageMap {
   };
   [MessageCode.SentinelStartSession]: {
     body: {
-      request: StartSessionRequest,
+      request: EndStartSessionRequest,
     },
     response: MessageResponse;
   };

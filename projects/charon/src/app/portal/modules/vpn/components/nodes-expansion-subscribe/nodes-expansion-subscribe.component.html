@@ -10,8 +10,8 @@
     <app-input-counter
       class="nodes-expansion-subscribe__deposit-input"
       formControlName="deposit"
-      [min]="+node.price.amount"
-      [step]="+node.price.amount"
+      [min]="+node.price?.amount"
+      [step]="+node.price?.amount"
       [displayWith]="displayWith"
     >
     </app-input-counter>

@@ -9,7 +9,7 @@ import { Validators } from '@angular/forms';
 import { SentinelService } from '@core/services/sentinel';
 import { SpinnerService } from '@core/services';
 import { DEFAULT_DENOM, SentinelNodeStatusWithSubscriptions } from '@shared/models/sentinel';
-import { filterCoinsByDenom, priceFromString } from '@shared/utils/price';
+import { coerceCoin, findCoinByDenom } from '@shared/utils/price';
 import { NotificationService } from '@shared/services/notification';
 import { PricePipe } from '@shared/pipes/price';
 
@@ -46,7 +46,7 @@ export class NodesExpansionSubscribeComponent implements OnInit {
     this.form = this.createForm();
 
     this.depositCapacity$ = this.form.get('deposit').value$.pipe(
-      map((selectedPrice) => selectedPrice / +this.node.price.amount),
+      map((selectedPrice) => selectedPrice / +this.node.price?.amount),
     );
   }
 
@@ -64,11 +64,11 @@ export class NodesExpansionSubscribeComponent implements OnInit {
   public subscribeToNode(): void {
     this.spinnerService.showSpinner();
 
-    const { deposit } = this.form!.getRawValue();
+    const { deposit } = this.form.getRawValue();
 
     this.sentinelService.subscribeToNode(
       this.node.address,
-      filterCoinsByDenom(priceFromString(deposit + this.node.price.denom), DEFAULT_DENOM),
+      findCoinByDenom(coerceCoin(deposit + this.node.price?.denom), DEFAULT_DENOM),
     ).pipe(
       catchError((error) => {
         this.notificationService.error(error);
@@ -76,16 +76,16 @@ export class NodesExpansionSubscribeComponent implements OnInit {
       }),
       finalize(() => this.spinnerService.hideSpinner()),
       untilDestroyed(this),
-    ).subscribe((response) => {
+    ).subscribe(() => {
       this.notificationService.success(
         this.translocoService.translate('vpn_page.nodes_expansion.subscribe.notifications.subscribed', null, 'vpn'),
       );
 
-      console.log('subscribe to node', response);
+      // TODO: request new list of subscriptions
     });
   }
 
   displayWith = (value: number): string => {
-    return this.pricePipe.transform(filterCoinsByDenom(priceFromString(value + this.node.price.denom), DEFAULT_DENOM));
+    return this.pricePipe.transform(findCoinByDenom(coerceCoin(value + this.node.price?.denom || ''), DEFAULT_DENOM));
   };
 }

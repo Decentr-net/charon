@@ -11,6 +11,10 @@
         "actions": {
           "connect": "Connect",
           "disconnect": "Disconnect"
+        },
+        "notifications": {
+          "connected": "Successfully connected",
+          "disconnected": "Successfully disconnected"
         }
       },
       "subscribe": {

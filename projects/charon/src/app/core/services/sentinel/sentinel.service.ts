@@ -4,6 +4,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
   Coin,
   Decimal,
+  EndSessionRequest,
   Price,
   SentinelClient,
   SentinelDeposit,
@@ -21,7 +22,7 @@ import { ConfigService } from '@shared/services/configuration';
 import { DEFAULT_DENOM, SentinelNodeStatus } from '@shared/models/sentinel';
 import { getSentinelWalletAddress } from '@shared/utils/sentinel-wallet';
 import { MessageBus } from '@shared/message-bus';
-import { priceFromString } from '@shared/utils/price';
+import { coerceCoin } from '@shared/utils/price';
 import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
 
@@ -47,16 +48,24 @@ export class SentinelService {
     return getSentinelWalletAddress(this.authService.getActiveUserInstant().wallet.address);
   }
 
-  public get sentinelClient(): Observable<SentinelClient> {
+  private get sentinelClient(): Observable<SentinelClient> {
     return this.sentinelClient$.pipe(
       first(),
     );
   }
 
-  public createSentinelClient(nodeUrl: string, privateKey: Wallet['privateKey']): Observable<SentinelClient> {
+  private createSentinelClient(nodeUrl: string, privateKey: Wallet['privateKey']): Observable<SentinelClient> {
     return defer(() => SentinelClient.create(nodeUrl, {
       gasPrice: new Price(Decimal.fromUserInput('1.7', 6), DEFAULT_DENOM),
       privateKey,
+    }));
+  }
+
+  private buildEndSessionRequest(ids: Long[]): EndSessionRequest {
+    return ids.map((id) => ({
+      from: this.sentinelWalletAddress,
+      id: id,
+      rating: Long.fromInt(0),
     }));
   }
 
@@ -66,7 +75,7 @@ export class SentinelService {
     return defer(() => SentinelClient.getNodeStatus(httpUrl, { timeout: 2000 })).pipe(
       map((node) => ({
         ...node,
-        price: priceFromString(node.price).filter((price) => price.denom === DEFAULT_DENOM)[0] || undefined,
+        price: coerceCoin(node.price).filter((price) => price.denom === DEFAULT_DENOM)[0] || undefined,
       })),
     );
   }
@@ -108,15 +117,24 @@ export class SentinelService {
     );
   }
 
-  public getQuota(id: Long, address: string): Observable<SentinelQuota | undefined> {
+  public getQuota(id: Long): Observable<SentinelQuota | undefined> {
     return this.sentinelClient.pipe(
-      switchMap((client) => client.subscription.getQuota({ id, address })),
+      switchMap((client) => client.subscription.getQuota({
+        address: this.sentinelWalletAddress,
+        id,
+      })),
     );
   }
 
   public getQuotas(id: Long): Observable<SentinelQuota[]> {
     return this.sentinelClient.pipe(
       switchMap((client) => client.subscription.getQuotas({ id })),
+    );
+  }
+
+  public getBalance(): Observable<Coin[]> {
+    return this.sentinelClient.pipe(
+      switchMap((client) => client.bank.getBalance(this.sentinelWalletAddress)),
     );
   }
 
@@ -135,14 +153,21 @@ export class SentinelService {
     );
   }
 
-  public startSession(node: string, id: Long): Observable<void> {
+  public startSession(node: string, startSessionId: Long, endSessionIds: Long[]): Observable<void> {
+    const endSessionRequest = this.buildEndSessionRequest(endSessionIds);
+
+    const startSessionRequest = {
+      from: this.sentinelWalletAddress,
+      id: startSessionId,
+      node,
+    };
+
     return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
       MessageCode.SentinelStartSession,
       {
-        request:{
-          from: this.sentinelWalletAddress,
-          id,
-          node,
+        request: {
+          endSession: endSessionRequest,
+          startSession: startSessionRequest,
         },
       },
     )).pipe(
@@ -150,16 +175,10 @@ export class SentinelService {
     );
   }
 
-  public endSession(node: string, id: Long): Observable<void> {
+  public endSession(sessionIds: Long[]): Observable<void> {
     return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
       MessageCode.SentinelEndSession,
-      {
-        request:{
-          from: this.sentinelWalletAddress,
-          id,
-          rating: Long.fromInt(0),
-        },
-      },
+      { request: this.buildEndSessionRequest(sessionIds) },
     )).pipe(
       map(assertMessageResponseSuccess),
     );

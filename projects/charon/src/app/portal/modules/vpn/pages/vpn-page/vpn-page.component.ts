@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
-import { combineLatest, map, startWith } from 'rxjs';
+import { combineLatest, map, Observable, startWith } from 'rxjs';
 import { FormControl } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
+import { SentinelSession } from 'decentr-js';
 
-import { VpnPageService } from './vpn-page.service';
 import { flagsIcons } from '@shared/svg-icons/flags';
 import { isOpenedInTab } from '@shared/utils/browser';
 import { SentinelNodeStatusWithSubscriptions } from '@shared/models/sentinel';
+import { VpnPageService } from './vpn-page.service';
 
 @Component({
   selector: 'app-vpn-page',
@@ -21,6 +22,8 @@ export class VpnPageComponent implements OnInit {
   @HostBinding('class.mod-bordered') public hasBorder: boolean = isOpenedInTab();
 
   public nodes: SentinelNodeStatusWithSubscriptions[] | undefined;
+
+  public sessions$: Observable<SentinelSession[]>;
 
   public onlySubscribedFormControl: FormControl<boolean> = new FormControl(false);
 
@@ -38,6 +41,8 @@ export class VpnPageComponent implements OnInit {
     const onlySubscribed$ = this.onlySubscribedFormControl.valueChanges.pipe(
       startWith(this.onlySubscribedFormControl.value),
     );
+
+    this.sessions$ = this.vpnPageService.getSessionsForAddress();
 
     combineLatest([
       this.vpnPageService.getAvailableNodesDetails(),

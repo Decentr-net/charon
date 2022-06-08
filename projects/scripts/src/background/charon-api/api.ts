@@ -14,7 +14,6 @@ import {
   ResetAccountRequest,
   SendTokensRequest,
   SentinelClient,
-  StartSessionRequest,
   SubscribeToNodeRequest,
   UndelegateTokensRequest,
   UnfollowRequest,
@@ -24,6 +23,7 @@ import {
 
 import { getDecentrClient } from '../client';
 import CONFIG_SERVICE from '../config';
+import { EndStartSessionRequest } from './message-bus-map';
 import { AuthBrowserStorageService } from '@shared/services/auth';
 import { ONE_SECOND } from '@shared/utils/date';
 import { DEFAULT_DENOM } from '@shared/models/sentinel';
@@ -181,13 +181,15 @@ export const sentinelSubscribeToNode = async (
 };
 
 export const sentinelStartSession = async (
-  request: StartSessionRequest,
+  request: EndStartSessionRequest,
 ): Promise<DeliverTxResponse> => {
   const sentinelClient = await firstValueFrom(sentinelClient$);
 
-  return sentinelClient.session.startSession(
-    request,
-  ).signAndBroadcast();
+  const endSessionMessage = sentinelClient.session.endSession(request.endSession);
+  const startSessionMessage = sentinelClient.session.startSession(request.startSession);
+  const tx = endSessionMessage.concat(startSessionMessage);
+
+  return tx.signAndBroadcast();
 };
 
 export const sentinelEndSession = async (
