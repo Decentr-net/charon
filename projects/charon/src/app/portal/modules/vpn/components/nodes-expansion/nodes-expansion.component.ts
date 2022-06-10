@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, TrackByFunction } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TrackByFunction } from '@angular/core';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { SentinelSession } from 'decentr-js';
 
 import { svgCheck } from '@shared/svg-icons/check';
 import { countryNameToCode } from '../../utils/country';
@@ -13,9 +12,13 @@ import { SentinelNodeStatusWithSubscriptions } from '@shared/models/sentinel';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NodesExpansionComponent {
-  @Input() public nodes: SentinelNodeStatusWithSubscriptions[] | undefined | null;
+  @Output() public sessionEnded: EventEmitter<void> = new EventEmitter();
 
-  @Input() public sessions: SentinelSession[];
+  @Output() public sessionStarted: EventEmitter<void> = new EventEmitter();
+
+  @Output() public subscribedToNode: EventEmitter<void> = new EventEmitter();
+
+  @Input() public nodes: SentinelNodeStatusWithSubscriptions[] | undefined | null;
 
   public countryNameToCode = countryNameToCode;
 

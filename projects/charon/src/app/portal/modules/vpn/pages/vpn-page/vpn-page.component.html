@@ -1,13 +1,44 @@
-<ng-container *transloco="let translate; read: 'vpn.vpn_page'">
+<ng-container *transloco="let translate; read: 'portal.vpn_page'">
   <div class="vpn-page__header">
     <div class="vpn-page__header-title" appTypeface="subheader">
       {{ translate('title') }}
+
+      <div
+        *ngIf="balance; else balanceLoading"
+        appTypeface="paragraph"
+      >
+        {{ translate('balance') }}: {{ balance | appPrice }}
+      </div>
     </div>
 
-    <div class="vpn-page__header-toggle">
+    <div class="vpn-page__header-right">
       <mat-slide-toggle [formControl]="onlySubscribedFormControl">
-        {{ translate('show_only_subscribed') }}
+        {{ translate('toggle.' + (openedInTab ? 'show_only_subscribed' : 'subscribed')) }}
       </mat-slide-toggle>
+
+      <div class="vpn-page__header-vertical-divider"></div>
+
+      <div
+        (click)="onRefreshData()"
+      >
+        <button
+          *appBrowserPopupView
+          app-icon-button
+          color="grey"
+        >
+          <svg-icon key="reload"></svg-icon>
+        </button>
+
+        <button
+          *appBrowserTabView
+          app-button
+          color="grey"
+        >
+          <svg-icon key="reload"></svg-icon>
+
+          {{ translate('refresh') }}
+        </button>
+      </div>
     </div>
   </div>
 
@@ -19,14 +50,27 @@
         *ngIf="nodes.length > 0; else nodesNoData"
         class="vpn-page__nodes-expansion"
         [nodes]="nodes"
-        [sessions]="sessions$ | async"
+        (sessionEnded)="onRefreshData()"
+        (sessionStarted)="onRefreshData()"
+        (subscribedToNode)="onRefreshData()"
       ></app-nodes-expansion>
     </ng-container>
   </div>
 
+  <ng-template #balanceLoading>
+    <ngx-skeleton-loader
+      class="vpn-page__loader-balance"
+      [theme]="{
+        height: '24px',
+        marginBottom: '0',
+        width: '180px'
+    }"
+    ></ngx-skeleton-loader>
+  </ng-template>
+
   <ng-template #nodesLoading>
     <ngx-skeleton-loader
-      class="vpn-page__loader"
+      class="vpn-page__loader-nodes"
       count="5"
       [theme]="{
         height: '40px',

@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { EMPTY, map, Observable, switchMap } from 'rxjs';
 import { SentinelQuota, SentinelSession, SentinelSubscription } from 'decentr-js';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -20,9 +29,11 @@ import { TranslocoService } from '@ngneat/transloco';
 export class NodesExpansionConnectComponent implements OnInit, OnChanges {
   @Input() public node: SentinelNodeStatusWithSubscriptions;
 
-  @Input() public sessions: SentinelSession[];
-
   @Input() public subscription: SentinelSubscription;
+
+  @Output() public sessionEnded: EventEmitter<void> = new EventEmitter();
+
+  @Output() public sessionStarted: EventEmitter<void> = new EventEmitter();
 
   public depositCapacity$!: Observable<Omit<SentinelQuota, 'address'>>;
 
@@ -40,7 +51,7 @@ export class NodesExpansionConnectComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges(): void {
-    this.activeSessions = (this.sessions || []).filter((session) => session.node === this.node.address);
+    this.activeSessions = (this.node.sessions || []).filter((session) => session.node === this.node.address);
 
     this.isConnected = this.activeSessions.length > 0;
   }
@@ -71,9 +82,15 @@ export class NodesExpansionConnectComponent implements OnInit, OnChanges {
             ? 'connected'
             : 'disconnected',
           null,
-          'vpn',
+          'portal',
         ),
       );
+
+      if (this.isConnected) {
+        this.sessionStarted.next();
+      } else {
+        this.sessionEnded.next();
+      }
 
       this.changeDetectorRef.markForCheck();
     });

@@ -5,10 +5,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SvgIconsModule } from '@ngneat/svg-icon';
-import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { VPN_COMPONENTS } from './components';
 import { VPN_PAGES } from './pages';
+import { BrowserViewModule } from '@shared/directives/browser-view';
 import { ButtonModule } from '@shared/components/button';
 import { BytesSizeModule } from '@shared/pipes/bytes-size';
 import { InputCounterModule } from '@shared/components/input-counter';
@@ -23,6 +24,7 @@ import { VpnRoutingModule } from './vpn-routing.module';
     VPN_PAGES,
   ],
   imports: [
+    BrowserViewModule,
     ButtonModule,
     BytesSizeModule,
     CommonModule,
@@ -37,12 +39,6 @@ import { VpnRoutingModule } from './vpn-routing.module';
     TranslocoModule,
     TypefaceModule,
     VpnRoutingModule,
-  ],
-  providers: [
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: 'vpn',
-    },
   ],
 })
 export class VpnModule {

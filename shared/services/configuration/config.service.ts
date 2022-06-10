@@ -124,7 +124,8 @@ export class ConfigService {
       // map((config) => config.vpn.url),
       // TODO: add to config.json
       // map(() => 'https://rpc.sentinel.badgerbite.xyz:443/'),
-      map(() => 'https://rpc-sentinel.dvpn.solar:443/'),
+      // map(() => 'https://rpc-sentinel.dvpn.solar:443/'),
+      map(() => 'https://rpc.sentinel1.badgerbite.xyz:443'),
       // map(() => 'https://rpc.sentinel.co:443/'),
     );
   }

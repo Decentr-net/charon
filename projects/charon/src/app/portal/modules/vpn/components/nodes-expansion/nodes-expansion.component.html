@@ -1,4 +1,4 @@
-<ng-container *transloco="let translate; read: 'vpn.vpn_page.nodes_expansion'">
+<ng-container *transloco="let translate; read: 'portal.vpn_page.nodes_expansion'">
   <mat-accordion>
     <mat-expansion-panel *ngFor="let node of nodes; trackBy: trackByAddress">
       <mat-expansion-panel-header>
@@ -37,14 +37,16 @@
         <app-nodes-expansion-connect
           *ngFor="let subscription of node.subscriptions"
           [node]="node"
-          [sessions]="sessions"
           [subscription]="subscription"
+          (sessionEnded)="sessionEnded.next()"
+          (sessionStarted)="sessionStarted.next()"
         ></app-nodes-expansion-connect>
       </ng-container>
 
       <ng-template #connect>
         <app-nodes-expansion-subscribe
           [node]="node"
+          (subscribedToNode)="subscribedToNode.next()"
         ></app-nodes-expansion-subscribe>
       </ng-template>
 

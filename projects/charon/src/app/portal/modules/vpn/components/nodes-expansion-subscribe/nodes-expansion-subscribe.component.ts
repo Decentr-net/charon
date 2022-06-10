@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { ControlsOf, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { catchError, finalize } from 'rxjs/operators';
 import { EMPTY, map, Observable } from 'rxjs';
@@ -26,6 +34,8 @@ interface Form {
 })
 export class NodesExpansionSubscribeComponent implements OnInit {
   @Input() public node!: SentinelNodeStatusWithSubscriptions;
+
+  @Output() public subscribedToNode: EventEmitter<void> = new EventEmitter();
 
   public form!: FormGroup<ControlsOf<Form>>;
 
@@ -78,10 +88,10 @@ export class NodesExpansionSubscribeComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe(() => {
       this.notificationService.success(
-        this.translocoService.translate('vpn_page.nodes_expansion.subscribe.notifications.subscribed', null, 'vpn'),
+        this.translocoService.translate('vpn_page.nodes_expansion.subscribe.notifications.subscribed', null, 'portal'),
       );
 
-      // TODO: request new list of subscriptions
+      this.subscribedToNode.emit();
     });
   }
 

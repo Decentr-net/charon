@@ -1,11 +1,13 @@
+@use 'sass:math';
 @import 'variables';
 
 :host {
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
 
-  &.mod-bordered {
+  &.mod-opened-in-tab {
     border: 2px solid var(--color-outlines);
     border-radius: $border-radius;
   }
@@ -21,9 +23,22 @@
 
 .vpn-page__header-title {
   align-items: center;
-  column-gap: $grid-step;
+  column-gap: $grid-step * 2;
   display: flex;
   font-weight: 500;
+}
+
+.vpn-page__header-right {
+  align-items: center;
+  display: flex;
+  height: 100%;
+}
+
+.vpn-page__header-vertical-divider {
+  background-color: var(--color-outlines);
+  height: 100%;
+  margin: 0 $grid-step;
+  width: 2px;
 }
 
 .vpn-page__divider {
@@ -50,7 +65,11 @@
   margin: $grid-step * 2;
 }
 
-.vpn-page__loader {
+.vpn-page__loader-balance {
+  display: flex;
+}
+
+.vpn-page__loader-nodes {
   display: block;
   margin-top: $grid-step * 2;
   padding: 0 $grid-step;

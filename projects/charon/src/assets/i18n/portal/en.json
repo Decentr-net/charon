@@ -100,17 +100,36 @@
     "sending": "Sending..."
   },
   "vpn_page": {
-    "browse_securely_from": "Browse securely from",
-    "browsing_securely_from": "Browsing securely from",
-    "connection": {
-      "secured": "Your connection is now secured.",
-      "insecure": "Your browsing is insecure."
+    "balance": "Balance",
+    "no_data": "There are no nodes available",
+    "refresh": "Refresh",
+    "title": "VPN",
+    "toggle": {
+      "show_only_subscribed": "Show only subscribed",
+      "subscribed": "Subscribed"
     },
-    "firefox_hint": "To be able to enable the proxy: open Firefox's extension settings and allow \"Run in Private Windows\".",
-    "unknown_browser": "We don't recognize your browser. Be sure you use Chrome or Firefox.",
-    "status": {
-      "off": "Off",
-      "on": "On"
+    "nodes_expansion": {
+      "download_speed": "Download speed",
+      "price": "Price",
+      "upload_speed": "Upload speed",
+      "connect": {
+        "actions": {
+          "connect": "Connect",
+          "disconnect": "Disconnect"
+        },
+        "notifications": {
+          "connected": "Successfully connected",
+          "disconnected": "Successfully disconnected"
+        }
+      },
+      "subscribe": {
+        "actions": {
+          "subscribe": "Subscribe"
+        },
+        "notifications": {
+          "subscribed": "Successfully subscribed"
+        }
+      }
     }
   }
 }
