@@ -54,6 +54,8 @@ export class TransferPageComponent implements OnInit {
 
   public canSend$: Observable<boolean>;
 
+  public isAmountToDisabled: boolean = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private changeDetectorRef: ChangeDetectorRef,
@@ -83,6 +85,10 @@ export class TransferPageComponent implements OnInit {
     this.form.get('data').setAsyncValidators([
       this.transferPageService.createAsyncAmountValidator(amountControl, this.fee$),
     ]);
+
+    if (this.activatedRoute.snapshot.queryParams[RECEIVER_WALLET_PARAM]) {
+      this.form.get(['data', RECEIVER_WALLET_PARAM]).disable();
+    }
   }
 
   public onSubmit(): void {

@@ -44,7 +44,7 @@ export class SentinelService {
     ).subscribe((client) => this.sentinelClient$.next(client));
   }
 
-  private get sentinelWalletAddress(): string {
+  public get sentinelWalletAddress(): string {
     return getSentinelWalletAddress(this.authService.getActiveUserInstant().wallet.address);
   }
 

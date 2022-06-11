@@ -5,9 +5,22 @@
 
       <div
         *ngIf="balance; else balanceLoading"
+        class="vpn-page__header-balance"
         appTypeface="paragraph"
       >
         {{ translate('balance') }}: {{ balance | appPrice }}
+
+        <button
+          app-button
+          color="grey"
+          size="sm"
+          appTypeface="caption"
+          (click)="topUpBalance()"
+        >
+          <svg-icon key="topup" size="xs"></svg-icon>
+
+          {{ translate('topup')}}
+        </button>
       </div>
     </div>
 

@@ -5,6 +5,7 @@ export enum MessageCode {
   PostDelete = 'CHARON_POST_DELETE',
   PostLike = 'CHARON_POST_LIKE',
   CoinTransfer = 'CHARON_COIN_TRANSFER',
+  SendIbcTokens = 'SEND_IBC_TOKENS',
   Location = 'CHARON_LOCATION',
   Redelegate = 'CHARON_REDELEGATE',
   ResetAccount = 'CHARON_RESET_ACCOUNT',

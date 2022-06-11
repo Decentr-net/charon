@@ -4,7 +4,8 @@
 :host {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  margin-bottom: $grid-step * 2;
+  min-height: 100%;
   width: 100%;
 
   &.mod-opened-in-tab {
@@ -26,6 +27,12 @@
   column-gap: $grid-step * 2;
   display: flex;
   font-weight: 500;
+}
+
+.vpn-page__header-balance {
+  align-items: center;
+  column-gap: $grid-step;
+  display: flex;
 }
 
 .vpn-page__header-right {

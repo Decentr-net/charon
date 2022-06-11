@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Coin, SendTokensRequest } from 'decentr-js';
+import { Coin, SendIbcTokensRequest, SendTokensRequest } from 'decentr-js';
 import { combineLatest, defer, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
@@ -8,6 +8,22 @@ import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/b
 import { MessageCode } from '@scripts/messages';
 import { AuthService } from '../../auth';
 import { DecentrService } from '../decentr';
+
+enum IbcChannel {
+  DecentrSentinel = 'channel-4',
+}
+
+enum IbcPort {
+  Transfer = 'transfer',
+}
+
+const IBC_TIMEOUT: number = 60;
+
+export const IbcRequestParams = {
+  channel: IbcChannel,
+  port: IbcPort,
+  timeout: IBC_TIMEOUT,
+};
 
 @Injectable()
 export class BankService {
@@ -38,6 +54,19 @@ export class BankService {
     );
   }
 
+  public getTransferIbcFee(request: Pick<SendIbcTokensRequest, 'receiver' | 'token'>): Observable<number> {
+    return this.decentrService.decentrClient.pipe(
+      switchMap((client) => client.bank.sendIbcTokens({
+        receiver: request.receiver,
+        sender: this.authService.getActiveUserInstant().wallet.address,
+        sourcePort: IbcRequestParams.port.Transfer,
+        sourceChannel: IbcRequestParams.channel.DecentrSentinel,
+        timeoutSec: IbcRequestParams.timeout,
+        token: request.token,
+      }).simulate()),
+    );
+  }
+
   public transferCoins(
     request: Omit<SendTokensRequest, 'fromAddress'>,
     memo?: string,
@@ -46,6 +75,26 @@ export class BankService {
 
     return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
       MessageCode.CoinTransfer,
+      {
+        request: {
+          ...request,
+          fromAddress: wallet.address,
+        },
+        memo,
+      },
+    )).pipe(
+      map(assertMessageResponseSuccess),
+    );
+  }
+
+  public sendIbcTokens(
+    request: SendIbcTokensRequest,
+    memo?: string,
+  ): Observable<void> {
+    const wallet = this.authService.getActiveUserInstant().wallet;
+
+    return defer(() => new MessageBus().sendMessage(
+      MessageCode.SendIbcTokens,
       {
         request: {
           ...request,

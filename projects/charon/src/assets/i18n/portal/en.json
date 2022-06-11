@@ -104,6 +104,7 @@
     "no_data": "There are no nodes available",
     "refresh": "Refresh",
     "title": "VPN",
+    "topup": "Top up",
     "toggle": {
       "show_only_subscribed": "Show only subscribed",
       "subscribed": "Subscribed"

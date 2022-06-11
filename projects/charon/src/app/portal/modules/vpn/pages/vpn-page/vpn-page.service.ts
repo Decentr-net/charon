@@ -1,20 +1,27 @@
 import { Injectable } from '@angular/core';
-import { catchError, forkJoin, map, mergeMap, Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
+import { catchError, EMPTY, forkJoin, map, mergeMap, Observable, of } from 'rxjs';
 import { Coin, SentinelDeposit, SentinelNode } from 'decentr-js';
 
 import { SentinelService } from '@core/services/sentinel';
 import { DEFAULT_DENOM, SentinelNodeStatus, SentinelNodeStatusWithSubscriptions } from '@shared/models/sentinel';
+import { AppRoute } from '../../../../../app-route';
+import { PortalRoute } from '../../../../portal-route';
+import { RECEIVER_WALLET_PARAM } from '../../../assets/pages';
 
 @Injectable()
 export class VpnPageService {
 
   constructor(
+    private router: Router,
     private sentinelService: SentinelService,
   ) {
   }
 
   public getAvailableNodes(): Observable<SentinelNode[]> {
-    return this.sentinelService.getNodes(DEFAULT_DENOM);
+    return this.sentinelService.getNodes(DEFAULT_DENOM).pipe(
+      catchError(() => EMPTY),
+    );
   }
 
   public getNodeStatus(address: string): Observable<SentinelNodeStatus | undefined> {
@@ -50,5 +57,13 @@ export class VpnPageService {
 
   public getBalance(): Observable<Coin[]> {
     return this.sentinelService.getBalance();
+  }
+
+  public topUpBalance(): void {
+    this.router.navigate(['/', AppRoute.Portal, PortalRoute.Assets, PortalRoute.Transfer], {
+      queryParams: {
+        [RECEIVER_WALLET_PARAM]: this.sentinelService.sentinelWalletAddress,
+      },
+    });
   }
 }

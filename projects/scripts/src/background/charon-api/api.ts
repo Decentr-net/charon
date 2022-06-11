@@ -12,6 +12,7 @@ import {
   Price,
   RedelegateTokensRequest,
   ResetAccountRequest,
+  SendIbcTokensRequest,
   SendTokensRequest,
   SentinelClient,
   SubscribeToNodeRequest,
@@ -106,6 +107,17 @@ export const transferCoins = async (
   const decentrClient = await getDecentrClient();
 
   return decentrClient.bank.sendTokens(
+    request,
+  ).signAndBroadcast(memo);
+};
+
+export const sendIbcTokens = async (
+  request: SendIbcTokensRequest,
+  memo?: string,
+): Promise<DeliverTxResponse> => {
+  const decentrClient = await firstValueFrom(decentrClient$);
+
+  return decentrClient.bank.sendIbcTokens(
     request,
   ).signAndBroadcast(memo);
 };

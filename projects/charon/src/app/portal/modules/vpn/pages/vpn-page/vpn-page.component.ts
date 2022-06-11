@@ -8,6 +8,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { flagsIcons } from '@shared/svg-icons/flags';
 import { svgReload } from '@shared/svg-icons/reload';
+import { svgTopup } from '@shared/svg-icons/topup';
 import { isOpenedInTab } from '@shared/utils/browser';
 import { DEFAULT_DENOM, SentinelNodeStatusWithSubscriptions } from '@shared/models/sentinel';
 import { VpnPageService } from './vpn-page.service';
@@ -40,6 +41,7 @@ export class VpnPageComponent implements OnInit {
   ) {
     svgIconRegistry.register([
       svgReload,
+      svgTopup,
       ...flagsIcons,
     ]);
   }
@@ -75,6 +77,10 @@ export class VpnPageComponent implements OnInit {
 
       this.changeDetectorRef.markForCheck();
     });
+  }
+
+  public topUpBalance(): void {
+    this.vpnPageService.topUpBalance();
   }
 
   public onRefreshData(): void {
