@@ -78,9 +78,9 @@ export class NodesExpansionConnectComponent implements OnInit, OnChanges {
       this.isConnected = !this.isConnected;
 
       this.notificationService.success(
-        this.translocoService.translate('vpn_page.nodes_expansion.connect.notifications.' + this.isConnected
-            ? 'connected'
-            : 'disconnected',
+        this.translocoService.translate('vpn_page.nodes_expansion.connect.notifications.' + (this.isConnected
+          ? 'connected'
+          : 'disconnected'),
           null,
           'portal',
         ),
