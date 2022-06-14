@@ -3,9 +3,7 @@ import { defer, first, map, Observable, ReplaySubject, switchMap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
   Coin,
-  Decimal,
   EndSessionRequest,
-  Price,
   SentinelClient,
   SentinelDeposit,
   SentinelNode,
@@ -13,7 +11,6 @@ import {
   SentinelSession,
   SentinelStatus,
   SentinelSubscription,
-  Wallet,
 } from 'decentr-js';
 import Long from 'long';
 
@@ -36,10 +33,8 @@ export class SentinelService {
     private authService: AuthService,
     private configService: ConfigService,
   ) {
-    const privateKey = authService.getActiveUserInstant().wallet.privateKey;
-
     this.configService.getVpnUrl().pipe(
-      switchMap((vpnUrl) => this.createSentinelClient(vpnUrl, privateKey)),
+      switchMap((vpnUrl) => this.createSentinelClient(vpnUrl)),
       untilDestroyed(this),
     ).subscribe((client) => this.sentinelClient$.next(client));
   }
@@ -54,11 +49,8 @@ export class SentinelService {
     );
   }
 
-  private createSentinelClient(nodeUrl: string, privateKey: Wallet['privateKey']): Observable<SentinelClient> {
-    return defer(() => SentinelClient.create(nodeUrl, {
-      gasPrice: new Price(Decimal.fromUserInput('1.7', 6), DEFAULT_DENOM),
-      privateKey,
-    }));
+  private createSentinelClient(nodeUrl: string): Observable<SentinelClient> {
+    return defer(() => SentinelClient.create(nodeUrl));
   }
 
   private buildEndSessionRequest(ids: Long[]): EndSessionRequest {
@@ -83,6 +75,16 @@ export class SentinelService {
   public getNodes(denomFilter?: string): Observable<SentinelNode[]> {
     return this.sentinelClient.pipe(
       switchMap((client) => client.node.getNodes(SentinelStatus.STATUS_ACTIVE)),
+      switchMap((nodes) => this.configService.getVpnBlackList().pipe(
+        map((blackListUrls) => {
+          return nodes.filter((node) => !blackListUrls.includes(node.address));
+        }),
+      )),
+      switchMap((nodes) => this.configService.getVpnWhiteList().pipe(
+        map((whiteListUrls) => {
+          return nodes.filter((node) => !whiteListUrls.length || whiteListUrls.includes(node.address));
+        }),
+      )),
       map((nodes) => {
         if (!denomFilter) {
           return nodes;

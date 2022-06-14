@@ -39,6 +39,9 @@ export interface Config {
   vpn: {
     enabled: boolean;
     servers: VPNServer[];
+    whiteList: string[];
+    blackList: string[];
+    url: string;
   };
   referral: {
     url: string;

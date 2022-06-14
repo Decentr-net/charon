@@ -10,6 +10,7 @@ import { flagsIcons } from '@shared/svg-icons/flags';
 import { svgReload } from '@shared/svg-icons/reload';
 import { svgTopup } from '@shared/svg-icons/topup';
 import { isOpenedInTab } from '@shared/utils/browser';
+import { findCoinByDenom, priceFromString } from '@shared/utils/price';
 import { DEFAULT_DENOM, SentinelNodeStatusWithSubscriptions } from '@shared/models/sentinel';
 import { VpnPageService } from './vpn-page.service';
 
@@ -55,7 +56,7 @@ export class VpnPageComponent implements OnInit {
       startWith(true),
       tap(() => this.balance = undefined),
       switchMap(() => this.vpnPageService.getBalance()),
-      map((balances) => balances.find((balance) => balance.denom === DEFAULT_DENOM)),
+      map((balances) => findCoinByDenom(balances, DEFAULT_DENOM) || priceFromString('0' + DEFAULT_DENOM)[0]),
       untilDestroyed(this),
     ).subscribe((balance) => {
       this.balance = balance;

@@ -38,8 +38,14 @@
       </mat-expansion-panel-header>
 
       <ng-template matExpansionPanelContent>
-        <ng-container *ngIf="node.subscriptions?.length > 0; else connect">
+        <app-nodes-expansion-subscribe
+          [node]="node"
+          (subscribedToNode)="subscribedToNode.next()"
+        ></app-nodes-expansion-subscribe>
+
+        <ng-container *ngIf="node.subscriptions?.length > 0">
           <app-nodes-expansion-connect
+            class="nodes-expansion__content-connect"
             *ngFor="let subscription of node.subscriptions"
             [node]="node"
             [subscription]="subscription"
@@ -47,13 +53,6 @@
             (sessionStarted)="sessionStarted.next()"
           ></app-nodes-expansion-connect>
         </ng-container>
-
-        <ng-template #connect>
-          <app-nodes-expansion-subscribe
-            [node]="node"
-            (subscribedToNode)="subscribedToNode.next()"
-          ></app-nodes-expansion-subscribe>
-        </ng-template>
       </ng-template>
     </mat-expansion-panel>
   </mat-accordion>

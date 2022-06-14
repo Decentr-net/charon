@@ -119,14 +119,29 @@ export class ConfigService {
     );
   }
 
-  public getVpnUrl(listen = false): Observable<string> {
-    return this.getNetworkConfig({ listen }).pipe(
+  public getVpnUrl(): Observable<string> {
+    return this.getConfig().pipe(
+      take(1),
       // map((config) => config.vpn.url),
       // TODO: add to config.json
       // map(() => 'https://rpc.sentinel.badgerbite.xyz:443/'),
       // map(() => 'https://rpc-sentinel.dvpn.solar:443/'),
       map(() => 'https://rpc.sentinel1.badgerbite.xyz:443'),
       // map(() => 'https://rpc.sentinel.co:443/'),
+    );
+  }
+
+  public getVpnBlackList(): Observable<string[]> {
+    return this.getConfig().pipe(
+      take(1),
+      map((config) => config.vpn.blackList || []),
+    );
+  }
+
+  public getVpnWhiteList(): Observable<string[]> {
+    return this.getConfig().pipe(
+      take(1),
+      map((config) => config.vpn.whiteList || []),
     );
   }
 

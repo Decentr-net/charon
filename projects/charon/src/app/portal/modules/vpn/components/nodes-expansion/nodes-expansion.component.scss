@@ -55,3 +55,7 @@
 .nodes-expansion__description {
   color: var(--color-dportal-vpn-node-details-description);
 }
+
+.nodes-expansion__content-connect {
+  margin-top: $grid-step * 2;
+}

@@ -4,11 +4,12 @@
       {{ translate('title') }}
 
       <div
-        *ngIf="balance; else balanceLoading"
         class="vpn-page__header-balance"
         appTypeface="paragraph"
       >
-        {{ translate('balance') }}: {{ balance | appPrice }}
+        <div *ngIf="balance; else balanceLoading">
+          {{ translate('balance') }}: {{ balance | appPrice }}
+        </div>
 
         <button
           app-button
