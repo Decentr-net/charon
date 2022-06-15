@@ -11,6 +11,14 @@
       border-bottom: 1px solid var(--color-outlines);
       box-shadow: unset;
       color: var(--color-main-text);
+
+      &:last-of-type {
+        border-bottom: unset;
+
+        .mat-expansion-panel-header {
+          border-bottom: unset;
+        }
+      }
     }
 
     .mat-expansion-panel-header-title {

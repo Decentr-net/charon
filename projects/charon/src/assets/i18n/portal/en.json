@@ -106,8 +106,7 @@
     "title": "VPN",
     "topup": "Top up",
     "toggle": {
-      "show_only_subscribed": "Show only subscribed",
-      "subscribed": "Subscribed"
+      "show_only_subscribed": "Show only subscribed"
     },
     "nodes_expansion": {
       "download_speed": "Download speed",

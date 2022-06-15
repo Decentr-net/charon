@@ -1,4 +1,7 @@
-<ng-container *transloco="let translate; read: 'portal.vpn_page'">
+<div
+  *transloco="let translate; read: 'portal.vpn_page'"
+  class="vpn-page__layout"
+>
   <div class="vpn-page__header">
     <div class="vpn-page__header-title" appTypeface="subheader">
       {{ translate('title') }}
@@ -8,10 +11,27 @@
         appTypeface="paragraph"
       >
         <div *ngIf="balance; else balanceLoading">
-          {{ translate('balance') }}: {{ balance | appPrice }}
+          <ng-container *appBrowserTabView>
+            {{ translate('balance') }}:
+          </ng-container>
+
+          <span [appTypeface]="openedInTab ? 'paragraph' : 'caption'">
+            {{ balance | appPrice }}
+          </span>
         </div>
 
         <button
+          *appBrowserPopupView
+          app-icon-button
+          color="grey"
+          size="xs"
+          (click)="topUpBalance()"
+        >
+          <svg-icon key="topup" size="xs"></svg-icon>
+        </button>
+
+        <button
+          *appBrowserTabView
           app-button
           color="grey"
           size="sm"
@@ -27,7 +47,7 @@
 
     <div class="vpn-page__header-right">
       <mat-slide-toggle [formControl]="onlySubscribedFormControl">
-        {{ translate('toggle.' + (openedInTab ? 'show_only_subscribed' : 'subscribed')) }}
+        {{ openedInTab ? translate('toggle.show_only_subscribed') : '' }}
       </mat-slide-toggle>
 
       <div class="vpn-page__header-vertical-divider"></div>
@@ -55,8 +75,6 @@
       </div>
     </div>
   </div>
-
-  <div class="vpn-page__divider"></div>
 
   <div class="vpn-page__content">
     <ng-container *ngIf="nodes; else nodesLoading">
@@ -98,4 +116,4 @@
       {{ translate('no_data') }}
     </div>
   </ng-template>
-</ng-container>
+</div>

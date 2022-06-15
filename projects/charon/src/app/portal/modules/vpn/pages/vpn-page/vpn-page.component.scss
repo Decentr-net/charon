@@ -2,24 +2,30 @@
 @import 'variables';
 
 :host {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: $grid-step * 2;
-  min-height: 100%;
-  width: 100%;
+  display: block;
+  padding-bottom: $grid-step * 2;
 
   &.mod-opened-in-tab {
-    border: 2px solid var(--color-outlines);
-    border-radius: $border-radius;
+    .vpn-page__layout {
+      border: 2px solid var(--color-outlines);
+      border-radius: $border-radius;
+    }
   }
 }
 
 .vpn-page__header {
   align-items: center;
+  background: var(--color-main-background);
+  border-bottom: 2px solid var(--color-outlines);
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
   display: flex;
   justify-content: space-between;
   padding: $grid-step * 2;
+  position: sticky;
+  top: 0;
   width: 100%;
+  z-index: 1;
 }
 
 .vpn-page__header-title {
@@ -46,18 +52,6 @@
   height: 100%;
   margin: 0 $grid-step;
   width: 2px;
-}
-
-.vpn-page__divider {
-  background-color: var(--color-outlines);
-  flex-shrink: 0;
-  height: 2px;
-  width: 100%;
-
-  &.mod-wide {
-    height: 4px;
-    margin: 0 (-$grid-step * 2);
-  }
 }
 
 .vpn-page__nodes-expansion {
