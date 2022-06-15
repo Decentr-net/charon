@@ -17,6 +17,7 @@ import { SentinelService } from '@core/services/sentinel';
 import { catchError, finalize } from 'rxjs/operators';
 import { SpinnerService } from '@core/services';
 import { NotificationService } from '@shared/services/notification';
+import { TranslatedError } from '@core/notifications';
 import { TranslocoService } from '@ngneat/transloco';
 
 @UntilDestroy()
@@ -69,7 +70,15 @@ export class NodesExpansionConnectComponent implements OnInit, OnChanges {
 
     action$.pipe(
       catchError((error) => {
-        this.notificationService.error(error);
+        error?.code
+          ? this.notificationService.error(new TranslatedError(error.message))
+          : this.notificationService.success(
+            this.translocoService.translate('vpn_page.nodes_expansion.connect.notifications.tx_broadcasted',
+              null,
+              'portal',
+            ),
+          );
+
         return EMPTY;
       }),
       finalize(() => this.spinnerService.hideSpinner()),

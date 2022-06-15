@@ -117,11 +117,13 @@
       "connect": {
         "actions": {
           "connect": "Connect",
-          "disconnect": "Disconnect"
+          "disconnect": "Disconnect",
+          "tx_broadcasted": "Transaction for creating VPN session is successfully broadcasted. It may takes 1-5 minutes. Refresh node's list in some minutes."
         },
         "notifications": {
           "connected": "Successfully connected",
-          "disconnected": "Successfully disconnected"
+          "disconnected": "Successfully disconnected",
+          "tx_broadcasted": "Transaction for connecting is successfully broadcasted. It may takes 1-5 minutes. Refresh node's list in some minutes."
         }
       },
       "subscribe": {

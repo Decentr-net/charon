@@ -16,6 +16,7 @@ import { Validators } from '@angular/forms';
 
 import { SentinelService } from '@core/services/sentinel';
 import { SpinnerService } from '@core/services';
+import { TranslatedError } from '@core/notifications';
 import { DEFAULT_DENOM, SentinelNodeStatusWithSubscriptions } from '@shared/models/sentinel';
 import { coerceCoin, findCoinByDenom } from '@shared/utils/price';
 import { NotificationService } from '@shared/services/notification';
@@ -81,7 +82,15 @@ export class NodesExpansionSubscribeComponent implements OnInit {
       findCoinByDenom(coerceCoin(deposit + this.node.price?.denom), DEFAULT_DENOM),
     ).pipe(
       catchError((error) => {
-        this.notificationService.error(error);
+        error?.code
+          ? this.notificationService.error(new TranslatedError(error.message))
+          : this.notificationService.success(
+            this.translocoService.translate('vpn_page.nodes_expansion.subscribe.notifications.tx_broadcasted',
+              null,
+              'portal',
+            ),
+          );
+
         return EMPTY;
       }),
       finalize(() => this.spinnerService.hideSpinner()),
