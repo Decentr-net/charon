@@ -1,6 +1,9 @@
 <ng-container *transloco="let translate; read: 'portal.vpn_page.nodes_expansion'">
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let node of nodes; trackBy: trackByAddress">
+    <mat-expansion-panel
+      *ngFor="let node of nodes; trackBy: trackByAddress"
+      [expanded]="nodeHasSession(node)"
+    >
       <mat-expansion-panel-header>
         <mat-panel-title>
           <svg-icon
