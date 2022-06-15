@@ -11,6 +11,7 @@ import {
   redelegate,
   resetAccount,
   sendIbcTokens,
+  sentinelCancelNodeSubscription,
   sentinelEndSession,
   sentinelStartSession,
   sentinelSubscribeToNode,
@@ -64,6 +65,7 @@ const CHARON_API_LISTENER_MAP: Record<CharonAPIMessageCode, (...args) => Promise
   [MessageCode.SentinelStartSession]: sentinelStartSession,
   [MessageCode.SentinelEndSession]: sentinelEndSession,
   [MessageCode.SentinelSubscribeToNode]: sentinelSubscribeToNode,
+  [MessageCode.SentinelCancelNodeSubscription]: sentinelCancelNodeSubscription,
 };
 
 export const initCharonAPIListeners = (): void => {

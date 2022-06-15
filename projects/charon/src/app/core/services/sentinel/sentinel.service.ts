@@ -155,6 +155,20 @@ export class SentinelService {
     );
   }
 
+  public cancelSubscription(id: Long): Observable<void> {
+    return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
+      MessageCode.SentinelCancelNodeSubscription,
+      {
+        request: {
+          from: this.sentinelWalletAddress,
+          id,
+        },
+      },
+    )).pipe(
+      map(assertMessageResponseSuccess),
+    );
+  }
+
   public startSession(node: string, startSessionId: Long, endSessionIds: Long[]): Observable<void> {
     const endSessionRequest = this.buildEndSessionRequest(endSessionIds);
 

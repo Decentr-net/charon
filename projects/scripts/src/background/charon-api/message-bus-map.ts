@@ -1,5 +1,6 @@
 import {
   BroadcastClientError,
+  CancelSubscriptionRequest,
   CreatePostRequest,
   DelegateTokensRequest,
   DeletePostRequest,
@@ -127,6 +128,12 @@ export interface CharonAPIMessageBusMap extends MessageMap {
   [MessageCode.SentinelSubscribeToNode]: {
     body: {
       request: SubscribeToNodeRequest;
+    };
+    response: MessageResponse;
+  };
+  [MessageCode.SentinelCancelNodeSubscription]: {
+    body: {
+      request: CancelSubscriptionRequest;
     };
     response: MessageResponse;
   };

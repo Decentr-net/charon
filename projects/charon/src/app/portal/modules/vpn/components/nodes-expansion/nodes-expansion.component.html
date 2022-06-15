@@ -64,6 +64,7 @@
             [subscription]="subscription"
             (sessionEnded)="sessionEnded.next()"
             (sessionStarted)="sessionStarted.next()"
+            (subscriptionCancelled)="subscriptionCancelled.next()"
           ></app-nodes-expansion-connect>
         </ng-container>
       </ng-template>

@@ -82,7 +82,7 @@ export class NodesExpansionSubscribeComponent implements OnInit {
       findCoinByDenom(coerceCoin(deposit + this.node.price?.denom), DEFAULT_DENOM),
     ).pipe(
       catchError((error) => {
-        error?.code
+        error?.broadcastErrorCode
           ? this.notificationService.error(new TranslatedError(error.message))
           : this.notificationService.success(
             this.translocoService.translate('vpn_page.nodes_expansion.subscribe.notifications.tx_broadcasted',

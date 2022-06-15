@@ -19,6 +19,8 @@ export class NodesExpansionComponent {
 
   @Output() public subscribedToNode: EventEmitter<void> = new EventEmitter();
 
+  @Output() public subscriptionCancelled: EventEmitter<void> = new EventEmitter();
+
   @Input() public nodes: SentinelNodeStatusWithSubscriptions[] | undefined | null;
 
   public countryNameToCode = countryNameToCode;

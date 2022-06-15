@@ -1,6 +1,7 @@
 import { combineLatest, firstValueFrom, Observable, ReplaySubject, switchMap, take, tap } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
 import {
+  CancelSubscriptionRequest,
   CreatePostRequest,
   Decimal,
   DelegateTokensRequest,
@@ -188,6 +189,16 @@ export const sentinelSubscribeToNode = async (
   const sentinelClient = await firstValueFrom(sentinelClient$);
 
   return sentinelClient.subscription.subscribeToNode(
+    request,
+  ).signAndBroadcast();
+};
+
+export const sentinelCancelNodeSubscription = async (
+  request: CancelSubscriptionRequest,
+): Promise<DeliverTxResponse> => {
+  const sentinelClient = await firstValueFrom(sentinelClient$);
+
+  return sentinelClient.subscription.cancelSubscription(
     request,
   ).signAndBroadcast();
 };

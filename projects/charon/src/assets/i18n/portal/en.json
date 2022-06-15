@@ -116,14 +116,15 @@
       "upload_speed": "Upload speed",
       "connect": {
         "actions": {
+          "cancel_subscription": "Cancel subscription",
           "connect": "Connect",
-          "disconnect": "Disconnect",
-          "tx_broadcasted": "Transaction for creating VPN session is successfully broadcasted. It may takes 1-5 minutes. Refresh node's list in some minutes."
+          "disconnect": "Disconnect"
         },
         "notifications": {
           "connected": "Successfully connected",
           "disconnected": "Successfully disconnected",
-          "tx_broadcasted": "Transaction for connecting is successfully broadcasted. It may takes 1-5 minutes. Refresh node's list in some minutes."
+          "subscription_cancelled": "Subscription has cancelled",
+          "tx_broadcasted": "Transaction is successfully broadcasted. It may takes 1-5 minutes. Refresh node's list in some minutes."
         }
       },
       "subscribe": {
@@ -131,7 +132,8 @@
           "subscribe": "Subscribe"
         },
         "notifications": {
-          "subscribed": "Successfully subscribed"
+          "subscribed": "Successfully subscribed",
+          "tx_broadcasted": "Transaction is successfully broadcasted. It may takes 1-5 minutes. Refresh node's list in some minutes."
         }
       }
     }

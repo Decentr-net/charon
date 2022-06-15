@@ -13,12 +13,23 @@
     </div>
   </div>
 
-  <button
-    app-button
-    class="nodes-expansion-connect__actions"
-    [class.mod-red]="isConnected"
-    (click)="toggleVPN()"
-  >
-    {{ translate(isConnected ? 'actions.disconnect' : 'actions.connect') }}
-  </button>
+  <div class="nodes-expansion-connect__actions">
+    <button
+      class="nodes-expansion-connect__action"
+      app-button
+      color="grey"
+      (click)="cancelSubscription()"
+    >
+      {{ translate('actions.cancel_subscription') }}
+    </button>
+
+    <button
+      class="nodes-expansion-connect__action"
+      app-button
+      [class.mod-red]="isConnected"
+      (click)="toggleVPN()"
+    >
+      {{ translate(isConnected ? 'actions.disconnect' : 'actions.connect') }}
+    </button>
+  </div>
 </ng-container>

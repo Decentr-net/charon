@@ -21,6 +21,11 @@
 }
 
 .nodes-expansion-connect__actions {
+  column-gap: $grid-step * 2;
+  display: flex;
+}
+
+.nodes-expansion-connect__action {
   &.mod-red {
     background-color: var(--color-dportal-vpn-node-details-disconnect-background);
   }

@@ -36,6 +36,8 @@ export class NodesExpansionConnectComponent implements OnInit, OnChanges {
 
   @Output() public sessionStarted: EventEmitter<void> = new EventEmitter();
 
+  @Output() public subscriptionCancelled: EventEmitter<void> = new EventEmitter();
+
   public depositCapacity$!: Observable<Omit<SentinelQuota, 'address'>>;
 
   public activeSessions: SentinelSession[];
@@ -61,6 +63,36 @@ export class NodesExpansionConnectComponent implements OnInit, OnChanges {
     this.depositCapacity$ = this.sentinelService.getQuota(this.subscription.id);
   }
 
+  public cancelSubscription(): void {
+    this.spinnerService.showSpinner();
+
+    this.sentinelService.cancelSubscription(this.subscription.id).pipe(
+      catchError((error) => {
+        error?.broadcastErrorCode
+          ? this.notificationService.error(new TranslatedError(error.message))
+          : this.notificationService.success(
+            this.translocoService.translate('vpn_page.nodes_expansion.connect.notifications.tx_broadcasted',
+              null,
+              'portal',
+            ),
+          );
+
+        return EMPTY;
+      }),
+      finalize(() => this.spinnerService.hideSpinner()),
+      untilDestroyed(this),
+    ).subscribe(() => {
+      this.notificationService.success(
+        this.translocoService.translate('vpn_page.nodes_expansion.connect.notifications.subscription_cancelled',
+          null,
+          'portal',
+        ),
+      );
+
+      this.subscriptionCancelled.next();
+    });
+  }
+
   public toggleVPN(): void {
     this.spinnerService.showSpinner();
 
@@ -70,7 +102,7 @@ export class NodesExpansionConnectComponent implements OnInit, OnChanges {
 
     action$.pipe(
       catchError((error) => {
-        error?.code
+        error?.broadcastErrorCode
           ? this.notificationService.error(new TranslatedError(error.message))
           : this.notificationService.success(
             this.translocoService.translate('vpn_page.nodes_expansion.connect.notifications.tx_broadcasted',
