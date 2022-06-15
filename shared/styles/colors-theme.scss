@@ -221,6 +221,7 @@
 
   // dPortal VPN
   --color-dportal-vpn-node-subscrided: #{$color-blue};
+  --color-dportal-vpn-node-connected: #{$color-green};
   --color-dportal-vpn-node-details-description: #{$color-grey};
   --color-dportal-vpn-node-details-disconnect-background: #{$color-red};
   --color-dportal-vpn-nodes-list-no-data: #{$color-grey};
@@ -515,6 +516,7 @@
 
     // dPortal VPN
     --color-dportal-vpn-node-subscrided: #{$color-blue-night};
+    --color-dportal-vpn-node-connected: #{$color-green-night};
     --color-dportal-vpn-node-details-description: #{$color-grey-night};
     --color-dportal-vpn-node-details-disconnect-background: #{$color-red-night};
     --color-dportal-vpn-nodes-list-no-data: #{$color-grey-night};

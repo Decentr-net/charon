@@ -60,6 +60,11 @@
   margin-left: math.div($grid-step, 2);
 }
 
+.nodes-expansion__connected-icon {
+  color: var(--color-dportal-vpn-node-connected);
+  margin-left: math.div($grid-step, 2);
+}
+
 .nodes-expansion__description {
   color: var(--color-dportal-vpn-node-details-description);
 }

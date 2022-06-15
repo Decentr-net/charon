@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TrackB
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgCheck } from '@shared/svg-icons/check';
+import { svgSignal } from '@shared/svg-icons/signal';
 import { countryNameToCode } from '../../utils/country';
 import { SentinelNodeStatusWithSubscriptions } from '@shared/models/sentinel';
 
@@ -27,7 +28,12 @@ export class NodesExpansionComponent {
   ) {
     svgIconRegistry.register([
       svgCheck,
+      svgSignal,
     ]);
+  }
+
+  public nodeHasSession(node: SentinelNodeStatusWithSubscriptions): boolean {
+    return !!node.sessions.find((session) => session.node === node.address);
   }
 
   public trackByAddress: TrackByFunction<SentinelNodeStatusWithSubscriptions> = ({}, { address }) => address;

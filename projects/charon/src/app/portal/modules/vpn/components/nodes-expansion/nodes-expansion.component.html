@@ -21,12 +21,22 @@
               *ngIf="node.subscriptions?.length"
               class="nodes-expansion__subscribed-icon"
               key="check"
-              size="xs"
+              size="sm"
+            ></svg-icon>
+
+            <svg-icon
+              *ngIf="nodeHasSession(node)"
+              class="nodes-expansion__connected-icon"
+              key="signal"
+              size="sm"
             ></svg-icon>
           </div>
 
           <div class="nodes-expansion__description" appTypeface="caption">
-            {{ node.address }}
+            <div>
+              {{ translate('peers') }}: {{ node.peers }} |
+              {{ translate('address') }}: {{ node.address }}
+            </div>
 
             <div>
               {{ translate('price') }}: {{ node.price | appPrice }}/GB |

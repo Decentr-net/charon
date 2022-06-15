@@ -109,7 +109,9 @@
       "show_only_subscribed": "Show only subscribed"
     },
     "nodes_expansion": {
+      "address": "Address",
       "download_speed": "Download speed",
+      "peers": "Peers",
       "price": "Price",
       "upload_speed": "Upload speed",
       "connect": {
