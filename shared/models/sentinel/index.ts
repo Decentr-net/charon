@@ -2,7 +2,7 @@ import { Coin, SentinelNodeStatus as NodeStatus, SentinelSession, SentinelSubscr
 
 import { Denom } from '../../pipes/price/price.definitions';
 
-export const DEFAULT_DENOM = Denom.IBC_UDEC;
+export const DEFAULT_DENOM = Denom.IBC_DECENTR;
 
 export interface SentinelNodeStatus extends Omit<NodeStatus, 'price'> {
   price: Coin;
