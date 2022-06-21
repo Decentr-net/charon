@@ -1,8 +1,5 @@
-import { combineLatest, firstValueFrom, Observable, ReplaySubject, switchMap, take, tap } from 'rxjs';
-import { debounceTime, filter } from 'rxjs/operators';
 import {
   CreatePostRequest,
-  DecentrClient,
   DelegateTokensRequest,
   DeletePostRequest,
   DeliverTxResponse,
@@ -17,34 +14,12 @@ import {
   WithdrawValidatorCommissionRequest,
 } from 'decentr-js';
 
-import { AuthBrowserStorageService } from '@shared/services/auth';
-import { NetworkBrowserStorageService } from '@shared/services/network-storage';
-import { ONE_SECOND } from '@shared/utils/date';
-
-const decentrClient$: Observable<DecentrClient> = (() => {
-  const networkStorage = new NetworkBrowserStorageService();
-
-  const clientSource$ = new ReplaySubject<DecentrClient>(1);
-
-  combineLatest([
-    networkStorage.getActiveAPI(),
-    new AuthBrowserStorageService().getActiveUser(),
-  ]).pipe(
-    debounceTime(ONE_SECOND),
-    tap(() => clientSource$.next(undefined)),
-    switchMap(([api, user]) => DecentrClient.create(api, user?.wallet?.privateKey)),
-  ).subscribe(clientSource$);
-
-  return clientSource$.pipe(
-    filter(Boolean),
-    take(1),
-  );
-})();
+import { getDecentrClient } from '../client';
 
 export const createPost = async (
   request: CreatePostRequest,
 ): Promise<DeliverTxResponse> => {
-  const decentrClient = await firstValueFrom(decentrClient$);
+  const decentrClient = await getDecentrClient();
 
   return decentrClient.community.createPost(
     request,
@@ -54,7 +29,7 @@ export const createPost = async (
 export const deletePost = async (
   request: DeletePostRequest,
 ): Promise<DeliverTxResponse> => {
-  const decentrClient = await firstValueFrom(decentrClient$);
+  const decentrClient = await getDecentrClient();
 
   return decentrClient.community.deletePost(
     request,
@@ -64,7 +39,7 @@ export const deletePost = async (
 export const likePost = async (
   request: LikeRequest,
 ): Promise<DeliverTxResponse> => {
-  const decentrClient = await firstValueFrom(decentrClient$);
+  const decentrClient = await getDecentrClient();
 
   return decentrClient.community.setLike(
     request,
@@ -74,7 +49,7 @@ export const likePost = async (
 export const follow = async (
   request: FollowRequest,
 ): Promise<DeliverTxResponse> => {
-  const decentrClient = await firstValueFrom(decentrClient$);
+  const decentrClient = await getDecentrClient();
 
   return decentrClient.community.follow(
     request,
@@ -84,7 +59,7 @@ export const follow = async (
 export const unfollow = async (
   request: UnfollowRequest,
 ): Promise<DeliverTxResponse> => {
-  const decentrClient = await firstValueFrom(decentrClient$);
+  const decentrClient = await getDecentrClient();
 
   return decentrClient.community.unfollow(
     request,
@@ -95,7 +70,7 @@ export const transferCoins = async (
   request: SendTokensRequest,
   memo?: string,
 ): Promise<DeliverTxResponse> => {
-  const decentrClient = await firstValueFrom(decentrClient$);
+  const decentrClient = await getDecentrClient();
 
   return decentrClient.bank.sendTokens(
     request,
@@ -105,7 +80,7 @@ export const transferCoins = async (
 export const resetAccount = async (
   request: ResetAccountRequest,
 ): Promise<DeliverTxResponse> => {
-  const decentrClient = await firstValueFrom(decentrClient$);
+  const decentrClient = await getDecentrClient();
 
   return decentrClient.operations.resetAccount(
     request,
@@ -115,7 +90,7 @@ export const resetAccount = async (
 export const delegate = async (
   request: DelegateTokensRequest,
 ): Promise<DeliverTxResponse> => {
-  const decentrClient = await firstValueFrom(decentrClient$);
+  const decentrClient = await getDecentrClient();
 
   return decentrClient.staking.delegateTokens(
     request,
@@ -125,7 +100,7 @@ export const delegate = async (
 export const redelegate = async (
   request: RedelegateTokensRequest,
 ): Promise<DeliverTxResponse> => {
-  const decentrClient = await firstValueFrom(decentrClient$);
+  const decentrClient = await getDecentrClient();
 
   return decentrClient.staking.redelegateTokens(
     request,
@@ -135,7 +110,7 @@ export const redelegate = async (
 export const undelegate = async (
   request: UndelegateTokensRequest,
 ): Promise<DeliverTxResponse> => {
-  const decentrClient = await firstValueFrom(decentrClient$);
+  const decentrClient = await getDecentrClient();
 
   return decentrClient.staking.undelegateTokens(
     request,
@@ -145,7 +120,7 @@ export const undelegate = async (
 export const withdrawDelegatorRewards = async (
   request: WithdrawDelegatorRewardRequest,
 ): Promise<DeliverTxResponse> => {
-  const decentrClient = await firstValueFrom(decentrClient$);
+  const decentrClient = await getDecentrClient();
 
   return decentrClient.distribution.withdrawDelegatorRewards(
     request,
@@ -155,7 +130,7 @@ export const withdrawDelegatorRewards = async (
 export const withdrawValidatorRewards = async (
   request: WithdrawValidatorCommissionRequest,
 ): Promise<DeliverTxResponse> => {
-  const decentrClient = await firstValueFrom(decentrClient$);
+  const decentrClient = await getDecentrClient();
 
   return decentrClient.distribution.withdrawValidatorRewards(
     request,
