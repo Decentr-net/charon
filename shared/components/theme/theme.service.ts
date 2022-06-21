@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { pairwise, startWith } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { BrowserLocalStorage, BrowserStorage } from '@shared/services/browser-storage';
+import { BrowserLocalStorage, BrowserStorage } from '@shared/services/storage';
 
 export enum ThemeMode {
   Dark = 'dark',

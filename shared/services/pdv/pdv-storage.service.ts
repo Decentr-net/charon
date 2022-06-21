@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PDV, Wallet } from 'decentr-js';
 
-import { BrowserLocalStorage, BrowserStorage } from '../browser-storage';
+import { BrowserLocalStorage, BrowserStorage } from '../storage';
 
 interface PDVStorageUserValue {
   accumulated: PDV[];

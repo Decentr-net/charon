@@ -3,7 +3,7 @@ import { map, mergeMap } from 'rxjs/operators';
 import { ProfileUpdate } from 'decentr-js';
 
 import { AuthBrowserStorageService, User } from '../../../../../shared/services/auth';
-import { BrowserLocalStorage } from '../../../../../shared/services/browser-storage';
+import { BrowserLocalStorage } from '../../../../../shared/services/storage';
 import { PDV_STORAGE_SERVICE } from '../pdv/storage';
 
 interface OldUser extends User, ProfileUpdate {

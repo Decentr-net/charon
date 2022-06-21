@@ -1,7 +1,7 @@
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BrowserLocalStorage } from '../browser-storage';
+import { BrowserLocalStorage } from '../storage';
 import { User } from './user';
 
 interface AuthBrowserStorageData<T extends User> {

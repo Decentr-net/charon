@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { BrowserLocalStorage, BrowserStorage } from '../browser-storage';
+import { BrowserLocalStorage, BrowserStorage } from '../storage';
 import { NetworkId } from '../configuration';
 
 export interface NetworkStorage {

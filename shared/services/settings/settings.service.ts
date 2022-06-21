@@ -1,6 +1,6 @@
 import { Wallet } from 'decentr-js';
 
-import { BrowserLocalStorage } from '../browser-storage';
+import { BrowserLocalStorage } from '../storage';
 import { SettingsStorage } from './settings.definitions';
 import { UserSettingsService } from './user-settings.service';
 
