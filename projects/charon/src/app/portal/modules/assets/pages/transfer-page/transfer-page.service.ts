@@ -1,15 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { combineLatest, Observable, of, timer } from 'rxjs';
-import {
-  catchError,
-  map,
-  mergeMap,
-  take,
-  tap,
-} from 'rxjs/operators';
+import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
-import { createDecentrCoin, Wallet, WalletAddressVerifier } from 'decentr-js';
+import { createDecentrCoin, Wallet, WalletAddressVerifier, WalletPrefix } from 'decentr-js';
 
 import { FormControlWarn } from '@shared/forms';
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
@@ -48,7 +42,7 @@ export class TransferPageService {
         return of({ myAddress: false });
       }
 
-      if (!WalletAddressVerifier.verifyDecentr(control.value)) {
+      if (!WalletAddressVerifier.verify(control.value, WalletPrefix.Decentr)) {
         return of({ invalidAddress: false });
       }
 
