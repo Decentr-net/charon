@@ -1,27 +1,27 @@
 import { Observable, switchMap } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
-declare global {
-  interface Window {
-    decentr: {
-      get(key: string, callback: (obj) => unknown): string;
+interface Chrome {
+  decentr: {
+    get(key: string, callback: (obj) => unknown): string;
 
-      set(obj: { key: string; value: string }): void;
+    set(obj: { key: string; value: string }): void;
 
-      onChanged: {
-        addListener(callback: (key) => unknown);
+    onChanged: {
+      addListener(callback: (key) => unknown);
 
-        removeListener(callback: (key) => unknown);
-      };
+      removeListener(callback: (key) => unknown);
     };
-  }
+  };
 }
+
+declare const chrome: Chrome;
 
 type DecentrStorageValue = object | string | number;
 type DecentrStorageType = Record<string, DecentrStorageValue>;
 
 export class DecentrStorage<T extends DecentrStorageType> {
-  private readonly storage = window.decentr;
+  private readonly storage = chrome.decentr;
 
   public get<K extends keyof T>(key: K): Promise<T[K]> {
     return new Promise<T[K]>((resolve) => {
