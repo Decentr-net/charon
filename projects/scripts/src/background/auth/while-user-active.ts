@@ -1,7 +1,7 @@
 import { EMPTY, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { AuthBrowserStorageService, User } from '../../../../../shared/services/auth';
+import { AuthBrowserStorageService, User } from '@shared/services/auth';
 
 const authStorage = new AuthBrowserStorageService();
 

@@ -1,4 +1,4 @@
-const { join } = require('path');
+const { join, resolve } = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const { merge: webpackMerge } = require('webpack-merge');
 
@@ -63,6 +63,9 @@ const config = {
     new InlineWebpageAPIPlugin(),
   ],
   resolve: {
+    alias: {
+      '@shared': resolve(__dirname, '../../shared/'),
+    },
     extensions: ['.ts', '.js']
   }
 };

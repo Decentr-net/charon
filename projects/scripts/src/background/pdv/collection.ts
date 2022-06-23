@@ -28,8 +28,8 @@ import {
 } from 'rxjs/operators';
 import { PDV, PDVType, Wallet } from 'decentr-js';
 
-import { SettingsService } from '../../../../../shared/services/settings/settings.service';
-import { ONE_MINUTE, ONE_SECOND } from '../../../../../shared/utils/date';
+import { SettingsService } from '@shared/services/settings/settings.service';
+import { ONE_MINUTE, ONE_SECOND } from '@shared/utils/date';
 import CONFIG_SERVICE from '../config';
 import { whileUserActive } from '../auth/while-user-active';
 import { whileNoMaintenance } from '../technical';

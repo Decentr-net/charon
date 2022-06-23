@@ -1,6 +1,6 @@
 import * as Browser from 'webextension-polyfill';
 
-import { isInstalledAsExtension } from '../../../../shared/utils/browser';
+import { isInstalledAsExtension } from '@shared/utils/browser';
 
 declare const IS_QA_MODE: boolean;
 

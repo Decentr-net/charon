@@ -1,6 +1,6 @@
 import { PDV, Wallet } from 'decentr-js';
 
-import { PDVStorageService } from '../../../../../shared/services/pdv/pdv-storage.service';
+import { PDVStorageService } from '@shared/services/pdv/pdv-storage.service';
 import { PDVUniqueStore } from './pdv-unique-store';
 
 export const PDV_STORAGE_SERVICE = new PDVStorageService();

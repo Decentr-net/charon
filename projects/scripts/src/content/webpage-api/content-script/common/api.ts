@@ -2,11 +2,11 @@ import { combineLatest, firstValueFrom, Observable, of, switchMap } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { DecentrClient, Wallet } from 'decentr-js';
 
-import { AuthBrowserStorageService } from '../../../../../../../shared/services/auth';
-import { LockBrowserStorageService } from '../../../../../../../shared/services/lock';
-import { NetworkBrowserStorageService } from '../../../../../../../shared/services/network-storage';
-import { SettingsService } from '../../../../../../../shared/services/settings';
-import { MessageBus } from '../../../../../../../shared/message-bus';
+import { AuthBrowserStorageService } from '@shared/services/auth';
+import { LockBrowserStorageService } from '@shared/services/lock';
+import { NetworkBrowserStorageService } from '@shared/services/network-storage';
+import { SettingsService } from '@shared/services/settings';
+import { MessageBus } from '@shared/message-bus';
 import { WebpageAPIMessageBusMap } from '../../../../background/webpage-api/message-bus-map';
 import { WebpageAPIMessageCode } from '../../../../background/webpage-api/messages';
 import { WebpageAPIResponseMessageCode, WebpageAPIResponseMessageMap } from '../../webpage-api-message-bus';

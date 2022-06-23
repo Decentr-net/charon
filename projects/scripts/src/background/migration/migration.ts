@@ -1,7 +1,7 @@
 import * as Browser from 'webextension-polyfill';
 
-import { compareSemver } from '../../../../../shared/utils/number';
-import { APP_VERSION } from '../../../../../shared/utils/version';
+import { compareSemver } from '@shared/utils/number';
+import { APP_VERSION } from '@shared/utils/version';
 import QUEUE from '../queue';
 import { migrate as migrateTo133 } from './1.3.3';
 import { migrate as migrateTo200 } from './2.0.0';

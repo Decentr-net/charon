@@ -14,7 +14,7 @@ import {
   WithdrawValidatorCommissionRequest,
 } from 'decentr-js';
 
-import { MessageMap } from '../../../../../shared/message-bus';
+import { MessageMap } from '@shared/message-bus';
 import { MessageCode } from '../../messages';
 
 interface MessageResponse {

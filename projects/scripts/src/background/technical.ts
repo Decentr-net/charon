@@ -1,8 +1,8 @@
 import { Observable, partition } from 'rxjs';
 import { repeat, takeUntil } from 'rxjs/operators';
 
-import { compareSemver } from '../../../../shared/utils/number';
-import { APP_VERSION } from '../../../../shared/utils/version';
+import { compareSemver } from '@shared/utils/number';
+import { APP_VERSION } from '@shared/utils/version';
 import CONFIG_SERVICE from './config';
 
 export const whileVersionSupported = <T>(source$: Observable<T>): Observable<T> => {

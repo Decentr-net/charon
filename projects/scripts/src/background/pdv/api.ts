@@ -2,7 +2,7 @@ import { Observable, of, ReplaySubject, switchMap, take } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { CerberusClient, PDV, PDVBlacklist, PDVDevice, Wallet } from 'decentr-js';
 
-import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
+import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import CONFIG_SERVICE from '../config';
 
 const configService = CONFIG_SERVICE;

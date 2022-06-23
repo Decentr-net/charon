@@ -1,7 +1,7 @@
 import { defer, EMPTY } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 
-import { MessageBus } from '../../../../../shared/message-bus';
+import { MessageBus } from '@shared/message-bus';
 import { WebpageAPIMessageBusMap } from './message-bus-map';
 import { WebpageAPIMessageCode } from './messages';
 import { openExtension, openPost, unlock } from './api';

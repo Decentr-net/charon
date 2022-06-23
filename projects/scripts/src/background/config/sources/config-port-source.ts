@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import Browser from 'webextension-polyfill';
 
-import { Config, ConfigSource } from '../../../../../../shared/services/configuration/config.definitions';
+import { Config, ConfigSource } from '@shared/services/configuration/config.definitions';
 import { CONFIG_PORT_NAME } from '../config-port-name';
 
 export class ConfigPortSource extends ConfigSource {

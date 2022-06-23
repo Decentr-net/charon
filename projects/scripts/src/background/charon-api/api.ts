@@ -17,9 +17,9 @@ import {
   WithdrawValidatorCommissionRequest,
 } from 'decentr-js';
 
-import { AuthBrowserStorageService } from '../../../../../shared/services/auth';
-import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
-import { ONE_SECOND } from '../../../../../shared/utils/date';
+import { AuthBrowserStorageService } from '@shared/services/auth';
+import { NetworkBrowserStorageService } from '@shared/services/network-storage';
+import { ONE_SECOND } from '@shared/utils/date';
 
 const decentrClient$: Observable<DecentrClient> = (() => {
   const networkStorage = new NetworkBrowserStorageService();

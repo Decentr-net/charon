@@ -1,6 +1,6 @@
 import { PDV } from 'decentr-js';
 
-import { BrowserLocalStorage } from '../../../../../shared/services/storage';
+import { BrowserLocalStorage } from '@shared/services/storage';
 import { parseDomain, parseExpirationDate } from '../pdv/cookies';
 import { PDVUniqueStore } from '../pdv/pdv-unique-store';
 import { isCookiePDV } from '../pdv/is-pdv';

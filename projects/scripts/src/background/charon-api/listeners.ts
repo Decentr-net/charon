@@ -1,6 +1,6 @@
 import { BroadcastClientError, DeliverTxResponse } from 'decentr-js';
 
-import { MessageBus } from '../../../../../shared/message-bus';
+import { MessageBus } from '@shared/message-bus';
 import { MessageCode } from '../../messages';
 import {
   createPost,

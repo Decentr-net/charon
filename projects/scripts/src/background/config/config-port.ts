@@ -3,7 +3,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import * as Browser from 'webextension-polyfill';
 
-import { ConfigService } from '../../../../../shared/services/configuration/config.service';
+import { ConfigService } from '@shared/services/configuration/config.service';
 import CONFIG_SERVICE from './config';
 import { CONFIG_PORT_NAME } from './config-port-name';
 

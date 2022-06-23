@@ -1,5 +1,5 @@
-import { ConfigService } from '../../../../../../shared/services/configuration/config.service';
-import { NetworkBrowserStorageService } from '../../../../../../shared/services/network-storage';
+import { ConfigService } from '@shared/services/configuration/config.service';
+import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { ConfigPortSource } from '../../../background/config/sources/config-port-source';
 
 const networkBrowserStorageService = new NetworkBrowserStorageService();
