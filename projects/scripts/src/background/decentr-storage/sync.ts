@@ -1,29 +1,25 @@
 import { EMPTY, forkJoin, of, switchMap, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ProfilePDVStatisticsItem } from 'decentr-js';
 
 import { AuthBrowserStorageService } from '../../../../../shared/services/auth';
 import { DecentrStorage } from '../../../../../shared/services/storage';
 import { ONE_SECOND } from '../../../../../shared/utils/date';
-import { getDecentrClient } from '../client';
+import { getCerberusClient, getDecentrClient, getTheseusClient } from '../client';
 
-// interface ParamStatsValue {
-//   date: number;
-//   value: number;
-// }
+export interface PdvReward {
+  nextDistributionDate: Date;
+  reward: number;
+}
 
 type StorageValue = {
   stats: {
     pdvBalance: {
-      value: number;
-      // stats: ParamStatsValue[];
-    };
-    decBalance: {
+      profileCreatedAt: string,
+      stats: ProfilePDVStatisticsItem[];
       value: number;
     };
-    // coin: {
-    //   value: number;
-    //   stats: ParamStatsValue[];
-    // };
+    pdvRewards: PdvReward;
   };
 };
 
@@ -32,8 +28,7 @@ const decentrStorage = new DecentrStorage<StorageValue>();
 
 const clearDecentrStorage = () => decentrStorage.set('stats', {
   pdvBalance: undefined,
-  decBalance: undefined,
-  // coin: undefined,
+  pdvRewards: undefined,
 });
 
 export const initDecentrStorageStatsSync = () => authStorage.getActiveUser().pipe(
@@ -48,21 +43,29 @@ export const initDecentrStorageStatsSync = () => authStorage.getActiveUser().pip
 
     return forkJoin([
       getDecentrClient(),
+      getCerberusClient(),
+      getTheseusClient(),
       of(walletAddress),
     ]);
   }),
-  switchMap(([decentrClient, walletAddress]) => forkJoin([
-    decentrClient.bank.getDenomBalance(walletAddress),
+  switchMap(([decentrClient, cerberusClient, theseusClient, walletAddress]) => forkJoin([
     decentrClient.token.getBalance(walletAddress),
-    
+    theseusClient.profile.getProfileStats(walletAddress),
+    cerberusClient.profile.getProfile(walletAddress),
+    cerberusClient.rewards.getDelta(walletAddress),
   ])),
-).subscribe(([decBalance, pdvBalance]) => {
+).subscribe(([pdvBalance, pdvStats, profile, pdvDelta]) => {
   decentrStorage.set('stats', {
-    decBalance: {
-      value: +decBalance.amount,
-    },
     pdvBalance: {
+      profileCreatedAt: profile.createdAt,
+      stats: pdvStats.stats,
       value: +pdvBalance,
+    },
+    pdvRewards: {
+      nextDistributionDate: new Date(pdvDelta.pool.next_distribution_date),
+      reward: +pdvDelta.delta
+        ? +pdvDelta.pool.size / +pdvDelta.pool.total_delta * +pdvDelta.delta
+        : 0,
     },
   });
 });
