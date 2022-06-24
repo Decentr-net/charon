@@ -15,8 +15,9 @@ import {
   throwError,
 } from 'rxjs';
 import { combineLatestWith, filter, finalize, startWith, take } from 'rxjs/operators';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import Long from 'long';
 import {
   BroadcastClientError,
@@ -47,11 +48,15 @@ export class VpnPageService {
     private confirmationDialogService: ConfirmationDialogService,
     private notificationService: NotificationService,
     private router: Router,
+    private svgIconRegistry: SvgIconRegistry,
     private sentinelService: SentinelService,
     private spinnerService: SpinnerService,
     private translocoService: TranslocoService,
     private wireguardService: WireguardService,
   ) {
+    svgIconRegistry.register([
+      svgDelete,
+    ]);
   }
 
   public checkWireguardConnection(): Promise<boolean> {
