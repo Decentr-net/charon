@@ -1,7 +1,8 @@
-@use 'sass:math';
 @import 'variables';
 
 :host {
+  display: block;
+
   ::ng-deep {
     .mat-expansion-panel-spacing {
       margin: unset;
@@ -45,30 +46,26 @@
   }
 }
 
-.nodes-expansion__flag-icon {
+.node-accordion__flag-icon {
   flex-shrink: 0;
 }
 
-.nodes-expansion__title {
+.node-accordion__title {
   align-items: center;
   display: flex;
   font-weight: 500;
 }
 
-.nodes-expansion__subscribed-icon {
+.node-accordion__subscribed-icon {
   color: var(--color-dportal-vpn-node-subscrided);
-  margin-left: math.div($grid-step, 2);
+  margin-left: $grid-half-step;
 }
 
-.nodes-expansion__connected-icon {
+.node-accordion__connected-icon {
   color: var(--color-dportal-vpn-node-connected);
-  margin-left: math.div($grid-step, 2);
+  margin-left: $grid-half-step;
 }
 
-.nodes-expansion__description {
+.node-accordion__description {
   color: var(--color-dportal-vpn-node-details-description);
-}
-
-.nodes-expansion__content-connect {
-  margin-top: $grid-step * 2;
 }

@@ -1,24 +1,19 @@
 <form
   *transloco="let translate; read: 'portal.vpn_page.nodes_expansion.subscribe'"
-  class="nodes-expansion-subscribe__form"
+  class="node-subscribe__form"
   [formGroup]="form"
   (ngSubmit)="subscribeToNode()"
 >
-  <div
-    class="nodes-expansion-subscribe__deposit"
-  >
+  <div class="node-subscribe__deposit">
     <app-input-counter
-      class="nodes-expansion-subscribe__deposit-input"
+      class="node-subscribe__deposit-input"
       formControlName="deposit"
-      [min]="+node.price?.amount"
-      [step]="+node.price?.amount"
+      [min]="+price.amount"
+      [step]="+price.amount"
       [displayWith]="displayWith"
-    >
-    </app-input-counter>
+    ></app-input-counter>
 
-    <div
-      class="nodes-expansion-subscribe__deposit-amount"
-    >
+    <div class="node-subscribe__deposit-amount">
       {{ depositCapacity$ | async }} GB
     </div>
   </div>

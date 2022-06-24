@@ -1,5 +1,5 @@
 import { combineLatest, Observable, ReplaySubject, Subject, switchMap } from 'rxjs';
-import { filter, map, startWith, take } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, startWith, take } from 'rxjs/operators';
 
 import { Config, ConfigSource, Network, NetworkId } from './config.definitions';
 import { NetworkBrowserStorageService } from '../network-storage';
@@ -119,29 +119,26 @@ export class ConfigService {
     );
   }
 
-  public getVpnUrl(): Observable<string> {
+  public getVpnUrl(listen = false): Observable<string> {
     return this.getConfig().pipe(
-      take(1),
       // map((config) => config.vpn.url),
       // TODO: add to config.json
       // map(() => 'https://rpc.sentinel.badgerbite.xyz:443/'),
       // map(() => 'https://rpc-sentinel.dvpn.solar:443/'),
       map(() => 'https://rpc.sentinel1.badgerbite.xyz:443'),
       // map(() => 'https://rpc.sentinel.co:443/'),
+      distinctUntilChanged(),
+      this.listenConfigOperator(listen),
     );
   }
 
-  public getVpnBlackList(): Observable<string[]> {
+  public getVpnFilterLists(listen = false): Observable<Pick<Config['vpn'], 'blackList' | 'whiteList'>> {
     return this.getConfig().pipe(
-      take(1),
-      map((config) => config.vpn.blackList || []),
-    );
-  }
-
-  public getVpnWhiteList(): Observable<string[]> {
-    return this.getConfig().pipe(
-      take(1),
-      map((config) => config.vpn.whiteList || []),
+      map((config) => ({
+        blackList: config.vpn.blackList || [],
+        whiteList: config.vpn.whiteList || [],
+      })),
+      this.listenConfigOperator(listen),
     );
   }
 

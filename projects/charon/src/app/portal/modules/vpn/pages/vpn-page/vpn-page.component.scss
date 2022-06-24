@@ -1,11 +1,10 @@
-@use 'sass:math';
 @import 'variables';
 
 :host {
   display: block;
   padding-bottom: $grid-step * 2;
 
-  &.mod-opened-in-tab {
+  .mod-tab-view & {
     .vpn-page__layout {
       border: 2px solid var(--color-outlines);
       border-radius: $border-radius;
@@ -16,7 +15,7 @@
 .vpn-page__header {
   align-items: center;
   background: var(--color-main-background);
-  border-bottom: 2px solid var(--color-outlines);
+  border: 2px solid var(--color-outlines);
   border-top-left-radius: $border-radius;
   border-top-right-radius: $border-radius;
   display: flex;
@@ -26,6 +25,17 @@
   top: 0;
   width: 100%;
   z-index: 1;
+}
+
+.vpn-page__header-section {
+  align-items: center;
+  display: flex;
+  height: 100%;
+
+  &.mod-left {
+    column-gap: $grid-step * 2;
+    font-weight: 500;
+  }
 }
 
 .vpn-page__header-title {
@@ -41,12 +51,6 @@
   display: flex;
 }
 
-.vpn-page__header-right {
-  align-items: center;
-  display: flex;
-  height: 100%;
-}
-
 .vpn-page__header-vertical-divider {
   background-color: var(--color-outlines);
   height: 100%;
@@ -54,8 +58,16 @@
   width: 2px;
 }
 
-.vpn-page__nodes-expansion {
+.vpn-page__node-accordion {
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
   width: 100%;
+}
+
+.vpn-page__node-accordion-content {
+  display: flex;
+  flex-direction: column;
+  row-gap: $grid-step * 2;
 }
 
 .vpn-page__no-data {

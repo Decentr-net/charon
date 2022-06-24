@@ -31,6 +31,7 @@ export * from './network-selector';
 export * from './pdv';
 export * from './posts';
 export * from './referral';
+export * from './sentinel';
 export * from './spinner';
 export * from './staking';
 export * from './user';

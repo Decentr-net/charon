@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { defer, first, map, Observable, ReplaySubject, switchMap } from 'rxjs';
+import { defer, forkJoin, Observable, of, ReplaySubject, switchMap } from 'rxjs';
+import { catchError, combineLatestWith, filter, first, map, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
-  Coin,
-  EndSessionRequest,
+  AddSessionResponse,
+  Coin, Decimal,
+  EndSessionRequest, Price,
   SentinelClient,
   SentinelDeposit,
   SentinelNode,
@@ -11,17 +13,21 @@ import {
   SentinelSession,
   SentinelStatus,
   SentinelSubscription,
+  transformWalletAddress,
+  WalletPrefix,
 } from 'decentr-js';
 import Long from 'long';
 
-import { AuthService } from '@core/auth';
-import { ConfigService } from '@shared/services/configuration';
-import { DEFAULT_DENOM, SentinelNodeStatus } from '@shared/models/sentinel';
-import { getSentinelWalletAddress } from '@shared/utils/sentinel-wallet';
-import { MessageBus } from '@shared/message-bus';
-import { coerceCoin } from '@shared/utils/price';
 import { assertMessageResponseSuccess, CharonAPIMessageBusMap } from '@scripts/background/charon-api';
 import { MessageCode } from '@scripts/messages';
+import { ConfigService } from '@shared/services/configuration';
+import { MessageBus } from '@shared/message-bus';
+import { coerceCoin } from '@shared/utils/price';
+import { httpUrl } from '@shared/utils/http';
+import { ONE_SECOND } from '@shared/utils/date';
+import { AuthService } from '@core/auth';
+import { DEFAULT_DENOM, SentinelNodeStatus } from './sentinel.definitions';
+import { countryNameToCode } from './sentinel-utils';
 
 @UntilDestroy()
 @Injectable()
@@ -33,65 +39,64 @@ export class SentinelService {
     private authService: AuthService,
     private configService: ConfigService,
   ) {
-    this.configService.getVpnUrl().pipe(
-      switchMap((vpnUrl) => this.createSentinelClient(vpnUrl)),
+    this.configService.getVpnUrl(true).pipe(
+      combineLatestWith(this.authService.getActiveUser()),
+      tap(() => this.sentinelClient$.next(undefined)),
+      switchMap(([vpnUrl, user]) => SentinelClient.create(vpnUrl, {
+        gasPrice: new Price(Decimal.fromUserInput('1.7', 6), DEFAULT_DENOM),
+        privateKey: user?.wallet?.privateKey,
+      })),
       untilDestroyed(this),
     ).subscribe((client) => this.sentinelClient$.next(client));
   }
 
   public get sentinelWalletAddress(): string {
-    return getSentinelWalletAddress(this.authService.getActiveUserInstant().wallet.address);
+    return transformWalletAddress(
+      this.authService.getActiveUserInstant().wallet.address,
+      WalletPrefix.Sentinel,
+    );
   }
 
   private get sentinelClient(): Observable<SentinelClient> {
     return this.sentinelClient$.pipe(
+      filter((client) => !!client),
       first(),
     );
   }
 
-  private createSentinelClient(nodeUrl: string): Observable<SentinelClient> {
-    return defer(() => SentinelClient.create(nodeUrl));
-  }
-
   private buildEndSessionRequest(ids: Long[]): EndSessionRequest {
     return ids.map((id) => ({
+      id,
       from: this.sentinelWalletAddress,
-      id: id,
       rating: Long.fromInt(0),
     }));
   }
 
-  public getNodeStatus(url: string): Observable<SentinelNodeStatus> {
-    const httpUrl = url.replace('https://', 'http://');
-
-    return defer(() => SentinelClient.getNodeStatus(httpUrl, { timeout: 2000 })).pipe(
+  public getNodeStatus(nodeUrl: string): Observable<SentinelNodeStatus> {
+    return defer(() => SentinelClient.getNodeStatus(httpUrl(nodeUrl), { timeout: ONE_SECOND * 2 })).pipe(
       map((node) => ({
         ...node,
-        price: coerceCoin(node.price).filter((price) => price.denom === DEFAULT_DENOM)[0] || undefined,
+        countryCode: countryNameToCode(node.location.country),
+        price: coerceCoin(node.price).find((price) => price.denom === DEFAULT_DENOM),
+        remoteUrl: nodeUrl,
       })),
+      catchError(() => of(undefined)),
     );
   }
 
-  public getNodes(denomFilter?: string): Observable<SentinelNode[]> {
+  public getNodes(denom?: string): Observable<SentinelNode[]> {
     return this.sentinelClient.pipe(
-      switchMap((client) => client.node.getNodes(SentinelStatus.STATUS_ACTIVE)),
-      switchMap((nodes) => this.configService.getVpnBlackList().pipe(
-        map((blackListUrls) => {
-          return nodes.filter((node) => !blackListUrls.includes(node.address));
-        }),
-      )),
-      switchMap((nodes) => this.configService.getVpnWhiteList().pipe(
-        map((whiteListUrls) => {
-          return nodes.filter((node) => !whiteListUrls.length || whiteListUrls.includes(node.address));
-        }),
-      )),
-      map((nodes) => {
-        if (!denomFilter) {
-          return nodes;
-        }
-
-        return nodes.filter((node) => node.price.some((coin) => coin.denom === denomFilter));
+      switchMap((client) => forkJoin([
+        client.node.getNodes(SentinelStatus.STATUS_ACTIVE),
+        this.configService.getVpnFilterLists(),
+      ])),
+      map(([nodes, filterLists]) => {
+        return nodes
+          .filter((node) => !filterLists.blackList.includes(node.address))
+          .filter((node) => !filterLists.whiteList.length || filterLists.whiteList.includes(node.address))
+          .filter((node) => !denom || node.price.some((coin) => coin.denom === denom));
       }),
+      tap((nodes) => console.log('nodes', nodes)),
     );
   }
 
@@ -101,6 +106,7 @@ export class SentinelService {
         status: SentinelStatus.STATUS_ACTIVE,
         address: this.sentinelWalletAddress,
       })),
+      tap((subscriptions) => console.log('subscriptions', subscriptions)),
     );
   }
 
@@ -119,24 +125,30 @@ export class SentinelService {
     );
   }
 
-  public getQuota(id: Long): Observable<SentinelQuota | undefined> {
+  public getQuota(subscriptionId: Long): Observable<SentinelQuota | undefined> {
     return this.sentinelClient.pipe(
       switchMap((client) => client.subscription.getQuota({
         address: this.sentinelWalletAddress,
-        id,
+        id: subscriptionId,
       })),
     );
   }
 
-  public getQuotas(id: Long): Observable<SentinelQuota[]> {
+  public getQuotas(subscriptionId: Long): Observable<SentinelQuota[]> {
     return this.sentinelClient.pipe(
-      switchMap((client) => client.subscription.getQuotas({ id })),
+      switchMap((client) => client.subscription.getQuotas({ id: subscriptionId })),
     );
   }
 
   public getBalance(): Observable<Coin[]> {
     return this.sentinelClient.pipe(
       switchMap((client) => client.bank.getBalance(this.sentinelWalletAddress)),
+    );
+  }
+
+  public addSession(nodeUrl: string, sessionId: Long): Observable<AddSessionResponse> {
+    return this.sentinelClient.pipe(
+      switchMap((client) => client.session.addSession(httpUrl(nodeUrl), sessionId)),
     );
   }
 
@@ -169,13 +181,13 @@ export class SentinelService {
     );
   }
 
-  public startSession(node: string, startSessionId: Long, endSessionIds: Long[]): Observable<void> {
+  public startSession(nodeAddress: string, subscriptionId: Long, endSessionIds: Long[]): Observable<void> {
     const endSessionRequest = this.buildEndSessionRequest(endSessionIds);
 
     const startSessionRequest = {
       from: this.sentinelWalletAddress,
-      id: startSessionId,
-      node,
+      id: subscriptionId,
+      node: nodeAddress,
     };
 
     return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(

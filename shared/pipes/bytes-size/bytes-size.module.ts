@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 
-import { BytesSizePipePipe } from './bytes-size.pipe';
+import { BytesSizePipe } from './bytes-size.pipe';
 
 @NgModule({
   declarations: [
-    BytesSizePipePipe,
+    BytesSizePipe,
   ],
   providers: [
     DecimalPipe,
   ],
   exports: [
-    BytesSizePipePipe,
+    BytesSizePipe,
   ],
 })
 export class BytesSizeModule {

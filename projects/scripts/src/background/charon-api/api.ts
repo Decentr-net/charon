@@ -28,7 +28,7 @@ import CONFIG_SERVICE from '../config';
 import { EndStartSessionRequest } from './message-bus-map';
 import { AuthBrowserStorageService } from '@shared/services/auth';
 import { ONE_SECOND } from '@shared/utils/date';
-import { DEFAULT_DENOM } from '@shared/models/sentinel';
+import { DEFAULT_DENOM } from '../../../../charon/src/app/core/services/sentinel/sentinel.definitions';
 
 const sentinelClient$: Observable<SentinelClient> = (() => {
   const clientSource$ = new ReplaySubject<SentinelClient>(1);

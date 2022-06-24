@@ -1,9 +1,10 @@
-import { NodesExpansionComponent } from './nodes-expansion';
-import { NodesExpansionConnectComponent } from './nodes-expansion-connect';
-import { NodesExpansionSubscribeComponent } from './nodes-expansion-subscribe';
+import { NodeAccordionComponent, NodeAccordionContentDirective } from './node-accordion';
+import { NodeSubscribeComponent } from './node-subscribe';
+import { NodeSubscriptionComponent } from './node-subscription';
 
 export const VPN_COMPONENTS = [
-  NodesExpansionComponent,
-  NodesExpansionConnectComponent,
-  NodesExpansionSubscribeComponent,
+  NodeAccordionComponent,
+  NodeAccordionContentDirective,
+  NodeSubscribeComponent,
+  NodeSubscriptionComponent,
 ];

@@ -4,7 +4,7 @@ import { DecimalPipe } from '@angular/common';
 @Pipe({
   name: 'appBytesSize',
 })
-export class BytesSizePipePipe implements PipeTransform {
+export class BytesSizePipe implements PipeTransform {
 
   constructor(
     private decimalPipe: DecimalPipe,

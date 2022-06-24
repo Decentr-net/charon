@@ -1,17 +1,15 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
-import { BehaviorSubject, combineLatest, map, startWith, switchMap } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@ngneat/reactive-forms';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { combineLatestWith, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
-import { Coin } from 'decentr-js';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Coin } from 'decentr-js';
 
-import { flagsIcons } from '@shared/svg-icons/flags';
 import { svgReload } from '@shared/svg-icons/reload';
 import { svgTopup } from '@shared/svg-icons/topup';
 import { isOpenedInTab } from '@shared/utils/browser';
-import { findCoinByDenom, priceFromString } from '@shared/utils/price';
-import { DEFAULT_DENOM, SentinelNodeStatusWithSubscriptions } from '@shared/models/sentinel';
+import { SentinelExtendedSubscription, SentinelNodeExtendedDetails } from './vpn-page.definitions';
 import { VpnPageService } from './vpn-page.service';
 
 @UntilDestroy()
@@ -25,58 +23,101 @@ import { VpnPageService } from './vpn-page.service';
   ],
 })
 export class VpnPageComponent implements OnInit {
-  @HostBinding('class.mod-opened-in-tab') public openedInTab: boolean = isOpenedInTab();
+  public isOpenedInTab = isOpenedInTab();
 
-  public refreshData$: BehaviorSubject<void> = new BehaviorSubject(undefined);
+  public onlySubscribedControl: FormControl<boolean> = new FormControl(false);
 
-  public nodes: SentinelNodeStatusWithSubscriptions[] | undefined;
+  public balance$: BehaviorSubject<Coin> = new BehaviorSubject<Coin>(undefined);
 
-  public balance: Coin;
+  public nodes$: BehaviorSubject<SentinelNodeExtendedDetails[]> = new BehaviorSubject(undefined);
 
-  public onlySubscribedFormControl: FormControl<boolean> = new FormControl(false);
+  public isConnectedToWireguard: boolean;
+
+  private refreshAll$: Subject<void> = new Subject();
+
+  private refreshSessions$: Subject<void> = new Subject();
+
+  private refreshSubscriptions$: Subject<void> = new Subject();
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
+    private svgIconRegistry: SvgIconRegistry,
     private vpnPageService: VpnPageService,
-    svgIconRegistry: SvgIconRegistry,
   ) {
-    svgIconRegistry.register([
-      svgReload,
-      svgTopup,
-      ...flagsIcons,
-    ]);
   }
 
   public ngOnInit(): void {
-    const onlySubscribed$ = this.onlySubscribedFormControl.valueChanges.pipe(
-      startWith(this.onlySubscribedFormControl.value),
-    );
+    this.svgIconRegistry.register([
+      svgReload,
+      svgTopup,
+    ]);
 
-    this.refreshData$.pipe(
-      startWith(true),
-      tap(() => this.balance = undefined),
+    this.refreshAll$.pipe(
+      startWith(void 0),
+      tap(() => this.balance$.next(undefined)),
       switchMap(() => this.vpnPageService.getBalance()),
-      map((balances) => findCoinByDenom(balances, DEFAULT_DENOM) || priceFromString('0' + DEFAULT_DENOM)[0]),
       untilDestroyed(this),
     ).subscribe((balance) => {
-      this.balance = balance;
+      this.balance$.next(balance);
+    });
+
+    this.refreshAll$.pipe(
+      startWith(void 0),
+      tap(() => this.nodes$.next(undefined)),
+      switchMap(() => this.vpnPageService.getNodes({
+        subscriptions: this.refreshSubscriptions$,
+        sessions: this.refreshSessions$,
+      })),
+      combineLatestWith(this.onlySubscribedControl.value$),
+      map(([nodes, onlySubscribed]) => nodes.filter((node) => !onlySubscribed || node.subscriptions.length > 0)),
+      untilDestroyed(this),
+    ).subscribe((nodes) => {
+      this.nodes$.next(nodes);
+    });
+
+    this.refreshAll$.pipe(
+      combineLatestWith(this.refreshSessions$),
+      startWith(void 0),
+      switchMap(() => this.vpnPageService.checkWireguardConnection()),
+      untilDestroyed(this),
+    ).subscribe((isConnected) => {
+      this.isConnectedToWireguard = isConnected;
 
       this.changeDetectorRef.markForCheck();
     });
+  }
 
-    combineLatest([
-      this.refreshData$.pipe(
-        startWith(true),
-        tap(() => this.nodes = undefined),
-        switchMap(() => this.vpnPageService.getAvailableNodesDetails()),
-      ),
-      onlySubscribed$,
-    ]).pipe(
-      map(([nodes, onlySubscribed]) => onlySubscribed ? nodes.filter(({ subscriptions }) => subscriptions?.length) : nodes),
-    ).subscribe((nodes) => {
-      this.nodes = nodes;
+  public subscribeToNode(node: SentinelNodeExtendedDetails, deposit: Coin): void {
+    this.vpnPageService.subscribeToNode(node, deposit).pipe(
+      untilDestroyed(this),
+    ).subscribe(() => {
+      this.refreshSubscriptions$.next();
+    });
+  }
 
-      this.changeDetectorRef.markForCheck();
+  public cancelSubscription(subscription: SentinelExtendedSubscription): void {
+    this.vpnPageService.cancelSubscription(subscription.id).pipe(
+      untilDestroyed(this),
+    ).subscribe(() => {
+      this.refreshSubscriptions$.next();
+    });
+  }
+
+  public connect(node: SentinelNodeExtendedDetails, subscription: SentinelExtendedSubscription): void {
+    this.vpnPageService.connect(node, subscription).pipe(
+      untilDestroyed(this),
+    ).subscribe(() => {
+      this.refreshSessions$.next();
+    });
+  }
+
+  public disconnect(subscription: SentinelExtendedSubscription): void {
+    const sessionIds = subscription.sessions.map(({ id }) => id);
+
+    this.vpnPageService.disconnect(sessionIds).pipe(
+      untilDestroyed(this),
+    ).subscribe(() => {
+      this.refreshSessions$.next();
     });
   }
 
@@ -84,7 +125,7 @@ export class VpnPageComponent implements OnInit {
     this.vpnPageService.topUpBalance();
   }
 
-  public onRefreshData(): void {
-    return this.refreshData$.next();
+  public refreshAll(): void {
+    return this.refreshAll$.next();
   }
 }

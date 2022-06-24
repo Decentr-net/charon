@@ -1,0 +1,61 @@
+<mat-accordion
+  *transloco="let translate; read: 'portal.vpn_page.nodes_expansion'"
+>
+  <mat-expansion-panel
+    *ngFor="let node of nodes; trackBy: trackByNodeAddress"
+    [expanded]="node.sessions.length > 0"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <svg-icon
+          class="node-accordion__flag-icon"
+          [key]="node.countryCode"
+          size="lg"
+        ></svg-icon>
+      </mat-panel-title>
+
+      <mat-panel-description>
+        <div
+          class="node-accordion__title"
+          appTypeface="paragraph"
+        >
+          {{ node.moniker }} | {{ node.location.country }}, {{ node.location.city }}
+
+          <svg-icon
+            *ngIf="node.subscriptions.length > 0"
+            class="node-accordion__subscribed-icon"
+            key="check"
+            size="sm"
+          ></svg-icon>
+
+          <svg-icon
+            *ngIf="node.sessions.length > 0"
+            class="node-accordion__connected-icon"
+            key="signal"
+            size="sm"
+          ></svg-icon>
+        </div>
+
+        <div class="node-accordion__description" appTypeface="caption">
+          <div>
+            {{ translate('peers') }}: {{ node.peers }} |
+            {{ translate('address') }}: {{ node.address }}
+          </div>
+
+          <div>
+            {{ translate('price') }}: {{ node.price | appPrice }}/GB |
+            {{ translate('upload_speed') }}: {{ node.bandwidth.upload | appBytesSize }}/s |
+            {{ translate('download_speed') }}: {{ node.bandwidth.download | appBytesSize }}/s
+          </div>
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <ng-template matExpansionPanelContent>
+      <ng-template
+        [ngTemplateOutlet]="contentTemplateRef"
+        [ngTemplateOutletContext]="{ $implicit: node }"
+      ></ng-template>
+    </ng-template>
+  </mat-expansion-panel>
+</mat-accordion>
