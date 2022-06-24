@@ -120,6 +120,12 @@
           "connect": "Connect",
           "disconnect": "Disconnect"
         },
+        "cancel_subscription_confirmation": {
+          "cancel_subscription": "Remove",
+          "close": "Close",
+          "content": "Are you sure you want to remove the subscription?",
+          "title": "Remove subscription"
+        },
         "notifications": {
           "connected": "Successfully connected",
           "disconnected": "Successfully disconnected",
