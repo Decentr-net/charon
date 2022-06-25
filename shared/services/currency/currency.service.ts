@@ -25,7 +25,7 @@ export class CurrencyService {
     );
   }
 
-  private buildQueryParamString<T>(params: T): string {
+  private buildQueryParams<T>(params: T): string {
     const queryParams = new URLSearchParams();
 
     Object.entries(params).forEach(([key, value]) => {
@@ -50,7 +50,7 @@ export class CurrencyService {
       include_24hr_change: include24hChange,
     };
 
-    return this.fetch(`${this.environment.currencyApi}/simple/price?${this.buildQueryParamString(queryParams)}`);
+    return this.fetch(`${this.environment.currencyApi}/simple/price?${this.buildQueryParams(queryParams)}`);
   }
 
   public getCoinRateHistory(
@@ -65,32 +65,29 @@ export class CurrencyService {
       interval,
     };
 
-    return this.fetch(`${this.environment.currencyApi}/coins/${blockchainId}/market_chart?${this.buildQueryParamString(queryParams)}`);
+    return this.fetch(`${this.environment.currencyApi}/coins/${blockchainId}/market_chart?${this.buildQueryParams(queryParams)}`);
   }
 
   public getDecentrCoinRateForUsd(): Observable<number> {
-    return this.getCoinRate([this.blockchainId], [this.currencyId])
-      .pipe(
-        map((rates) => rates[this.blockchainId][this.currencyId]),
-      );
+    return this.getCoinRate([this.blockchainId], [this.currencyId]).pipe(
+      map((rates) => rates[this.blockchainId][this.currencyId]),
+    );
   }
 
   public getDecentrCoinRateForUsd24hours(): Observable<CoinRateFor24Hours> {
     const lastDayChange = `${this.currencyId}_24h_change`;
 
-    return this.getCoinRate([this.blockchainId], [this.currencyId], true)
-      .pipe(
-        map((rates) => ({
-          dayMargin: rates[this.blockchainId][lastDayChange],
-          value: rates[this.blockchainId][this.currencyId],
-        })),
-      );
+    return this.getCoinRate([this.blockchainId], [this.currencyId], true).pipe(
+      map((rates) => ({
+        dayMargin: rates[this.blockchainId][lastDayChange],
+        value: rates[this.blockchainId][this.currencyId],
+      })),
+    );
   }
 
   public getDecentrCoinRateHistory(days: number): Observable<CoinRateHistoryResponse['prices']> {
-    return this.getCoinRateHistory(this.blockchainId, this.currencyId, days)
-      .pipe(
-        map((rateHistory) => rateHistory.prices),
-      );
+    return this.getCoinRateHistory(this.blockchainId, this.currencyId, days).pipe(
+      map((rateHistory) => rateHistory.prices),
+    );
   }
 }

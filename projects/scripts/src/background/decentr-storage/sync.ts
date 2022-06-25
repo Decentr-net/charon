@@ -1,32 +1,41 @@
 import { EMPTY, forkJoin, of, switchMap, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ProfilePDVStatisticsItem } from 'decentr-js';
 
+import { getCerberusClient, getDecentrClient, getTheseusClient } from '../client';
+import { environment } from '../../../../../environments/environment';
 import { AuthBrowserStorageService } from '../../../../../shared/services/auth';
+import { CoinRateFor24Hours, CoinRateHistoryResponse, CurrencyService } from '../../../../../shared/services/currency';
 import { DecentrStorage } from '../../../../../shared/services/storage';
 import { ONE_SECOND } from '../../../../../shared/utils/date';
-import { getCerberusClient, getDecentrClient, getTheseusClient } from '../client';
-
-export interface PdvReward {
-  nextDistributionDate: Date;
-  reward: number;
-}
+import { getPDVDayChange, mapPDVStatsToChartPoints } from '../../../../../shared/utils/pdv';
 
 type StorageValue = {
   stats: {
-    pdvBalance: {
-      profileCreatedAt: string,
-      stats: ProfilePDVStatisticsItem[];
-      value: number;
+    currency: {
+      history: CoinRateHistoryResponse['prices'];
+      rate: CoinRateFor24Hours;
     };
-    pdvRewards: PdvReward;
+    pdvBalance: {
+      history: [number, number][];
+      profileCreatedAt: string,
+      rate: {
+        dayMargin: number;
+        value: number;
+      };
+    };
+    pdvRewards: {
+      nextDistributionDate: Date;
+      reward: number;
+    };
   };
 };
 
 const authStorage = new AuthBrowserStorageService();
 const decentrStorage = new DecentrStorage<StorageValue>();
+const currencyService = new CurrencyService(environment);
 
 const clearDecentrStorage = () => decentrStorage.set('stats', {
+  currency: undefined,
   pdvBalance: undefined,
   pdvRewards: undefined,
 });
@@ -42,24 +51,37 @@ export const initDecentrStorageStatsSync = () => authStorage.getActiveUser().pip
     }
 
     return forkJoin([
+      of(walletAddress),
       getDecentrClient(),
       getCerberusClient(),
       getTheseusClient(),
-      of(walletAddress),
+      of(currencyService),
     ]);
   }),
-  switchMap(([decentrClient, cerberusClient, theseusClient, walletAddress]) => forkJoin([
+  switchMap(([walletAddress, decentrClient, cerberusClient, theseusClient, currencyClient]) => forkJoin([
     decentrClient.token.getBalance(walletAddress),
     theseusClient.profile.getProfileStats(walletAddress),
     cerberusClient.profile.getProfile(walletAddress),
     cerberusClient.rewards.getDelta(walletAddress),
+    currencyClient.getDecentrCoinRateForUsd24hours(),
+    currencyClient.getDecentrCoinRateHistory(30),
   ])),
-).subscribe(([pdvBalance, pdvStats, profile, pdvDelta]) => {
+).subscribe(([pdvBalance, pdvStats, profile, pdvDelta, currencyRate, currencyHistory]) => {
   decentrStorage.set('stats', {
+    currency: {
+      history: currencyHistory,
+      rate: {
+        dayMargin: currencyRate.dayMargin,
+        value: currencyRate.value,
+      },
+    },
     pdvBalance: {
+      history: mapPDVStatsToChartPoints(pdvStats.stats).map((stat) => [stat.date, stat.value]),
       profileCreatedAt: profile.createdAt,
-      stats: pdvStats.stats,
-      value: +pdvBalance,
+      rate: {
+        dayMargin: getPDVDayChange(pdvStats.stats, +pdvBalance),
+        value: +pdvBalance,
+      },
     },
     pdvRewards: {
       nextDistributionDate: new Date(pdvDelta.pool.next_distribution_date),
