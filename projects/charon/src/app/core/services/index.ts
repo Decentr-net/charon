@@ -1,5 +1,4 @@
 import { BlockchainNodeService } from '@shared/services/blockchain-node';
-import { CORE_API_SERVICES } from './api';
 import { BankService } from './bank';
 import { BlocksService } from './blocks';
 import { CurrencyService } from './currency';
@@ -36,7 +35,6 @@ export * from './staking';
 export * from './user';
 
 export const CORE_SERVICES = [
-  CORE_API_SERVICES,
   BankService,
   BlockchainNodeService,
   BlocksService,

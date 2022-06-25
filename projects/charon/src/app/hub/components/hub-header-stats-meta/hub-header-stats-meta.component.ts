@@ -19,7 +19,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AdvDdvStatistics } from 'decentr-js';
 
 import { svgExpandMore } from '@shared/svg-icons/expand-more';
-import { BalanceValueDynamic, CoinRateFor24Hours } from '@core/services';
+import { CoinRateFor24Hours } from '@shared/services/currency';
+import { BalanceValueDynamic } from '@core/services';
 import { HubCurrencyStatistics } from '../hub-currency-statistics';
 import { HubHeaderStatsMetaService } from './hub-header-stats-meta.service';
 import { HubPDVStatistics } from '../hub-pdv-statistics';

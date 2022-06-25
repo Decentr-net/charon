@@ -1,2 +1,2 @@
+export * from './currency.service';
 export * from './currency-api.definitions';
-export * from './currency-api.service';
