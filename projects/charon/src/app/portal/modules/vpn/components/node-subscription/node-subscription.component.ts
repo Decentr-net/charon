@@ -4,6 +4,7 @@ import { SentinelQuota } from 'decentr-js';
 import Long from 'long';
 
 import { SentinelService } from '@core/services';
+import { isOpenedInTab } from '@shared/utils/browser';
 
 @Component({
   selector: 'app-node-subscription',
@@ -12,9 +13,13 @@ import { SentinelService } from '@core/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NodeSubscriptionComponent implements OnInit {
+  public isOpenedInTab = isOpenedInTab();
+
   @Input() public subscriptionId: Long;
 
   @Input() public isConnected: boolean;
+
+  @Input() public isConnectedToWireguard: boolean;
 
   @Output() public connect: EventEmitter<void> = new EventEmitter();
 

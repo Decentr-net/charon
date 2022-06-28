@@ -15,7 +15,7 @@
 .vpn-page__header {
   align-items: center;
   background: var(--color-main-background);
-  border: 2px solid var(--color-outlines);
+  border-bottom: 2px solid var(--color-outlines);
   border-top-left-radius: $border-radius;
   border-top-right-radius: $border-radius;
   display: flex;
@@ -31,9 +31,9 @@
   align-items: center;
   display: flex;
   height: 100%;
+  column-gap: $grid-step * 2;
 
   &.mod-left {
-    column-gap: $grid-step * 2;
     font-weight: 500;
   }
 }
@@ -53,8 +53,7 @@
 
 .vpn-page__header-vertical-divider {
   background-color: var(--color-outlines);
-  height: 100%;
-  margin: 0 $grid-step;
+  height: 24px;
   width: 2px;
 }
 

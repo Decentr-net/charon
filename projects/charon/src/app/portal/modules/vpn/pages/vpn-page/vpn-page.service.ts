@@ -14,7 +14,7 @@ import {
   tap,
   throwError,
 } from 'rxjs';
-import { combineLatestWith, filter, finalize, startWith, take } from 'rxjs/operators';
+import { combineLatestWith, delay, filter, finalize, startWith } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -33,6 +33,7 @@ import { NotificationService } from '@shared/services/notification';
 import { svgDelete } from '@shared/svg-icons/delete';
 import { ConfirmationDialogService } from '@shared/components/confirmation-dialog';
 import { WireguardService } from '@shared/services/wireguard';
+import { ONE_SECOND } from '@shared/utils/date';
 import { TranslatedError } from '@core/notifications';
 import { DEFAULT_DENOM, SentinelNodeStatusWithSubscriptions, SentinelService, SpinnerService } from '@core/services';
 import { AppRoute } from '../../../../../app-route';
@@ -60,7 +61,7 @@ export class VpnPageService {
   }
 
   public checkWireguardConnection(): Promise<boolean> {
-    return this.wireguardService.status();
+    return this.wireguardService.status().then((response) => response.result);
   }
 
   public getBalance(): Observable<Coin> {
@@ -153,7 +154,21 @@ export class VpnPageService {
     this.spinnerService.showSpinner();
 
     return defer(() => this.wireguardService.disconnect()).pipe(
-      mergeMap(() => this.sentinelService.endSession(sessionIds)),
+      map((response) => {
+        if (!response.result) {
+          throw new TranslatedError('Not disconnected. Try again!');
+        }
+      }),
+      delay(5000),
+      // observable navigator.online
+      mergeMap(() => this.sentinelService.endSession(sessionIds).pipe(
+        // TODO: check
+        tap(() => console.log('retry end session 3 times, 1 second')),
+        retry({
+          count: 3,
+          delay: ONE_SECOND,
+        }),
+      )),
       catchError((error) => {
         this.handleTransactionError(error);
 
@@ -184,11 +199,21 @@ export class VpnPageService {
     });
 
     return sessionSource$.pipe(
-      mergeMap((session) => this.sentinelService.addSession(node.remoteUrl, session.id)),
+      mergeMap((session) => this.sentinelService.addSession(node.remoteUrl, session.id).pipe(
+        map((params) => ({
+          ...params,
+          address: subscription.owner,
+          nodeAddress: node.address,
+          sessionId: session.id.toInt(),
+        })),
+      )),
       catchError((error) => {
+        console.log('sessionSource$', error);
+        // TODO: add code === 2
         const isPeerExistsError = error.response?.data?.error?.code === 6;
+        const sessionNotFound = error.response?.status === 404;
 
-        if (isPeerExistsError) {
+        if (isPeerExistsError || sessionNotFound) {
           return throwError(error);
         }
 
@@ -197,12 +222,22 @@ export class VpnPageService {
         return EMPTY;
       }),
       retry(3),
-      tap((params) => console.log('params', params)),
       mergeMap((connectionParams) => this.wireguardService.connect(connectionParams)),
-      take(1),
+      map((response) => {
+        if (!response.result) {
+          throw new TranslatedError('Not connected. Try again!');
+        }
+      }),
+      delay(5000),
+      // take(1),
       catchError((error) => {
         this.notificationService.error(error);
         return EMPTY;
+      }),
+      tap(() => {
+        return this.notificationService.success(
+          this.translate('vpn_page.nodes_expansion.connect.notifications.connected'),
+        );
       }),
       finalize(() => this.spinnerService.hideSpinner()),
     );
@@ -268,7 +303,7 @@ export class VpnPageService {
         this.translate('vpn_page.nodes_expansion.connect.notifications.tx_broadcasted'),
         null,
         {
-          timeOut: 0,
+          timeOut: 60000,
         },
       );
     }

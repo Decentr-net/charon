@@ -44,12 +44,13 @@
         color="grey"
         (click)="onCancel()"
       >
-        {{ translate('actions.cancel_subscription') }}
+        {{ translate('actions.' + (isOpenedInTab ? 'remove_subscription' : 'remove')) }}
       </button>
 
       <button
         class="node-subscription__action"
         app-button
+        [disabled]="isConnectedToWireguard"
         (click)="onConnect()"
       >
         {{ translate('actions.connect') }}

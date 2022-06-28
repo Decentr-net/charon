@@ -8,9 +8,22 @@
       key="logo-icon"
       size="xxl"
     ></svg-icon>
+
     <span class="app-init-loading__message">
       {{ translate('message') }}
     </span>
+
+    <button
+      *ngIf="isWireguardConnected$ | async"
+      class="app-init-loading__disconnect-wireguard"
+      app-button
+      color="grey"
+      size="sm"
+      appTypeface="caption"
+      (click)="onWireguardDisconnect()"
+    >
+      {{ translate('disconnect_vpn') }}
+    </button>
   </div>
 </ng-container>
 

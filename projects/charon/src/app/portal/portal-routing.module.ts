@@ -37,6 +37,7 @@ const ROUTES: Routes = [
         path: PortalRoute.Vpn,
         loadChildren: () => import('./modules').then((m) => m.VpnModule),
         canActivate: [
+          BrowserTabGuard,
           MainnetGuard,
         ],
       },

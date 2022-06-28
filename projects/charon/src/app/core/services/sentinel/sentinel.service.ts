@@ -204,6 +204,10 @@ export class SentinelService {
   }
 
   public endSession(sessionIds: Long[]): Observable<void> {
+    if (sessionIds.length === 0) {
+      return of(undefined);
+    }
+
     return defer(() => new MessageBus<CharonAPIMessageBusMap>().sendMessage(
       MessageCode.SentinelEndSession,
       { request: this.buildEndSessionRequest(sessionIds) },

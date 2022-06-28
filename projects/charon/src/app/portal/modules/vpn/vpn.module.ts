@@ -14,7 +14,6 @@ import { BrowserViewModule } from '@shared/directives/browser-view';
 import { TypefaceModule } from '@shared/directives/typeface';
 import { BytesSizeModule } from '@shared/pipes/bytes-size';
 import { PriceModule } from '@shared/pipes/price';
-import { WireguardService } from '@shared/services/wireguard';
 import { VPN_COMPONENTS } from './components';
 import { VPN_PAGES } from './pages';
 import { VpnRoutingModule } from './vpn-routing.module';
@@ -40,9 +39,6 @@ import { VpnRoutingModule } from './vpn-routing.module';
     TranslocoModule,
     TypefaceModule,
     VpnRoutingModule,
-  ],
-  providers: [
-    WireguardService,
   ],
 })
 export class VpnModule {

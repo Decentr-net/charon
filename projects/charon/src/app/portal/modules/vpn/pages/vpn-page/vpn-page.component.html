@@ -70,6 +70,15 @@
           {{ translate('refresh') }}
         </button>
       </div>
+
+      <button
+        *ngIf="isConnectedToWireguard"
+        app-button
+        color="negative"
+        (click)="disconnect()"
+      >
+        {{ translate('disconnect') }}
+      </button>
     </div>
   </div>
 
@@ -78,6 +87,7 @@
       *ngIf="nodes.length > 0; else nodesNoData"
       class="vpn-page__node-accordion"
       [nodes]="nodes"
+      [isConnectedToWireguard]="isConnectedToWireguard"
     >
       <div
         class="vpn-page__node-accordion-content"
@@ -92,6 +102,7 @@
           *ngFor="let subscription of node.subscriptions"
           [subscriptionId]="subscription.id"
           [isConnected]="subscription.sessions.length > 0 && isConnectedToWireguard"
+          [isConnectedToWireguard]="isConnectedToWireguard"
           (cancel)="cancelSubscription(subscription)"
           (connect)="connect(node, subscription)"
           (disconnect)="disconnect(subscription)"
@@ -107,7 +118,7 @@
         height: '24px',
         marginBottom: '0',
         width: '180px'
-    }"
+      }"
     ></ngx-skeleton-loader>
   </ng-template>
 
@@ -118,7 +129,7 @@
       [theme]="{
         height: '40px',
         width: '100%'
-    }"
+      }"
     ></ngx-skeleton-loader>
   </ng-template>
 

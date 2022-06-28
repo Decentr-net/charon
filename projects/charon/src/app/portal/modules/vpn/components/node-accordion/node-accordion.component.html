@@ -29,7 +29,7 @@
           ></svg-icon>
 
           <svg-icon
-            *ngIf="node.sessions.length > 0"
+            *ngIf="node.sessions.length > 0 && isConnectedToWireguard"
             class="node-accordion__connected-icon"
             key="signal"
             size="sm"

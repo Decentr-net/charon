@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@ngneat/reactive-forms';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { combineLatestWith, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { combineLatestWith, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Coin } from 'decentr-js';
@@ -46,6 +46,12 @@ export class VpnPageComponent implements OnInit {
   ) {
   }
 
+  private async updateWireguardConnection(): Promise<void> {
+    this.isConnectedToWireguard = await this.vpnPageService.checkWireguardConnection();
+
+    this.changeDetectorRef.markForCheck();
+  }
+
   public ngOnInit(): void {
     this.svgIconRegistry.register([
       svgReload,
@@ -78,13 +84,9 @@ export class VpnPageComponent implements OnInit {
     this.refreshAll$.pipe(
       combineLatestWith(this.refreshSessions$),
       startWith(void 0),
-      switchMap(() => this.vpnPageService.checkWireguardConnection()),
+      switchMap(() => this.updateWireguardConnection()),
       untilDestroyed(this),
-    ).subscribe((isConnected) => {
-      this.isConnectedToWireguard = isConnected;
-
-      this.changeDetectorRef.markForCheck();
-    });
+    ).subscribe();
   }
 
   public subscribeToNode(node: SentinelNodeExtendedDetails, deposit: Coin): void {
@@ -105,16 +107,18 @@ export class VpnPageComponent implements OnInit {
 
   public connect(node: SentinelNodeExtendedDetails, subscription: SentinelExtendedSubscription): void {
     this.vpnPageService.connect(node, subscription).pipe(
+      finalize(() => this.updateWireguardConnection()),
       untilDestroyed(this),
     ).subscribe(() => {
       this.refreshSessions$.next();
     });
   }
 
-  public disconnect(subscription: SentinelExtendedSubscription): void {
-    const sessionIds = subscription.sessions.map(({ id }) => id);
+  public disconnect(subscription?: SentinelExtendedSubscription): void {
+    const sessionIds = subscription?.sessions.map(({ id }) => id) || [];
 
     this.vpnPageService.disconnect(sessionIds).pipe(
+      finalize(() => this.updateWireguardConnection()),
       untilDestroyed(this),
     ).subscribe(() => {
       this.refreshSessions$.next();

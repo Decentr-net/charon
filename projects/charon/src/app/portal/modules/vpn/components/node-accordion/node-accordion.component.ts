@@ -23,6 +23,8 @@ import { SentinelNodeExtendedDetails } from '../../pages/vpn-page/vpn-page.defin
 export class NodeAccordionComponent implements OnInit {
   @Input() public nodes: SentinelNodeExtendedDetails[];
 
+  @Input() public isConnectedToWireguard: boolean;
+
   @ContentChild(NodeAccordionContentDirective, { read: TemplateRef })
   public contentTemplateRef: TemplateRef<{ node: SentinelNodeExtendedDetails }>;
 
@@ -37,5 +39,4 @@ export class NodeAccordionComponent implements OnInit {
       ...flagsIcons,
     ]);
   }
-
 }

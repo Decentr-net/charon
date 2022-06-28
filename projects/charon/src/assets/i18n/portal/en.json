@@ -101,6 +101,7 @@
   },
   "vpn_page": {
     "balance": "Balance",
+    "disconnect": "Disconnect",
     "no_data": "There are no nodes available",
     "refresh": "Refresh",
     "title": "VPN",
@@ -116,7 +117,8 @@
       "upload_speed": "Upload speed",
       "connect": {
         "actions": {
-          "cancel_subscription": "Cancel subscription",
+          "remove": "Remove",
+          "remove_subscription": "Remove subscription",
           "connect": "Connect",
           "disconnect": "Disconnect"
         },
