@@ -6,8 +6,9 @@ import { map } from 'rxjs/operators';
 import { AdvDdvStatistics } from 'decentr-js';
 
 import { AuthService } from '@core/auth';
+import { CoinRateFor24Hours } from '@shared/services/currency';
 import { coerceTimestamp } from '@shared/utils/date';
-import { BalanceValueDynamic, CoinRateFor24Hours, CurrencyService, PDVService, UserService } from '@core/services';
+import { BalanceValueDynamic, CurrencyService, PDVService, UserService } from '@core/services';
 import { HubCurrencyStatistics } from '../hub-currency-statistics';
 import { HubPDVStatistics } from '../hub-pdv-statistics';
 
