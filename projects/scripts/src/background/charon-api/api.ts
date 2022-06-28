@@ -1,21 +1,16 @@
-import { combineLatest, firstValueFrom, Observable, ReplaySubject, switchMap, take, tap } from 'rxjs';
-import { debounceTime, filter } from 'rxjs/operators';
 import {
   CancelSubscriptionRequest,
   CreatePostRequest,
-  Decimal,
   DelegateTokensRequest,
   DeletePostRequest,
   DeliverTxResponse,
   EndSessionRequest,
   FollowRequest,
   LikeRequest,
-  Price,
   RedelegateTokensRequest,
   ResetAccountRequest,
   SendIbcTokensRequest,
   SendTokensRequest,
-  SentinelClient,
   SubscribeToNodeRequest,
   UndelegateTokensRequest,
   UnfollowRequest,
@@ -23,33 +18,8 @@ import {
   WithdrawValidatorCommissionRequest,
 } from 'decentr-js';
 
-import { getDecentrClient } from '../client';
-import CONFIG_SERVICE from '../config';
+import { getDecentrClient, getSentinelClient } from '../client';
 import { EndStartSessionRequest } from './message-bus-map';
-import { AuthBrowserStorageService } from '@shared/services/auth';
-import { ONE_SECOND } from '@shared/utils/date';
-import { DEFAULT_DENOM } from '../../../../charon/src/app/core/services/sentinel/sentinel.definitions';
-
-const sentinelClient$: Observable<SentinelClient> = (() => {
-  const clientSource$ = new ReplaySubject<SentinelClient>(1);
-
-  combineLatest([
-    CONFIG_SERVICE.getVpnUrl(),
-    new AuthBrowserStorageService().getActiveUser(),
-  ]).pipe(
-    debounceTime(ONE_SECOND),
-    tap(() => clientSource$.next(undefined)),
-    switchMap(([api, user]) => SentinelClient.create(api, {
-      gasPrice: new Price(Decimal.fromUserInput('1.7', 6), DEFAULT_DENOM),
-      privateKey: user?.wallet?.privateKey,
-    })),
-  ).subscribe(clientSource$);
-
-  return clientSource$.pipe(
-    filter(Boolean),
-    take(1),
-  );
-})();
 
 export const createPost = async (
   request: CreatePostRequest,
@@ -116,7 +86,7 @@ export const sendIbcTokens = async (
   request: SendIbcTokensRequest,
   memo?: string,
 ): Promise<DeliverTxResponse> => {
-  const decentrClient = await firstValueFrom(decentrClient$);
+  const decentrClient = await getDecentrClient();
 
   return decentrClient.bank.sendIbcTokens(
     request,
@@ -186,7 +156,7 @@ export const withdrawValidatorRewards = async (
 export const sentinelSubscribeToNode = async (
   request: SubscribeToNodeRequest,
 ): Promise<DeliverTxResponse> => {
-  const sentinelClient = await firstValueFrom(sentinelClient$);
+  const sentinelClient = await getSentinelClient();
 
   return sentinelClient.subscription.subscribeToNode(
     request,
@@ -196,7 +166,7 @@ export const sentinelSubscribeToNode = async (
 export const sentinelCancelNodeSubscription = async (
   request: CancelSubscriptionRequest,
 ): Promise<DeliverTxResponse> => {
-  const sentinelClient = await firstValueFrom(sentinelClient$);
+  const sentinelClient = await getSentinelClient();
 
   return sentinelClient.subscription.cancelSubscription(
     request,
@@ -206,7 +176,7 @@ export const sentinelCancelNodeSubscription = async (
 export const sentinelStartSession = async (
   request: EndStartSessionRequest,
 ): Promise<DeliverTxResponse> => {
-  const sentinelClient = await firstValueFrom(sentinelClient$);
+  const sentinelClient = await getSentinelClient();
 
   const endSessionMessage = sentinelClient.session.endSession(request.endSession);
   const startSessionMessage = sentinelClient.session.startSession(request.startSession);
@@ -218,7 +188,7 @@ export const sentinelStartSession = async (
 export const sentinelEndSession = async (
   request: EndSessionRequest,
 ): Promise<DeliverTxResponse> => {
-  const sentinelClient = await firstValueFrom(sentinelClient$);
+  const sentinelClient = await getSentinelClient();
 
   return sentinelClient.session.endSession(
     request,
