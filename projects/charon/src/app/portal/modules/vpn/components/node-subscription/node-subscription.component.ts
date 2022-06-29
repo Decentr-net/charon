@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs';
+import { share } from 'rxjs/operators';
 import { SentinelQuota } from 'decentr-js';
 import Long from 'long';
 
@@ -16,6 +17,8 @@ export class NodeSubscriptionComponent implements OnInit {
   public isOpenedInTab = isOpenedInTab();
 
   @Input() public subscriptionId: Long;
+
+  @Input() public subscriptionStatusAt: Date;
 
   @Input() public isConnected: boolean;
 
@@ -35,7 +38,9 @@ export class NodeSubscriptionComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.quota$ = this.sentinelService.getQuota(this.subscriptionId);
+    this.quota$ = this.sentinelService.getQuota(this.subscriptionId).pipe(
+      share(),
+    );
   }
 
   public onCancel(): void {
@@ -49,5 +54,4 @@ export class NodeSubscriptionComponent implements OnInit {
   public onConnect(): void {
     this.connect.emit();
   }
-
 }

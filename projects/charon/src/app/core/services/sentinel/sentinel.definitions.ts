@@ -13,6 +13,7 @@ export interface SentinelNodeStatus extends Omit<NodeStatus, 'price'> {
   countryCode: string;
   price: Coin;
   remoteUrl: string;
+  statusAt: Date;
 }
 
 export interface SentinelNodeStatusWithSubscriptions extends SentinelNodeStatus {

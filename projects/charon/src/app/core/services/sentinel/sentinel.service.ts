@@ -72,13 +72,14 @@ export class SentinelService {
     }));
   }
 
-  public getNodeStatus(nodeUrl: string): Observable<SentinelNodeStatus> {
+  public getNodeStatus(nodeUrl: string, nodeStatusAt: Date): Observable<SentinelNodeStatus> {
     return defer(() => SentinelClient.getNodeStatus(httpUrl(nodeUrl), { timeout: ONE_SECOND * 2 })).pipe(
       map((node) => ({
         ...node,
         countryCode: countryNameToCode(node.location.country),
         price: coerceCoin(node.price).find((price) => price.denom === DEFAULT_DENOM),
         remoteUrl: nodeUrl,
+        statusAt: nodeStatusAt,
       })),
       catchError(() => of(undefined)),
     );

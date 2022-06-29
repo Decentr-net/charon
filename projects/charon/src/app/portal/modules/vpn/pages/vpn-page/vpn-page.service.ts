@@ -41,6 +41,19 @@ import { PortalRoute } from '../../../../portal-route';
 import { RECEIVER_WALLET_PARAM } from '../../../assets/pages';
 import { SentinelExtendedSubscription, SentinelNodeExtendedDetails } from './vpn-page.definitions';
 
+interface AxiosError<T> extends Error {
+  response?: {
+    data: T;
+  };
+}
+
+interface AxiosErrorObject {
+  error: {
+    code: number;
+    message: string;
+  },
+}
+
 @UntilDestroy()
 @Injectable()
 export class VpnPageService {
@@ -92,7 +105,7 @@ export class VpnPageService {
           return of([]);
         }
 
-        return forkJoin(nodes.map((node) => this.sentinelService.getNodeStatus(node.remoteUrl))).pipe(
+        return forkJoin(nodes.map((node) => this.sentinelService.getNodeStatus(node.remoteUrl, node.statusAt))).pipe(
           map((nodeStatuses) => nodeStatuses.filter((nodeStatus) => !!nodeStatus)),
           combineLatestWith(subscriptionSource$, sessionsSource$),
           map(([nodeStatuses, subscriptions, sessions]) => nodeStatuses.map((nodeStatus) => ({
@@ -122,6 +135,7 @@ export class VpnPageService {
 
         return EMPTY;
       }),
+      delay(5000),
       tap(() => {
         this.notificationService.success(
           this.translate('vpn_page.nodes_expansion.subscribe.notifications.subscribed'),
@@ -163,7 +177,6 @@ export class VpnPageService {
       // observable navigator.online
       mergeMap(() => this.sentinelService.endSession(sessionIds).pipe(
         // TODO: check
-        tap(() => console.log('retry end session 3 times, 1 second')),
         retry({
           count: 3,
           delay: ONE_SECOND,
@@ -209,6 +222,14 @@ export class VpnPageService {
       )),
       catchError((error) => {
         console.log('sessionSource$', error);
+
+        // const isQuotaExceeded = error.response?.data?.error?.code === 10;
+
+        // if (isQuotaExceeded) {
+          // message: "quota exceeded; allocated 20000000, consumed 21240000"
+          // this.handleTransactionError(error);
+        // }
+
         // TODO: add code === 2
         const isPeerExistsError = error.response?.data?.error?.code === 6;
         const sessionNotFound = error.response?.status === 404;
@@ -293,9 +314,15 @@ export class VpnPageService {
     return this.confirmationDialogService.open(config).afterClosed();
   }
 
-  private handleTransactionError(error: BroadcastClientError | TimeoutError | Error): void {
+  private handleTransactionError(error: BroadcastClientError | TimeoutError | AxiosError<AxiosErrorObject> | Error): void {
     if ((error as BroadcastClientError).broadcastErrorCode) {
       return this.notificationService.error(new TranslatedError(error.message));
+    }
+
+    if ((error as AxiosError<AxiosErrorObject>).response?.data?.error?.code) {
+      return this.notificationService.error(
+        new TranslatedError((error as AxiosError<AxiosErrorObject>)?.response?.data?.error?.message),
+      );
     }
 
     if (!!(error as TimeoutError).txId) {

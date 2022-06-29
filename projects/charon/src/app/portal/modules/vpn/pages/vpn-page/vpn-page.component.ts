@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@ngneat/reactive-forms';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, merge, Subject } from 'rxjs';
 import { combineLatestWith, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -33,6 +33,8 @@ export class VpnPageComponent implements OnInit {
 
   public isConnectedToWireguard: boolean;
 
+  private refreshBalance$: Subject<void> = new Subject();
+
   private refreshAll$: Subject<void> = new Subject();
 
   private refreshSessions$: Subject<void> = new Subject();
@@ -58,7 +60,10 @@ export class VpnPageComponent implements OnInit {
       svgTopup,
     ]);
 
-    this.refreshAll$.pipe(
+    merge(
+      this.refreshAll$,
+      this.refreshBalance$,
+    ).pipe(
       startWith(void 0),
       tap(() => this.balance$.next(undefined)),
       switchMap(() => this.vpnPageService.getBalance()),
@@ -94,6 +99,7 @@ export class VpnPageComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe(() => {
       this.refreshSubscriptions$.next();
+      this.refreshBalance$.next();
     });
   }
 
@@ -102,6 +108,7 @@ export class VpnPageComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe(() => {
       this.refreshSubscriptions$.next();
+      this.refreshBalance$.next();
     });
   }
 
@@ -111,6 +118,7 @@ export class VpnPageComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe(() => {
       this.refreshSessions$.next();
+      this.refreshBalance$.next();
     });
   }
 
@@ -122,6 +130,7 @@ export class VpnPageComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe(() => {
       this.refreshSessions$.next();
+      this.refreshBalance$.next();
     });
   }
 

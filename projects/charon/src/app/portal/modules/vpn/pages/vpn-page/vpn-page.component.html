@@ -100,6 +100,7 @@
 
         <app-node-subscription
           *ngFor="let subscription of node.subscriptions"
+          [subscriptionStatusAt]="subscription.statusAt"
           [subscriptionId]="subscription.id"
           [isConnected]="subscription.sessions.length > 0 && isConnectedToWireguard"
           [isConnectedToWireguard]="isConnectedToWireguard"

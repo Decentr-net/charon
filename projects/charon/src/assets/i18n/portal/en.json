@@ -133,7 +133,8 @@
           "disconnected": "Successfully disconnected",
           "subscription_cancelled": "Subscription has cancelled",
           "tx_broadcasted": "Transaction is successfully broadcasted. It may takes 1-5 minutes. Refresh node's list in some minutes."
-        }
+        },
+        "subscription_from": "Subscription from"
       },
       "subscribe": {
         "actions": {

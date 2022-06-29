@@ -7,10 +7,14 @@
     <div
       class="node-subscription__deposit-amount"
     >
-      <ng-container *ngIf="quota$ | async as quota; else loadingQuota">
+      <div
+        *ngIf="quota$ | async as quota; else loadingQuota"
+        class="node-subscription__deposit-amount-quota"
+        [class.mod-exceeded]="+quota?.consumed >= +quota?.allocated"
+      >
         {{ +(quota?.consumed || 0) | appBytesSize }} /
         {{ +(quota?.allocated || 0) | appBytesSize }}
-      </ng-container>
+      </div>
 
       <ng-template #loadingQuota>
         <ngx-skeleton-loader
@@ -23,6 +27,8 @@
         ></ngx-skeleton-loader>
       </ng-template>
     </div>
+
+    {{ translate('subscription_from') }}: {{ subscriptionStatusAt | date : 'd MMM yyyy, HH:mm' }}
   </div>
 
   <div class="node-subscription__actions">
@@ -47,14 +53,19 @@
         {{ translate('actions.' + (isOpenedInTab ? 'remove_subscription' : 'remove')) }}
       </button>
 
-      <button
-        class="node-subscription__action"
-        app-button
-        [disabled]="isConnectedToWireguard"
-        (click)="onConnect()"
+      <ng-container
+        *ngIf="quota$ | async as quota"
       >
-        {{ translate('actions.connect') }}
-      </button>
+        <button
+          *ngIf="+quota?.consumed < +quota?.allocated"
+          class="node-subscription__action"
+          app-button
+          [disabled]="isConnectedToWireguard"
+          (click)="onConnect()"
+        >
+          {{ translate('actions.connect') }}
+        </button>
+      </ng-container>
     </ng-template>
   </div>
 </ng-container>
