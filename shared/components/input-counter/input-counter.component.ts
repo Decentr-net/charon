@@ -47,22 +47,25 @@ export class InputCounterComponent extends ControlValueAccessor<number> {
   }
 
   public increment(): void {
-    if (this.max) {
-      if (this.value < this.max) {
-        this.value = this.value + this.step;
-        this.emitValue();
-      }
+    const potentialValue = this.value + this.step;
+
+    if (this.max && potentialValue > this.max) {
+      return;
     }
 
-    this.value = this.value + this.step;
+    this.value = potentialValue;
     this.emitValue();
   }
 
   public decrement(): void {
-    if (this.value > this.min) {
-      this.value = +this.value - this.step;
-      this.emitValue();
+    const potentialValue = this.value - this.step;
+
+    if (this.min && potentialValue < this.min) {
+      return;
     }
+
+    this.value = potentialValue;
+    this.emitValue();
   }
 
   public override registerOnChange(fn: (value: (number | null)) => void): void {

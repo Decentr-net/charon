@@ -99,6 +99,7 @@
     >
       <app-node-subscribe
         *ngIf="node.status$ | async as nodeStatus"
+        [maxDeposit]="+(balance$ | async)?.amount"
         [price]="nodeStatus.price"
         (subscribe)="subscribeToNode(node, $event)"
       ></app-node-subscribe>

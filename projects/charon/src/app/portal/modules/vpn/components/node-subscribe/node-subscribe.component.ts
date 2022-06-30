@@ -18,6 +18,8 @@ interface SubscribeForm {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NodeSubscribeComponent implements OnInit {
+  @Input() public maxDeposit: number;
+
   @Input() public price!: Coin;
 
   @Output() public subscribe: EventEmitter<Coin> = new EventEmitter();
