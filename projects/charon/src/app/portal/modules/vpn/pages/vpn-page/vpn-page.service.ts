@@ -1,20 +1,22 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {
+  BehaviorSubject,
   catchError,
   defer,
   EMPTY,
-  forkJoin,
   map,
   mergeMap,
   Observable,
   of,
+  ReplaySubject,
   retry,
+  Subject,
   switchMap,
   tap,
   throwError,
 } from 'rxjs';
-import { combineLatestWith, delay, filter, finalize, startWith } from 'rxjs/operators';
+import { combineLatestWith, delay, filter, finalize, shareReplay, startWith, take } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -35,11 +37,12 @@ import { ConfirmationDialogService } from '@shared/components/confirmation-dialo
 import { WireguardService } from '@shared/services/wireguard';
 import { ONE_SECOND } from '@shared/utils/date';
 import { TranslatedError } from '@core/notifications';
-import { DEFAULT_DENOM, SentinelNodeStatusWithSubscriptions, SentinelService, SpinnerService } from '@core/services';
+import { DEFAULT_DENOM, SentinelNodeStatus, SentinelService, SpinnerService } from '@core/services';
 import { AppRoute } from '../../../../../app-route';
 import { PortalRoute } from '../../../../portal-route';
 import { RECEIVER_WALLET_PARAM } from '../../../assets/pages';
 import { SentinelExtendedSubscription, SentinelNodeExtendedDetails } from './vpn-page.definitions';
+import { InfiniteLoadingService } from '@shared/utils/infinite-loading';
 
 interface AxiosError<T> extends Error {
   response?: {
@@ -56,7 +59,23 @@ interface AxiosErrorObject {
 
 @UntilDestroy()
 @Injectable()
-export class VpnPageService {
+export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedDetails> {
+  private loadingCount: number = 10;
+
+  private allNodes$: ReplaySubject<SentinelNodeExtendedDetails[]> = new ReplaySubject(1);
+
+  private filteredNodes$: Observable<SentinelNodeExtendedDetails[]>;
+
+  public onlySubscribed$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+  public refreshSessions$: Subject<void> = new Subject();
+
+  public refreshSubscriptions$: Subject<void> = new Subject();
+
+  public refreshNodes$: Subject<void> = new Subject();
+
+  private nodeStatusMap: Map<SentinelNodeExtendedDetails['address'], SentinelNodeStatus> = new Map();
+
   constructor(
     @Inject(TRANSLOCO_SCOPE) private translocoScope: string,
     private confirmationDialogService: ConfirmationDialogService,
@@ -68,9 +87,31 @@ export class VpnPageService {
     private translocoService: TranslocoService,
     private wireguardService: WireguardService,
   ) {
+    super();
+
     svgIconRegistry.register([
       svgDelete,
     ]);
+
+    this.refreshNodes$.pipe(
+      startWith(void 0),
+      tap(() => this.allNodes$.next(undefined)),
+      switchMap(() => this.getNodes()),
+      untilDestroyed(this),
+    ).subscribe(this.allNodes$);
+
+    this.filteredNodes$ = this.allNodes$.pipe(
+      filter((nodes) => !!nodes),
+      combineLatestWith(this.onlySubscribed$),
+      map(([allNodes, onlySubscribed]) => allNodes.filter((node) => !onlySubscribed || node.subscriptions.length > 0)),
+    );
+
+    this.filteredNodes$.pipe(
+      untilDestroyed(this),
+    ).subscribe((nodes) => {
+      const length = this.list.value.length;
+      this.list.next(nodes.slice(0, length));
+    });
   }
 
   public checkWireguardConnection(): Promise<boolean> {
@@ -85,16 +126,13 @@ export class VpnPageService {
     );
   }
 
-  public getNodes(updateSources?: {
-    subscriptions?: Observable<void>;
-    sessions?: Observable<void>,
-  }): Observable<SentinelNodeExtendedDetails[]> {
-    const subscriptionSource$ = (updateSources?.subscriptions || EMPTY).pipe(
+  private getNodes(): Observable<SentinelNodeExtendedDetails[]> {
+    const subscriptionSource$ = this.refreshSubscriptions$.pipe(
       startWith(void 0),
       switchMap(() => this.sentinelService.getSubscriptionsForAddress()),
     );
 
-    const sessionsSource$ = (updateSources?.sessions || EMPTY).pipe(
+    const sessionsSource$ = this.refreshSessions$.pipe(
       startWith(void 0),
       switchMap(() => this.sentinelService.getSessionsForAddress()),
     );
@@ -105,25 +143,49 @@ export class VpnPageService {
           return of([]);
         }
 
-        return forkJoin(nodes.map((node) => this.sentinelService.getNodeStatus(node.remoteUrl, node.statusAt))).pipe(
-          map((nodeStatuses) => nodeStatuses.filter((nodeStatus) => !!nodeStatus)),
-          combineLatestWith(subscriptionSource$, sessionsSource$),
-          map(([nodeStatuses, subscriptions, sessions]) => nodeStatuses.map((nodeStatus) => ({
-            ...nodeStatus,
-            sessions: sessions.filter((session) => session.node === nodeStatus.address),
-            subscriptions: subscriptions
-              .filter((subscription) => subscription.node === nodeStatus.address)
-              .map((subscription) => ({
-                ...subscription,
-                sessions: sessions.filter((session) => session.subscription.equals(subscription.id)),
-              })),
-          }))),
+        return subscriptionSource$.pipe(
+          combineLatestWith(sessionsSource$),
+          map(([subscriptions, sessions]) => nodes.map((node) => {
+            const cachedStatus = this.nodeStatusMap.get(node.address);
+
+            return {
+              ...node,
+              sessions: sessions.filter((session) => session.node === node.address),
+              subscriptions: subscriptions
+                .filter((subscription) => subscription.node === node.address)
+                .map((subscription) => ({
+                  ...subscription,
+                  sessions: sessions.filter((session) => session.subscription.equals(subscription.id)),
+                })),
+              status$: cachedStatus ? of(cachedStatus) : this.sentinelService.getNodeStatus(node.remoteUrl, node.statusAt).pipe(
+                tap((status) => this.nodeStatusMap.set(node.address, status)),
+                shareReplay(1),
+              ),
+            };
+          })),
         );
       }),
     );
   }
 
-  public subscribeToNode(node: SentinelNodeStatusWithSubscriptions, deposit: Coin): Observable<void> {
+  public override getNextItems(): Observable<SentinelNodeExtendedDetails[]> {
+    return this.filteredNodes$.pipe(
+      filter((nodes) => !!nodes),
+      take(1),
+      map((allNodes) => {
+        const length = this.list.value.length;
+
+        const nodes = allNodes.slice(length, length + this.loadingCount);
+        if (nodes.length < this.loadingCount) {
+          this.canLoadMore.next(false);
+        }
+
+        return nodes;
+      }),
+    );
+  }
+
+  public subscribeToNode(node: SentinelNodeExtendedDetails, deposit: Coin): Observable<void> {
     this.spinnerService.showSpinner();
 
     return this.sentinelService.subscribeToNode(

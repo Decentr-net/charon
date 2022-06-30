@@ -82,35 +82,47 @@
     </div>
   </div>
 
-  <ng-container *ngIf="nodes$ | async as nodes; else nodesLoading">
-    <app-node-accordion
-      *ngIf="nodes.length > 0; else nodesNoData"
-      class="vpn-page__node-accordion"
-      [nodes]="nodes"
-      [isConnectedToWireguard]="isConnectedToWireguard"
-    >
-      <div
-        class="vpn-page__node-accordion-content"
-        *appNodeAccordionContent="let node"
-      >
-        <app-node-subscribe
-          [price]="node.price"
-          (subscribe)="subscribeToNode(node, $event)"
-        ></app-node-subscribe>
-
-        <app-node-subscription
-          *ngFor="let subscription of node.subscriptions"
-          [subscriptionStatusAt]="subscription.statusAt"
-          [subscriptionId]="subscription.id"
-          [isConnected]="subscription.sessions.length > 0 && isConnectedToWireguard"
-          [isConnectedToWireguard]="isConnectedToWireguard"
-          (cancel)="cancelSubscription(subscription)"
-          (connect)="connect(node, subscription)"
-          (disconnect)="disconnect(subscription)"
-        ></app-node-subscription>
-      </div>
-    </app-node-accordion>
+  <ng-container *ngIf="!nodes.length">
+    <ng-container *ngIf="isLoading$ | async; then nodesLoading; else nodesNoData"></ng-container>
   </ng-container>
+
+  <app-node-accordion
+    *ngIf="nodes.length > 0"
+    class="vpn-page__node-accordion"
+    [nodes]="nodes"
+    [isConnectedToWireguard]="isConnectedToWireguard"
+    appIntersectionArea
+  >
+    <div
+      class="vpn-page__node-accordion-content"
+      *appNodeAccordionContent="let node"
+    >
+      <app-node-subscribe
+        *ngIf="node.status$ | async as nodeStatus"
+        [price]="nodeStatus.price"
+        (subscribe)="subscribeToNode(node, $event)"
+      ></app-node-subscribe>
+
+      <app-node-subscription
+        *ngFor="let subscription of node.subscriptions"
+        [subscriptionStatusAt]="subscription.statusAt"
+        [subscriptionId]="subscription.id"
+        [isConnected]="subscription.sessions.length > 0 && isConnectedToWireguard"
+        [isConnectedToWireguard]="isConnectedToWireguard"
+        (cancel)="cancelSubscription(subscription)"
+        (connect)="connect(node, subscription)"
+        (disconnect)="disconnect(subscription)"
+      ></app-node-subscription>
+    </div>
+  </app-node-accordion>
+
+  <div
+    *ngIf="(isLoading$ | async) === false && (canLoadMore$ | async)"
+    appIntersectionTarget="0.5"
+    (intersect)="loadMore()"
+  >
+    <ng-container [ngTemplateOutlet]="nodesLoading"></ng-container>
+  </div>
 
   <ng-template #balanceLoading>
     <ngx-skeleton-loader

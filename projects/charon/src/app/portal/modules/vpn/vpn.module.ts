@@ -11,6 +11,7 @@ import { ButtonModule } from '@shared/components/button';
 import { ConfirmationDialogModule } from '@shared/components/confirmation-dialog';
 import { InputCounterModule } from '@shared/components/input-counter';
 import { BrowserViewModule } from '@shared/directives/browser-view';
+import { IntersectionModule } from '@shared/directives/intersection';
 import { TypefaceModule } from '@shared/directives/typeface';
 import { BytesSizeModule } from '@shared/pipes/bytes-size';
 import { PriceModule } from '@shared/pipes/price';
@@ -30,6 +31,7 @@ import { VpnRoutingModule } from './vpn-routing.module';
     CommonModule,
     ConfirmationDialogModule,
     InputCounterModule,
+    IntersectionModule,
     MatExpansionModule,
     MatSlideToggleModule,
     NgxSkeletonLoaderModule,

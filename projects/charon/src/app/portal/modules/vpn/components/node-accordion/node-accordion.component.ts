@@ -10,7 +10,6 @@ import {
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { flagsIcons } from '@shared/svg-icons/flags';
-import { SentinelNodeStatusWithSubscriptions } from '@core/services';
 import { NodeAccordionContentDirective } from './node-accordion-content.directive';
 import { SentinelNodeExtendedDetails } from '../../pages/vpn-page/vpn-page.definitions';
 
@@ -28,7 +27,7 @@ export class NodeAccordionComponent implements OnInit {
   @ContentChild(NodeAccordionContentDirective, { read: TemplateRef })
   public contentTemplateRef: TemplateRef<{ node: SentinelNodeExtendedDetails }>;
 
-  public trackByNodeAddress: TrackByFunction<SentinelNodeStatusWithSubscriptions> = ({}, { address }) => address;
+  public trackByNodeAddress: TrackByFunction<SentinelNodeExtendedDetails> = ({}, { address }) => address;
 
   constructor(
     private svgIconRegistry: SvgIconRegistry,

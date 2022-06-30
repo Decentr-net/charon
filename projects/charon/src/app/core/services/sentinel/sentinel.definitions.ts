@@ -1,8 +1,6 @@
 import {
   Coin,
   SentinelNodeStatus as NodeStatus,
-  SentinelSession,
-  SentinelSubscription,
 } from 'decentr-js';
 
 import { Denom } from '@shared/pipes/price/price.definitions';
@@ -14,9 +12,4 @@ export interface SentinelNodeStatus extends Omit<NodeStatus, 'price'> {
   price: Coin;
   remoteUrl: string;
   statusAt: Date;
-}
-
-export interface SentinelNodeStatusWithSubscriptions extends SentinelNodeStatus {
-  sessions: SentinelSession[];
-  subscriptions: SentinelSubscription[];
 }
