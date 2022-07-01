@@ -133,6 +133,7 @@
         "notifications": {
           "connected": "Successfully connected",
           "disconnected": "Successfully disconnected",
+          "not_connected": "Not disconnected. Try again!",
           "subscription_cancelled": "Subscription has cancelled",
           "tx_broadcasted": "Transaction is successfully broadcasted. It may takes 1-5 minutes. Refresh node's list in some minutes."
         },

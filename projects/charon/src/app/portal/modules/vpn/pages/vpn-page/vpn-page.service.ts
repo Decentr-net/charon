@@ -247,7 +247,7 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
     return defer(() => this.wireguardService.disconnect()).pipe(
       map((response) => {
         if (!response.result) {
-          throw new TranslatedError('Not disconnected. Try again!');
+          throw new TranslatedError(this.translate('vpn_page.nodes_expansion.connect.notifications.not_connected'));
         }
       }),
       delay(5000),
