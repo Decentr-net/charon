@@ -8,12 +8,9 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core';
-import { ButtonModule } from '@shared/components/button';
-import { TypefaceModule } from '@shared/directives/typeface';
 
 @NgModule({
   imports: [
-    ButtonModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
@@ -21,7 +18,6 @@ import { TypefaceModule } from '@shared/directives/typeface';
     HttpClientModule,
     SvgIconsModule,
     TranslocoModule,
-    TypefaceModule,
   ],
   declarations: [
     AppComponent,

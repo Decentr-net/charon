@@ -28,10 +28,5 @@
     &__message {
       @include typeface-paragraph;
     }
-
-    &__disconnect-wireguard {
-      bottom: $grid-step * 2;
-      position: absolute;
-    }
   }
 }
