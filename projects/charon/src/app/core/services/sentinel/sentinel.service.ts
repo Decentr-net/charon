@@ -3,9 +3,10 @@ import { defer, forkJoin, Observable, of, ReplaySubject, switchMap } from 'rxjs'
 import { catchError, combineLatestWith, filter, first, map, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
-  AddSessionResponse,
-  Coin, Decimal,
-  EndSessionRequest, Price,
+  Coin,
+  Decimal,
+  EndSessionRequest,
+  Price,
   SentinelClient,
   SentinelDeposit,
   SentinelNode,
@@ -13,6 +14,7 @@ import {
   SentinelSession,
   SentinelStatus,
   SentinelSubscription,
+  SessionConnectInfo,
   transformWalletAddress,
   WalletPrefix,
 } from 'decentr-js';
@@ -97,6 +99,7 @@ export class SentinelService {
           .filter((node) => !filterLists.whiteList.length || filterLists.whiteList.includes(node.address))
           .filter((node) => !denom || node.price.some((coin) => coin.denom === denom));
       }),
+      // TODO: remove
       tap((nodes) => console.log('nodes', nodes)),
     );
   }
@@ -107,6 +110,7 @@ export class SentinelService {
         status: SentinelStatus.STATUS_ACTIVE,
         address: this.sentinelWalletAddress,
       })),
+      // TODO: remove
       tap((subscriptions) => console.log('subscriptions', subscriptions)),
     );
   }
@@ -147,7 +151,7 @@ export class SentinelService {
     );
   }
 
-  public addSession(nodeUrl: string, sessionId: Long): Observable<AddSessionResponse> {
+  public addSession(nodeUrl: string, sessionId: Long): Observable<SessionConnectInfo> {
     return this.sentinelClient.pipe(
       switchMap((client) => client.session.addSession(httpUrl(nodeUrl), sessionId)),
     );

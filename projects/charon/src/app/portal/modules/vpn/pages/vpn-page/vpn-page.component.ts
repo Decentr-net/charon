@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@ngneat/reactive-forms';
-import { BehaviorSubject, merge, Subject } from 'rxjs';
+import { BehaviorSubject, forkJoin, merge, Subject } from 'rxjs';
 import { combineLatestWith, finalize, startWith, switchMap, tap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -34,6 +34,8 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
 
   public isVpnMaintenance: boolean;
 
+  public isWgInstalled: boolean;
+
   public nodes: SentinelNodeExtendedDetails[];
 
   private refreshBalance$: Subject<void> = new Subject();
@@ -60,13 +62,25 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
       svgTopup,
     ]);
 
-    this.vpnPageService.getVpnMaintenance().pipe(
+    forkJoin([
+      this.vpnPageService.getVpnMaintenance(),
+      this.vpnPageService.isWgInstalled(),
+    ]).pipe(
       untilDestroyed(this),
-    ).subscribe((isVpnMaintenance) => {
+    ).subscribe(([isVpnMaintenance, isWgInstalled]) => {
       this.isVpnMaintenance = isVpnMaintenance;
+      this.isWgInstalled = isWgInstalled;
+
+      if (!isVpnMaintenance && isWgInstalled) {
+        this.initVpnPage();
+      }
 
       this.changeDetectorRef.markForCheck();
     });
+  }
+
+  private initVpnPage(): void {
+    this.vpnPageService.init();
 
     merge(
       this.refreshAll$,

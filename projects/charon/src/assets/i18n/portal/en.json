@@ -110,6 +110,7 @@
       "show_only_subscribed": "Show only subscribed"
     },
     "maintenance": "The VPN is temporarily unavailable due to maintenance.",
+    "wg_not_installed": "Wireguard is not installed. Please follow the <a href='https://www.wireguard.com/install/' target='_blank'>link</a> and install Wireguard-tools.",
     "nodes_expansion": {
       "address": "Address",
       "download_speed": "Download speed",

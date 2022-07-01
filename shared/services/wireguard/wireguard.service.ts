@@ -7,6 +7,8 @@ import {
   ConnectParamsRequest,
   DisconnectMessage,
   DisconnectMessageResponse,
+  IsWgInstalledMessage,
+  IsWgInstalledResponse,
   Message,
   MessageType,
   StatusMessage,
@@ -27,8 +29,8 @@ interface WireguardMessageMap extends MessageMap {
 export class WireguardService {
   private messageBus = new MessageBus<WireguardMessageMap>();
 
-  private sendMessage<T>(appId: string, message: Message): Promise<T> {
-    return Browser.runtime.sendNativeMessage(appId, message);
+  private sendMessage<T>(message: Message): Promise<T> {
+    return Browser.runtime.sendNativeMessage(HOST_APP_WIREGUARD, message);
   }
 
   public async connect(params: ConnectParamsRequest): Promise<ConnectMessageResponse> {
@@ -37,7 +39,7 @@ export class WireguardService {
       params,
     };
 
-    const response = await this.sendMessage<ConnectMessageResponse>(HOST_APP_WIREGUARD, request);
+    const response = await this.sendMessage<ConnectMessageResponse>(request);
     const status = await this.status();
     await this.messageBus.sendMessage(WIREGUARD_STATUS_CHANGED, status.result);
 
@@ -53,7 +55,7 @@ export class WireguardService {
       type: MessageType.DISCONNECT,
     };
 
-    const response = await this.sendMessage<DisconnectMessageResponse>(HOST_APP_WIREGUARD, request);
+    const response = await this.sendMessage<DisconnectMessageResponse>(request);
     const status = await this.status();
     await this.messageBus.sendMessage(WIREGUARD_STATUS_CHANGED, status.result);
 
@@ -68,11 +70,22 @@ export class WireguardService {
       type: MessageType.STATUS,
     };
 
-    return this.sendMessage<StatusMessageResponse>(HOST_APP_WIREGUARD, request).then((response) => {
+    return this.sendMessage<StatusMessageResponse>(request).then((response) => {
       console.log('Status response: ', response);
 
       return response;
     });
+  }
+
+  public isWgInstalled(): Promise<IsWgInstalledResponse> {
+    const request: IsWgInstalledMessage = {
+      type: MessageType.IS_WG_INSTALLED,
+    };
+
+    // TODO: remove
+    return Promise.resolve(({ result: true }) as IsWgInstalledResponse);
+
+    return this.sendMessage<IsWgInstalledResponse>(request);
   }
 
   public onStatusChanges(): Observable<boolean> {

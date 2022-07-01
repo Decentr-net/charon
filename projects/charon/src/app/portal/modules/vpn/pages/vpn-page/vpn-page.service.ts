@@ -23,6 +23,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import Long from 'long';
 import {
   BroadcastClientError,
+  BroadcastUnknownError,
   Coin,
   SentinelNode,
   SentinelSession,
@@ -94,7 +95,9 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
     svgIconRegistry.register([
       svgDelete,
     ]);
+  }
 
+  public init(): void {
     this.refreshNodes$.pipe(
       startWith(void 0),
       tap(() => this.allNodes$.next(undefined)),
@@ -123,6 +126,10 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
 
   public checkWireguardConnection(): Promise<boolean> {
     return this.wireguardService.status().then((response) => response.result);
+  }
+
+  public isWgInstalled(): Promise<boolean> {
+    return this.wireguardService.isWgInstalled().then((response) => response.result);
   }
 
   public getBalance(): Observable<Coin> {
@@ -384,9 +391,15 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
     return this.confirmationDialogService.open(config).afterClosed();
   }
 
-  private handleTransactionError(error: BroadcastClientError | TimeoutError | AxiosError<AxiosErrorObject> | Error): void {
+  private handleTransactionError(
+    error: BroadcastClientError | BroadcastUnknownError | TimeoutError | AxiosError<AxiosErrorObject> | Error,
+  ): void {
     if ((error as BroadcastClientError).broadcastErrorCode) {
-      return this.notificationService.error(new TranslatedError(error.message));
+      return this.notificationService.error(new TranslatedError((error as BroadcastClientError).message));
+    }
+
+    if ((error as BroadcastUnknownError).log) {
+      return this.notificationService.error(new TranslatedError((error as BroadcastUnknownError).log));
     }
 
     if ((error as AxiosError<AxiosErrorObject>).response?.data?.error?.code) {

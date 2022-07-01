@@ -1,6 +1,7 @@
 export enum MessageType {
   CONNECT = 'connect',
   DISCONNECT = 'disconnect',
+  IS_WG_INSTALLED = 'isWgInstalled',
   STATUS = 'status',
 }
 
@@ -36,7 +37,11 @@ export interface StatusMessage {
   type: MessageType.STATUS;
 }
 
-export type Message = ConnectMessage | DisconnectMessage | StatusMessage;
+export interface IsWgInstalledMessage {
+  type: MessageType.IS_WG_INSTALLED;
+}
+
+export type Message = ConnectMessage | DisconnectMessage | StatusMessage | IsWgInstalledMessage;
 
 export type MessageResponse<T> = {
   result: boolean;
@@ -48,3 +53,5 @@ export type ConnectMessageResponse = MessageResponse<StatusResponse>;
 export type DisconnectMessageResponse = MessageResponse<void>;
 
 export type StatusMessageResponse = MessageResponse<StatusResponse>;
+
+export type IsWgInstalledResponse = MessageResponse<void>;
