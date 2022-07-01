@@ -300,14 +300,6 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
       catchError((error) => {
         console.log('sessionSource$', error);
 
-        // const isQuotaExceeded = error.response?.data?.error?.code === 10;
-
-        // if (isQuotaExceeded) {
-          // message: "quota exceeded; allocated 20000000, consumed 21240000"
-          // this.handleTransactionError(error);
-        // }
-
-        // TODO: add code === 2
         const isPeerExistsError = error.response?.data?.error?.code === 6;
         const sessionNotFound = error.response?.status === 404;
 
@@ -329,7 +321,7 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
       delay(5000),
       // take(1),
       catchError((error) => {
-        this.notificationService.error(error);
+        this.handleTransactionError(error);
         return EMPTY;
       }),
       tap(() => {
