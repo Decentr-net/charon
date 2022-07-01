@@ -121,12 +121,7 @@ export class ConfigService {
 
   public getVpnUrl(listen = false): Observable<string> {
     return this.getConfig().pipe(
-      // map((config) => config.vpn.url),
-      // TODO: add to config.json
-      // map(() => 'https://rpc.sentinel.badgerbite.xyz:443/'),
-      // map(() => 'https://rpc-sentinel.dvpn.solar:443/'),
-      map(() => 'https://rpc.sentinel1.badgerbite.xyz:443'),
-      // map(() => 'https://rpc.sentinel.co:443/'),
+      map((config) => config.vpn.url),
       distinctUntilChanged(),
       this.listenConfigOperator(listen),
     );

@@ -89,6 +89,7 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
     ).subscribe(() => {
       this.vpnPageService.refreshNodes$.next();
       this.vpnPageService.reload();
+      this.updateWireguardConnection();
     });
 
     this.refreshAll$.pipe(

@@ -96,6 +96,7 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
     this.refreshNodes$.pipe(
       startWith(void 0),
       tap(() => this.allNodes$.next(undefined)),
+      tap(() => this.nodeStatusMap.clear()),
       switchMap(() => this.getNodes()),
       untilDestroyed(this),
     ).subscribe(this.allNodes$);
@@ -210,6 +211,7 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
   public cancelSubscription(subscriptionId: Long): Observable<void> {
     return this.askCancelSubscriptionConfirmation().pipe(
       filter((confirmed: boolean) => confirmed),
+      tap(v => console.log('cancel sub', v, subscriptionId)),
       tap(() => this.spinnerService.showSpinner()),
       mergeMap(() => this.sentinelService.cancelSubscription(subscriptionId)),
       catchError((error) => {
