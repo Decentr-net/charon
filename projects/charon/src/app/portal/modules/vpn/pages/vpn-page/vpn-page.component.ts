@@ -32,6 +32,8 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
 
   public isConnectedToWireguard: boolean;
 
+  public isVpnMaintenance: boolean;
+
   public nodes: SentinelNodeExtendedDetails[];
 
   private refreshBalance$: Subject<void> = new Subject();
@@ -57,6 +59,14 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
       svgReload,
       svgTopup,
     ]);
+
+    this.vpnPageService.getVpnMaintenance().pipe(
+      untilDestroyed(this),
+    ).subscribe((isVpnMaintenance) => {
+      this.isVpnMaintenance = isVpnMaintenance;
+
+      this.changeDetectorRef.markForCheck();
+    });
 
     merge(
       this.refreshAll$,

@@ -127,6 +127,13 @@ export class ConfigService {
     );
   }
 
+  public getVpnMaintenance(listen = false): Observable<boolean> {
+    return this.getConfig().pipe(
+      map((config) => !config.vpn.enabled),
+      this.listenConfigOperator(listen),
+    );
+  }
+
   public getVpnFilterLists(listen = false): Observable<Pick<Config['vpn'], 'blackList' | 'whiteList'>> {
     return this.getConfig().pipe(
       map((config) => ({

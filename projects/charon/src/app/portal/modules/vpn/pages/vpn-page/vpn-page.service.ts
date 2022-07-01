@@ -33,6 +33,7 @@ import {
 import { findCoinByDenom, priceFromString } from '@shared/utils/price';
 import { NotificationService } from '@shared/services/notification';
 import { svgDelete } from '@shared/svg-icons/delete';
+import { ConfigService } from '@shared/services/configuration';
 import { ConfirmationDialogService } from '@shared/components/confirmation-dialog';
 import { WireguardService } from '@shared/services/wireguard';
 import { ONE_SECOND } from '@shared/utils/date';
@@ -78,6 +79,7 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
 
   constructor(
     @Inject(TRANSLOCO_SCOPE) private translocoScope: string,
+    private configService: ConfigService,
     private confirmationDialogService: ConfirmationDialogService,
     private notificationService: NotificationService,
     private router: Router,
@@ -113,6 +115,10 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
       const length = this.list.value.length;
       this.list.next(nodes.slice(0, length));
     });
+  }
+
+  public getVpnMaintenance(): Observable<boolean> {
+    return this.configService.getVpnMaintenance();
   }
 
   public checkWireguardConnection(): Promise<boolean> {

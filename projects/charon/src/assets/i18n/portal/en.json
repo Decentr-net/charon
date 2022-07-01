@@ -109,6 +109,7 @@
     "toggle": {
       "show_only_subscribed": "Show only subscribed"
     },
+    "maintenance": "The VPN is temporarily unavailable due to maintenance.",
     "nodes_expansion": {
       "address": "Address",
       "download_speed": "Download speed",
