@@ -6,6 +6,7 @@ import {
   defer,
   EMPTY,
   map,
+  merge,
   mergeMap,
   Observable,
   of,
@@ -76,6 +77,8 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
 
   public refreshNodes$: Subject<void> = new Subject();
 
+  public refreshStatus$: Subject<void> = new Subject();
+
   private nodeStatusMap: Map<SentinelNodeExtendedDetails['address'], SentinelNodeStatus> = new Map();
 
   constructor(
@@ -98,6 +101,10 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
   }
 
   public init(): void {
+    this.updateStatus().pipe(
+      untilDestroyed(this),
+    ).subscribe();
+
     this.refreshNodes$.pipe(
       startWith(void 0),
       tap(() => this.allNodes$.next(undefined)),
@@ -124,9 +131,42 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
     return this.configService.getVpnMaintenance();
   }
 
-  public checkWireguardConnection(): Promise<boolean> {
-    return this.wireguardService.status().then((response) => response.result);
+  public refreshStatus(): void {
+    this.refreshStatus$.next();
   }
+
+  public checkWireguardConnection(): Observable<boolean> {
+    return merge(
+      this.onPageVisible(),
+      this.refreshStatus$,
+    ).pipe(
+      startWith(undefined),
+      mergeMap(() => this.wireguardService.status()),
+      map((response) => response.result),
+    );
+  }
+
+  public updateStatus(): Observable<void> {
+    return this.onPageVisible().pipe(
+      mergeMap(() => this.wireguardService.notifyStatusChanged()),
+    );
+  }
+
+  private onPageVisible = (): Observable<void> => {
+    return new Observable((subscriber) => {
+      const listener = () => {
+        const visible = document.visibilityState === 'visible';
+
+        if (visible) {
+          subscriber.next();
+        }
+      };
+
+      window.addEventListener('visibilitychange', listener);
+
+      return () => window.removeEventListener('visibilitychange', listener);
+    });
+  };
 
   public isWgInstalled(): Promise<boolean> {
     return this.wireguardService.isWgInstalled()

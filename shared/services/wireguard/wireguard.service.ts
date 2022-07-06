@@ -1,5 +1,5 @@
 import Browser from 'webextension-polyfill';
-import { map } from 'rxjs/operators';
+import { map, mergeMap, startWith } from 'rxjs/operators';
 
 import {
   ConnectMessage,
@@ -22,7 +22,7 @@ const WIREGUARD_STATUS_CHANGED = 'WIREGUARD_STATUS_CHANGED';
 
 interface WireguardMessageMap extends MessageMap {
   WIREGUARD_STATUS_CHANGED: {
-    body: boolean;
+    body: void;
   };
 }
 
@@ -40,8 +40,7 @@ export class WireguardService {
     };
 
     const response = await this.sendMessage<ConnectMessageResponse>(request);
-    const status = await this.status();
-    await this.messageBus.sendMessage(WIREGUARD_STATUS_CHANGED, status.result);
+    await this.notifyStatusChanged();
 
     return response;
   }
@@ -52,8 +51,7 @@ export class WireguardService {
     };
 
     const response = await this.sendMessage<DisconnectMessageResponse>(request);
-    const status = await this.status();
-    await this.messageBus.sendMessage(WIREGUARD_STATUS_CHANGED, status.result);
+    await this.notifyStatusChanged();
 
     return response;
   }
@@ -74,9 +72,15 @@ export class WireguardService {
     return this.sendMessage<IsWgInstalledResponse>(request);
   }
 
+  public notifyStatusChanged(): Promise<void> {
+    return this.messageBus.sendMessage(WIREGUARD_STATUS_CHANGED).then(() => undefined);
+  }
+
   public onStatusChanges(): Observable<boolean> {
     return this.messageBus.onMessageSync(WIREGUARD_STATUS_CHANGED).pipe(
-      map((message) => message.body),
+      startWith(null),
+      mergeMap(() => this.status()),
+      map((response) => response.result),
     );
   }
 }

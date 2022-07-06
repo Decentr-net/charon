@@ -53,17 +53,19 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
     super(vpnPageService);
   }
 
-  private async updateWireguardConnection(): Promise<void> {
-    this.isConnectedToWireguard = await this.vpnPageService.checkWireguardConnection();
-
-    this.changeDetectorRef.markForCheck();
-  }
-
   public ngOnInit(): void {
     this.svgIconRegistry.register([
       svgReload,
       svgTopup,
     ]);
+
+    this.vpnPageService.checkWireguardConnection().pipe(
+      untilDestroyed(this),
+    ).subscribe((status) => {
+      this.isConnectedToWireguard = status;
+
+      this.changeDetectorRef.markForCheck();
+    });
 
     forkJoin([
       this.vpnPageService.getVpnMaintenance(),
@@ -116,15 +118,14 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
     ).subscribe(() => {
       this.vpnPageService.refreshNodes$.next();
       this.vpnPageService.reload();
-      this.updateWireguardConnection();
+      this.vpnPageService.refreshStatus();
     });
 
     this.refreshAll$.pipe(
       combineLatestWith(this.vpnPageService.refreshSessions$),
       startWith(void 0),
-      switchMap(() => this.updateWireguardConnection()),
       untilDestroyed(this),
-    ).subscribe();
+    ).subscribe(() => this.vpnPageService.refreshStatus());
   }
 
   public subscribeToNode(node: SentinelNodeExtendedDetails, deposit: Coin): void {
@@ -147,7 +148,7 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
 
   public connect(node: SentinelNodeExtendedDetails, subscription: SentinelExtendedSubscription): void {
     this.vpnPageService.connect(node, subscription).pipe(
-      finalize(() => this.updateWireguardConnection()),
+      finalize(() => this.vpnPageService.refreshStatus()),
       untilDestroyed(this),
     ).subscribe(() => {
       this.vpnPageService.refreshSessions$.next();
@@ -159,7 +160,7 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
     const sessionIds = subscription?.sessions.map(({ id }) => id) || [];
 
     this.vpnPageService.disconnect(sessionIds).pipe(
-      finalize(() => this.updateWireguardConnection()),
+      finalize(() => this.vpnPageService.refreshStatus()),
       untilDestroyed(this),
     ).subscribe(() => {
       this.vpnPageService.refreshSessions$.next();

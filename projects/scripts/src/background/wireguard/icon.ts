@@ -1,4 +1,3 @@
-import { merge } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import Browser from 'webextension-polyfill';
 
@@ -25,10 +24,7 @@ const setExtensionIcon = (icons: IconsConfig): Promise<void> => {
 };
 
 export const initApplicationIconChanger = (): void => {
-  merge(
-    wireguardService.onStatusChanges(),
-    wireguardService.status().then((response) => response.result),
-  ).pipe(
+  wireguardService.onStatusChanges().pipe(
     mergeMap((isEnabled) => {
       return setExtensionIcon(isEnabled ? WIREGUARD_ENABLED_ICONS_CONFIG : WIREGUARD_DISABLED_ICONS_CONFIG);
     }),
