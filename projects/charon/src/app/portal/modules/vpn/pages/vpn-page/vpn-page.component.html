@@ -12,14 +12,20 @@
         {{ translate('title') }}
       </span>
 
-          <div *ngIf="balance$ | async as balance; else balanceLoading">
+          <div
+            *ngIf="balance$ | async as balance; else balanceLoading"
+          >
             <ng-container *appBrowserTabView>
               {{ translate('balance') }}:
             </ng-container>
 
-            <span [appTypeface]="isOpenedInTab ? 'paragraph' : 'caption'">
-          {{ balance | appPrice }}
-        </span>
+            <span
+              class="vpn-page__header-balance"
+              [class.mod-empty]="+balance.amount === 0"
+              [appTypeface]="isOpenedInTab ? 'paragraph' : 'caption'"
+            >
+              {{ balance | appPrice }}
+            </span>
           </div>
 
           <button
@@ -77,8 +83,8 @@
 
           <button
             *ngIf="isConnectedToWireguard"
+            class="vpn-page__header-disconnect mod-red"
             app-button
-            color="negative"
             (click)="disconnect()"
           >
             {{ translate('disconnect') }}
@@ -166,6 +172,16 @@
   </ng-template>
 
   <ng-template #wgNotInstalled>
-    <div class="vpn-page__wg-not-installed" [innerHTML]="translate('wg_not_installed')"></div>
+    <div class="vpn-page__wg-not-installed">
+      <ng-container *ngIf="detectOs === 'mac'">
+        {{ translate('wg_not_installed.mac') }}
+
+        <img src="assets/images/install-browser-mac.gif" alt="Install Decentr Browser">
+      </ng-container>
+
+      <ng-container *ngIf="detectOs !== 'mac'">
+        {{ translate('wg_not_installed.common') }}
+      </ng-container>
+    </div>
   </ng-template>
 </div>

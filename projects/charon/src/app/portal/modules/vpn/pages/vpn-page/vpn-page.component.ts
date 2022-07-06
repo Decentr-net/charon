@@ -9,6 +9,7 @@ import { Coin } from 'decentr-js';
 import { svgReload } from '@shared/svg-icons/reload';
 import { svgTopup } from '@shared/svg-icons/topup';
 import { isOpenedInTab } from '@shared/utils/browser';
+import { detectOs } from '@shared/utils/os';
 import { InfiniteLoadingPresenter } from '@shared/utils/infinite-loading';
 import { SentinelExtendedSubscription, SentinelNodeExtendedDetails } from './vpn-page.definitions';
 import { VpnPageService } from './vpn-page.service';
@@ -24,6 +25,8 @@ import { VpnPageService } from './vpn-page.service';
   ],
 })
 export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExtendedDetails> implements OnInit {
+  public detectOs = detectOs();
+
   public isOpenedInTab = isOpenedInTab();
 
   public onlySubscribedControl: FormControl<boolean> = new FormControl(this.vpnPageService.onlySubscribed$.value);

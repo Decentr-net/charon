@@ -1,5 +1,5 @@
 import { merge } from 'rxjs';
-import { mergeMap, tap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 import Browser from 'webextension-polyfill';
 
 import { WireguardService } from '@shared/services/wireguard';
@@ -26,14 +26,10 @@ const setExtensionIcon = (icons: IconsConfig): Promise<void> => {
 
 export const initApplicationIconChanger = (): void => {
   merge(
-    wireguardService.onStatusChanges().pipe(tap((r) => console.log('init: on status changes', r))),
-    wireguardService.status().then((response) => {
-      console.log('init: status', response.result);
-      return response.result;
-    }),
+    wireguardService.onStatusChanges(),
+    wireguardService.status().then((response) => response.result),
   ).pipe(
     mergeMap((isEnabled) => {
-      console.log('init: isEnabled', isEnabled);
       return setExtensionIcon(isEnabled ? WIREGUARD_ENABLED_ICONS_CONFIG : WIREGUARD_DISABLED_ICONS_CONFIG);
     }),
   ).subscribe();

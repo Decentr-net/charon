@@ -129,7 +129,9 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
   }
 
   public isWgInstalled(): Promise<boolean> {
-    return this.wireguardService.isWgInstalled().then((response) => response.result);
+    return this.wireguardService.isWgInstalled()
+      .then((response) => response.result)
+      .catch(() => false);
   }
 
   public getBalance(): Observable<Coin> {
@@ -224,7 +226,6 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
   public cancelSubscription(subscriptionId: Long): Observable<void> {
     return this.askCancelSubscriptionConfirmation().pipe(
       filter((confirmed: boolean) => confirmed),
-      tap(v => console.log('cancel sub', v, subscriptionId)),
       tap(() => this.spinnerService.showSpinner()),
       mergeMap(() => this.sentinelService.cancelSubscription(subscriptionId)),
       catchError((error) => {
@@ -247,13 +248,12 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
     return defer(() => this.wireguardService.disconnect()).pipe(
       map((response) => {
         if (!response.result) {
-          throw new TranslatedError(this.translate('vpn_page.nodes_expansion.connect.notifications.not_connected'));
+          throw new TranslatedError(this.translate('vpn_page.nodes_expansion.connect.notifications.not_disconnected'));
         }
       }),
       delay(5000),
       // observable navigator.online
       mergeMap(() => this.sentinelService.endSession(sessionIds).pipe(
-        // TODO: check
         retry({
           count: 3,
           delay: ONE_SECOND,
@@ -298,8 +298,6 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
         })),
       )),
       catchError((error) => {
-        console.log('sessionSource$', error);
-
         const isPeerExistsError = error.response?.data?.error?.code === 6;
         const sessionNotFound = error.response?.status === 404;
 
@@ -315,7 +313,7 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
       mergeMap((connectionParams) => this.wireguardService.connect(connectionParams)),
       map((response) => {
         if (!response.result) {
-          throw new TranslatedError('Not connected. Try again!');
+          throw new TranslatedError(this.translate('vpn_page.nodes_expansion.connect.notifications.not_connected'));
         }
       }),
       delay(5000),

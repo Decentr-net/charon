@@ -99,8 +99,6 @@ export class SentinelService {
           .filter((node) => !filterLists.whiteList.length || filterLists.whiteList.includes(node.address))
           .filter((node) => !denom || node.price.some((coin) => coin.denom === denom));
       }),
-      // TODO: remove
-      tap((nodes) => console.log('nodes', nodes)),
     );
   }
 
@@ -110,8 +108,6 @@ export class SentinelService {
         status: SentinelStatus.STATUS_ACTIVE,
         address: this.sentinelWalletAddress,
       })),
-      // TODO: remove
-      tap((subscriptions) => console.log('subscriptions', subscriptions)),
     );
   }
 

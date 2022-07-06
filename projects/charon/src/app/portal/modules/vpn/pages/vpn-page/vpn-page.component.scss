@@ -46,15 +46,21 @@
 }
 
 .vpn-page__header-balance {
-  align-items: center;
-  column-gap: $grid-step;
-  display: flex;
+  &.mod-empty {
+    color: var(--color-dportal-vpn-balance-amount);
+  }
 }
 
 .vpn-page__header-vertical-divider {
   background-color: var(--color-outlines);
   height: 24px;
   width: 2px;
+}
+
+.vpn-page__header-disconnect {
+  &.mod-red {
+    background-color: var(--color-dportal-vpn-node-details-disconnect-background);
+  }
 }
 
 .vpn-page__node-accordion {
@@ -96,7 +102,10 @@
 }
 
 .vpn-page__wg-not-installed {
-  display: block;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: $grid-step * 2;
-  text-align: center;
+  row-gap: $grid-step * 2;
 }

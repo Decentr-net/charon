@@ -43,10 +43,6 @@ export class WireguardService {
     const status = await this.status();
     await this.messageBus.sendMessage(WIREGUARD_STATUS_CHANGED, status.result);
 
-    console.log(params);
-    console.log('status', status.result);
-    console.log('Connect response', response);
-
     return response;
   }
 
@@ -59,9 +55,6 @@ export class WireguardService {
     const status = await this.status();
     await this.messageBus.sendMessage(WIREGUARD_STATUS_CHANGED, status.result);
 
-    console.log('disconnect status', status.result);
-    console.log('Disconnect response', response);
-
     return response;
   }
 
@@ -70,20 +63,13 @@ export class WireguardService {
       type: MessageType.STATUS,
     };
 
-    return this.sendMessage<StatusMessageResponse>(request).then((response) => {
-      console.log('Status response: ', response);
-
-      return response;
-    });
+    return this.sendMessage<StatusMessageResponse>(request);
   }
 
   public isWgInstalled(): Promise<IsWgInstalledResponse> {
     const request: IsWgInstalledMessage = {
       type: MessageType.IS_WG_INSTALLED,
     };
-
-    // TODO: remove
-    return Promise.resolve(({ result: true }) as IsWgInstalledResponse);
 
     return this.sendMessage<IsWgInstalledResponse>(request);
   }
