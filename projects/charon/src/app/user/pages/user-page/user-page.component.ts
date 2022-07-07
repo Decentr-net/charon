@@ -61,7 +61,6 @@ export class UserPageComponent implements OnInit {
 
     this.showReferral$ = this.networkService.getActiveNetworkId().pipe(
       map((networkId) => networkId === NetworkId.Mainnet),
-      map(() => false),
     );
   }
 
