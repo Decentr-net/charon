@@ -39,13 +39,14 @@ import { ConfigService } from '@shared/services/configuration';
 import { ConfirmationDialogService } from '@shared/components/confirmation-dialog';
 import { WireguardService } from '@shared/services/wireguard';
 import { ONE_SECOND } from '@shared/utils/date';
+import { observeDocumentVisibility } from '@shared/utils/html';
+import { InfiniteLoadingService } from '@shared/utils/infinite-loading';
 import { TranslatedError } from '@core/notifications';
 import { DEFAULT_DENOM, SentinelNodeStatus, SentinelService, SpinnerService } from '@core/services';
 import { AppRoute } from '../../../../../app-route';
 import { PortalRoute } from '../../../../portal-route';
 import { RECEIVER_WALLET_PARAM } from '../../../assets/pages';
 import { SentinelExtendedSubscription, SentinelNodeExtendedDetails } from './vpn-page.definitions';
-import { InfiniteLoadingService } from '@shared/utils/infinite-loading';
 
 interface AxiosError<T> extends Error {
   response?: {
@@ -63,21 +64,21 @@ interface AxiosErrorObject {
 @UntilDestroy()
 @Injectable()
 export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedDetails> {
+  public onlySubscribed$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
   private loadingCount: number = 10;
 
   private allNodes$: ReplaySubject<SentinelNodeExtendedDetails[]> = new ReplaySubject(1);
 
   private filteredNodes$: Observable<SentinelNodeExtendedDetails[]>;
 
-  public onlySubscribed$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private refreshSessions$: Subject<void> = new Subject();
 
-  public refreshSessions$: Subject<void> = new Subject();
+  private refreshSubscriptions$: Subject<void> = new Subject();
 
-  public refreshSubscriptions$: Subject<void> = new Subject();
+  private refreshNodes$: Subject<void> = new Subject();
 
-  public refreshNodes$: Subject<void> = new Subject();
-
-  public refreshStatus$: Subject<void> = new Subject();
+  private refreshStatus$: Subject<void> = new Subject();
 
   private nodeStatusMap: Map<SentinelNodeExtendedDetails['address'], SentinelNodeStatus> = new Map();
 
@@ -101,9 +102,7 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
   }
 
   public init(): void {
-    this.updateStatus().pipe(
-      untilDestroyed(this),
-    ).subscribe();
+    this.initOnPageVisibleNotifier();
 
     this.refreshNodes$.pipe(
       startWith(void 0),
@@ -125,14 +124,21 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
       const length = this.list.value.length;
       this.list.next(nodes.slice(0, length));
     });
+
+    this.onlySubscribed$.pipe(
+      untilDestroyed(this),
+    ).subscribe(() => super.reload());
+  }
+
+  public override reload() {
+    this.refreshStatus$.next();
+    this.refreshNodes$.next();
+
+    super.reload();
   }
 
   public getVpnMaintenance(): Observable<boolean> {
     return this.configService.getVpnMaintenance();
-  }
-
-  public refreshStatus(): void {
-    this.refreshStatus$.next();
   }
 
   public checkWireguardConnection(): Observable<boolean> {
@@ -145,28 +151,6 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
       map((response) => response.result),
     );
   }
-
-  public updateStatus(): Observable<void> {
-    return this.onPageVisible().pipe(
-      mergeMap(() => this.wireguardService.notifyStatusChanged()),
-    );
-  }
-
-  private onPageVisible = (): Observable<void> => {
-    return new Observable((subscriber) => {
-      const listener = () => {
-        const visible = document.visibilityState === 'visible';
-
-        if (visible) {
-          subscriber.next();
-        }
-      };
-
-      window.addEventListener('visibilitychange', listener);
-
-      return () => window.removeEventListener('visibilitychange', listener);
-    });
-  };
 
   public isWgInstalled(): Promise<boolean> {
     return this.wireguardService.isWgInstalled()
@@ -181,6 +165,19 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
       }),
     );
   }
+
+  private initOnPageVisibleNotifier(): void {
+    this.onPageVisible().pipe(
+      mergeMap(() => this.wireguardService.notifyStatusChanged()),
+    ).subscribe();
+  }
+
+  private onPageVisible = (): Observable<void> => {
+    return observeDocumentVisibility().pipe(
+      filter((visible) => visible),
+      map(() => void 0),
+    );
+  };
 
   private getNodes(): Observable<SentinelNodeExtendedDetails[]> {
     const subscriptionSource$ = this.refreshSubscriptions$.pipe(
@@ -258,6 +255,8 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
         this.notificationService.success(
           this.translate('vpn_page.nodes_expansion.subscribe.notifications.subscribed'),
         );
+
+        this.refreshSubscriptions$.next();
       }),
       finalize(() => this.spinnerService.hideSpinner()),
     );
@@ -277,6 +276,8 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
         this.notificationService.success(
           this.translate('vpn_page.nodes_expansion.connect.notifications.subscription_cancelled'),
         );
+
+        this.refreshSubscriptions$.next();
       }),
       finalize(() => this.spinnerService.hideSpinner()),
     );
@@ -308,8 +309,13 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
         this.notificationService.success(
           this.translate('vpn_page.nodes_expansion.connect.notifications.disconnected'),
         );
+
+        this.refreshSessions$.next();
       }),
-      finalize(() => this.spinnerService.hideSpinner()),
+      finalize(() => {
+        this.spinnerService.hideSpinner();
+        this.refreshStatus$.next();
+      }),
     );
   }
 
@@ -363,11 +369,16 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
         return EMPTY;
       }),
       tap(() => {
-        return this.notificationService.success(
+        this.notificationService.success(
           this.translate('vpn_page.nodes_expansion.connect.notifications.connected'),
         );
+
+        this.refreshSessions$.next();
       }),
-      finalize(() => this.spinnerService.hideSpinner()),
+      finalize(() => {
+        this.spinnerService.hideSpinner();
+        this.refreshStatus$.next();
+      }),
     );
   }
 

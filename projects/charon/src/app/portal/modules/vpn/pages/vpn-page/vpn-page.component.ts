@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@ngneat/reactive-forms';
 import { BehaviorSubject, forkJoin, merge, Subject } from 'rxjs';
-import { combineLatestWith, finalize, startWith, switchMap, tap } from 'rxjs/operators';
+import { startWith, switchMap, tap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Coin } from 'decentr-js';
@@ -31,7 +31,7 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
 
   public onlySubscribedControl: FormControl<boolean> = new FormControl(this.vpnPageService.onlySubscribed$.value);
 
-  public balance$: BehaviorSubject<Coin> = new BehaviorSubject<Coin>(undefined);
+  public balance$: BehaviorSubject<Coin> = new BehaviorSubject(undefined);
 
   public isConnectedToWireguard: boolean;
 
@@ -101,10 +101,7 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
 
     this.onlySubscribedControl.value$.pipe(
       untilDestroyed(this),
-    ).subscribe((value) => {
-      this.vpnPageService.onlySubscribed$.next(value);
-      this.vpnPageService.reload();
-    });
+    ).subscribe(this.vpnPageService.onlySubscribed$);
 
     this.list$.pipe(
       untilDestroyed(this),
@@ -116,23 +113,14 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
     this.refreshAll$.pipe(
       untilDestroyed(this),
     ).subscribe(() => {
-      this.vpnPageService.refreshNodes$.next();
       this.vpnPageService.reload();
-      this.vpnPageService.refreshStatus();
     });
-
-    this.refreshAll$.pipe(
-      combineLatestWith(this.vpnPageService.refreshSessions$),
-      startWith(void 0),
-      untilDestroyed(this),
-    ).subscribe(() => this.vpnPageService.refreshStatus());
   }
 
   public subscribeToNode(node: SentinelNodeExtendedDetails, deposit: Coin): void {
     this.vpnPageService.subscribeToNode(node, deposit).pipe(
       untilDestroyed(this),
     ).subscribe(() => {
-      this.vpnPageService.refreshSubscriptions$.next();
       this.refreshBalance$.next();
     });
   }
@@ -141,17 +129,14 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
     this.vpnPageService.cancelSubscription(subscription.id).pipe(
       untilDestroyed(this),
     ).subscribe(() => {
-      this.vpnPageService.refreshSubscriptions$.next();
       this.refreshBalance$.next();
     });
   }
 
   public connect(node: SentinelNodeExtendedDetails, subscription: SentinelExtendedSubscription): void {
     this.vpnPageService.connect(node, subscription).pipe(
-      finalize(() => this.vpnPageService.refreshStatus()),
       untilDestroyed(this),
     ).subscribe(() => {
-      this.vpnPageService.refreshSessions$.next();
       this.refreshBalance$.next();
     });
   }
@@ -160,10 +145,8 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
     const sessionIds = subscription?.sessions.map(({ id }) => id) || [];
 
     this.vpnPageService.disconnect(sessionIds).pipe(
-      finalize(() => this.vpnPageService.refreshStatus()),
       untilDestroyed(this),
     ).subscribe(() => {
-      this.vpnPageService.refreshSessions$.next();
       this.refreshBalance$.next();
     });
   }
