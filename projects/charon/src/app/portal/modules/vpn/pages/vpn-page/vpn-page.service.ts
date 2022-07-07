@@ -296,7 +296,7 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
       // observable navigator.online
       mergeMap(() => this.sentinelService.endSession(sessionIds).pipe(
         retry({
-          count: 3,
+          count: 1,
           delay: ONE_SECOND,
         }),
       )),
@@ -355,7 +355,10 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
 
         return EMPTY;
       }),
-      retry(3),
+      retry({
+        count: 1,
+        delay: ONE_SECOND,
+      }),
       mergeMap((connectionParams) => this.wireguardService.connect(connectionParams)),
       map((response) => {
         if (!response.result) {
