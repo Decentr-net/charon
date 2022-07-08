@@ -9,6 +9,7 @@ const disableWireguard = () => {
 
 const init = () => {
   Browser.contextMenus.create({
+    id: 'disableVpn',
     title: 'Disable VPN',
     contexts: [
       'browser_action',
