@@ -1,10 +1,22 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { map, mergeMap, startWith, takeUntil } from 'rxjs/operators';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { from, fromEvent, switchMap, timer } from 'rxjs';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ControlValueAccessor } from '@ngneat/reactive-forms';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
 
+@UntilDestroy()
 @Component({
   selector: 'app-input-counter',
   templateUrl: './input-counter.component.html',
@@ -18,7 +30,7 @@ import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
     },
   ],
 })
-export class InputCounterComponent extends ControlValueAccessor<number> {
+export class InputCounterComponent extends ControlValueAccessor<number> implements OnInit {
   @Input() public displayWith: ((value: number) => string) = (value) => value.toString();
 
   @Input() public max: number | undefined;
@@ -27,7 +39,13 @@ export class InputCounterComponent extends ControlValueAccessor<number> {
 
   @Input() public step: number = 1;
 
+  @ViewChild('incrementRef', { static: true }) public incrementRef: ElementRef<HTMLElement>;
+
+  @ViewChild('decrementRef', { static: true }) public decrementRef: ElementRef<HTMLElement>;
+
   public value: number = this.min;
+
+  public documentMouseup$ = fromEvent(document, 'mouseup');
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -40,32 +58,53 @@ export class InputCounterComponent extends ControlValueAccessor<number> {
     ]);
   }
 
+  public ngOnInit(): void {
+    this.forcePress(this.incrementRef, () => this.increment());
+    this.forcePress(this.decrementRef, () => this.decrement());
+  }
+
+  private forcePress(elementRef: ElementRef, fn: () => boolean): void {
+    fromEvent(elementRef.nativeElement, 'mousedown').pipe(
+      switchMap(() => timer(500, 100).pipe(
+        startWith(0),
+        map((n) => Math.ceil((n + 1) / 3)),
+        mergeMap((n) => from(new Array(n))),
+        takeUntil(this.documentMouseup$),
+      )),
+      untilDestroyed(this),
+    ).subscribe(() => fn() && this.changeDetectorRef.markForCheck());
+  }
+
   private emitValue(): void {
     if (this.value && this.onChange) {
       this.onChange(this.value);
     }
   }
 
-  public increment(): void {
+  public increment(): boolean {
     const potentialValue = this.value + this.step;
 
     if (this.max && potentialValue > this.max) {
-      return;
+      return false;
     }
 
     this.value = potentialValue;
     this.emitValue();
+
+    return true;
   }
 
-  public decrement(): void {
+  public decrement(): boolean {
     const potentialValue = this.value - this.step;
 
     if (this.min && potentialValue < this.min) {
-      return;
+      return false;
     }
 
     this.value = potentialValue;
     this.emitValue();
+
+    return true;
   }
 
   public override registerOnChange(fn: (value: (number | null)) => void): void {
