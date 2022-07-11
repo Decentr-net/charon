@@ -3,6 +3,7 @@ export enum MessageType {
   DISCONNECT = 'disconnect',
   IS_WG_INSTALLED = 'isWgInstalled',
   STATUS = 'status',
+  WG_INSTALL = 'wgInstall',
 }
 
 export interface ConnectParamsRequest {
@@ -41,7 +42,11 @@ export interface IsWgInstalledMessage {
   type: MessageType.IS_WG_INSTALLED;
 }
 
-export type Message = ConnectMessage | DisconnectMessage | StatusMessage | IsWgInstalledMessage;
+export interface WgInstallMessage {
+  type: MessageType.WG_INSTALL;
+}
+
+export type Message = ConnectMessage | DisconnectMessage | StatusMessage | IsWgInstalledMessage | WgInstallMessage;
 
 export type MessageResponse<T> = {
   result: boolean;
@@ -55,3 +60,5 @@ export type DisconnectMessageResponse = MessageResponse<void>;
 export type StatusMessageResponse = MessageResponse<StatusResponse>;
 
 export type IsWgInstalledResponse = MessageResponse<void>;
+
+export type WgInstallResponse = MessageResponse<void>;

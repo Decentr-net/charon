@@ -112,7 +112,12 @@
     "maintenance": "The VPN is temporarily unavailable due to maintenance.",
     "wg_not_installed": {
       "common": "Wireguard is not installed.",
-      "mac": "Drag and drop Decentr Browser into Applications and restart the browser. Note: application name must be \"Decentr\"."
+      "install_wg": "Install Wireguard",
+      "mac": "Drag and drop Decentr Browser into Applications and restart the browser. Note: application name must be \"Decentr\".",
+      "notifications": {
+        "not_installed": "Wireguard is not installed",
+        "install_error": "Error during installation Wireguard"
+      }
     },
     "nodes_expansion": {
       "address": "Address",

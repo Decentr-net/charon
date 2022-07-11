@@ -13,6 +13,8 @@ import {
   MessageType,
   StatusMessage,
   StatusMessageResponse,
+  WgInstallMessage,
+  WgInstallResponse,
 } from './wireguard.definitions';
 import { Observable } from 'rxjs';
 import { MessageBus, MessageMap } from '@shared/message-bus';
@@ -70,6 +72,14 @@ export class WireguardService {
     };
 
     return this.sendMessage<IsWgInstalledResponse>(request);
+  }
+
+  public wgInstall(): Promise<WgInstallResponse> {
+    const request: WgInstallMessage = {
+      type: MessageType.WG_INSTALL,
+    };
+
+    return this.sendMessage<WgInstallResponse>(request);
   }
 
   public notifyStatusChanged(): Promise<void> {

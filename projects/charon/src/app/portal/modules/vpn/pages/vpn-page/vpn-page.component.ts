@@ -151,6 +151,10 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
     });
   }
 
+  public onInstallWg(): void {
+    this.vpnPageService.wgInstall();
+  }
+
   public topUpBalance(): void {
     this.vpnPageService.topUpBalance();
   }

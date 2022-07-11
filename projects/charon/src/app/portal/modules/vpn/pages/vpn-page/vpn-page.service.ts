@@ -393,6 +393,31 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
     });
   }
 
+  public wgInstall(): Promise<void> {
+    this.spinnerService.showSpinner();
+
+    return this.wireguardService.wgInstall()
+      .then((response) => {
+        if (response.result) {
+          return window.location.reload();
+        }
+
+        this.notificationService.error(
+          new TranslatedError(this.translate('vpn_page.wg_not_installed.notifications.not_installed')),
+        );
+      })
+      .catch(() => {
+        this.notificationService.error(
+          new TranslatedError(this.translate('vpn_page.wg_not_installed.notifications.install_error')),
+        );
+
+        return void 0;
+      })
+      .finally(() => {
+        this.spinnerService.hideSpinner();
+      });
+  }
+
   private startSession(
     nodeAddress: SentinelNode['address'],
     subscriptionId: SentinelSubscription['id'],

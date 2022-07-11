@@ -181,6 +181,13 @@
 
       <ng-container *ngIf="detectOs !== 'mac'">
         {{ translate('wg_not_installed.common') }}
+
+        <button
+          app-button
+          (click)="onInstallWg()"
+        >
+          {{ translate('wg_not_installed.install_wg') }}
+        </button>
       </ng-container>
     </div>
   </ng-template>
