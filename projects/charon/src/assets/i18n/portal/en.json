@@ -107,7 +107,8 @@
     "title": "VPN",
     "topup": "Top up",
     "toggle": {
-      "show_only_subscribed": "Show only subscribed"
+      "show_only_subscribed": "Show only subscribed",
+      "show_only_trusted": "Show only trusted"
     },
     "maintenance": "The VPN is temporarily unavailable due to maintenance.",
     "wg_not_installed": {

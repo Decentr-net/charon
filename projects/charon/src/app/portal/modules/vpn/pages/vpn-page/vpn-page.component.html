@@ -53,11 +53,19 @@
         </div>
 
         <div class="vpn-page__header-section">
-          <mat-slide-toggle [formControl]="filterForm.get('subscribed')">
-            <ng-container *appBrowserTabView>
-              {{ translate('toggle.show_only_subscribed') }}
-            </ng-container>
-          </mat-slide-toggle>
+          <div class="vpn-page__header-toggle">
+            <mat-slide-toggle [formControl]="filterForm.get('subscribed')">
+              <ng-container *appBrowserTabView>
+                {{ translate('toggle.show_only_subscribed') }}
+              </ng-container>
+            </mat-slide-toggle>
+
+            <mat-slide-toggle [formControl]="filterForm.get('trusted')">
+              <ng-container *appBrowserTabView>
+                {{ translate('toggle.show_only_trusted') }}
+              </ng-container>
+            </mat-slide-toggle>
+          </div>
 
           <div class="vpn-page__header-vertical-divider"></div>
 

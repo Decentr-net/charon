@@ -38,6 +38,11 @@
   }
 }
 
+.vpn-page__header-toggle {
+  display: flex;
+  flex-direction: column;
+}
+
 .vpn-page__header-title {
   align-items: center;
   column-gap: $grid-step * 2;

@@ -71,7 +71,7 @@ export interface VpnListFilter {
 export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedDetails> {
   public filter: BehaviorSubject<VpnListFilter> = new BehaviorSubject({
     subscribed: false,
-    trusted: false,
+    trusted: true,
   });
 
   private loadingCount: number = 10;
