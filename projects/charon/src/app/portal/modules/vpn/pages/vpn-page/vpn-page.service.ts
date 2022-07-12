@@ -126,7 +126,7 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
       map(([allNodes, nodeFilter, filterLists]) => {
         return allNodes
           .filter((node) => !nodeFilter.subscribed || node.subscriptions.length > 0)
-          .filter((node) => !nodeFilter.trusted || filterLists.whiteList.includes(node.address));
+          .filter((node) => !nodeFilter.trusted || filterLists.trustedList.includes(node.address));
       }),
     );
 
