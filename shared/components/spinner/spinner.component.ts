@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 
 @Component({
   selector: 'app-spinner',
@@ -7,4 +7,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpinnerComponent {
+  @HostBinding('style.height.px')
+  @HostBinding('style.width.px')
+  @Input()
+  public size: number = 50;
 }

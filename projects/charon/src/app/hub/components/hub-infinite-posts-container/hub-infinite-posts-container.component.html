@@ -3,7 +3,10 @@
 
   <div class="hub-infinite-posts-container__loading-container">
     <ng-template [ngIf]="isLoading" [ngIfElse]="loadMoreSource">
-      <app-spinner class="hub-infinite-posts-container__loading-container-spinner"></app-spinner>
+      <app-spinner
+        class="hub-infinite-posts-container__loading-container-spinner"
+        [size]="24"
+      ></app-spinner>
 
       <span
         appTypeface="paragraph"
