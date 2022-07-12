@@ -154,6 +154,7 @@
           "subscribe": "Subscribe"
         },
         "fee_error": "Insufficient funds to pay fee ({{fee}}) with the selected deposit",
+        "insufficient_error": "Insufficient funds. Topup balance",
         "notifications": {
           "subscribed": "Successfully subscribed",
           "tx_broadcasted": "Transaction is successfully broadcasted. It may takes 1-5 minutes. Refresh node's list in some minutes."

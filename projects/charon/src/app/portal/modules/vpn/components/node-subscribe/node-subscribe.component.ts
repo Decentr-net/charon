@@ -47,6 +47,8 @@ export class NodeSubscribeComponent implements OnInit {
 
   public canSubscribe: boolean;
 
+  public insufficientFunds: boolean;
+
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private formBuilder: FormBuilder,
@@ -66,6 +68,7 @@ export class NodeSubscribeComponent implements OnInit {
       tap(() => {
         this.fee = 0;
         this.canSubscribe = false;
+        this.insufficientFunds = false;
       }),
       debounceTime(ONE_SECOND * 2),
       switchMap((formValue) => {
@@ -79,8 +82,11 @@ export class NodeSubscribeComponent implements OnInit {
       }),
       untilDestroyed(this),
     ).subscribe((fee) => {
+      const deposit = this.form.get('deposit').value;
+
       this.fee = fee;
-      this.canSubscribe = this.maxDeposit - this.fee >= this.form.get('deposit').value;
+      this.canSubscribe = this.maxDeposit - this.fee >= deposit;
+      this.insufficientFunds = this.maxDeposit < deposit;
 
       this.changeDetectorRef.markForCheck();
     });

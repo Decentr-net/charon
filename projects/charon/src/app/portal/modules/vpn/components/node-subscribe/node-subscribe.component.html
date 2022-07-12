@@ -19,10 +19,16 @@
     </div>
 
     <div
-      *ngIf="fee && !canSubscribe"
+      *ngIf="!canSubscribe"
       class="node-subscribe__deposit-fee-error"
     >
-      {{ translate('fee_error', {fee: fee | microValue | appCurrencySymbol | async}) }}
+      <ng-container *ngIf="fee">
+        {{ translate('fee_error', {fee: fee | microValue | appCurrencySymbol | async}) }}
+      </ng-container>
+
+      <ng-container *ngIf="insufficientFunds">
+        {{ translate('insufficient_error') }}
+      </ng-container>
     </div>
   </div>
 
