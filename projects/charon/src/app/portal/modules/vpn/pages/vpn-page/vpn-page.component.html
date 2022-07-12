@@ -191,7 +191,9 @@
       <ng-container *ngIf="detectOs !== 'mac'">
         {{ translate('wg_not_installed.common') }}
 
+        <!-- TODO: enable when wgInstall will be implemented to host -->
         <button
+          *ngIf="false"
           app-button
           (click)="onInstallWg()"
         >
