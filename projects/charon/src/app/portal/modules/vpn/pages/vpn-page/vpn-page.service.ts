@@ -61,10 +61,18 @@ interface AxiosErrorObject {
   },
 }
 
+export interface VpnListFilter {
+  subscribed: boolean;
+  trusted: boolean;
+}
+
 @UntilDestroy()
 @Injectable()
 export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedDetails> {
-  public onlySubscribed$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  public filter: BehaviorSubject<VpnListFilter> = new BehaviorSubject({
+    subscribed: false,
+    trusted: false,
+  });
 
   private loadingCount: number = 10;
 
@@ -114,8 +122,12 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
 
     this.filteredNodes$ = this.allNodes$.pipe(
       filter((nodes) => !!nodes),
-      combineLatestWith(this.onlySubscribed$),
-      map(([allNodes, onlySubscribed]) => allNodes.filter((node) => !onlySubscribed || node.subscriptions.length > 0)),
+      combineLatestWith(this.filter, this.configService.getVpnFilterLists(true)),
+      map(([allNodes, nodeFilter, filterLists]) => {
+        return allNodes
+          .filter((node) => !nodeFilter.subscribed || node.subscriptions.length > 0)
+          .filter((node) => !nodeFilter.trusted || filterLists.whiteList.includes(node.address));
+      }),
     );
 
     this.filteredNodes$.pipe(
@@ -125,7 +137,7 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
       this.list.next(nodes.slice(0, length));
     });
 
-    this.onlySubscribed$.pipe(
+    this.filter.pipe(
       untilDestroyed(this),
     ).subscribe(() => super.reload());
   }

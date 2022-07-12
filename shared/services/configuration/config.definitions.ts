@@ -42,6 +42,7 @@ export interface Config {
     servers: VPNServer[];
     whiteList: string[];
     blackList: string[];
+    trustedList: string[];
     url: string;
   };
   referral: {

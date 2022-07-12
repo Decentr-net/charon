@@ -142,11 +142,12 @@ export class ConfigService {
     );
   }
 
-  public getVpnFilterLists(listen = false): Observable<Pick<Config['vpn'], 'blackList' | 'whiteList'>> {
+  public getVpnFilterLists(listen = false): Observable<Pick<Config['vpn'], 'blackList' | 'whiteList' | 'trustedList'>> {
     return this.getConfig().pipe(
       map((config) => ({
         blackList: config.vpn.blackList || [],
         whiteList: config.vpn.whiteList || [],
+        trustedList: config.vpn.trustedList || [],
       })),
       this.listenConfigOperator(listen),
     );

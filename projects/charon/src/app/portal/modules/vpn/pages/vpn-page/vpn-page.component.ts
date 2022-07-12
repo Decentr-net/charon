@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl } from '@ngneat/reactive-forms';
+import { ControlsOf, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { BehaviorSubject, forkJoin, merge, Subject } from 'rxjs';
 import { startWith, switchMap, tap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
@@ -12,7 +12,7 @@ import { isOpenedInTab } from '@shared/utils/browser';
 import { detectOs } from '@shared/utils/os';
 import { InfiniteLoadingPresenter } from '@shared/utils/infinite-loading';
 import { SentinelExtendedSubscription, SentinelNodeExtendedDetails } from './vpn-page.definitions';
-import { VpnPageService } from './vpn-page.service';
+import { VpnListFilter, VpnPageService } from './vpn-page.service';
 
 @UntilDestroy()
 @Component({
@@ -29,7 +29,7 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
 
   public isOpenedInTab = isOpenedInTab();
 
-  public onlySubscribedControl: FormControl<boolean> = new FormControl(this.vpnPageService.onlySubscribed$.value);
+  public filterForm: FormGroup<ControlsOf<VpnListFilter>>;
 
   public balance$: BehaviorSubject<Coin> = new BehaviorSubject(undefined);
 
@@ -47,6 +47,7 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
+    private formBuilder: FormBuilder,
     private svgIconRegistry: SvgIconRegistry,
     private vpnPageService: VpnPageService,
   ) {
@@ -58,6 +59,8 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
       svgReload,
       svgTopup,
     ]);
+
+    this.filterForm = this.formBuilder.group(this.vpnPageService.filter.value);
 
     this.vpnPageService.checkWireguardConnection().pipe(
       untilDestroyed(this),
@@ -99,9 +102,9 @@ export class VpnPageComponent extends InfiniteLoadingPresenter<SentinelNodeExten
       this.balance$.next(balance);
     });
 
-    this.onlySubscribedControl.value$.pipe(
+    this.filterForm.value$.pipe(
       untilDestroyed(this),
-    ).subscribe(this.vpnPageService.onlySubscribed$);
+    ).subscribe(this.vpnPageService.filter);
 
     this.list$.pipe(
       untilDestroyed(this),
