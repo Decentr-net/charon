@@ -227,6 +227,7 @@
   --color-dportal-vpn-node-details-disconnect-background: #{$color-red};
   --color-dportal-vpn-balance-amount: #{$color-red};
   --color-dportal-vpn-nodes-list-no-data: #{$color-grey};
+  --color-dportal-vpn-fee-error: #{$color-red};
 
   // User page
   --color-userpage-app-version: #{$color-grey};
@@ -524,6 +525,7 @@
     --color-dportal-vpn-node-details-disconnect-background: #{$color-red-night};
     --color-dportal-vpn-balance-amount: #{$color-red-night};
     --color-dportal-vpn-nodes-list-no-data: #{$color-grey-night};
+    --color-dportal-vpn-fee-error: #{$color-red-night};
 
     // User page
     --color-userpage-app-version: #{$color-grey-night};

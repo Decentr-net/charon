@@ -17,11 +17,19 @@
     <div class="node-subscribe__deposit-amount">
       {{ depositCapacity$ | async }} GB
     </div>
+
+    <div
+      *ngIf="fee && !canSubscribe"
+      class="node-subscribe__deposit-fee-error"
+    >
+      {{ translate('fee_error', {fee: fee | microValue | appCurrencySymbol | async}) }}
+    </div>
   </div>
 
   <button
     app-button
     [type]="'submit'"
+    [disabled]="!canSubscribe"
   >
     {{ translate('actions.subscribe') }}
   </button>

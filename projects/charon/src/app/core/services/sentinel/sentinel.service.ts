@@ -42,10 +42,13 @@ export class SentinelService {
     private configService: ConfigService,
   ) {
     this.configService.getVpnUrl(true).pipe(
-      combineLatestWith(this.authService.getActiveUser()),
+      combineLatestWith(
+        this.authService.getActiveUser(),
+        this.configService.getVpnGasPrice(true),
+      ),
       tap(() => this.sentinelClient$.next(undefined)),
-      switchMap(([vpnUrl, user]) => SentinelClient.create(vpnUrl, {
-        gasPrice: new Price(Decimal.fromUserInput('1.7', 6), DEFAULT_DENOM),
+      switchMap(([vpnUrl, user, gasPrice]) => SentinelClient.create(vpnUrl, {
+        gasPrice: new Price(Decimal.fromUserInput(gasPrice, 6), DEFAULT_DENOM),
         privateKey: user?.wallet?.privateKey,
       })),
       untilDestroyed(this),
@@ -165,6 +168,16 @@ export class SentinelService {
       },
     )).pipe(
       map(assertMessageResponseSuccess),
+    );
+  }
+
+  public getSubscribeToNodeFee(nodeAddress: string, deposit: Coin): Observable<number> {
+    return this.sentinelClient.pipe(
+      switchMap((client) => client.subscription.subscribeToNode({
+        from: this.sentinelWalletAddress,
+        address: nodeAddress,
+        deposit,
+      }).simulate()),
     );
   }
 

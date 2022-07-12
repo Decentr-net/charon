@@ -62,13 +62,14 @@ const SENTINEL_CLIENT$: Observable<SentinelClient> = (() => {
   const clientSource$ = new ReplaySubject<SentinelClient>(1);
 
   combineLatest([
-    CONFIG_SERVICE.getVpnUrl(),
+    CONFIG_SERVICE.getVpnUrl(true),
+    CONFIG_SERVICE.getVpnGasPrice(true),
     new AuthBrowserStorageService().getActiveUser(),
   ]).pipe(
     debounceTime(ONE_SECOND),
     tap(() => clientSource$.next(undefined)),
-    switchMap(([api, user]) => SentinelClient.create(api, {
-      gasPrice: new Price(Decimal.fromUserInput('1.7', 6), DEFAULT_DENOM),
+    switchMap(([api, gasPrice, user]) => SentinelClient.create(api, {
+      gasPrice: new Price(Decimal.fromUserInput(gasPrice, 6), DEFAULT_DENOM),
       privateKey: user?.wallet?.privateKey,
     })),
   ).subscribe(clientSource$);

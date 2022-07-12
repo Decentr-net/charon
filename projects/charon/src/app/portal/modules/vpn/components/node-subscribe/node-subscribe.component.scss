@@ -12,6 +12,7 @@
 
 .node-subscribe__deposit {
   align-items: center;
+  column-gap: $grid-step * 1.5;
   display: flex;
 }
 
@@ -25,6 +26,9 @@
   border-radius: $border-radius;
   display: flex;
   font-weight: 500;
-  margin-left: $grid-step * 1.5;
   padding: $grid-step * 1.5 $grid-step * 2.5;
+}
+
+.node-subscribe__deposit-fee-error {
+  color: var(--color-dportal-vpn-fee-error);
 }

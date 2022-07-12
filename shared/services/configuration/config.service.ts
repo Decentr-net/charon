@@ -127,6 +127,14 @@ export class ConfigService {
     );
   }
 
+  public getVpnGasPrice(listen = false): Observable<string> {
+    return this.getConfig().pipe(
+      map((config) => config.vpn.gasPrice),
+      distinctUntilChanged(),
+      this.listenConfigOperator(listen),
+    );
+  }
+
   public getVpnMaintenance(listen = false): Observable<boolean> {
     return this.getConfig().pipe(
       map((config) => !config.vpn.enabled),

@@ -1,16 +1,29 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ControlsOf, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { Coin } from 'decentr-js';
+import { catchError, debounceTime, switchMap, tap } from 'rxjs/operators';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { PricePipe } from '@shared/pipes/price';
 import { priceFromString } from '@shared/utils/price';
+import { SentinelService } from '@core/services';
+import { ONE_SECOND } from '@shared/utils/date';
 
 interface SubscribeForm {
   deposit: number;
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-node-subscribe',
   templateUrl: './node-subscribe.component.html',
@@ -22,14 +35,22 @@ export class NodeSubscribeComponent implements OnInit {
 
   @Input() public price!: Coin;
 
+  @Input() public nodeAddress: string;
+
   @Output() public subscribe: EventEmitter<Coin> = new EventEmitter();
 
   public form!: FormGroup<ControlsOf<SubscribeForm>>;
 
   public depositCapacity$!: Observable<number>;
 
+  public fee: number;
+
+  public canSubscribe: boolean;
+
   constructor(
+    private changeDetectorRef: ChangeDetectorRef,
     private formBuilder: FormBuilder,
+    private sentinelService: SentinelService,
     private pricePipe: PricePipe,
   ) {
   }
@@ -40,6 +61,36 @@ export class NodeSubscribeComponent implements OnInit {
     this.depositCapacity$ = this.form.get('deposit').value$.pipe(
       map((selectedPrice) => selectedPrice / +this.price.amount),
     );
+
+    this.form.value$.pipe(
+      tap(() => {
+        this.fee = 0;
+        this.canSubscribe = false;
+      }),
+      debounceTime(ONE_SECOND * 2),
+      switchMap((formValue) => {
+        const deposit = formValue.deposit;
+
+        return deposit
+          ? this.sentinelService.getSubscribeToNodeFee(this.nodeAddress, this.buildCoin(deposit)).pipe(
+            catchError(() => of(0)),
+          )
+          : of(0);
+      }),
+      untilDestroyed(this),
+    ).subscribe((fee) => {
+      this.fee = fee;
+      this.canSubscribe = this.maxDeposit - this.fee >= this.form.get('deposit').value;
+
+      this.changeDetectorRef.markForCheck();
+    });
+  }
+
+  private buildCoin(deposit: number): Coin {
+    return {
+      denom: this.price.denom,
+      amount: deposit.toString(),
+    };
   }
 
   public createForm(): FormGroup<ControlsOf<SubscribeForm>> {
@@ -56,7 +107,7 @@ export class NodeSubscribeComponent implements OnInit {
   public subscribeToNode(): void {
     const { deposit } = this.form.getRawValue();
 
-    this.subscribe.emit({ denom: this.price.denom, amount: deposit.toString() });
+    this.subscribe.emit(this.buildCoin(deposit));
   }
 
   public displayWith = (value: number): string => {
