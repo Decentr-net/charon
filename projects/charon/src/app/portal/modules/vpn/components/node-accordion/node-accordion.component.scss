@@ -1,0 +1,71 @@
+@import 'variables';
+
+:host {
+  display: block;
+
+  ::ng-deep {
+    .mat-expansion-panel-spacing {
+      margin: unset;
+    }
+
+    .mat-expansion-panel {
+      border-bottom: 1px solid var(--color-outlines);
+      box-shadow: unset;
+      color: var(--color-main-text);
+
+      &:last-of-type {
+        border-bottom: unset;
+
+        .mat-expansion-panel-header {
+          border-bottom: unset;
+        }
+      }
+    }
+
+    .mat-expansion-panel-header-title {
+      margin-right: $grid-step;
+      flex-grow: 0;
+    }
+
+    .mat-expansion-panel-header {
+      border-bottom: 1px solid var(--color-outlines);
+      height: auto;
+      padding: $grid-step * 2;
+    }
+
+    .mat-expansion-panel-header-description {
+      align-items: self-start;
+      color: var(--color-main-text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mat-expansion-panel-body {
+      padding: $grid-step * 2;
+    }
+  }
+}
+
+.node-accordion__flag-icon {
+  flex-shrink: 0;
+}
+
+.node-accordion__title {
+  align-items: center;
+  display: flex;
+  font-weight: 500;
+}
+
+.node-accordion__subscribed-icon {
+  color: var(--color-dportal-vpn-node-subscrided);
+  margin-left: $grid-half-step;
+}
+
+.node-accordion__connected-icon {
+  color: var(--color-dportal-vpn-node-connected);
+  margin-left: $grid-half-step;
+}
+
+.node-accordion__description {
+  color: var(--color-dportal-vpn-node-details-description);
+}

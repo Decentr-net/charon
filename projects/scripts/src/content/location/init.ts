@@ -1,6 +1,6 @@
 import { map, mergeMap } from 'rxjs/operators';
 
-import { MessageBus } from '../../../../../shared/message-bus';
+import { MessageBus } from '@shared/message-bus';
 import { MessageCode } from '../../messages';
 import { watchPositionOnAllowedSites } from './events';
 

@@ -1,25 +1,35 @@
 import {
   BroadcastClientError,
+  CancelSubscriptionRequest,
   CreatePostRequest,
   DelegateTokensRequest,
   DeletePostRequest,
+  EndSessionRequest,
   FollowRequest,
   LikeRequest,
   RedelegateTokensRequest,
   ResetAccountRequest,
+  SendIbcTokensRequest,
   SendTokensRequest,
+  StartSessionRequest,
+  SubscribeToNodeRequest,
   UndelegateTokensRequest,
   UnfollowRequest,
   WithdrawDelegatorRewardRequest,
   WithdrawValidatorCommissionRequest,
 } from 'decentr-js';
 
-import { MessageMap } from '../../../../../shared/message-bus';
+import { MessageMap } from '@shared/message-bus';
 import { MessageCode } from '../../messages';
 
 interface MessageResponse {
   success: boolean;
   error?: BroadcastClientError | Error;
+}
+
+export interface EndStartSessionRequest {
+  endSession: EndSessionRequest;
+  startSession: StartSessionRequest;
 }
 
 export interface CharonAPIMessageBusMap extends MessageMap {
@@ -48,6 +58,13 @@ export interface CharonAPIMessageBusMap extends MessageMap {
     };
     response: MessageResponse;
   };
+  [MessageCode.SendIbcTokens]: {
+    body: {
+      memo?:string;
+      request: SendIbcTokensRequest;
+    };
+    response: MessageResponse;
+  };
   [MessageCode.Follow]: {
     body: {
       request: FollowRequest;
@@ -62,38 +79,62 @@ export interface CharonAPIMessageBusMap extends MessageMap {
   };
   [MessageCode.ResetAccount]: {
     body: {
-      request: ResetAccountRequest,
+      request: ResetAccountRequest;
     };
     response: MessageResponse;
   };
   [MessageCode.Delegate]: {
     body: {
       request: DelegateTokensRequest;
-    },
+    };
     response: MessageResponse;
   };
   [MessageCode.Redelegate]: {
     body: {
       request: RedelegateTokensRequest;
-    },
+    };
     response: MessageResponse;
   };
   [MessageCode.Undelegate]: {
     body: {
       request: UndelegateTokensRequest;
-    },
+    };
     response: MessageResponse;
   };
   [MessageCode.WithdrawDelegatorRewards]: {
     body: {
-      request: WithdrawDelegatorRewardRequest,
-    },
+      request: WithdrawDelegatorRewardRequest;
+    };
     response: MessageResponse;
   };
   [MessageCode.WithdrawValidatorRewards]: {
     body: {
-      request: WithdrawValidatorCommissionRequest,
-    },
+      request: WithdrawValidatorCommissionRequest;
+    };
+    response: MessageResponse;
+  };
+  [MessageCode.SentinelStartSession]: {
+    body: {
+      request: EndStartSessionRequest;
+    };
+    response: MessageResponse;
+  };
+  [MessageCode.SentinelEndSession]: {
+    body: {
+      request: EndSessionRequest;
+    };
+    response: MessageResponse;
+  };
+  [MessageCode.SentinelSubscribeToNode]: {
+    body: {
+      request: SubscribeToNodeRequest;
+    };
+    response: MessageResponse;
+  };
+  [MessageCode.SentinelCancelNodeSubscription]: {
+    body: {
+      request: CancelSubscriptionRequest;
+    };
     response: MessageResponse;
   };
 }

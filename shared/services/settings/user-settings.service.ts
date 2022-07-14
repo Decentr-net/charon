@@ -1,4 +1,4 @@
-import { BrowserStorage } from '../browser-storage';
+import { BrowserStorage } from '../storage';
 import { PDVSettingsService } from './pdv';
 import { UserSettingsStorage } from './settings.definitions';
 import { LockSettingsService } from './lock';

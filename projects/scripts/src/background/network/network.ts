@@ -2,9 +2,9 @@ import { combineLatest, EMPTY, firstValueFrom, Observable, of, tap, throwError }
 import { distinctUntilChanged, filter, first, mergeMap, retry, switchMap } from 'rxjs/operators';
 
 import CONFIG_SERVICE from '../config';
-import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
-import { BlockchainNodeService } from '../../../../../shared/services/blockchain-node';
-import { ONE_SECOND } from '../../../../../shared/utils/date';
+import { NetworkBrowserStorageService } from '@shared/services/network-storage';
+import { BlockchainNodeService } from '@shared/services/blockchain-node';
+import { ONE_SECOND } from '@shared/utils/date';
 
 const blockchainNodeService = new BlockchainNodeService();
 const networkStorage = new NetworkBrowserStorageService();

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { BrowserLocalStorage, BrowserStorage } from '@shared/services/browser-storage';
+import { BrowserLocalStorage, BrowserStorage } from '@shared/services/storage';
 
 interface SignUpStore {
   lastEmailSendingTime: number;

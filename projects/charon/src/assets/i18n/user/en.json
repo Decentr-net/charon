@@ -3,7 +3,7 @@
     "close": "Close",
     "help": "Want help to get started?",
     "step1": "Open Decentr browser on your phone",
-    "step2": "Tap \"login with QR code\"",
+    "step2": "Tap \"Sign in as an existing user\"",
     "step3": "Scan QR code you can see on the left",
     "step3_hint": "You'll be logged in without using seed phrase.",
     "title": "To start using Decentr browser"

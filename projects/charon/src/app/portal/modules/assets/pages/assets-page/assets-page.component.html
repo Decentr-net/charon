@@ -79,9 +79,14 @@
 
         <div
           class="assets-page__no-transactions"
-          *ngIf="transactions?.length === 0"
         >
-          {{ translate('no_transactions') }}
+          <ng-container *ngIf="isLoadingFailed">
+            {{ translate('loading_failed') }}
+          </ng-container>
+
+          <ng-container *ngIf="!isLoadingFailed && transactions?.length === 0">
+            {{ translate('no_transactions') }}
+          </ng-container>
         </div>
       </ng-container>
     </ng-container>

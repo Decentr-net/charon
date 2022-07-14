@@ -39,6 +39,10 @@ export class AssetsPageComponent
 
   public totalCount$: Observable<number>;
 
+  public get isLoadingFailed(): boolean {
+    return this.assetsPageService.isLoadingFailed;
+  }
+
   constructor(
     private assetsPageService: AssetsPageService,
     private router: Router,

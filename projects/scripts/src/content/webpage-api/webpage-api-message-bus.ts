@@ -2,8 +2,8 @@ import { EMPTY, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Post, SwapDetails, SwapListPaginationOptions, Wallet } from 'decentr-js';
 
-import { NetworkId } from '../../../../../shared/services/configuration/config.definitions';
-import { uuid } from '../../../../../shared/utils/uuid';
+import { NetworkId } from '@shared/services/configuration/config.definitions';
+import { uuid } from '@shared/utils/uuid';
 
 export enum WebpageAPIRequestMessageCode {
   Connect = 'WEBPAGE_API_CONNECT',

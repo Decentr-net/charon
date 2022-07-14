@@ -1,5 +1,5 @@
 import { combineLatest, Observable, ReplaySubject, Subject, switchMap } from 'rxjs';
-import { filter, map, startWith, take } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, startWith, take } from 'rxjs/operators';
 
 import { Config, ConfigSource, Network, NetworkId } from './config.definitions';
 import { NetworkBrowserStorageService } from '../network-storage';
@@ -116,6 +116,40 @@ export class ConfigService {
   public getSwapUrl(listen = false): Observable<string> {
     return this.getNetworkConfig({ listen }).pipe(
       map((config) => config.swap.url),
+    );
+  }
+
+  public getVpnUrl(listen = false): Observable<string> {
+    return this.getConfig().pipe(
+      map((config) => config.vpn.url),
+      distinctUntilChanged(),
+      this.listenConfigOperator(listen),
+    );
+  }
+
+  public getVpnGasPrice(listen = false): Observable<string> {
+    return this.getConfig().pipe(
+      map((config) => config.vpn.gasPrice),
+      distinctUntilChanged(),
+      this.listenConfigOperator(listen),
+    );
+  }
+
+  public getVpnMaintenance(listen = false): Observable<boolean> {
+    return this.getConfig().pipe(
+      map((config) => !config.vpn.enabled),
+      this.listenConfigOperator(listen),
+    );
+  }
+
+  public getVpnFilterLists(listen = false): Observable<Pick<Config['vpn'], 'blackList' | 'whiteList' | 'trustedList'>> {
+    return this.getConfig().pipe(
+      map((config) => ({
+        blackList: config.vpn.blackList || [],
+        whiteList: config.vpn.whiteList || [],
+        trustedList: config.vpn.trustedList || [],
+      })),
+      this.listenConfigOperator(listen),
     );
   }
 

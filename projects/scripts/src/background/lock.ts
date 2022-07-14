@@ -2,8 +2,8 @@ import { EMPTY, forkJoin, Observable, of } from 'rxjs';
 import { debounceTime, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Wallet } from 'decentr-js';
 
-import { LockBrowserStorageService } from '../../../../shared/services/lock';
-import { SettingsService } from '../../../../shared/services/settings/settings.service';
+import { LockBrowserStorageService } from '@shared/services/lock';
+import { SettingsService } from '@shared/services/settings/settings.service';
 import { whileUserActive } from './auth/while-user-active';
 
 const lockStorage = new LockBrowserStorageService();

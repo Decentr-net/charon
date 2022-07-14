@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ONE_HOUR } from '../../../utils/date';
-import { BrowserStorage } from '../../browser-storage';
+import { BrowserStorage } from '../../storage';
 import { LockSettings } from './lock-settings.definitions';
 
 const DEFAULT_LOCK_DELAY = ONE_HOUR * 48;

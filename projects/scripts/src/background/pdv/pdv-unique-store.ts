@@ -1,7 +1,7 @@
 import { coerceArray } from '@angular/cdk/coercion';
 import { PDV, PDVType } from 'decentr-js';
 
-import { uuid } from '../../../../../shared/utils/uuid';
+import { uuid } from '@shared/utils/uuid';
 
 export class PDVUniqueStore {
   private store = new Map<string, PDV>();

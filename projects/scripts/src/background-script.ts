@@ -7,6 +7,7 @@ import { whileVersionSupported } from './background/technical';
 import initContextMenu from './background/context-menu';
 import { handleMultipleInstallations } from './background/installation';
 import { initializeConfigPort } from './background/config';
+import { initDecentrStorageStatsSync } from './background/decentr-storage';
 
 (async () => {
   await handleMultipleInstallations();
@@ -26,4 +27,6 @@ import { initializeConfigPort } from './background/config';
   ).subscribe();
 
   initContextMenu();
+
+  initDecentrStorageStatsSync();
 })();

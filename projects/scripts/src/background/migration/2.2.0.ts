@@ -1,8 +1,8 @@
 import { firstValueFrom } from 'rxjs';
 import { PDVType } from 'decentr-js';
 
-import { AuthBrowserStorageService } from '../../../../../shared/services/auth';
-import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
+import { AuthBrowserStorageService } from '@shared/services/auth';
+import { NetworkBrowserStorageService } from '@shared/services/network-storage';
 import { PDV_STORAGE_SERVICE } from '../pdv/storage';
 
 const clearBadPDVs = async (): Promise<void> => {

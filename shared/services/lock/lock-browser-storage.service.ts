@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { BrowserLocalStorage } from '../browser-storage';
+import { BrowserLocalStorage } from '../storage';
 
 interface LockStorage {
   lastActivityTime: number;

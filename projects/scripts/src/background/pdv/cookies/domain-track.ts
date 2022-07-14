@@ -11,7 +11,7 @@ import {
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import * as Browser from 'webextension-polyfill';
 
-import { ONE_SECOND } from '../../../../../../shared/utils/date';
+import { ONE_SECOND } from '@shared/utils/date';
 
 const DOMAIN_TRACK_TIME = ONE_SECOND * 5;
 

@@ -1,0 +1,43 @@
+@import 'variables';
+
+:host {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.node-subscription__deposit {
+  align-items: center;
+  column-gap: $grid-step * 1.5;
+  display: flex;
+}
+
+.node-subscription__deposit-amount {
+  align-items: center;
+  border: 1px solid var(--color-outlines);
+  border-radius: $border-radius;
+  display: flex;
+  font-weight: 500;
+  padding: $grid-step * 1.5 $grid-step * 2.5;
+}
+
+.node-subscription__deposit-amount-quota {
+  &.mod-exceeded {
+    color: var(--color-dportal-vpn-node-details-amount-exceeded);
+  }
+}
+
+.node-subscription__actions {
+  column-gap: $grid-step * 2;
+  display: flex;
+}
+
+.node-subscription__action {
+  &.mod-red {
+    background-color: var(--color-dportal-vpn-node-details-disconnect-background);
+  }
+}
+
+.node-subscription__deposit-amount-loading {
+  display: flex;
+}

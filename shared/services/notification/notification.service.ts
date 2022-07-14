@@ -1,5 +1,5 @@
 import { Inject, Injectable, Optional } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { ToastrService, IndividualConfig } from 'ngx-toastr';
 import { isObservable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -15,7 +15,7 @@ export class NotificationService {
   ) {
   }
 
-  public error(error: unknown): void {
+  public error(error: unknown, title?: string, override?: Partial<IndividualConfig>): void {
     let processor: ErrorProcessor = this.errorProcessors
       .find((errorProcessor) => errorProcessor.canProcess(error));
 
@@ -29,15 +29,15 @@ export class NotificationService {
     errorObservable.pipe(
       take(1),
     ).subscribe((message: string) => {
-      this.toastrService.error(message);
+      this.toastrService.error(message, title, override);
     });
   }
 
-  public success(message: string): void {
-    this.toastrService.success(message);
+  public success(message: string, title?: string, override?: Partial<IndividualConfig>): void {
+    this.toastrService.success(message, title, override);
   }
 
-  public warning(message: string): void {
-    this.toastrService.warning(message);
+  public warning(message: string, title?: string, override?: Partial<IndividualConfig>): void {
+    this.toastrService.warning(message, title, override);
   }
 }

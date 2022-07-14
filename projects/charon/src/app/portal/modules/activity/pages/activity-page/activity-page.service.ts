@@ -5,6 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { PDV, PDVType } from 'decentr-js';
 
 import { coerceTimestamp } from '@shared/utils/date';
+import { groupBy } from '@shared/utils/group-by';
 import { InfiniteLoadingService } from '@shared/utils/infinite-loading';
 import { uuid } from '@shared/utils/uuid';
 import { PDVService } from '@core/services';
@@ -52,15 +53,8 @@ export class ActivityPageService extends InfiniteLoadingService<ActivityListItem
   }
 
   private groupPDVs(pdvs: PDV[]): PDV[][] {
-    const pdvMap = new Map<string, PDV[]>();
-
-    pdvs.forEach((pdv) => {
-      const key = this.getPDVGroupKey(pdv);
-      const group = pdvMap.get(key) || [];
-      pdvMap.set(key, [...group, pdv]);
-    });
-
-    return [...pdvMap.values()];
+    return groupBy(pdvs, (pdv) => this.getPDVGroupKey(pdv))
+      .reduce((acc, group) => [...acc, group.items], []);
   }
 
   private getPDVGroupKey(pdv: PDV): string {

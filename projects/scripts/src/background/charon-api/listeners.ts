@@ -1,6 +1,6 @@
 import { BroadcastClientError, DeliverTxResponse } from 'decentr-js';
 
-import { MessageBus } from '../../../../../shared/message-bus';
+import { MessageBus } from '@shared/message-bus';
 import { MessageCode } from '../../messages';
 import {
   createPost,
@@ -10,13 +10,18 @@ import {
   likePost,
   redelegate,
   resetAccount,
+  sendIbcTokens,
+  sentinelCancelNodeSubscription,
+  sentinelEndSession,
+  sentinelStartSession,
+  sentinelSubscribeToNode,
   transferCoins,
   undelegate,
   unfollow,
   withdrawDelegatorRewards,
   withdrawValidatorRewards,
 } from './api';
-import QUEUE, { QueuePriority } from '../queue';
+import QUEUE from '../queue';
 import { CharonAPIMessageBusMap } from './message-bus-map';
 
 interface RequestCallbackParams {
@@ -29,7 +34,7 @@ const sendRequest = (
   fn: () => PromiseLike<DeliverTxResponse>,
   callback: (params: RequestCallbackParams) => void,
 ): void => {
-  QUEUE.add(fn, { priority: QueuePriority.Charon })
+  QUEUE.add(fn)
     .then(
       () => callback({
         success: true,
@@ -50,12 +55,17 @@ const CHARON_API_LISTENER_MAP: Record<CharonAPIMessageCode, (...args) => Promise
   [MessageCode.Follow]: follow,
   [MessageCode.Unfollow]: unfollow,
   [MessageCode.CoinTransfer]: transferCoins,
+  [MessageCode.SendIbcTokens]: sendIbcTokens,
   [MessageCode.ResetAccount]: resetAccount,
   [MessageCode.Delegate]: delegate,
   [MessageCode.Undelegate]: undelegate,
   [MessageCode.Redelegate]: redelegate,
   [MessageCode.WithdrawDelegatorRewards]: withdrawDelegatorRewards,
   [MessageCode.WithdrawValidatorRewards]: withdrawValidatorRewards,
+  [MessageCode.SentinelStartSession]: sentinelStartSession,
+  [MessageCode.SentinelEndSession]: sentinelEndSession,
+  [MessageCode.SentinelSubscribeToNode]: sentinelSubscribeToNode,
+  [MessageCode.SentinelCancelNodeSubscription]: sentinelCancelNodeSubscription,
 };
 
 export const initCharonAPIListeners = (): void => {

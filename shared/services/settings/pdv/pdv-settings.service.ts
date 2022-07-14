@@ -2,7 +2,7 @@ import { PDVType } from 'decentr-js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BrowserStorage } from '../../browser-storage';
+import { BrowserStorage } from '../../storage';
 import { CollectedPDVTypesSettings, PDVSettings } from './pdv-settings.definitions';
 
 const DEFAULT_COLLECTED_PDV_TYPES_SETTINGS: CollectedPDVTypesSettings = {

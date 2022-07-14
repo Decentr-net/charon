@@ -6,9 +6,9 @@ import { LockParam, LockReturnUrlParam } from '../../../../charon/src/app/core/l
 import { APP_TITLE } from '../../../../charon/src/app/app.definitions';
 import { AppRoute } from '../../../../charon/src/app/app-route';
 import { HubRoute } from '../../../../charon/src/app/hub';
-import { NetworkId } from '../../../../../shared/services/configuration/config.definitions';
-import { NetworkBrowserStorageService } from '../../../../../shared/services/network-storage';
-import { POPUP_TAB_QUERY_PARAM } from '../../../../../shared/utils/browser';
+import { NetworkId } from '@shared/services/configuration/config.definitions';
+import { NetworkBrowserStorageService } from '@shared/services/network-storage';
+import { POPUP_TAB_QUERY_PARAM } from '@shared/utils/browser';
 import CONFIG_SERVICE from '../config';
 
 const createExtensionUrl = (path?: string): string => {

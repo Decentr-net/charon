@@ -4,7 +4,7 @@ import { catchError, finalize, mergeMap, tap } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { CreatePostRequest, Wallet } from 'decentr-js';
 
-import { BrowserLocalStorage } from '@shared/services/browser-storage';
+import { BrowserLocalStorage } from '@shared/services/storage';
 import { NotificationService } from '@shared/services/notification';
 import { AuthService } from '@core/auth/services';
 import { PostsService, SpinnerService } from '@core/services';

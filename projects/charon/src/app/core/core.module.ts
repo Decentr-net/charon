@@ -6,7 +6,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { Environment } from '@environments/environment.definitions';
 import { environment } from '@environments/environment';
-import { AnalyticsModule, AnalyticsService } from '@shared/analytics';
+import { AnalyticsModule } from '@shared/analytics';
 import { MenuModule } from '@shared/components/menu';
 import { NetworkSelectorModule, NetworkSelectorService as BaseNetworkSelectorService } from '@shared/components/network-selector';
 import { SlotModule } from '@shared/components/slot';
@@ -33,6 +33,7 @@ import { CORE_SERVICES, MenuService, NetworkSelectorService, NetworkService } fr
 import { PermissionsService } from './permissions';
 import { PasswordModule } from '@shared/components/password';
 import { ThemeModule } from '@shared/components/theme';
+import { WireguardService } from '@shared/services/wireguard';
 
 export function initAuthFactory(authService: AuthService): () => void {
   return () => authService.init();
@@ -56,7 +57,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
 
 @NgModule({
   imports: [
-    AnalyticsModule.forRoot(environment.ga),
+    AnalyticsModule.forRoot(),
     AuthModule.forRoot(),
     AuthorizedLayoutModule,
     ConfigurationModule,
@@ -100,6 +101,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     CORE_SERVICES,
     INTERCEPTORS_PROVIDERS,
     DecimalPipe,
+    WireguardService,
     {
       provide: AuthBrowserStorageService,
       useClass: AuthBrowserStorageService,
@@ -147,12 +149,9 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
 export class CoreModule {
   constructor(
     @Optional() @SkipSelf() parentModule: CoreModule,
-    analyticsService: AnalyticsService,
   ) {
     if (parentModule) {
       throw new Error('CoreModule has already been loaded. Import CoreModule in the AppModule only.');
     }
-
-    analyticsService.initialize();
   }
 }
