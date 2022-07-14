@@ -163,7 +163,8 @@
       "19": "Tx request already exists",
       "20": "Memory pool is full",
       "21": "Tx request is too large",
-      "22": "Panic error"
+      "22": "Account not found",
+      "111222": "Panic error"
     },
     "unknown_error": "Something went wrong"
   }

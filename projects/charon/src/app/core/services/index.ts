@@ -12,6 +12,7 @@ import { NetworkService } from './network';
 import { PDVService } from './pdv';
 import { PostsService } from './posts';
 import { ReferralService } from './referral';
+import { SentinelService } from './sentinel';
 import { SpinnerService } from './spinner';
 import { StakingService } from './staking';
 import { UserService } from './user';
@@ -30,6 +31,7 @@ export * from './network-selector';
 export * from './pdv';
 export * from './posts';
 export * from './referral';
+export * from './sentinel';
 export * from './spinner';
 export * from './staking';
 export * from './user';
@@ -49,6 +51,7 @@ export const CORE_SERVICES = [
   PDVService,
   PostsService,
   ReferralService,
+  SentinelService,
   SpinnerService,
   StakingService,
   UserService,

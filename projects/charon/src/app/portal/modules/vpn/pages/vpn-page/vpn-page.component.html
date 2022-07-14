@@ -1,0 +1,205 @@
+<div
+  *transloco="let translate; read: 'portal.vpn_page'"
+  class="vpn-page__layout"
+>
+  <ng-container *ngIf="!isVpnMaintenance; else vpnMaintenance">
+    <ng-container *ngIf="isWgInstalled; else wgNotInstalled">
+      <div
+        class="vpn-page__header"
+      >
+        <div class="vpn-page__header-section mod-left">
+      <span appTypeface="subheader">
+        {{ translate('title') }}
+      </span>
+
+          <div
+            *ngIf="balance$ | async as balance; else balanceLoading"
+          >
+            <ng-container *appBrowserTabView>
+              {{ translate('balance') }}:
+            </ng-container>
+
+            <span
+              class="vpn-page__header-balance"
+              [class.mod-empty]="+balance.amount === 0"
+              [appTypeface]="isOpenedInTab ? 'paragraph' : 'caption'"
+            >
+              {{ balance | appPrice }}
+            </span>
+          </div>
+
+          <button
+            *appBrowserPopupView
+            app-icon-button
+            color="grey"
+            size="xs"
+            (click)="topUpBalance()"
+          >
+            <svg-icon key="topup" size="xs"></svg-icon>
+          </button>
+
+          <button
+            *appBrowserTabView
+            app-button
+            color="grey"
+            size="sm"
+            appTypeface="caption"
+            (click)="topUpBalance()"
+          >
+            <svg-icon key="topup" size="xs"></svg-icon>
+
+            {{ translate('topup')}}
+          </button>
+        </div>
+
+        <div class="vpn-page__header-section">
+          <div class="vpn-page__header-toggle">
+            <mat-slide-toggle [formControl]="filterForm.get('subscribed')">
+              <ng-container *appBrowserTabView>
+                {{ translate('toggle.show_only_subscribed') }}
+              </ng-container>
+            </mat-slide-toggle>
+
+            <mat-slide-toggle [formControl]="filterForm.get('trusted')">
+              <ng-container *appBrowserTabView>
+                {{ translate('toggle.show_only_trusted') }}
+              </ng-container>
+            </mat-slide-toggle>
+          </div>
+
+          <div class="vpn-page__header-vertical-divider"></div>
+
+          <div (click)="refreshAll()">
+            <button
+              *appBrowserPopupView
+              app-icon-button
+              color="grey"
+            >
+              <svg-icon key="reload"></svg-icon>
+            </button>
+
+            <button
+              *appBrowserTabView
+              app-button
+              color="grey"
+            >
+              <svg-icon key="reload"></svg-icon>
+
+              {{ translate('refresh') }}
+            </button>
+          </div>
+
+          <button
+            *ngIf="isConnectedToWireguard"
+            class="vpn-page__header-disconnect mod-red"
+            app-button
+            (click)="disconnect()"
+          >
+            {{ translate('disconnect') }}
+          </button>
+        </div>
+      </div>
+
+      <ng-container *ngIf="!nodes.length">
+        <ng-container *ngIf="isLoading$ | async; then nodesLoading; else nodesNoData"></ng-container>
+      </ng-container>
+
+      <app-node-accordion
+        *ngIf="nodes.length > 0"
+        class="vpn-page__node-accordion"
+        [nodes]="nodes"
+        [isConnectedToWireguard]="isConnectedToWireguard"
+        appIntersectionArea
+      >
+        <div
+          class="vpn-page__node-accordion-content"
+          *appNodeAccordionContent="let node"
+        >
+          <app-node-subscribe
+            *ngIf="node.status$ | async as nodeStatus"
+            [maxDeposit]="+(balance$ | async)?.amount"
+            [nodeAddress]="node.address"
+            [price]="nodeStatus.price"
+            (subscribe)="subscribeToNode(node, $event)"
+          ></app-node-subscribe>
+
+          <app-node-subscription
+            *ngFor="let subscription of node.subscriptions"
+            [subscriptionStatusAt]="subscription.statusAt"
+            [subscriptionId]="subscription.id"
+            [isConnected]="subscription.sessions.length > 0 && isConnectedToWireguard"
+            [isConnectedToWireguard]="isConnectedToWireguard"
+            (cancel)="cancelSubscription(subscription)"
+            (connect)="connect(node, subscription)"
+            (disconnect)="disconnect(subscription)"
+          ></app-node-subscription>
+        </div>
+      </app-node-accordion>
+
+      <div
+        *ngIf="(isLoading$ | async) === false && (canLoadMore$ | async)"
+        appIntersectionTarget="0.5"
+        (intersect)="loadMore()"
+      >
+        <ng-container [ngTemplateOutlet]="nodesLoading"></ng-container>
+      </div>
+
+      <ng-template #balanceLoading>
+        <ngx-skeleton-loader
+          class="vpn-page__loader-balance"
+          [theme]="{
+            height: '24px',
+            marginBottom: '0',
+            width: '180px'
+          }"
+        ></ngx-skeleton-loader>
+      </ng-template>
+
+      <ng-template #nodesLoading>
+        <ngx-skeleton-loader
+          class="vpn-page__loader-nodes"
+          count="5"
+          [theme]="{
+            height: '40px',
+            width: '100%'
+          }"
+        ></ngx-skeleton-loader>
+      </ng-template>
+
+      <ng-template #nodesNoData>
+        <div class="vpn-page__no-data">
+          {{ translate('no_data') }}
+        </div>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #vpnMaintenance>
+    <div class="vpn-page__maintenance">
+      {{ translate('maintenance') }}
+    </div>
+  </ng-template>
+
+  <ng-template #wgNotInstalled>
+    <div class="vpn-page__wg-not-installed">
+      <ng-container *ngIf="detectOs === 'mac'">
+        {{ translate('wg_not_installed.mac') }}
+
+        <img src="assets/images/install-browser-mac.gif" alt="Install Decentr Browser">
+      </ng-container>
+
+      <ng-container *ngIf="detectOs !== 'mac'">
+        {{ translate('wg_not_installed.common') }}
+
+        <!-- TODO: enable when wgInstall will be implemented to host -->
+        <button
+          *ngIf="false"
+          app-button
+          (click)="onInstallWg()"
+        >
+          {{ translate('wg_not_installed.install_wg') }}
+        </button>
+      </ng-container>
+    </div>
+  </ng-template>
+</div>

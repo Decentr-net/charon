@@ -33,6 +33,7 @@ import { CORE_SERVICES, MenuService, NetworkSelectorService, NetworkService } fr
 import { PermissionsService } from './permissions';
 import { PasswordModule } from '@shared/components/password';
 import { ThemeModule } from '@shared/components/theme';
+import { WireguardService } from '@shared/services/wireguard';
 
 export function initAuthFactory(authService: AuthService): () => void {
   return () => authService.init();
@@ -100,6 +101,7 @@ export function initNetworkFactory(networkService: NetworkService): () => void {
     CORE_SERVICES,
     INTERCEPTORS_PROVIDERS,
     DecimalPipe,
+    WireguardService,
     {
       provide: AuthBrowserStorageService,
       useClass: AuthBrowserStorageService,

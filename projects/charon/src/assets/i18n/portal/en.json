@@ -100,17 +100,66 @@
     "sending": "Sending..."
   },
   "vpn_page": {
-    "browse_securely_from": "Browse securely from",
-    "browsing_securely_from": "Browsing securely from",
-    "connection": {
-      "secured": "Your connection is now secured.",
-      "insecure": "Your browsing is insecure."
+    "balance": "Balance",
+    "disconnect": "Disconnect",
+    "no_data": "There are no nodes available",
+    "refresh": "Refresh",
+    "title": "VPN",
+    "topup": "Top up",
+    "toggle": {
+      "show_only_subscribed": "Show only subscribed",
+      "show_only_trusted": "Show only trusted"
     },
-    "firefox_hint": "To be able to enable the proxy: open Firefox's extension settings and allow \"Run in Private Windows\".",
-    "unknown_browser": "We don't recognize your browser. Be sure you use Chrome or Firefox.",
-    "status": {
-      "off": "Off",
-      "on": "On"
+    "maintenance": "The VPN is temporarily unavailable due to maintenance.",
+    "wg_not_installed": {
+      "common": "Wireguard is not installed.",
+      "install_wg": "Install Wireguard",
+      "mac": "Drag and drop Decentr Browser into Applications and restart the browser. Note: application name must be \"Decentr\".",
+      "notifications": {
+        "not_installed": "Wireguard is not installed",
+        "install_error": "Error during installation Wireguard"
+      }
+    },
+    "nodes_expansion": {
+      "address": "Address",
+      "download_speed": "Download speed",
+      "peers": "Peers",
+      "price": "Price",
+      "upload_speed": "Upload speed",
+      "connect": {
+        "actions": {
+          "remove": "Remove",
+          "remove_subscription": "Remove subscription",
+          "connect": "Connect",
+          "disconnect": "Disconnect"
+        },
+        "cancel_subscription_confirmation": {
+          "cancel_subscription": "Remove",
+          "close": "Close",
+          "content": "Are you sure you want to remove the subscription?",
+          "title": "Remove subscription"
+        },
+        "notifications": {
+          "connected": "Successfully connected",
+          "disconnected": "Successfully disconnected",
+          "not_connected": "Not connected. Try again!",
+          "not_disconnected": "Not disconnected. Try again!",
+          "subscription_cancelled": "Subscription has cancelled",
+          "tx_broadcasted": "Transaction is successfully broadcasted. It may takes 1-5 minutes. Refresh node's list in some minutes."
+        },
+        "subscription_from": "Subscription from"
+      },
+      "subscribe": {
+        "actions": {
+          "subscribe": "Subscribe"
+        },
+        "fee_error": "Insufficient funds to pay fee ({{fee}}) with the selected deposit",
+        "insufficient_error": "Insufficient funds. Topup balance",
+        "notifications": {
+          "subscribed": "Successfully subscribed",
+          "tx_broadcasted": "Transaction is successfully broadcasted. It may takes 1-5 minutes. Refresh node's list in some minutes."
+        }
+      }
     }
   }
 }

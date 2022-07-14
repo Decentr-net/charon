@@ -46,12 +46,12 @@ export abstract class InfiniteLoadingService<T> {
     this.loadMore.next();
   }
 
-  protected abstract getNextItems(): Observable<T[]>;
-
-  protected reload(): void {
+  public reload(): void {
     this.clear();
     this.loadMoreItems();
   }
+
+  protected abstract getNextItems(): Observable<T[]>;
 
   protected pushItems(items: T[]): void {
     this.list.next([

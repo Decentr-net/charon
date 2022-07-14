@@ -1,0 +1,42 @@
+<form
+  *transloco="let translate; read: 'portal.vpn_page.nodes_expansion.subscribe'"
+  class="node-subscribe__form"
+  [formGroup]="form"
+  (ngSubmit)="subscribeToNode()"
+>
+  <div class="node-subscribe__deposit">
+    <app-input-counter
+      class="node-subscribe__deposit-input"
+      formControlName="deposit"
+      [max]="maxDeposit"
+      [min]="+price.amount"
+      [step]="+price.amount"
+      [displayWith]="displayWith"
+    ></app-input-counter>
+
+    <div class="node-subscribe__deposit-amount">
+      {{ depositCapacity$ | async }} GB
+    </div>
+
+    <div
+      *ngIf="!canSubscribe"
+      class="node-subscribe__deposit-fee-error"
+    >
+      <ng-container *ngIf="fee">
+        {{ translate('fee_error', {fee: fee | microValue | appCurrencySymbol | async}) }}
+      </ng-container>
+
+      <ng-container *ngIf="insufficientFunds">
+        {{ translate('insufficient_error') }}
+      </ng-container>
+    </div>
+  </div>
+
+  <button
+    app-button
+    [type]="'submit'"
+    [disabled]="!canSubscribe"
+  >
+    {{ translate('actions.subscribe') }}
+  </button>
+</form>

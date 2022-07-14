@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { BrowserTabGuard } from '@core/guards';
+import { BrowserTabGuard, MainnetGuard } from '@core/guards';
 import { PortalPageComponent } from './pages';
 import { PortalRoute } from './portal-route';
 
@@ -31,6 +31,14 @@ const ROUTES: Routes = [
         loadChildren: () => import('./modules').then((m) => m.StakingModule),
         canActivate: [
           BrowserTabGuard,
+        ],
+      },
+      {
+        path: PortalRoute.Vpn,
+        loadChildren: () => import('./modules').then((m) => m.VpnModule),
+        canActivate: [
+          BrowserTabGuard,
+          MainnetGuard,
         ],
       },
     ],

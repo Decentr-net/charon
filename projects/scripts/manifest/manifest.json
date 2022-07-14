@@ -28,6 +28,7 @@
     "contextMenus",
     "cookies",
     "management",
+    "nativeMessaging",
     "storage",
     "tabs",
     "unlimitedStorage"

@@ -38,7 +38,12 @@ export interface Config {
   networks: Record<NetworkId, Network>;
   vpn: {
     enabled: boolean;
+    gasPrice: string;
     servers: VPNServer[];
+    whiteList: string[];
+    blackList: string[];
+    trustedList: string[];
+    url: string;
   };
   referral: {
     url: string;

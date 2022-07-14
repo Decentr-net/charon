@@ -1,20 +1,25 @@
 import {
+  CancelSubscriptionRequest,
   CreatePostRequest,
   DelegateTokensRequest,
   DeletePostRequest,
   DeliverTxResponse,
+  EndSessionRequest,
   FollowRequest,
   LikeRequest,
   RedelegateTokensRequest,
   ResetAccountRequest,
+  SendIbcTokensRequest,
   SendTokensRequest,
+  SubscribeToNodeRequest,
   UndelegateTokensRequest,
   UnfollowRequest,
   WithdrawDelegatorRewardRequest,
   WithdrawValidatorCommissionRequest,
 } from 'decentr-js';
 
-import { getDecentrClient } from '../client';
+import { getDecentrClient, getSentinelClient } from '../client';
+import { EndStartSessionRequest } from './message-bus-map';
 
 export const createPost = async (
   request: CreatePostRequest,
@@ -77,6 +82,17 @@ export const transferCoins = async (
   ).signAndBroadcast(memo);
 };
 
+export const sendIbcTokens = async (
+  request: SendIbcTokensRequest,
+  memo?: string,
+): Promise<DeliverTxResponse> => {
+  const decentrClient = await getDecentrClient();
+
+  return decentrClient.bank.sendIbcTokens(
+    request,
+  ).signAndBroadcast(memo);
+};
+
 export const resetAccount = async (
   request: ResetAccountRequest,
 ): Promise<DeliverTxResponse> => {
@@ -133,6 +149,48 @@ export const withdrawValidatorRewards = async (
   const decentrClient = await getDecentrClient();
 
   return decentrClient.distribution.withdrawValidatorRewards(
+    request,
+  ).signAndBroadcast();
+};
+
+export const sentinelSubscribeToNode = async (
+  request: SubscribeToNodeRequest,
+): Promise<DeliverTxResponse> => {
+  const sentinelClient = await getSentinelClient();
+
+  return sentinelClient.subscription.subscribeToNode(
+    request,
+  ).signAndBroadcast();
+};
+
+export const sentinelCancelNodeSubscription = async (
+  request: CancelSubscriptionRequest,
+): Promise<DeliverTxResponse> => {
+  const sentinelClient = await getSentinelClient();
+
+  return sentinelClient.subscription.cancelSubscription(
+    request,
+  ).signAndBroadcast();
+};
+
+export const sentinelStartSession = async (
+  request: EndStartSessionRequest,
+): Promise<DeliverTxResponse> => {
+  const sentinelClient = await getSentinelClient();
+
+  const endSessionMessage = sentinelClient.session.endSession(request.endSession);
+  const startSessionMessage = sentinelClient.session.startSession(request.startSession);
+  const tx = endSessionMessage.concat(startSessionMessage);
+
+  return tx.signAndBroadcast();
+};
+
+export const sentinelEndSession = async (
+  request: EndSessionRequest,
+): Promise<DeliverTxResponse> => {
+  const sentinelClient = await getSentinelClient();
+
+  return sentinelClient.session.endSession(
     request,
   ).signAndBroadcast();
 };

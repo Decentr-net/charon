@@ -1,0 +1,36 @@
+@import '../../styles/variables';
+
+:host {
+  align-items: center;
+  border: 1px solid var(--color-outlines);
+  border-radius: $border-radius;
+  display: flex;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.input-counter__icon-amount {
+  align-items: center;
+  display: flex;
+  font-weight: 500;
+}
+
+.input-counter__icon {
+  margin-left: $grid-step;
+  margin-right: $grid-step * 1.5;
+}
+
+.input-counter__signs {
+  font-weight: 500;
+  user-select: none;
+}
+
+.input-counter__signs-plus,
+.input-counter__signs-minus, {
+  align-items: center;
+  border: 1px solid var(--color-outlines);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  width: 40px;
+}

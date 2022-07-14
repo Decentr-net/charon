@@ -1,0 +1,116 @@
+@import 'variables';
+
+:host {
+  display: block;
+  padding-bottom: $grid-step * 2;
+
+  .mod-tab-view & {
+    .vpn-page__layout {
+      border: 2px solid var(--color-outlines);
+      border-radius: $border-radius;
+    }
+  }
+}
+
+.vpn-page__header {
+  align-items: center;
+  background: var(--color-main-background);
+  border-bottom: 2px solid var(--color-outlines);
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+  display: flex;
+  justify-content: space-between;
+  padding: $grid-step * 2;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.vpn-page__header-section {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  column-gap: $grid-step * 2;
+
+  &.mod-left {
+    font-weight: 500;
+  }
+}
+
+.vpn-page__header-toggle {
+  display: flex;
+  flex-direction: column;
+}
+
+.vpn-page__header-title {
+  align-items: center;
+  column-gap: $grid-step * 2;
+  display: flex;
+  font-weight: 500;
+}
+
+.vpn-page__header-balance {
+  &.mod-empty {
+    color: var(--color-dportal-vpn-balance-amount);
+  }
+}
+
+.vpn-page__header-vertical-divider {
+  background-color: var(--color-outlines);
+  height: 24px;
+  width: 2px;
+}
+
+.vpn-page__header-disconnect {
+  &.mod-red {
+    background-color: var(--color-dportal-vpn-node-details-disconnect-background);
+  }
+}
+
+.vpn-page__node-accordion {
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  width: 100%;
+}
+
+.vpn-page__node-accordion-content {
+  display: flex;
+  flex-direction: column;
+  row-gap: $grid-step * 2;
+}
+
+.vpn-page__no-data {
+  align-self: center;
+  display: flex;
+  color: var(--color-dportal-vpn-nodes-list-no-data);
+  justify-content: center;
+  margin: $grid-step * 2;
+}
+
+.vpn-page__loader-balance {
+  display: flex;
+}
+
+.vpn-page__loader-nodes {
+  display: block;
+  margin-top: $grid-step * 2;
+  padding: 0 $grid-step;
+  width: 100%;
+}
+
+.vpn-page__maintenance {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: $grid-step * 2;
+}
+
+.vpn-page__wg-not-installed {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: $grid-step * 2;
+  row-gap: $grid-step * 2;
+}

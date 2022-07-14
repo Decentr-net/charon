@@ -6,13 +6,14 @@ import {
   OnInit,
 } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ControlsOf, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, debounceTime, map, share, switchMap } from 'rxjs/operators';
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+import { NavigationService } from '@core/navigation';
 import { FORM_ERROR_TRANSLOCO_READ } from '@shared/components/form-error';
 import { FormControlWarn } from '@shared/forms';
 import { MICRO_PDV_DIVISOR } from '@shared/pipes/micro-value';
@@ -54,11 +55,13 @@ export class TransferPageComponent implements OnInit {
 
   public canSend$: Observable<boolean>;
 
+  public isAmountToDisabled: boolean = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private changeDetectorRef: ChangeDetectorRef,
     private formBuilder: FormBuilder,
-    private router: Router,
+    private navigationService: NavigationService,
     private svgIconRegistry: SvgIconRegistry,
     private transferPageService: TransferPageService,
   ) {
@@ -83,6 +86,10 @@ export class TransferPageComponent implements OnInit {
     this.form.get('data').setAsyncValidators([
       this.transferPageService.createAsyncAmountValidator(amountControl, this.fee$),
     ]);
+
+    if (this.activatedRoute.snapshot.queryParams[RECEIVER_WALLET_PARAM]) {
+      this.form.get(['data', RECEIVER_WALLET_PARAM]).disable();
+    }
   }
 
   public onSubmit(): void {
@@ -101,7 +108,7 @@ export class TransferPageComponent implements OnInit {
       }),
       untilDestroyed(this),
     ).subscribe(() => {
-      this.navigateToAssets();
+      this.navigateBack();
     });
   }
 
@@ -151,10 +158,8 @@ export class TransferPageComponent implements OnInit {
     return Math.round(amount * MICRO_PDV_DIVISOR);
   }
 
-  private navigateToAssets(): void {
-    this.router.navigate(['../'], {
-      relativeTo: this.activatedRoute,
-    });
+  private navigateBack(): void {
+    this.navigationService.back(['../']);
   }
 
   private getFeeStream(form: FormGroup<ControlsOf<TransferForm>>, defaultValue = 0): Observable<number> {

@@ -1,0 +1,71 @@
+<ng-container
+  *transloco="let translate; read: 'portal.vpn_page.nodes_expansion.connect'"
+>
+  <div
+    class="node-subscription__deposit"
+  >
+    <div
+      class="node-subscription__deposit-amount"
+    >
+      <div
+        *ngIf="quota$ | async as quota; else loadingQuota"
+        class="node-subscription__deposit-amount-quota"
+        [class.mod-exceeded]="+quota?.consumed >= +quota?.allocated"
+      >
+        {{ +(quota?.consumed || 0) | appBytesSize }} /
+        {{ +(quota?.allocated || 0) | appBytesSize }}
+      </div>
+
+      <ng-template #loadingQuota>
+        <ngx-skeleton-loader
+          class="node-subscription__deposit-amount-loading"
+          [theme]="{
+            height: '22px',
+            width: '53px',
+            marginBottom: '0'
+          }"
+        ></ngx-skeleton-loader>
+      </ng-template>
+    </div>
+
+    {{ translate('subscription_from') }}: {{ subscriptionStatusAt | date : 'd MMM yyyy, HH:mm' }}
+  </div>
+
+  <div class="node-subscription__actions">
+    <ng-container *ngIf="isConnected; else notConnectedActions">
+      <button
+        class="node-subscription__action mod-red"
+        app-button
+        (click)="onDisconnect()"
+      >
+        {{ translate('actions.disconnect') }}
+      </button>
+    </ng-container>
+
+    <ng-template #notConnectedActions>
+      <button
+        *ngIf="!isConnected"
+        class="node-subscription__action"
+        app-button
+        color="grey"
+        (click)="onCancel()"
+      >
+        {{ translate('actions.' + (isOpenedInTab ? 'remove_subscription' : 'remove')) }}
+      </button>
+
+      <ng-container
+        *ngIf="quota$ | async as quota"
+      >
+        <button
+          *ngIf="+quota?.consumed < +quota?.allocated"
+          class="node-subscription__action"
+          app-button
+          [disabled]="isConnectedToWireguard"
+          (click)="onConnect()"
+        >
+          {{ translate('actions.connect') }}
+        </button>
+      </ng-container>
+    </ng-template>
+  </div>
+</ng-container>
