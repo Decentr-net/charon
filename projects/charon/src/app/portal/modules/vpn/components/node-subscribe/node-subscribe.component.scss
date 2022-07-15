@@ -32,3 +32,9 @@
 .node-subscribe__deposit-fee-error {
   color: var(--color-dportal-vpn-fee-error);
 }
+
+.node-subscribe__deposit-actions {
+  align-items: center;
+  column-gap: $grid-step * 1.5;
+  display: flex;
+}

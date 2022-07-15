@@ -32,11 +32,22 @@
     </div>
   </div>
 
-  <button
-    app-button
-    [type]="'submit'"
-    [disabled]="!canSubscribe"
-  >
-    {{ translate('actions.subscribe') }}
-  </button>
+  <div class="node-subscribe__deposit-actions">
+    <app-spinner
+      *ngIf="canSubscribeLoading"
+      [size]="24"
+    ></app-spinner>
+
+    <div
+      [appTooltip]="!isMoreSubscriptionAllowed ? translate('max_allowed_subscriptions', { max: maxSubscriptionsAllowed }) : ''"
+    >
+      <button
+        app-button
+        [type]="'submit'"
+        [disabled]="!canSubscribe || !isMoreSubscriptionAllowed"
+      >
+        {{ translate('actions.subscribe') }}
+      </button>
+    </div>
+  </div>
 </form>
