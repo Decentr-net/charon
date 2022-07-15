@@ -8,7 +8,7 @@
       class="node-subscription__deposit-amount"
     >
       <div
-        *ngIf="quota$ | async as quota; else loadingQuota"
+        *ngIf="quota; else loadingQuota"
         class="node-subscription__deposit-amount-quota"
         [class.mod-exceeded]="+quota?.consumed >= +quota?.allocated"
       >
@@ -53,19 +53,14 @@
         {{ translate('actions.' + (isOpenedInTab ? 'remove_subscription' : 'remove')) }}
       </button>
 
-      <ng-container
-        *ngIf="quota$ | async as quota"
+      <button
+        class="node-subscription__action"
+        app-button
+        [disabled]="isConnectedToWireguard || (+quota?.consumed >= +quota?.allocated)"
+        (click)="onConnect()"
       >
-        <button
-          *ngIf="+quota?.consumed < +quota?.allocated"
-          class="node-subscription__action"
-          app-button
-          [disabled]="isConnectedToWireguard"
-          (click)="onConnect()"
-        >
-          {{ translate('actions.connect') }}
-        </button>
-      </ng-container>
+        {{ translate('actions.connect') }}
+      </button>
     </ng-template>
   </div>
 </ng-container>

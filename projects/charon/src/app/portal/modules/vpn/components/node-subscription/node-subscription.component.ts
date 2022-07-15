@@ -1,12 +1,20 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
-import { Observable } from 'rxjs';
-import { share } from 'rxjs/operators';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { SentinelQuota } from 'decentr-js';
 import Long from 'long';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { SentinelService } from '@core/services';
 import { isOpenedInTab } from '@shared/utils/browser';
 
+@UntilDestroy()
 @Component({
   selector: 'app-node-subscription',
   templateUrl: './node-subscription.component.html',
@@ -30,17 +38,22 @@ export class NodeSubscriptionComponent implements OnInit {
 
   @Output() public cancel: EventEmitter<void> = new EventEmitter();
 
-  public quota$!: Observable<SentinelQuota>;
+  public quota: SentinelQuota;
 
   constructor(
+    private changeDetectorRef: ChangeDetectorRef,
     private sentinelService: SentinelService,
   ) {
   }
 
   public ngOnInit(): void {
-    this.quota$ = this.sentinelService.getQuota(this.subscriptionId).pipe(
-      share(),
-    );
+    this.sentinelService.getQuota(this.subscriptionId).pipe(
+      untilDestroyed(this),
+    ).subscribe((quota) => {
+      this.quota = quota;
+
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   public onCancel(): void {
