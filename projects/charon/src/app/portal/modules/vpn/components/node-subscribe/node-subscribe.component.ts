@@ -19,6 +19,7 @@ import { priceFromString } from '@shared/utils/price';
 import { SentinelService } from '@core/services';
 import { ONE_SECOND } from '@shared/utils/date';
 import { SentinelExtendedSubscription } from '../../pages/vpn-page/vpn-page.definitions';
+import { VpnPageService } from '../../pages';
 
 interface SubscribeForm {
   deposit: number;
@@ -61,6 +62,7 @@ export class NodeSubscribeComponent implements OnInit {
     private formBuilder: FormBuilder,
     private sentinelService: SentinelService,
     private pricePipe: PricePipe,
+    private vpnPageService: VpnPageService,
   ) {
   }
 
@@ -102,6 +104,12 @@ export class NodeSubscribeComponent implements OnInit {
       this.insufficientFunds = this.maxDeposit < deposit;
 
       this.changeDetectorRef.markForCheck();
+    });
+
+    this.vpnPageService.subscriptionCreated().pipe(
+      untilDestroyed(this),
+    ).subscribe(() => {
+      this.form.get('deposit').setValue(+this.price.amount);
     });
   }
 
