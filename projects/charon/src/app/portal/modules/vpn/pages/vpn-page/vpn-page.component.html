@@ -120,6 +120,7 @@
             [maxDeposit]="+(balance$ | async)?.amount"
             [nodeAddress]="node.address"
             [price]="nodeStatus.price"
+            [subscriptions]="node.subscriptions"
             (subscribe)="subscribeToNode(node, $event)"
           ></app-node-subscribe>
 

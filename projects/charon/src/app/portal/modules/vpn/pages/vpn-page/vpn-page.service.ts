@@ -88,6 +88,8 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
 
   private refreshStatus$: Subject<void> = new Subject();
 
+  private subscriptionCreated$: Subject<void> = new Subject();
+
   private nodeStatusMap: Map<SentinelNodeExtendedDetails['address'], SentinelNodeStatus> = new Map();
 
   constructor(
@@ -269,9 +271,14 @@ export class VpnPageService extends InfiniteLoadingService<SentinelNodeExtendedD
         );
 
         this.refreshSubscriptions$.next();
+        this.subscriptionCreated$.next();
       }),
       finalize(() => this.spinnerService.hideSpinner()),
     );
+  }
+
+  public subscriptionCreated(): Observable<void> {
+    return this.subscriptionCreated$.asObservable();
   }
 
   public cancelSubscription(subscriptionId: Long): Observable<void> {

@@ -153,6 +153,7 @@
         "actions": {
           "subscribe": "Subscribe"
         },
+        "max_allowed_subscriptions": "Max {{max}} subscriptions allowed for the node",
         "fee_error": "Insufficient funds to pay fee ({{fee}}) with the selected deposit",
         "insufficient_error": "Insufficient funds. Topup balance",
         "notifications": {

@@ -18,6 +18,8 @@ import { PricePipe } from '@shared/pipes/price';
 import { priceFromString } from '@shared/utils/price';
 import { SentinelService } from '@core/services';
 import { ONE_SECOND } from '@shared/utils/date';
+import { SentinelExtendedSubscription } from '../../pages/vpn-page/vpn-page.definitions';
+import { VpnPageService } from '../../pages';
 
 interface SubscribeForm {
   deposit: number;
@@ -37,6 +39,8 @@ export class NodeSubscribeComponent implements OnInit {
 
   @Input() public nodeAddress: string;
 
+  @Input() public subscriptions: SentinelExtendedSubscription[];
+
   @Output() public subscribe: EventEmitter<Coin> = new EventEmitter();
 
   public form!: FormGroup<ControlsOf<SubscribeForm>>;
@@ -47,14 +51,23 @@ export class NodeSubscribeComponent implements OnInit {
 
   public canSubscribe: boolean;
 
+  public canSubscribeLoading: boolean;
+
   public insufficientFunds: boolean;
+
+  public maxSubscriptionsAllowed: number = 3;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private formBuilder: FormBuilder,
     private sentinelService: SentinelService,
     private pricePipe: PricePipe,
+    private vpnPageService: VpnPageService,
   ) {
+  }
+
+  public get isMoreSubscriptionAllowed(): boolean {
+    return this.subscriptions.length < this.maxSubscriptionsAllowed;
   }
 
   public ngOnInit(): void {
@@ -68,6 +81,7 @@ export class NodeSubscribeComponent implements OnInit {
       tap(() => {
         this.fee = 0;
         this.canSubscribe = false;
+        this.canSubscribeLoading = true;
         this.insufficientFunds = false;
       }),
       debounceTime(ONE_SECOND * 2),
@@ -84,11 +98,18 @@ export class NodeSubscribeComponent implements OnInit {
     ).subscribe((fee) => {
       const deposit = this.form.get('deposit').value;
 
+      this.canSubscribeLoading = false;
       this.fee = fee;
       this.canSubscribe = this.maxDeposit - this.fee >= deposit;
       this.insufficientFunds = this.maxDeposit < deposit;
 
       this.changeDetectorRef.markForCheck();
+    });
+
+    this.vpnPageService.subscriptionCreated().pipe(
+      untilDestroyed(this),
+    ).subscribe(() => {
+      this.form.get('deposit').setValue(+this.price.amount);
     });
   }
 
@@ -119,5 +140,4 @@ export class NodeSubscribeComponent implements OnInit {
   public displayWith = (value: number): string => {
     return this.pricePipe.transform(priceFromString(value + this.price.denom)[0]);
   };
-
 }
