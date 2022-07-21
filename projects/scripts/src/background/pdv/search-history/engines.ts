@@ -12,6 +12,7 @@ enum SearchEngine {
   DuckDuckGo = 'duckduckgo',
   Ecosia = 'ecosia',
   Google = 'google',
+  Presearch = 'presearch',
   Yahoo = 'yahoo',
   Yandex = 'yandex',
 }
@@ -49,6 +50,10 @@ const SEARCH_ENGINES_CONFIGURATION: Record<SearchEngine, SearchEngineConfig> = {
   },
   [SearchEngine.Google]: {
     urlRegex: createUrlRegex(SearchEngine.Google),
+    queryParam: 'q',
+  },
+  [SearchEngine.Presearch]: {
+    urlRegex: createUrlRegex(SearchEngine.Presearch),
     queryParam: 'q',
   },
   [SearchEngine.Yahoo]: {
