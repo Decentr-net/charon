@@ -15,21 +15,29 @@
   margin-top: $grid-step;
 }
 
-.seed-phrase__warning {
-  background: rgba(var(--color-seed-phrase-warning), 0.08);
+.seed-phrase__message {
   border-radius: $border-radius;
-  color: rgb(var(--color-seed-phrase-warning));
   column-gap: $grid-step;
   display: flex;
-  margin-top: $grid-step * 3;
+  margin-top: $grid-step * 2;
   padding: $grid-step * 2;
+
+  &.mod-careful {
+    background: rgba(var(--color-seed-phrase-careful), 0.08);
+    color: rgb(var(--color-seed-phrase-careful));
+  }
+
+  &.mod-warning {
+    background: rgba(var(--color-seed-phrase-warning), 0.08);
+    color: rgb(var(--color-seed-phrase-warning));
+  }
 }
 
-.seed-phrase__warning__label {
+.seed-phrase__message__label {
   font-weight: 700;
 }
 
-.seed-phrase__warning__text {
+.seed-phrase__message__text {
   color: var(--color-main-text);
 }
 
