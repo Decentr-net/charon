@@ -103,6 +103,19 @@ export const mapSendTransaction = (
   };
 };
 
+export const mapIbcTransfer = (
+  msg: TxMessageValue<CosmosTxMessageTypeUrl.IbcMsgTransfer>,
+): TokenTransactionMessage => {
+  const amount = -1 * +msg.token.amount;
+
+  return {
+    type: CosmosTxMessageTypeUrl.BankSend,
+    amount,
+    recipient: msg.receiver,
+    sender: msg.sender,
+  };
+};
+
 export const mapDelegateTransaction = (
   msg: TxMessageValue<CosmosTxMessageTypeUrl.StakingDelegate>,
   msgIndex: number,
