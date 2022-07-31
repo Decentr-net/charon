@@ -91,6 +91,7 @@
   --color-profile-card-balance-background: #{hexToRGBString($color-blue)};
   --color-profile-card-balance-icon: #{$color-blue};
   --color-profile-card-balance-bio: #{$color-grey};
+  --color-seed-phrase-careful: #{hexToRGBString($color-orange)};
   --color-seed-phrase-warning: #{hexToRGBString($color-red)};
   --color-success-page-tips: #{$color-grey};
   --color-success-page-tips-link: #{$color-blue};
@@ -389,6 +390,7 @@
     --color-profile-card-balance-background: #{hexToRGBString($color-blue-night)};
     --color-profile-card-balance-icon: #{$color-blue-night};
     --color-profile-card-balance-bio: #{$color-grey};
+    --color-seed-phrase-careful: #{hexToRGBString($color-orange-night)};
     --color-seed-phrase-warning: #{hexToRGBString($color-red-night)};
     --color-success-page-tips: #{$color-grey};
     --color-success-page-tips-link: #{$color-blue-night};

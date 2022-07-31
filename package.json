@@ -1,6 +1,6 @@
 {
   "name": "charon",
-  "version": "4.4.2",
+  "version": "4.4.3",
   "scripts": {
     "ng": "ng",
     "build": "npm run clean && npm-run-all --parallel build:charon build:scripts",

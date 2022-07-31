@@ -16,13 +16,26 @@
 
     <app-seed [value]="seedPhrase"></app-seed>
 
-    <div class="seed-phrase__warning" appTypeface="paragraph">
+    <div class="seed-phrase__message mod-careful" appTypeface="paragraph">
+      <svg-icon key="referral"></svg-icon>
+
+      <div>
+        <div class="seed-phrase__message__label">{{ translate('careful.label') }}</div>
+
+        <div class="seed-phrase__message__text">
+          <div>{{ translate('careful.text1') }}</div>
+          <div>{{ translate('careful.text2') }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seed-phrase__message mod-warning" appTypeface="paragraph">
       <svg-icon key="loud"></svg-icon>
 
       <div>
-        <div class="seed-phrase__warning__label">{{ translate('warning.label') }}</div>
+        <div class="seed-phrase__message__label">{{ translate('warning.label') }}</div>
 
-        <div class="seed-phrase__warning__text">
+        <div class="seed-phrase__message__text">
           <div>{{ translate('warning.text1') }}</div>
           <div>{{ translate('warning.text2') }}</div>
           <div>{{ translate('warning.text3') }}</div>

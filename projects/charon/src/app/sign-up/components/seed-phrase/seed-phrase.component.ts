@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { SvgIconRegistry } from '@ngneat/svg-icon';
 
 import { svgLoud } from '@shared/svg-icons/loud';
+import { svgReferral } from '@shared/svg-icons/referral';
 
 @Component({
   selector: 'app-seed-phrase',
@@ -21,6 +22,7 @@ export class SeedPhraseComponent {
   ) {
     svgIconRegistry.register([
       svgLoud,
+      svgReferral,
     ]);
   }
 

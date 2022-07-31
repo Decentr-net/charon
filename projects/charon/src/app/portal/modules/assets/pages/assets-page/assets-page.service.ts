@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { coerceArray } from '@angular/cdk/coercion';
-import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, distinctUntilChanged, map, mergeMap, take } from 'rxjs/operators';
+import { combineLatest, concat, Observable, of } from 'rxjs';
+import { catchError, distinctUntilChanged, map, mergeMap, reduce, take } from 'rxjs/operators';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { CosmosTxMessageTypeUrl, DecodedIndexedTx, TxMessageValue, Wallet } from 'decentr-js';
 
@@ -17,6 +17,7 @@ import {
 import { Asset } from './assets-page.definitions';
 import {
   mapDelegateTransaction,
+  mapIbcTransfer,
   mapRedelegateTransaction,
   mapSendTransaction,
   mapUndelegateTransaction,
@@ -92,9 +93,34 @@ export class AssetsPageService
   }
 
   private searchTransactions(walletAddress: Wallet['address']): Observable<DecodedIndexedTx[]> {
-    return combineLatest([
+    return concat(
       this.decentrService.decentrClient.pipe(
-        mergeMap((decentrClient) => decentrClient.tx.search({ sentFromOrTo: walletAddress })),
+        mergeMap((decentrClient) => decentrClient.tx.search({
+          tags: [
+            {
+              key: 'message.module',
+              value: 'bank',
+            },
+            {
+              key: 'transfer.sender',
+              value: walletAddress,
+            },
+          ],
+        })),
+      ),
+      this.decentrService.decentrClient.pipe(
+        mergeMap((decentrClient) => decentrClient.tx.search({
+          tags: [
+            {
+              key: 'message.module',
+              value: 'bank',
+            },
+            {
+              key: 'transfer.recipient',
+              value: walletAddress,
+            },
+          ],
+        })),
       ),
       this.decentrService.decentrClient.pipe(
         mergeMap((decentrClient) => decentrClient.tx.search({
@@ -124,8 +150,23 @@ export class AssetsPageService
           ],
         })),
       ),
-    ]).pipe(
-      map((txArrays) => txArrays.reduce((acc, txs) => [...acc, ...txs], [])),
+      this.decentrService.decentrClient.pipe(
+        mergeMap((decentrClient) => decentrClient.tx.search({
+          tags: [
+            {
+              key: 'message.action',
+              value: CosmosTxMessageTypeUrl.IbcMsgTransfer,
+            },
+            {
+              key: 'message.sender',
+              value: walletAddress,
+            },
+          ],
+        })),
+      ),
+    ).pipe(
+      reduce((acc, txs) => [...acc, ...txs], []),
+      map((txs) => txs.filter((tx, index) => txs.findIndex(({ hash }) => hash === tx.hash) === index)),
       map((txs) => txs.filter((tx) => !tx.code)),
       map((txs) => txs.sort((left, right) => right.height - left.height)),
       take(1),
@@ -149,6 +190,14 @@ export class AssetsPageService
             }
 
             tokenTransactionMessage = mapSendTransaction(msgValue, walletAddress);
+
+            break;
+          }
+
+          case CosmosTxMessageTypeUrl.IbcMsgTransfer: {
+            const msgValue = msg.value as TxMessageValue<CosmosTxMessageTypeUrl.IbcMsgTransfer>;
+
+            tokenTransactionMessage = mapIbcTransfer(msgValue);
 
             break;
           }
