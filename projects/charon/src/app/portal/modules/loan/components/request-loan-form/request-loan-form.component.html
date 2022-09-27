@@ -1,0 +1,54 @@
+<form
+  autocomplete="off"
+  [formGroup]="form"
+  *transloco="let translate; read: translationsConfig.read; scope: translationsConfig.scope"
+>
+
+  <section class="personal-info-form__section">
+
+    <div class="personal-info-form__inputs-container">
+      <app-input-container class="personal-info-form__input-container">
+        <app-input
+          [maxlength]="20"
+          [formControlName]="controlName.FirstName"
+        >
+          <ng-container ngProjectAs="[label]">{{ translate('first_name.label') }}*</ng-container>
+        </app-input>
+
+        <app-form-error [controlName]="controlName.FirstName" i18nControlKey="first_name"></app-form-error>
+      </app-input-container>
+
+      <app-input-container class="personal-info-form__input-container">
+        <app-input
+          [maxlength]="20"
+          [formControlName]="controlName.LastName"
+        >
+          <ng-container ngProjectAs="[label]">{{ translate('last_name.label') }}</ng-container>
+        </app-input>
+
+        <app-form-error [controlName]="controlName.LastName" i18nControlKey="last_name"></app-form-error>
+      </app-input-container>
+    </div>
+
+    <div class="personal-info-form__inputs-container">
+      <app-input-container class="personal-info-form__input-container">
+        <app-input
+          [formControlName]="controlName.PdvRate"
+        >
+          <ng-container ngProjectAs="[label]">{{ translate('pdv.label') }}</ng-container>
+        </app-input>
+
+      </app-input-container>
+
+      <app-input-container class="personal-info-form__input-container">
+        <app-input
+          [formControlName]="controlName.WalletAddress"
+        >
+          <ng-container ngProjectAs="[label]">{{ translate('wallet_address.label') }}</ng-container>
+        </app-input>
+      </app-input-container>
+    </div>
+
+  </section>
+
+</form>

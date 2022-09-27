@@ -29,7 +29,8 @@
     "assets": "Assets",
     "pdv_rate": "PDV rate",
     "staking": "Staking",
-    "vpn": "VPN"
+    "vpn": "VPN",
+    "loan": "Loan"
   },
   "portal_page": {
     "copy_wallet_address": "Copy wallet address",

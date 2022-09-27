@@ -51,6 +51,11 @@ export class PortalNavigationComponent implements OnInit {
           i18nKey: 'portal.portal_navigation.staking',
           link: ['/', AppRoute.Portal, PortalRoute.Staking],
         },
+        {
+          colorClass: 'color-primary',
+          i18nKey: 'portal.portal_navigation.loan',
+          link: ['/', AppRoute.Portal, PortalRoute.Loan],
+        },
         ...networkId === NetworkId.Mainnet
           ? [{
             colorClass: 'color-primary',

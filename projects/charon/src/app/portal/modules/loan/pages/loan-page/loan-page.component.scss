@@ -1,0 +1,29 @@
+@import "variables";
+
+.loan-page__card {
+  border: 2px solid var(--color-outlines);
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: auto;
+  padding: $grid-step * 2;
+  width: 100%;
+}
+
+.loan-page__actions-container {
+  column-gap: $grid-step * 2;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.loan-page__action-button {
+  width: 160px;
+}
+
+.loan-page__divider {
+  background: var(--color-outlines);
+  flex-shrink: 0;
+  height: 2px;
+  margin: $grid-step * 2 (-$grid-step * 2);
+}

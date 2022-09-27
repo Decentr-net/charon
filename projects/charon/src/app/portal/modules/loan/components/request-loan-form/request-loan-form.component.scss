@@ -1,0 +1,22 @@
+@import "variables";
+
+:host {
+  display: block;
+}
+
+.personal-info-form__section {
+  & + & {
+    margin-top: $grid-step * 5;
+  }
+}
+
+.personal-info-form__inputs-container {
+  column-gap: $grid-step * 2;
+  display: flex;
+  margin-top: $grid-step * 2;
+  width: 100%;
+}
+
+.personal-info-form__input-container {
+  width: 100%;
+}
