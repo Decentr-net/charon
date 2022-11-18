@@ -182,7 +182,7 @@ export class RedelegatePageComponent implements OnInit {
         return validatorsOptions.filter((validator) => {
           return toValidatorPartialName
             // toValidator value is string when typing
-            ? validator.label.includes(toValidatorPartialName.toString())
+            ? validator.label.toLowerCase().includes(toValidatorPartialName.toString().toLowerCase())
             : validatorsOptions;
         });
       }),
