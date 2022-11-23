@@ -5,4 +5,5 @@ export enum PortalRoute {
   Staking = 'staking',
   Transfer = 'transfer',
   Vpn = 'vpn',
+  Loan = 'loan',
 }

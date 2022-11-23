@@ -41,6 +41,13 @@ const ROUTES: Routes = [
           MainnetGuard,
         ],
       },
+      {
+        path: PortalRoute.Loan,
+        loadChildren: () => import('./modules').then((m) => m.LoanModule),
+        canActivate: [
+          BrowserTabGuard,
+        ],
+      },
     ],
   },
   {

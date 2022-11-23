@@ -1,0 +1,21 @@
+{
+  "test": "Test message",
+  "request_loan_form": {
+    "first_name": {
+      "label": "First Name"
+    },
+    "last_name": {
+      "label": "Last Name"
+    },
+    "pdv": {
+      "label": "PDV"
+    },
+    "wallet_address": {
+      "label": "Wallet address"
+    },
+    "notifications": {
+      "success": "Loan successfully requested"
+    },
+    "submit": "Submit"
+  }
+}

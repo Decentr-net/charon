@@ -1,0 +1,33 @@
+<div
+  class="loan-page__card"
+  *transloco="let translate; read: 'loan'"
+>
+
+  <form
+    autocomplete="off"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    appSubmitSource
+  >
+    <app-request-loan-form
+      formControlName="requestLoan"
+      [translationsConfig]="{
+        read: 'loan.request_loan_form'
+      }"
+    >
+    </app-request-loan-form>
+
+    <div class="loan-page__divider"></div>
+
+    <div class="loan-page__actions-container">
+      <button
+        class="loan-page__action-button"
+        app-button
+        type="submit"
+      >
+        {{ translate('request_loan_form.submit') }}
+      </button>
+    </div>
+  </form>
+
+</div>
