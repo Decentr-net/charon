@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, Input, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ControlsOf, ControlValueAccessor, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -17,7 +17,7 @@ export type PDVTypesToggleTranslations = Record<keyof CollectedPDVTypesSettings,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: PdvTypesToggleComponent,
+      useExisting: forwardRef(() => PdvTypesToggleComponent),
       multi: true,
     },
   ],

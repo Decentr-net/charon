@@ -1,6 +1,6 @@
 import { AfterViewInit, Directive, ElementRef } from '@angular/core';
 import { delay, filter, startWith } from 'rxjs/operators';
-import { NavigationEnd, Router, RouterLinkWithHref } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
@@ -11,7 +11,7 @@ export class RouterLinkScrollAnchorDirective implements AfterViewInit {
   constructor(
     private elementRef: ElementRef<HTMLElement>,
     private router: Router,
-    private routerLink: RouterLinkWithHref,
+    private routerLink: RouterLink,
   ) {
   }
 

@@ -19,8 +19,8 @@ import { AppRoute } from './app-route';
 const ROUTES: Routes = [
   {
     path: '',
-    pathMatch: 'full',
     redirectTo: AppRoute.Hub,
+    pathMatch: 'full',
   },
   {
     path: AppRoute.Login,
@@ -143,7 +143,7 @@ const ROUTES: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(ROUTES, { useHash: true, relativeLinkResolution: 'legacy' }),
+    RouterModule.forRoot(ROUTES, { useHash: true }),
   ],
   exports: [
     RouterModule,

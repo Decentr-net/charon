@@ -13,6 +13,7 @@ const ROUTES: Routes = [
       {
         path: '',
         redirectTo: PortalRoute.PDVRate,
+        pathMatch: 'full',
       },
       {
         path: PortalRoute.PDVRate,

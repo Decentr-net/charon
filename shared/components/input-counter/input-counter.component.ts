@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
+  ElementRef, forwardRef,
   Input,
   OnInit,
   ViewChild,
@@ -25,7 +25,7 @@ import { svgLogoIcon } from '@shared/svg-icons/logo-icon';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: InputCounterComponent,
+      useExisting: forwardRef(() => InputCounterComponent),
       multi: true,
     },
   ],

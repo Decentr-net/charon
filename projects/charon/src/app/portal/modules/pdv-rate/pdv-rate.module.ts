@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { TranslocoModule } from '@ngneat/transloco';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
@@ -10,7 +10,7 @@ import { ButtonModule } from '@shared/components/button';
 import { CurrencySymbolModule } from '@shared/components/currency-symbol';
 import { DataTableModule } from '@shared/components/data-table';
 import { MarginLabelModule } from '@shared/components/margin-label';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { MicroValueModule } from '@shared/pipes/micro-value';
 import { NumberFormatModule } from '@shared/pipes/number-format';
 import { TypefaceModule } from '@shared/directives/typeface';

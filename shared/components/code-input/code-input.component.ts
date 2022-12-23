@@ -2,7 +2,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
+  ElementRef, forwardRef,
   HostBinding,
   Input,
   OnInit,
@@ -25,7 +25,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: CodeInputComponent,
+      useExisting: forwardRef(() => CodeInputComponent),
       multi: true,
     },
   ],

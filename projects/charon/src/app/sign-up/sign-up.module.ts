@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';

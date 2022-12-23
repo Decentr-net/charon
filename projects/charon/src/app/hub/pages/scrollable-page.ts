@@ -1,6 +1,7 @@
-import { ElementRef } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { timer } from 'rxjs';
 
+@Injectable()
 export abstract class ScrollablePage {
   protected constructor(protected elementRef: ElementRef<HTMLElement>) {
   }

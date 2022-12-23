@@ -17,18 +17,27 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "resolveJsonModule": true,
-    "target": "es2015",
+    "target": "ES2022",
     "module": "es2020",
     "lib": [
       "es2018",
       "dom"
     ],
     "paths": {
-      "@core/*": ["projects/charon/src/app/core/*"],
-      "@environments/*": ["environments/*"],
-      "@scripts/*": ["projects/scripts/src/*"],
-      "@shared/*": ["shared/*"]
-    }
+      "@core/*": [
+        "projects/charon/src/app/core/*"
+      ],
+      "@environments/*": [
+        "environments/*"
+      ],
+      "@scripts/*": [
+        "projects/scripts/src/*"
+      ],
+      "@shared/*": [
+        "shared/*"
+      ]
+    },
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

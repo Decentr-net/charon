@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, Input, OnInit } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ControlValueAccessor, FormArray, FormControl } from '@ngneat/reactive-forms';
@@ -25,12 +25,12 @@ import { GenderSelectorTranslations } from '../controls';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: ProfileFormComponent,
+      useExisting: forwardRef(() => ProfileFormComponent),
       multi: true,
     },
     {
       provide: NG_VALIDATORS,
-      useExisting: ProfileFormComponent,
+      useExisting: forwardRef(() => ProfileFormComponent),
       multi: true,
     },
   ],

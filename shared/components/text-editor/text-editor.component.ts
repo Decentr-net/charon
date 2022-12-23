@@ -3,7 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
+  EventEmitter, forwardRef,
   Inject,
   Input,
   OnInit,
@@ -31,7 +31,7 @@ import { observeResize } from '../../utils/observe-resize';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: TextEditorComponent,
+      useExisting: forwardRef(() => TextEditorComponent),
       multi: true,
     },
   ],

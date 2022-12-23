@@ -29,6 +29,7 @@ const FEED_PAGE_CHILDREN_ROUTES: Routes = [
   {
     path: '',
     redirectTo: HubFeedRoute.Following,
+    pathMatch: 'full',
   },
   {
     path: HubFeedRoute.Following,

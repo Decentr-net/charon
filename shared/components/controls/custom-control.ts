@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, ElementRef, Renderer2 } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, Injectable, Renderer2 } from '@angular/core';
 import { ControlValueAccessor } from '@ngneat/reactive-forms';
 import { NgControl } from '@angular/forms';
 import { EMPTY, merge, Subject } from 'rxjs';
@@ -8,6 +8,7 @@ import { untilDestroyed } from '@ngneat/until-destroy';
 import { SubmitSourceDirective } from '../../directives/submit-source';
 import { InputContainerControl } from '../input-container';
 
+@Injectable()
 export abstract class CustomControl<T> extends ControlValueAccessor<T> implements InputContainerControl {
   public touched: Subject<void> = new Subject();
 

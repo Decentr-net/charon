@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, HostBinding, Input } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
@@ -23,12 +23,12 @@ import { PostCreate } from '@core/services';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: HubPostEditorComponent,
+      useExisting: forwardRef(() => HubPostEditorComponent),
       multi: true,
     },
     {
       provide: NG_VALIDATORS,
-      useExisting: HubPostEditorComponent,
+      useExisting: forwardRef(() => HubPostEditorComponent),
       multi: true,
     },
     {

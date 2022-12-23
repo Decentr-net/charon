@@ -5,7 +5,16 @@
 @import 'node_modules/@angular/material/theming';
 
 // Be sure that you only ever include this mixin once!
-@include mat.core();
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
+@include mat.all-legacy-component-typographies();
+@include mat.legacy-core();
 
 $app-primary: (
   100: #23e3cf,
@@ -53,8 +62,17 @@ $app-warn-palette: mat.define-palette(mat.$red-palette);
 $custom-app-theme: mat.define-light-theme($app-primary-palette, $app-accent-palette, $app-warn-palette);
 
 // Include theme styles for core and each component used in your app.
-@include mat.all-component-themes($custom-app-theme);
+@include mat.all-legacy-component-themes($custom-app-theme);
 
 // Custom fonts
-$custom-typography: mat.define-typography-config($font-family: $main-font-family);
-@include mat.core($custom-typography);
+$custom-typography: mat.define-legacy-typography-config($font-family: $main-font-family);
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy($custom-typography);`
+@include mat.all-legacy-component-typographies($custom-typography);
+@include mat.legacy-core();

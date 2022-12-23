@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, Inject, Input, OnInit } from '@angular/core';
 import {
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
@@ -28,12 +28,12 @@ export interface PasswordForm {
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: PasswordFormComponent,
+      useExisting: forwardRef(() => PasswordFormComponent),
       multi: true,
     },
     {
       provide: NG_VALIDATORS,
-      useExisting: PasswordFormComponent,
+      useExisting: forwardRef(() => PasswordFormComponent),
       multi: true,
     },
   ],
